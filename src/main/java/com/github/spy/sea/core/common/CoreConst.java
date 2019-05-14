@@ -12,9 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CoreConst {
 
-    public String SYS_OPERATOR = "SYS_OPERATOR";
+    public static String SYS_OPERATOR = "SYS_OPERATOR";
 
-    public String SYS_CREATOR = "SYS_CREATOR";
+    public static String SYS_CREATOR = "SYS_CREATOR";
 
-    public String SYS_EDITOR = "SYS_EDITOR";
+    public static String SYS_EDITOR = "SYS_EDITOR";
 }
