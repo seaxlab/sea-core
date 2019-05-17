@@ -44,7 +44,7 @@ public final class ExampleUtil {
     }
 
     /**
-     * like
+     * 模糊匹配
      *
      * @param example
      * @param propertyName
@@ -52,7 +52,33 @@ public final class ExampleUtil {
      */
     public static void setLikeValue(Example example, String propertyName, String value) {
         if (StringUtils.isNotEmpty(value)) {
-            example.and().andLike(propertyName, value);
+            example.and().andLike(propertyName, "%" + value + "%");
+        }
+    }
+
+    /**
+     * 左匹配
+     *
+     * @param example
+     * @param propertyName
+     * @param value
+     */
+    public static void setLikeLeftValue(Example example, String propertyName, String value) {
+        if (StringUtils.isNotEmpty(value)) {
+            example.and().andLike(propertyName, "%" + value);
+        }
+    }
+
+    /**
+     * 右匹配
+     *
+     * @param example
+     * @param propertyName
+     * @param value
+     */
+    public static void setLikeRightValue(Example example, String propertyName, String value) {
+        if (StringUtils.isNotEmpty(value)) {
+            example.and().andLike(propertyName, value + "%");
         }
     }
 
