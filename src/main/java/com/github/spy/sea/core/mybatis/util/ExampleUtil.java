@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.mybatis.util;
 
+import com.github.spy.sea.core.common.CoreConst;
 import com.github.spy.sea.core.util.ListUtil;
 import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -99,5 +100,18 @@ public final class ExampleUtil {
             example.and().andLessThanOrEqualTo(propertyName, endDate);
         }
     }
+
+    /**
+     * 过滤有效数据
+     *
+     * @param example
+     */
+    public static void setStatus(Example example) {
+        example.and()
+               .andEqualTo("status", CoreConst.YES)
+               .andEqualTo("isDeleted", CoreConst.NO);
+
+    }
+
 
 }

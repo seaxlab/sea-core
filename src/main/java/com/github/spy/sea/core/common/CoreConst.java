@@ -17,4 +17,11 @@ public class CoreConst {
     public static String SYS_CREATOR = "SYS_CREATOR";
 
     public static String SYS_EDITOR = "SYS_EDITOR";
+
+
+    public static Boolean YES = Boolean.TRUE;
+
+    public static Boolean NO = Boolean.FALSE;
+
+
 }

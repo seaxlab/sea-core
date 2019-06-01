@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.exception;
 
+import com.github.spy.sea.core.util.StringUtil;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 
@@ -20,6 +21,11 @@ public final class ExceptionHandler {
     public static final String NO_ERROR_CODE = "";
 
     /**
+     * 兼容已有系统
+     */
+    public static final String OLD_CODE = "OLD_";
+
+    /**
      * 抛出异常
      *
      * @param errorCode
@@ -32,6 +38,37 @@ public final class ExceptionHandler {
 
     public static BaseAppException publish(String errorCode, String msg) throws BaseAppException {
         return publish(errorCode, msg, null);
+    }
+
+    /**
+     * 兼容已有系统
+     *
+     * @param errorCode
+     * @return
+     * @throws BaseAppException
+     */
+    public static BaseAppException publishOld(String errorCode) throws BaseAppException {
+        errorCode = StringUtil.isEmpty(errorCode) ? OLD_CODE : (OLD_CODE + errorCode);
+        return publish(errorCode, null, null);
+    }
+
+    public static BaseAppException publishOld(String errorCode, String msg) throws BaseAppException {
+        errorCode = StringUtil.isEmpty(errorCode) ? OLD_CODE : (OLD_CODE + errorCode);
+        return publish(errorCode, msg, null);
+    }
+
+    public static BaseAppException publishOld(Long errorCode) throws BaseAppException {
+        String newErrorCode = errorCode == null ? OLD_CODE : (OLD_CODE + errorCode.toString());
+        return publish(newErrorCode, null, null);
+    }
+
+    public static BaseAppException publishOld(Long errorCode, String msg) throws BaseAppException {
+        String newErrorCode = errorCode == null ? OLD_CODE : (OLD_CODE + errorCode.toString());
+        return publish(newErrorCode, msg, null);
+    }
+
+    public static BaseAppException publishMsgOld(String msg) throws BaseAppException {
+        return publish(OLD_CODE, msg, null);
     }
 
     public static BaseAppException publishMsg(String msg) throws BaseAppException {
