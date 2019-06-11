@@ -102,13 +102,36 @@ public final class ExampleUtil {
     }
 
     /**
+     * 同时设置status,isDeleted
      * 过滤有效数据
      *
      * @param example
      */
-    public static void setStatus(Example example) {
+    public static void setStatusAndIsDeletedFlag(Example example) {
         example.and()
                .andEqualTo("status", CoreConst.YES)
+               .andEqualTo("isDeleted", CoreConst.NO);
+
+    }
+
+    /**
+     * 只设置status
+     *
+     * @param example
+     */
+    public static void setStatusFlag(Example example) {
+        example.and()
+               .andEqualTo("status", CoreConst.YES);
+
+    }
+
+    /**
+     * 设置isDeleted
+     *
+     * @param example
+     */
+    public static void setIsDeletedFlag(Example example) {
+        example.and()
                .andEqualTo("isDeleted", CoreConst.NO);
 
     }
