@@ -1,5 +1,7 @@
 package com.github.spy.sea.core.util;
 
+import com.google.common.base.Preconditions;
+
 import java.util.Objects;
 import java.util.Set;
 
@@ -112,4 +114,30 @@ public class StringUtil {
         }
         return false;
     }
+
+    /**
+     * 设置返回有值的参数
+     *
+     * @param str1
+     * @param args
+     * @return
+     */
+    public static String defaultIfBlank(String str1, String... args) {
+        Preconditions.checkNotNull(args, "参数不能为空");
+        if (isEmpty(str1)) {
+            for (int i = 0; i < args.length; i++) {
+                String item = args[i];
+                if (isEmpty(item)) {
+                    continue;
+                } else {
+                    return item;
+                }
+            }
+        } else {
+            return str1;
+        }
+
+        return null;
+    }
+
 }
