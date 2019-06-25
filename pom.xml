@@ -11,7 +11,7 @@
 
     <groupId>com.github.spy.sea</groupId>
     <artifactId>sea-core</artifactId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.5.1-SNAPSHOT</version>
 
     <properties>
         <maven.test.skip>true</maven.test.skip>
