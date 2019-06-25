@@ -28,13 +28,13 @@ public class RequestUtil {
         String requestId = request.getHeader(CoreConst.REQUEST_ID);
 
 
-        if (StringUtil.isNotEmpty(request)) {
+        if (StringUtil.isNotEmpty(requestId)) {
             return requestId;
         }
 
         requestId = request.getParameter(CoreConst.REQUEST_ID);
 
-        if (StringUtil.isNotEmpty(request)) {
+        if (StringUtil.isNotEmpty(requestId)) {
             return requestId;
         }
 
