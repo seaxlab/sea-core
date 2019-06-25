@@ -24,4 +24,6 @@ public class CoreConst {
     public static Boolean NO = Boolean.FALSE;
 
 
+    public static String REQUEST_ID = "requestId";
+
 }
