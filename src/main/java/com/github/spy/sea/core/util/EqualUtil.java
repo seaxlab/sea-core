@@ -26,11 +26,16 @@ public final class EqualUtil {
 
 
     public static Boolean isEq(String str1, String str2) {
+        return isEq(str1, str2, true);
+    }
+
+    public static Boolean isEq(String str1, String str2, boolean caseSensitive) {
         if (Objects.nonNull(str1) && Objects.nonNull(str2)) {
-            return str1.equals(str2);
+            return caseSensitive ? str1.equals(str2) : str1.equalsIgnoreCase(str2);
         }
         return false;
     }
+
 
     public static Boolean isIn(String str1, String... strArray) {
         Preconditions.checkNotNull(str1);

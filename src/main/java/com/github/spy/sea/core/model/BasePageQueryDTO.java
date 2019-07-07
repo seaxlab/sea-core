@@ -5,6 +5,11 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 分页查询基础接口
+ *
+ * @author spy
+ */
 @Data
 public class BasePageQueryDTO implements Serializable {
 

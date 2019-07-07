@@ -5,6 +5,11 @@ import com.google.common.base.Preconditions;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * String 工具
+ *
+ * @author spy
+ */
 public class StringUtil {
 
     /**
@@ -68,7 +73,8 @@ public class StringUtil {
         if (strLen < strLength) {
             while (strLen < strLength) {
                 StringBuffer sb = new StringBuffer();
-                sb.append("0").append(str);// 左补0
+                // 左补0
+                sb.append("0").append(str);
                 // sb.append(str).append("0");//右补0
                 str = sb.toString();
                 strLen = str.length();

@@ -11,7 +11,7 @@ import org.slf4j.helpers.MessageFormatter;
 import java.io.Serializable;
 
 /**
- * 模块名
+ * 返回值模型
  *
  * @author spy
  * @version 1.0 2019-05-13
@@ -22,29 +22,60 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class BaseResult<T> implements Serializable {
 
-    @JSONField(ordinal = 1030)
+    /**
+     * 调用结果
+     */
+    @JSONField(ordinal = 1000)
     @Builder.Default
     private Boolean success = true;
 
-    @JSONField(ordinal = 1020)
-    private String errorCode; // 错误编码
-
-    private transient Object[] errorParam; //错误信息中占位符变量
-
+    /**
+     * 链路id
+     */
     @JSONField(ordinal = 1010)
-    private String errorMessage;// 错误信息
+    private String traceId;
 
-    @JSONField(ordinal = 1005)
-    private String errorField; // 错误字段
+    /**
+     * 错误编码
+     */
+    @JSONField(ordinal = 1020)
+    private String errorCode;
 
-    @JSONField(ordinal = 1000)
-    private String errorType; // 错误类别
+    /**
+     * 错误信息中占位符变量
+     */
+    private transient Object[] errorParam;
 
-    @JSONField(ordinal = -990)
-    private T data; // 默认返回结果
+    /**
+     * 错误信息
+     */
+    @JSONField(ordinal = 1030)
+    private String errorMessage;
 
-    //请求id
+    /**
+     * 错误字段
+     */
+    @JSONField(ordinal = 1040)
+    private String errorField;
+
+    /**
+     * 错误类别
+     */
+    @JSONField(ordinal = 1050)
+    private String errorType;
+
+    /**
+     * 默认返回结果
+     */
+    @JSONField(ordinal = 1060)
+    private T data;
+
+    /**
+     * 请求id
+     * 请使用traceId
+     */
     @JSONField(ordinal = -980)
+    @Deprecated
     private String requestId;
 
 
