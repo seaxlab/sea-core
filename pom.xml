@@ -21,6 +21,7 @@
         <module>sea-core-web</module>
         <module>sea-core-mybatis</module>
         <module>sea-core-test</module>
+        <module>sea-core-cache</module>
     </modules>
 
 
@@ -40,6 +41,12 @@
             <dependency>
                 <groupId>com.github.spy.sea</groupId>
                 <artifactId>sea-core-mybatis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.spy.sea</groupId>
+                <artifactId>sea-core-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
