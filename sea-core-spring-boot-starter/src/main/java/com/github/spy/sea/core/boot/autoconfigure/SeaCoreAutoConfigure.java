@@ -1,0 +1,50 @@
+package com.github.spy.sea.core.boot.autoconfigure;
+
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.support.config.FastJsonConfig;
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+
+import java.util.Arrays;
+
+/**
+ * SeaCore 自动注册
+ *
+ * @author spy
+ * @version 1.0 2019-07-19
+ * @since 1.0
+ */
+@Slf4j
+@Configuration
+@EnableConfigurationProperties(SeaProperties.class)
+public class SeaCoreAutoConfigure {
+
+    @Bean
+    @ConditionalOnClass(FastJsonHttpMessageConverter.class)
+    @ConditionalOnProperty(prefix = "sea", name = "fastjson.enable", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnMissingBean
+    public FastJsonHttpMessageConverter fastJsonHttpMessageConverter() {
+        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
+        FastJsonConfig fastJsonConfig = new FastJsonConfig();
+        fastJsonConfig.setSerializerFeatures(
+                SerializerFeature.PrettyFormat,
+                SerializerFeature.QuoteFieldNames,
+                SerializerFeature.IgnoreErrorGetter,
+                SerializerFeature.WriteDateUseDateFormat
+        );
+        //
+        fastConverter.setFastJsonConfig(fastJsonConfig);
+
+        fastConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON,
+                MediaType.APPLICATION_JSON_UTF8));
+
+        return fastConverter;
+    }
+}
