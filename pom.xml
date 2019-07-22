@@ -24,11 +24,15 @@
         <module>sea-core-cache</module>
         <module>sea-core-spring-boot-starter</module>
         <module>sea-core-spring</module>
+        <module>sea-core-security</module>
     </modules>
 
 
     <properties>
         <maven.test.skip>true</maven.test.skip>
+
+        <!--  三方类库  -->
+        <hutool.version>4.5.17</hutool.version>
     </properties>
 
 
@@ -37,6 +41,12 @@
             <dependency>
                 <groupId>com.github.spy.sea</groupId>
                 <artifactId>sea-core-basic</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.spy.sea</groupId>
+                <artifactId>sea-core-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

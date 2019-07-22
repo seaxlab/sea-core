@@ -1,6 +1,5 @@
 /**
- * 加密模块
- * （这里只提供简单的模块，更多加解密参考sea-core-security)
+ * 加解密模块
  *
  * @author spy
  * @version 1.0 2019-07-22

@@ -31,9 +31,9 @@ public class SignTest {
         // 服务提供商分配
         version = "1.0";
         // 服务提供商分配
-        appId = "123456";
+        appId = "10001";
         // 服务提供商分配,16位
-        appSecret = "1234567890123456";
+        appSecret = "6898e14c6a184cf0";
     }
 
 

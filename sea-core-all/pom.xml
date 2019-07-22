@@ -18,6 +18,11 @@
 
         <dependency>
             <groupId>com.github.spy.sea</groupId>
+            <artifactId>sea-core-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.spy.sea</groupId>
             <artifactId>sea-core-cache</artifactId>
         </dependency>
 
