@@ -21,7 +21,9 @@ import java.util.logging.Logger;
 public class AESUtil {
 
     private static final String KEY_ALGORITHM = "AES";
-    //默认的加密算法
+    /**
+     * 默认的加密算法
+     */
     private static final String DEFAULT_CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";
 
     /**
@@ -90,7 +92,7 @@ public class AESUtil {
             log.error("getSecretKey error.", e);
         }
 
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+        SecretKeySpec skeySpec = new SecretKeySpec(raw, KEY_ALGORITHM);
         return skeySpec;
     }
 }
