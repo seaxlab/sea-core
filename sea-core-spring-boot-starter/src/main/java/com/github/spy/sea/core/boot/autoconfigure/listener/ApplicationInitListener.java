@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.spring.listener;
+package com.github.spy.sea.core.boot.autoconfigure.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
