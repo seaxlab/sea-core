@@ -23,6 +23,11 @@
 
         <dependency>
             <groupId>com.github.spy.sea</groupId>
+            <artifactId>sea-core-script</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.spy.sea</groupId>
             <artifactId>sea-core-cache</artifactId>
         </dependency>
 

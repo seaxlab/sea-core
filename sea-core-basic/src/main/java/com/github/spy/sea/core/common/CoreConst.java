@@ -26,7 +26,15 @@ public class CoreConst {
     public static Boolean NO = Boolean.FALSE;
 
 
+    /**
+     * 请求Id
+     */
     public static String REQUEST_ID = "requestId";
+
+    /**
+     * 链路id
+     */
+    public static String TRACE_ID = "traceId";
 
     /**
      * default charset name

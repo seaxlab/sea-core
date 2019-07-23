@@ -25,6 +25,7 @@
         <module>sea-core-spring-boot-starter</module>
         <module>sea-core-spring</module>
         <module>sea-core-security</module>
+        <module>sea-core-script</module>
     </modules>
 
 
@@ -33,6 +34,8 @@
 
         <!--  三方类库  -->
         <hutool.version>4.5.17</hutool.version>
+        <!-- groovy 2.5只后变成pom了-->
+        <!-- <groovy.version>2.5.7</groovy.version>-->
     </properties>
 
 
@@ -47,6 +50,12 @@
             <dependency>
                 <groupId>com.github.spy.sea</groupId>
                 <artifactId>sea-core-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.spy.sea</groupId>
+                <artifactId>sea-core-script</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
