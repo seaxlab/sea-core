@@ -13,6 +13,13 @@
       "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
       "defaultValue": true,
       "description": "是否启用FastJSON作为消息处理."
+    },
+    {
+      "name": "sea.fastjson.writeNullValue",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": false,
+      "description": "FastJSON中是否输出空值."
     }
   ]
 }

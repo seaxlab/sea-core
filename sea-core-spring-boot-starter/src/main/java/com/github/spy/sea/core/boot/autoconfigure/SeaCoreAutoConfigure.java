@@ -3,7 +3,9 @@ package com.github.spy.sea.core.boot.autoconfigure;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.github.spy.sea.core.spring.listener.ApplicationInitListener;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -26,6 +28,14 @@ import java.util.Arrays;
 @EnableConfigurationProperties(SeaProperties.class)
 public class SeaCoreAutoConfigure {
 
+    @Value("${sea.fastjson.writeNullValue:false}")
+    private Boolean writeNullValueFlag;
+
+    @Bean
+    public ApplicationInitListener applicationInitListener() {
+        return new ApplicationInitListener();
+    }
+
     @Bean
     @ConditionalOnClass(FastJsonHttpMessageConverter.class)
     @ConditionalOnProperty(prefix = "sea", name = "fastjson.enable", havingValue = "true", matchIfMissing = true)
@@ -33,12 +43,30 @@ public class SeaCoreAutoConfigure {
     public FastJsonHttpMessageConverter fastJsonHttpMessageConverter() {
         FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
-        fastJsonConfig.setSerializerFeatures(
-                SerializerFeature.PrettyFormat,
-                SerializerFeature.QuoteFieldNames,
-                SerializerFeature.IgnoreErrorGetter,
-                SerializerFeature.WriteDateUseDateFormat
-        );
+
+
+        //支持空值输出
+        if (writeNullValueFlag) {
+            fastJsonConfig.setSerializerFeatures(
+                    SerializerFeature.PrettyFormat,
+                    SerializerFeature.QuoteFieldNames,
+                    SerializerFeature.IgnoreErrorGetter,
+                    SerializerFeature.WriteDateUseDateFormat,
+                    SerializerFeature.WriteMapNullValue,
+                    SerializerFeature.WriteNullBooleanAsFalse,
+                    SerializerFeature.WriteNullListAsEmpty,
+                    SerializerFeature.WriteNullNumberAsZero,
+                    SerializerFeature.WriteNullStringAsEmpty
+            );
+        } else {
+            fastJsonConfig.setSerializerFeatures(
+                    SerializerFeature.PrettyFormat,
+                    SerializerFeature.QuoteFieldNames,
+                    SerializerFeature.IgnoreErrorGetter,
+                    SerializerFeature.WriteDateUseDateFormat
+            );
+        }
+
         //
         fastConverter.setFastJsonConfig(fastJsonConfig);
 
