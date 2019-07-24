@@ -9,8 +9,10 @@ package com.github.spy.sea.core.common;
  */
 public interface CoreErrorConst {
 
-    String DB_ERR = "11001";
+    String DB_ERR = "1001";
 
-    String RPC_INVOKE_ERR = "11002";
+    String RPC_INVOKE_ERR = "1002";
+
+    String HTTP_ERR = "1003";
 
 }

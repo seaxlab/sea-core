@@ -15,8 +15,11 @@
 
     <packaging>pom</packaging>
 
+    <description>sea-core核心类库</description>
+
     <modules>
         <module>sea-core-all</module>
+        <module>sea-core-all-simple</module>
         <module>sea-core-basic</module>
         <module>sea-core-web</module>
         <module>sea-core-mybatis</module>
@@ -28,6 +31,13 @@
         <module>sea-core-script</module>
     </modules>
 
+
+    <developers>
+        <developer>
+            <id>spy</id>
+            <name>shi.pengyan</name>
+        </developer>
+    </developers>
 
     <properties>
         <maven.test.skip>true</maven.test.skip>

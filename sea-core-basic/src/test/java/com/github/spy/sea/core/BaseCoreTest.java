@@ -13,5 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class BaseCoreTest extends AbstractCoreTest {
 
+    // 必须要有 User-Agent
+    protected String IP_URL = "http://ip.taobao.com/service/getIpInfo.php?ip=115.204.165.147";
 
 }

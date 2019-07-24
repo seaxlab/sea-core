@@ -28,11 +28,9 @@ public class GroovyEngine {
 
     private static GroovyClassLoader loader;
 
-    private static Object lock = new Object();
-
     public static GroovyClassLoader getLoader() {
         if (loader == null) {
-            synchronized (lock) {
+            synchronized (GroovyEngine.class) {
                 if (loader == null) {
                     loader = new GroovyClassLoader();
                 }
