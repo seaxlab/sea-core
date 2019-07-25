@@ -1,11 +1,13 @@
 package com.github.spy.sea.core.web.util;
 
 import com.github.spy.sea.core.common.CoreConst;
+import com.github.spy.sea.core.util.IOUtil;
 import com.github.spy.sea.core.util.RandomUtil;
 import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
 
 /**
  * 模块
@@ -40,5 +42,23 @@ public class RequestUtil {
 
         return RandomUtil.shortUUID();
     }
+
+    /**
+     * 获取requestBody
+     *
+     * @param request
+     * @return
+     */
+    public static String getRequestBody(HttpServletRequest request) {
+        try {
+            BufferedReader bufferedReader = request.getReader();
+            return IOUtil.read(bufferedReader);
+        } catch (Exception e) {
+            log.error("获取requestBody失败", e);
+        }
+
+        return null;
+    }
+
 
 }

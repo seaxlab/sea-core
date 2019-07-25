@@ -48,4 +48,18 @@ public class SignUtil {
         String message = strBuilder.substring(0, strBuilder.length() - 1);
         return Md5Util.getDigest(message).toUpperCase();
     }
+
+    /**
+     * 判断是否有效签名
+     *
+     * @param map
+     * @param sign
+     * @return
+     */
+    public static boolean isValid(Map<String, String> map, String sign) {
+        String expectSign = getByMd5(map);
+
+        return expectSign.equalsIgnoreCase(sign);
+    }
+
 }

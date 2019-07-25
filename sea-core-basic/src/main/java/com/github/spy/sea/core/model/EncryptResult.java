@@ -19,7 +19,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EncryptResult implements Serializable {
-
     /**
      * 响应成功与否
      */
@@ -53,4 +52,9 @@ public class EncryptResult implements Serializable {
      * 内容内容
      */
     private String bizContent;
+
+    /**
+     * 请求时间戳 yyyyMMddHHmmss
+     */
+    private String timestamp;
 }
