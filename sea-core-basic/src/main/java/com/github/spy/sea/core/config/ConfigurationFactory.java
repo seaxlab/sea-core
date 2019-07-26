@@ -1,10 +1,10 @@
 package com.github.spy.sea.core.config;
 
-import com.github.spy.sea.core.config.support.DefaultConfiguration;
+import com.github.spy.sea.core.loader.EnhancedServiceLoader;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 参数配置
+ * 参数配置工厂
  *
  * @author spy
  * @version 1.0 2019-07-23
@@ -35,7 +35,10 @@ public class ConfigurationFactory {
 
         //TODO 此时配置文件还未加载
 
-        return new DefaultConfiguration();
+        Configuration configuration = EnhancedServiceLoader.load(Configuration.class, "typesafe");
+
+        return configuration;
+//        return new DefaultConfiguration();
     }
 
 

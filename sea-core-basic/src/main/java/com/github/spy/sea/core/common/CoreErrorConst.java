@@ -15,4 +15,7 @@ public interface CoreErrorConst {
 
     String HTTP_ERR = "1003";
 
+    String SERIAL_ERR = "1004";
+    String UNSERIAL_ERR = "1005";
+    String UNSUPPORT_OPERATION = "1006";
 }

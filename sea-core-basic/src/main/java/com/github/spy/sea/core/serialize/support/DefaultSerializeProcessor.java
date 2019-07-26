@@ -1,6 +1,8 @@
 package com.github.spy.sea.core.serialize.support;
 
 import com.github.spy.sea.core.serialize.SerializeProcessor;
+import com.github.spy.sea.core.serialize.exception.DeserializeException;
+import com.github.spy.sea.core.serialize.exception.SerializeException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
@@ -29,6 +31,7 @@ public class DefaultSerializeProcessor implements SerializeProcessor {
 
         } catch (Exception e) {
             log.error("序列化出错：", e);
+            throw new SerializeException();
         }
 
         return bytes;
@@ -44,8 +47,8 @@ public class DefaultSerializeProcessor implements SerializeProcessor {
 
         } catch (Exception e) {
             log.error("反序列化出错：", e);
+            throw new DeserializeException();
         }
-
-        return null;
+//        return null;
     }
 }

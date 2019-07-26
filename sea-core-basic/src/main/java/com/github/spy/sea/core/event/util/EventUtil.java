@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 模块名
+ * 事件分发器
  *
  * @author spy
  * @version 1.0 2019/3/19

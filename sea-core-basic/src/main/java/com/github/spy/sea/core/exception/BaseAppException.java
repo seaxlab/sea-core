@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 模块名
+ * 统一异常定义
  *
  * @author spy
  * @version 1.0 2019/4/11

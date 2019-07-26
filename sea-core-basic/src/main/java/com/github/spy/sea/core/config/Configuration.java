@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.config;
 
 /**
- * 模块
+ * 配置接口
  *
  * @author spy
  * @version 1.0 2019-07-23
