@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /**
  * AES加密
- * 注意 加密key长度必须为16位
+ * 注意 加密key长度必须为16、24、32位
  *
  * @author spy
  * @version 1.0 2019-07-22
@@ -55,7 +55,7 @@ public class AESUtil {
      * AES 解密操作
      *
      * @param content
-     * @param password
+     * @param password (重点：JAVA只支持16位/24位/32位)
      * @return
      */
     public static String decrypt(String content, String password) {
