@@ -36,6 +36,12 @@ public class BaseResult<T> implements Serializable {
     private String traceId;
 
     /**
+     * 当前系统节点id
+     */
+    @JSONField(ordinal = 1011)
+    private String spanId;
+
+    /**
      * 错误编码
      */
     @JSONField(ordinal = 1020)
@@ -135,8 +141,8 @@ public class BaseResult<T> implements Serializable {
     /**
      * 格式化信息
      * <pre>
-     *      result.setErrorMsg("{}拯救地球，{}!","xiaoming","yeah");
-     *      //xiaoming拯救地球，yeah!
+     *      result.setErrorMsg("{}拯救地球，{}!","大卫","yeah");
+     *      //大卫拯救地球，yeah!
      *  </pre>
      *
      * @param format
