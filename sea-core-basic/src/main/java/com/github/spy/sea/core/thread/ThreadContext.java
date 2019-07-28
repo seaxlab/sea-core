@@ -18,11 +18,7 @@ public class ThreadContext {
     /**
      * 线程上下文变量的持有者
      */
-    private final static ThreadLocal<Map<String, Object>> CTX_HOLDER = new ThreadLocal<>();
-
-    static {
-        CTX_HOLDER.set(new HashMap<>());
-    }
+    private final static ThreadLocal<Map<String, Object>> CTX_HOLDER = ThreadLocal.withInitial(() -> new HashMap<>());
 
     /**
      * 添加内容到线程上下文中
@@ -44,7 +40,6 @@ public class ThreadContext {
      *
      * @param key
      */
-    @SuppressWarnings("unchecked")
     public final static <T extends Object> T get(String key) {
         Map<String, Object> ctx = CTX_HOLDER.get();
         if (ctx == null) {

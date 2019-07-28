@@ -15,6 +15,9 @@ import java.util.Objects;
 @Slf4j
 public final class EqualUtil {
 
+    private EqualUtil() {
+
+    }
 
     public static Boolean isEq(Long value1, Long value2) {
         if (Objects.nonNull(value1) && Objects.nonNull(value2)) {

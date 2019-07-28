@@ -7,7 +7,7 @@ import org.slf4j.helpers.MessageFormatter;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * 模块名
+ * 异常抛出辅助类
  *
  * @author spy
  * @version 1.0 2018/4/11
