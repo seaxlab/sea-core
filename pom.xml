@@ -29,6 +29,9 @@
         <module>sea-core-spring</module>
         <module>sea-core-security</module>
         <module>sea-core-script</module>
+        <module>sea-core-dubbo-legacy</module>
+        <module>sea-core-dubbo</module>
+        <module>sea-core-springcloud</module>
     </modules>
 
 
@@ -46,6 +49,9 @@
         <hutool.version>4.5.17</hutool.version>
         <!-- groovy 2.5只后变成pom了-->
         <!-- <groovy.version>2.5.7</groovy.version>-->
+
+        <sea.dubbo.legacy.version>2.6.7</sea.dubbo.legacy.version>
+        <sea.dubbo.version>2.7.3</sea.dubbo.version>
     </properties>
 
 
@@ -99,6 +105,17 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${sea.dubbo.legacy.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${sea.dubbo.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
