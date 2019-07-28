@@ -9,7 +9,7 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * 模块
+ * 加密返回值处理
  *
  * @author spy
  * @version 1.0 2019-07-28
@@ -28,6 +28,7 @@ public class EncryptResponseHandler implements HandlerMethodReturnValueHandler {
         log.info("EncryptResponseHandler handle return value.");
 
         //TODO more
-        mavContainer.setRequestHandled(true);
+//        必须设置
+//        mavContainer.setRequestHandled(true);
     }
 }
