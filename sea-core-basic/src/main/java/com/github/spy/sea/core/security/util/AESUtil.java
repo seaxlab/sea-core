@@ -6,8 +6,6 @@ import org.apache.commons.codec.binary.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * AES加密
@@ -45,7 +43,7 @@ public class AESUtil {
 
             return Base64.encodeBase64String(result);//通过Base64转码返回
         } catch (Exception ex) {
-            Logger.getLogger(AESUtil.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("加密出错", ex);
         }
 
         return null;
@@ -72,7 +70,7 @@ public class AESUtil {
 
             return new String(result, "utf-8");
         } catch (Exception ex) {
-            Logger.getLogger(AESUtil.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("解密出错", ex);
         }
 
         return null;
