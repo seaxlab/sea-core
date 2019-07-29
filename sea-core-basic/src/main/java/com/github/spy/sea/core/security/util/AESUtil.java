@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * AES加密
  * 注意 加密key长度必须为16、24、32位
+ * 注意：如要支持32位长度秘钥，需要JDK8u162以上版本
  *
  * @author spy
  * @version 1.0 2019-07-22
@@ -43,7 +44,7 @@ public class AESUtil {
 
             return Base64.encodeBase64String(result);//通过Base64转码返回
         } catch (Exception ex) {
-            log.error("加密出错", ex);
+            log.error("encrypt error", ex);
         }
 
         return null;
@@ -70,7 +71,7 @@ public class AESUtil {
 
             return new String(result, "utf-8");
         } catch (Exception ex) {
-            log.error("解密出错", ex);
+            log.error("decrypt error", ex);
         }
 
         return null;
