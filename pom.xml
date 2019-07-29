@@ -104,18 +104,6 @@
                 <artifactId>sea-core-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>dubbo</artifactId>
-                <version>${sea.dubbo.legacy.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo</artifactId>
-                <version>${sea.dubbo.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
