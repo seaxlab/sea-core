@@ -1,10 +1,11 @@
 package com.github.spy.sea.core.test;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 
 /**
- * 模块
+ * Junit4 测试基类
  *
  * @author spy
  * @version 1.0 2019-07-13
@@ -13,12 +14,12 @@ import org.junit.Test;
 @Slf4j
 public abstract class AbstractCoreTest {
 
-    @Test
+    @BeforeClass
     public void testBefore() {
         log.info("--------------------before test------------------");
     }
 
-    @Test
+    @AfterClass
     public void testEnd() {
         log.info("--------------------end test------------------");
     }

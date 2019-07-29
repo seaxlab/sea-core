@@ -50,6 +50,14 @@
         <!-- groovy 2.5只后变成pom了-->
         <!-- <groovy.version>2.5.7</groovy.version>-->
 
+        <!-- for test -->
+        <junit-jupiter.version>5.5.0</junit-jupiter.version>
+        <!--  注意：mockito版本高于此版本的有bug  -->
+        <mockito.version>2.23.4</mockito.version>
+        <assertj-core.version>3.12.2</assertj-core.version>
+        <junit-platform-launcher.version>1.5.1</junit-platform-launcher.version>
+
+
         <sea.dubbo.legacy.version>2.6.7</sea.dubbo.legacy.version>
         <sea.dubbo.version>2.7.3</sea.dubbo.version>
     </properties>
@@ -104,6 +112,41 @@
                 <artifactId>sea-core-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <!--  junit5 begin   -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit-jupiter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>${junit-jupiter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-launcher</artifactId>
+                <version>${junit-platform-launcher.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj-core.version}</version>
+            </dependency>
+            <!--  junit5 end   -->
+
+
         </dependencies>
     </dependencyManagement>
 
