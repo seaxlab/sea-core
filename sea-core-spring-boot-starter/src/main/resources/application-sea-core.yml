@@ -1,0 +1,5 @@
+#
+#sea-core
+sea:
+  core:
+    version: a.b.c
