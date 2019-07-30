@@ -22,14 +22,14 @@ public class SerializeUtil {
     public static byte[] serialize(Object object) {
         SerializeProcessor processor = new DefaultSerializeProcessor();
 
-        return processor.seriablize(object);
+        return processor.serialize(object);
     }
 
     public static Object unserialize(byte[] bytes) {
 
         SerializeProcessor processor = new DefaultSerializeProcessor();
 
-        return processor.deseriablize(bytes, Object.class);
+        return processor.deserialize(bytes, Object.class);
     }
 
 

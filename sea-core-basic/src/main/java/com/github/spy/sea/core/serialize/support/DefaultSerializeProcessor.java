@@ -11,7 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * 默认实现
+ * JDK默认实现
  *
  * @author spy
  * @version 1.0 2019-07-18
@@ -21,7 +21,7 @@ import java.io.ObjectOutputStream;
 public class DefaultSerializeProcessor implements SerializeProcessor {
 
     @Override
-    public <T> byte[] seriablize(T obj) {
+    public <T> byte[] serialize(T obj) {
         byte[] bytes = null;
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              ObjectOutputStream oos = new ObjectOutputStream(baos)) {
@@ -38,7 +38,7 @@ public class DefaultSerializeProcessor implements SerializeProcessor {
     }
 
     @Override
-    public <T> T deseriablize(byte[] bytes, Class<T> clazz) {
+    public <T> T deserialize(byte[] bytes, Class<T> clazz) {
 
         try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
              ObjectInputStream ois = new ObjectInputStream(bais)) {

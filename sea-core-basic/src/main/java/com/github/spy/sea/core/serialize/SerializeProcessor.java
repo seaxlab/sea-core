@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.serialize;
 
 /**
- * 模块
+ * 序列化接口
  *
  * @author spy
  * @version 1.0 2019-07-18
@@ -16,7 +16,7 @@ public interface SerializeProcessor {
      * @param <T>
      * @return
      */
-    <T> byte[] seriablize(T obj);
+    <T> byte[] serialize(T obj);
 
 
     /**
@@ -27,5 +27,5 @@ public interface SerializeProcessor {
      * @param <T>
      * @return
      */
-    <T> T deseriablize(byte[] bytes, Class<T> clazz);
+    <T> T deserialize(byte[] bytes, Class<T> clazz);
 }
