@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 输出数据
+ * response util
  *
  * @author spy
  * @version 1.0 2019-07-24

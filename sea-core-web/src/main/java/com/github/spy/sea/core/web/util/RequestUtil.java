@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 
 /**
- * 模块
+ * request util
  *
  * @author spy
  * @version 1.0 2019-06-25

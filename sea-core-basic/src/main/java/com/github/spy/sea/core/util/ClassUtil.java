@@ -1,9 +1,10 @@
 package com.github.spy.sea.core.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ClassUtils;
 
 /**
- * 模块
+ * class util
  *
  * @author spy
  * @version 1.0 2019-08-03
@@ -40,5 +41,43 @@ public final class ClassUtil {
             return null;
         }
         return clazz.getSimpleName();
+    }
+
+
+    /**
+     * 返回PackageName
+     */
+    public static String getPackageName(final Class<?> cls) {
+        return ClassUtils.getPackageName(cls);
+    }
+
+    /**
+     * 返回PackageName
+     */
+    public static String getPackageName(final String className) {
+        return ClassUtils.getPackageName(className);
+    }
+
+    /**
+     * 当前线程的class loader
+     *
+     * @return
+     */
+    public static ClassLoader getContextClassLoader() {
+        return Thread.currentThread().getContextClassLoader();
+    }
+
+    /**
+     * 获得class loader<br>
+     * 若当前线程class loader不存在，取当前类的class loader
+     *
+     * @return
+     */
+    public static ClassLoader getClassLoader() {
+        ClassLoader classLoader = getContextClassLoader();
+        if (classLoader == null) {
+            classLoader = ClassUtil.class.getClassLoader();
+        }
+        return classLoader;
     }
 }

@@ -18,4 +18,10 @@ public interface CoreErrorConst {
     String SERIAL_ERR = "1004";
     String UNSERIAL_ERR = "1005";
     String UNSUPPORT_OPERATION = "1006";
+
+    String SYS_EXCEPTION = "1007";
+
+    String SYS_INVALID_REQUEST = "1008";
+
+    String SYS_RES_NOT_EXIST = "1009";
 }
