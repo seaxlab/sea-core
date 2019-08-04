@@ -32,6 +32,7 @@
         <module>sea-core-dubbo-legacy</module>
         <module>sea-core-dubbo</module>
         <module>sea-core-springcloud</module>
+        <module>sea-core-serialize</module>
     </modules>
 
 
@@ -56,7 +57,8 @@
         <mockito.version>2.23.4</mockito.version>
         <assertj-core.version>3.12.2</assertj-core.version>
         <junit-platform-launcher.version>1.5.1</junit-platform-launcher.version>
-
+        <apache.commons.compress.version>1.18</apache.commons.compress.version>
+        <google.zxing.version>3.4.0</google.zxing.version>
 
         <sea.dubbo.legacy.version>2.6.7</sea.dubbo.legacy.version>
         <sea.dubbo.version>2.7.3</sea.dubbo.version>
@@ -146,6 +148,24 @@
             </dependency>
             <!--  junit5 end   -->
 
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${apache.commons.compress.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>javase</artifactId>
+                <version>${google.zxing.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${google.zxing.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>

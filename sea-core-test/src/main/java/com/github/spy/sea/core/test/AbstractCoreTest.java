@@ -14,13 +14,24 @@ import org.junit.BeforeClass;
 @Slf4j
 public abstract class AbstractCoreTest {
 
+
     @BeforeClass
-    public void testBefore() {
-        log.info("--------------------before test------------------");
+    public static void testBefore() {
+        System.out.println("-------------------- test begin ------------------");
     }
 
     @AfterClass
-    public void testEnd() {
-        log.info("--------------------end test------------------");
+    public static void testEnd() {
+        System.out.println("-------------------- test  end  ------------------");
+    }
+
+
+    protected void println(Object obj) {
+
+        log.info("{}", obj);
+    }
+
+    protected void println(String label, Object obj) {
+        log.info("{}={}", label, obj);
     }
 }

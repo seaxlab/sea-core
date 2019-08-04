@@ -14,7 +14,7 @@ import java.util.List;
  * @author spy
  */
 @Slf4j
-public class ListUtil {
+public final class ListUtil {
 
     /**
      * list集合是否为空

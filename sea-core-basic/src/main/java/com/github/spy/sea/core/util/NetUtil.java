@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * @version 1.0 2019-05-31
  * @since 1.0
  */
-public class NetUtil {
+public final class NetUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(NetUtil.class);
     private static final String LOCALHOST = "127.0.0.1";
 

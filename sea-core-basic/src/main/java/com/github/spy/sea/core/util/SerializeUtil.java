@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 1.0
  */
 @Slf4j
-public class SerializeUtil {
+public final class SerializeUtil {
 
     public static final String TYPE_JSON = "JSON";
 

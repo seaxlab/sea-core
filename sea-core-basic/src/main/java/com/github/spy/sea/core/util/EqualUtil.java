@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Objects;
 
 /**
- * 模块名
+ * equal util
  *
  * @author spy
  * @version 1.0 2019-05-31

@@ -14,7 +14,7 @@ import java.util.List;
  * @since 1.0
  */
 @Slf4j
-public class IOUtil {
+public final class IOUtil {
 
     private static final int BUFFER_SIZE = 1024 * 8;
 

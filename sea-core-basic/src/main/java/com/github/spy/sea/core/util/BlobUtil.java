@@ -9,7 +9,7 @@ import java.sql.Blob;
 /**
  * The type Blob utils.
  */
-public class BlobUtil {
+public final class BlobUtil {
 
     private BlobUtil() {
 

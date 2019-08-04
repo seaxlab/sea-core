@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * @since 1.0
  */
 @Slf4j
-public class TemplateUtil {
+public final class TemplateUtil {
 
     private static final Pattern PATTERN_PLACEHOLDER = Pattern.compile("\\{(.*?)\\}");
 
