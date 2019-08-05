@@ -61,8 +61,8 @@ public class RequestUtil {
     }
 
     /**
-     * 获取域名
-     * http://localhost:8080/user-service/api/user/add -> http://localhost:8080/
+     * 获取域名(注意：结束符号不是/)
+     * http://localhost:8080/user-service/api/user/add -> http://localhost:8080
      *
      * @param request
      * @return
@@ -80,11 +80,20 @@ public class RequestUtil {
             serverPort = (port == 443) ? "" : ":" + request.getServerPort();
         }
 
-        return scheme + serverName + serverPort + "/";
+        return scheme + serverName + serverPort;
     }
 
+//    web application 名称为news,你在浏览器中输入请求路径：
+//    http://localhost:8080/user-service/api/user/add
+//    则执行下面向行代码后打印出如下结果：
+//    request.getContextPath()  --> /user-service
+//    request.getServletPath()  --> /api/user/add
+//    request.getRequestURI()   --> /user-service/api/user/add
+//    request.getRealPath("/")  --> /Users/xx/tomcat/webapps/user-service
+
+
     /**
-     * 获取项目根路径
+     * 获取项目根路径(注意：结束符号不是/)
      * http://localhost:8080/user-service/api/user/add -> http://localhost:8080/user-service
      *
      * @param request
