@@ -52,5 +52,15 @@ public class CoreConst {
      */
     public static final Charset DEFAULT_CHARSET = Charset.forName(DEFAULT_CHARSET_NAME);
 
+    /**
+     * http
+     */
+    public static final String SCHEME_HTTP = "http";
+
+    /**
+     * https
+     */
+    public static final String SCHEME_HTTPS = "https";
+
 
 }

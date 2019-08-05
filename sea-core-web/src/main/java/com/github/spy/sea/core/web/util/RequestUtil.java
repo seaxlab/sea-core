@@ -60,5 +60,40 @@ public class RequestUtil {
         return null;
     }
 
+    /**
+     * 获取域名
+     * http://localhost:8080/user-service/api/user/add -> http://localhost:8080/
+     *
+     * @param request
+     * @return
+     */
+    public static String getDomain(HttpServletRequest request) {
+        String scheme = request.getScheme() + "://";
+        String serverName = request.getServerName();
+
+        int port = request.getServerPort();
+        String serverPort = "";
+
+        if (CoreConst.SCHEME_HTTP.equals(request.getScheme())) {
+            serverPort = (port == 80) ? "" : ":" + request.getServerPort();
+        } else if (CoreConst.SCHEME_HTTPS.equals(request.getScheme())) {
+            serverPort = (port == 443) ? "" : ":" + request.getServerPort();
+        }
+
+        return scheme + serverName + serverPort + "/";
+    }
+
+    /**
+     * 获取项目根路径
+     * http://localhost:8080/user-service/api/user/add -> http://localhost:8080/user-service
+     *
+     * @param request
+     * @return
+     */
+    public static String getRootPath(HttpServletRequest request) {
+        String contextPath = request.getContextPath();
+        return getDomain(request) + contextPath;
+    }
+
 
 }
