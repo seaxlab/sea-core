@@ -9,14 +9,14 @@ import tk.mybatis.mapper.common.base.insert.InsertSelectiveMapper;
 import java.util.List;
 
 /**
- * 模块
+ * batch util
  *
  * @author spy
  * @version 1.0 2019-07-30
  * @since 1.0
  */
 @Slf4j
-public class BatchUtil {
+public final class BatchUtil {
 
     private BatchUtil() {
     }

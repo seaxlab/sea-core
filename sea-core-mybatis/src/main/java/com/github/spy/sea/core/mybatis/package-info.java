@@ -1,5 +1,5 @@
 /**
- * 模块名
+ * mybatis
  *
  * @author spy
  * @version 1.0 2019-05-13

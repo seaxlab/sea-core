@@ -1,11 +1,11 @@
-package com.github.spy.sea.core.dubbo.legacy.filter;
+package com.github.spy.sea.core.dubbo.filter;
 
-import com.alibaba.dubbo.rpc.*;
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.exception.BaseAppException;
 import com.github.spy.sea.core.model.BaseResult;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.rpc.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
@@ -20,11 +20,13 @@ import java.util.Locale;
  */
 @Slf4j
 public class BaseAppExceptionFilter implements Filter {
+
     @Autowired
     private MessageSource messageSource;
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
+
         try {
 
             Result result = invoker.invoke(invocation);
@@ -49,7 +51,7 @@ public class BaseAppExceptionFilter implements Filter {
                     bizResult.setErrorMessage(getResMsg(bizResult.getErrorCode()));
                 }
 
-                return new RpcResult(bizResult);
+                return new AppResponse(bizResult);
             } else {
 
                 // 没有异常部分，同时检测success=false字段
@@ -72,9 +74,10 @@ public class BaseAppExceptionFilter implements Filter {
             result.setErrorCode(CoreErrorConst.RPC_INVOKE_ERR);
             result.setErrorMessage(getResMsg(CoreErrorConst.RPC_INVOKE_ERR));
 
-            return new RpcResult(result);
+            return new AppResponse(result);
         }
     }
+
 
     private String getResMsg(Long code) {
         if (code != null) {

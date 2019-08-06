@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 模块名
+ * desensitize some thing
  *
  * @author spy
  * @version 1.0 2018-02-05

@@ -1,0 +1,3 @@
+seaBaseAppExceptionFilter=com.github.spy.sea.core.dubbo.filter.BaseAppExceptionFilter
+seaRequestLogFilter=com.github.spy.sea.core.dubbo.filter.RequestLogFilter
+seaMDCFilter=com.github.spy.sea.core.dubbo.filter.MDCFilter

@@ -33,6 +33,8 @@
         <module>sea-core-dubbo</module>
         <module>sea-core-springcloud</module>
         <module>sea-core-serialize</module>
+        <module>sea-core-aliyun</module>
+        <module>sea-core-pay</module>
     </modules>
 
 
