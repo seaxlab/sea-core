@@ -31,8 +31,9 @@ public class ApplicationStartListener implements ApplicationListener<ContextRefr
         log.info("=         Application Ready           =");
         log.info("=======================================");
 
-        doStatic();
+        log.info("Power by Sea Framework.");
 
+        doStatic();
     }
 
     private void doStatic() {

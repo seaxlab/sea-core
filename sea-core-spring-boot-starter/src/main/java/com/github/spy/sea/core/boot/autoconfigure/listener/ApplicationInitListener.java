@@ -24,6 +24,8 @@ public class ApplicationInitListener implements ApplicationListener<ApplicationR
         log.info("=         Application Ready           =");
         log.info("=======================================");
 
+        log.info("Power by Sea Framework.");
+
         doStatic();
     }
 
