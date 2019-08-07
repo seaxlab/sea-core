@@ -47,11 +47,28 @@ public class FootPrintDTO implements Serializable {
     private String username;
     private String token;
 
-    private String hostname;
-    private String port;
+    // ---- client info  ----
+
 
     private String userAgent;
     private String ip;
+
+    /**
+     * channel. eg: alipay
+     */
+    private String channel;
+
+    /**
+     * terminal no. eg: POS00001
+     */
+    private String terminalNo;
+
+    //----- server info ----
+
+
+    private String hostname;
+    private String port;
+
 
     private String creator;
     private String editor;

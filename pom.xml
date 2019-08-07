@@ -61,6 +61,7 @@
         <junit-platform-launcher.version>1.5.1</junit-platform-launcher.version>
         <apache.commons.compress.version>1.18</apache.commons.compress.version>
         <google.zxing.version>3.4.0</google.zxing.version>
+        <aliyun.oss.sdk.version>3.5.0</aliyun.oss.sdk.version>
 
         <sea.dubbo.legacy.version>2.6.7</sea.dubbo.legacy.version>
         <sea.dubbo.version>2.7.3</sea.dubbo.version>
@@ -167,6 +168,12 @@
                 <groupId>com.google.zxing</groupId>
                 <artifactId>core</artifactId>
                 <version>${google.zxing.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun.oss.sdk.version}</version>
             </dependency>
 
         </dependencies>

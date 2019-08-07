@@ -7,9 +7,11 @@
     <logger name="org.springboot.sample" level="TRACE"/>
     <logger name="org.mybatis" level="INFO"/>
     <logger name="java.sql" level="INFO"/>
-    <logger name="org.apache.ibatis" level="INFO"/>
     <logger name="druid.sql" level="DEBUG"/>
     <logger name="org.apache.juli" level="WARN"/>
+    <logger name="org.apache.http" level="INFO"/>
+    <logger name="org.apache.ibatis" level="INFO"/>
+
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
