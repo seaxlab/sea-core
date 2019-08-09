@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.web.util;
 
 import com.github.spy.sea.core.common.CoreConst;
+import com.github.spy.sea.core.http.common.HttpHeaderConst;
 import com.github.spy.sea.core.util.IOUtil;
 import com.github.spy.sea.core.util.RandomUtil;
 import com.github.spy.sea.core.util.StringUtil;
@@ -8,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * request util
@@ -18,6 +22,7 @@ import java.io.BufferedReader;
  */
 @Slf4j
 public class RequestUtil {
+
 
     /**
      * 生产请求日志id
@@ -50,6 +55,22 @@ public class RequestUtil {
      * @return
      */
     public static String getRequestBody(HttpServletRequest request) {
+
+        // note: we can read once!!
+//        ContentCachingRequestWrapper wrapper = new ContentCachingRequestWrapper(request);
+//
+//        return new String(wrapper.getContentAsByteArray());
+
+//        byte[] buf = wrapper.getContentAsByteArray();
+//        if (buf.length > 0) {
+//            try {
+//                return new String(buf, 0, buf.length, wrapper.getCharacterEncoding());
+//            } catch (UnsupportedEncodingException ex) {
+//                return "[unknown]";
+//            }
+//        }
+
+
         try {
             BufferedReader bufferedReader = request.getReader();
             return IOUtil.read(bufferedReader);
@@ -102,6 +123,58 @@ public class RequestUtil {
     public static String getRootPath(HttpServletRequest request) {
         String contextPath = request.getContextPath();
         return getDomain(request) + contextPath;
+    }
+
+    /**
+     * get 'User-Agent'
+     *
+     * @param request
+     * @return
+     */
+    public static String getUserAgent(HttpServletRequest request) {
+        if (request == null) {
+            return null;
+        }
+        return request.getHeader(HttpHeaderConst.USER_AGENT);
+    }
+
+
+    /**
+     * 把request转为map
+     *
+     * @param request
+     * @return
+     */
+    public static Map<String, Object> getParameterMap(HttpServletRequest request) {
+
+        Map<String, String[]> properties = request.getParameterMap();
+
+        // 返回值Map
+        Map<String, Object> returnMap = new HashMap<>();
+        Iterator<?> entries = properties.entrySet().iterator();
+
+        Map.Entry<String, Object> entry;
+        String name = "";
+        String value = "";
+        Object valueObj = null;
+        while (entries.hasNext()) {
+            entry = (Map.Entry<String, Object>) entries.next();
+            name = entry.getKey();
+            valueObj = entry.getValue();
+            if (null == valueObj) {
+                value = "";
+            } else if (valueObj instanceof String[]) {
+                String[] values = (String[]) valueObj;
+                for (int i = 0; i < values.length; i++) {
+                    value = values[i] + ",";
+                }
+                value = value.substring(0, value.length() - 1);
+            } else {
+                value = valueObj.toString();
+            }
+            returnMap.put(name, value);
+        }
+        return returnMap;
     }
 
 

@@ -35,6 +35,7 @@
         <module>sea-core-serialize</module>
         <module>sea-core-aliyun</module>
         <module>sea-core-pay</module>
+        <module>sea-core-example</module>
     </modules>
 
 
@@ -117,6 +118,14 @@
                 <artifactId>sea-core-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.github.spy.sea</groupId>
+                <artifactId>sea-core-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--  sea core end -->
 
             <!--  junit5 begin   -->
             <dependency>
