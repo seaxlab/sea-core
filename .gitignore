@@ -2,10 +2,6 @@
 /.idea
 /target
 ~/log/
-vs-boss.iml
-*.iml
-vs-boss-web/${catalina.home}/
-vs-boss-web/disconf/download
 *.class
 /bin/*
 
@@ -51,10 +47,10 @@ out/
 output/
 
 .idea/
-*.iml
 logging.path_IS_UNDEFINED/
 nohup.out
 
 disconf/
 disconf/download
 deps_tree.log
+**/rebel.xml
