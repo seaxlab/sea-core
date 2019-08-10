@@ -15,7 +15,7 @@
 
     <packaging>pom</packaging>
 
-    <description>sea-core核心类库</description>
+    <description>sea-core library</description>
 
     <modules>
         <module>sea-core-all</module>
@@ -33,7 +33,7 @@
         <module>sea-core-dubbo</module>
         <module>sea-core-springcloud</module>
         <module>sea-core-serialize</module>
-        <module>sea-core-aliyun</module>
+        <module>sea-core-support</module>
         <module>sea-core-pay</module>
         <module>sea-core-example</module>
     </modules>

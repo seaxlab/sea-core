@@ -1,8 +1,8 @@
 package com.github.spy.sea.core.test;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Junit5 测试基类
@@ -13,12 +13,12 @@ import org.junit.jupiter.api.BeforeAll;
  */
 @Slf4j
 public class AbstractCore5Test {
-    @BeforeAll
+    @BeforeEach
     public void testBefore() {
         log.info("--------------------before test------------------");
     }
 
-    @AfterAll
+    @AfterEach
     public void testEnd() {
         log.info("--------------------end test------------------");
     }
