@@ -21,4 +21,8 @@ public class HttpHeaderConst {
     public static final String COOKIE = "Cookie";
 
     public static final String ORIGIN = "Origin";
+
+
+    //------------value
+    public static final String DEFAULT_USER_AGENT = "chrome/sea";
 }
