@@ -21,5 +21,6 @@ public class DiskUtilTest extends BaseCoreTest {
         log.info("free space={}", DiskUtil.getFreeSpace(USER_HOME));
         log.info("usable space={}", DiskUtil.getUsableSpace(USER_HOME));
         log.info("total space={}", DiskUtil.getTotalSpace(USER_HOME));
+        log.info("used percent={}", DiskUtil.getSpaceUsedPercent(USER_HOME));
     }
 }

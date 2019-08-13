@@ -18,55 +18,87 @@ public final class DiskUtil {
     /**
      * get total space of file path
      *
-     * @param filePath
+     * @param path
      * @return
      */
-    public static long getTotalSpace(String filePath) {
+    public static long getTotalSpace(String path) {
 
-        File file = new File(filePath);
+        File file = new File(path);
 
         if (file.exists()) {
             return file.getTotalSpace();
         }
-        log.warn("file[{}] not exist", filePath);
-        return 0;
+        log.warn("file[{}] not exist", path);
+        return -1;
     }
 
 
     /**
      * get useable space of file path
      *
-     * @param filePath
+     * @param path
      * @return
      */
-    public static long getUsableSpace(String filePath) {
-        File file = new File(filePath);
+    public static long getUsableSpace(String path) {
+        File file = new File(path);
 
         if (file.exists()) {
             return file.getUsableSpace();
         }
-        log.warn("file[{}] not exist", filePath);
+        log.warn("file[{}] not exist", path);
 
-        return 0;
+        return -1;
     }
 
 
     /**
      * get free space of file path
      *
-     * @param filePath
+     * @param path
      * @return
      */
-    public static long getFreeSpace(String filePath) {
-        File file = new File(filePath);
+    public static long getFreeSpace(String path) {
+        File file = new File(path);
 
         if (file.exists()) {
             return file.getFreeSpace();
         }
-        log.warn("file[{}] not exist", filePath);
+        log.warn("file[{}] not exist", path);
 
-        return 0;
+        return -1;
     }
 
+    /**
+     * get space used percent
+     *
+     * @param path
+     * @return
+     */
+    public static double getSpaceUsedPercent(final String path) {
+        if (null == path || path.isEmpty()) {
+            return -1;
+        }
+
+        try {
+            File file = new File(path);
+
+            if (!file.exists()) {
+                return -1;
+            }
+
+            long totalSpace = file.getTotalSpace();
+
+            if (totalSpace > 0) {
+                long freeSpace = file.getFreeSpace();
+                long usedSpace = totalSpace - freeSpace;
+
+                return usedSpace / (double) totalSpace;
+            }
+        } catch (Exception e) {
+            return -1;
+        }
+
+        return -1;
+    }
 
 }
