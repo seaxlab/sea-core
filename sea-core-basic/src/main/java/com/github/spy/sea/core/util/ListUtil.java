@@ -87,7 +87,7 @@ public final class ListUtil {
      * @param <V>
      * @return
      */
-    public static <V> List<V> toList(Map<Object, V> map) {
+    public static <K, V> List<V> toList(Map<K, V> map) {
 
         return new ArrayList<>(map.values());
     }
