@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * List工具
@@ -77,4 +79,17 @@ public final class ListUtil {
         }
         return resultList;
     }
+
+    /**
+     * map value to list
+     *
+     * @param map
+     * @param <V>
+     * @return
+     */
+    public static <V> List<V> toList(Map<Object, V> map) {
+
+        return new ArrayList<>(map.values());
+    }
+
 }
