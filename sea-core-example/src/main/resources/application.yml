@@ -4,3 +4,8 @@ server:
 spring:
   profiles:
     active: local
+  application:
+    name: sea-core-example
+logging:
+  file: ${spring.application.name}
+  path: ${user.home}/logs/${spring.application.name}
