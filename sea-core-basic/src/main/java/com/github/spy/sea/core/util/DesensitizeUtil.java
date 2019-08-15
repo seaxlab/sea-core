@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
  * desensitize some thing
  *
  * @author spy
- * @version 1.0 2018-02-05
+ * @version 1.0 2019-08-05
  * @since 1.0
  */
 @Slf4j

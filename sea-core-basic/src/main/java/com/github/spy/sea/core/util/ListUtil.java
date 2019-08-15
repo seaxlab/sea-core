@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * List工具
@@ -17,6 +14,15 @@ import java.util.Map;
  */
 @Slf4j
 public final class ListUtil {
+
+    /**
+     * empty list
+     *
+     * @return
+     */
+    public static List empty() {
+        return Collections.EMPTY_LIST;
+    }
 
     /**
      * list集合是否为空
