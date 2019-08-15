@@ -13,6 +13,22 @@
     <packaging>pom</packaging>
     <modules>
         <module>serialize-protobuf</module>
+        <module>serialize-fst</module>
     </modules>
+
+    <properties>
+        <fst.version>2.56</fst.version>
+    </properties>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>de.ruedigermoeller</groupId>
+                <artifactId>fst</artifactId>
+                <version>${fst.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
