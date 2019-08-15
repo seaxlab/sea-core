@@ -16,7 +16,7 @@ import java.lang.reflect.Modifier;
  * @since 1.0
  */
 @LoadLevel(name = "protobuf")
-public class ProtobufSerializerProcessor implements SerializeProcessor {
+public class ProtobufSerializeProcessor implements SerializeProcessor {
 
     private static final ProtobufHelper PROTOBUF_HELPER = new ProtobufHelper();
 
