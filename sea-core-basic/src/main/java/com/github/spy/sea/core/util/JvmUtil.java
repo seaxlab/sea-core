@@ -3,6 +3,8 @@ package com.github.spy.sea.core.util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
+import java.lang.management.ManagementFactory;
+
 /**
  * jvm util
  *
@@ -27,7 +29,7 @@ public final class JvmUtil {
         if (P_ID_CACHE != null) {
             return P_ID_CACHE;
         }
-        String processName = java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
+        String processName = ManagementFactory.getRuntimeMXBean().getName();
 
         if (StringUtils.isBlank(processName)) {
             return StringUtils.EMPTY;
