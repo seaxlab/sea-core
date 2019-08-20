@@ -20,6 +20,17 @@ public final class TimeUtil {
     public static final String FORMAT_HHmm = "HH:mm";
 
     /**
+     * 判断当前时间是否在指定范围内，注意指定时间格式HH:mm
+     *
+     * @param beginTime
+     * @param endTime
+     * @return
+     */
+    public static boolean nowIsInRange(String beginTime, String endTime) {
+        return nowIsInRange(beginTime, endTime, FORMAT_HHmm);
+    }
+
+    /**
      * 判断当前时间是否在指定范围内，注意指定时间格式
      *
      * @param beginTime
@@ -28,6 +39,10 @@ public final class TimeUtil {
      * @return
      */
     public static boolean nowIsInRange(String beginTime, String endTime, String timeFormatStr) {
+        if (StringUtil.isEmpty(timeFormatStr)) {
+            timeFormatStr = FORMAT_HHmm;
+        }
+
         SimpleDateFormat format = new SimpleDateFormat(timeFormatStr);
 
         try {
