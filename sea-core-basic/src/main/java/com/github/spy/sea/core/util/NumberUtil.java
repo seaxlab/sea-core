@@ -93,4 +93,27 @@ public final class NumberUtil {
         }
         return result;
     }
+
+    /**
+     * 多个数减法
+     *
+     * @param values
+     * @return
+     */
+    public static BigDecimal substract(Number... values) {
+        if (ArrayUtil.isEmpty(values)) {
+            return BigDecimal.ZERO;
+        }
+
+        Number value = values[0];
+        BigDecimal result = new BigDecimal(null == value ? "0" : value.toString());
+        for (int i = 1; i < values.length; i++) {
+            value = values[i];
+            if (null != value) {
+                result = result.subtract(new BigDecimal(value.toString()));
+            }
+        }
+        return result;
+    }
+
 }
