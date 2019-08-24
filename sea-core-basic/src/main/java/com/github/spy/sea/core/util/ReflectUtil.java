@@ -32,6 +32,20 @@ public final class ReflectUtil {
     }
 
     /**
+     * 取String
+     *
+     * @param target
+     * @param fieldName
+     * @return
+     */
+    public static String readAsString(final Object target, final String fieldName) {
+        Object obj = read(target, fieldName);
+
+        return obj == null ? null : obj.toString();
+    }
+
+
+    /**
      * 赋值
      *
      * @param target

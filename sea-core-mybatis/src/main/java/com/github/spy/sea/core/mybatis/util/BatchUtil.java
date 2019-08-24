@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.mybatis.util;
 
+import com.github.spy.sea.core.util.ListUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
@@ -38,6 +39,11 @@ public final class BatchUtil {
     public static <T extends InsertSelectiveMapper> void insertByBatch(SqlSessionFactory sqlSessionFactory,
                                                                        Class<T> mapperClass,
                                                                        List list) {
+        if (ListUtil.isEmpty(list)) {
+            log.warn("list is empty");
+        }
+
+
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
         T mapper = sqlSession.getMapper(mapperClass);
 
@@ -49,7 +55,7 @@ public final class BatchUtil {
             }
         }
         sqlSession.flushStatements();
-        log.info("add data by batch.");
+        log.info("add data by batch. list.size={}", list.size());
     }
 
 }
