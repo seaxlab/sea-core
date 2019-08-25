@@ -17,6 +17,30 @@ import java.util.List;
 @Slf4j
 public final class PageUtil {
 
+
+    /**
+     * 根据总记录数和每页记录数获取页码数
+     *
+     * @param totalCount
+     * @param pageSize
+     * @return 页码数
+     */
+    public static int getPageCount(int totalCount, int pageSize) {
+        return totalCount % pageSize == 0 ? totalCount / pageSize : (totalCount / pageSize + 1);
+    }
+
+    /**
+     * 根据总记录数和每页记录数获取页码数
+     *
+     * @param totalCount total count
+     * @param pageSize   page size of one page
+     * @return total pages
+     */
+    public static long getPageCount(long totalCount, int pageSize) {
+        return totalCount % pageSize == 0 ? totalCount / pageSize : (totalCount / pageSize + 1);
+    }
+
+
     /**
      * 转换成带分页信息的result
      *
