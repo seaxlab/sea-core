@@ -19,5 +19,8 @@ public class StringUtilTest extends BaseCoreTest {
 
         Assert.assertEquals(StringUtil.toCamelCase("hello_world"), "helloWorld");
 
+
+        Assert.assertEquals("1:s", StringUtil.uniqueKey(1, "s"));
+        Assert.assertEquals("1-s", StringUtil.uniqueKey("-", 1, "s"));
     }
 }

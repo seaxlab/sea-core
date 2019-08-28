@@ -268,4 +268,38 @@ public final class StringUtil {
         }
     }
 
+    /**
+     * 生成唯一标识,默认分号隔开
+     *
+     * @param args
+     * @return
+     */
+    public static String uniqueKey(Object... args) {
+        return uniqueKey(":", args);
+    }
+
+    public static String uniqueKey(String separatorStr, Object... args) {
+        if (args == null) {
+            return null;
+        }
+
+        if (separatorStr == null || separatorStr.trim().length() == 0) {
+            separatorStr = ":";
+        }
+
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < args.length; i++) {
+            Object item = args[i];
+            if (i == 0) {
+            } else {
+                builder.append(separatorStr);
+            }
+            builder.append(item);
+        }
+
+        return builder.toString();
+    }
+
+
 }
