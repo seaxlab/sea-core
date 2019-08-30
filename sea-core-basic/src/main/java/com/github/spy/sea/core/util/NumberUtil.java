@@ -50,6 +50,21 @@ public final class NumberUtil {
 
 
     /**
+     * Long 转 BigDecimal
+     *
+     * @param value
+     * @return
+     */
+    public static BigDecimal toBigDecimal(Long value) {
+        if (value == null) {
+            return BigDecimal.ZERO;
+        }
+
+        return new BigDecimal(value);
+    }
+
+
+    /**
      * BigDecimal 转long
      *
      * @param value
