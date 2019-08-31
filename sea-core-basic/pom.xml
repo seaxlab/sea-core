@@ -10,7 +10,6 @@
 
     <artifactId>sea-core-basic</artifactId>
 
-
     <dependencies>
         <dependency>
             <groupId>com.github.spy.sea</groupId>
@@ -126,6 +125,12 @@
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.javers</groupId>
+            <artifactId>javers-core</artifactId>
             <optional>true</optional>
         </dependency>
 
