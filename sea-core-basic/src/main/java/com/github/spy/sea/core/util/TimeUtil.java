@@ -1,10 +1,15 @@
 package com.github.spy.sea.core.util;
 
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 时间工具类
@@ -72,6 +77,100 @@ public final class TimeUtil {
         }
 
         return false;
+    }
+
+    /**
+     * 比较时间,默认格式HH:mm
+     * 如果time1<time2,返回-1
+     * 如果time1=time2,返回0
+     * 如果time1>time2,返回1
+     *
+     * @param time1
+     * @param time2
+     * @return
+     */
+    public static int compare(String time1, String time2) {
+        return compare(time1, time2, FORMAT_HHmm);
+    }
+
+    /**
+     * 比较时间
+     * 如果time1<time2,返回-1
+     * 如果time1=time2,返回0
+     * 如果time1>time2,返回1
+     *
+     * @param time1         time2
+     * @param time2         time2
+     * @param timeFormatStr time format
+     * @return
+     */
+    public static int compare(String time1, String time2, String timeFormatStr) {
+        Preconditions.checkNotNull(time1);
+        Preconditions.checkNotNull(time2);
+        Preconditions.checkNotNull(timeFormatStr);
+        SimpleDateFormat format = new SimpleDateFormat(timeFormatStr);
+
+        try {
+            Date date1 = format.parse(time1);
+            Date date2 = format.parse(time2);
+
+            return date1.compareTo(date2);
+        } catch (ParseException e) {
+            log.error("date parse exception", e);
+        }
+
+        throw new IllegalStateException();
+    }
+
+    /**
+     * 增加时间
+     *
+     * @param timeStr
+     * @param timeFormatStr
+     * @param delta
+     * @param timeUnit
+     * @return
+     */
+    public static String add(String timeStr, String timeFormatStr, int delta, TimeUnit timeUnit) {
+        Preconditions.checkNotNull(timeStr);
+        Preconditions.checkNotNull(timeFormatStr);
+        Preconditions.checkNotNull(timeUnit);
+
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(timeFormatStr);
+        LocalTime time = LocalTime.parse(timeStr, timeFormatter);
+
+        LocalTime newTime = add(time, delta, timeUnit);
+        return newTime.format(timeFormatter);
+    }
+
+    /**
+     * 增加时间
+     *
+     * @param time
+     * @param delta
+     * @param timeUnit
+     * @return
+     */
+    public static LocalTime add(LocalTime time, int delta, TimeUnit timeUnit) {
+        Preconditions.checkNotNull(time);
+        Preconditions.checkNotNull(timeUnit);
+
+        LocalTime newTime;
+        switch (timeUnit) {
+            case HOURS:
+                newTime = time.plusHours(delta);
+                break;
+            case MINUTES:
+                newTime = time.plusMinutes(delta);
+                break;
+            case SECONDS:
+                newTime = time.plusSeconds(delta);
+                break;
+            default:
+                throw new UnsupportedOperationException();
+        }
+
+        return newTime;
     }
 
 

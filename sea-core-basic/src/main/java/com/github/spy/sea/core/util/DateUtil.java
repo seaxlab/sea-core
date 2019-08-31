@@ -64,7 +64,6 @@ public final class DateUtil {
      * @param dateStr 字符串
      * @param format  日期格式
      * @return 日期
-     * @see [类、类#方法、类#成员]
      */
     public static Date strDate(String dateStr, String format) {
         if (StringUtils.isEmpty(dateStr)) {
@@ -81,13 +80,11 @@ public final class DateUtil {
     }
 
     /**
-     * <一句话功能简述>
-     * <功能详细描述>
+     * 日期转字符串
      *
      * @param date   日期
      * @param format 日期格式
      * @return 字符串
-     * @see [类、类#方法、类#成员]
      */
     public static String dateStr(Date date, String format) {
         if (null == date) {
@@ -133,12 +130,10 @@ public final class DateUtil {
     }
 
     /**
-     * <一句话功能简述>
-     * <功能详细描述>
+     * 字符串转时间戳 "yyyy-MM-dd HH:mm:ss"
      *
      * @param str
      * @return
-     * @see [类、类#方法、类#成员]
      */
     public static Timestamp strTimestamp(String str) {
         Date date = strDate(str, DEFAULT_FORMAT);
@@ -171,20 +166,76 @@ public final class DateUtil {
         return diffDays + 1;
     }
 
+    /**
+     * 获取下一天
+     *
+     * @param date
+     * @return
+     */
     public static Date getNextDate(Date date) {
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
-        calendar.add(Calendar.DATE, 1);
-        return calendar.getTime();
+        return getDate(date, 1);
     }
 
+    /**
+     * 获取下一天，
+     * <font color="red">时间部分为00:00:00</font>
+     *
+     * @param date
+     * @return
+     */
+    public static Date getNextBillDate(Date date) {
+        return truncate(getDate(date, 1));
+    }
+
+    /**
+     * 获取当前时间的下一天，
+     * <font color="red">时间部分为00:00:00</font>
+     *
+     * @return
+     */
+    public static Date getNextBillDate() {
+        return truncate(getNextBillDate(nowDate()));
+    }
+
+    /**
+     * 获取前一天
+     *
+     * @param date
+     * @return
+     */
     public static Date getPreDate(Date date) {
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
-        calendar.add(Calendar.DATE, -1);
-        return calendar.getTime();
+        return getDate(date, -1);
     }
 
+    /**
+     * 获取前一天，
+     * <font color="red">时间部分为00:00:00</font>
+     *
+     * @param date
+     * @return
+     */
+    public static Date getPreBillDate(Date date) {
+        return truncate(getDate(date, -1));
+    }
+
+    /**
+     * 获取当前时间的前一天，
+     * <font color="red">时间部分为00:00:00</font>
+     *
+     * @return
+     */
+    public static Date getPreBillDate() {
+        return getPreBillDate(nowDate());
+    }
+
+
+    /**
+     * 获取指定日期的n天的日期
+     *
+     * @param date
+     * @param n
+     * @return
+     */
     public static Date getDate(Date date, int n) {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
@@ -819,6 +870,11 @@ public final class DateUtil {
         return format(nowDate(), format);
     }
 
+    /**
+     * 返回当前日期
+     *
+     * @return
+     */
     public static Date nowDate() {
         return new Date();
     }
