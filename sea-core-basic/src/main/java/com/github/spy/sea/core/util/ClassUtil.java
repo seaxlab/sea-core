@@ -43,6 +43,35 @@ public final class ClassUtil {
         return clazz.getSimpleName();
     }
 
+    /**
+     * check obj is one of classes.
+     *
+     * @param obj
+     * @param classes
+     * @return
+     */
+    public static boolean isOneOfClasses(Object obj, Class<?>... classes) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (classes == null || classes.length == 0) {
+            return false;
+        }
+
+        for (int i = 0; i < classes.length; i++) {
+            Class<?> clazz = classes[i];
+
+            if (clazz.isInstance(obj)) {
+
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
     /**
      * 返回PackageName

@@ -1,5 +1,7 @@
 package com.github.spy.sea.core.util;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -19,5 +21,13 @@ public class ClassUtilTest extends BaseCoreTest {
     public void run17() throws Exception {
         Assert.assertEquals(ClassUtil.getFullClassName(String.class), "java.lang.String");
         Assert.assertEquals(ClassUtil.getClassName(String.class), "String");
+    }
+
+    @Test
+    public void run25() throws Exception {
+        String str = "1";
+
+        Assert.assertEquals(true, ClassUtil.isOneOfClasses(str, String.class));
+        Assert.assertEquals(false, ClassUtil.isOneOfClasses(str, JSONObject.class, JSONArray.class));
     }
 }

@@ -2,6 +2,7 @@ package com.github.spy.sea.core.util;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.net.URL;
 import java.nio.file.Paths;
 
 /**
@@ -15,7 +16,7 @@ import java.nio.file.Paths;
 public final class PathUtil {
 
     /**
-     * 组合路径
+     * combine path
      *
      * @param first
      * @param more
@@ -23,5 +24,22 @@ public final class PathUtil {
      */
     public static String join(String first, String... more) {
         return Paths.get(first, more).toString();
+    }
+
+    /**
+     * get file from classpath
+     *
+     * @param filePath
+     * @return
+     */
+    public static String getPathFromClassPath(String filePath) {
+        URL url = PathUtil.class.getClassLoader().getResource(filePath);
+
+        if (url != null) {
+            return url.getPath();
+        }
+
+        log.warn("file[{}] is not in classpath", filePath);
+        return null;
     }
 }

@@ -21,7 +21,7 @@ public abstract class BaseCoreTest extends AbstractCoreTest {
     protected String USER_HOME;
 
     @Before
-    public void before() {
+    public void before() throws Exception {
         USER_HOME = getUserHome();
     }
 
