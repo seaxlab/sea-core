@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.common.CharConst;
 import com.github.spy.sea.core.common.SymbolConst;
 import com.google.common.base.Preconditions;
+import org.slf4j.helpers.MessageFormatter;
 
 import java.util.Objects;
 import java.util.Set;
@@ -301,5 +302,17 @@ public final class StringUtil {
         return builder.toString();
     }
 
-
+    /**
+     * this is simple format string for all scene
+     * <p>
+     * StringUtil.format("hi, this is {}", "hello world");
+     * </p>
+     *
+     * @param strPattern
+     * @param args
+     * @return
+     */
+    public static String format(String strPattern, Object... args) {
+        return MessageFormatter.arrayFormat(strPattern, args).getMessage();
+    }
 }

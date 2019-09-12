@@ -55,5 +55,36 @@ public final class EqualUtil {
         return false;
     }
 
+    public static boolean isIn(Integer value, Integer... values) {
+        Preconditions.checkNotNull(value);
+        Preconditions.checkNotNull(values);
+
+
+        for (int i = 0; i < values.length; i++) {
+            Integer item = values[i];
+
+            if (item.intValue() == value.intValue()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isIn(Long value, Long... values) {
+        Preconditions.checkNotNull(value);
+        Preconditions.checkNotNull(values);
+
+
+        for (int i = 0; i < values.length; i++) {
+            Long item = values[i];
+
+            if (item.longValue() == value.longValue()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 }
