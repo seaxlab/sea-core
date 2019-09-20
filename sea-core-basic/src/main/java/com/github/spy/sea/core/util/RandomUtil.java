@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.UUID;
 
@@ -32,6 +33,26 @@ public final class RandomUtil {
      */
     public static String shortUUID() {
         return uuid().replace("-", "");
+    }
+
+    /**
+     * create numeric
+     *
+     * @param count
+     * @return
+     */
+    public static String numeric(int count) {
+        return RandomStringUtils.randomNumeric(count);
+    }
+
+    /**
+     * create letters
+     *
+     * @param count
+     * @return
+     */
+    public static String alphabetic(int count) {
+        return RandomStringUtils.randomAlphabetic(count);
     }
 
 }

@@ -94,7 +94,7 @@ public final class DateUtil {
             format = DEFAULT_FORMAT;
         }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(format);
+        return sdf.format(date);
     }
 
     /**

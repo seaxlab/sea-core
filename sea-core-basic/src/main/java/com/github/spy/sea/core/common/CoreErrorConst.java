@@ -24,4 +24,6 @@ public interface CoreErrorConst {
     String SYS_INVALID_REQUEST = "1008";
 
     String SYS_RES_NOT_EXIST = "1009";
+
+    String SYS_OPERATION_FREQUENTLY = "1010";
 }

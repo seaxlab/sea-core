@@ -62,5 +62,9 @@ public class CoreConst {
      */
     public static final String SCHEME_HTTPS = "https";
 
+    /**
+     * default page size
+     */
+    public static final int DEFAULT_PAGE_SIZE = 200;
 
 }
