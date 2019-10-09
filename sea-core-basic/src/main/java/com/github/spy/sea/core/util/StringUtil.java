@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.common.CharConst;
 import com.github.spy.sea.core.common.SymbolConst;
 import com.google.common.base.Preconditions;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.helpers.MessageFormatter;
 
 import java.util.Objects;
@@ -314,5 +315,37 @@ public final class StringUtil {
      */
     public static String format(String strPattern, Object... args) {
         return MessageFormatter.arrayFormat(strPattern, args).getMessage();
+    }
+
+
+    /**
+     * get sub str length string
+     *
+     * @param str
+     * @param len
+     * @return
+     */
+    public static String left(String str, int len) {
+        return StringUtils.left(str, len);
+    }
+
+    public static String left64(String str) {
+        return left(str, 64);
+    }
+
+    public static String left128(String str) {
+        return left(str, 128);
+    }
+
+    public static String left512(String str) {
+        return left(str, 512);
+    }
+
+    public static String right(String str, int len) {
+        return StringUtils.right(str, len);
+    }
+
+    public static String mid(String str, int pos, int len) {
+        return StringUtils.mid(str, pos, len);
     }
 }
