@@ -23,4 +23,14 @@ public class StringUtilTest extends BaseCoreTest {
         Assert.assertEquals("1:s", StringUtil.uniqueKey(1, "s"));
         Assert.assertEquals("1-s", StringUtil.uniqueKey("-", 1, "s"));
     }
+
+    @Test
+    public void joinTest() throws Exception {
+        Assert.assertEquals("1:s", StringUtil.join(":", "1", "s"));
+        Assert.assertEquals("1:s", StringUtil.join(":", "1", "", "s"));
+        Assert.assertEquals("1:s", StringUtil.join(":", "1", null, "s", null));
+
+    }
+
+
 }

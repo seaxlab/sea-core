@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.common.CharConst;
 import com.github.spy.sea.core.common.SymbolConst;
 import com.google.common.base.Preconditions;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.helpers.MessageFormatter;
 
@@ -14,6 +15,7 @@ import java.util.Set;
  *
  * @author spy
  */
+@Slf4j
 public final class StringUtil {
 
     /**
@@ -62,6 +64,33 @@ public final class StringUtil {
             }
         }
         return true;
+    }
+
+    /**
+     * join the string by separator.
+     *
+     * @param separator
+     * @param strs
+     * @return
+     */
+    public static String join(String separator, String... strs) {
+        Preconditions.checkState(isNotEmpty(separator), "separator cannot be null");
+        if (strs == null || strs.length < 2) {
+            log.warn("The length of strs should be more than 2.");
+            return "";
+        }
+        StringBuilder strBuilder = new StringBuilder();
+        for (int i = 0; i < strs.length; i++) {
+            String str = strs[i];
+            if (isNotEmpty(str)) {
+                if (strBuilder.toString().length() != 0) {
+                    strBuilder.append(separator);
+                }
+                strBuilder.append(str);
+            }
+        }
+
+        return strBuilder.toString();
     }
 
     /**
