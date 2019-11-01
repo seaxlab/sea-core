@@ -17,4 +17,7 @@ public class User {
     private Long id;
     private String name;
     List<Role> roles;
+
+    private boolean isSuc;
+    private Boolean isUsed;
 }

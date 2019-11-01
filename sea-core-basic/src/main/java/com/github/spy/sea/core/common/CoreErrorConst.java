@@ -26,4 +26,6 @@ public interface CoreErrorConst {
     String SYS_RES_NOT_EXIST = "1009";
 
     String SYS_OPERATION_FREQUENTLY = "1010";
+
+    String SYS_REFLECT_OPERATION_ERR = "1011";
 }

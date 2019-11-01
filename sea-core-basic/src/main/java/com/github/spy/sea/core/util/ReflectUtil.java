@@ -1,9 +1,16 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.common.CoreErrorConst;
+import com.github.spy.sea.core.exception.ExceptionHandler;
+import com.github.spy.sea.core.function.Fn;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
+import java.beans.Introspector;
+import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.regex.Pattern;
 
 /**
  * 反射工具
@@ -69,6 +76,38 @@ public final class ReflectUtil {
             log.error("赋值失败", e);
         }
     }
+
+    private static final Pattern GET_PATTERN = Pattern.compile("^get[A-Z].*");
+    private static final Pattern IS_PATTERN = Pattern.compile("^is[A-Z].*");
+
+    /**
+     * get field name of class from function
+     * <note>
+     * T is Object class, field should be Object class , not primitive type(such as int/long/dubbo and so on).
+     * </note>
+     *
+     * @param fn custom function serialize
+     * @return
+     */
+    public static <T> String getFieldName(Fn<T, Object> fn) {
+        try {
+            Method method = fn.getClass().getDeclaredMethod("writeReplace");
+            method.setAccessible(Boolean.TRUE);
+            SerializedLambda serializedLambda = (SerializedLambda) method.invoke(fn);
+            String getter = serializedLambda.getImplMethodName();
+            if (GET_PATTERN.matcher(getter).matches()) {
+                getter = getter.substring(3);
+            } else if (IS_PATTERN.matcher(getter).matches()) {
+                getter = getter.substring(2);
+            }
+            return Introspector.decapitalize(getter);
+        } catch (ReflectiveOperationException e) {
+            log.error("reflective operation exception", e);
+            ExceptionHandler.publish(CoreErrorConst.SYS_REFLECT_OPERATION_ERR);
+        }
+        return null;
+    }
+
 
     /**
      * 基本类型的进行转换，避免无意义的异常

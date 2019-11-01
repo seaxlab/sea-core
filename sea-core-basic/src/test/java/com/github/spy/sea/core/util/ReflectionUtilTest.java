@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.domain.User;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -40,6 +41,17 @@ public class ReflectionUtilTest {
         log.info("f1.type={}", f1.getType().isAssignableFrom(String.class));
         log.info("f2.type={}", f2.getType());
     }
+
+    @Test
+    public void getFieldNameTest() throws Exception {
+//        private boolean ;
+//        private Boolean ;
+
+        log.info("id={}", ReflectUtil.getFieldName(User::getId));
+        log.info("isUsed={}", ReflectUtil.getFieldName(User::getIsUsed));
+        log.info("isSuc={}", ReflectUtil.getFieldName(User::isSuc));
+    }
+
 
     @Data
     static class Person {
