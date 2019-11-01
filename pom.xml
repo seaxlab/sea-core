@@ -36,6 +36,7 @@
         <module>sea-core-support</module>
         <module>sea-core-pay</module>
         <module>sea-core-example</module>
+        <module>sea-core-ddd</module>
     </modules>
 
 
