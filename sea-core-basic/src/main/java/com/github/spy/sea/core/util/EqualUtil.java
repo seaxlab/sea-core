@@ -19,6 +19,14 @@ public final class EqualUtil {
 
     }
 
+    public static Boolean isEq(Integer value1, Integer value2) {
+        if (Objects.nonNull(value1) && Objects.nonNull(value2)) {
+            return value1.intValue() == value2.intValue();
+        }
+
+        return false;
+    }
+
     public static Boolean isEq(Long value1, Long value2) {
         if (Objects.nonNull(value1) && Objects.nonNull(value2)) {
             return value1.longValue() == value2.longValue();

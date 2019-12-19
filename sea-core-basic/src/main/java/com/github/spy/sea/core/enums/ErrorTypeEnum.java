@@ -14,7 +14,8 @@ public enum ErrorTypeEnum {
 
     SYSTEM("SYS", "系统"),
     APPLICATION("Application", "应用"),
-    BIZ("BIZ", "业务");
+    BIZ("BIZ", "业务"),
+    VALIDATOR("VALIDATOR", "参数校验");
 
     @Getter
     @Setter
