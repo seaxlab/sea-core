@@ -33,8 +33,11 @@ public class DingDingNotifyManager implements NotifyManager {
 
         text.setContent(msg);
         request.setText(text);
-
-        HttpClientUtil.postJSON(endpoint, request);
+        try {
+            HttpClientUtil.postJSON(endpoint, request);
+        } catch (Exception e) {
+            log.error("send ding ding msg error", e);
+        }
     }
 
     @Override
@@ -49,6 +52,10 @@ public class DingDingNotifyManager implements NotifyManager {
         text.setContent(msg);
         request.setText(text);
 
-        HttpClientUtil.postJSON(endpoint, request);
+        try {
+            HttpClientUtil.postJSON(endpoint, request);
+        } catch (Exception e) {
+            log.error("send ding ding msg error", e);
+        }
     }
 }
