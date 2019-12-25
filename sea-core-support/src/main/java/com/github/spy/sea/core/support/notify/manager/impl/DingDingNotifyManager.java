@@ -24,6 +24,8 @@ public class DingDingNotifyManager implements NotifyManager {
 
     @Override
     public void send(String msg) {
+        log.info("send dingding msg begin.");
+        log.warn("msg={}", msg);
 
         DingDingRobotSendRequest request = new DingDingRobotSendRequest();
 
@@ -38,11 +40,14 @@ public class DingDingNotifyManager implements NotifyManager {
         } catch (Exception e) {
             log.error("send ding ding msg error", e);
         }
+
+        log.info("send dingding msg end.");
     }
 
     @Override
     public void send(String title, String msg) {
-//        title  is no used.
+        log.info("send dingding msg begin.");
+        log.warn("title={},msg={}", title, msg);
         DingDingRobotSendRequest request = new DingDingRobotSendRequest();
 
         request.setMsgtype(DingDingMsgTypeEnum.TEXT.getKey());
@@ -57,5 +62,7 @@ public class DingDingNotifyManager implements NotifyManager {
         } catch (Exception e) {
             log.error("send ding ding msg error", e);
         }
+
+        log.info("send dingding msg end.");
     }
 }
