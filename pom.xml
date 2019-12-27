@@ -196,5 +196,15 @@
         </dependencies>
     </dependencyManagement>
 
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <excludes>
+                    <exclude>rebel.xml</exclude>
+                </excludes>
+            </resource>
+        </resources>
+    </build>
 
 </project>
