@@ -1,8 +1,12 @@
 package com.github.spy.sea.core.security.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -62,4 +66,27 @@ public class SignUtil {
         return expectSign.equalsIgnoreCase(sign);
     }
 
+
+    /**
+     * https://api.xx.com/send?access_token={}&timestamp={}&sign={}
+     * 生成签名
+     *
+     * @param timestamp
+     * @param secret
+     * @return
+     */
+    public static String get(Long timestamp, String secret) {
+        try {
+            String stringToSign = timestamp + "\n" + secret;
+            Mac mac = Mac.getInstance("HmacSHA256");
+            mac.init(new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256"));
+            byte[] signData = mac.doFinal(stringToSign.getBytes("UTF-8"));
+            return URLEncoder.encode(new String(Base64.encodeBase64(signData)), "UTF-8");
+
+        } catch (Exception e) {
+            log.error("make sign error", e);
+        }
+
+        return null;
+    }
 }
