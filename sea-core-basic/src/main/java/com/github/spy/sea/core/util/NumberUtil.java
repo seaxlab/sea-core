@@ -1,10 +1,12 @@
 package com.github.spy.sea.core.util;
 
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.Validate;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.TreeSet;
 
@@ -210,4 +212,21 @@ public final class NumberUtil {
         return NumberUtils.max(array);
     }
 
+
+    /**
+     * 保留两位小数
+     *
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public static BigDecimal divide(BigDecimal num1, BigDecimal num2) {
+        return divide(num1, num2, 2, RoundingMode.HALF_UP);
+    }
+
+    public static BigDecimal divide(BigDecimal num1, BigDecimal num2, int scale, RoundingMode roundingMode) {
+        Preconditions.checkNotNull(num1, "");
+        Preconditions.checkNotNull(num2, "");
+        return num1.divide(num1, scale, roundingMode);
+    }
 }
