@@ -7,6 +7,7 @@ import org.apache.commons.lang3.Validate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.TreeSet;
 
@@ -229,4 +230,17 @@ public final class NumberUtil {
         Preconditions.checkNotNull(num2, "");
         return num1.divide(num1, scale, roundingMode);
     }
+
+    /**
+     * 分转元
+     *
+     * @param num
+     * @return
+     */
+    public static String centToYuan(Long num) {
+        DecimalFormat twoDecimal = new DecimalFormat("0.00");
+        Double yuan = num / 100.0;
+        return String.valueOf(twoDecimal.format(yuan));
+    }
+
 }
