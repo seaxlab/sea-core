@@ -5,6 +5,7 @@ import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.function.Fn;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.beans.Introspector;
 import java.lang.invoke.SerializedLambda;
@@ -103,6 +104,42 @@ public final class ReflectUtil {
             return Introspector.decapitalize(getter);
         } catch (ReflectiveOperationException e) {
             log.error("reflective operation exception", e);
+            ExceptionHandler.publish(CoreErrorConst.SYS_REFLECT_OPERATION_ERR);
+        }
+        return null;
+    }
+
+
+    /**
+     * invoke method
+     *
+     * @param object
+     * @param method
+     * @return
+     */
+    public static Object invokeMethod(Object object, String method) {
+        try {
+            return MethodUtils.invokeMethod(object, method);
+        } catch (Exception e) {
+            log.error("invoke method error", e);
+            ExceptionHandler.publish(CoreErrorConst.SYS_REFLECT_OPERATION_ERR);
+        }
+        return null;
+    }
+
+    /**
+     * invoke method
+     *
+     * @param object
+     * @param forceAccess
+     * @param method
+     * @return
+     */
+    public static Object invokeMethod(Object object, boolean forceAccess, String method) {
+        try {
+            return MethodUtils.invokeMethod(object, forceAccess, method);
+        } catch (Exception e) {
+            log.error("invoke method error", e);
             ExceptionHandler.publish(CoreErrorConst.SYS_REFLECT_OPERATION_ERR);
         }
         return null;

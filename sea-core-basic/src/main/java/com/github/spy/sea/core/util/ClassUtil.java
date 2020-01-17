@@ -44,6 +44,19 @@ public final class ClassUtil {
     }
 
     /**
+     * 通过实例对象获取一个类名
+     *
+     * @param obj
+     * @return
+     */
+    public static String getClassName(Object obj) {
+        if (null == obj) {
+            return null;
+        }
+        return getClassName(obj.getClass());
+    }
+
+    /**
      * check obj is one of classes.
      *
      * @param obj

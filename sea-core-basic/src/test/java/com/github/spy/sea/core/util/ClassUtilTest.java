@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,5 +30,12 @@ public class ClassUtilTest extends BaseCoreTest {
 
         Assert.assertEquals(true, ClassUtil.isOneOfClasses(str, String.class));
         Assert.assertEquals(false, ClassUtil.isOneOfClasses(str, JSONObject.class, JSONArray.class));
+    }
+
+    @Test
+    public void run35() throws Exception {
+
+        User user = new User();
+        log.info("{}", ClassUtil.getClassName(user));
     }
 }

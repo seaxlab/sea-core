@@ -25,7 +25,7 @@ public class SpringContextHolder implements ApplicationContextAware {
     }
 
     /**
-     * 获取bean
+     * 获取bean， 如果存在则会抛出异常
      *
      * @param name
      * @param <T>
@@ -35,6 +35,22 @@ public class SpringContextHolder implements ApplicationContextAware {
         checkCtx();
 
         return (T) ctx.getBean(name);
+    }
+
+    /**
+     * get bean by safely
+     *
+     * @param name
+     * @param <T>
+     * @return
+     */
+    public static <T> T getBeanSafe(String name) {
+        try {
+            return getBean(name);
+        } catch (Exception e) {
+            log.warn("no this bean[{}]", name);
+        }
+        return null;
     }
 
     /**
