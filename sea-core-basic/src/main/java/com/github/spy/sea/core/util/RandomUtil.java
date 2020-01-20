@@ -1,8 +1,11 @@
 package com.github.spy.sea.core.util;
 
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -55,4 +58,26 @@ public final class RandomUtil {
         return RandomStringUtils.randomAlphabetic(count);
     }
 
+    /**
+     * get random one of
+     *
+     * @param candidates
+     * @return
+     */
+    public static String oneOf(String... candidates) {
+        Preconditions.checkNotNull(candidates, "candidates can not be null");
+        return candidates[RandomUtils.nextInt(0, candidates.length)];
+    }
+
+
+    /**
+     * get random one of
+     *
+     * @param candidates
+     * @return
+     */
+    public static String oneOf(List<String> candidates) {
+        Preconditions.checkNotNull(candidates, "candidates can not be null");
+        return candidates.get(RandomUtils.nextInt(0, candidates.size()));
+    }
 }
