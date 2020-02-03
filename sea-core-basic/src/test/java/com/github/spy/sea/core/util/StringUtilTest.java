@@ -32,5 +32,10 @@ public class StringUtilTest extends BaseCoreTest {
 
     }
 
+    @Test
+    public void run36() throws Exception {
+        Assert.assertEquals("", StringUtil.defaultIfBlank(null, ""));
+    }
+
 
 }

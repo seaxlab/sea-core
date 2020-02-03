@@ -155,6 +155,34 @@ public final class StringUtil {
     }
 
     /**
+     * 不能全是空格
+     *
+     * @param str
+     * @param defaultStr
+     * @param <T>
+     * @return
+     */
+    public static <T extends CharSequence> T defaultIfBlank(final T str, final T defaultStr) {
+        return StringUtils.isBlank(str) ? defaultStr : str;
+    }
+
+    /**
+     * 只要有内容就为true
+     *
+     * @param str
+     * @param defaultStr
+     * @param <T>
+     * @return
+     */
+    public static <T extends CharSequence> T defaultIfEmpty(final T str, final T defaultStr) {
+        return StringUtils.isEmpty(str) ? defaultStr : str;
+    }
+
+    public static String defaultString(final String str, final String defaultStr) {
+        return str == null ? defaultStr : str;
+    }
+
+    /**
      * 设置返回有值的参数
      *
      * @param str1
