@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import com.github.pagehelper.PageInfo;
+import com.github.spy.sea.core.model.BasePageQueryDTO;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.model.PageInfoData;
 import lombok.extern.slf4j.Slf4j;
@@ -137,5 +138,28 @@ public final class PageUtil {
         result.setData(pageInfoData);
     }
 
+    /**
+     * 校验分页信息
+     *
+     * @param dto
+     */
+    public static void checkPageInfo(BasePageQueryDTO dto) {
+        checkPageInfo(dto, 10);
+    }
+
+    /**
+     * 校验分页信息
+     *
+     * @param dto
+     * @param maxSize 每页记录数
+     */
+    public static void checkPageInfo(BasePageQueryDTO dto, int maxSize) {
+        if (dto.getPage() == null || dto.getPage() < 1) {
+            dto.setPage(1);
+        }
+        if (dto.getSize() == null || dto.getPage() < 1) {
+            dto.setSize(maxSize);
+        }
+    }
 
 }
