@@ -18,6 +18,11 @@ import java.net.URLEncoder;
 public final class DingDingUtil {
 
     /**
+     * access_token方式
+     */
+    public static final String URL_SIMPLE = "https://oapi.dingtalk.com/robot/send?access_token={}";
+
+    /**
      * 签名方式url
      */
     public static final String URL_SIGN = "https://oapi.dingtalk.com/robot/send?access_token={}&timestamp={}&sign={}";
