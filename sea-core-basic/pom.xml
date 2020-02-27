@@ -134,7 +134,10 @@
             <optional>true</optional>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.alipay.sofa</groupId>
+            <artifactId>tracer-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

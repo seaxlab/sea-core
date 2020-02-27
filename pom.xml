@@ -67,6 +67,7 @@
         <aliyun.oss.sdk.version>3.5.0</aliyun.oss.sdk.version>
         <javers.version>5.6.3</javers.version>
         <alibaba.rocketmq.version>3.4.9</alibaba.rocketmq.version>
+        <sofa.tracer.version>3.0.5</sofa.tracer.version>
 
         <sea.dubbo.legacy.version>2.6.7</sea.dubbo.legacy.version>
         <sea.dubbo.version>2.7.3</sea.dubbo.version>
@@ -199,6 +200,12 @@
                 <groupId>com.alibaba.rocketmq</groupId>
                 <artifactId>rocketmq-client</artifactId>
                 <version>${alibaba.rocketmq.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alipay.sofa</groupId>
+                <artifactId>tracer-core</artifactId>
+                <version>${sofa.tracer.version}</version>
             </dependency>
 
 
