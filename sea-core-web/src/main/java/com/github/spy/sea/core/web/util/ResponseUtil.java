@@ -28,7 +28,7 @@ public class ResponseUtil {
     public static void toText(HttpServletResponse response, Object obj) {
         try {
             response.setContentType(MediaType.TEXT_HTML_VALUE);
-            response.getWriter().write(JSONObject.toJSONString(obj));
+            response.getWriter().write(obj == null ? "" : obj.toString());
         } catch (Exception e) {
             log.error("response error", e);
         }
