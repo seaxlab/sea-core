@@ -49,6 +49,26 @@ public class ThreadContext {
     }
 
     /**
+     * get safe from context
+     *
+     * @param key
+     * @param <T>
+     * @return
+     */
+    public final static <T extends Object> T getSafe(String key) {
+        Map<String, Object> ctx = CTX_HOLDER.get();
+        if (ctx == null) {
+            return null;
+        }
+        try {
+            return (T) ctx.get(key);
+        } catch (Exception e) {
+            log.warn("convert to T error", e);
+            return null;
+        }
+    }
+
+    /**
      * 获取线程上下文
      */
     public final static Map<String, Object> getContext() {
