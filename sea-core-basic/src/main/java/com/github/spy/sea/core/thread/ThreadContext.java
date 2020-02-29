@@ -113,8 +113,8 @@ public class ThreadContext {
         if (ctx != null) {
             ctx.clear();
         }
-        //CTX_HOLDER.set(null);
-        //  CTX_HOLDER.remove();
+        CTX_HOLDER.set(null);
+        CTX_HOLDER.remove();
     }
 
     /**
