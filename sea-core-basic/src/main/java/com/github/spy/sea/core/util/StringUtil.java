@@ -405,4 +405,19 @@ public final class StringUtil {
     public static String mid(String str, int pos, int len) {
         return StringUtils.mid(str, pos, len);
     }
+
+    /**
+     * split str
+     *
+     * @param str
+     * @return
+     */
+    public static String[] split(String str) {
+        return StringUtils.split(str);
+    }
+
+    public static String[] split(String str, char separatorChar) {
+        return StringUtils.split(str, separatorChar);
+    }
+
 }
