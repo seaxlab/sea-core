@@ -138,6 +138,12 @@
             <groupId>com.alipay.sofa</groupId>
             <artifactId>tracer-core</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>
