@@ -1,8 +1,9 @@
 package com.github.spy.sea.core.test;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Junit4 测试基类
@@ -11,9 +12,9 @@ import org.junit.BeforeClass;
  * @version 1.0 2019-07-13
  * @since 1.0
  */
-@Slf4j
 public abstract class AbstractCoreTest {
 
+    private Logger _log = LoggerFactory.getLogger(getClass());
 
     @BeforeClass
     public static void testBefore() {
@@ -28,10 +29,10 @@ public abstract class AbstractCoreTest {
 
     protected void println(Object obj) {
 
-        log.info("{}", obj);
+        _log.info("{}", obj);
     }
 
     protected void println(String label, Object obj) {
-        log.info("{}={}", label, obj);
+        _log.info("{}={}", label, obj);
     }
 }

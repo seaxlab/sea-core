@@ -2,7 +2,6 @@ package com.github.spy.sea.core;
 
 import com.github.spy.sea.core.config.ConfigurationFactory;
 import com.github.spy.sea.core.test.AbstractCoreTest;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 
 /**
@@ -12,7 +11,6 @@ import org.junit.Before;
  * @version 1.0 2019-06-16
  * @since 1.0
  */
-@Slf4j
 public abstract class BaseCoreTest extends AbstractCoreTest {
 
     // 必须要有 User-Agent
