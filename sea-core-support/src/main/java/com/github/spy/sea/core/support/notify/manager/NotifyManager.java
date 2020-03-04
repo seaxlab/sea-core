@@ -1,5 +1,7 @@
 package com.github.spy.sea.core.support.notify.manager;
 
+import com.github.spy.sea.core.model.BaseResult;
+
 /**
  * module name
  *
@@ -24,4 +26,8 @@ public interface NotifyManager {
      * @param msg
      */
     void send(String title, String msg);
+
+    BaseResult sendAndGet(String msg);
+
+    BaseResult sendAndGet(String title, String msg);
 }
