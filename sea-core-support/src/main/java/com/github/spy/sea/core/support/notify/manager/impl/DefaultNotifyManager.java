@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.support.notify.manager.impl;
 
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.support.notify.dto.BaseNotifyDTO;
 import com.github.spy.sea.core.support.notify.manager.NotifyManager;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,21 +16,18 @@ import lombok.extern.slf4j.Slf4j;
 public class DefaultNotifyManager implements NotifyManager {
     @Override
     public void send(String msg) {
-        log.warn("msg={}", msg);
+        log.warn("[default notify manager] msg={}", msg);
     }
 
     @Override
     public void send(String title, String msg) {
-        log.warn("title={},msg={}", title, msg);
+        log.warn("[default notify manager] title={},msg={}", title, msg);
     }
 
     @Override
-    public BaseResult sendAndGet(String msg) {
-        return BaseResult.success();
-    }
+    public BaseResult send(BaseNotifyDTO dto) {
+        log.info("[default notify manager] dto={}", dto);
 
-    @Override
-    public BaseResult sendAndGet(String title, String msg) {
         return BaseResult.success();
     }
 }

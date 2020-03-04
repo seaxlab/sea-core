@@ -2,9 +2,11 @@ package com.github.spy.sea.core.support.notify.manager.impl;
 
 import com.github.spy.sea.core.http.simple.HttpClientUtil;
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.support.notify.dto.DingDingNotifyDTO;
 import com.github.spy.sea.core.support.notify.dto.DingDingRobotSendRequest;
 import com.github.spy.sea.core.support.notify.manager.NotifyManager;
 import com.github.spy.sea.core.support.notify.manager.dingding.DingDingMsgTypeEnum;
+import com.github.spy.sea.core.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 1.0
  */
 @Slf4j
-public class DingDingNotifyManager implements NotifyManager {
+public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
 
     @Getter
     @Setter
@@ -47,11 +49,14 @@ public class DingDingNotifyManager implements NotifyManager {
     }
 
     @Override
-    public BaseResult sendAndGet(String msg) {
-
+    public BaseResult send(DingDingNotifyDTO dto) {
         BaseResult result = BaseResult.fail();
         try {
-            send0(msg);
+            if (StringUtil.isNotEmpty(dto.getTitle())) {
+                send0(dto.getTitle(), dto.getContent());
+            } else {
+                send0(dto.getContent());
+            }
             result.setSuccess(true);
         } catch (Exception e) {
             log.error("send ding ding msg error", e);
@@ -60,22 +65,6 @@ public class DingDingNotifyManager implements NotifyManager {
 
         return result;
     }
-
-    @Override
-    public BaseResult sendAndGet(String title, String msg) {
-        BaseResult result = BaseResult.fail();
-
-        try {
-            send0(title, msg);
-            result.setSuccess(true);
-        } catch (Exception e) {
-            log.error("send ding ding msg error", e);
-            result.setErrorMessage(e.getMessage());
-        }
-
-        return result;
-    }
-
 
     private void send0(String msg) {
         log.info("send dingding msg begin.");

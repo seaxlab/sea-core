@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.support.notify.manager.impl;
 
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.support.notify.dto.BaseNotifyDTO;
 import com.github.spy.sea.core.support.notify.manager.NotifyManager;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,12 +25,7 @@ public class EmailNotifyManager implements NotifyManager {
     }
 
     @Override
-    public BaseResult sendAndGet(String msg) {
-        return null;
-    }
-
-    @Override
-    public BaseResult sendAndGet(String title, String msg) {
+    public BaseResult send(BaseNotifyDTO dto) {
         return null;
     }
 }
