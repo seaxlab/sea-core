@@ -420,4 +420,28 @@ public final class StringUtil {
         return StringUtils.split(str, separatorChar);
     }
 
+
+    /**
+     * 截取字符串
+     *
+     * @param str
+     * @param start
+     * @return
+     */
+    public static String substring(String str, int start) {
+        return StringUtils.substring(str, start);
+    }
+
+    /**
+     * 截取字符串
+     *
+     * @param str
+     * @param start
+     * @param end
+     * @return
+     */
+    public static String substring(String str, int start, int end) {
+        return StringUtils.substring(str, start, end);
+    }
+
 }
