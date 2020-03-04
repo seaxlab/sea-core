@@ -47,6 +47,7 @@ public class MailNotifyManager implements NotifyManager<MailNotifyDTO> {
             mail.setSmtpPort(mailConfig.getPort());
             if (mailConfig.getIsSsl()) {
                 mail.setSslSmtpPort(mailConfig.getSslPort().toString());
+                mail.setSSLOnConnect(true);
             }
             mail.setHostName(mailConfig.getHost());
             // TODO 设置密码验证器(授权码）
