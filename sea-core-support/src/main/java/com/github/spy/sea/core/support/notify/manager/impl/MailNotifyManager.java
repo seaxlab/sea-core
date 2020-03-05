@@ -5,9 +5,11 @@ import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.support.notify.dto.MailNotifyDTO;
 import com.github.spy.sea.core.support.notify.dto.MailServerConfigDTO;
 import com.github.spy.sea.core.support.notify.manager.NotifyManager;
+import com.github.spy.sea.core.util.ExceptionUtil;
 import com.github.spy.sea.core.util.StringUtil;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.mail.EmailConstants;
 import org.apache.commons.mail.SimpleEmail;
 
 import java.util.Date;
@@ -55,12 +57,17 @@ public class MailNotifyManager implements NotifyManager<MailNotifyDTO> {
             // 设置邮件发送者
 //            mail.setFrom(mailConfig.getDefaultSender());
             mail.setFrom(mailConfig.getDefaultSender(), StringUtil.defaultIfEmpty(mailConfig.getDefaultSenderName(), mailConfig.getDefaultSender()));
-            // 设置邮件接收者
-            mail.addTo(dto.getTo());
 
+            // 设置邮件接收者
+            if (StringUtil.isNotEmpty(dto.getTo())) {
+                mail.addTo(StringUtil.split(dto.getTo(), ';'));
+            }
+
+            // 抄送
             if (StringUtil.isNotEmpty(dto.getCc())) {
                 mail.addCc(StringUtil.split(dto.getCc(), ';'));
             }
+            // 密送
             if (StringUtil.isNotEmpty(dto.getBcc())) {
                 mail.addBcc(StringUtil.split(dto.getBcc(), ';'));
             }
@@ -69,8 +76,14 @@ public class MailNotifyManager implements NotifyManager<MailNotifyDTO> {
             mail.setCharset("UTF-8");
             // 设置邮件主题
             mail.setSubject(dto.getTitle());
+
             // 设置邮件内容
-            mail.setMsg(dto.getContent());
+            if (dto.getIsHtml() != null && dto.getIsHtml()) {
+                mail.setContent(dto.getContent(), EmailConstants.TEXT_HTML);
+            } else {
+                mail.setMsg(dto.getContent());
+            }
+
             // 设置邮件发送时间
             mail.setSentDate(new Date());
 
@@ -83,7 +96,7 @@ public class MailNotifyManager implements NotifyManager<MailNotifyDTO> {
         } catch (Exception e) {
             log.error("fail to send mail", e);
             result.setSuccess(false);
-            result.setErrorMessage(e.getMessage());
+            result.setErrorMessage(ExceptionUtil.getStackTrace(e));
         } finally {
             log.info("send mail end. ret={}", result);
         }

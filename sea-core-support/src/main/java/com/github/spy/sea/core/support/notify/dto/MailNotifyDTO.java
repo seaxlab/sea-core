@@ -28,4 +28,7 @@ public class MailNotifyDTO extends BaseNotifyDTO {
      * 密送
      */
     private String bcc;
+
+
+    private Boolean isHtml;
 }
