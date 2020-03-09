@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -87,6 +88,38 @@ public final class EqualUtil {
         for (int i = 0; i < values.length; i++) {
             Long item = values[i];
 
+            if (item.longValue() == value.longValue()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isIn(Integer value, List<Integer> values) {
+        if (value == null || values == null) {
+            log.warn("value or values is null");
+            return false;
+        }
+
+        for (int i = 0; i < values.size(); i++) {
+            Integer item = values.get(i);
+            if (item.intValue() == value.intValue()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isIn(Long value, List<Long> values) {
+        if (value == null || values == null) {
+            log.warn("value or values is null");
+            return false;
+        }
+
+        for (int i = 0; i < values.size(); i++) {
+            Long item = values.get(i);
             if (item.longValue() == value.longValue()) {
                 return true;
             }
