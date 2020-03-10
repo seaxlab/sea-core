@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.util;
 
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -66,5 +67,23 @@ public final class ObjectUtil {
 
     public static <T extends Comparable<? super T>> T max(final T... values) {
         return ObjectUtils.min(values);
+    }
+
+
+    /**
+     * 返回有值内容的
+     *
+     * @param obj
+     * @param defaultObj
+     * @return
+     */
+    public static Object defaultIfNull(Object obj, Object defaultObj) {
+
+        Preconditions.checkNotNull(defaultObj, "defaultObj can not be null");
+        if (obj == null) {
+            return defaultObj;
+        }
+
+        return obj;
     }
 }
