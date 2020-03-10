@@ -73,17 +73,16 @@ public final class ObjectUtil {
     /**
      * 返回有值内容的
      *
-     * @param obj
-     * @param defaultObj
+     * @param value
+     * @param defaultValue
      * @return
      */
-    public static Object defaultIfNull(Object obj, Object defaultObj) {
-
-        Preconditions.checkNotNull(defaultObj, "defaultObj can not be null");
-        if (obj == null) {
-            return defaultObj;
+    public static <T> T defaultIfNull(T value, T defaultValue) {
+        Preconditions.checkNotNull(defaultValue, "defaultValue can not be null");
+        if (value == null) {
+            return defaultValue;
         }
 
-        return obj;
+        return value;
     }
 }
