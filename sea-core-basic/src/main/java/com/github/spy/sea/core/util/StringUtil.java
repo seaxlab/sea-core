@@ -19,6 +19,16 @@ import java.util.Set;
 public final class StringUtil {
 
     /**
+     * empty str
+     */
+    public static final String EMPTY = "";
+
+    /**
+     * space
+     */
+    public static final String SPACE = " ";
+
+    /**
      * 字符串是否为空
      *
      * @param params

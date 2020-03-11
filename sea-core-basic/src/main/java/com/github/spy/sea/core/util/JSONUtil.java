@@ -89,4 +89,36 @@ public final class JSONUtil {
     }
 
 
+    /**
+     * safe get key.
+     *
+     * @param jsonObjStr
+     * @param key
+     * @return
+     */
+    public static String getSafe(String jsonObjStr, String key) {
+        try {
+            return get(jsonObjStr, key);
+        } catch (Exception e) {
+            log.error("fail to get from jsonObj", e);
+            return StringUtil.EMPTY;
+        }
+    }
+
+    /**
+     * get key for simple json str
+     *
+     * @param jsonObjStr
+     * @param key
+     * @return
+     */
+    public static String get(String jsonObjStr, String key) {
+        if (isValidObject(jsonObjStr)) {
+            return StringUtil.EMPTY;
+        }
+        JSONObject jsonObj = JSONObject.parseObject(jsonObjStr);
+        return jsonObj.getString(key);
+    }
+
+
 }
