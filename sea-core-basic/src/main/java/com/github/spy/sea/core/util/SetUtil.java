@@ -47,4 +47,18 @@ public final class SetUtil {
         return new HashSet(Arrays.asList(arrays));
     }
 
+    /**
+     * 转换成string，同时带分隔符
+     *
+     * @param set
+     * @param delimiter
+     * @return
+     */
+    public static String toString(Set set, String delimiter) {
+        if (set == null) {
+            return StringUtil.EMPTY;
+        }
+        return String.join(delimiter, set);
+    }
+
 }
