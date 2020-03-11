@@ -37,5 +37,10 @@ public class StringUtilTest extends BaseCoreTest {
         Assert.assertEquals("", StringUtil.defaultIfBlank(null, ""));
     }
 
+    @Test
+    public void run41() throws Exception {
+        Assert.assertEquals("a0a", StringUtil.replaceStart("00a0a", "0"));
+    }
+
 
 }
