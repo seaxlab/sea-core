@@ -113,7 +113,7 @@ public final class JSONUtil {
      * @return
      */
     public static String get(String jsonObjStr, String key) {
-        if (isValidObject(jsonObjStr)) {
+        if (!isValidObject(jsonObjStr)) {
             return StringUtil.EMPTY;
         }
         JSONObject jsonObj = JSONObject.parseObject(jsonObjStr);
