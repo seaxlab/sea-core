@@ -6,6 +6,8 @@ import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.enums.ErrorTypeEnum;
 import com.github.spy.sea.core.exception.BaseAppException;
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.FootPrintDTO;
+import com.github.spy.sea.core.web.util.RequestUtil;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -250,11 +252,16 @@ public class GlobalExceptionHandler {
 //        String deviceId = request.getHeader(HttpHeaderDef.DEVICE_ID);
 //        String osType = request.getHeader(HttpHeaderDef.CLIENT_TYPE);
 //        String clientVersion = request.getHeader(HttpHeaderDef.SOFT_VERSION);
-//        String userAgent = request.getHeader(HttpHeaderDef.USER_AGENT);
-//
+        String userAgent = RequestUtil.getUserAgent(request);
+        String ip = RequestUtil.getClientIpAddress(request);
+
+        FootPrintDTO footPrintDTO = new FootPrintDTO();
+        footPrintDTO.setUserAgent(userAgent);
+        footPrintDTO.setIp(ip);
+
 //        log.info("userId={},token={},deviceId={},osType={},clientVersion={}",
 //                userId, token, deviceId, osType, clientVersion);
-//        log.info("ip={},User Agent={}", IPUtil.getIpAddr(request), userAgent);
+        log.info("foot print DTO={}", footPrintDTO);
     }
 
 
