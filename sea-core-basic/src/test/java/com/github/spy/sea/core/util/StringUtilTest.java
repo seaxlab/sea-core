@@ -33,6 +33,14 @@ public class StringUtilTest extends BaseCoreTest {
     }
 
     @Test
+    public void splitTest() throws Exception {
+
+        log.info("{}", StringUtil.splitToIterable("abc;;bac;hi", ';'));
+        log.info("{}", StringUtil.splitToList("abc;;bac;hi", ';'));
+        log.info("{}", StringUtil.splitToList(null, ';'));
+    }
+
+    @Test
     public void run36() throws Exception {
         Assert.assertEquals("", StringUtil.defaultIfBlank(null, ""));
     }

@@ -3,10 +3,12 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.common.CharConst;
 import com.github.spy.sea.core.common.SymbolConst;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.helpers.MessageFormatter;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -420,6 +422,7 @@ public final class StringUtil {
 
     /**
      * split str
+     * return value maybe null, plz note!!
      *
      * @param str
      * @return
@@ -430,6 +433,36 @@ public final class StringUtil {
 
     public static String[] split(String str, char separatorChar) {
         return StringUtils.split(str, separatorChar);
+    }
+
+    /**
+     * split to Iterable
+     * return value not null
+     *
+     * @param str
+     * @param separatorChar
+     * @return
+     */
+    public static Iterable<String> splitToIterable(String str, char separatorChar) {
+        if (StringUtils.isEmpty(str)) {
+            return ListUtil.empty();
+        }
+        return Splitter.on(separatorChar).omitEmptyStrings().split(str);
+    }
+
+    /**
+     * split to List
+     * return value not null
+     *
+     * @param str
+     * @param separatorChar
+     * @return
+     */
+    public static List<String> splitToList(String str, char separatorChar) {
+        if (StringUtils.isEmpty(str)) {
+            return ListUtil.empty();
+        }
+        return Splitter.on(separatorChar).omitEmptyStrings().splitToList(str);
     }
 
 
