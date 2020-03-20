@@ -3,6 +3,7 @@ package com.github.spy.sea.core.http.simple;
 import com.alibaba.fastjson.JSONObject;
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.exception.ExceptionHandler;
+import com.github.spy.sea.core.model.BaseResult;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -206,7 +207,13 @@ public class HttpClientUtil {
         log.info("请求地址url={}", url);
 
         if (obj != null) {
-            StringEntity entity = new StringEntity(JSONObject.toJSONString(obj), ContentType.APPLICATION_JSON);
+            String jsonStr;
+            if (obj instanceof String) {
+                jsonStr = (String) obj;
+            } else {
+                jsonStr = JSONObject.toJSONString(obj);
+            }
+            StringEntity entity = new StringEntity(jsonStr, ContentType.APPLICATION_JSON);
             httpPost.setEntity(entity);
         }
         //requestConfig
@@ -241,6 +248,43 @@ public class HttpClientUtil {
     }
 
     /**
+     * post with no exception
+     *
+     * @param url
+     * @param obj
+     * @return
+     */
+    public static BaseResult postJSONSafe(String url, Object obj) {
+        BaseResult result = BaseResult.fail();
+
+        try {
+            String response = postJSON(url, obj);
+            result.setData(response);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            log.error("http exception", e);
+            result.setErrorMessage(e.getMessage());
+        }
+
+        return result;
+    }
+
+
+    public static BaseResult getSafe(final String url, Map<String, Object> param) {
+        BaseResult result = BaseResult.fail();
+
+        try {
+            String content = get(url, param);
+            result.setData(content);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setErrorMessage(e.getMessage());
+        }
+
+        return result;
+    }
+
+    /**
      * 发送GET请求
      *
      * @param url
@@ -261,6 +305,20 @@ public class HttpClientUtil {
         String finalUrl = url + (url.indexOf("?") > 0 ? "&" : "?") + queryStr;
 
         return get(finalUrl);
+    }
+
+    public static BaseResult getSafe(final String url) {
+        BaseResult result = BaseResult.fail();
+
+        try {
+            String content = get(url);
+            result.setData(content);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setErrorMessage(e.getMessage());
+        }
+
+        return result;
     }
 
     /**
