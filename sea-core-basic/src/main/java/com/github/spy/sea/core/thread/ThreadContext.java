@@ -109,6 +109,8 @@ public class ThreadContext {
      * 清空线程上下文
      */
     public final static void clean() {
+        log.info("thread context clean");
+
         Map<String, Object> ctx = CTX_HOLDER.get();
         if (ctx != null) {
             ctx.clear();
