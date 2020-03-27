@@ -204,7 +204,7 @@ public class HttpClientUtil {
         HttpPost httpPost = new HttpPost(url);
 
         httpPost.addHeader("Content-Type", "application/json;charset=utf8");
-        log.info("请求地址url={}", url);
+        log.info("request url={}", url);
 
         if (obj != null) {
             String jsonStr;
