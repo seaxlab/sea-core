@@ -1,10 +1,10 @@
 package com.github.spy.sea.core.config.support;
 
 import com.github.spy.sea.core.config.Configuration;
-import com.github.spy.sea.core.exception.UnsupportedOperationException;
 import com.github.spy.sea.core.loader.LoadLevel;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import com.typesafe.config.ConfigValueFactory;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.function.Supplier;
@@ -73,21 +73,24 @@ public class TypeSafeConfiguration implements Configuration {
 
     @Override
     public boolean putString(String key, String content) {
-        throw new UnsupportedOperationException();
-
-//        return false;
+        config = config.withValue(key, ConfigValueFactory.fromAnyRef(content));
+        return true;
     }
 
     @Override
     public boolean putStringIfAbsent(String key, String content) {
-        throw new UnsupportedOperationException();
-//        return false;
+        if (config.hasPath(key)) {
+            return false;
+        }
+        config = config.withValue(key, ConfigValueFactory.fromAnyRef(content));
+        return true;
     }
 
     @Override
     public boolean remove(String key) {
-        throw new UnsupportedOperationException();
-//        return false;
+        config = config.withoutPath(key);
+//        throw new UnsupportedOperationException();
+        return true;
     }
 
 

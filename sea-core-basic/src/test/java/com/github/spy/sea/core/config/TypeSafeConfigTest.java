@@ -39,4 +39,9 @@ public class TypeSafeConfigTest extends BaseCoreTest {
 
         Assert.assertEquals(value, "123");
     }
+
+    @Test
+    public void run44() throws Exception {
+
+    }
 }

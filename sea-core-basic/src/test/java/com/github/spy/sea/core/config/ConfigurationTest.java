@@ -32,9 +32,24 @@ public class ConfigurationTest {
         println("sea.config.env");
         println("sea.config.title");
         println("sea.config.xx");
-
-
     }
+
+    @Test
+    public void run38() throws Exception {
+        config.putString("aa", "abc");
+
+        println("aa");
+    }
+
+    @Test
+    public void run45() throws Exception {
+        config.putString("aa", "abc");
+
+        println("aa");
+        config.remove("aa");
+        println("aa");
+    }
+
 
     private void println(String path) {
         log.info("{}={}", path, config.getString(path));
