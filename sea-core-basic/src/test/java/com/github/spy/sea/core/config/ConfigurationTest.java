@@ -50,6 +50,23 @@ public class ConfigurationTest {
         println("aa");
     }
 
+    @Test
+    public void run54() throws Exception {
+        System.out.println(config);
+        config.putString("abc", "111");
+        System.out.println(config);
+
+        config.putString("c", "c");
+        System.out.println(config);
+
+        config.putString("abc", "123");
+        System.out.println(config);
+
+        println("abc");
+        println("c");
+
+    }
+
 
     private void println(String path) {
         log.info("{}={}", path, config.getString(path));
