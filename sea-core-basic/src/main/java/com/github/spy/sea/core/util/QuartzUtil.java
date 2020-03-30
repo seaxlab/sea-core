@@ -1,12 +1,17 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.SysJobVO;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.impl.matchers.GroupMatcher;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * module name
@@ -325,6 +330,104 @@ public class QuartzUtil {
         return result;
     }
 
+    /**
+     * trigger job for default
+     *
+     * @param jobName
+     * @return
+     */
+    public static BaseResult trigger(String jobName) {
+        return trigger(getScheduler(), jobName, DEFAULT_JOB_GROUP_NAME);
+    }
+
+    /**
+     * trigger job for default
+     *
+     * @param jobName
+     * @param jobGroupName
+     * @return
+     */
+    public static BaseResult trigger(String jobName, String jobGroupName) {
+        return trigger(getScheduler(), jobName, jobGroupName);
+    }
+
+    /**
+     * trigger job
+     *
+     * @param scheduler
+     * @param jobName
+     * @param jobGroupName
+     * @return
+     */
+    public static BaseResult trigger(Scheduler scheduler, String jobName, String jobGroupName) {
+        Preconditions.checkNotNull(scheduler, "scheduler cannot be null");
+        BaseResult result = BaseResult.fail();
+
+        JobKey jobKey = JobKey.jobKey(jobName, jobGroupName);
+
+        try {
+            scheduler.triggerJob(jobKey);
+            result.setSuccess(true);
+        } catch (SchedulerException e) {
+            log.error("trigger job exception", e);
+            result.setErrorMessage("fail to trigger job");
+        }
+        return result;
+    }
+
+    /**
+     * query all jobs for default.
+     *
+     * @return
+     */
+    public static BaseResult queryAllJobs() {
+        return queryAllJobs(getScheduler());
+    }
+
+    /**
+     * query all jobs for scheduler
+     *
+     * @param scheduler
+     * @return
+     */
+    public static BaseResult queryAllJobs(Scheduler scheduler) {
+        BaseResult result = BaseResult.fail();
+
+        try {
+
+            GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
+            Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
+            List<SysJobVO> jobList = new ArrayList<>();
+
+
+            for (JobKey jobKey : jobKeys) {
+                List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
+                for (Trigger trigger : triggers) {
+                    SysJobVO job = new SysJobVO();
+                    job.setJobName(jobKey.getName());
+                    job.setJobGroup(jobKey.getGroup());
+                    job.setDesc("触发器:" + trigger.getKey());
+                    Trigger.TriggerState triggerState = scheduler.getTriggerState(trigger.getKey());
+                    job.setStatus(triggerState.name());
+                    if (trigger instanceof CronTrigger) {
+                        CronTrigger cronTrigger = (CronTrigger) trigger;
+                        String cronExpression = cronTrigger.getCronExpression();
+                        job.setCronExpression(cronExpression);
+                    }
+                    jobList.add(job);
+                }
+            }
+
+            result.setData(jobList);
+            result.setSuccess(true);
+        } catch (SchedulerException e) {
+            log.error("get job detail exception", e);
+            result.setErrorMessage("get job detail exception");
+        }
+
+        return result;
+    }
+
 
     /**
      * start default scheduler
@@ -386,7 +489,7 @@ public class QuartzUtil {
     }
 
 
-    private static Scheduler getScheduler() throws SchedulerException {
+    private static Scheduler getScheduler() {
         return createScheduler();
     }
 
