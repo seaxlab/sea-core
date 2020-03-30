@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.model.BaseResult;
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
@@ -54,7 +55,7 @@ public class QuartzUtil {
     }
 
     /**
-     * 添加任务
+     * add job
      *
      * @param jobName          任务名
      * @param jobGroupName     任务组名
@@ -70,6 +71,48 @@ public class QuartzUtil {
 
         try {
             Scheduler scheduler = getScheduler();
+            return addJob(scheduler, jobName, jobGroupName, triggerName, triggerGroupName, jobClass, cron);
+        } catch (Exception e) {
+            log.error("quartz add job error ", e);
+            result.setErrorMessage("添加任务失败");
+        }
+
+        return result;
+    }
+
+    /**
+     * add job
+     *
+     * @param scheduler
+     * @param jobName
+     * @param triggerName
+     * @param jobClass
+     * @param cron
+     * @return
+     */
+    public static BaseResult addJob(Scheduler scheduler, String jobName, String triggerName, Class jobClass, String cron) {
+        return addJob(scheduler, jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, jobClass, cron);
+    }
+
+    /**
+     * add job
+     *
+     * @param scheduler
+     * @param jobName
+     * @param jobGroupName
+     * @param triggerName
+     * @param triggerGroupName
+     * @param jobClass
+     * @param cron
+     * @return
+     */
+    public static BaseResult addJob(Scheduler scheduler, String jobName, String jobGroupName,
+                                    String triggerName, String triggerGroupName, Class jobClass, String cron) {
+        Preconditions.checkNotNull(scheduler, "scheduler cannot be null");
+
+        BaseResult result = BaseResult.fail();
+
+        try {
             // 任务名，任务组，任务执行类
             JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(jobName, jobGroupName).build();
 
@@ -95,9 +138,9 @@ public class QuartzUtil {
             log.error("quartz add job error ", e);
             result.setErrorMessage("添加任务失败");
         }
-
         return result;
     }
+
 
     /**
      * modify job time
@@ -111,6 +154,8 @@ public class QuartzUtil {
     }
 
     /**
+     * modify job time
+     *
      * @param jobName
      * @param jobGroupName
      * @param triggerName      触发器名
@@ -123,7 +168,45 @@ public class QuartzUtil {
 
         BaseResult result = BaseResult.fail();
         try {
-            Scheduler scheduler = getScheduler();
+            return modifyJobTime(getScheduler(), jobName, jobGroupName, triggerName, triggerGroupName, cron);
+        } catch (Exception e) {
+            log.error("fail to modify Job Time error ", e);
+            result.setErrorMessage("修改定时任务时间异常");
+        }
+
+        return result;
+    }
+
+    /**
+     * modify job time
+     *
+     * @param scheduler
+     * @param jobName
+     * @param triggerName
+     * @param cron
+     * @return
+     */
+    public static BaseResult modifyJobTime(Scheduler scheduler, String jobName, String triggerName, String cron) {
+        return modifyJobTime(scheduler, jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, cron);
+    }
+
+    /**
+     * modify job time
+     *
+     * @param scheduler
+     * @param jobName
+     * @param jobGroupName
+     * @param triggerName
+     * @param triggerGroupName
+     * @param cron
+     * @return
+     */
+    public static BaseResult modifyJobTime(Scheduler scheduler, String jobName, String jobGroupName,
+                                           String triggerName, String triggerGroupName, String cron) {
+        Preconditions.checkNotNull(scheduler, "scheduler cannot be null");
+
+        BaseResult result = BaseResult.fail();
+        try {
             TriggerKey triggerKey = TriggerKey.triggerKey(triggerName, triggerGroupName);
             CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
             if (trigger == null) {
@@ -190,8 +273,44 @@ public class QuartzUtil {
         BaseResult result = BaseResult.fail();
 
         try {
-            Scheduler scheduler = getScheduler();
+            return removeJob(getScheduler(), jobName, jobGroupName, triggerName, triggerGroupName);
+        } catch (Exception e) {
+            log.error("fail to remove job", e);
+            result.setErrorMessage("fail to remove job");
+        }
 
+        return result;
+    }
+
+    /**
+     * remove job
+     *
+     * @param scheduler
+     * @param jobName
+     * @param triggerName
+     * @return
+     */
+    public static BaseResult removeJob(Scheduler scheduler, String jobName, String triggerName) {
+        return removeJob(scheduler, jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME);
+    }
+
+    /**
+     * remove job
+     *
+     * @param scheduler
+     * @param jobName
+     * @param jobGroupName
+     * @param triggerName
+     * @param triggerGroupName
+     * @return
+     */
+    public static BaseResult removeJob(Scheduler scheduler,
+                                       String jobName, String jobGroupName,
+                                       String triggerName, String triggerGroupName) {
+        Preconditions.checkNotNull(scheduler, "scheduler cannot be null");
+        BaseResult result = BaseResult.fail();
+
+        try {
             TriggerKey triggerKey = TriggerKey.triggerKey(triggerName, triggerGroupName);
 
             scheduler.pauseTrigger(triggerKey);// 停止触发器
@@ -206,12 +325,28 @@ public class QuartzUtil {
         return result;
     }
 
+
     /**
-     * 启动所有定时任务
+     * start default scheduler
      */
     public static void start() {
         try {
-            Scheduler scheduler = getScheduler();
+            start(getScheduler());
+        } catch (Exception e) {
+            log.error("[quartz] fail to start", e);
+        }
+    }
+
+    /**
+     * start scheduler
+     *
+     * @param scheduler
+     */
+    public static void start(Scheduler scheduler) {
+        if (scheduler == null) {
+            log.warn("scheduler is null, plz check.");
+        }
+        try {
             if (!scheduler.isStarted()) {
                 scheduler.start();
             }
@@ -221,11 +356,27 @@ public class QuartzUtil {
     }
 
     /**
-     * 关闭所有定时任务
+     * shutdown default scheduler
      */
     public static void shutdown() {
         try {
-            Scheduler scheduler = getScheduler();
+            shutdown(getScheduler());
+        } catch (Exception e) {
+            log.error("[quartz] fail to shutdown", e);
+        }
+    }
+
+
+    /**
+     * shutdown scheduler
+     *
+     * @param scheduler
+     */
+    public static void shutdown(Scheduler scheduler) {
+        if (scheduler == null) {
+            log.warn("scheduler is null, plz check.");
+        }
+        try {
             if (!scheduler.isShutdown()) {
                 scheduler.shutdown();
             }
@@ -233,6 +384,7 @@ public class QuartzUtil {
             log.error("[quartz] fail to shutdown", e);
         }
     }
+
 
     private static Scheduler getScheduler() throws SchedulerException {
         return createScheduler();
@@ -242,16 +394,16 @@ public class QuartzUtil {
         if (init) {
             return scheduler;
         }
-        Scheduler result = null;
         try {
             StdSchedulerFactory factory = new StdSchedulerFactory();
             factory.initialize(getBaseQuartzProperties());
-            result = factory.getScheduler();
-//            result.getListenerManager().addTriggerListener(schedulerFacade.newJobTriggerListener());
+            scheduler = factory.getScheduler();
+//            scheduler.getListenerManager().addTriggerListener(schedulerFacade.newJobTriggerListener());
+            init = true;
         } catch (final SchedulerException e) {
             log.error("fail to create scheduler", e);
         }
-        return result;
+        return scheduler;
     }
 
     private static Properties getBaseQuartzProperties() {
