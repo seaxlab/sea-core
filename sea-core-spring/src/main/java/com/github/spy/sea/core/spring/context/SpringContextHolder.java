@@ -3,8 +3,10 @@ package com.github.spy.sea.core.spring.context;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -65,8 +67,35 @@ public class SpringContextHolder implements ApplicationContextAware {
         return ctx.getBean(requiredType);
     }
 
+
+    /**
+     * create bean in spring application context
+     *
+     * @param ctx
+     * @param bean
+     */
+    public static void createSingleBean(ApplicationContext ctx, Object bean) {
+        //将applicationContext转换为ConfigurableApplicationContext
+        ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) ctx;
+
+        // 获取bean工厂并转换为DefaultListableBeanFactory
+        DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) configurableApplicationContext.getBeanFactory();
+
+        // com.xxx.HelloService
+        String beanName = ClassUtils.getUserClass(bean).getName();
+        if (beanFactory.containsBeanDefinition(beanName)) {
+            beanFactory.removeBeanDefinition(beanName);
+            log.warn("beanName={} has exist, so remove it");
+        }
+        // 通过BeanDefinitionBuilder创建bean定义
+//        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(PayClient.class);
+        // 注册bean
+        beanFactory.registerSingleton(beanName, bean);
+    }
+
     /**
      * 调用spring注入新创建对象(根据属性名进行注入)
+     * note: 为bean中的属性注入
      *
      * @param ctx
      * @param bean
@@ -85,6 +114,7 @@ public class SpringContextHolder implements ApplicationContextAware {
      */
     public static void autowireBean(ApplicationContext ctx, Object bean, int autowireMode) {
         if (bean == null || ctx == null) {
+            log.warn("ctx or bean is null");
             return;
         }
 
