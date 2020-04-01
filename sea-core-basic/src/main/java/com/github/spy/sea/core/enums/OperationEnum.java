@@ -5,6 +5,8 @@ import com.github.spy.sea.core.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * Operation enum
  *
@@ -12,7 +14,7 @@ import lombok.Setter;
  * @version 1.0 2020/4/1
  * @since 1.0
  */
-public enum OperationEnum {
+public enum OperationEnum implements Serializable {
     ADD("ADD"),
     DELETE("DELETE"),
     UPDATE("UPDATE"),
