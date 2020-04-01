@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.JedisPubSub;
 
 import java.util.Optional;
 import java.util.Set;
@@ -336,6 +337,51 @@ public class RedisManager {
         }
     }
 
+    /**
+     * publish
+     *
+     * @param channel
+     * @param message
+     * @return
+     */
+    public Long publish(String channel, String message) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            if (jedis == null) {
+                logger.error("取不到redis实例");
+                return -1L;
+            }
+            return jedis.publish(channel, message);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+
+    /**
+     * subcribe
+     *
+     * @param jedisPubSub
+     * @param channels
+     */
+    public void subscribe(JedisPubSub jedisPubSub, String... channels) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            if (jedis == null) {
+                logger.error("取不到redis实例");
+                return;
+            }
+            jedis.subscribe(jedisPubSub, channels);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
 
     public String getHost() {
         return host;
