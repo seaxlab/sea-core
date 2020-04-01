@@ -19,7 +19,7 @@ public final class CronExpressionUtil {
      * @param cronStr
      * @return
      */
-    public boolean isValid(String cronStr) {
+    public static boolean isValid(String cronStr) {
         return CronExpression.isValidExpression(cronStr);
     }
 
