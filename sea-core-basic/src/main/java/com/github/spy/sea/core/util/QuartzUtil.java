@@ -113,6 +113,9 @@ public class QuartzUtil {
      */
     public static BaseResult addJob(Scheduler scheduler, String jobName, String jobGroupName,
                                     String triggerName, String triggerGroupName, Class jobClass, String cron) {
+        log.info("[add job] jobName={},jobGroupName={},triggerName={},triggerGroupName={}",
+                jobName, jobGroupName, triggerName, triggerGroupName);
+
         Preconditions.checkNotNull(scheduler, "scheduler cannot be null");
 
         BaseResult result = BaseResult.fail();
@@ -313,6 +316,9 @@ public class QuartzUtil {
                                        String jobName, String jobGroupName,
                                        String triggerName, String triggerGroupName) {
         Preconditions.checkNotNull(scheduler, "scheduler cannot be null");
+
+        log.info("[remove job] jobName={},jobGroupName={},triggerName={},triggerGroupName={}",
+                jobName, jobGroupName, triggerName, triggerGroupName);
         BaseResult result = BaseResult.fail();
 
         try {
@@ -426,6 +432,88 @@ public class QuartzUtil {
         }
 
         return result;
+    }
+
+
+    /**
+     * check exist job
+     *
+     * @param jobName
+     * @return
+     */
+    public static boolean checkExistJob(String jobName) {
+        return checkExistJob(getScheduler(), jobName, DEFAULT_JOB_GROUP_NAME);
+    }
+
+    /**
+     * check exist job
+     *
+     * @param jobName
+     * @param jobGroupName
+     * @return
+     */
+    public static boolean checkExistJob(String jobName, String jobGroupName) {
+        return checkExistJob(getScheduler(), jobName, jobGroupName);
+    }
+
+    /**
+     * check exist job
+     *
+     * @param scheduler
+     * @param jobName
+     * @param jobGroupName
+     * @return
+     */
+    public static boolean checkExistJob(Scheduler scheduler, String jobName, String jobGroupName) {
+
+        try {
+            JobKey jobKey = JobKey.jobKey(jobName, jobGroupName);
+            return scheduler.checkExists(jobKey);
+        } catch (Exception e) {
+            log.error("fail to check exist job", e);
+        }
+        return false;
+    }
+
+
+    /**
+     * check exist trigger
+     *
+     * @param triggerName
+     * @return
+     */
+    public static boolean checkExistTrigger(String triggerName) {
+        return checkExistTrigger(getScheduler(), triggerName, DEFAULT_TRIGGER_GROUP_NAME);
+    }
+
+
+    /**
+     * check exist trigger
+     *
+     * @param triggerName
+     * @param triggerGroupName
+     * @return
+     */
+    public static boolean checkExistTrigger(String triggerName, String triggerGroupName) {
+        return checkExistTrigger(getScheduler(), triggerName, triggerGroupName);
+    }
+
+    /**
+     * check exist trigger
+     *
+     * @param scheduler
+     * @param triggerName
+     * @param triggerGroupName
+     * @return
+     */
+    public static boolean checkExistTrigger(Scheduler scheduler, String triggerName, String triggerGroupName) {
+        try {
+            TriggerKey key = TriggerKey.triggerKey(triggerName, triggerGroupName);
+            return scheduler.checkExists(key);
+        } catch (Exception e) {
+            log.error("fail to check exist job", e);
+        }
+        return false;
     }
 
 

@@ -47,5 +47,22 @@ public class QuartzUtilTest extends BaseCoreTest {
         log.info("result={}", result);
     }
 
+    @Test
+    public void run51() throws Exception {
+        log.info("exist={}", QuartzUtil.checkExistJob(JOB_NAME));
+
+        QuartzUtil.addJob(JOB_NAME, TRIGGER_NAME, MyJob.class, "0/2 * * * * ?");
+
+        log.info("exist={}", QuartzUtil.checkExistJob(JOB_NAME));
+
+    }
+
+    @Test
+    public void run58() throws Exception {
+        BaseResult ret = QuartzUtil.removeJob(JOB_NAME, TRIGGER_NAME);
+        log.info("ret={}", ret);
+
+    }
+
 
 }
