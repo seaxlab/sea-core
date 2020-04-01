@@ -54,6 +54,7 @@ public class RedisManager {
         config.setTestOnReturn(false);
 
         pool = new JedisPool(config, host, port, TIME_OUT, password, database);
+        logger.info("redis init success.");
     }
 
     public void destroy() {

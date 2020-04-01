@@ -67,4 +67,9 @@ public class CoreConst {
      */
     public static final int DEFAULT_PAGE_SIZE = 200;
 
+    /**
+     * 程序当前运行模式
+     */
+    public static final String KEY_SEA_DEV_MODE = "sea.dev.mode";
+
 }
