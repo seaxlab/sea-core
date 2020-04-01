@@ -122,4 +122,19 @@ public final class ClassUtil {
         }
         return classLoader;
     }
+
+    /**
+     * load  className
+     *
+     * @param className
+     * @return
+     */
+    public static Class<?> load(String className) {
+        try {
+            return Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+
 }
