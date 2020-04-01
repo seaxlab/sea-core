@@ -8,13 +8,13 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * Operation enum
+ * Action enum
  *
  * @author spy
  * @version 1.0 2020/4/1
  * @since 1.0
  */
-public enum OperationEnum implements Serializable {
+public enum ActionEnum implements Serializable {
     ADD("ADD"),
     DELETE("DELETE"),
     UPDATE("UPDATE"),
@@ -27,20 +27,20 @@ public enum OperationEnum implements Serializable {
     @Setter
     private String key;
 
-    OperationEnum(String key) {
+    ActionEnum(String key) {
         this.key = key;
     }
 
-    public static OperationEnum of(String operation) {
-        if (StringUtil.isEmpty(operation)) {
+    public static ActionEnum of(String action) {
+        if (StringUtil.isEmpty(action)) {
             return null;
         }
 
-        OperationEnum[] values = OperationEnum.values();
+        ActionEnum[] values = ActionEnum.values();
         for (int i = 0; i < values.length; i++) {
-            OperationEnum operationEnum = values[i];
-            if (EqualUtil.isEq(operation, operationEnum.getKey(), false)) {
-                return operationEnum;
+            ActionEnum actionEnum = values[i];
+            if (EqualUtil.isEq(action, actionEnum.getKey(), false)) {
+                return actionEnum;
             }
         }
         return null;
