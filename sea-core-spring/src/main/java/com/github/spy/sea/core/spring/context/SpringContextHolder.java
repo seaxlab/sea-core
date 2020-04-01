@@ -1,8 +1,11 @@
 package com.github.spy.sea.core.spring.context;
 
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -67,12 +70,22 @@ public class SpringContextHolder implements ApplicationContextAware {
         return ctx.getBean(requiredType);
     }
 
+    /**
+     * create single bean in current context
+     *
+     * @param bean
+     */
+    public static void createSingleBean(Object bean) {
+        checkCtx();
+
+        createSingleBean(ctx, bean);
+    }
 
     /**
      * create bean in spring application context
      *
      * @param ctx
-     * @param bean
+     * @param bean class instance
      */
     public static void createSingleBean(ApplicationContext ctx, Object bean) {
         //将applicationContext转换为ConfigurableApplicationContext
@@ -87,15 +100,86 @@ public class SpringContextHolder implements ApplicationContextAware {
             beanFactory.removeBeanDefinition(beanName);
             log.warn("beanName={} has exist, so remove it");
         }
-        // 通过BeanDefinitionBuilder创建bean定义
-//        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(PayClient.class);
-        // 注册bean
+
         beanFactory.registerSingleton(beanName, bean);
     }
 
     /**
+     * create single bean
+     *
+     * @param clazz
+     */
+    public static void createSingleBean(Class<?> clazz) {
+        checkCtx();
+        createSingleBean(ctx, clazz);
+    }
+
+    /**
+     * create single bean
+     *
+     * @param ctx
+     * @param clazz
+     */
+    public static void createSingleBean(ApplicationContext ctx, Class<?> clazz) {
+        Preconditions.checkNotNull(clazz, "clazz cannot be null.");
+
+        ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) ctx;
+
+        DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) configurableApplicationContext.getBeanFactory();
+
+        // com.xxx.HelloService
+        String beanName = ClassUtils.getUserClass(clazz).getName();
+        if (beanFactory.containsBeanDefinition(beanName)) {
+            beanFactory.removeBeanDefinition(beanName);
+            log.warn("beanName={} has exist, so remove it");
+        }
+        // 通过BeanDefinitionBuilder创建bean定义
+        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(clazz);
+        // rawBeanDefinition is unvalidated
+        // beanDefinition is validated.
+        beanFactory.registerSingleton(beanName, beanDefinitionBuilder.getRawBeanDefinition());
+    }
+
+    /**
+     * create bean
+     *
+     * @param beanName
+     * @param beanDefinition
+     * @see BeanDefinitionBuilder
+     */
+    public static void createBean(String beanName, BeanDefinition beanDefinition) {
+        checkCtx();
+        createBean(ctx, beanName, beanDefinition);
+    }
+
+    /**
+     * create bean
+     *
+     * @param ctx
+     * @param beanDefinition
+     * @see BeanDefinitionBuilder
+     */
+    public static void createBean(ApplicationContext ctx, String beanName, BeanDefinition beanDefinition) {
+
+        Preconditions.checkNotNull(beanDefinition, "clazz cannot be null.");
+        //将applicationContext转换为ConfigurableApplicationContext
+        ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) ctx;
+
+        // 获取bean工厂并转换为DefaultListableBeanFactory
+        DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) configurableApplicationContext.getBeanFactory();
+
+        if (beanFactory.containsBeanDefinition(beanName)) {
+            beanFactory.removeBeanDefinition(beanName);
+            log.warn("beanName={} has exist, so remove it");
+        }
+        beanFactory.registerBeanDefinition(beanName, beanDefinition);
+    }
+
+    /**
      * 调用spring注入新创建对象(根据属性名进行注入)
-     * note: 为bean中的属性注入
+     * <font color="red">
+     * 为bean中的属性注入依赖
+     * </font>
      *
      * @param ctx
      * @param bean
@@ -105,7 +189,7 @@ public class SpringContextHolder implements ApplicationContextAware {
     }
 
     /**
-     * 调用spring注入新创建对象
+     * 为bean中的属性注入依赖
      *
      * @param ctx
      * @param bean
@@ -128,6 +212,10 @@ public class SpringContextHolder implements ApplicationContextAware {
 
     /**
      * 调用spring注入新创建对象的相关属性(根据属性名进行注入)
+     *
+     * <font color="red">
+     * 为bean中的属性注入依赖
+     * </font>
      *
      * @param bean
      */
