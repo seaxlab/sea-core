@@ -28,6 +28,10 @@ public final class PropertiesUtil {
     public static Properties load(String path) {
         try {
             InputStream in = PropertiesUtil.class.getClassLoader().getResourceAsStream(path);
+            if (in == null) {
+                log.info("load properties [{}] not exist", path);
+                return new Properties();
+            }
             Properties pros = new Properties();
             pros.load(in);
             return pros;

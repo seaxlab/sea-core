@@ -25,4 +25,13 @@ public class PropertiesUtilTest extends BaseCoreTest {
         Map<String, String> map = PropertiesUtil.loadForMap("app.properties");
         log.info("map={}", map);
     }
+
+    @Test
+    public void notExistTest() throws Exception {
+        Properties props = PropertiesUtil.load("not-exist.properties");
+        log.info("props={}", props);
+
+        Map<String, String> map = PropertiesUtil.loadForMap("app.properties");
+        log.info("map={}", map);
+    }
 }

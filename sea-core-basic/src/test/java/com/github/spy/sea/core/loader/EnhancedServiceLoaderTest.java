@@ -26,6 +26,9 @@ public class EnhancedServiceLoaderTest extends BaseCoreTest {
 
         Assert.assertTrue(ListUtil.isNotEmpty(generators));
 
+        // all instance
+        List<IdGenerator> list = EnhancedServiceLoader.loadAll(IdGenerator.class);
+
         IdGenerator idGenerator = EnhancedServiceLoader.load(IdGenerator.class, "UUID");
         Assert.assertEquals(idGenerator.getId(), "0001");
     }
