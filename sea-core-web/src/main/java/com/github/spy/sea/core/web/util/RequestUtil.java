@@ -5,6 +5,7 @@ import com.github.spy.sea.core.http.common.HttpHeaderConst;
 import com.github.spy.sea.core.util.IOUtil;
 import com.github.spy.sea.core.util.RandomUtil;
 import com.github.spy.sea.core.util.StringUtil;
+import com.github.spy.sea.core.web.model.RequestDTO;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,35 @@ import java.util.Map;
  */
 @Slf4j
 public class RequestUtil {
+
+    /**
+     * print request info
+     *
+     * @param request
+     */
+    public static void log(HttpServletRequest request) {
+
+        RequestDTO dto = new RequestDTO();
+
+        dto.setUri(request.getRequestURI());
+        dto.setContentType(request.getContentType());
+        dto.setMethod(request.getMethod());
+        dto.setContentLength(request.getContentLength());
+        dto.setQueryString(request.getQueryString());
+        dto.setUserAgent(getUserAgent(request));
+
+        log.info("request info={}", dto);
+    }
+
+    /**
+     * print request parameter
+     *
+     * @param request
+     */
+    public static void logParameter(HttpServletRequest request) {
+        Map<String, Object> map = getParameterMap(request);
+        log.info("request parameter={}", map);
+    }
 
 
     /**
