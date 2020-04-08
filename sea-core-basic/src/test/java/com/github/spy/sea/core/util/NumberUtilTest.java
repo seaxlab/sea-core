@@ -40,4 +40,10 @@ public class NumberUtilTest extends BaseCoreTest {
         Assert.assertEquals(NumberUtil.max(3, 1, 3, 10), 10);
 
     }
+
+    @Test
+    public void run45() throws Exception {
+        log.info("{}", NumberUtil.scaleUp(1.1141d, 2));
+        log.info("{}", NumberUtil.scaleUp(1.1151d, 2));
+    }
 }

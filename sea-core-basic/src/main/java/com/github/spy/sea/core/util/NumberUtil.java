@@ -243,4 +243,50 @@ public final class NumberUtil {
         return String.valueOf(twoDecimal.format(yuan));
     }
 
+    /**
+     * scale
+     * 有效小数位后向上
+     * <pre>
+     * 1.114-> 1.12
+     * 1.115-> 1.12
+     * </pre>
+     *
+     * @param num
+     * @param scale
+     * @return
+     */
+    public static BigDecimal scaleUp(double num, int scale) {
+        return scale(num, scale, RoundingMode.UP);
+    }
+
+    /**
+     * scale down
+     * 有效小数位后向下
+     * <pre>
+     *     1.114-->1.11
+     *     1.115-->1.11
+     * </pre>
+     *
+     * @param num
+     * @param scale
+     * @return
+     */
+    public static BigDecimal scaleDown(double num, int scale) {
+        return scale(num, scale, RoundingMode.DOWN);
+    }
+
+    /**
+     * scale
+     *
+     * @param num
+     * @param scale
+     * @param mode
+     * @return
+     */
+    public static BigDecimal scale(double num, int scale, RoundingMode mode) {
+        BigDecimal bd = new BigDecimal(num);
+        return bd.setScale(scale, mode);
+    }
+
+
 }
