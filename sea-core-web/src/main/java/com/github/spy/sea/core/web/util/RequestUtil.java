@@ -30,7 +30,7 @@ public class RequestUtil {
      * @param request
      */
     public static void logSimple(HttpServletRequest request) {
-        log.info("request uri={},queryString={}", request.getRequestURI(), request.getQueryString());
+        log.info("request uri={},queryString={},userAgent={}", request.getRequestURI(), request.getQueryString(), getUserAgent(request));
     }
 
     /**
