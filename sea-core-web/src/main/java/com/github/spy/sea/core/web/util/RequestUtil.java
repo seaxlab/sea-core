@@ -25,6 +25,15 @@ import java.util.Map;
 public class RequestUtil {
 
     /**
+     * print simple request info
+     *
+     * @param request
+     */
+    public static void logSimple(HttpServletRequest request) {
+        log.info("request uri={},queryString={}", request.getRequestURI(), request.getQueryString());
+    }
+
+    /**
      * print request info
      *
      * @param request

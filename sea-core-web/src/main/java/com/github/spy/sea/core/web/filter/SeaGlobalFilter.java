@@ -1,9 +1,11 @@
 package com.github.spy.sea.core.web.filter;
 
 import com.github.spy.sea.core.thread.ThreadContext;
+import com.github.spy.sea.core.web.util.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -24,6 +26,7 @@ public class SeaGlobalFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         try {
+            logRequest((HttpServletRequest) request);
             chain.doFilter(request, response);
         } finally {
             ThreadContext.clean();
@@ -33,5 +36,9 @@ public class SeaGlobalFilter implements Filter {
     @Override
     public void destroy() {
 
+    }
+
+    private void logRequest(HttpServletRequest request) {
+        RequestUtil.logSimple(request);
     }
 }
