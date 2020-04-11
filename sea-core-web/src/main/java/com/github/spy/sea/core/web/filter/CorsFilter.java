@@ -1,5 +1,7 @@
 package com.github.spy.sea.core.web.filter;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,11 +14,12 @@ import java.io.IOException;
  * @version 1.0 2019-06-25
  * @since 1.0
  */
+@Slf4j
 public class CorsFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        log.info("cors filter init");
     }
 
     @Override

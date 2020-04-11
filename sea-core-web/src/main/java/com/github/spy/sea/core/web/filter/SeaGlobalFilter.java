@@ -19,7 +19,7 @@ import java.io.IOException;
 public class SeaGlobalFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        log.info("sea global filter init");
     }
 
     @Override
