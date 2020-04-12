@@ -51,6 +51,18 @@ public final class NumberUtil {
         return false;
     }
 
+    /**
+     * integer to BigDecimal
+     *
+     * @param value
+     * @return
+     */
+    public static BigDecimal toBigDecimal(Integer value) {
+        if (value == null) {
+            return BigDecimal.ZERO;
+        }
+        return new BigDecimal(value);
+    }
 
     /**
      * Long 转 BigDecimal
@@ -62,7 +74,19 @@ public final class NumberUtil {
         if (value == null) {
             return BigDecimal.ZERO;
         }
+        return new BigDecimal(value);
+    }
 
+    /**
+     * double to BigDecimal
+     *
+     * @param value
+     * @return
+     */
+    public static BigDecimal toBigDecimal(Double value) {
+        if (value == null) {
+            return BigDecimal.ZERO;
+        }
         return new BigDecimal(value);
     }
 
@@ -215,7 +239,7 @@ public final class NumberUtil {
 
 
     /**
-     * 保留两位小数
+     * 除法，保留两位小数
      *
      * @param num1
      * @param num2
@@ -225,10 +249,37 @@ public final class NumberUtil {
         return divide(num1, num2, 2, RoundingMode.HALF_UP);
     }
 
+    public static BigDecimal divide(Integer num1, Integer num2, int scale, RoundingMode roundingMode) {
+        return divide(toBigDecimal(num1), toBigDecimal(num2), scale, roundingMode);
+    }
+
+    public static BigDecimal divide(Long num1, Long num2, int scale, RoundingMode roundingMode) {
+        return divide(toBigDecimal(num1), toBigDecimal(num2), scale, roundingMode);
+    }
+
+    public static BigDecimal divide(Double num1, Double num2, int scale, RoundingMode roundingMode) {
+        return divide(toBigDecimal(num1), toBigDecimal(num2), scale, roundingMode);
+    }
+
+    /**
+     * 除法
+     *
+     * @param num1
+     * @param num2
+     * @param scale
+     * @param roundingMode
+     * @return
+     */
     public static BigDecimal divide(BigDecimal num1, BigDecimal num2, int scale, RoundingMode roundingMode) {
-        Preconditions.checkNotNull(num1, "");
-        Preconditions.checkNotNull(num2, "");
-        return num1.divide(num1, scale, roundingMode);
+        Preconditions.checkNotNull(num1, "num1 cannot be null");
+        Preconditions.checkNotNull(num2, "num2 cannot be null");
+
+        if (isZero(num2)) {
+            log.error("num2 is zero! plz check");
+            return BigDecimal.ZERO;
+        }
+
+        return num1.divide(num2, scale, roundingMode);
     }
 
     /**
@@ -240,7 +291,7 @@ public final class NumberUtil {
     public static String centToYuan(Long num) {
         DecimalFormat twoDecimal = new DecimalFormat("0.00");
         Double yuan = num / 100.0;
-        return String.valueOf(twoDecimal.format(yuan));
+        return twoDecimal.format(yuan);
     }
 
     /**
@@ -256,6 +307,18 @@ public final class NumberUtil {
      * @return
      */
     public static BigDecimal scaleUp(double num, int scale) {
+        return scale(num, scale, RoundingMode.UP);
+    }
+
+    /**
+     * scale up
+     * double != num
+     *
+     * @param num
+     * @param scale
+     * @return
+     */
+    public static BigDecimal scaleUp(String num, int scale) {
         return scale(num, scale, RoundingMode.UP);
     }
 
@@ -276,6 +339,18 @@ public final class NumberUtil {
     }
 
     /**
+     * scale down
+     * double != string
+     *
+     * @param num
+     * @param scale
+     * @return
+     */
+    public static BigDecimal scaleDown(String num, int scale) {
+        return scale(num, scale, RoundingMode.DOWN);
+    }
+
+    /**
      * scale
      *
      * @param num
@@ -284,6 +359,20 @@ public final class NumberUtil {
      * @return
      */
     public static BigDecimal scale(double num, int scale, RoundingMode mode) {
+        BigDecimal bd = new BigDecimal(num);
+        return bd.setScale(scale, mode);
+    }
+
+    /**
+     * scale
+     * double != str
+     *
+     * @param num
+     * @param scale
+     * @param mode
+     * @return
+     */
+    public static BigDecimal scale(String num, int scale, RoundingMode mode) {
         BigDecimal bd = new BigDecimal(num);
         return bd.setScale(scale, mode);
     }

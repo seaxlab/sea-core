@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * module name
  *
@@ -45,5 +48,27 @@ public class NumberUtilTest extends BaseCoreTest {
     public void run45() throws Exception {
         log.info("{}", NumberUtil.scaleUp(1.1141d, 2));
         log.info("{}", NumberUtil.scaleUp(1.1151d, 2));
+    }
+
+    @Test
+    public void run51() throws Exception {
+        log.info("a={}", 1 / 200.0);
+
+
+        double a = NumberUtil.scaleUp(1 / 200.0, 3).doubleValue();
+        log.info("a={}", a);
+
+//        NumberUtil.divide()
+
+        BigDecimal bd = new BigDecimal("" + (1 / 200.0));
+        bd.setScale(3, RoundingMode.HALF_UP);
+        log.info("v={}", bd.doubleValue()); //0.005
+
+        BigDecimal bd2 = new BigDecimal(1 / 200.0); // here is not 0.005
+        bd2.setScale(3, RoundingMode.UP);
+        log.info("v={}", bd2.doubleValue()); //0.005
+
+        BigDecimal c = NumberUtil.divide(1.0, 200.0, 3, RoundingMode.UP);
+        log.info("c={}", c.doubleValue());
     }
 }
