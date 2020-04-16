@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.util;
 
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.KeyValue;
 import org.apache.commons.collections.MapUtils;
@@ -32,6 +33,21 @@ public final class MapUtil {
         return Collections.EMPTY_MAP;
     }
 
+
+    /**
+     * deep clone
+     * change to fastJSON
+     * @param original
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public static <K, V> Map<K, V> clone(Map<K, V> original) {
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(original);
+
+        return gson.fromJson(jsonString, Map.class);
+    }
 
     public static Object getObject(final Map map, final Object key) {
         return MapUtils.getObject(map, key);
