@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.util.ByteArrayBuffer;
 
@@ -16,6 +17,20 @@ import java.nio.charset.Charset;
  */
 @Slf4j
 public final class FileUtil {
+
+    /**
+     * 确保目录存在
+     *
+     * @param path
+     */
+    public static void ensureDir(String path) {
+        File file = new File(path);
+        if (file.exists()) {
+        } else {
+            file.mkdirs();
+        }
+    }
+
 
     /**
      * 创建文件，若文件夹不存在则自动创建文件夹，若文件存在则删除旧文件
@@ -167,6 +182,17 @@ public final class FileUtil {
         } catch (Exception e) {
             result = false;
             log.error("io exception", e);
+        }
+        return result;
+    }
+
+    public static boolean writeFile(String path, String content) {
+        boolean result = true;
+        try {
+            Files.write(content, new File(path), Charsets.UTF_8);
+        } catch (Exception e) {
+            result = false;
+            log.info("write file error", e);
         }
         return result;
     }
