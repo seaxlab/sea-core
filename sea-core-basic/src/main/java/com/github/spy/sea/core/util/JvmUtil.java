@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.config.Configuration;
 import com.github.spy.sea.core.config.ConfigurationFactory;
 import com.github.spy.sea.core.jvm.manager.StackManager;
+import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.RateLimiter;
 import com.sun.management.HotSpotDiagnosticMXBean;
 import lombok.extern.slf4j.Slf4j;
@@ -88,11 +89,12 @@ public final class JvmUtil {
     }
 
     /**
-     * dump java stack
+     * dump jvm stack
      * it will block current thread
      */
     public static void dumpStack(String filePath) {
         log.info("dump jvm stack, pid={}", getPID());
+        Stopwatch stopwatch = Stopwatch.createStarted();
         try {
             String content = StackManager.dump();
 
@@ -103,9 +105,35 @@ public final class JvmUtil {
             FileUtil.writeFile(filePath, content);
         } catch (Exception e) {
             log.error("fail to dump jvm stack", e);
+        } finally {
+            log.info("dum jvm stack end. cost={}ms", stopwatch.elapsed(TimeUnit.MILLISECONDS));
         }
     }
 
+    final static RateLimiter RATE_LIMITER_DUMP_HEAP = RateLimiter.create(1, 5, TimeUnit.MINUTES);
+
+    public static void dumpHeapLimiter() {
+        if (RATE_LIMITER_DUMP_HEAP.tryAcquire()) {
+            log.info("get token, so do it");
+            dumpHeap();
+            return;
+        }
+        log.info("no get token, so do it next time.");
+    }
+
+    /**
+     * dump jvm heap
+     * it will block current thread
+     */
+    public static void dumpHeap() {
+        Configuration cfg = ConfigurationFactory.getInstance();
+        String userHome = cfg.getString("user.home");
+
+        String logPath = PathUtil.join(userHome, "logs");
+        FileUtil.ensureDir(logPath);
+        String filePath = logPath + "/" + DateUtil.dateStr(new Date(), DateUtil.DATETIME_FORMAT_HUMAN) + "_" + getPID() + "_heap.hprof";
+        dumpHeap(filePath, true);
+    }
 
     /**
      * dump java heap
@@ -117,12 +145,15 @@ public final class JvmUtil {
     public static void dumpHeap(String filePath, boolean live) {
         log.info("dump jvm heap, pid={}", getPID());
         MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+        Stopwatch stopwatch = Stopwatch.createStarted();
         try {
             HotSpotDiagnosticMXBean mxBean = ManagementFactory.newPlatformMXBeanProxy(
                     server, "com.sun.management:type=HotSpotDiagnostic", HotSpotDiagnosticMXBean.class);
             mxBean.dumpHeap(filePath, live);
         } catch (Exception e) {
             log.error("fail to dump jvm heap", e);
+        } finally {
+            log.info("dum jvm heap end. cost={}ms", stopwatch.elapsed(TimeUnit.MILLISECONDS));
         }
     }
 
