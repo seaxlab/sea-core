@@ -2,6 +2,9 @@ package com.github.spy.sea.core.util;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -174,5 +177,23 @@ public final class RegExpUtil {
             }
         }
         return true;
+    }
+
+
+    /**
+     * 取括号中的值
+     * abc(type)--> type
+     *
+     * @param managers
+     * @return
+     */
+    public List<String> getByBracket(String managers) {
+        List<String> ls = new ArrayList<>();
+        Pattern pattern = Pattern.compile("(?<=\\()(.+?)(?=\\))");
+        Matcher matcher = pattern.matcher(managers);
+        while (matcher.find()) {
+            ls.add(matcher.group());
+        }
+        return ls;
     }
 }
