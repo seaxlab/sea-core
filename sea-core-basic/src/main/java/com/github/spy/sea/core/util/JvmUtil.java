@@ -84,7 +84,7 @@ public final class JvmUtil {
 
         String logPath = PathUtil.join(userHome, "logs");
         FileUtil.ensureDir(logPath);
-        dumpStack(logPath + "/" + DateUtil.toYMDHMSNoPoint(new Date()) + "_" + getPID() + "_jstack.log");
+        dumpStack(logPath + "/" + DateUtil.dateStr(new Date(), DateUtil.DATETIME_FORMAT_HUMAN) + "_" + getPID() + "_jstack.log");
     }
 
     /**

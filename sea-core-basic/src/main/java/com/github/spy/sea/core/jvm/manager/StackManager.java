@@ -33,7 +33,7 @@ public class StackManager {
      */
     public static String dump() {
         final StringBuilder dump = new StringBuilder();
-        dump.append(DateUtil.toYMDHMS(new Date())).append("dump create by sea-core\n\n");
+        dump.append(DateUtil.toYMDHMS(new Date())).append(" dump create by sea-core\n\n");
 
         final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
         threadMXBean.setThreadContentionMonitoringEnabled(true);

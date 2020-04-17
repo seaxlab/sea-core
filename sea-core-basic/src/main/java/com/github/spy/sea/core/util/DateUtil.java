@@ -40,6 +40,7 @@ public final class DateUtil {
     public static final String DATETIME_FORMAT = "yyyyMMddHHmmss";
 
     public static final String DATETIME_FORMAT2 = "yyyyMMddHHmmssSSS";
+    public static final String DATETIME_FORMAT_HUMAN = "yyyyMMdd_HHmmss";
 
     public static final String OUTPUT_FORMAT = "yyyy年MM月dd日";
 
