@@ -25,6 +25,9 @@ public class AESUtil {
      */
     private static final String DEFAULT_CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";
 
+    private AESUtil() {
+    }
+
     /**
      * AES 加密操作
      *

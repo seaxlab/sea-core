@@ -34,11 +34,7 @@ public class ConfigurationFactory {
     private static Configuration buildConfiguration() {
 
         //TODO 此时配置文件还未加载
-
-        Configuration configuration = EnhancedServiceLoader.load(Configuration.class, "typesafe");
-
-        return configuration;
-//        return new DefaultConfiguration();
+        return EnhancedServiceLoader.load(Configuration.class, "typesafe");
     }
 
 

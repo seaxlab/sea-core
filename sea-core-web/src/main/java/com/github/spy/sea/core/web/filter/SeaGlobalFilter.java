@@ -35,7 +35,7 @@ public class SeaGlobalFilter implements Filter {
 
     @Override
     public void destroy() {
-
+// no-op
     }
 
     private void logRequest(HttpServletRequest request) {

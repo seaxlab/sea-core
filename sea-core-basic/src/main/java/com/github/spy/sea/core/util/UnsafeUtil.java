@@ -31,6 +31,7 @@ public final class UnsafeUtil {
 
             u = (Unsafe) f.get(null);
         } catch (Exception ex) {
+            log.error("fail to get unsafe class", ex);
             throw new RuntimeException(ex);
         }
     }

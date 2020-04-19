@@ -46,6 +46,8 @@ public class RedisManager {
 
     private JedisPool pool;
 
+    public static final String NO_JEDIS_INSTANCE = "there is no available jedis instance from pool";
+
 
     public void init() {
         JedisPoolConfig config = new JedisPoolConfig();
@@ -67,7 +69,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error("取不到redis实例");
+                logger.error(NO_JEDIS_INSTANCE);
                 return null;
             }
 
@@ -90,7 +92,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error("取不到redis实例");
+                logger.error(NO_JEDIS_INSTANCE);
                 return null;
             }
             return jedis.set(key.getBytes(), SerializeUtil.serialize(object));
@@ -109,7 +111,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error("取不到redis实例");
+                logger.error(NO_JEDIS_INSTANCE);
                 return null;
             }
 
@@ -136,7 +138,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error("取不到redis实例");
+                logger.error(NO_JEDIS_INSTANCE);
                 return;
             }
             jedis.set(key, JSON.toJSONString(obj));
@@ -160,7 +162,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error("取不到redis实例");
+                logger.error(NO_JEDIS_INSTANCE);
                 return Optional.empty();
             }
 
@@ -183,7 +185,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error("取不到redis实例");
+                logger.error(NO_JEDIS_INSTANCE);
                 return false;
             }
 
@@ -216,7 +218,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error("取不到redis实例");
+                logger.error(NO_JEDIS_INSTANCE);
                 return false;
             }
 
@@ -230,7 +232,7 @@ public class RedisManager {
             }
 
             //SETNX失败，说明锁仍然被其他对象保持，检查其是否已经超时
-            long oldValue = Long.valueOf(jedis.get(lock));
+            long oldValue = Long.parseLong(jedis.get(lock));
 
             //超时
             if (oldValue < System.currentTimeMillis()) {
@@ -263,7 +265,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error("取不到redis实例");
+                logger.error(NO_JEDIS_INSTANCE);
                 return;
             }
 
@@ -289,7 +291,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error("取不到redis实例");
+                logger.error(NO_JEDIS_INSTANCE);
                 return keys;
             }
 
@@ -307,7 +309,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error("取不到redis实例");
+                logger.error(NO_JEDIS_INSTANCE);
                 return;
             }
 
@@ -325,7 +327,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error("取不到redis实例");
+                logger.error(NO_JEDIS_INSTANCE);
                 return 0;
             }
 
@@ -349,7 +351,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error("取不到redis实例");
+                logger.error(NO_JEDIS_INSTANCE);
                 return -1L;
             }
             return jedis.publish(channel, message);
@@ -372,7 +374,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error("取不到redis实例");
+                logger.error(NO_JEDIS_INSTANCE);
                 return;
             }
             jedis.subscribe(jedisPubSub, channels);

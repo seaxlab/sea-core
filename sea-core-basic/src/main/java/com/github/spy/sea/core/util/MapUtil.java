@@ -30,13 +30,14 @@ public final class MapUtil {
      * @return
      */
     public static Map empty() {
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 
 
     /**
      * deep clone
      * change to fastJSON
+     *
      * @param original
      * @param <K>
      * @param <V>
@@ -660,7 +661,7 @@ public final class MapUtil {
      * @param value the value, null converted to ""
      * @throws NullPointerException if the map is null
      */
-    public static void safeAddToMap(Map map, Object key, Object value) throws NullPointerException {
+    public static void safeAddToMap(Map map, Object key, Object value) {
         MapUtils.safeAddToMap(map, key, value);
     }
 

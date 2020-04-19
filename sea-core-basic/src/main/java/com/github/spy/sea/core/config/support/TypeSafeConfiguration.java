@@ -89,7 +89,6 @@ public class TypeSafeConfiguration implements Configuration {
     @Override
     public boolean remove(String key) {
         config = config.withoutPath(key);
-//        throw new UnsupportedOperationException();
         return true;
     }
 

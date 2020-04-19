@@ -20,6 +20,9 @@ import java.util.List;
 @Slf4j
 public final class ExampleUtil {
 
+    private ExampleUtil() {
+    }
+
     /**
      * 赋值
      *

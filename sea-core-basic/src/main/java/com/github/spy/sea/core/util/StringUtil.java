@@ -32,6 +32,9 @@ public final class StringUtil {
      */
     public static final String SPACE = " ";
 
+    private StringUtil() {
+    }
+
     /**
      * 字符串是否为空
      *
@@ -119,7 +122,7 @@ public final class StringUtil {
         int strLen = str.length();
         if (strLen < strLength) {
             while (strLen < strLength) {
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 // 左补0
                 sb.append("0").append(str);
                 // sb.append(str).append("0");//右补0
@@ -137,21 +140,21 @@ public final class StringUtil {
      * @return
      */
     public static String setToString(Set set) {
-        if (null == set || set.size() == 0) {
+        if (null == set || set.isEmpty()) {
             return "";
         }
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (Object object : set) {
             if (object instanceof String || object instanceof Long || object instanceof Integer) {
                 if (isNotEmpty(object.toString())) {
-                    stringBuffer.append(object.toString()).append(",");
+                    sb.append(object.toString()).append(",");
                 }
             }
         }
-        if (stringBuffer.length() == 0) {
+        if (sb.length() == 0) {
             return "";
         }
-        return stringBuffer.substring(0, stringBuffer.length() - 1);
+        return sb.substring(0, sb.length() - 1);
     }
 
     /**
@@ -208,9 +211,7 @@ public final class StringUtil {
         if (isEmpty(str1)) {
             for (int i = 0; i < args.length; i++) {
                 String item = args[i];
-                if (isEmpty(item)) {
-                    continue;
-                } else {
+                if (!isEmpty(item)) {
                     return item;
                 }
             }
@@ -364,8 +365,7 @@ public final class StringUtil {
 
         for (int i = 0; i < args.length; i++) {
             Object item = args[i];
-            if (i == 0) {
-            } else {
+            if (i != 0) {
                 builder.append(separatorStr);
             }
             builder.append(item);

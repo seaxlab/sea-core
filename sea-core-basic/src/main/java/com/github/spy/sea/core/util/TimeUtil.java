@@ -24,6 +24,9 @@ public final class TimeUtil {
     public static final String FORMAT_HHmmSS = "HH:mm:ss";
     public static final String FORMAT_HHmm = "HH:mm";
 
+    private TimeUtil() {
+    }
+
     /**
      * 判断当前时间是否在指定范围内，注意指定时间格式HH:mm
      *

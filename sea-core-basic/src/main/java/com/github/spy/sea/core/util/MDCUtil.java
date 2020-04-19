@@ -13,6 +13,9 @@ import org.slf4j.MDC;
 @Slf4j
 public class MDCUtil {
 
+    private MDCUtil() {
+    }
+
     /**
      * 获取MDC上下文值
      *

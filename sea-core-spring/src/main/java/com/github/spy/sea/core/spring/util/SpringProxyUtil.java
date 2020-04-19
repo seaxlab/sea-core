@@ -25,6 +25,9 @@ import java.lang.reflect.Proxy;
 @Slf4j
 public final class SpringProxyUtil {
 
+    private SpringProxyUtil() {
+    }
+
     /**
      * 通过代理对象获取被代理对象
      *
@@ -49,7 +52,7 @@ public final class SpringProxyUtil {
             try {
                 proxy = targetSource.getTarget();
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("fail to get real target",e);
             }
         }
         return (T) proxy;

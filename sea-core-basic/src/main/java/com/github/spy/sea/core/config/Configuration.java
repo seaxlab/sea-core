@@ -7,7 +7,7 @@ package com.github.spy.sea.core.config;
  * @version 1.0 2019-07-23
  * @since 1.0
  */
-public interface Configuration<T> {
+public interface Configuration {
 
     /**
      * Gets int.

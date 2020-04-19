@@ -15,6 +15,6 @@ public class BaseMybatisTest {
 
     @Test
     public void run16() throws Exception {
-
+        log.info("{}", 1);
     }
 }

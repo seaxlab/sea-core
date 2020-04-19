@@ -18,6 +18,8 @@ public final class SerializeUtil {
 
     public static final String TYPE_BYTE = "BYTE";
 
+    private SerializeUtil() {
+    }
 
     public static byte[] serialize(Object object) {
         SerializeProcessor processor = new DefaultSerializeProcessor();

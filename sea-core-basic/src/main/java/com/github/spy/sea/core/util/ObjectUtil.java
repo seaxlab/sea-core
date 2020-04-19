@@ -14,6 +14,9 @@ import org.apache.commons.lang3.ObjectUtils;
 @Slf4j
 public final class ObjectUtil {
 
+    private ObjectUtil() {
+    }
+
     /**
      * 取值
      *

@@ -57,4 +57,9 @@ public class MapUtilTest extends BaseCoreTest {
         private Long id;
     }
 
+
+    @Test
+    public void run62() throws Exception {
+        log.info("{}", "ac?".indexOf('?'));
+    }
 }

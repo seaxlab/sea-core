@@ -13,6 +13,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 @Slf4j
 public class Md5Util {
 
+    private Md5Util() {
+    }
 
     /**
      * 获取MD5摘要

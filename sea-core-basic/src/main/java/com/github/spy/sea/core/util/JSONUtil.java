@@ -18,6 +18,9 @@ import java.util.List;
 @Slf4j
 public final class JSONUtil {
 
+    private JSONUtil() {
+    }
+
     /**
      * check is valid json str
      *
@@ -116,7 +119,7 @@ public final class JSONUtil {
         if (!isValidObject(jsonObjStr)) {
             return StringUtil.EMPTY;
         }
-        JSONObject jsonObj = JSONObject.parseObject(jsonObjStr);
+        JSONObject jsonObj = JSON.parseObject(jsonObjStr);
         return jsonObj.getString(key);
     }
 

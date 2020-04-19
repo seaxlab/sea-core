@@ -18,6 +18,9 @@ import java.security.PrivilegedAction;
 @Slf4j
 public class MmapUtil {
 
+    private MmapUtil() {
+    }
+
     /**
      * release mappedByteBuffer memory
      *
@@ -32,17 +35,13 @@ public class MmapUtil {
     }
 
     private static Object invoke(final Object target, final String methodName, final Class<?>... args) {
-        return AccessController.doPrivileged(new PrivilegedAction<Object>() {
-
-            @Override
-            public Object run() {
-                try {
-                    Method method = method(target, methodName, args);
-                    method.setAccessible(true);
-                    return method.invoke(target);
-                } catch (Exception e) {
-                    throw new IllegalStateException(e);
-                }
+        return AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+            try {
+                Method method = method(target, methodName, args);
+                method.setAccessible(true);
+                return method.invoke(target);
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
             }
         });
     }

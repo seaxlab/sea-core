@@ -1,9 +1,7 @@
 package com.github.spy.sea.core.bean.util;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * bean util
@@ -12,10 +10,11 @@ import org.slf4j.LoggerFactory;
  * @version 1.0 2019/8/31
  * @since 1.0
  */
-public class BeanUtil {
+@Slf4j
+public final class BeanUtil {
 
-    private static final Logger log = LoggerFactory.getLogger(BeanUtil.class);
-
+    private BeanUtil() {
+    }
 
     /**
      * deep clone
@@ -27,7 +26,7 @@ public class BeanUtil {
         if (object == null) {
             return null;
         }
-        return JSONObject.parseObject(JSON.toJSONString(object), object.getClass());
+        return JSON.parseObject(JSON.toJSONString(object), object.getClass());
     }
 
 }

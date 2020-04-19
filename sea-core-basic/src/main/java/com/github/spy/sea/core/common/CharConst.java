@@ -7,25 +7,28 @@ package com.github.spy.sea.core.common;
  * @version 1.0 2019-08-03
  * @since 1.0
  */
-public interface CharConst {
+public class CharConst {
 
-    char SPACE = ' ';
-    char TAB = '	';
-    char DOT = '.';
-    char SLASH = '/';
-    char BACKSLASH = '\\';
-    char CR = '\r';
-    char LF = '\n';
-    char UNDERLINE = '_';
-    char DASHED = '-';
-    char COMMA = ',';
-    char DELIM_START = '{';
-    char DELIM_END = '}';
-    char BRACKET_START = '[';
-    char BRACKET_END = ']';
-    char COLON = ':';
-    char DOUBLE_QUOTES = '"';
-    char SINGLE_QUOTE = '\'';
-    char AMP = '&';
+    public static final char SPACE = ' ';
+    public static final char TAB = '	';
+    public static final char DOT = '.';
+    public static final char SLASH = '/';
+    public static final char BACKSLASH = '\\';
+    public static final char CR = '\r';
+    public static final char LF = '\n';
+    public static final char UNDERLINE = '_';
+    public static final char DASHED = '-';
+    public static final char COMMA = ',';
+    public static final char DELIM_START = '{';
+    public static final char DELIM_END = '}';
+    public static final char BRACKET_START = '[';
+    public static final char BRACKET_END = ']';
+    public static final char COLON = ':';
+    public static final char DOUBLE_QUOTES = '"';
+    public static final char SINGLE_QUOTE = '\'';
+    public static final char AMP = '&';
+
+    private CharConst() {
+    }
 
 }

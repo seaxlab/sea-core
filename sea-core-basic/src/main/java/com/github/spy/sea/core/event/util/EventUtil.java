@@ -26,4 +26,7 @@ public final class EventUtil {
             new ThreadPoolExecutor.AbortPolicy());
 
     public static final EventBus BUS = new AsyncEventBus(executor);
+
+    private EventUtil() {
+    }
 }

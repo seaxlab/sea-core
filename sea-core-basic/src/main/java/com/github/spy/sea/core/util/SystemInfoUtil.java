@@ -15,6 +15,9 @@ import java.net.UnknownHostException;
 @Slf4j
 public final class SystemInfoUtil {
 
+    private SystemInfoUtil() {
+    }
+
     /**
      * 获取主机名称
      *

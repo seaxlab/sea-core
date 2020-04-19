@@ -21,6 +21,8 @@ public class Env {
     public static final String PREV = "prev";
     public static final String PRO = "pro";
 
+    private Env() {
+    }
 
     /**
      * check is local env

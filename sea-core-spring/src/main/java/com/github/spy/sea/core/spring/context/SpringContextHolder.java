@@ -2,7 +2,6 @@ package com.github.spy.sea.core.spring.context;
 
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -25,7 +24,7 @@ public class SpringContextHolder implements ApplicationContextAware {
     private static ApplicationContext ctx;
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         ctx = applicationContext;
     }
 

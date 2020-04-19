@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.http.simple;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.exception.ExceptionHandler;
@@ -71,6 +72,9 @@ public class HttpClientUtil {
     public static int socketTimeOut = 3000;
 
     public static String DEFAULT_CHARSET = "utf-8";
+
+    private HttpClientUtil() {
+    }
 
     public static void init() {
         //初始化httpclient（支持并发）
@@ -211,7 +215,7 @@ public class HttpClientUtil {
             if (obj instanceof String) {
                 jsonStr = (String) obj;
             } else {
-                jsonStr = JSONObject.toJSONString(obj);
+                jsonStr = JSON.toJSONString(obj);
             }
             StringEntity entity = new StringEntity(jsonStr, ContentType.APPLICATION_JSON);
             httpPost.setEntity(entity);
@@ -302,7 +306,7 @@ public class HttpClientUtil {
 
         String queryStr = URLEncodedUtils.format(list, DEFAULT_CHARSET);
 
-        String finalUrl = url + (url.indexOf("?") > 0 ? "&" : "?") + queryStr;
+        String finalUrl = url + (url.indexOf('?') > 0 ? "&" : "?") + queryStr;
 
         return get(finalUrl);
     }

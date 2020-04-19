@@ -536,6 +536,7 @@ public class QuartzUtil {
     public static void start(Scheduler scheduler) {
         if (scheduler == null) {
             log.warn("scheduler is null, plz check.");
+            return;
         }
         try {
             if (!scheduler.isStarted()) {

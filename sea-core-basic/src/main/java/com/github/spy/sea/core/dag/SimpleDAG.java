@@ -57,7 +57,7 @@ public class SimpleDAG<T> {
             throw new IllegalArgumentException("Task name exists.");
         }
 
-        List<ListenableFuture<T>> predecessorFutures = new ArrayList<ListenableFuture<T>>();
+        List<ListenableFuture<T>> predecessorFutures = new ArrayList<>();
         for (String predecessorName : predecessorNames) {
             ListenableFuture<T> predecessorFuture = futureMap.get(predecessorName);
             if (predecessorFuture == null) {

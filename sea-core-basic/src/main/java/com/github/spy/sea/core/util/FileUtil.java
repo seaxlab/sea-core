@@ -18,6 +18,9 @@ import java.nio.charset.Charset;
 @Slf4j
 public final class FileUtil {
 
+    private FileUtil() {
+    }
+
     /**
      * 确保目录存在
      *
@@ -25,8 +28,7 @@ public final class FileUtil {
      */
     public static void ensureDir(String path) {
         File file = new File(path);
-        if (file.exists()) {
-        } else {
+        if (!file.exists()) {
             file.mkdirs();
         }
     }
@@ -93,7 +95,6 @@ public final class FileUtil {
                 while ((n = inputStream.read(data)) != -1) {
                     buffer.append(data, 0, n);
                 }
-                data = null;
                 inputStream.close();
             } catch (IOException e) {
                 log.error("io exception", e);

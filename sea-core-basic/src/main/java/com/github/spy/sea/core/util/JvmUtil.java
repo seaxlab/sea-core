@@ -27,6 +27,9 @@ public final class JvmUtil {
 
     public static String P_ID_CACHE = null;
 
+    private JvmUtil() {
+    }
+
     /**
      * 此方法在 JDK9 下可以有更加好的方式，但是目前的几个 JDK 版本下，只能通过这个方式来搞。
      * 在 Mac 环境下，JDK6，JDK7，JDK8 都可以跑过。

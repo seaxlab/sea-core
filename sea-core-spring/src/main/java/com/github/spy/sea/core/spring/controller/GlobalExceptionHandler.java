@@ -187,7 +187,6 @@ public class GlobalExceptionHandler {
 
         // 如果是开发环境则把异常抛出去
 
-
         return result;
     }
 
@@ -226,7 +225,7 @@ public class GlobalExceptionHandler {
             exception.printStackTrace(new PrintWriter(buffer, true));
             message = buffer.toString();
         } catch (Exception inner) {
-
+            log.error("get exception error",inner);
         }
 
         return message;

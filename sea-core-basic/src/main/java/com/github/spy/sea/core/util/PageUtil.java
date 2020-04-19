@@ -18,6 +18,8 @@ import java.util.List;
 @Slf4j
 public final class PageUtil {
 
+    private PageUtil() {
+    }
 
     /**
      * 根据总记录数和每页记录数获取页码数

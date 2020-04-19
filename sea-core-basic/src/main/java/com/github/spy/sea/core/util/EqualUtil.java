@@ -20,7 +20,7 @@ public final class EqualUtil {
 
     }
 
-    public static Boolean isEq(Integer value1, Integer value2) {
+    public static boolean isEq(Integer value1, Integer value2) {
         if (Objects.nonNull(value1) && Objects.nonNull(value2)) {
             return value1.intValue() == value2.intValue();
         }
@@ -28,7 +28,7 @@ public final class EqualUtil {
         return false;
     }
 
-    public static Boolean isEq(Long value1, Long value2) {
+    public static boolean isEq(Long value1, Long value2) {
         if (Objects.nonNull(value1) && Objects.nonNull(value2)) {
             return value1.longValue() == value2.longValue();
         }
@@ -37,11 +37,11 @@ public final class EqualUtil {
     }
 
 
-    public static Boolean isEq(String str1, String str2) {
+    public static boolean isEq(String str1, String str2) {
         return isEq(str1, str2, true);
     }
 
-    public static Boolean isEq(String str1, String str2, boolean caseSensitive) {
+    public static boolean isEq(String str1, String str2, boolean caseSensitive) {
         if (Objects.nonNull(str1) && Objects.nonNull(str2)) {
             return caseSensitive ? str1.equals(str2) : str1.equalsIgnoreCase(str2);
         }
@@ -49,7 +49,7 @@ public final class EqualUtil {
     }
 
 
-    public static Boolean isIn(String str1, String... strArray) {
+    public static boolean isIn(String str1, String... strArray) {
         Preconditions.checkNotNull(str1);
         Preconditions.checkNotNull(strArray);
 

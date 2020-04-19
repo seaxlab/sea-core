@@ -23,6 +23,8 @@ import java.util.Map;
  */
 @Slf4j
 public class RequestUtil {
+    private RequestUtil() {
+    }
 
     /**
      * print simple request info

@@ -17,6 +17,8 @@ import java.util.Date;
  */
 @Slf4j
 public class StackManager {
+    private StackManager() {
+    }
     // jstack thread format
 //            "Attach Listener" #128 daemon prio=9 os_prio=0 tid=0x00007f7adc001000 nid=0x7578 waiting on condition [0x0000000000000000]
 //            java.lang.Thread.State: RUNNABLE

@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class HttpHeaderConst {
+    private HttpHeaderConst() {
+    }
 
     public static final String USER_AGENT = "User-Agent";
 

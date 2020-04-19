@@ -28,6 +28,9 @@ import java.util.Map;
 @Slf4j
 public final class QRCodeUtil {
 
+    private QRCodeUtil() {
+    }
+
     /**
      * 默认图像类型
      */
@@ -70,7 +73,7 @@ public final class QRCodeUtil {
      * @param width   宽
      * @param height  高
      */
-    public static BufferedImage toBufferedImage(String content, int width, int height) throws WriterException, IOException {
+    public static BufferedImage toBufferedImage(String content, int width, int height) throws WriterException {
         Map<EncodeHintType, Object> hints = getEndcodeHints();
 
         BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
@@ -94,7 +97,7 @@ public final class QRCodeUtil {
 
 
     private static Map<EncodeHintType, Object> getEndcodeHints() {
-        Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
+        Map<EncodeHintType, Object> hints = new HashMap<>();
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);// 容错等级 L、M、Q、H 其中 L 为最低, H 为最高
         hints.put(EncodeHintType.MARGIN, 1);// 二维码与图片边距
@@ -130,7 +133,7 @@ public final class QRCodeUtil {
     }
 
     private static Map<DecodeHintType, Object> getDecodeHint() {
-        Map<DecodeHintType, Object> hints = new HashMap<DecodeHintType, Object>();
+        Map<DecodeHintType, Object> hints = new HashMap<>();
         hints.put(DecodeHintType.CHARACTER_SET, "UTF-8");
 
         return hints;

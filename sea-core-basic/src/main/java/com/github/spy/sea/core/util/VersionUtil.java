@@ -10,6 +10,9 @@ import com.google.common.base.Preconditions;
  */
 public final class VersionUtil {
 
+    private VersionUtil() {
+    }
+
     /**
      * 比较版本号的大小,前者大则返回一个正数,后者大返回一个负数,相等则返回0
      *

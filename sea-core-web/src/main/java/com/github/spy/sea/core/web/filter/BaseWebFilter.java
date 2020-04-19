@@ -26,14 +26,14 @@ public class BaseWebFilter {
      * @param filterConfig
      */
     protected void initExcludeConfig(FilterConfig filterConfig) {
-        String exclude = filterConfig.getInitParameter("exclude");
+        String excludeStr = filterConfig.getInitParameter("exclude");
 
-        if (exclude != null) {
+        if (excludeStr != null) {
             excludeUrls = new HashSet<>();
-            String[] excludeUrls = exclude.split(";");
+            String[] excludeUrlArray = excludeStr.split(";");
 
-            for (String s : excludeUrls) {
-                int index = s.indexOf("*");
+            for (String s : excludeUrlArray) {
+                int index = s.indexOf('*');
 
                 if (index > 0) {
                     if (excludePrefixes == null) {

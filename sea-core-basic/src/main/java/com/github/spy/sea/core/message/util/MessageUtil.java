@@ -13,6 +13,9 @@ import org.slf4j.helpers.MessageFormatter;
 @Slf4j
 public final class MessageUtil {
 
+    private MessageUtil() {
+    }
+
     /**
      * 格式化信息
      *

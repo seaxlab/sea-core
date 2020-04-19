@@ -15,10 +15,13 @@ import java.util.Map;
 @Slf4j
 public class ThreadContext {
 
+    private ThreadContext() {
+    }
+
     /**
      * 线程上下文变量的持有者
      */
-    private final static ThreadLocal<Map<String, Object>> CTX_HOLDER = ThreadLocal.withInitial(() -> new HashMap<>());
+    private static final ThreadLocal<Map<String, Object>> CTX_HOLDER = ThreadLocal.withInitial(() -> new HashMap<>());
 
     /**
      * 添加内容到线程上下文中
@@ -26,7 +29,7 @@ public class ThreadContext {
      * @param key
      * @param value
      */
-    public final static void put(String key, Object value) {
+    public static final void put(String key, Object value) {
         init();
         Map<String, Object> ctx = CTX_HOLDER.get();
         if (ctx == null) {
@@ -40,7 +43,7 @@ public class ThreadContext {
      *
      * @param key
      */
-    public final static <T extends Object> T get(String key) {
+    public static final <T extends Object> T get(String key) {
         Map<String, Object> ctx = CTX_HOLDER.get();
         if (ctx == null) {
             return null;
@@ -55,7 +58,7 @@ public class ThreadContext {
      * @param <T>
      * @return
      */
-    public final static <T extends Object> T getSafe(String key) {
+    public static final <T extends Object> T getSafe(String key) {
         Map<String, Object> ctx = CTX_HOLDER.get();
         if (ctx == null) {
             return null;
@@ -71,7 +74,7 @@ public class ThreadContext {
     /**
      * 获取线程上下文
      */
-    public final static Map<String, Object> getContext() {
+    public static final Map<String, Object> getContext() {
         Map<String, Object> ctx = CTX_HOLDER.get();
         if (ctx == null) {
             return null;
@@ -84,7 +87,7 @@ public class ThreadContext {
      *
      * @param key
      */
-    public final static void remove(String key) {
+    public static final void remove(String key) {
         Map<String, Object> ctx = CTX_HOLDER.get();
         if (ctx != null) {
             ctx.remove(key);
@@ -97,7 +100,7 @@ public class ThreadContext {
      * @param key
      * @return
      */
-    public final static boolean contains(String key) {
+    public static final boolean contains(String key) {
         Map<String, Object> ctx = CTX_HOLDER.get();
         if (ctx != null) {
             return ctx.containsKey(key);
@@ -108,21 +111,20 @@ public class ThreadContext {
     /**
      * 清空线程上下文
      */
-    public final static void clean() {
+    public static final void clean() {
         log.info("thread context clean");
 
         Map<String, Object> ctx = CTX_HOLDER.get();
         if (ctx != null) {
             ctx.clear();
         }
-        CTX_HOLDER.set(null);
         CTX_HOLDER.remove();
     }
 
     /**
      * 初始化线程上下文
      */
-    public final static void init() {
+    public static final void init() {
         Map<String, Object> ctx = CTX_HOLDER.get();
         if (ctx == null) {
             CTX_HOLDER.set(new HashMap<>());

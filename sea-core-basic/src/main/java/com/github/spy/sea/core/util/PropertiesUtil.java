@@ -18,6 +18,8 @@ import java.util.Properties;
 @Slf4j
 public final class PropertiesUtil {
 
+    private PropertiesUtil() {
+    }
 
     /**
      * load from file

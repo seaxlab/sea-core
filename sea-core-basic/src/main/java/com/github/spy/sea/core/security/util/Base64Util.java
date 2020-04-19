@@ -18,6 +18,9 @@ public class Base64Util {
 
     private static final String DEFAULT_CHARSET = "utf-8";
 
+    private Base64Util() {
+    }
+
     /**
      * 编码
      *

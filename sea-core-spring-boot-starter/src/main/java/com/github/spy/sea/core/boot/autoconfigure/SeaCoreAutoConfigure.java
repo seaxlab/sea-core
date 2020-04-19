@@ -46,7 +46,7 @@ public class SeaCoreAutoConfigure {
 
 
         //支持空值输出
-        if (writeNullValueFlag) {
+        if (writeNullValueFlag.booleanValue()) {
             fastJsonConfig.setSerializerFeatures(
                     SerializerFeature.PrettyFormat,
                     SerializerFeature.QuoteFieldNames,

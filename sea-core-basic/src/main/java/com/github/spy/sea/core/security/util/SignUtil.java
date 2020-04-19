@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.security.util;
 
+import com.github.spy.sea.core.common.CoreConst;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
@@ -7,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -21,6 +23,9 @@ import java.util.TreeMap;
 @Slf4j
 public class SignUtil {
 
+    private SignUtil() {
+    }
+
     /**
      * 获取md5方式摘要
      *
@@ -30,17 +35,13 @@ public class SignUtil {
     public static String getByMd5(Map<String, String> map) {
 
         Map treeMap = new TreeMap();
-        for (String key : map.keySet()) {
-            if ("sign_type".equals(key)) {
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            if ("sign_type".equals(entry.getKey())
+                    || "sign".equals(entry.getKey())
+                    || StringUtils.isEmpty(entry.getValue())) {
                 continue;
             }
-            if ("sign".equals(key)) {
-                continue;
-            }
-            if (StringUtils.isEmpty(map.get(key))) {
-                continue;
-            }
-            treeMap.put(key, map.get(key));
+            treeMap.put(entry.getKey(), entry.getValue());
         }
 
         StringBuilder strBuilder = new StringBuilder();
@@ -79,9 +80,9 @@ public class SignUtil {
         try {
             String stringToSign = timestamp + "\n" + secret;
             Mac mac = Mac.getInstance("HmacSHA256");
-            mac.init(new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256"));
-            byte[] signData = mac.doFinal(stringToSign.getBytes("UTF-8"));
-            return URLEncoder.encode(new String(Base64.encodeBase64(signData)), "UTF-8");
+            mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
+            byte[] signData = mac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8));
+            return URLEncoder.encode(new String(Base64.encodeBase64(signData)), CoreConst.DEFAULT_CHARSET_NAME);
 
         } catch (Exception e) {
             log.error("make sign error", e);

@@ -20,6 +20,9 @@ public final class TemplateUtil {
 
     private static final Pattern PATTERN_PLACEHOLDER = Pattern.compile("\\{(.*?)\\}");
 
+    private TemplateUtil() {
+    }
+
     /**
      * 替换字符串占位符, 字符串中使用{key}表示占位符
      *
@@ -43,7 +46,7 @@ public final class TemplateUtil {
                     targetString = targetString.replace(key, value.toString());
                 }
             } catch (Exception e) {
-                throw new RuntimeException("String formatter failed", e);
+                log.error("fail to replace", e);
             }
         }
         return targetString;

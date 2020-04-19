@@ -15,6 +15,9 @@ import java.nio.file.Paths;
 @Slf4j
 public final class PathUtil {
 
+    private PathUtil() {
+    }
+
     /**
      * combine path
      *

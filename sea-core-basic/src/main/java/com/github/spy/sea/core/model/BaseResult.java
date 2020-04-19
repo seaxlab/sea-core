@@ -79,6 +79,7 @@ public class BaseResult<T> implements Serializable {
     /**
      * 请求id
      * 请使用traceId
+     * @deprecated 请使用traceId
      */
     @JSONField(ordinal = -980)
     @Deprecated

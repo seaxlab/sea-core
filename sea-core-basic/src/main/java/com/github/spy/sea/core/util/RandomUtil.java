@@ -18,6 +18,8 @@ import java.util.UUID;
 @Slf4j
 public final class RandomUtil {
 
+    private RandomUtil() {
+    }
 
     /**
      * 生成UUID

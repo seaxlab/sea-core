@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 public class ThreadInfoWriter {
     private static final int MAX_FRAMES = 200;
     private static final String PROTOCOL_ID = "ThreadDumpSeaCore";
-    private Map<String, Integer> wordTable = new HashMap<String, Integer>();
+    private Map<String, Integer> wordTable = new HashMap<>();
     private short offset = 0;
 
     public ThreadInfoWriter() {
@@ -91,20 +91,16 @@ public class ThreadInfoWriter {
     }
 
     private void appendWordTable(StringBuilder result) {
-        List<Entry<String, Integer>> list = new ArrayList<Entry<String, Integer>>(wordTable.entrySet());
+        List<Entry<String, Integer>> list = new ArrayList<>(wordTable.entrySet());
 
-        Collections.sort(list, new Comparator<Entry<String, Integer>>() {
-            public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-                return (o1.getValue() - o2.getValue());
-            }
-        });
+        Collections.sort(list, (o1, o2) -> (o1.getValue() - o2.getValue()));
 
         result.append("[");
         for (Entry<String, Integer> word : list) {
             result.append(word.getKey()).append(",");
         }
 
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             result.deleteCharAt(result.length() - 1);
         }
         result.append("]");
@@ -155,8 +151,8 @@ public class ThreadInfoWriter {
     }
 
     private String encode(String str) {
-        int offset = wordTable.get(str);
-        StringBuilder result = new StringBuilder(String.valueOf(offset));
+        int _offset = wordTable.get(str);
+        StringBuilder result = new StringBuilder(String.valueOf(_offset));
         return result.append("#").toString();
     }
 

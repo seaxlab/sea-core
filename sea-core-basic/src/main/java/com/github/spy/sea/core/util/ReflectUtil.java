@@ -23,6 +23,9 @@ import java.util.regex.Pattern;
 @Slf4j
 public final class ReflectUtil {
 
+    private ReflectUtil() {
+    }
+
     /**
      * 取值
      *

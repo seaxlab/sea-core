@@ -13,6 +13,9 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 @Slf4j
 public final class TxUtil {
 
+    private TxUtil() {
+    }
+
     /**
      * 回滚事务
      */

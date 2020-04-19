@@ -53,7 +53,7 @@ public final class ProcessUtil {
         // String workingDirectory = System.getProperty("user.dir");
 
         String[] options = optionsAsString.split(" ");
-        List<String> command = new ArrayList<String>();
+        List<String> command = new ArrayList<>();
         command.add(jvm);
         command.addAll(Arrays.asList(options));
         command.add(mainClass);

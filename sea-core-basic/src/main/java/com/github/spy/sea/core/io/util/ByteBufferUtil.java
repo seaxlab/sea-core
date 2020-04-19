@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class ByteBufferUtil {
 
+    private ByteBufferUtil() {
+    }
 
     /**
      * 字节数组转化成16进制形式
@@ -38,7 +40,7 @@ public final class ByteBufferUtil {
      */
     public static byte[] string2bytes(String hexString) {
         if (hexString == null || hexString.equals("")) {
-            return null;
+            return new byte[0];
         }
         hexString = hexString.toUpperCase();
         int length = hexString.length() / 2;

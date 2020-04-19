@@ -20,11 +20,14 @@ public final class ByteUnitUtil {
 
     //获取到的size为：1705230
 
-    public static int GB = 1024 * 1024 * 1024;
+    public static final int GB = 1024 * 1024 * 1024;
 
-    public static int MB = 1024 * 1024;
+    public static final int MB = 1024 * 1024;
 
-    public static int KB = 1024;
+    public static final int KB = 1024;
+
+    private ByteUnitUtil() {
+    }
 
     /**
      * no point

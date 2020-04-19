@@ -19,6 +19,8 @@ import java.net.URLEncoder;
  */
 @Slf4j
 public class CookieUtil {
+    private CookieUtil() {
+    }
 
     /**
      * 添加cookie
@@ -180,7 +182,7 @@ public class CookieUtil {
             cookie.setPath("/");
             response.addCookie(cookie);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("set cookie error", e);
         }
     }
 
@@ -213,7 +215,7 @@ public class CookieUtil {
             cookie.setPath("/");
             response.addCookie(cookie);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("set cookie error", e);
         }
     }
 
@@ -229,7 +231,7 @@ public class CookieUtil {
         } else {
             serverName = serverName.toLowerCase();
             serverName = serverName.substring(7);
-            final int end = serverName.indexOf("/");
+            final int end = serverName.indexOf('/');
             serverName = serverName.substring(0, end);
             final String[] domains = serverName.split("\\.");
             int len = domains.length;
@@ -244,7 +246,7 @@ public class CookieUtil {
             }
         }
 
-        if (domainName != null && domainName.indexOf(":") > 0) {
+        if (domainName != null && domainName.indexOf(':') > 0) {
             String[] ary = domainName.split("\\:");
             domainName = ary[0];
         }

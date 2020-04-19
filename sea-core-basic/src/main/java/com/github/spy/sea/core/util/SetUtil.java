@@ -24,7 +24,7 @@ public final class SetUtil {
      * @return
      */
     public static Set empty() {
-        return Collections.EMPTY_SET;
+        return Collections.emptySet();
     }
 
     /**

@@ -20,6 +20,9 @@ public final class MBeanServerUtil {
     private static final Long ERROR_LONG = -1L;
     private static final String ERROR_ATTRIBUTE = "unknown";
 
+    private MBeanServerUtil() {
+    }
+
     /**
      * get int
      *

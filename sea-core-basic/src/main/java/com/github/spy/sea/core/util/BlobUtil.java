@@ -77,7 +77,7 @@ public final class BlobUtil {
      */
     public static byte[] blob2Bytes(Blob blob) {
         if (blob == null) {
-            return null;
+            return new byte[0];
         }
 
         try {

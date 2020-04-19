@@ -71,6 +71,7 @@ public class JSONTypeHandler<T extends Object> extends BaseTypeHandler<T> {
         try {
             return JSON.toJSONString(object);
         } catch (Exception e) {
+            log.error("fail to json string", e);
             throw new RuntimeException(e);
         }
     }
@@ -80,6 +81,7 @@ public class JSONTypeHandler<T extends Object> extends BaseTypeHandler<T> {
             try {
                 return JSON.parseObject(content, clazz);
             } catch (Exception e) {
+                log.error("fail to json string", e);
                 throw new RuntimeException(e);
             }
         }
