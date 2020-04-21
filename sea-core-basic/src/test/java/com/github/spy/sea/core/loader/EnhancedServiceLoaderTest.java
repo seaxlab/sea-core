@@ -2,6 +2,7 @@ package com.github.spy.sea.core.loader;
 
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.util.ListUtil;
+import com.github.spy.sea.core.util.ListUtilTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;

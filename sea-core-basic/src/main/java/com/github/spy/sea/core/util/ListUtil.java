@@ -98,4 +98,18 @@ public final class ListUtil {
         return new ArrayList<>(map.values());
     }
 
+    /**
+     * to list
+     *
+     * @param array
+     * @return
+     */
+    public static List<String> toList(String[] array) {
+        if (array == null || array.length == 0) {
+            return empty();
+        }
+
+        return Arrays.asList(array);
+    }
+
 }

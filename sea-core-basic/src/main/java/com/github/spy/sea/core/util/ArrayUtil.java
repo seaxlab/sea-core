@@ -2,6 +2,8 @@ package com.github.spy.sea.core.util;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 /**
  * array util
  *
@@ -38,4 +40,21 @@ public final class ArrayUtil {
         }
         return obj.getClass().isArray();
     }
+
+    /**
+     * to array
+     *
+     * @param list
+     * @return
+     */
+    public static String[] toArray(List<String> list) {
+        if (ListUtil.isEmpty(list)) {
+            return new String[0];
+        }
+
+        String[] arrays = new String[list.size()];
+
+        return list.toArray(arrays);
+    }
+
 }
