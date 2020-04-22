@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.dubbo;
 
+import com.github.spy.sea.core.dubbo.common.dto.DubboGenericInvokeDTO;
 import com.github.spy.sea.core.dubbo.util.DubboUtil;
 import com.github.spy.sea.core.model.BaseResult;
 import lombok.extern.slf4j.Slf4j;
