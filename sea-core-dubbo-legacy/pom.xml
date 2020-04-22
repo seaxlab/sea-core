@@ -20,8 +20,29 @@
         </dependency>
 
         <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-client</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.spy.sea</groupId>
             <artifactId>sea-core-basic</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.spy.sea</groupId>
+            <artifactId>sea-core-dubbo-common</artifactId>
         </dependency>
 
         <dependency>

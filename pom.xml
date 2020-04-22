@@ -29,6 +29,7 @@
         <module>sea-core-spring</module>
         <module>sea-core-security</module>
         <module>sea-core-script</module>
+        <module>sea-core-dubbo-common</module>
         <module>sea-core-dubbo-legacy</module>
         <module>sea-core-dubbo</module>
         <module>sea-core-springcloud</module>
@@ -128,6 +129,12 @@
             <dependency>
                 <groupId>com.github.spy.sea</groupId>
                 <artifactId>sea-core-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.spy.sea</groupId>
+                <artifactId>sea-core-dubbo-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

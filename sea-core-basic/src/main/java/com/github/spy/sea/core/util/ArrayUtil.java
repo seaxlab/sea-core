@@ -57,4 +57,12 @@ public final class ArrayUtil {
         return list.toArray(arrays);
     }
 
+    public static Object[] toObjArray(List<Object> list) {
+        if (ListUtil.isEmpty(list)) {
+            return new Object[0];
+        }
+        return list.toArray();
+    }
+
+
 }

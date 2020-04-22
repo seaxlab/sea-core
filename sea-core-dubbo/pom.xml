@@ -26,6 +26,11 @@
 
         <dependency>
             <groupId>com.github.spy.sea</groupId>
+            <artifactId>sea-core-dubbo-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.spy.sea</groupId>
             <artifactId>sea-core-test</artifactId>
             <scope>test</scope>
         </dependency>
