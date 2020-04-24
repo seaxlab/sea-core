@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.common.SymbolConst;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.KeyValue;
@@ -746,5 +747,39 @@ public final class MapUtil {
         return !MapUtils.isEmpty(map);
     }
 
+
+    /**
+     * to string by comma
+     * eg. abc=111,abc2=d1
+     *
+     * @param map
+     * @return
+     */
+    public static String toString(Map<String, String> map) {
+        return toString(map, SymbolConst.COMMA);
+    }
+
+    /**
+     * to string
+     *
+     * @param map
+     * @param separator
+     * @return
+     */
+    public static String toString(Map<String, String> map, String separator) {
+        if (isNotEmpty(map) && StringUtil.isNotEmpty(separator)) {
+            StringBuilder sb = new StringBuilder();
+            map.entrySet().forEach(item -> {
+                sb.append(item.getKey()).append("=").append(item.getValue()).append(separator);
+            });
+            String content = sb.toString();
+            if (content.length() <= 1) {
+                return content;
+            }
+            return StringUtil.substring(content, 0, content.length() - separator.length());
+        }
+
+        return StringUtil.EMPTY;
+    }
 
 }

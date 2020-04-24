@@ -62,4 +62,12 @@ public class MapUtilTest extends BaseCoreTest {
     public void run62() throws Exception {
         log.info("{}", "ac?".indexOf('?'));
     }
+
+    @Test
+    public void run67() throws Exception {
+        Map<String, String> extraMap = new HashMap<>();
+        extraMap.put("abc", "111");
+        extraMap.put("abc2", "d1");
+        log.info("{}--", MapUtil.toString(extraMap));
+    }
 }
