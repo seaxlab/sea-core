@@ -162,15 +162,4 @@ public final class DubboUtil {
         }
         return result;
     }
-//        String[] parameterTypes = new String[]{"com.xxx.GetQRCodeByIdNoParam"};
-//        Map<String, Object> params = new HashMap<>();
-//
-//        idNo=411425199002061091,idType=01,name=丁乾坤,unionId=<null>,userUnionId=3414
-//        params.put("class", "com.xxx.GetQRCodeByIdNoParam");
-//        params.put("idNo", "411425199002061091");
-//        params.put("idType", "01");
-//        params.put("name", "丁乾坤");
-//        params.put("userUnionId", "3414");
-//        Object ret = genericService.$invoke(dto.getMethod(), parameterTypes, new Object[]{params});
-
 }
