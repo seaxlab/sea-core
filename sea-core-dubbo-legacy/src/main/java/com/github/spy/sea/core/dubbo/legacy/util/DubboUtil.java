@@ -1,8 +1,11 @@
 package com.github.spy.sea.core.dubbo.legacy.util;
 
+import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
+import com.alibaba.dubbo.rpc.Invoker;
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.service.GenericService;
 import com.github.spy.sea.core.dubbo.common.dto.DubboGenericInvokeDTO;
 import com.github.spy.sea.core.model.BaseResult;
@@ -162,4 +165,50 @@ public final class DubboUtil {
         }
         return result;
     }
+
+    /**
+     * check current node is consumer
+     * 必须是default,xxxFilter，否则 rpcContext中url为空
+     *
+     * @return
+     */
+    public static boolean isConsumer() {
+        RpcContext ctx = RpcContext.getContext();
+        return ctx.isConsumerSide();
+    }
+
+    /**
+     * check current node is provider
+     * 必须是default,xxxFilter，否则 rpcContext中url为空
+     *
+     * @return
+     */
+    public static boolean isProvider() {
+        RpcContext ctx = RpcContext.getContext();
+        return ctx.isProviderSide();
+    }
+
+
+    /**
+     * check current node is consumer
+     * <font color="red">当filter在default之前时使用该方法</font>
+     *
+     * @param invoker
+     * @return
+     */
+    public static boolean isConsumer(Invoker invoker) {
+        return invoker.getUrl().getParameter(Constants.SIDE_KEY, Constants.PROVIDER_SIDE).equals(Constants.CONSUMER_SIDE);
+    }
+
+    /**
+     * check current node is provider
+     * <font color="red">当filter在default之前时使用该方法</font>
+     *
+     * @param invoker
+     * @return
+     */
+    public static boolean isProvider(Invoker invoker) {
+        return !isConsumer(invoker);
+    }
+
 }

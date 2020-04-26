@@ -1,9 +1,5 @@
 package com.github.spy.sea.core.dubbo.util;
 
-import com.alibaba.dubbo.config.ApplicationConfig;
-import com.alibaba.dubbo.config.ReferenceConfig;
-import com.alibaba.dubbo.config.RegistryConfig;
-import com.alibaba.dubbo.rpc.service.GenericService;
 import com.github.spy.sea.core.dubbo.common.dto.DubboGenericInvokeDTO;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.util.ArrayUtil;
@@ -12,6 +8,13 @@ import com.github.spy.sea.core.util.ObjectUtil;
 import com.github.spy.sea.core.util.StringUtil;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.common.constants.CommonConstants;
+import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.rpc.Invoker;
+import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.service.GenericService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,15 +135,15 @@ public final class DubboUtil {
             }
         }
 
-        com.alibaba.dubbo.config.ApplicationConfig application = new ApplicationConfig();
+        ApplicationConfig application = new ApplicationConfig();
         application.setName(StringUtil.defaultIfBlank(dto.getAppName(), DEFAULT_APP_NAME));
 
-        com.alibaba.dubbo.config.RegistryConfig registry = new RegistryConfig();
+        RegistryConfig registry = new RegistryConfig();
         registry.setAddress(dto.getRegistryAddress());
 
         application.setRegistry(registry);
 
-        com.alibaba.dubbo.config.ReferenceConfig<com.alibaba.dubbo.rpc.service.GenericService> reference = new ReferenceConfig<>();
+        ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
         // 弱类型接口名
         reference.setInterface(dto.getInterfaceName());
         reference.setVersion(StringUtil.defaultIfBlank(dto.getVersion(), DEFAULT_VERSION));
@@ -162,6 +165,52 @@ public final class DubboUtil {
             log.error("fail to invoke dubbo generic service", e);
         }
         return result;
+    }
+
+
+    /**
+     * check current node is consumer
+     * 必须是default,xxxFilter，否则 rpcContext中url为空
+     *
+     * @return
+     */
+    public static boolean isConsumer() {
+        RpcContext ctx = RpcContext.getContext();
+        return ctx.isConsumerSide();
+    }
+
+    /**
+     * check current node is provider
+     * 必须是default,xxxFilter，否则 rpcContext中url为空
+     *
+     * @return
+     */
+    public static boolean isProvider() {
+        RpcContext ctx = RpcContext.getContext();
+        return ctx.isProviderSide();
+    }
+
+
+    /**
+     * check current node is consumer
+     * <font color="red">当filter在default之前时使用该方法</font>
+     *
+     * @param invoker
+     * @return
+     */
+    public static boolean isConsumer(Invoker invoker) {
+        return invoker.getUrl().getParameter(CommonConstants.SIDE_KEY, CommonConstants.PROVIDER_SIDE).equals(CommonConstants.CONSUMER_SIDE);
+    }
+
+    /**
+     * check current node is provider
+     * <font color="red">当filter在default之前时使用该方法</font>
+     *
+     * @param invoker
+     * @return
+     */
+    public static boolean isProvider(Invoker invoker) {
+        return !isConsumer(invoker);
     }
 
 }
