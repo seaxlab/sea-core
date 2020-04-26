@@ -1,12 +1,14 @@
 package com.github.spy.sea.core.util;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Preconditions;
 import com.google.common.io.Files;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.util.ByteArrayBuffer;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * File util
@@ -246,6 +248,42 @@ public final class FileUtil {
             }
             file.delete();// 删除当前目录
         }
+    }
+
+    /**
+     * list files
+     *
+     * @param path
+     * @param fileExtensionList
+     * @return
+     */
+    public static File[] listFiles(final File path, final List<String> fileExtensionList) {
+        Preconditions.checkNotNull(path, "path is null");
+        Preconditions.checkNotNull(fileExtensionList, "fileExtensionList is null");
+        final String[] fileExtensions = fileExtensionList.toArray(new String[0]);
+        return listFiles(path, fileExtensions);
+    }
+
+    /**
+     * list files
+     *
+     * @param path
+     * @param fileExtensions
+     * @return
+     */
+    public static File[] listFiles(final File path, final String[] fileExtensions) {
+        Preconditions.checkNotNull(path, "path is null");
+        Preconditions.checkNotNull(fileExtensions, "fileExtensions is null");
+
+        return path.listFiles(pathname -> {
+            String path1 = pathname.getName();
+            for (String extension : fileExtensions) {
+                if (path1.lastIndexOf(extension) != -1) {
+                    return true;
+                }
+            }
+            return false;
+        });
     }
 
 

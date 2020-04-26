@@ -4,6 +4,8 @@ import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.io.File;
+
 /**
  * module name
  *
@@ -19,5 +21,13 @@ public class FileUtilTest extends BaseCoreTest {
         String txt = FileUtil.readFormClasspath("util/users.json");
 
         log.info("txt={}", txt);
+    }
+
+    @Test
+    public void listFileTest() throws Exception {
+        File[] files = FileUtil.listFiles(new File(getUserHome() + "/logs"), new String[]{".log"});
+        for (int i = 0; i < files.length; i++) {
+            log.info("files={}", files[i]);
+        }
     }
 }
