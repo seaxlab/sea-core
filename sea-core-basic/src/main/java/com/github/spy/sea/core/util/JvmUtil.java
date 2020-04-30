@@ -68,7 +68,8 @@ public final class JvmUtil {
 //        long pid = ProcessHandle.current().pid();
 //    }
 
-    final static RateLimiter rateLimiter = RateLimiter.create(1, 1, TimeUnit.MINUTES);
+    // 1 per 10min
+    final static RateLimiter rateLimiter = RateLimiter.create(1.0 / (10 * 60));
 
     public static void dumpStackLimiter() {
         if (rateLimiter.tryAcquire()) {
@@ -113,7 +114,8 @@ public final class JvmUtil {
         }
     }
 
-    final static RateLimiter RATE_LIMITER_DUMP_HEAP = RateLimiter.create(1, 5, TimeUnit.MINUTES);
+    //1 per 10min
+    final static RateLimiter RATE_LIMITER_DUMP_HEAP = RateLimiter.create(1.0 / (10 * 60));
 
     public static void dumpHeapLimiter() {
         if (RATE_LIMITER_DUMP_HEAP.tryAcquire()) {
