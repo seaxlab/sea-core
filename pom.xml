@@ -39,6 +39,7 @@
         <module>sea-core-example</module>
         <module>sea-core-ddd</module>
         <module>sea-core-rocketmq</module>
+        <module>sea-core-es</module>
     </modules>
 
 
@@ -75,6 +76,26 @@
         <sea.dubbo.version>2.7.3</sea.dubbo.version>
     </properties>
 
+
+    <dependencies>
+        <!-- lombok  -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- logback -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>
