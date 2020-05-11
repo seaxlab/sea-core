@@ -39,6 +39,23 @@ public class ThreadContext {
     }
 
     /**
+     * put if absent
+     *
+     * @param key
+     * @param value
+     */
+    public static final void putIfAbsent(String key, Object value) {
+        init();
+        Map<String, Object> ctx = CTX_HOLDER.get();
+        if (ctx == null) {
+            return;
+        }
+        ctx.putIfAbsent(key, value);
+    }
+
+    //compute（相当于put,只不过返回的是新值）
+
+    /**
      * 从线程上下文中获取内容
      *
      * @param key
