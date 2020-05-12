@@ -7,10 +7,7 @@ import org.apache.commons.collections.KeyValue;
 import org.apache.commons.collections.MapUtils;
 
 import java.text.NumberFormat;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Properties;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * module name
@@ -50,6 +47,24 @@ public final class MapUtil {
 
         return gson.fromJson(jsonString, Map.class);
     }
+
+    /**
+     * 初始化固定大小的HashMap，加载因子为1（即数组全满后再扩容，原先加载因子为0.75）
+     *
+     * @param initialCapacity
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public static <K, V> HashMap<K, V> newNoResizeHashMap(int initialCapacity) {
+        return new HashMap<>(initialCapacity, 1);
+    }
+
+//语义不太好
+//    public static <K, V> HashMap<K, V> newFixedHashMap(int initialCapacity) {
+//        return new HashMap<>(initialCapacity, 1);
+//    }
+
 
     public static Object getObject(final Map map, final Object key) {
         return MapUtils.getObject(map, key);

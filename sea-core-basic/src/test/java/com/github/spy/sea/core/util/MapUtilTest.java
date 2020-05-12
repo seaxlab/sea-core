@@ -70,4 +70,20 @@ public class MapUtilTest extends BaseCoreTest {
         extraMap.put("abc2", "d1");
         log.info("{}--", MapUtil.toString(extraMap));
     }
+
+    @Test
+    public void run75() throws Exception {
+
+        Map<String, String> cache = new HashMap<>(4);
+        cache.put("1", "1");
+        cache.put("2", "2");
+        cache.put("3", "3"); // 不扩容
+        cache.put("4", "4"); // 扩容
+
+        cache = MapUtil.newNoResizeHashMap(4);
+        cache.put("1", "1");
+        cache.put("2", "2");
+        cache.put("3", "3"); // 不扩容
+        cache.put("4", "4"); // 不扩容
+    }
 }
