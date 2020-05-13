@@ -2,6 +2,7 @@ package com.github.spy.sea.core.support.notify.dto;
 
 import com.github.spy.sea.core.model.BaseRequestDTO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * module name
@@ -11,6 +12,7 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class MailServerConfigDTO extends BaseRequestDTO {
 
     private String protocol;

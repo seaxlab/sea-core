@@ -516,7 +516,26 @@ public final class StringUtil {
         }
         // 返回处理后的字符串
         return stream;
+    }
 
+    /**
+     * 从指定位置开始匹配字符
+     *
+     * @param str       字符串
+     * @param index     索引位置
+     * @param substring 子字符串位置
+     * @return true/false
+     */
+    public static boolean substringMatch(CharSequence str, int index, CharSequence substring) {
+        if (index + substring.length() > str.length()) {
+            return false;
+        }
+        for (int i = 0; i < substring.length(); i++) {
+            if (str.charAt(index + i) != substring.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
