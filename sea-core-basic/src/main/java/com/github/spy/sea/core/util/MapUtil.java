@@ -33,8 +33,9 @@ public final class MapUtil {
 
 
     /**
-     * deep clone
+     * deep clone 只适用于简单类型，不适用于复杂类型
      * change to fastJSON
+     * <note> depends on GSON</note>
      *
      * @param original
      * @param <K>

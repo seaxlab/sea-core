@@ -1,11 +1,11 @@
 package com.github.spy.sea.core.util;
 
+import com.alibaba.fastjson.JSON;
 import com.github.spy.sea.core.BaseCoreTest;
-import lombok.Data;
+import com.github.spy.sea.core.util.model.Teacher;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,34 +29,41 @@ public class MapUtilTest extends BaseCoreTest {
         list.add(t);
 
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("key", 11);
+        Map<String, List<Teacher>> map = new HashMap<>();
+//        map.put("key", 11);
         map.put("teachers", list);
 
+        // ok
         Map newMap = MapUtil.clone(map);
         log.info("{}", newMap);
 
         List<Teacher> list2 = (List<Teacher>) newMap.get("teachers");
 
+        // ERROR
         Teacher t2 = list2.get(0);
 
         t2.setName("2222");
         log.info("map={}", map);
         log.info("newMap={}", newMap);
-
     }
 
-    @Data
-    private class Teacher implements Serializable {
-        private String name;
-        private List<Student> students;
-    }
+    @Test
+    public void fastJSONTest() throws Exception {
 
-    @Data
-    private class Student implements Serializable {
-        private Long id;
-    }
+        List<Teacher> list = new ArrayList<>();
+        Teacher t = new Teacher();
+        t.setName("smith");
+        list.add(t);
 
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("key", 11);
+        map.put("teachers", list);
+
+        log.info("{}", JSON.toJSONString(map.toString()));
+        Map newMap = JSON.parseObject(JSON.toJSONString(map.toString()), Map.class);
+        log.info("{}", newMap);
+    }
 
     @Test
     public void run62() throws Exception {
