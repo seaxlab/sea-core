@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.example.extension;
 
+import com.github.spy.sea.core.common.CoreConst;
 import com.github.spy.sea.core.extension.HttpHeaderParseExtension;
 import com.github.spy.sea.core.util.MapUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ public class CustomHttpHeaderParseExtension implements HttpHeaderParseExtension 
     public Map<String, String> get() {
         Map<String, String> map = MapUtil.newNoResizeHashMap(1);
 
-        map.put("X-Service-Chain", "sc");
+        map.put("X-Service-Chain", CoreConst.TAG_GRAY);
         return map;
     }
 }
