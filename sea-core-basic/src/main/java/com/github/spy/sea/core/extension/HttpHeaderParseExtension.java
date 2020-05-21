@@ -2,6 +2,8 @@ package com.github.spy.sea.core.extension;
 
 import java.util.Map;
 
+// should move to sea-core-web? it is biz framework
+
 /**
  * catch specified http header into thread context.
  *

@@ -75,4 +75,13 @@ public class CoreConst {
      */
     public static final String KEY_SEA_DEV_MODE = "sea.dev.mode";
 
+    /**
+     * 灰度标识
+     */
+    public static final String TAG_GRAY = "sea-tag-gray";
+
+    /**
+     * 压力测试标识
+     */
+    public static final String TAG_STRESS_TESTING = "sea-tag-stress-testing";
 }
