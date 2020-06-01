@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.web.filter;
 
 import com.github.spy.sea.core.extension.HttpHeaderParseExtension;
+import com.github.spy.sea.core.extension.HttpRequestParseExtension;
 import com.github.spy.sea.core.loader.EnhancedServiceLoader;
 import com.github.spy.sea.core.thread.ThreadContext;
 import com.github.spy.sea.core.util.ListUtil;
@@ -27,12 +28,14 @@ import java.util.Map;
 public class SeaGlobalFilter implements Filter {
 
     private static Map<String, String> httpHeaderMap;
+    private static Map<String, String> httpRequestMap;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         log.info("sea global filter init");
 
         initHttpHeaderParse();
+        initHttpRequestParse();
     }
 
     @Override
@@ -41,6 +44,7 @@ public class SeaGlobalFilter implements Filter {
         try {
             logRequest((HttpServletRequest) request);
             parseHttpHeader((HttpServletRequest) request);
+            parseHttpRequest((HttpServletRequest) request);
             chain.doFilter(request, response);
         } finally {
             ThreadContext.clean();
@@ -76,6 +80,25 @@ public class SeaGlobalFilter implements Filter {
     }
 
     /**
+     * which key parameter should parse.
+     */
+    private void initHttpRequestParse() {
+        List<HttpRequestParseExtension> extensionList = EnhancedServiceLoader.loadAll(HttpRequestParseExtension.class);
+        log.info("Http request parse extension count={}", extensionList.size());
+
+        if (ListUtil.isNotEmpty(extensionList)) {
+            httpRequestMap = new HashMap<>();
+            for (HttpRequestParseExtension extension : extensionList) {
+                Map<String, String> map = extension.get();
+                httpRequestMap.putAll(map);
+            }
+        } else {
+            httpRequestMap = MapUtil.empty();
+        }
+    }
+
+
+    /**
      * parse specified http header into thread context.
      *
      * @param request
@@ -86,6 +109,28 @@ public class SeaGlobalFilter implements Filter {
         }
         for (Map.Entry<String, String> entry : httpHeaderMap.entrySet()) {
             String value = request.getHeader(entry.getKey());
+            if (StringUtil.isNotEmpty(value)) {
+                ThreadContext.putIfAbsent(entry.getValue(), value);
+                if (log.isDebugEnabled()) {
+                    log.debug("put [{}->{}={}] into thread context", entry.getKey(), entry.getValue(), value);
+                }
+            } else {
+                log.warn("value of [{}] is null in http header", entry.getKey());
+            }
+        }
+    }
+
+    /**
+     * parse specified http request param into thread context
+     *
+     * @param request
+     */
+    private void parseHttpRequest(HttpServletRequest request) {
+        if (MapUtil.isEmpty(httpRequestMap)) {
+            return;
+        }
+        for (Map.Entry<String, String> entry : httpRequestMap.entrySet()) {
+            String value = request.getParameter(entry.getKey());
             if (StringUtil.isNotEmpty(value)) {
                 ThreadContext.putIfAbsent(entry.getValue(), value);
                 if (log.isDebugEnabled()) {
