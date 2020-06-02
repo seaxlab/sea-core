@@ -11,6 +11,7 @@ import java.beans.Introspector;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -26,8 +27,17 @@ public final class ReflectUtil {
     private ReflectUtil() {
     }
 
+
     /**
-     * 取值
+     * @param cls
+     * @return
+     */
+    public static List<Field> getAllFieldsList(final Class<?> cls) {
+        return FieldUtils.getAllFieldsList(cls);
+    }
+
+    /**
+     * read field value from target
      *
      * @param target
      * @param fieldName

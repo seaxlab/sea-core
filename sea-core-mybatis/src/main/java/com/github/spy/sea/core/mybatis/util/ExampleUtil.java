@@ -1,12 +1,16 @@
 package com.github.spy.sea.core.mybatis.util;
 
 import com.github.spy.sea.core.common.CoreConst;
+import com.github.spy.sea.core.util.EqualUtil;
 import com.github.spy.sea.core.util.ListUtil;
+import com.github.spy.sea.core.util.ReflectUtil;
 import com.github.spy.sea.core.util.StringUtil;
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +25,44 @@ import java.util.List;
 public final class ExampleUtil {
 
     private ExampleUtil() {
+    }
+
+    /**
+     * 设置primary字段值
+     * <p>
+     * int,long,string,boolean
+     * Integer,Long,String,Boolean,Double
+     * </p>
+     *
+     * @param example
+     * @param obj
+     */
+    public static void setPrimaryFieldValue(final Example example, final Object obj) {
+        Preconditions.checkNotNull(example, "example can't be null.");
+        Preconditions.checkNotNull(obj, "Object can't be null.");
+
+        List<Field> fieldList = ReflectUtil.getAllFieldsList(obj.getClass());
+
+        for (int i = 0; i < fieldList.size(); i++) {
+            Field field = fieldList.get(i);
+            if (EqualUtil.isEq("serialVersionUID", field.getName())) {
+                continue;
+            }
+
+            switch (field.getType().getName()) {
+                case "int":
+                case "long":
+                case "boolean":
+                case "java.lang.Integer":
+                case "java.lang.Long":
+                case "java.lang.Double":
+                case "java.lang.Boolean":
+                case "java.lang.String":
+                    setValue(example, field.getName(), ReflectUtil.read(obj, field.getName()));
+                    break;
+            }
+            continue;
+        }
     }
 
     /**
