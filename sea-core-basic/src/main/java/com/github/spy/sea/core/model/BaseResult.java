@@ -155,8 +155,22 @@ public class BaseResult<T> implements Serializable {
         this.setErrorMessage(ft.getMessage());
     }
 
+
     /**
-     * 直接判断
+     * check is ok.
+     *
+     * @return
+     */
+    public boolean isOk() {
+        if (success != null) {
+            return success;
+        }
+        // warning!! default is false.
+        return false;
+    }
+
+    /**
+     * check is fail.
      *
      * @return
      */
