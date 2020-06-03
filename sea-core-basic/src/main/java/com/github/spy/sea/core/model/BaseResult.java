@@ -79,6 +79,7 @@ public class BaseResult<T> implements Serializable {
     /**
      * 请求id
      * 请使用traceId
+     *
      * @deprecated 请使用traceId
      */
     @JSONField(ordinal = -980)
@@ -152,6 +153,18 @@ public class BaseResult<T> implements Serializable {
     public void setErrorMsg(String format, Object... argArray) {
         FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
         this.setErrorMessage(ft.getMessage());
+    }
+
+    /**
+     * 直接判断
+     *
+     * @return
+     */
+    public boolean isFail() {
+        if (success != null) {
+            return !success;
+        }
+        return true;
     }
 
 
