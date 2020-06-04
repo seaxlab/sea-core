@@ -26,4 +26,15 @@ public class SeaProperties {
         private Boolean writeNullValue;
     }
 
+    @NestedConfigurationProperty
+    private Redis redis;
+
+    @Data
+    public static class Redis {
+        private String host;
+        private int port;
+        private String password;
+        private int database;
+    }
+
 }

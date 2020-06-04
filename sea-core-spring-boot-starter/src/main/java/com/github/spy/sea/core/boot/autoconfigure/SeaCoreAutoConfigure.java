@@ -4,6 +4,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.github.spy.sea.core.boot.autoconfigure.listener.ApplicationInitListener;
+import com.github.spy.sea.core.spring.context.SpringContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -34,6 +35,12 @@ public class SeaCoreAutoConfigure {
     @Bean
     public ApplicationInitListener applicationInitListener() {
         return new ApplicationInitListener();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SpringContextHolder springContextHolder() {
+        return new SpringContextHolder();
     }
 
     @Bean

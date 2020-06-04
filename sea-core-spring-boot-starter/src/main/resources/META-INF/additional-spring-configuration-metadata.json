@@ -20,6 +20,34 @@
       "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
       "defaultValue": false,
       "description": "FastJSON中是否输出空值."
+    },
+    {
+      "name": "sea.redis.host",
+      "type": "java.lang.String",
+      "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "",
+      "description": "redis host."
+    },
+    {
+      "name": "sea.redis.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "",
+      "description": "redis port."
+    },
+    {
+      "name": "sea.redis.password",
+      "type": "java.lang.String",
+      "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "",
+      "description": "redis auth password."
+    },
+    {
+      "name": "sea.redis.database",
+      "type": "java.lang.Integer",
+      "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "0",
+      "description": "redis database."
     }
   ]
 }
