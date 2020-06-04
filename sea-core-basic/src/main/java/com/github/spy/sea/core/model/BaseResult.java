@@ -161,6 +161,7 @@ public class BaseResult<T> implements Serializable {
      *
      * @return
      */
+    @JSONField(serialize = false)
     public boolean isOk() {
         if (success != null) {
             return success;
@@ -174,6 +175,7 @@ public class BaseResult<T> implements Serializable {
      *
      * @return
      */
+    @JSONField(serialize = false)
     public boolean isFail() {
         if (success != null) {
             return !success;

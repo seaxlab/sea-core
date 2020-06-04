@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.function.Fn;
+import com.google.common.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
@@ -11,6 +12,9 @@ import java.beans.Introspector;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -189,6 +193,58 @@ public final class ReflectUtil {
         }
 
         return finalValue;
+    }
+
+
+    /**
+     * 获取单个泛型类
+     * <p>
+     * interface IUserService<T> {
+     * }
+     * <p>
+     * class UserServiceImpl implements IUserService<User> {
+     * }
+     * IUserService userService = new UserServiceImpl();
+     * </p>
+     *
+     * @param obj
+     * @return
+     */
+    public static Class<?> getSingleGenericClass(Object obj) {
+        Type[] genericInterfaces = obj.getClass().getGenericInterfaces();
+
+        if (genericInterfaces == null || genericInterfaces.length == 0) {
+            return null;
+        }
+
+        Type first = genericInterfaces[0];
+        if (first instanceof ParameterizedType) {
+            Type[] genericTypes = ((ParameterizedType) first).getActualTypeArguments();
+            for (Type genericType : genericTypes) {
+                return TypeToken.of(genericType).getRawType();
+            }
+        }
+        return null;
+    }
+
+    public static Class<?>[] getAllGenericClass(Object obj) {
+        Type[] genericInterfaces = obj.getClass().getGenericInterfaces();
+
+        if (genericInterfaces == null || genericInterfaces.length == 0) {
+            return null;
+        }
+        List<Class<?>> data = new ArrayList<>();
+        for (int i = 0; i < genericInterfaces.length; i++) {
+            Type type = genericInterfaces[i];
+            if (type instanceof ParameterizedType) {
+                Type[] genericTypes = ((ParameterizedType) type).getActualTypeArguments();
+                for (Type genericType : genericTypes) {
+                    data.add(TypeToken.of(genericType).getRawType());
+                }
+            }
+        }
+
+        return data.toArray(new Class<?>[data.size()]);
     }
 
 
