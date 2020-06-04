@@ -2,6 +2,7 @@ package com.github.spy.sea.core.cache.redis;
 
 import com.alibaba.fastjson.JSON;
 import com.github.spy.sea.core.util.SerializeUtil;
+import com.github.spy.sea.core.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
@@ -196,8 +197,6 @@ public class RedisManager {
                 jedis.close();
             }
         }
-
-
     }
 
 
@@ -384,6 +383,53 @@ public class RedisManager {
             }
         }
     }
+
+
+    /**
+     * left push
+     *
+     * @param key
+     * @param msg
+     * @return
+     */
+    public Long lpush(String key, String msg) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            if (jedis == null) {
+                logger.error(NO_JEDIS_INSTANCE);
+                return -2L;
+            }
+            return jedis.lpush(key, msg);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+    /**
+     * right pop
+     *
+     * @param key
+     * @return
+     */
+    public String rpop(String key) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            if (jedis == null) {
+                logger.error(NO_JEDIS_INSTANCE);
+                return StringUtil.EMPTY;
+            }
+            return jedis.rpop(key);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
 
     public String getHost() {
         return host;
