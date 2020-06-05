@@ -140,4 +140,53 @@ public final class MapperUtil {
         }
         return record;
     }
+
+    /**
+     * basic update selective field by code.
+     *
+     * @param record
+     * @param mapper
+     * @param code
+     * @param <T>
+     * @return
+     */
+    public static <T> int baseUpdateSelectiveByCode(T record, Mapper<T> mapper, String code) {
+        Example example = new Example(record.getClass());
+        ExampleUtil.setValue(example, "code", code);
+        ExampleUtil.setIsDeletedFlag(example);
+
+        return mapper.updateByExampleSelective(record, example);
+    }
+
+    /**
+     * basic update all field by code.
+     *
+     * @param record
+     * @param mapper
+     * @param code
+     * @param <T>
+     * @return
+     */
+    public static <T> int baseUpdateByCode(T record, Mapper<T> mapper, String code) {
+        Example example = new Example(record.getClass());
+        ExampleUtil.setValue(example, "code", code);
+        ExampleUtil.setIsDeletedFlag(example);
+
+        return mapper.updateByExample(record, example);
+    }
+
+    /**
+     * <p>this just sugar.</p>
+     * the same to baseUpdateSelectiveByCode
+     *
+     * @param record
+     * @param mapper
+     * @param code
+     * @param <T>
+     * @return
+     */
+    public static <T> int baseDeleteByCode(T record, Mapper<T> mapper, String code) {
+        return baseUpdateSelectiveByCode(record, mapper, code);
+    }
+
 }
