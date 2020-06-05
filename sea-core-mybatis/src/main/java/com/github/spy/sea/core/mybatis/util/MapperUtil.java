@@ -130,8 +130,22 @@ public final class MapperUtil {
      * @return
      */
     public static <T> T baseQueryByCode(Class<?> clazz, Mapper<T> mapper, String code) {
+        return baseQuery(clazz, mapper, "code", code);
+    }
+
+    /**
+     * base query for common.
+     *
+     * @param clazz
+     * @param mapper
+     * @param key
+     * @param value
+     * @param <T>
+     * @return
+     */
+    public static <T> T baseQuery(Class<?> clazz, Mapper<T> mapper, String key, String value) {
         Example example = new Example(clazz);
-        ExampleUtil.setValue(example, "code", code);
+        ExampleUtil.setValue(example, key, value);
         ExampleUtil.setIsDeletedFlag(example);
 
         T record = mapper.selectOneByExample(example);
@@ -140,6 +154,7 @@ public final class MapperUtil {
         }
         return record;
     }
+
 
     /**
      * basic update selective field by code.
@@ -151,8 +166,22 @@ public final class MapperUtil {
      * @return
      */
     public static <T> int baseUpdateSelectiveByCode(T record, Mapper<T> mapper, String code) {
+        return baseUpdateSelective(record, mapper, "code", code);
+    }
+
+    /**
+     * base update selective for common.
+     *
+     * @param record
+     * @param mapper
+     * @param key
+     * @param value
+     * @param <T>
+     * @return
+     */
+    public static <T> int baseUpdateSelective(T record, Mapper<T> mapper, String key, String value) {
         Example example = new Example(record.getClass());
-        ExampleUtil.setValue(example, "code", code);
+        ExampleUtil.setValue(example, key, value);
         ExampleUtil.setIsDeletedFlag(example);
 
         return mapper.updateByExampleSelective(record, example);
@@ -168,12 +197,27 @@ public final class MapperUtil {
      * @return
      */
     public static <T> int baseUpdateByCode(T record, Mapper<T> mapper, String code) {
+        return baseUpdate(record, mapper, "code", code);
+    }
+
+    /**
+     * basic update all field for common.
+     *
+     * @param record
+     * @param mapper
+     * @param key
+     * @param value
+     * @param <T>
+     * @return
+     */
+    public static <T> int baseUpdate(T record, Mapper<T> mapper, String key, String value) {
         Example example = new Example(record.getClass());
-        ExampleUtil.setValue(example, "code", code);
+        ExampleUtil.setValue(example, key, value);
         ExampleUtil.setIsDeletedFlag(example);
 
         return mapper.updateByExample(record, example);
     }
+
 
     /**
      * <p>this just sugar.</p>
@@ -187,6 +231,21 @@ public final class MapperUtil {
      */
     public static <T> int baseDeleteByCode(T record, Mapper<T> mapper, String code) {
         return baseUpdateSelectiveByCode(record, mapper, code);
+    }
+
+    /**
+     * <p>this just sugar.</p>
+     * the same to baseUpdateSelective.
+     *
+     * @param record
+     * @param mapper
+     * @param key
+     * @param value
+     * @param <T>
+     * @return
+     */
+    public static <T> int baseDelete(T record, Mapper<T> mapper, String key, String value) {
+        return baseUpdateSelective(record, mapper, key, value);
     }
 
 }
