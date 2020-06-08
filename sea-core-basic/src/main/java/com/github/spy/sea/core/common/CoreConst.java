@@ -84,4 +84,7 @@ public class CoreConst {
      * 压力测试标识
      */
     public static final String TAG_STRESS_TESTING = "sea-tag-stress-testing";
+
+    public static final String REQUEST_URL = "request.url";
+    public static final String REQUEST_USER_AGENT = "request.user.agent";
 }

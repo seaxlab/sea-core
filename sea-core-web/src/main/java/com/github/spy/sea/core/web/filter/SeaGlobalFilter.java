@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.web.filter;
 
+import com.github.spy.sea.core.common.CoreConst;
 import com.github.spy.sea.core.extension.HttpHeaderParseExtension;
 import com.github.spy.sea.core.extension.HttpRequestParseExtension;
 import com.github.spy.sea.core.loader.EnhancedServiceLoader;
@@ -45,11 +46,13 @@ public class SeaGlobalFilter implements Filter {
             logRequest((HttpServletRequest) request);
             parseHttpHeader((HttpServletRequest) request);
             parseHttpRequest((HttpServletRequest) request);
+            initCommon((HttpServletRequest) request);
             chain.doFilter(request, response);
         } finally {
             ThreadContext.clean();
         }
     }
+
 
     @Override
     public void destroy() {
@@ -58,6 +61,16 @@ public class SeaGlobalFilter implements Filter {
 
     private void logRequest(HttpServletRequest request) {
         RequestUtil.logSimple(request);
+    }
+
+    /**
+     * init common info into thread context
+     *
+     * @param request
+     */
+    private void initCommon(HttpServletRequest request) {
+        ThreadContext.put(CoreConst.REQUEST_URL, request.getRequestURI());
+        ThreadContext.put(CoreConst.REQUEST_USER_AGENT, RequestUtil.getUserAgent(request));
     }
 
     /**
