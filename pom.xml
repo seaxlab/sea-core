@@ -52,6 +52,7 @@
 
     <properties>
         <maven.test.skip>true</maven.test.skip>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
 
         <!--  三方类库  -->
         <hutool.version>4.5.17</hutool.version>
