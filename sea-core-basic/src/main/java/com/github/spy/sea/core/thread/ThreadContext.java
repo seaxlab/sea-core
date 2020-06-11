@@ -129,7 +129,9 @@ public class ThreadContext {
      * 清空线程上下文
      */
     public static final void clean() {
-        log.info("thread context clean");
+        if (log.isDebugEnabled()) {
+            log.debug("thread context clean");
+        }
 
         Map<String, Object> ctx = CTX_HOLDER.get();
         if (ctx != null) {
