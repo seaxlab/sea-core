@@ -2,6 +2,7 @@ package com.github.spy.sea.core.spring.context;
 
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -67,6 +68,22 @@ public class SpringContextHolder implements ApplicationContextAware {
         checkCtx();
 
         return ctx.getBean(requiredType);
+    }
+
+    /**
+     * get bean by safe.
+     *
+     * @param requiredType
+     * @param <T>
+     * @return
+     */
+    public static <T> T getBeanSafe(Class<T> requiredType) {
+        try {
+            return getBean(requiredType);
+        } catch (NoSuchBeanDefinitionException ee) {
+            log.warn("no this bean[{}]", requiredType.getName());
+        }
+        return null;
     }
 
     /**
