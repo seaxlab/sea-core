@@ -159,7 +159,7 @@ public final class PageUtil {
         if (dto.getPage() == null || dto.getPage() < 1) {
             dto.setPage(1);
         }
-        if (dto.getSize() == null || dto.getPage() < 1) {
+        if (dto.getSize() == null || dto.getSize() < 1) {
             dto.setSize(maxSize);
         }
     }

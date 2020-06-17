@@ -30,10 +30,10 @@ public class CorsFilter implements Filter {
 
         // 若有端口需写全（协议+域名+端口）
         httpServletResponse.setHeader("Access-Control-Allow-Origin", originHeader);
-        httpServletResponse.addHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS");
+        httpServletResponse.addHeader("Access-Control-Allow-Methods", "GET,HEAD,POST,PUT,DELETE,OPTIONS,PATCH");
         httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
         httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "x-requested-with,Content-Type");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "sea-token,token,x-requested-with,Content-Type");
 
         chain.doFilter(request, response);
     }
