@@ -160,7 +160,7 @@ public final class ExampleUtil {
     }
 
     /**
-     * 只设置status
+     * set status=1
      *
      * @param example
      */
@@ -171,14 +171,23 @@ public final class ExampleUtil {
     }
 
     /**
-     * 设置isDeleted
+     * set isDeleted=0
      *
      * @param example
      */
     public static void setIsDeletedFlag(Example example) {
         example.and()
                .andEqualTo("isDeleted", CoreConst.NO);
+    }
 
+    /**
+     * set isEnabled=1
+     *
+     * @param example
+     */
+    public static void setIsEnabled(Example example) {
+        example.and()
+               .andEqualTo("isEnabled", CoreConst.YES);
     }
 
 
