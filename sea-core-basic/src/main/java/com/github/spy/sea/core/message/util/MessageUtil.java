@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.message.util;
 
+import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.helpers.MessageFormatter;
 
@@ -25,6 +26,19 @@ public final class MessageUtil {
      */
     public static String format(String messagePattern, Object... args) {
         return MessageFormatter.arrayFormat(messagePattern, args).getMessage();
+    }
+
+    public static String append(String str, String str2) {
+        return append(str, str2, ";");
+    }
+
+    public static String append(String str, String str2, String splitChar) {
+        if (StringUtil.isEmpty(str)) {
+            return str2;
+        }
+        return new StringBuilder(str).append(splitChar)
+                                     .append(str2)
+                                     .toString();
     }
 
 }
