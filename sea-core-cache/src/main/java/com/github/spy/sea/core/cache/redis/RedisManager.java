@@ -25,22 +25,16 @@ public class RedisManager {
 
     // Redis服务器IP
     private String host;
-
-
     // Redis的端口号
     private int port;
-
     // 访问密码
     private String password;
-
     // 控制一个pool最多有多少个状态为idle(空闲的)的jedis实例，默认值也是8。
     private int MAX_IDLE = 100;
-
     // 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException；
-    private int TIME_OUT = 3000;
+    private int TIME_OUT = 5000;
 
     private int MAX_TOTAL = 300;
-
     //redis数据库
     private int database;
 
