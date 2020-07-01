@@ -424,6 +424,28 @@ public class RedisManager {
         }
     }
 
+    /**
+     * list length.
+     *
+     * @param key
+     * @return
+     */
+    public long listLength(String key) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            if (jedis == null) {
+                logger.error(NO_JEDIS_INSTANCE);
+                return 0;
+            }
+            return jedis.llen(key);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
 
     public String getHost() {
         return host;
