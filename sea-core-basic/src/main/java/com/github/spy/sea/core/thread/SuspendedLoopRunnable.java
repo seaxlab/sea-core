@@ -15,6 +15,7 @@ public abstract class SuspendedLoopRunnable implements Runnable {
 
     @Override
     public void run() {
+        log.info("begin thread [{}]", name());
         init();
 
         while (running) {
@@ -24,8 +25,12 @@ public abstract class SuspendedLoopRunnable implements Runnable {
                 log.error("fail to execute", e);
             }
         }
+
         destroy();
+        log.info("end thread [{}]", name());
     }
+
+    public abstract String name();
 
     /**
      * 初始化
