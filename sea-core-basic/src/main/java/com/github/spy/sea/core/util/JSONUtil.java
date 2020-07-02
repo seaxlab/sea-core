@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Type;
@@ -58,7 +59,7 @@ public final class JSONUtil {
      * @return String
      */
     public static String toStr(Object obj) {
-        return JSON.toJSONString(obj);
+        return JSON.toJSONString(obj, SerializerFeature.WriteDateUseDateFormat, SerializerFeature.WriteMapNullValue, SerializerFeature.DisableCircularReferenceDetect);
     }
 
     public static JSONObject toJSONObj(String str) {
