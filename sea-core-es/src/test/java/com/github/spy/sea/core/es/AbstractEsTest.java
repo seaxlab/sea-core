@@ -1,13 +1,10 @@
 package com.github.spy.sea.core.es;
 
-import com.sun.scenario.Settings;
 import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
-import org.junit.Test;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.junit.Before;
 
 /**
  * module name
@@ -19,10 +16,32 @@ import java.net.UnknownHostException;
 @Slf4j
 public class AbstractEsTest {
 
-    @Test
-    public void run16() throws Exception {
-        log.info("abc");
+    protected RestHighLevelClient client;
+
+    protected String host = "172.16.67.175";
+
+    protected String getHost() {
+        return host;
     }
+
+    @Before
+    public void before() {
+        client = new RestHighLevelClient(
+                RestClient.builder(
+                        new HttpHost(getHost(), 9200, "http")));
+
+    }
+
+//    @After
+//    public void after() {
+//        if (client != null) {
+//            try {
+//                client.close();
+//            } catch (IOException e) {
+//                log.error("es client close error", e);
+//            }
+//        }
+//    }
 
 //    protected TransportClient esClient() throws UnknownHostException {
 //        Settings settings = Settings.builder()
