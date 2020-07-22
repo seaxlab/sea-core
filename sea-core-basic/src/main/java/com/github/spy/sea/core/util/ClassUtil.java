@@ -137,4 +137,14 @@ public final class ClassUtil {
         }
     }
 
+    /**
+     * check <className> exist or not.
+     *
+     * @param className
+     * @return
+     */
+    public static boolean has(String className) {
+        return load(className) != null;
+    }
+
 }
