@@ -23,6 +23,14 @@ public final class IdUtil {
         return UUID().replaceAll("-", "");
     }
 
+    /**
+     * yyyyMMdd
+     *
+     * @return
+     */
+    public static String getYYYYMMDD() {
+        return DateUtil.toString(new Date(), DateUtil.DAY_FORMAT2);
+    }
 
     /**
      * simple datetime id
@@ -51,6 +59,11 @@ public final class IdUtil {
             "W", "X", "Y", "Z"};
 
 
+    /**
+     * short id
+     *
+     * @return
+     */
     public static String getSimpleId() {
         StringBuilder sb = new StringBuilder();
         String uuid = UUID.randomUUID().toString().replace("-", "");
