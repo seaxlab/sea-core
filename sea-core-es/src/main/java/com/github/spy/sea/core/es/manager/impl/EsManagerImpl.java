@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.spy.sea.core.es.dto.EsQueryDTO;
 import com.github.spy.sea.core.es.manager.EsManager;
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.KeyValuePair;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -101,6 +102,26 @@ public class EsManagerImpl implements EsManager {
         return acknowledged;
     }
 
+    // 没有批量删除索引接口
+//    public BaseResult deleteIndexByBulk(List<String> indexNameList) {
+//        BulkRequest bulkRequest = new BulkRequest();
+//        indexNameList.forEach(item -> {
+//            DeleteIndexRequest request = new DeleteIndexRequest(item);
+//            bulkRequest.add(request);
+//        });
+//        //同步
+//        try {
+//            BulkResponse response = client.bulk(bulkRequest, RequestOptions.DEFAULT);
+//            log.info("resp={}", JSONObject.toJSON(response));
+//
+//            return BaseResult.success();
+//        } catch (IOException e) {
+//            log.info("fail to bulk insert into es.", e);
+//        }
+//
+//        return BaseResult.fail();
+//    }
+
     @Override
     public BaseResult insertDoc(String indexName, Map<String, Object> docMap) {
         return insertDoc(indexName, JSONObject.toJSONString(docMap));
@@ -146,14 +167,14 @@ public class EsManagerImpl implements EsManager {
 
             return BaseResult.success();
         } catch (IOException e) {
-            log.info("fail to bulck insert into es.", e);
+            log.info("fail to bulk insert into es.", e);
         }
 
         return BaseResult.fail();
     }
 
     @Override
-    public BaseResult insertDocByBuck(String indexName, List<String> docJsonStrList) {
+    public BaseResult insertDocByBulk2(String indexName, List<String> docJsonStrList) {
         BulkRequest bulkRequest = new BulkRequest();
         docJsonStrList.forEach(each -> {
             IndexRequest indexRequest = new IndexRequest(indexName).source(each, XContentType.JSON);
@@ -166,7 +187,7 @@ public class EsManagerImpl implements EsManager {
 
             return BaseResult.success();
         } catch (IOException e) {
-            log.info("[updateRecord]", e);
+            log.info("fail to insert doc by bulk2", e);
         }
 
         return BaseResult.fail();
@@ -181,24 +202,68 @@ public class EsManagerImpl implements EsManager {
             log.info("resp={}", JSONObject.toJSON(response));
             return BaseResult.success();
         } catch (IOException e) {
-            log.info("[updateRecord]", e);
+            log.info("fail to update doc", e);
         }
 
         return BaseResult.fail();
     }
 
     @Override
-    public boolean deleteDoc(String indexName, String id) {
+    public BaseResult updateDocByBulk(String indexName, List<KeyValuePair<String, Map<String, Object>>> docMapList) {
+
+        BulkRequest bulkRequest = new BulkRequest();
+        docMapList.forEach(item -> {
+            UpdateRequest updateRequest = new UpdateRequest(indexName, item.getKey());
+            updateRequest.doc(item.getValue());
+            bulkRequest.add(updateRequest);
+        });
+
+        try {
+            BulkResponse response = client.bulk(bulkRequest, RequestOptions.DEFAULT);
+            log.info("resp={}", JSONObject.toJSON(response));
+
+            return BaseResult.success(response);
+        } catch (IOException e) {
+            log.info("fail to update doc by bulk", e);
+        }
+
+        return BaseResult.fail();
+    }
+
+    @Override
+    public BaseResult deleteDoc(String indexName, String id) {
         DeleteRequest deleteRequest = new DeleteRequest(indexName);
         deleteRequest.id(id);
         try {
             DeleteResponse response = client.delete(deleteRequest, RequestOptions.DEFAULT);
             log.info("resp={}", JSONObject.toJSON(response));
-            return true;
+            return BaseResult.success(response);
         } catch (IOException e) {
-            log.info("[updateRecord]", e);
+            log.info("fail to delete doc", e);
         }
-        return false;
+        return BaseResult.fail();
+    }
+
+
+    @Override
+    public BaseResult deleteDocByBulk(String indexName, List<String> idList) {
+        BulkRequest bulkRequest = new BulkRequest();
+        idList.forEach(item -> {
+            DeleteRequest deleteRequest = new DeleteRequest(indexName);
+            deleteRequest.id(item);
+            bulkRequest.add(deleteRequest);
+        });
+        //同步
+        try {
+            BulkResponse response = client.bulk(bulkRequest, RequestOptions.DEFAULT);
+            log.info("resp={}", JSONObject.toJSON(response));
+
+            return BaseResult.success(response);
+        } catch (IOException e) {
+            log.info("fail to delete doc by bulk", e);
+        }
+
+        return BaseResult.fail();
     }
 
     @Override

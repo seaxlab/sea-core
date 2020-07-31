@@ -2,6 +2,7 @@ package com.github.spy.sea.core.es.manager;
 
 import com.github.spy.sea.core.es.dto.EsQueryDTO;
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.KeyValuePair;
 import org.elasticsearch.client.RestHighLevelClient;
 
 import java.util.List;
@@ -48,6 +49,15 @@ public interface EsManager {
     boolean deleteIndex(String indexName);
 
     /**
+     * 批量删除索引
+     *
+     * @param indexNameList
+     * @return
+     */
+    //没有批量删除索引接口
+//    BaseResult deleteIndexByBulk(List<String> indexNameList);
+
+    /**
      * 插入文档
      *
      * @param indexName
@@ -81,7 +91,7 @@ public interface EsManager {
      * @param docJsonStrList
      * @return
      */
-    BaseResult insertDocByBuck(String indexName, List<String> docJsonStrList);
+    BaseResult insertDocByBulk2(String indexName, List<String> docJsonStrList);
 
     /**
      * 更新文档
@@ -94,13 +104,31 @@ public interface EsManager {
     BaseResult updateDoc(String indexName, String id, Map<String, Object> docMap);
 
     /**
+     * 批量更新文档
+     *
+     * @param indexName
+     * @param docMapList
+     * @return
+     */
+    BaseResult updateDocByBulk(String indexName, List<KeyValuePair<String, Map<String, Object>>> docMapList);
+
+    /**
      * 删除文档
      *
      * @param indexName
      * @param id
      * @return
      */
-    boolean deleteDoc(String indexName, String id);
+    BaseResult deleteDoc(String indexName, String id);
+
+    /**
+     * 批量删除
+     *
+     * @param indexName
+     * @param idList
+     * @return
+     */
+    BaseResult deleteDocByBulk(String indexName, List<String> idList);
 
 
     BaseResult query(EsQueryDTO dto);

@@ -2,6 +2,10 @@ package com.github.spy.sea.core.es;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.junit.Before;
@@ -18,7 +22,7 @@ public class AbstractEsTest {
 
     protected RestHighLevelClient client;
 
-    protected String host = "172.16.67.175";
+    protected String host = "es-cn-m7r1rd2ve0001yhhc.elasticsearch.aliyuncs.com";
 
     protected String getHost() {
         return host;
@@ -26,9 +30,15 @@ public class AbstractEsTest {
 
     @Before
     public void before() {
+        final CredentialsProvider credentialsProvider =
+                new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials("elastic", "Yuantu123"));
+
         client = new RestHighLevelClient(
-                RestClient.builder(
-                        new HttpHost(getHost(), 9200, "http")));
+                RestClient.builder(new HttpHost(getHost(), 9200, "http"))
+                          .setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder
+                                  .setDefaultCredentialsProvider(credentialsProvider)));
 
     }
 
