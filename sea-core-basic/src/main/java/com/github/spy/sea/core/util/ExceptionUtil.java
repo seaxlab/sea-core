@@ -19,6 +19,7 @@ public final class ExceptionUtil {
 
     /**
      * 获取堆栈信息
+     * InvocationTargetException中Message为null，需要使用此方法来获取
      *
      * @param throwable
      * @return
