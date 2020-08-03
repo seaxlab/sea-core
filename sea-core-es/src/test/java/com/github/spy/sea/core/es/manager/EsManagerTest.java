@@ -9,6 +9,8 @@ import com.github.spy.sea.core.util.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -32,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class EsManagerTest extends AbstractEsTest {
 
     EsManager esManager;
+    String indexName = "test-spy-doc";
 
     @Before
     public void before() {
@@ -85,6 +88,21 @@ public class EsManagerTest extends AbstractEsTest {
 
     }
 
+
+    @Test
+    public void insertTest() throws Exception {
+
+        String indexName = "test-spy-doc";
+
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("productId", "9006387166");
+        doc.put("productName", RandomUtil.alphabetic(10));
+        doc.put("productDesc", RandomUtil.alphabetic(20));
+
+        BaseResult ret = esManager.insertDoc(indexName, doc);
+        log.info("ret={}", ret);
+    }
+
     @Test
     public void bulkInsertTest() throws Exception {
         String indexName = "test-spy-doc";
@@ -109,6 +127,22 @@ public class EsManagerTest extends AbstractEsTest {
 
         BaseResult ret = esManager.deleteDocByBulk(indexName, idList);
         log.info("ret={}", ret);
+    }
+
+    @Test
+    public void updateByQueryTest() throws Exception {
+        QueryBuilder queryBuilder = new TermQueryBuilder("productId", "9006387166");
+
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("productName", "newName");
+
+        esManager.updateDocByQuery(indexName, queryBuilder, doc);
+    }
+
+    @Test
+    public void run143() throws Exception {
+        QueryBuilder queryBuilder = new TermQueryBuilder("productId", "9006387166");
+        esManager.deleteDocByQuery(indexName, queryBuilder);
     }
 
 }

@@ -4,6 +4,7 @@ import com.github.spy.sea.core.es.dto.EsQueryDTO;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.model.KeyValuePair;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.QueryBuilder;
 
 import java.util.List;
 import java.util.Map;
@@ -113,6 +114,16 @@ public interface EsManager {
     BaseResult updateDocByBulk(String indexName, List<KeyValuePair<String, Map<String, Object>>> docMapList);
 
     /**
+     * 根据指定条件,更新一批文档
+     *
+     * @param indexName
+     * @param query
+     * @param document
+     * @return
+     */
+    BaseResult updateDocByQuery(String indexName, QueryBuilder query, Map<String, Object> document);
+
+    /**
      * 删除文档
      *
      * @param indexName
@@ -129,6 +140,15 @@ public interface EsManager {
      * @return
      */
     BaseResult deleteDocByBulk(String indexName, List<String> idList);
+
+    /**
+     * 根据条件，删除一批文档
+     *
+     * @param indexName
+     * @param queryBuilder
+     * @return
+     */
+    BaseResult deleteDocByQuery(String indexName, QueryBuilder queryBuilder);
 
 
     BaseResult query(EsQueryDTO dto);

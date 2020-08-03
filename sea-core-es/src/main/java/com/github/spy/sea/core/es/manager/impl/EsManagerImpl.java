@@ -7,6 +7,7 @@ import com.github.spy.sea.core.es.dto.EsQueryDTO;
 import com.github.spy.sea.core.es.manager.EsManager;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.model.KeyValuePair;
+import com.github.spy.sea.core.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -27,12 +28,18 @@ import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.reindex.BulkByScrollResponse;
+import org.elasticsearch.index.reindex.DeleteByQueryRequest;
+import org.elasticsearch.index.reindex.UpdateByQueryRequest;
+import org.elasticsearch.script.Script;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * module name
@@ -148,7 +155,7 @@ public class EsManagerImpl implements EsManager {
             }
             return BaseResult.success();
         } catch (IOException e) {
-            log.info("fail to insert into es", e);
+            log.error("fail to insert into es", e);
         }
         return BaseResult.fail();
     }
@@ -167,7 +174,7 @@ public class EsManagerImpl implements EsManager {
 
             return BaseResult.success();
         } catch (IOException e) {
-            log.info("fail to bulk insert into es.", e);
+            log.error("fail to bulk insert into es.", e);
         }
 
         return BaseResult.fail();
@@ -187,7 +194,7 @@ public class EsManagerImpl implements EsManager {
 
             return BaseResult.success();
         } catch (IOException e) {
-            log.info("fail to insert doc by bulk2", e);
+            log.error("fail to insert doc by bulk2", e);
         }
 
         return BaseResult.fail();
@@ -202,7 +209,7 @@ public class EsManagerImpl implements EsManager {
             log.info("resp={}", JSONObject.toJSON(response));
             return BaseResult.success();
         } catch (IOException e) {
-            log.info("fail to update doc", e);
+            log.error("fail to update doc", e);
         }
 
         return BaseResult.fail();
@@ -224,10 +231,43 @@ public class EsManagerImpl implements EsManager {
 
             return BaseResult.success(response);
         } catch (IOException e) {
-            log.info("fail to update doc by bulk", e);
+            log.error("fail to update doc by bulk", e);
         }
 
         return BaseResult.fail();
+    }
+
+    @Override
+    public BaseResult updateDocByQuery(String indexName, QueryBuilder query, Map<String, Object> document) {
+        UpdateByQueryRequest updateByQueryRequest = new UpdateByQueryRequest(indexName);
+        updateByQueryRequest.setQuery(query);
+        StringBuilder script = new StringBuilder();
+        Set<String> keys = document.keySet();
+        for (String key : keys) {
+            String appendValue = "";
+            Object value = document.get(key);
+            if (value instanceof Number) {
+                appendValue = value.toString();
+            } else if (value instanceof String) {
+                appendValue = "'" + value.toString() + "'";
+            } else if (value instanceof List) {
+                appendValue = JSONUtil.toStr(value);
+            } else {
+                appendValue = value.toString();
+            }
+            script.append("ctx._source.").append(key).append("=").append(appendValue).append(";");
+        }
+        updateByQueryRequest.setScript(new Script(script.toString()));
+
+        try {
+            BulkByScrollResponse resp = client.updateByQuery(updateByQueryRequest, RequestOptions.DEFAULT);
+            log.info("resp={}", JSON.toJSONString(resp));
+            return BaseResult.success(resp);
+        } catch (Exception e) {
+            log.error("fail to update by query", e);
+        }
+
+        return BaseResult.failMsg("");
     }
 
     @Override
@@ -239,7 +279,7 @@ public class EsManagerImpl implements EsManager {
             log.info("resp={}", JSONObject.toJSON(response));
             return BaseResult.success(response);
         } catch (IOException e) {
-            log.info("fail to delete doc", e);
+            log.error("fail to delete doc", e);
         }
         return BaseResult.fail();
     }
@@ -260,10 +300,26 @@ public class EsManagerImpl implements EsManager {
 
             return BaseResult.success(response);
         } catch (IOException e) {
-            log.info("fail to delete doc by bulk", e);
+            log.error("fail to delete doc by bulk", e);
         }
 
         return BaseResult.fail();
+    }
+
+    @Override
+    public BaseResult deleteDocByQuery(String indexName, QueryBuilder queryBuilder) {
+        DeleteByQueryRequest queryRequest = new DeleteByQueryRequest(indexName);
+        queryRequest.setQuery(queryBuilder);
+
+        try {
+            BulkByScrollResponse resp = client.deleteByQuery(queryRequest, RequestOptions.DEFAULT);
+            log.info("resp={}", JSON.toJSONString(resp));
+            return BaseResult.success(resp);
+        } catch (Exception e) {
+            log.error("fail to delete by query", e);
+        }
+
+        return BaseResult.failMsg("fail to delete by query.");
     }
 
     @Override
