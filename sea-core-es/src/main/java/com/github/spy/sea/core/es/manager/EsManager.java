@@ -23,6 +23,9 @@ public interface EsManager {
      */
     void init(RestHighLevelClient client);
 
+    /**
+     * 销毁
+     */
     void destroy();
 
     /**
@@ -150,7 +153,12 @@ public interface EsManager {
      */
     BaseResult deleteDocByQuery(String indexName, QueryBuilder queryBuilder);
 
-
+    /**
+     * 复杂查询
+     *
+     * @param dto
+     * @return
+     */
     BaseResult query(EsQueryDTO dto);
 
 }
