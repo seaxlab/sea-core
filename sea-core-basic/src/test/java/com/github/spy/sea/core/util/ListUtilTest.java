@@ -4,6 +4,10 @@ import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
 /**
  * module name
  *
@@ -21,5 +25,34 @@ public class ListUtilTest extends BaseCoreTest {
         log.info("{}", ListUtil.toList(array));
 
     }
+
+    @Test
+    public void run26() throws Exception {
+
+        // 不能使用 Arrays.asList();
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+
+        Predicate<String> predicate = p -> p.equalsIgnoreCase("a");
+
+        log.info("list={}", list);
+        ListUtil.delete(list, predicate);
+
+        log.info("list={}", list);
+    }
+
+    @Test
+    public void run46() throws Exception {
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+
+        Predicate<String> predicate = p -> p.equalsIgnoreCase("a");
+
+        list.removeIf(predicate);
+        log.info("list={}", list);
+    }
+
 
 }

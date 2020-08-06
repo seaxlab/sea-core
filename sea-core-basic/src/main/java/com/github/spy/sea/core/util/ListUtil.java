@@ -6,6 +6,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * List工具
@@ -111,5 +112,19 @@ public final class ListUtil {
 
         return Arrays.asList(array);
     }
+
+    /**
+     * 删除元素
+     *
+     * @param list
+     * @param predicate
+     */
+    public static <T> void delete(List<T> list, Predicate<T> predicate) {
+        int size = list.size();
+        // from 1.8
+        list.removeIf(predicate);
+        log.info("before:{},after:{}", size, list.size());
+    }
+
 
 }
