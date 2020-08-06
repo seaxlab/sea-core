@@ -172,6 +172,8 @@ public class EsManagerImpl implements EsManager {
             BulkResponse response = client.bulk(bulkRequest, RequestOptions.DEFAULT);
             log.info("resp={}", JSONObject.toJSON(response));
 
+            checkBulkResponse(response);
+
             return BaseResult.success();
         } catch (IOException e) {
             log.error("fail to bulk insert into es.", e);
@@ -191,6 +193,8 @@ public class EsManagerImpl implements EsManager {
         try {
             BulkResponse response = client.bulk(bulkRequest, RequestOptions.DEFAULT);
             log.info("resp={}", JSONObject.toJSON(response));
+
+            checkBulkResponse(response);
 
             return BaseResult.success();
         } catch (IOException e) {
@@ -228,6 +232,8 @@ public class EsManagerImpl implements EsManager {
         try {
             BulkResponse response = client.bulk(bulkRequest, RequestOptions.DEFAULT);
             log.info("resp={}", JSONObject.toJSON(response));
+
+            checkBulkResponse(response);
 
             return BaseResult.success(response);
         } catch (IOException e) {
@@ -298,6 +304,8 @@ public class EsManagerImpl implements EsManager {
             BulkResponse response = client.bulk(bulkRequest, RequestOptions.DEFAULT);
             log.info("resp={}", JSONObject.toJSON(response));
 
+            checkBulkResponse(response);
+
             return BaseResult.success(response);
         } catch (IOException e) {
             log.error("fail to delete doc by bulk", e);
@@ -343,5 +351,11 @@ public class EsManagerImpl implements EsManager {
         }
 
         return BaseResult.fail();
+    }
+
+    private void checkBulkResponse(BulkResponse response) {
+        if (response != null && response.hasFailures()) {
+            log.error("es bulk response msg={}", response.buildFailureMessage());
+        }
     }
 }
