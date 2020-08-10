@@ -1,7 +1,6 @@
 package com.github.spy.sea.core.http.simple;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.model.BaseResult;
@@ -50,6 +49,8 @@ public class HttpClientUtil {
     private static Logger log = LoggerFactory.getLogger(HttpClientUtil.class);
 
     public static CloseableHttpClient httpClient = null;
+
+    private static PoolingHttpClientConnectionManager connectionManager;
 
     /**
      * 连接超时时间10秒
@@ -104,18 +105,22 @@ public class HttpClientUtil {
                         .register("https", ssf)
                         .build();
                 //manager
-                PoolingHttpClientConnectionManager manager = new PoolingHttpClientConnectionManager(registry);
-                manager.setMaxTotal(managerMaxTotal);
+                connectionManager = new PoolingHttpClientConnectionManager(registry);
+                connectionManager.setMaxTotal(managerMaxTotal);
                 //socketConfig
                 SocketConfig socketConfig = SocketConfig.custom().setSoTimeout(socketTimeOut).build();
                 httpClient = HttpClients.custom()
-                                        .setConnectionManager(manager)
+                                        .setConnectionManager(connectionManager)
                                         .setDefaultSocketConfig(socketConfig)
                                         .build();
             } catch (Exception ex) {
                 log.error("httpClient——初始化——报错，错误信息", ex);
             }
         }
+    }
+
+    public static PoolingHttpClientConnectionManager getConnectionManager() {
+        return connectionManager;
     }
 
     /**
