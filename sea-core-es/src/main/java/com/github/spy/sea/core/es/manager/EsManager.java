@@ -4,6 +4,7 @@ import com.github.spy.sea.core.es.dto.EsQueryDTO;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.model.KeyValuePair;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 
 import java.util.List;
@@ -60,6 +61,15 @@ public interface EsManager {
      */
     //没有批量删除索引接口
 //    BaseResult deleteIndexByBulk(List<String> indexNameList);
+
+    /**
+     * 创建映射
+     *
+     * @param indexName
+     * @param builder
+     * @return
+     */
+    BaseResult createMapping(String indexName, XContentBuilder builder);
 
     /**
      * 插入文档

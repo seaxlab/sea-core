@@ -9,6 +9,8 @@ import com.github.spy.sea.core.util.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -143,6 +145,23 @@ public class EsManagerTest extends AbstractEsTest {
     public void run143() throws Exception {
         QueryBuilder queryBuilder = new TermQueryBuilder("productId", "9006387166");
         esManager.deleteDocByQuery(indexName, queryBuilder);
+    }
+
+    @Test
+    public void createIndexTest() throws Exception {
+        String indexName = "test-abc";
+
+        esManager.createIndex(indexName);
+
+        XContentBuilder builder = XContentFactory.jsonBuilder()
+                                                 .startObject()
+                                                 .startObject("properties")
+                                                 .startObject("name").field("type", "text").endObject()
+                                                 .startObject("age").field("type", "keyword").endObject()
+                                                 .endObject()
+                                                 .endObject();
+
+        esManager.createMapping(indexName, builder);
     }
 
 }

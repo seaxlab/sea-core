@@ -27,6 +27,8 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
+import org.elasticsearch.client.indices.PutMappingRequest;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
@@ -71,8 +73,12 @@ public class EsManagerImpl implements EsManager {
 
     @Override
     public BaseResult createIndex(String indexName) {
+        boolean exist = checkIndexExist(indexName);
+        if (exist) {
+            log.info("indexName={} has exist", indexName);
+            return BaseResult.success();
+        }
         CreateIndexRequest request = new CreateIndexRequest(indexName);
-
         try {
             CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
             log.info("response={}", createIndexResponse);
@@ -128,6 +134,22 @@ public class EsManagerImpl implements EsManager {
 //
 //        return BaseResult.fail();
 //    }
+
+
+    @Override
+    public BaseResult createMapping(String indexName, XContentBuilder builder) {
+        try {
+            PutMappingRequest request = new PutMappingRequest(indexName);
+            request.source(builder);
+
+            AcknowledgedResponse resp = client.indices().putMapping(request, RequestOptions.DEFAULT);
+
+            return BaseResult.success(resp.isAcknowledged());
+        } catch (IOException e) {
+            log.error("fail to create mapping", e);
+        }
+        return BaseResult.failMsg("create mapping error");
+    }
 
     @Override
     public BaseResult insertDoc(String indexName, Map<String, Object> docMap) {
