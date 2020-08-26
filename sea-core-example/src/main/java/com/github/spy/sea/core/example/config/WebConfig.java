@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.example.config;
 
 import com.github.spy.sea.core.web.filter.SeaGlobalFilter;
+import com.github.spy.sea.core.web.servlet.WebApplicationListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -26,5 +27,10 @@ public class WebConfig {
         registration.setName("SeaGlobalFilter");
 //        registration.setOrder(1);//设置优先级
         return registration;
+    }
+
+    @Bean
+    public WebApplicationListener webApplicationListener() {
+        return new WebApplicationListener();
     }
 }

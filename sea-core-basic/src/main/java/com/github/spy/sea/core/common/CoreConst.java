@@ -87,4 +87,9 @@ public class CoreConst {
 
     public static final String REQUEST_URL = "request.url";
     public static final String REQUEST_USER_AGENT = "request.user.agent";
+
+    /**
+     * you should config [com.github.spy.sea.core.web.servlet.WebApplicationListener] in web application.
+     */
+    public static String WEB_ROOT = "";
 }

@@ -25,7 +25,5 @@ public class MvcConfig implements WebMvcConfigurer {
         requestLogInterceptor.setIncludePayload(true);
 
         registry.addInterceptor(requestLogInterceptor).addPathPatterns("/api/**");
-
-
     }
 }
