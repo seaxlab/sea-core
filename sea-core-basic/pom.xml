@@ -96,6 +96,12 @@
             <artifactId>commons-codec</artifactId>
         </dependency>
 
+        <!-- for telnet,ftp -->
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
