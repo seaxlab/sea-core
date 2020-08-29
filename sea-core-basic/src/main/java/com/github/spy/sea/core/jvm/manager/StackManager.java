@@ -3,9 +3,8 @@ package com.github.spy.sea.core.jvm.manager;
 import com.github.spy.sea.core.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadInfo;
-import java.lang.management.ThreadMXBean;
+import java.io.OutputStream;
+import java.lang.management.*;
 import java.util.Date;
 
 /**
@@ -17,6 +16,8 @@ import java.util.Date;
  */
 @Slf4j
 public class StackManager {
+    private static final String LOGO_TITLE = "dump create by sea-core, design by SPY.";
+
     private StackManager() {
     }
     // jstack thread format
@@ -35,11 +36,12 @@ public class StackManager {
      */
     public static String dump() {
         final StringBuilder dump = new StringBuilder();
-        dump.append(DateUtil.toYMDHMS(new Date())).append(" dump create by sea-core\n\n");
+        dump.append(DateUtil.toYMDHMS(new Date())).append(" ").append(LOGO_TITLE).append("\n\n");
 
         final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
         threadMXBean.setThreadContentionMonitoringEnabled(true);
 
+        threadMXBean.dumpAllThreads(true, true);
         final ThreadInfo[] threadInfos = threadMXBean.getThreadInfo(threadMXBean.getAllThreadIds(), 100);
 
         for (ThreadInfo threadInfo : threadInfos) {
@@ -62,6 +64,112 @@ public class StackManager {
         }
 
         return dump.toString();
+    }
+
+    /**
+     * dump use output stream.
+     * implement from apache dubbo.
+     *
+     * @param stream
+     * @throws Exception
+     */
+    public static void dump(OutputStream stream) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        sb.append(DateUtil.toYMDHMS(new Date())).append(" ").append(LOGO_TITLE).append("\n\n");
+        stream.write(sb.toString().getBytes());
+
+        ThreadMXBean threadMxBean = ManagementFactory.getThreadMXBean();
+        for (ThreadInfo threadInfo : threadMxBean.dumpAllThreads(true, true)) {
+            stream.write(getThreadDumpString(threadInfo).getBytes());
+        }
+    }
+
+    /**
+     * dump java stack.
+     *
+     * @return
+     */
+    public static String dumpStandard() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(DateUtil.toYMDHMS(new Date())).append(" ").append(LOGO_TITLE).append("\n\n");
+
+
+        ThreadMXBean threadMxBean = ManagementFactory.getThreadMXBean();
+        for (ThreadInfo threadInfo : threadMxBean.dumpAllThreads(true, true)) {
+            sb.append(getThreadDumpString(threadInfo).getBytes());
+        }
+        return sb.toString();
+    }
+
+
+    private static String getThreadDumpString(ThreadInfo threadInfo) {
+        StringBuilder sb = new StringBuilder("\"" + threadInfo.getThreadName() + "\"" +
+                " Id=" + threadInfo.getThreadId() + " " +
+                threadInfo.getThreadState());
+        if (threadInfo.getLockName() != null) {
+            sb.append(" on " + threadInfo.getLockName());
+        }
+        if (threadInfo.getLockOwnerName() != null) {
+            sb.append(" owned by \"" + threadInfo.getLockOwnerName() +
+                    "\" Id=" + threadInfo.getLockOwnerId());
+        }
+        if (threadInfo.isSuspended()) {
+            sb.append(" (suspended)");
+        }
+        if (threadInfo.isInNative()) {
+            sb.append(" (in native)");
+        }
+        sb.append('\n');
+        int i = 0;
+
+        StackTraceElement[] stackTrace = threadInfo.getStackTrace();
+        MonitorInfo[] lockedMonitors = threadInfo.getLockedMonitors();
+        for (; i < stackTrace.length && i < 32; i++) {
+            StackTraceElement ste = stackTrace[i];
+            sb.append("\tat " + ste.toString());
+            sb.append('\n');
+            if (i == 0 && threadInfo.getLockInfo() != null) {
+                Thread.State ts = threadInfo.getThreadState();
+                switch (ts) {
+                    case BLOCKED:
+                        sb.append("\t-  blocked on " + threadInfo.getLockInfo());
+                        sb.append('\n');
+                        break;
+                    case WAITING:
+                        sb.append("\t-  waiting on " + threadInfo.getLockInfo());
+                        sb.append('\n');
+                        break;
+                    case TIMED_WAITING:
+                        sb.append("\t-  waiting on " + threadInfo.getLockInfo());
+                        sb.append('\n');
+                        break;
+                    default:
+                }
+            }
+
+            for (MonitorInfo mi : lockedMonitors) {
+                if (mi.getLockedStackDepth() == i) {
+                    sb.append("\t-  locked " + mi);
+                    sb.append('\n');
+                }
+            }
+        }
+        if (i < stackTrace.length) {
+            sb.append("\t...");
+            sb.append('\n');
+        }
+
+        LockInfo[] locks = threadInfo.getLockedSynchronizers();
+        if (locks.length > 0) {
+            sb.append("\n\tNumber of locked synchronizers = " + locks.length);
+            sb.append('\n');
+            for (LockInfo li : locks) {
+                sb.append("\t- " + li);
+                sb.append('\n');
+            }
+        }
+        sb.append('\n');
+        return sb.toString();
     }
 
 }
