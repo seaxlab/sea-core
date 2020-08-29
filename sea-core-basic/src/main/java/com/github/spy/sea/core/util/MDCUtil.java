@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 
 /**
- * 模块
+ * slf4j mdc util
  *
  * @author spy
  * @version 1.0 2019-06-25
