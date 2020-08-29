@@ -35,15 +35,21 @@ public class BitUtilTest extends BaseCoreTest {
     @Test
     public void run17() throws Exception {
 
-        int defaultValue = LEFT;
+        int value = LEFT;
 
-        defaultValue = BitUtil.addFlag(defaultValue, RIGHT);
-        log.info("add right, ret={}", defaultValue);
+        value = BitUtil.addFlag(value, RIGHT);
+        log.info("add right, ret={}", value);
 
-        log.info("has right, ret={}", BitUtil.hasFlag(defaultValue, RIGHT));
-        defaultValue = BitUtil.clearFlag(defaultValue, RIGHT);
+        value = BitUtil.addFlag(value, RIGHT);
+        log.info("add right, ret={}", value);
 
-        log.info("remove right, ret={}", BitUtil.clearFlag(defaultValue, RIGHT));
+        log.info("has right, ret={}", BitUtil.hasFlag(value, RIGHT));
+
+        value = BitUtil.clearFlag(value, RIGHT);
+        log.info("remove right, ret={}", value);
+
+        value = BitUtil.clearFlag(value, RIGHT);
+        log.info("remove right, ret={}", value);
 
     }
 }
