@@ -24,6 +24,16 @@ public final class FileUtil {
     }
 
     /**
+     * check file or directory exist
+     *
+     * @param path
+     * @return
+     */
+    public static boolean exist(String path) {
+        return new File(path).exists();
+    }
+
+    /**
      * 确保目录存在
      *
      * @param path
