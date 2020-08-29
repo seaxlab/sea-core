@@ -96,7 +96,7 @@ public class StackManager {
 
         ThreadMXBean threadMxBean = ManagementFactory.getThreadMXBean();
         for (ThreadInfo threadInfo : threadMxBean.dumpAllThreads(true, true)) {
-            sb.append(getThreadDumpString(threadInfo).getBytes());
+            sb.append(getThreadDumpString(threadInfo));
         }
         return sb.toString();
     }
