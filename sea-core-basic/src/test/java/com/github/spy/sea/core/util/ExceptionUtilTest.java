@@ -2,6 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
@@ -29,4 +30,9 @@ public class ExceptionUtilTest extends BaseCoreTest {
         log.info("error msg={}", ExceptionUtil.getStackTrace(e));
     }
 
+
+    @Test
+    public void run34() throws Exception {
+        log.info("{}", ExceptionUtils.getStackTrace(new NullPointerException()));
+    }
 }

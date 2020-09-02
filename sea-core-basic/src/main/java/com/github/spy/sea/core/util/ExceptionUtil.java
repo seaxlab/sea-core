@@ -18,6 +18,16 @@ public final class ExceptionUtil {
     }
 
     /**
+     * get message
+     *
+     * @param throwable
+     * @return
+     */
+    public static String getMessage(final Throwable throwable) {
+        return ExceptionUtils.getMessage(throwable);
+    }
+
+    /**
      * 获取堆栈信息
      * InvocationTargetException中Message为null，需要使用此方法来获取
      *
