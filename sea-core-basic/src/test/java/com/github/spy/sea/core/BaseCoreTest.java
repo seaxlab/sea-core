@@ -4,6 +4,8 @@ import com.github.spy.sea.core.config.ConfigurationFactory;
 import com.github.spy.sea.core.test.AbstractCoreTest;
 import org.junit.Before;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 模块
  *
@@ -26,6 +28,13 @@ public abstract class BaseCoreTest extends AbstractCoreTest {
 
     protected String getUserHome() {
         return ConfigurationFactory.getInstance().getString("user.home");
+    }
+
+    protected void sleep(int second) {
+        try {
+            TimeUnit.SECONDS.sleep(second);
+        } catch (Exception e) {
+        }
     }
 
 }
