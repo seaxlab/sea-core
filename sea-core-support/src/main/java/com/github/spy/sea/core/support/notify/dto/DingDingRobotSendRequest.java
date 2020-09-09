@@ -26,8 +26,7 @@ public class DingDingRobotSendRequest implements Serializable {
     /**
      * at
      */
-    private String at;
-
+    private At at;
 
     private String msgtype;
 
@@ -59,10 +58,7 @@ public class DingDingRobotSendRequest implements Serializable {
      */
     public static class At extends BaseRequestDTO {
         private List<String> atMobiles;
-        /**
-         *
-         */
-        private String isAtAll;
+        private boolean isAtAll;
 
         public List<String> getAtMobiles() {
             return this.atMobiles;
@@ -72,11 +68,11 @@ public class DingDingRobotSendRequest implements Serializable {
             this.atMobiles = atMobiles;
         }
 
-        public String getIsAtAll() {
+        public boolean getIsAtAll() {
             return this.isAtAll;
         }
 
-        public void setIsAtAll(String isAtAll) {
+        public void setIsAtAll(boolean isAtAll) {
             this.isAtAll = isAtAll;
         }
     }

@@ -6,7 +6,6 @@ import com.github.spy.sea.core.support.notify.dto.DingDingNotifyDTO;
 import com.github.spy.sea.core.support.notify.dto.DingDingRobotSendRequest;
 import com.github.spy.sea.core.support.notify.manager.NotifyManager;
 import com.github.spy.sea.core.support.notify.manager.dingding.DingDingMsgTypeEnum;
-import com.github.spy.sea.core.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -29,34 +28,35 @@ public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
     public void send(String msg) {
 
         try {
-            send0(msg);
+            DingDingNotifyDTO dto = new DingDingNotifyDTO();
+            dto.setContent(msg);
+            send0(dto);
         } catch (Exception e) {
             log.error("send ding ding msg error", e);
         }
 
-        log.info("send dingding msg end.");
+        log.info("send ding ding msg end.");
     }
 
     @Override
     public void send(String title, String msg) {
         try {
-            send0(title, msg);
+            DingDingNotifyDTO dto = new DingDingNotifyDTO();
+            dto.setTitle(title);
+            dto.setContent(msg);
+            send0(dto);
         } catch (Exception e) {
             log.error("send ding ding msg error", e);
         }
 
-        log.info("send dingding msg end.");
+        log.info("send ding ding msg end.");
     }
 
     @Override
     public BaseResult send(DingDingNotifyDTO dto) {
         BaseResult result = BaseResult.fail();
         try {
-            if (StringUtil.isNotEmpty(dto.getTitle())) {
-                send0(dto.getTitle(), dto.getContent());
-            } else {
-                send0(dto.getContent());
-            }
+            send0(dto);
             result.setSuccess(true);
         } catch (Exception e) {
             log.error("send ding ding msg error", e);
@@ -66,34 +66,34 @@ public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
         return result;
     }
 
-    private void send0(String msg) {
-        log.info("send dingding msg begin.");
-        log.debug("msg={}", msg);
-
+    private void send0(DingDingNotifyDTO dto) {
+        log.info("send ding ding msg begin.");
+        log.debug("title={},msg={}", dto.getTitle(), dto.getContent());
         DingDingRobotSendRequest request = new DingDingRobotSendRequest();
 
         request.setMsgtype(DingDingMsgTypeEnum.TEXT.getKey());
 
         DingDingRobotSendRequest.Text text = new DingDingRobotSendRequest.Text();
 
-        text.setContent(msg);
-        request.setText(text);
-        HttpClientUtil.postJSON(endpoint, request);
-    }
-
-
-    private void send0(String title, String msg) {
-        log.info("send dingding msg begin.");
-        log.debug("title={},msg={}", title, msg);
-        DingDingRobotSendRequest request = new DingDingRobotSendRequest();
-
-        request.setMsgtype(DingDingMsgTypeEnum.TEXT.getKey());
-
-        DingDingRobotSendRequest.Text text = new DingDingRobotSendRequest.Text();
-
-        text.setContent(msg);
+        text.setContent(dto.getContent());
         request.setText(text);
 
+        // check at
+        if (dto.getAt() != null) {
+            DingDingNotifyDTO.At at = dto.getAt();
+
+            DingDingRobotSendRequest.At finalAt = new DingDingRobotSendRequest.At();
+            if (at.getAtMobiles() != null) {
+                finalAt.setAtMobiles(at.getAtMobiles());
+            }
+            if (at.getIsAtAll()) {
+                finalAt.setIsAtAll(true);
+            }
+            request.setAt(finalAt);
+        }
+
+
         HttpClientUtil.postJSON(endpoint, request);
+        log.info("send ding ding msg end.");
     }
 }
