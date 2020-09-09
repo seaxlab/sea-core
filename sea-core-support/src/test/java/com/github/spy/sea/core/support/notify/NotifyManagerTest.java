@@ -1,11 +1,16 @@
 package com.github.spy.sea.core.support.notify;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.spy.sea.core.message.util.MessageUtil;
+import com.github.spy.sea.core.support.notify.dto.DingDingNotifyDTO;
 import com.github.spy.sea.core.support.notify.manager.impl.DingDingNotifyManager;
 import com.github.spy.sea.core.support.notify.util.DingDingUtil;
 import com.github.spy.sea.core.test.AbstractCore5Test;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * module name
@@ -33,6 +38,26 @@ public class NotifyManagerTest extends AbstractCore5Test {
         notifyManager.setEndpoint(url);
 
         notifyManager.send("1");
+    }
+
+    @Test
+    public void run39() throws Exception {
+
+        DingDingNotifyDTO dto = new DingDingNotifyDTO();
+        dto.setContent("111");
+
+        List<String> mobiles = new ArrayList<>();
+        mobiles.add("10086");
+
+        DingDingNotifyDTO.At at = new DingDingNotifyDTO.At();
+
+        at.setAtMobiles(mobiles);
+        at.setIsAtAll(true);
+        dto.setAt(at);
+
+        // {"at":{"atMobiles":["10086"],"isAtAll":true},"content":"111"}
+        log.info("{}", JSONObject.toJSONString(dto));
+
     }
 
 
