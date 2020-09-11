@@ -29,6 +29,11 @@ public class SpringContextHolder implements ApplicationContextAware {
         ctx = applicationContext;
     }
 
+    public static ApplicationContext getApplicationContext() {
+        checkCtx();
+        return ctx;
+    }
+
     /**
      * 获取bean， 如果存在则会抛出异常
      *
