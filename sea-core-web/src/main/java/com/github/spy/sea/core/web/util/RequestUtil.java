@@ -6,6 +6,7 @@ import com.github.spy.sea.core.util.IOUtil;
 import com.github.spy.sea.core.util.RandomUtil;
 import com.github.spy.sea.core.util.StringUtil;
 import com.github.spy.sea.core.web.model.RequestDTO;
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,28 @@ import java.util.Map;
 @Slf4j
 public class RequestUtil {
     private RequestUtil() {
+    }
+
+
+    /**
+     * get param
+     * priority HEADER> PARAMETER > COOKIE
+     *
+     * @param request
+     * @param key
+     * @return
+     */
+    public static String getParamByPriority(HttpServletRequest request, String key) {
+        Preconditions.checkNotNull(key, "key不能为空");
+
+        String value = request.getHeader(key);
+        if (StringUtil.isEmpty(value)) {
+            value = request.getParameter(key);
+            if (StringUtil.isEmpty(value)) {
+                value = CookieUtil.get(request, key);
+            }
+        }
+        return value;
     }
 
     /**
