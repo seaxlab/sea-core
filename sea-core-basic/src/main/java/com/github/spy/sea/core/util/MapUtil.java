@@ -31,6 +31,28 @@ public final class MapUtil {
         return Collections.emptyMap();
     }
 
+    /**
+     * value 不为空则put
+     *
+     * @param map
+     * @param key
+     * @param value
+     */
+    public static void put(Map map, Object key, Object value) {
+        if (value == null) {
+            return;
+        }
+
+        if (value instanceof String) {
+            if (StringUtil.isEmpty(value)) {
+                return;
+            }
+        }
+        // list 不要检查size
+
+        map.put(key, value);
+    }
+
 
     /**
      * deep clone 只适用于简单类型，不适用于复杂类型
