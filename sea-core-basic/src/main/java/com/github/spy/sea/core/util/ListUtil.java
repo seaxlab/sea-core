@@ -100,7 +100,7 @@ public final class ListUtil {
     }
 
     /**
-     * to list
+     * String[] to list
      *
      * @param array
      * @return
@@ -112,6 +112,17 @@ public final class ListUtil {
 
         return Arrays.asList(array);
     }
+
+    /**
+     * set to list.
+     *
+     * @param set
+     * @return
+     */
+    public static List<String> toList(Set<String> set) {
+        return new ArrayList<>(set);
+    }
+
 
     /**
      * 删除元素

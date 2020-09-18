@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 /**
@@ -52,6 +54,17 @@ public class ListUtilTest extends BaseCoreTest {
 
         list.removeIf(predicate);
         log.info("list={}", list);
+    }
+
+    @Test
+    public void run58() throws Exception {
+        Set<String> set = new HashSet<>();
+
+        set.add("a");
+        set.add("b");
+        log.info("set={}", set);
+        log.info("list={}", ListUtil.toList(set));
+
     }
 
 
