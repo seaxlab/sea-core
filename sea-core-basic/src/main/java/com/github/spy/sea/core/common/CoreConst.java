@@ -92,4 +92,13 @@ public class CoreConst {
      * you should config [com.github.spy.sea.core.web.servlet.WebApplicationListener] in web application.
      */
     public static String WEB_ROOT = "";
+
+    /*1KB*/
+    public static long ONE_KB = 1024;
+
+    /*1MB*/
+    public static long ONE_MB = ONE_KB * 1024;
+
+    /*1GB*/
+    public static long ONE_GB = ONE_MB * 1024;
 }

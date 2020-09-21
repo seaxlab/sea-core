@@ -168,7 +168,7 @@ public final class RegExpUtil {
      * @param str 字符串。
      * @return 如果是返回true，不是返回false。
      */
-    public static boolean isNumerAndEnglish(String str) {
+    public static boolean isNumericAndEnglish(String str) {
         byte[] bytes = str.getBytes();
         for (byte temp : bytes) {
             if (temp < 48 || (temp > 57 && temp < 65)
