@@ -446,6 +446,66 @@ public class RedisManager {
         }
     }
 
+    /**
+     * 设置过期时间
+     *
+     * @param key
+     * @param second
+     * @return
+     */
+    public long expire(String key, int second) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            if (jedis == null) {
+                logger.error(NO_JEDIS_INSTANCE);
+                return 0;
+            }
+            return jedis.expire(key, second);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+    /**
+     * expire [key] at [uninxTime]
+     *
+     * @param key
+     * @param unixTime
+     * @return
+     */
+    public long expireAt(String key, long unixTime) {
+        try (Jedis jedis = pool.getResource()) {
+            return jedis.expireAt(key, unixTime);
+        }
+    }
+
+    /**
+     * persist key
+     *
+     * @param key
+     * @return
+     */
+    public long persist(String key) {
+        try (Jedis jedis = pool.getResource()) {
+            return jedis.persist(key);
+        }
+    }
+
+    /**
+     * check key exists
+     *
+     * @param key
+     * @return
+     */
+    public boolean exists(String key) {
+        try (Jedis jedis = pool.getResource()) {
+            return jedis.exists(key);
+        }
+    }
+
 
     public String getHost() {
         return host;
@@ -470,7 +530,6 @@ public class RedisManager {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     public int getDatabase() {
         return database;
