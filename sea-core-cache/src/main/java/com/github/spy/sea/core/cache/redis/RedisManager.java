@@ -507,6 +507,65 @@ public class RedisManager {
     }
 
 
+    /**
+     * get bit
+     *
+     * @param key
+     * @param offset
+     * @return
+     */
+    public boolean getBit(String key, long offset) {
+        try (Jedis jedis = pool.getResource()) {
+            return jedis.getbit(key, offset);
+        }
+    }
+
+    /**
+     * set bit offset max value.
+     */
+    public static final long BIT_OFFSET_MAX_VALUE = (long) (Math.pow(2, 32)) - 1;
+
+    /**
+     * set bit
+     * important: offset must be checked.
+     *
+     * @param key
+     * @param offset max value 4294967295// 2^32-1
+     * @param value
+     * @return the original bit value stored at offset. true:1=1,false:0=1
+     */
+    public boolean setBit(String key, long offset, String value) {
+        if (offset > BIT_OFFSET_MAX_VALUE) {
+            logger.error("offset is out of range");
+            throw new RuntimeException("offset is out of range.");
+        }
+
+        try (Jedis jedis = pool.getResource()) {
+            return jedis.setbit(key, offset, value);
+        }
+    }
+
+    /**
+     * set bit
+     * important: offset must be checked.
+     *
+     * @param key
+     * @param offset max value 4294967295// 2^32-1
+     * @param value
+     * @return the original bit value stored at offset. true:1=1,false:0=1
+     */
+    public boolean setBit(String key, long offset, boolean value) {
+        if (offset > BIT_OFFSET_MAX_VALUE) {
+            logger.error("offset is out of range");
+            throw new RuntimeException("offset is out of range.");
+        }
+
+        try (Jedis jedis = pool.getResource()) {
+            return jedis.setbit(key, offset, value);
+        }
+    }
+
+
     public String getHost() {
         return host;
     }

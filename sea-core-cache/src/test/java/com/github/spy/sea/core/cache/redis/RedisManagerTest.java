@@ -26,8 +26,8 @@ public class RedisManagerTest {
 
     @Before
     public void before() throws Exception {
-        redisServer = new RedisServer(6379);
-        redisServer.start();
+//        redisServer = new RedisServer(6379);
+//        redisServer.start();
 
         redisManager = new RedisManager();
 
@@ -108,6 +108,63 @@ public class RedisManagerTest {
         TimeUnit.SECONDS.sleep(10);
         pubSub.unsubscribe();
         pubSub2.unsubscribe();
+    }
+
+    @Test
+    public void setBitSimpleTest() throws Exception {
+        String key = "order:f:paysucc";
+        for (int i = 0; i < 10; i++) {
+            long userId = i;
+            boolean ret = redisManager.setBit(key, userId, true);
+            log.info("ret={}", ret);
+        }
+    }
+
+    @Test
+    public void getBitTest() throws Exception {
+        String key = "order:f:paysucc";
+
+        for (int i = 0; i < 15; i++) {
+            log.info("{}={}", i, redisManager.getBit(key, i));
+        }
+    }
+
+    @Test
+    public void maxSetBitTest() throws Exception {
+        String key = "order:f:paysucc";
+        long userId = 4294967295L - 1;
+        boolean ret = redisManager.setBit(key, userId, true);
+        log.info("ret={}", ret);
+    }
+
+    @Test
+    public void getMaxBitTest() throws Exception {
+        String key = "order:f:paysucc";
+        long userId = 4294967295L - 1;
+//        userId = 4294967293L;
+        boolean ret = redisManager.getBit(key, userId);
+        log.info("ret={}", ret);
+    }
+
+
+    @Test
+    public void run141() throws Exception {
+        // 2147483647
+        // 4294967295// 2^32-1
+        log.info("{}", Integer.MAX_VALUE);
+
+        log.info("{}", RedisManager.BIT_OFFSET_MAX_VALUE);
+
+        // 9223372036854775807
+        log.info("{}", Long.MAX_VALUE);
+
+    }
+
+    @Test
+    public void deleteTest() throws Exception {
+        String key = "order:f:paysucc";
+
+        redisManager.del(key);
     }
 
 
