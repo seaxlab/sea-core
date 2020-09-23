@@ -52,6 +52,7 @@ public class FootPrintDTO implements Serializable {
 
     private String userAgent;
     private String ip;
+    private String mac;
 
     /**
      * channel. eg: alipay
