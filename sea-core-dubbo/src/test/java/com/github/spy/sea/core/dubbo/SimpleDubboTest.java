@@ -4,7 +4,6 @@ import com.github.spy.sea.core.dubbo.common.dto.DubboGenericInvokeDTO;
 import com.github.spy.sea.core.dubbo.util.DubboUtil;
 import com.github.spy.sea.core.model.BaseResult;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -14,22 +13,11 @@ import java.util.Map;
  * module name
  *
  * @author spy
- * @version 1.0 2020/4/21
+ * @version 1.0 2020/9/27
  * @since 1.0
  */
 @Slf4j
-public class DubboTest {
-
-    private String registryAddress = "zookeeper://10.10.10.74:2181";
-    private DubboGenericInvokeDTO dto;
-
-    @Before
-    public void before() {
-        dto = new DubboGenericInvokeDTO();
-        dto.setAppName("sea-core-test");
-        dto.setRegistryAddress("zookeeper://10.10.10.74:2181");
-    }
-
+public class SimpleDubboTest extends BaseDubboTest {
     @Test
     public void simple2Test() throws Exception {
 

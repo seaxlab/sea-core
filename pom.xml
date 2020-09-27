@@ -73,7 +73,7 @@
         <jedis.version>3.2.0</jedis.version>
 
         <sea.dubbo.legacy.version>2.6.7</sea.dubbo.legacy.version>
-        <sea.dubbo.version>2.7.3</sea.dubbo.version>
+        <sea.dubbo.version>2.7.6</sea.dubbo.version>
     </properties>
 
 
