@@ -6,6 +6,8 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -939,6 +941,87 @@ public final class DateUtil {
         }
 
         return targetDate.getTime() >= beginDate.getTime() && targetDate.getTime() <= endDate.getTime();
+    }
+
+
+    /**
+     * 获取当前时间所在周的开始日期和结束日期
+     *
+     * @return
+     */
+    public static Date[] getBeginAndEndOfWeek() {
+        return getBeginAndEndOfWeek(0);
+    }
+
+    /**
+     * 获取当前时间所在周的开始日期、结束日期
+     *
+     * @param weekOffset 周期  0本周，-1上周，-2上上周，1下周，2下下周；依次类推
+     * @return 返回date[0]开始日期、date[1]结束日期
+     */
+    public static Date[] getBeginAndEndOfWeek(int weekOffset) {
+        return getBeginAndEndOfWeek(new Date(), weekOffset);
+    }
+
+    /**
+     * 获取指定时间的，周开始日期和结束日期
+     *
+     * @param date
+     * @param weekOffset 0本周，-1上周，-2上上周，1下周，2下下周；依次类推
+     * @return
+     */
+    public static Date[] getBeginAndEndOfWeek(Date date, int weekOffset) {
+        DateTime dateTime;
+        if (date == null) {
+            dateTime = new DateTime();
+        } else {
+            dateTime = new DateTime(date.getTime());
+        }
+
+        LocalDate localDate = new LocalDate(dateTime.plusWeeks(weekOffset));
+
+        localDate = localDate.dayOfWeek().withMinimumValue();
+        Date beginDate = localDate.toDate();
+        Date endDate = localDate.plusDays(6).toDate();
+        return new Date[]{beginDate, endDate};
+    }
+
+    /**
+     * 当天的开始时间 如2020-09-11 00:00:00
+     *
+     * @return
+     */
+    public static Date getBeginDateTimeOfDay() {
+        DateTime dateTime = new DateTime();
+        dateTime = dateTime.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
+        return dateTime.toDate();
+    }
+
+    /**
+     * 当天的开始时间 如2020-09-11 23:59:59.999
+     *
+     * @return
+     */
+    public static Date getEndDateTimeOfDay() {
+        DateTime dateTime = new DateTime();
+        dateTime = dateTime.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999);
+        return dateTime.toDate();
+    }
+
+    /**
+     * 指定日期的开始和结束日期
+     *
+     * @param date
+     * @return
+     */
+    public static Date[] getBeginAndEndDateTimeOfDay(Date date) {
+        DateTime begin = new DateTime(date.getTime());
+        begin = begin.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
+
+
+        DateTime end = new DateTime(date.getTime());
+        end = end.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999);
+        return new Date[]{begin.toDate(), end.toDate()};
     }
 
 

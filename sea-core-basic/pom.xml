@@ -201,6 +201,11 @@
             <version>3.0.1-b08</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
     </dependencies>
 
 

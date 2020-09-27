@@ -29,4 +29,16 @@ public class DateUtilTest extends BaseCoreTest {
         println(DateUtil.addHour(now, 1));
         println(DateUtil.addMinute(now, 15));
     }
+
+    @Test
+    public void run34() throws Exception {
+        log.info("{}-{}", DateUtil.getBeginAndEndOfWeek(0));
+        log.info("{}-{}", DateUtil.getBeginAndEndOfWeek(1));
+    }
+
+    @Test
+    public void run40() throws Exception {
+        log.info("{}-{}", DateUtil.getBeginAndEndDateTimeOfDay(new Date()));
+        log.info("{}", DateUtil.getBeginDateTimeOfDay());
+    }
 }
