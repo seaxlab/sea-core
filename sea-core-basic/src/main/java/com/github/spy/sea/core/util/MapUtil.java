@@ -53,6 +53,22 @@ public final class MapUtil {
         map.put(key, value);
     }
 
+    /**
+     * put value
+     *
+     * @param map
+     * @param key
+     * @param value
+     * @param defaultValue
+     */
+    public static void put(Map map, Object key, Object value, Object defaultValue) {
+        if (value == null) {
+            map.put(key, defaultValue);
+        } else {
+            map.put(key, value);
+        }
+    }
+
 
     /**
      * deep clone 只适用于简单类型，不适用于复杂类型
