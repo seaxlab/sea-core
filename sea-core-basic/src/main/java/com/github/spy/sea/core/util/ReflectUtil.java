@@ -33,11 +33,24 @@ public final class ReflectUtil {
 
 
     /**
+     * get all fields list.
+     *
      * @param cls
      * @return
      */
     public static List<Field> getAllFieldsList(final Class<?> cls) {
         return FieldUtils.getAllFieldsList(cls);
+    }
+
+    /**
+     * force access field.
+     *
+     * @param clz
+     * @param fieldName
+     * @return
+     */
+    public static Field getField(final Class<?> clz, String fieldName) {
+        return FieldUtils.getField(clz, fieldName, true);
     }
 
     /**
@@ -247,5 +260,22 @@ public final class ReflectUtil {
         return data.toArray(new Class<?>[data.size()]);
     }
 
+
+    /**
+     * check has default constructor.
+     *
+     * @param clazz
+     * @return
+     * @throws SecurityException
+     */
+    public static boolean hasDefaultConstructor(Class<?> clazz) throws SecurityException {
+        Class<?>[] empty = {};
+        try {
+            clazz.getConstructor(empty);
+        } catch (NoSuchMethodException e) {
+            return false;
+        }
+        return true;
+    }
 
 }
