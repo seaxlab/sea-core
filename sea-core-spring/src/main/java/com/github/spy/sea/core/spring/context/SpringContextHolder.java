@@ -9,6 +9,7 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.ClassUtils;
 
@@ -264,6 +265,15 @@ public class SpringContextHolder implements ApplicationContextAware {
 
         String beanName = ClassUtils.getUserClass(bean).getName();
         factory.initializeBean(bean, beanName);
+    }
+
+    /**
+     * 发布一个事件
+     *
+     * @param event
+     */
+    public static void publish(ApplicationEvent event) {
+        getApplicationContext().publishEvent(event);
     }
 
 
