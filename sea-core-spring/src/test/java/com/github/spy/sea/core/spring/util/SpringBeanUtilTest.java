@@ -39,7 +39,10 @@ public class SpringBeanUtilTest {
             list.add(user1);
         }
 
-        log.info("List<User2> = {}", SpringBeanUtil.convertList(list, User2.class));
+        log.info("List<User2> = {}", SpringBeanUtil.convertList(list, User2.class, (user1, user2) -> {
+            log.info("user1={},user2={}", user1, user2);
+            user2.setColor("111");
+        }));
     }
 
     @Test
@@ -64,5 +67,6 @@ public class SpringBeanUtilTest {
     public static class User2 implements Serializable {
         private Long id;
         private String name;
+        private String color;
     }
 }
