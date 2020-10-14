@@ -16,6 +16,15 @@ import org.springframework.util.ClassUtils;
 /**
  * spring上下文
  *
+ * <pre>
+ *     <bean class="com.github.spy.sea.core.spring.context.SpringContextHolder"/>
+ *  or
+ *      @Bean
+ *      public SpringContextHolder springContextHolder(){
+ *          return new SpringContextHolder();
+ *      }
+ * </pre>
+ *
  * @author spy
  * @version 1.0 2019-07-19
  * @since 1.0

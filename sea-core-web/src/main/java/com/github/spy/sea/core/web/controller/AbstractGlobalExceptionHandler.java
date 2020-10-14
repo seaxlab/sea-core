@@ -44,6 +44,7 @@ import java.util.Locale;
  * @date 2020-06-03
  */
 @Slf4j
+//@ControllerAdvice(basePackages = {"com.xx.console", "com.xx.admin"})
 public abstract class AbstractGlobalExceptionHandler {
 
     @Autowired
