@@ -6,8 +6,6 @@ import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * Junit4 测试基类
  *
@@ -29,7 +27,8 @@ public abstract class AbstractCoreTest {
 
     @AfterClass
     public static void testEnd() {
-        System.out.println("cost: " + _stopwatch.elapsed(TimeUnit.MILLISECONDS) + "ms");
+        _stopwatch.stop();
+        System.out.println("cost: " + _stopwatch.toString());
         System.out.println("-------------------- test  end  ------------------");
     }
 

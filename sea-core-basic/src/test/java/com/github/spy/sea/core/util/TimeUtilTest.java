@@ -37,4 +37,9 @@ public class TimeUtilTest extends BaseCoreTest {
         log.info("newTime={}", newTime);
 
     }
+
+    @Test
+    public void run42() throws Exception {
+        Assert.assertEquals(TimeUtil.toTimeUnit(10000), "10.00 μs");
+    }
 }

@@ -9,7 +9,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.*;
 
 /**
  * 时间工具类
@@ -174,6 +177,63 @@ public final class TimeUtil {
         }
 
         return newTime;
+    }
+
+
+    /**
+     * to string with time unit. eg: 100 ns; 120ms
+     *
+     * @param nanos
+     * @return
+     */
+    public static String toTimeUnit(long nanos) {
+        TimeUnit unit = chooseUnit(nanos);
+        double value = (double) nanos / NANOSECONDS.convert(1, unit);
+
+        return String.format(Locale.ROOT, "%.4g", value) + " " + abbreviate(unit);
+    }
+
+    private static TimeUnit chooseUnit(long nanos) {
+        if (DAYS.convert(nanos, NANOSECONDS) > 0) {
+            return DAYS;
+        }
+        if (HOURS.convert(nanos, NANOSECONDS) > 0) {
+            return HOURS;
+        }
+        if (MINUTES.convert(nanos, NANOSECONDS) > 0) {
+            return MINUTES;
+        }
+        if (SECONDS.convert(nanos, NANOSECONDS) > 0) {
+            return SECONDS;
+        }
+        if (MILLISECONDS.convert(nanos, NANOSECONDS) > 0) {
+            return MILLISECONDS;
+        }
+        if (MICROSECONDS.convert(nanos, NANOSECONDS) > 0) {
+            return MICROSECONDS;
+        }
+        return NANOSECONDS;
+    }
+
+    private static String abbreviate(TimeUnit unit) {
+        switch (unit) {
+            case NANOSECONDS:
+                return "ns";
+            case MICROSECONDS:
+                return "\u03bcs"; // μs
+            case MILLISECONDS:
+                return "ms";
+            case SECONDS:
+                return "s";
+            case MINUTES:
+                return "min";
+            case HOURS:
+                return "h";
+            case DAYS:
+                return "d";
+            default:
+                throw new AssertionError();
+        }
     }
 
 
