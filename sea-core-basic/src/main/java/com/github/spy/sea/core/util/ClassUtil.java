@@ -25,7 +25,7 @@ public final class ClassUtil {
      */
     public static String getFullClassName(Class<?> clazz) {
         if (null == clazz) {
-            return null;
+            return StringUtil.EMPTY;
         }
         return clazz.getName();
     }
@@ -38,7 +38,7 @@ public final class ClassUtil {
      */
     public static String getClassName(Class<?> clazz) {
         if (null == clazz) {
-            return null;
+            return StringUtil.EMPTY;
         }
         return clazz.getSimpleName();
     }
