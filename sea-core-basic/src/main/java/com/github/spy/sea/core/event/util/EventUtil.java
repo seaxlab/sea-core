@@ -23,7 +23,7 @@ public final class EventUtil {
             10, 10,
             30, TimeUnit.MINUTES,
             new ArrayBlockingQueue<>(10000),
-            new ThreadPoolExecutor.AbortPolicy());
+            (r, executor) -> log.error("reject runnable={},executor={}", r, executor));
 
     public static final EventBus BUS = new AsyncEventBus(executor);
 
