@@ -41,4 +41,14 @@ public class Env {
     public static boolean isProMode() {
         return EqualUtil.isEq(PRO, ConfigurationFactory.getInstance().getString(CoreConst.KEY_SEA_DEV_MODE, PRO), false);
     }
+
+    /**
+     * non pro mode.
+     *
+     * @return
+     */
+    public static boolean isNonProMode() {
+        return !isProMode();
+    }
+
 }

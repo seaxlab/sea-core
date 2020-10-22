@@ -96,6 +96,8 @@ public final class ListUtil {
      */
     public static <K, V> List<V> toList(Map<K, V> map) {
 
+        // or return map.values().stream().collect(Collectors.toList());
+
         return new ArrayList<>(map.values());
     }
 
