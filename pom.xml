@@ -71,6 +71,7 @@
         <alibaba.rocketmq.version>3.4.9</alibaba.rocketmq.version>
         <sofa.tracer.version>3.0.5</sofa.tracer.version>
         <jedis.version>3.2.0</jedis.version>
+        <apache.collection.version>4.4</apache.collection.version>
 
         <sea.dubbo.legacy.version>2.6.7</sea.dubbo.legacy.version>
         <sea.dubbo.version>2.7.6</sea.dubbo.version>
@@ -194,6 +195,11 @@
             </dependency>
             <!--  junit5 end   -->
 
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${apache.collection.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.apache.commons</groupId>

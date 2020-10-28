@@ -25,4 +25,40 @@ public class SetUtilTest extends BaseCoreTest {
         set.add("hello");
         Assert.assertEquals("abc;hello", SetUtil.toString(set, ";"));
     }
+
+    @Test
+    public void run30() throws Exception {
+        Set<Set<String>> allSet = new HashSet<>();
+
+        Set<String> set1 = new HashSet<>();
+        set1.add("a");
+        set1.add("b");
+        set1.add("c");
+
+        Set<String> set2 = new HashSet<>();
+        set2.add("b");
+        set2.add("c");
+
+        Set<String> set3 = new HashSet<>();
+        set3.add("c");
+
+        allSet.add(set1);
+        allSet.add(set2);
+        allSet.add(set3);
+
+        log.info("{}", SetUtil.intersection(allSet));
+    }
+
+    @Test
+    public void run53() throws Exception {
+        Set<String> set1 = new HashSet<>();
+        set1.add("a");
+        set1.add("b");
+        set1.add("c");
+
+        Set<String> set2 = new HashSet<>();
+        set2.add("b");
+        set2.add("c");
+        log.info("{}", SetUtil.intersection(set1, set2));
+    }
 }

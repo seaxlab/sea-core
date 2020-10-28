@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.SetUtils;
 
 import java.util.*;
 
@@ -59,6 +60,34 @@ public final class SetUtil {
             return StringUtil.EMPTY;
         }
         return String.join(delimiter, set);
+    }
+
+    /**
+     * 两个集合的交集
+     *
+     * @param a
+     * @param b
+     * @param <T>
+     * @return
+     */
+    public static <T> Set<T> intersection(Set<T> a, Set<T> b) {
+        return SetUtils.intersection(a, b);
+    }
+
+    /**
+     * 多个集合的交集
+     *
+     * @param sets
+     * @param <T>
+     * @return
+     */
+    public static <T> Set<T> intersection(Set<Set<T>> sets) {
+        return sets.stream()
+                   .map(HashSet::new)
+                   .reduce((s1, s2) -> {
+                       s1.retainAll(s2);
+                       return s1;
+                   }).orElseGet(() -> new HashSet<>(0));
     }
 
 }
