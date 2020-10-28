@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -61,4 +63,22 @@ public class SetUtilTest extends BaseCoreTest {
         set2.add("c");
         log.info("{}", SetUtil.intersection(set1, set2));
     }
+
+    @Test
+    public void run66() throws Exception {
+        Set<String> set1 = new HashSet<>();
+        set1.add("a");
+        set1.add("b");
+        set1.add("c");
+
+        Set<String> set2 = new HashSet<>();
+        set2.add("b");
+        set2.add("c");
+
+        List<Set<String>> list = new ArrayList<>();
+        list.add(set1);
+        list.add(set2);
+        log.info("{}", SetUtil.intersection(list));
+    }
+
 }

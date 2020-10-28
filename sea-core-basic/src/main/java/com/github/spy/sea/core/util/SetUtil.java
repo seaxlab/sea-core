@@ -29,6 +29,16 @@ public final class SetUtil {
     }
 
     /**
+     * check set is empty.
+     *
+     * @param set
+     * @return
+     */
+    public static boolean isEmpty(Set set) {
+        return set == null || set.isEmpty();
+    }
+
+    /**
      * list to set
      *
      * @param list
@@ -75,13 +85,24 @@ public final class SetUtil {
     }
 
     /**
-     * 多个集合的交集
+     * 多个set的交集
      *
      * @param sets
      * @param <T>
      * @return
      */
     public static <T> Set<T> intersection(Set<Set<T>> sets) {
+        if (isEmpty(sets)) {
+            log.warn("sets is empty, plz check.");
+            return empty();
+        }
+
+        if (sets.size() < 2) {
+            log.warn("sets size is less than 2, plz check.");
+            return empty();
+        }
+
+
         return sets.stream()
                    .map(HashSet::new)
                    .reduce((s1, s2) -> {
@@ -89,5 +110,29 @@ public final class SetUtil {
                        return s1;
                    }).orElseGet(() -> new HashSet<>(0));
     }
+
+    /**
+     * 多个set的交集
+     *
+     * @param list
+     * @param <T>
+     * @return
+     */
+    public static <T> Set<T> intersection(List<Set<T>> list) {
+        if (ListUtil.isEmpty(list)) {
+            log.warn("list is empty.");
+            return empty();
+        }
+        if (list.size() < 2) {
+            log.warn("list size is less then 2, plz check.");
+            return empty();
+        }
+
+        Set set = toSet(list);
+        return intersection(set);
+    }
+
+    //TODO 并集、差集
+
 
 }
