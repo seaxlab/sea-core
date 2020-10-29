@@ -20,4 +20,21 @@ public class User {
 
     private boolean isSuc;
     private Boolean isUsed;
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof User)) return false;
+//        User user = (User) o;
+//        return isSuc() == user.isSuc() &&
+//                Objects.equals(getId(), user.getId()) &&
+//                Objects.equals(getName(), user.getName()) &&
+//                Objects.equals(getRoles(), user.getRoles()) &&
+//                Objects.equals(getIsUsed(), user.getIsUsed());
+//    }
+
+//    @Override
+//    public int hashCode() {
+//    return 1;
+//    }
 }

@@ -1,14 +1,12 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * module name
@@ -52,7 +50,7 @@ public class SetUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void run53() throws Exception {
+    public void intersectionTest1() throws Exception {
         Set<String> set1 = new HashSet<>();
         set1.add("a");
         set1.add("b");
@@ -65,7 +63,7 @@ public class SetUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void run66() throws Exception {
+    public void intersectionTest2() throws Exception {
         Set<String> set1 = new HashSet<>();
         set1.add("a");
         set1.add("b");
@@ -80,5 +78,93 @@ public class SetUtilTest extends BaseCoreTest {
         list.add(set2);
         log.info("{}", SetUtil.intersection(list));
     }
+
+    @Test
+    public void differenceTest() throws Exception {
+        Set<String> set1 = new HashSet<>();
+        set1.add("a");
+        set1.add("b");
+        set1.add("c");
+
+        Set<String> set2 = new HashSet<>();
+        set2.add("b");
+        set2.add("c");
+        log.info("{}", SetUtil.difference(set1, set2));
+    }
+
+    @Test
+    public void unionTest() throws Exception {
+        Set<String> set1 = new HashSet<>();
+        set1.add("a");
+        set1.add("b");
+        set1.add("c");
+
+        Set<String> set2 = new HashSet<>();
+        set2.add("b");
+        set2.add("c");
+        set2.add("d");
+        log.info("{}", SetUtil.union(set1, set2));
+    }
+
+    @Test
+    public void unionListTest() throws Exception {
+        Set<String> set1 = new HashSet<>();
+        set1.add("a");
+        set1.add("b");
+        set1.add("c");
+
+        Set<String> set2 = new HashSet<>();
+        set2.add("b");
+        set2.add("c");
+        set2.add("d");
+
+        Set<String> set3 = new HashSet<>();
+        set3.add("b");
+        set3.add("c");
+        set3.add("da");
+        List list = Arrays.asList(set1, set2, set3);
+
+        log.info("{}", SetUtil.union(list));
+        log.info("{},{},{}", set1, set2, set3);
+    }
+
+
+    @Test
+    public void equalTest() throws Exception {
+        Set<String> set1 = new HashSet<>();
+        set1.add("a");
+        set1.add("b");
+        set1.add("c");
+
+        Set<String> set2 = new HashSet<>();
+        set2.add("b");
+        set2.add("c");
+        set2.add("d");
+
+        Set<String> set3 = new HashSet<>();
+        set3.add("b");
+        set3.add("c");
+        set3.add("a");
+
+        log.info("{}", SetUtil.isEqual(set1, set2));
+        log.info("{}", SetUtil.isEqual(set1, set3));
+    }
+
+    @Test
+    public void run132() throws Exception {
+        Set<User> set1 = new HashSet<>();
+
+        User user = new User();
+        user.setId(1L);
+        set1.add(user);
+
+        Set<User> set2 = new HashSet<>();
+        User user2 = new User();
+        user2.setId(1L);
+        set2.add(user2);
+
+        log.info("{}", SetUtil.isEqual(set1, set2));
+    }
+
 
 }

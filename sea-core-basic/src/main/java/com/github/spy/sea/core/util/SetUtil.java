@@ -73,6 +73,17 @@ public final class SetUtil {
     }
 
     /**
+     * 两个集合是否相等
+     *
+     * @param set1
+     * @param set2
+     * @return
+     */
+    public static boolean isEqual(final Collection<?> set1, final Collection<?> set2) {
+        return SetUtils.isEqualSet(set1, set2);
+    }
+
+    /**
      * 两个集合的交集
      *
      * @param a
@@ -132,7 +143,91 @@ public final class SetUtil {
         return intersection(set);
     }
 
-    //TODO 并集、差集
+    /**
+     * 差集（注意:有序）
+     * a中有，b中没有的
+     *
+     * @param a
+     * @param b
+     * @param <T>
+     * @return
+     */
+    public static <T> Set<T> difference(Set<T> a, Set<T> b) {
+        return SetUtils.difference(a, b);
+    }
+
+    /**
+     * 集合差集（注意:有序）
+     * 只存在a中和只存在b中的部分
+     *
+     * @param a
+     * @param b
+     * @param <T>
+     * @return
+     */
+    public static <T> Set<T> disjunction(Set<T> a, Set<T> b) {
+        return SetUtils.disjunction(a, b);
+    }
+
+    /**
+     * 并集
+     *
+     * @param a
+     * @param b
+     * @param <T>
+     * @return
+     */
+    public static <T> Set<T> union(Set<T> a, Set<T> b) {
+        return SetUtils.union(a, b);
+    }
+
+    /**
+     * 多个集合的并集
+     *
+     * @param sets
+     * @param <T>
+     * @return
+     */
+    public static <T> Set<T> union(Set<Set<T>> sets) {
+        if (isEmpty(sets)) {
+            log.warn("sets is empty, plz check.");
+            return empty();
+        }
+
+        if (sets.size() < 2) {
+            log.warn("sets size is less than 2, plz check.");
+            return empty();
+        }
+
+
+        return sets.stream()
+                   .map(HashSet::new)
+                   .reduce((s1, s2) -> {
+                       s1.addAll(s2);
+                       return s1;
+                   }).orElseGet(() -> new HashSet<>(0));
+    }
+
+    /**
+     * 多个集合的并集
+     *
+     * @param list
+     * @param <T>
+     * @return
+     */
+    public static <T> Set<T> union(List<Set<T>> list) {
+        if (ListUtil.isEmpty(list)) {
+            log.warn("list is empty.");
+            return empty();
+        }
+        if (list.size() < 2) {
+            log.warn("list size is less then 2, plz check.");
+            return empty();
+        }
+
+        Set set = toSet(list);
+        return union(set);
+    }
 
 
 }

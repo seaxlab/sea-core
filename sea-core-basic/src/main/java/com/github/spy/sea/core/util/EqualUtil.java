@@ -2,7 +2,9 @@ package com.github.spy.sea.core.util;
 
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.SetUtils;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,6 +48,18 @@ public final class EqualUtil {
             return caseSensitive ? str1.equals(str2) : str1.equalsIgnoreCase(str2);
         }
         return false;
+    }
+
+
+    /**
+     * 判断两个集合是否相等
+     *
+     * @param set1
+     * @param set2
+     * @return
+     */
+    public static boolean isEq(final Collection<?> set1, final Collection<?> set2) {
+        return SetUtils.isEqualSet(set1, set2);
     }
 
 
