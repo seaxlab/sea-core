@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 @Slf4j
 public class JSONTypeHandlerTest extends BaseTypeHandlerTest {
 
-    private static final TypeHandler<User> TYPE_HANDLER = new JSONTypeHandler<>(User.class);
+    private static final TypeHandler<User> TYPE_HANDLER = new JSONTypeHandler<User>();
 
     //    @Mock
     private User user;

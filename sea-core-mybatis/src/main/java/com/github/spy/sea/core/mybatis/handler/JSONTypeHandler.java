@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,12 +41,18 @@ public class JSONTypeHandler<T extends Object> extends BaseTypeHandler<T> {
 
     private Class<T> clazz;
 
-    public JSONTypeHandler(Class<T> clazz) {
-        if (clazz == null) {
-            throw new IllegalArgumentException("Type handler argument [clazz] cannot be null");
-        }
-        this.clazz = clazz;
+    public JSONTypeHandler() {
+        Type genType = this.getClass().getGenericSuperclass();
+        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+        this.clazz = (Class<T>) params[0];
     }
+//
+//    public JSONTypeHandler(Class<T> clazz) {
+//        if (clazz == null) {
+//            throw new IllegalArgumentException("Type handler argument [clazz] cannot be null");
+//        }
+//        this.clazz = clazz;
+//    }
 
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException {

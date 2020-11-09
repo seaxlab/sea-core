@@ -17,7 +17,4 @@ import org.apache.ibatis.type.MappedTypes;
 @MappedJdbcTypes(JdbcType.VARCHAR)
 public class StringJsonTypeHandler extends JSONTypeHandler<String> {
 
-    public StringJsonTypeHandler(Class<String> clazz) {
-        super(clazz);
-    }
 }
