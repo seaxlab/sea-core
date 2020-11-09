@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.domain.User;
 import lombok.extern.slf4j.Slf4j;
+import org.javers.common.collections.Sets;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -164,6 +165,27 @@ public class SetUtilTest extends BaseCoreTest {
         set2.add(user2);
 
         log.info("{}", SetUtil.isEqual(set1, set2));
+    }
+
+    @Test
+    public void run170() throws Exception {
+        Set<String> set1 = Sets.asSet("1", "2");
+        Set<String> set2 = Sets.asSet("2", "3");
+        Set<String> set3 = Sets.asSet("2", "3");
+        Set<String> set4 = Sets.asSet("2");
+        Set<String> set5 = Sets.asSet("1");
+
+        List<Set<String>> list = new ArrayList<>();
+        list.add(set1);
+        list.add(set2);
+        list.add(set3);
+        list.add(set4);
+        list.add(set5);
+
+        for (int i = 0; i < 10; i++) {
+
+        }
+
     }
 
 
