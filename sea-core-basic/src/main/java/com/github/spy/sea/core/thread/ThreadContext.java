@@ -1,9 +1,14 @@
 package com.github.spy.sea.core.thread;
 
+import com.github.spy.sea.core.common.CoreConst;
+import com.github.spy.sea.core.util.EqualUtil;
+import com.github.spy.sea.core.util.SetUtil;
+import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 线程上下文
@@ -69,6 +74,19 @@ public class ThreadContext {
     }
 
     /**
+     * get value, if null return default value.
+     *
+     * @param key
+     * @param defaultValue
+     * @param <T>
+     * @return
+     */
+    public static final <T extends Object> T get(String key, T defaultValue) {
+        T v = get(key);
+        return v == null ? defaultValue : v;
+    }
+
+    /**
      * get safe from context
      *
      * @param key
@@ -86,6 +104,45 @@ public class ThreadContext {
             log.warn("convert to T error", e);
             return null;
         }
+    }
+
+    /**
+     * get safe from context, if null return default value.
+     *
+     * @param key
+     * @param defaultValue
+     * @param <T>
+     * @return
+     */
+    public static final <T extends Object> T getSafe(String key, T defaultValue) {
+        T v = getSafe(key);
+        return v == null ? defaultValue : v;
+    }
+
+    /**
+     * 获取mock配置，默认返回false
+     *
+     * @param mockKey
+     * @return
+     */
+    public static final boolean getMockFlag(String mockKey) {
+        if (mockKey == null || mockKey.isEmpty()) {
+            return false;
+        }
+        if (mockKey.startsWith("sea.mock.")) {
+            mockKey = mockKey.replace("sea.mock.", "");
+        }
+        String value = getSafe(CoreConst.DEFAULT_MOCK_KEY);
+        if (StringUtil.isNotEmpty(value)) {
+            if (value.contains(",")) {
+                Set<String> keySet = SetUtil.toSet(value.split("\\,"));
+                return keySet.contains(mockKey);
+            } else {
+                return EqualUtil.isEq(mockKey, value, false);
+            }
+        }
+
+        return false;
     }
 
     /**

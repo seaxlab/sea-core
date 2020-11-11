@@ -101,4 +101,9 @@ public class CoreConst {
 
     /*1GB*/
     public static long ONE_GB = ONE_MB * 1024;
+
+    /**
+     * 默认 mock key
+     */
+    public static final String DEFAULT_MOCK_KEY = "sea_mock";
 }
