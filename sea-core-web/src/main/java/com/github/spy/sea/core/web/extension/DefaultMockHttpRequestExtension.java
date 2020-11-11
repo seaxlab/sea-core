@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.web.extension;
 
 import com.github.spy.sea.core.common.CoreConst;
-import com.github.spy.sea.core.extension.HttpHeaderParseExtension;
+import com.github.spy.sea.core.extension.HttpRequestParseExtension;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.Map;
  * @since 1.0
  */
 @Slf4j
-public class DefaultMockHttpRequestExtension implements HttpHeaderParseExtension {
+public class DefaultMockHttpRequestExtension implements HttpRequestParseExtension {
     @Override
     public Map<String, String> get() {
         Map<String, String> map = new HashMap<>(1);
