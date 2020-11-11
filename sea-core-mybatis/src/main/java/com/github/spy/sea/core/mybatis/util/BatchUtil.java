@@ -6,6 +6,7 @@ import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import tk.mybatis.mapper.common.base.insert.InsertSelectiveMapper;
+import tk.mybatis.mapper.common.base.update.UpdateByPrimaryKeySelectiveMapper;
 
 import java.util.List;
 
@@ -56,6 +57,48 @@ public final class BatchUtil {
         }
         sqlSession.flushStatements();
         log.info("add data by batch. list.size={}", list.size());
+    }
+
+    /**
+     * @param sqlSessionFactory
+     * @param mapperClass
+     * @param list
+     * @param <T>
+     */
+    public static <T extends InsertSelectiveMapper> void insert(SqlSessionFactory sqlSessionFactory,
+                                                                Class<T> mapperClass,
+                                                                List list) {
+        insertByBatch(sqlSessionFactory, mapperClass, list);
+    }
+
+
+    /**
+     * 批量更新
+     *
+     * @param sqlSessionFactory
+     * @param mapperClass
+     * @param list
+     * @param <T>
+     */
+    public static <T extends UpdateByPrimaryKeySelectiveMapper> void updateByPrimaryKeySelective(SqlSessionFactory sqlSessionFactory,
+                                                                                                 Class<T> mapperClass,
+                                                                                                 List list) {
+        if (ListUtil.isEmpty(list)) {
+            log.warn("list is empty");
+        }
+
+        SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
+        T mapper = sqlSession.getMapper(mapperClass);
+
+        for (int i = 0; i < list.size(); i++) {
+            mapper.updateByPrimaryKeySelective(list.get(i));
+
+            if (i % DB_BATCH_SIZE == (DB_BATCH_SIZE - 1)) {
+                sqlSession.flushStatements();
+            }
+        }
+        sqlSession.flushStatements();
+        log.info("update data by batch. list.size={}", list.size());
     }
 
 }
