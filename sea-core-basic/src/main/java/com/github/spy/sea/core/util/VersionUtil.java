@@ -1,6 +1,10 @@
 package com.github.spy.sea.core.util;
 
 import com.google.common.base.Preconditions;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+
+import java.security.CodeSource;
 
 /**
  * 版本比较工具
@@ -8,9 +12,87 @@ import com.google.common.base.Preconditions;
  * @author spy
  * @since 1.0
  */
+@Slf4j
 public final class VersionUtil {
 
     private VersionUtil() {
+    }
+
+    /**
+     * 获取jar包版本号
+     *
+     * @param cls
+     * @param defaultVersion
+     * @return
+     * @see com.github.spy.sea.core.common.Version
+     */
+    public static String getVersion(Class<?> cls, String defaultVersion) {
+        try {
+            // find version info from MANIFEST.MF first
+            Package pkg = cls.getPackage();
+            String version = null;
+            if (pkg != null) {
+                version = pkg.getImplementationVersion();
+                if (StringUtils.isNotEmpty(version)) {
+                    return version;
+                }
+
+                version = pkg.getSpecificationVersion();
+                if (StringUtils.isNotEmpty(version)) {
+                    return version;
+                }
+            }
+
+            // guess version from jar file name if nothing's found from MANIFEST.MF
+            CodeSource codeSource = cls.getProtectionDomain().getCodeSource();
+            if (codeSource == null) {
+                log.info("No codeSource for class " + cls.getName() + " when getVersion, use default version " + defaultVersion);
+                return defaultVersion;
+            }
+
+            String file = codeSource.getLocation().getFile();
+            if (!StringUtils.isEmpty(file) && file.endsWith(".jar")) {
+                version = getFromFile(file);
+            }
+
+            // return default version if no version info is found
+            return StringUtils.isEmpty(version) ? defaultVersion : version;
+        } catch (Throwable e) {
+            // return default version when any exception is thrown
+            log.error("return default version, ignore exception " + e.getMessage(), e);
+            return defaultVersion;
+        }
+    }
+
+    /**
+     * get version from file: path/to/group-module-x.y.z.jar, returns x.y.z
+     */
+    private static String getFromFile(String file) {
+        // remove suffix ".jar": "path/to/group-module-x.y.z"
+        file = file.substring(0, file.length() - 4);
+
+        // remove path: "group-module-x.y.z"
+        int i = file.lastIndexOf('/');
+        if (i >= 0) {
+            file = file.substring(i + 1);
+        }
+
+        // remove group: "module-x.y.z"
+        i = file.indexOf("-");
+        if (i >= 0) {
+            file = file.substring(i + 1);
+        }
+
+        // remove module: "x.y.z"
+        while (file.length() > 0 && !Character.isDigit(file.charAt(0))) {
+            i = file.indexOf("-");
+            if (i >= 0) {
+                file = file.substring(i + 1);
+            } else {
+                break;
+            }
+        }
+        return file;
     }
 
     /**
@@ -39,4 +121,6 @@ public final class VersionUtil {
         diff = (diff != 0) ? diff : versionArray1.length - versionArray2.length;
         return diff;
     }
+
+
 }
