@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.function.Fn;
+import com.github.spy.sea.core.model.BaseResult;
 import com.google.common.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * 反射工具
+ * reflect util
  *
  * @author spy
  * @version 1.0 2019-06-14
@@ -54,6 +55,22 @@ public final class ReflectUtil {
     }
 
     /**
+     * read static field value
+     *
+     * @param clz
+     * @param fieldName
+     * @return
+     */
+    public static Object readStatic(final Class<?> clz, String fieldName) {
+        try {
+            return FieldUtils.readStaticField(clz, fieldName, true);
+        } catch (IllegalAccessException e) {
+            log.error("fail to read static field", e);
+        }
+        return null;
+    }
+
+    /**
      * read field value from target
      *
      * @param target
@@ -64,7 +81,7 @@ public final class ReflectUtil {
         try {
             return FieldUtils.readField(target, fieldName, true);
         } catch (IllegalAccessException e) {
-            log.error("读取值失败", e);
+            log.error("fail to read field name", e);
         }
         return null;
     }
@@ -86,9 +103,9 @@ public final class ReflectUtil {
     /**
      * 赋值
      *
-     * @param target
-     * @param fieldName
-     * @param value
+     * @param target    ''
+     * @param fieldName ''
+     * @param value     ''
      */
     public static void write(final Object target, final String fieldName, final Object value) {
         try {
@@ -175,6 +192,73 @@ public final class ReflectUtil {
         return null;
     }
 
+    /**
+     * invoke method
+     *
+     * @param object
+     * @param method
+     * @return
+     */
+    public static BaseResult<Object> invokeMethodSafe(Object object, String method) {
+        BaseResult<Object> result = BaseResult.fail();
+        try {
+            result.value(MethodUtils.invokeMethod(object, method));
+        } catch (Exception e) {
+            log.error("invoke method error", e);
+            result.setErrorMessage(e.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * invoke method
+     *
+     * @param object
+     * @param forceAccess
+     * @param method
+     * @return
+     */
+    public static BaseResult<Object> invokeMethodSafe(Object object, boolean forceAccess, String method) {
+        BaseResult<Object> result = BaseResult.fail();
+
+        try {
+            result.value(MethodUtils.invokeMethod(object, forceAccess, method));
+        } catch (Exception e) {
+            log.error("invoke method error", e);
+            result.setErrorMessage(e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * invoke static method
+     *
+     * @param clazz  ''
+     * @param method ''
+     * @return
+     */
+    public static BaseResult<Object> invokeStaticMethod(final Class<?> clazz, String method) {
+        return invokeStaticMethod(clazz, method, null);
+    }
+
+    /**
+     * invoke static method.
+     *
+     * @param clazz
+     * @param method
+     * @param args
+     * @return
+     */
+    public static BaseResult<Object> invokeStaticMethod(final Class<?> clazz, String method, Object... args) {
+        BaseResult<Object> result = BaseResult.fail();
+        try {
+            result.value(MethodUtils.invokeStaticMethod(clazz, method, args));
+        } catch (Exception e) {
+            log.error("fail to invoke static method", e);
+            result.setErrorMessage(e.getMessage());
+        }
+        return result;
+    }
 
     /**
      * 基本类型的进行转换，避免无意义的异常

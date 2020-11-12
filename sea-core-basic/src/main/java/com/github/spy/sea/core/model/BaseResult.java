@@ -106,6 +106,18 @@ public class BaseResult<T> implements Serializable {
     }
 
     /**
+     * set value
+     *
+     * @param data
+     */
+    public void value(T data) {
+        this.success = true;
+        this.data = data;
+        this.errorMessage = "";
+        this.errorCode = "";
+    }
+
+    /**
      * 直接返回true
      *
      * @return BaseResult
