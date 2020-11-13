@@ -27,6 +27,9 @@ public final class VersionUtil {
      * @see com.github.spy.sea.core.common.Version
      */
     public static String getVersion(Class<?> cls, String defaultVersion) {
+
+        defaultVersion = StringUtil.defaultIfEmpty(defaultVersion, "0.0.0");
+
         try {
             // find version info from MANIFEST.MF first
             Package pkg = cls.getPackage();
