@@ -50,5 +50,10 @@ public class StringUtilTest extends BaseCoreTest {
         Assert.assertEquals("a0a", StringUtil.replaceStart("00a0a", "0"));
     }
 
+    @Test
+    public void removeEmojiTest() throws Exception {
+        log.info(StringUtil.removeEmoji("abc,ef123！高兴😄高兴"));
+    }
+
 
 }

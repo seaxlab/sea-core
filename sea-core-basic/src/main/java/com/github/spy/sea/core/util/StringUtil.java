@@ -538,4 +538,16 @@ public final class StringUtil {
         return true;
     }
 
+    /**
+     * remove emoji expression.
+     *
+     * @param str
+     * @return
+     */
+    private static final String REG_EXP_RMOJI = "[\ud83c\udf00-\ud83d\ude4f]|[\ud83d\ude80-\ud83d\udeff]";
+
+    public static String removeEmoji(String str) {
+        return str.replaceAll(REG_EXP_RMOJI, "");
+    }
+
 }
