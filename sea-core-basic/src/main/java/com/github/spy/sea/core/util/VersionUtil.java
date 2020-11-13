@@ -19,7 +19,7 @@ public final class VersionUtil {
     }
 
     /**
-     * 获取jar包版本号
+     * 获取jar包版本号 (bug启动过早是无法读取的，只能返回defaultVersion)
      *
      * @param cls
      * @param defaultVersion
