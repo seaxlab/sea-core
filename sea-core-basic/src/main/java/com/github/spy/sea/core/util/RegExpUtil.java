@@ -92,6 +92,43 @@ public final class RegExpUtil {
     public static final String letter_number_underline_regexp = "^\\w+$";
 
     /**
+     * 正则表达式：验证手机号
+     */
+    public static final String REGEX_MOBILE = "^((13[0-9])|(14[0-9])|(15[^4,\\D])|(16[0-9])|(17[0-9])|(19[0-9])|(18[0-9]))\\d{8}$";
+
+
+    /**
+     * 正则表达式：验证邮箱
+     */
+    public static final String REGEX_EMAIL = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+
+    /**
+     * 正则表达式：验证用户名
+     */
+    public static final String REGEX_USERNAME = "^[a-zA-Z0-9]{8,16}$";
+
+    /**
+     * 正则表达式：验证密码
+     */
+    public static final String REGEX_PASSWORD = "^[a-zA-Z0-9~!@#$%^&*()_+|<>,.?/:;'\\[\\]{}]{6,16}$";
+
+    /**
+     * 正则表达式:验证日期
+     */
+    public static final String REGEX_DATE = "^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$";
+
+    /**
+     * 正则表达式:车牌号
+     */
+    public static final String REGEX_CAR_NUMBER = "([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼]{1}(([A-HJ-Z]{1}[A-HJ-NP-Z0-9]{5})|([A-HJ-Z]{1}(([DF]{1}[A-HJ-NP-Z0-9]{1}[0-9]{4})|([0-9]{5}[DF]{1})))|([A-HJ-Z]{1}[A-D0-9]{1}[0-9]{3}警)))|([0-9]{6}使)|((([沪粤川云桂鄂陕蒙藏黑辽渝]{1}A)|鲁B|闽D|蒙E|蒙H)[0-9]{4}领)|(WJ[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼·•]{1}[0-9]{4}[TDSHBXJ0-9]{1})|([VKHBSLJNGCE]{1}[A-DJ-PR-TVY]{1}[0-9]{5})";
+
+    /**
+     * 正则表达式:图片
+     */
+    public static final String REGEX_PICTURE = ".+(.JPEG|.jpeg|.JPG|.jpg|.GIF|.gif|.BMP|.bmp|.PNG|.png)$";
+
+
+    /**
      * 根据传入的正则表达式和字符串进行校验。<br/>
      *
      * @param text       内容
@@ -103,6 +140,55 @@ public final class RegExpUtil {
         return pattern.matcher(text).matches();
     }
 
+    /**
+     * 判断是否是手机号
+     *
+     * @param mobile
+     * @return
+     */
+    public static boolean isMobile(String mobile) {
+        return is(mobile, REGEX_MOBILE);
+    }
+
+    /**
+     * 判断是否是图片
+     *
+     * @param fileName
+     * @return
+     */
+    public static boolean isImg(String fileName) {
+        return is(fileName, REGEX_PICTURE);
+    }
+
+    /**
+     * 判断是否是车牌号
+     *
+     * @param carNumber
+     * @return
+     */
+    public static boolean isCarNumber(String carNumber) {
+        return is(carNumber, REGEX_CAR_NUMBER);
+    }
+
+    /**
+     * 判断是否是合法的用户名
+     *
+     * @param userName
+     * @return
+     */
+    public static boolean isLegalUserName(String userName) {
+        return is(userName, REGEX_USERNAME);
+    }
+
+    /**
+     * 判断是否是合法的密码
+     *
+     * @param password
+     * @return
+     */
+    public static boolean isLegalPassword(String password) {
+        return is(password, REGEX_PASSWORD);
+    }
 
     /**
      * 功能：检查是否为URL。<br/>
@@ -123,8 +209,8 @@ public final class RegExpUtil {
                 + "(:[0-9]{1,4})?" // 端口- :80
                 + "((/?)|" // a slash isn't required if there is no file name
                 + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
-        Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(url).matches();
+
+        return is(url, regex);
     }
 
     /**
