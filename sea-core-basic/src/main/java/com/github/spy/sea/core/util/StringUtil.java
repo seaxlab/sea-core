@@ -195,9 +195,59 @@ public final class StringUtil {
         return StringUtils.isEmpty(str) ? defaultStr : str;
     }
 
+    /**
+     * if value is null, then return default str.
+     *
+     * @param str
+     * @param defaultStr
+     * @return
+     */
     public static String defaultString(final String str, final String defaultStr) {
         return str == null ? defaultStr : str;
     }
+
+    /**
+     * if value is null, then return default str.
+     *
+     * @param value
+     * @param defaultStr
+     * @return
+     */
+    public static String defaultIfNull(final Integer value, final String defaultStr) {
+        if (value == null) {
+            return defaultStr;
+        }
+        return value.toString();
+    }
+
+    /**
+     * if value is null, then return default str.
+     *
+     * @param value
+     * @param defaultStr
+     * @return
+     */
+    public static String defaultIfNull(final Long value, final String defaultStr) {
+        if (value == null) {
+            return defaultStr;
+        }
+        return value.toString();
+    }
+
+    /**
+     * if value is null, then return default str.
+     *
+     * @param value
+     * @param defaultStr
+     * @return
+     */
+    public static String defaultIfNull(final Double value, final String defaultStr) {
+        if (value == null) {
+            return defaultStr;
+        }
+        return value.toString();
+    }
+
 
     /**
      * 设置返回有值的参数
