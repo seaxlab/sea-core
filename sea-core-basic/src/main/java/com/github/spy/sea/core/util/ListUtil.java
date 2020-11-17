@@ -6,7 +6,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * List工具
@@ -137,6 +139,40 @@ public final class ListUtil {
         // from 1.8
         list.removeIf(predicate);
         log.info("before:{},after:{}", size, list.size());
+    }
+
+    /**
+     * convert list to map
+     *
+     * @param list
+     * @param keyMapper
+     * @param <R>
+     * @param <K>
+     * @return
+     */
+    public static <K, R> Map<K, R> toMap(List<R> list, Function<? super R, ? extends K> keyMapper) {
+        if (isEmpty(list)) {
+            return MapUtil.empty();
+        }
+        return list.stream()
+                   .collect(Collectors.toMap(keyMapper, Function.identity()));
+    }
+
+    /**
+     * convert list to Map<K ,List<R>>
+     *
+     * @param list
+     * @param keyMapper
+     * @param <K>
+     * @param <R>
+     * @return
+     */
+    public static <K, R> Map<K, List<R>> toMapList(List<R> list, Function<? super R, ? extends K> keyMapper) {
+        if (isEmpty(list)) {
+            return MapUtil.empty();
+        }
+        return list.stream()
+                   .collect(Collectors.groupingBy(keyMapper));
     }
 
 

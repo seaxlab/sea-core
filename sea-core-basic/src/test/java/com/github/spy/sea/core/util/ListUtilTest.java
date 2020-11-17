@@ -1,13 +1,11 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
@@ -67,5 +65,32 @@ public class ListUtilTest extends BaseCoreTest {
 
     }
 
+    @Test
+    public void toMapTest() throws Exception {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setId(Long.valueOf(i));
+            user.setName("n" + i);
+            users.add(user);
+        }
+
+        Map<Long, User> userMap = ListUtil.toMap(users, user -> user.getId());
+        log.info("{}", userMap);
+    }
+
+    @Test
+    public void toMapListTest() throws Exception {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setId(Long.valueOf(i % 3));
+            user.setName("n" + i);
+            users.add(user);
+        }
+
+        Map<Long, List<User>> userMap = ListUtil.toMapList(users, user -> user.getId());
+        log.info("{}", userMap);
+    }
 
 }

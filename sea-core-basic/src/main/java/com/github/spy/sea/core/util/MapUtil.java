@@ -8,6 +8,7 @@ import org.apache.commons.collections.MapUtils;
 
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * module name
@@ -85,6 +86,32 @@ public final class MapUtil {
         String jsonString = gson.toJson(original);
 
         return gson.fromJson(jsonString, Map.class);
+    }
+
+    /**
+     * convert list to map
+     *
+     * @param list
+     * @param keyMapper
+     * @param <R>
+     * @param <K>
+     * @return
+     */
+    public static <K, R> Map<K, R> toMap(List<R> list, Function<? super R, ? extends K> keyMapper) {
+        return ListUtil.toMap(list, keyMapper);
+    }
+
+    /**
+     * convert list to Map<K ,List<R>>
+     *
+     * @param list
+     * @param keyMapper
+     * @param <K>
+     * @param <R>
+     * @return
+     */
+    public static <K, R> Map<K, List<R>> toMapList(List<R> list, Function<? super R, ? extends K> keyMapper) {
+        return ListUtil.toMapList(list, keyMapper);
     }
 
     /**
