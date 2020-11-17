@@ -273,7 +273,7 @@ public final class RegExpUtil {
      * @param managers
      * @return
      */
-    public List<String> getByBracket(String managers) {
+    public static List<String> getByBracket(String managers) {
         List<String> ls = new ArrayList<>();
         Pattern pattern = Pattern.compile("(?<=\\()(.+?)(?=\\))");
         Matcher matcher = pattern.matcher(managers);
@@ -282,4 +282,19 @@ public final class RegExpUtil {
         }
         return ls;
     }
+
+    /**
+     * replace multi space with one space.
+     *
+     * @param str
+     * @return
+     */
+    public static String trimSpace(String str) {
+        if (StringUtil.isEmpty(str)) {
+            return StringUtil.EMPTY;
+        }
+        return str.replaceAll("[\\s]+", " ");
+    }
+
+
 }
