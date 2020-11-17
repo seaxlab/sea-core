@@ -3,6 +3,7 @@ package com.github.spy.sea.core.spring.util;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -57,10 +58,21 @@ public class SpringBeanUtilTest {
     }
 
 
+    @Test
+    public void run61() throws Exception {
+        User1 user1 = new User1();
+        user1.setNames("abc,12");
+        User2 user2 = new User2();
+        BeanUtils.copyProperties(user1, user2);
+        log.info("user2={}", user2);
+    }
+
+
     @Data
     public static class User1 implements Serializable {
         private Long id;
         private String name;
+        private String names;
     }
 
     @Data
@@ -68,5 +80,7 @@ public class SpringBeanUtilTest {
         private Long id;
         private String name;
         private String color;
+
+        private List<String> names;
     }
 }
