@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -158,6 +159,52 @@ public final class ReflectUtil {
 
 
     /**
+     * Attempt to find a {@link Method} on the supplied class with the supplied name
+     * and parameter types. Searches all superclasses up to {@code Object}.
+     * <p>Returns {@code null} if no {@link Method} can be found.
+     *
+     * @param clazz      the class to introspect
+     * @param name       the name of the method
+     * @param paramTypes the parameter types of the method
+     *                   (may be {@code null} to indicate any signature)
+     * @return the Method object, or {@code null} if none found
+     */
+    public static Method findMethod(Class<?> clazz, String name, Class<?>... paramTypes) {
+        Class<?> searchType = clazz;
+        while (searchType != null) {
+            Method[] methods = (searchType.isInterface() ? searchType.getMethods() : searchType
+                    .getDeclaredMethods());
+            for (Method method : methods) {
+                if (name.equals(method.getName())
+                        && (paramTypes == null || Arrays.equals(paramTypes, method.getParameterTypes()))) {
+                    return method;
+                }
+            }
+            searchType = searchType.getSuperclass();
+        }
+        return null;
+    }
+
+    /**
+     * invoke
+     *
+     * @param target
+     * @param method
+     * @param args
+     * @return
+     */
+    public static BaseResult<Object> invokeMethod(Object target, Method method, Object... args) {
+        BaseResult result = BaseResult.fail();
+        try {
+            result.value(method.invoke(target, args));
+        } catch (Exception ex) {
+            log.error("fail to invoke method.", ex);
+            result.setErrorMessage(ex.getMessage());
+        }
+        return result;
+    }
+
+    /**
      * invoke method
      *
      * @param object
@@ -193,7 +240,7 @@ public final class ReflectUtil {
     }
 
     /**
-     * invoke method
+     * invoke method safely.
      *
      * @param object
      * @param method
@@ -211,7 +258,26 @@ public final class ReflectUtil {
     }
 
     /**
-     * invoke method
+     * invoke method safely
+     *
+     * @param object
+     * @param method
+     * @param args
+     * @return
+     */
+    public static BaseResult<Object> invokeMethodSafe(Object object, String method, Object... args) {
+        BaseResult<Object> result = BaseResult.fail();
+        try {
+            result.value(MethodUtils.invokeMethod(object, method, args));
+        } catch (Exception e) {
+            log.error("invoke method error", e);
+            result.setErrorMessage(e.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * invoke method safely.
      *
      * @param object
      * @param forceAccess
@@ -223,6 +289,27 @@ public final class ReflectUtil {
 
         try {
             result.value(MethodUtils.invokeMethod(object, forceAccess, method));
+        } catch (Exception e) {
+            log.error("invoke method error", e);
+            result.setErrorMessage(e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * invoke method safely.
+     *
+     * @param object
+     * @param forceAccess
+     * @param method
+     * @param args
+     * @return
+     */
+    public static BaseResult<Object> invokeMethodSafe(Object object, boolean forceAccess, String method, Object... args) {
+        BaseResult<Object> result = BaseResult.fail();
+
+        try {
+            result.value(MethodUtils.invokeMethod(object, forceAccess, method, args));
         } catch (Exception e) {
             log.error("invoke method error", e);
             result.setErrorMessage(e.getMessage());

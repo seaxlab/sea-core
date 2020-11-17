@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.util;
 
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ClassUtils;
 
@@ -138,6 +139,35 @@ public final class ClassUtil {
     }
 
     /**
+     * load class
+     *
+     * @param className
+     * @param initialize
+     * @return
+     */
+    public static Class<?> load(String className, boolean initialize) {
+        try {
+            return Class.forName(className, initialize, getDefaultClassLoader());
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+
+    public static Class<?> load(String className, boolean initialize, ClassLoader classLoader) {
+        Preconditions.checkNotNull(className, "class name cannot be null");
+        ClassLoader clToUse = classLoader;
+
+        if (clToUse == null) {
+            clToUse = getDefaultClassLoader();
+        }
+        try {
+            return Class.forName(className, initialize, clToUse);
+        } catch (ClassNotFoundException ex) {
+            throw null;
+        }
+    }
+
+    /**
      * check <className> exist or not.
      *
      * @param className
@@ -147,4 +177,26 @@ public final class ClassUtil {
         return load(className) != null;
     }
 
+
+    public static ClassLoader getDefaultClassLoader() {
+        ClassLoader cl = null;
+        try {
+            cl = Thread.currentThread().getContextClassLoader();
+        } catch (Throwable ex) {
+            // Cannot access thread context ClassLoader - falling back...
+        }
+        if (cl == null) {
+            // No thread context class loader -> use class loader of this class.
+            cl = ClassUtils.class.getClassLoader();
+            if (cl == null) {
+                // getClassLoader() returning null indicates the bootstrap ClassLoader
+                try {
+                    cl = ClassLoader.getSystemClassLoader();
+                } catch (Throwable ex) {
+                    // Cannot access system ClassLoader - oh well, maybe the caller can live with null...
+                }
+            }
+        }
+        return cl;
+    }
 }
