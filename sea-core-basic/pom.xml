@@ -151,6 +151,7 @@
         <dependency>
             <groupId>com.alipay.sofa</groupId>
             <artifactId>tracer-core</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

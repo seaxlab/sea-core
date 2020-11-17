@@ -2,6 +2,7 @@ package com.github.spy.sea.core.web.controller;
 
 
 import com.alipay.common.tracer.core.holder.SofaTraceContextHolder;
+import com.github.spy.sea.core.common.CoreConst;
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.enums.ErrorTypeEnum;
 import com.github.spy.sea.core.exception.BaseAppException;
@@ -196,11 +197,13 @@ public abstract class AbstractGlobalExceptionHandler {
 //        result.setRequestId(MDC.get(CoreErrorConst.MDC_REQ_ID));
 
         try {
-            String traceId = SofaTraceContextHolder.getSofaTraceContext()
-                                                   .getCurrentSpan()
-                                                   .getSofaTracerSpanContext()
-                                                   .getTraceId();
-            result.setTraceId(traceId);
+            if (CoreConst.HAS_SOFA_TRACER) {
+                String traceId = SofaTraceContextHolder.getSofaTraceContext()
+                                                       .getCurrentSpan()
+                                                       .getSofaTracerSpanContext()
+                                                       .getTraceId();
+                result.setTraceId(traceId);
+            }
         } catch (Exception e) {
 
         }

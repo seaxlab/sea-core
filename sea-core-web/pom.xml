@@ -78,5 +78,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.alipay.sofa</groupId>
+            <artifactId>tracer-core</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 </project>

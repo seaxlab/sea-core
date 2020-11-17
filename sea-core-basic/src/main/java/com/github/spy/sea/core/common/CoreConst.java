@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.common;
 
+import com.github.spy.sea.core.util.ClassUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.Charset;
@@ -106,4 +107,13 @@ public class CoreConst {
      * 默认 mock key
      */
     public static final String DEFAULT_MOCK_KEY = "sea_mock";
+
+    /**
+     * 判断是否有sofa tracer
+     */
+    public static final boolean HAS_SOFA_TRACER = ClassUtil.has("com.alipay.common.tracer.core.SofaTracer");
+
+
+    //---private method
+
 }

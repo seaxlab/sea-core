@@ -69,7 +69,8 @@
         <aliyun.oss.sdk.version>3.5.0</aliyun.oss.sdk.version>
         <javers.version>5.6.3</javers.version>
         <alibaba.rocketmq.version>3.4.9</alibaba.rocketmq.version>
-        <sofa.tracer.version>3.0.5</sofa.tracer.version>
+
+        <sofa.tracer.version>[3.0.5, 3.0.99]</sofa.tracer.version>
         <jedis.version>3.2.0</jedis.version>
         <apache.collection.version>4.4</apache.collection.version>
 
