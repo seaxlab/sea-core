@@ -1,6 +1,8 @@
 package com.github.spy.sea.core.thread;
 
+import com.github.spy.sea.core.message.util.MessageUtil;
 import com.github.spy.sea.core.util.ListUtil;
+import com.github.spy.sea.core.util.StringUtil;
 import com.github.spy.sea.core.util.TimeUnitUtil;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
@@ -38,13 +40,17 @@ public class CleanFileThread {
      */
     private int delay;
     /**
+     * 延迟时间单位
+     */
+    private TimeUnit delayTimeUnit;
+    /**
      * 间隔时间
      */
     private int period;
     /**
      * 间隔时间单位
      */
-    private TimeUnit timeUnit;
+    private TimeUnit periodTimeUnit;
 
     /**
      * 多长时间之前的文件被清理掉
@@ -60,23 +66,33 @@ public class CleanFileThread {
      */
     private FilenameFilter filenameFilter;
 
+    /**
+     * 线程名称前缀
+     */
+    private String threadNamePrefix;
+
     private CleanRunnable cleanRunnable;
+
 
     private CleanFileThread() {
     }
 
-    public CleanFileThread(String dir, int delay, int period, TimeUnit timeUnit,
+    public CleanFileThread(String dir, int delay, TimeUnit delayTimeUnit,
+                           int period, TimeUnit timeUnit,
                            int maxLifeTime, TimeUnit maxLifeTimeUnit) {
-        this(Arrays.asList(dir), delay, period, timeUnit, maxLifeTime, maxLifeTimeUnit);
+        this(Arrays.asList(dir), delay, delayTimeUnit, period, timeUnit, maxLifeTime, maxLifeTimeUnit);
     }
 
-    public CleanFileThread(List<String> dirs, int delay, int period, TimeUnit timeUnit,
+    public CleanFileThread(List<String> dirs, int delay, TimeUnit delayTimeUnit,
+                           int period, TimeUnit periodTimeUnit,
                            int maxLifeTime, TimeUnit maxLifeTimeUnit) {
         Preconditions.checkNotNull(dirs, "file dir cannot be null");
         this.dirs = dirs;
         this.delay = delay < 0 ? 0 : delay;
+        this.delayTimeUnit = delayTimeUnit == null ? TimeUnit.MINUTES : delayTimeUnit;
+
         this.period = period < 0 ? 1 : period;
-        this.timeUnit = timeUnit == null ? TimeUnit.MINUTES : timeUnit;
+        this.periodTimeUnit = periodTimeUnit == null ? TimeUnit.MINUTES : periodTimeUnit;
 
         this.maxLifeTime = maxLifeTime < 0 ? 1 : maxLifeTime;
         this.maxLifeTimeUnit = maxLifeTimeUnit == null ? TimeUnit.MINUTES : maxLifeTimeUnit;
@@ -85,10 +101,12 @@ public class CleanFileThread {
 
 
     public void start() {
-
+        String threadName = MessageUtil.format("{}-clean-file-thread-{}",
+                StringUtil.defaultIfEmpty(getThreadNamePrefix(), "sea")
+                , count.incrementAndGet());
         cleanRunnable = new CleanRunnable();
         Thread thread = new Thread(cleanRunnable);
-        thread.setName("sea-clean-file-thread-" + count.incrementAndGet());
+        thread.setName(threadName);
         thread.setDaemon(true);
         thread.start();
 
@@ -109,7 +127,15 @@ public class CleanFileThread {
         this.filenameFilter = filenameFilter;
     }
 
+    public String getThreadNamePrefix() {
+        return threadNamePrefix;
+    }
 
+    public void setThreadNamePrefix(String threadNamePrefix) {
+        this.threadNamePrefix = threadNamePrefix;
+    }
+
+    // ----
     private class CleanRunnable extends SuspendedLoopRunnable {
 
         @Override
@@ -126,14 +152,18 @@ public class CleanFileThread {
         public void loopRun() {
             if (delay > 0) {
                 try {
-                    Thread.sleep(TimeUnitUtil.toMills(delay, timeUnit));
+                    Thread.sleep(TimeUnitUtil.toMills(delay, delayTimeUnit));
                 } catch (Exception e) {
 
                 }
             }
-            cleanFile();
             try {
-                Thread.sleep(TimeUnitUtil.toMills(period, timeUnit));
+                cleanFile();
+            } catch (Exception e) {
+                log.error("fail to clean file.", e);
+            }
+            try {
+                Thread.sleep(TimeUnitUtil.toMills(period, periodTimeUnit));
             } catch (Exception e) {
 
             }
