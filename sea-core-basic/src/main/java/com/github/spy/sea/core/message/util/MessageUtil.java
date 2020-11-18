@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.helpers.MessageFormatter;
 
 /**
- * 模块名
+ * message format util.
  *
  * @author spy
  * @version 1.0 2019/6/1
