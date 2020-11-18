@@ -1,6 +1,8 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.config.Configuration;
+import com.github.spy.sea.core.config.ConfigurationFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,5 +23,14 @@ public class PathUtilTest extends BaseCoreTest {
         Assert.assertEquals(PathUtil.join("/Users/smith", "//file.txt"), "/Users/smith/file.txt");
         Assert.assertEquals(PathUtil.join("/Users/smith", "//work//", "//file.txt"), "/Users/smith/work/file.txt");
 
+    }
+
+    @Test
+    public void run27() throws Exception {
+        Configuration cfg = ConfigurationFactory.getInstance();
+        String userHome = cfg.getString("user.home");
+
+        String logPath = PathUtil.join(userHome, "logs", "sea", "jstack");
+        log.info("logPath={}", logPath);
     }
 }

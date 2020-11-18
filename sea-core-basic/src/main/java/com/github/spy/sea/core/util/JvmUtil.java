@@ -87,7 +87,7 @@ public final class JvmUtil {
         Configuration cfg = ConfigurationFactory.getInstance();
         String userHome = cfg.getString("user.home");
 
-        String logPath = PathUtil.join(userHome, "logs");
+        String logPath = PathUtil.join(userHome, "logs", "sea", "jstack");
         FileUtil.ensureDir(logPath);
         dumpStack(logPath + "/" + DateUtil.dateStr(new Date(), DateUtil.DATETIME_FORMAT_HUMAN) + "_" + getPID() + "_jstack.log");
     }
