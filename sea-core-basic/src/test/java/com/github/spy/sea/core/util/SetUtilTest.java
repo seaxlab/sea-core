@@ -76,7 +76,7 @@ public class SetUtilTest extends BaseCoreTest {
 
         List<Set<String>> list = new ArrayList<>();
         list.add(set1);
-        list.add(set2);
+//        list.add(set2);
         log.info("{}", SetUtil.intersection(list));
     }
 
@@ -186,6 +186,14 @@ public class SetUtilTest extends BaseCoreTest {
 
         }
 
+    }
+
+    @Test
+    public void firstTest() throws Exception {
+
+        Set<String> set1 = Sets.asSet("1", "2");
+        Set<String> set2 = Sets.asSet("2", "3");
+        log.info("{}", SetUtil.first(set1));
     }
 
 

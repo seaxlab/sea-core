@@ -84,6 +84,23 @@ public final class SetUtil {
     }
 
     /**
+     * get first one.
+     *
+     * @param set
+     * @param <T>
+     * @return
+     */
+    public static <T> Optional<T> first(Set<T> set) {
+        if (isEmpty(set)) {
+            return Optional.ofNullable(null);
+        }
+        if (set.size() > 1) {
+            log.warn("when get one, while set size > 1");
+        }
+        return Optional.ofNullable(set.stream().findFirst().get());
+    }
+
+    /**
      * 两个集合的交集
      *
      * @param a
@@ -108,11 +125,10 @@ public final class SetUtil {
             return empty();
         }
 
-        if (sets.size() < 2) {
-            log.warn("sets size is less than 2, plz check.");
-            return empty();
+        if (sets.size() == 1) {
+            log.warn("sets size is 1.");
+            return sets.stream().findFirst().get();
         }
-
 
         return sets.stream()
                    .map(HashSet::new)
@@ -134,12 +150,17 @@ public final class SetUtil {
             log.warn("list is empty.");
             return empty();
         }
-        if (list.size() < 2) {
-            log.warn("list size is less then 2, plz check.");
-            return empty();
+        if (list.size() == 1) {
+            log.warn("list size is 1.");
+            return list.get(0);
         }
 
-        Set set = toSet(list);
+        Set<Set<T>> set = toSet(list);
+        // 防止list中有重复的set
+        if (set.size() == 1) {
+            return set.stream().findFirst().get();
+        }
+
         return intersection(set);
     }
 
@@ -194,9 +215,9 @@ public final class SetUtil {
             return empty();
         }
 
-        if (sets.size() < 2) {
-            log.warn("sets size is less than 2, plz check.");
-            return empty();
+        if (sets.size() == 1) {
+            log.warn("sets size is 1.");
+            return sets.stream().findFirst().get();
         }
 
 
@@ -220,12 +241,16 @@ public final class SetUtil {
             log.warn("list is empty.");
             return empty();
         }
-        if (list.size() < 2) {
-            log.warn("list size is less then 2, plz check.");
-            return empty();
+        if (list.size() == 1) {
+            return list.get(0);
         }
 
         Set set = toSet(list);
+
+        if (set.size() == 1) {
+            return set;
+        }
+
         return union(set);
     }
 
