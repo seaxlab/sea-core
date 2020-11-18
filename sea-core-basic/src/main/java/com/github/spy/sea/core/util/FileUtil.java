@@ -8,7 +8,10 @@ import org.apache.http.util.ByteArrayBuffer;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * File util
@@ -294,6 +297,28 @@ public final class FileUtil {
             }
             return false;
         });
+    }
+
+
+    /**
+     * get file attr
+     * <p>
+     * lastModifiedTime, lastAccessTime, creationTime
+     * </p>
+     *
+     * @param file
+     * @return
+     */
+    public static Optional<BasicFileAttributes> getAttr(final File file) {
+        Path path = file.toPath();
+        BasicFileAttributes fileAttr;
+        try {
+            fileAttr = java.nio.file.Files.readAttributes(path, BasicFileAttributes.class);
+        } catch (IOException e) {
+            log.error("io exception.", e);
+            fileAttr = null;
+        }
+        return Optional.ofNullable(fileAttr);
     }
 
 
