@@ -92,8 +92,7 @@ public final class StringUtil {
      */
     public static String join(String separator, String... strs) {
         Preconditions.checkState(isNotEmpty(separator), "separator cannot be null");
-        if (strs == null || strs.length < 2) {
-            log.warn("The length of strs should be more than 2.");
+        if (strs == null || strs.length == 0) {
             return "";
         }
         StringBuilder strBuilder = new StringBuilder();
