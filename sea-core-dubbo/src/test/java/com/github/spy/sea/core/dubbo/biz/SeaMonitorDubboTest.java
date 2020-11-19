@@ -49,19 +49,22 @@ public class SeaMonitorDubboTest extends BaseDubboTest {
     @Test
     public void getUserNameTest() throws Exception {
 
-        String[] parameterTypes = new String[]{};
-        Object[] parameterArgs = new Object[]{};
-
         dto.setRegistryAddress("zookeeper://10.122.2.203:2181");
         dto.setInterfaceName("com.github.spy.sea.monitor.demo.service.UserService");
         dto.setMethod("getUserName");
-        dto.setVersion("");
-//        dto.setParameterTypes(parameterTypes);
-//        dto.setParameterArgs(parameterArgs);
 
+        for (int i = 0; i < 10; i++) {
+            log.info("invoke====");
+            BaseResult result = DubboUtil.invoke(dto);
+            log.info("ret data={}", result.getData());
+        }
 
-        log.info("invoke====");
-        BaseResult result = DubboUtil.invoke(dto);
-        log.info("ret data={}", result.getData());
     }
+
+//    @Test
+//    public void echoTest() throws Exception {
+//        BaseResult result = DubboUtil.echo("zookeeper://10.122.2.203:2181");
+//        log.info("ret data={}", result.getData());
+//    }
+
 }

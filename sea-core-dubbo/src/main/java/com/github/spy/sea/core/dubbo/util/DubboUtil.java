@@ -12,6 +12,7 @@ import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.config.utils.ReferenceConfigCache;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.service.GenericService;
@@ -35,6 +36,20 @@ public final class DubboUtil {
     private static final String DEFAULT_VERSION = "";
     // 默认超时时间
     private static final Integer DEFAULT_TIME_OUT = 30 * 1000;
+    // 默认重试次数
+    private static final Integer DEFAULT_RETRY = 2;
+
+
+// not support echo feature
+//    /**
+//     * echo
+//     *
+//     * @param registryAddress
+//     * @return
+//     */
+//    public static BaseResult echo(String registryAddress) {
+//        return invoke(registryAddress, EchoService.class.getName(), "$invoke", null);
+//    }
 
     /**
      * invoke with no args.
@@ -174,16 +189,34 @@ public final class DubboUtil {
         ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
         // 弱类型接口名
         reference.setInterface(dto.getInterfaceName());
+        reference.setGroup(StringUtil.defaultIfEmpty(dto.getGroup(), null));
         reference.setVersion(StringUtil.defaultIfBlank(dto.getVersion(), DEFAULT_VERSION));
         reference.setTimeout(ObjectUtil.defaultIfNull(dto.getTimeout(), DEFAULT_TIME_OUT));
+        reference.setRetries(ObjectUtil.defaultIfNull(dto.getRetry(), DEFAULT_RETRY));
+        if (StringUtil.isNotEmpty(dto.getTag())) {
+            reference.setTag(dto.getTag());
+        }
+        if (StringUtil.isNotEmpty(dto.getProtocol())) {
+            reference.setProtocol(dto.getProtocol());
+        }
+
         // 声明为泛化接口
         reference.setGeneric(true);
         reference.setApplication(application);
 
-        GenericService genericService = reference.get();
+        // get reference from cache.
+        ReferenceConfigCache configCache = ReferenceConfigCache.getCache();
+        GenericService genericService = configCache.get(reference);
 
+        boolean isAsync = ObjectUtil.defaultIfNull(dto.getAsync(), false);
         try {
-            Object ret = genericService.$invoke(dto.getMethod(), dto.getParameterTypes(), dto.getParameterArgs());
+            Object ret;
+            if (isAsync) {
+                // CompletableFuture<Object>
+                ret = genericService.$invokeAsync(dto.getMethod(), dto.getParameterTypes(), dto.getParameterArgs());
+            } else {
+                ret = genericService.$invoke(dto.getMethod(), dto.getParameterTypes(), dto.getParameterArgs());
+            }
             if (log.isDebugEnabled()) {
                 log.debug("dubbo generic service return ret={}", ret);
             }

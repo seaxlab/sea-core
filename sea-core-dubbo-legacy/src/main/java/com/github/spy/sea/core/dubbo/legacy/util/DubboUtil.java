@@ -4,6 +4,7 @@ import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
+import com.alibaba.dubbo.config.utils.ReferenceConfigCache;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.service.GenericService;
@@ -179,7 +180,9 @@ public final class DubboUtil {
         reference.setGeneric(true);
         reference.setApplication(application);
 
-        GenericService genericService = reference.get();
+        // get reference from cache.
+        ReferenceConfigCache configCache = ReferenceConfigCache.getCache();
+        GenericService genericService = configCache.get(reference);
 
         try {
             Object ret = genericService.$invoke(dto.getMethod(), dto.getParameterTypes(), dto.getParameterArgs());
