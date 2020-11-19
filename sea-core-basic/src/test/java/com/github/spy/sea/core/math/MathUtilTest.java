@@ -1,8 +1,7 @@
-package com.github.spy.sea.core.algorithm;
+package com.github.spy.sea.core.math;
 
 import cn.hutool.core.math.Combination;
 import com.github.spy.sea.core.BaseCoreTest;
-import com.github.spy.sea.core.math.MathUtil;
 import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -13,37 +12,11 @@ import java.util.List;
  * module name
  *
  * @author spy
- * @version 1.0 2020/10/30
+ * @version 1.0 11/19/20
  * @since 1.0
  */
 @Slf4j
-public class CombineUtilTest extends BaseCoreTest {
-
-    @Test
-    public void run17() throws Exception {
-        int[] a = {1, 2, 3, 4};  // 初始数组
-        CombineUtil.arrangementSelect(a, 4);
-        CombineUtil.combinationSelect(a, 3);
-    }
-
-    @Test
-    public void run24() throws Exception {
-
-        String str[] = {"A", "B", "C", "D", "E"};
-
-        int nCnt = str.length;
-
-        int nBit = (0xFFFFFFFF >>> (32 - nCnt));
-
-        for (int i = 1; i <= nBit; i++) {
-            for (int j = 0; j < nCnt; j++) {
-                if ((i << (31 - j)) >> 31 == -1) {
-                    System.out.print(str[j]);
-                }
-            }
-            System.out.println("");
-        }
-    }
+public class MathUtilTest extends BaseCoreTest {
 
     String[] data = new String[]{"1", "2", "3", "4", "5"};
 
@@ -79,5 +52,30 @@ public class CombineUtilTest extends BaseCoreTest {
             String str = StringUtil.join(",", item);
             log.info("{}", str);
         });
+    }
+
+    @Test
+    public void run58() throws Exception {
+        List<String[]> list = MathUtil.combinationSelectAllNoOrder(data);
+        list.stream().forEach(item -> {
+            String str = StringUtil.join(",", item);
+            log.info("{}", str);
+        });
+    }
+
+    @Test
+    public void run67() throws Exception {
+        sort(new String[]{"1"});
+        sort(new String[]{"1", "2"});
+        sort(new String[]{"1", "2", "3"});
+    }
+
+    private static void sort(String[] data) {
+        List<String[]> list = MathUtil.combinationSelectAllNoOrder(data);
+        list.stream().forEach(item -> {
+            String str = StringUtil.join(",", item);
+            log.info("{}", str);
+        });
+        log.info("-------");
     }
 }
