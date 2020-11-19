@@ -31,9 +31,29 @@ public final class DubboUtil {
 
     private static final String DEFAULT_APP_NAME = "sea-core-dubbo";
 
-    private static final String DEFAULT_VERSION = "1.0.0";
+    private static final String DEFAULT_VERSION = "";
     // 默认超时时间
     private static final Integer DEFAULT_TIME_OUT = 30 * 1000;
+
+    /**
+     * invoke with no args.
+     *
+     * @param registryAddress
+     * @param interfaceName
+     * @param method
+     * @param version
+     * @return
+     */
+    public static BaseResult invoke(String registryAddress, String interfaceName, String method, String version) {
+        DubboGenericInvokeDTO dto = new DubboGenericInvokeDTO();
+        dto.setRegistryAddress(registryAddress);
+        dto.setInterfaceName(interfaceName);
+        dto.setMethod(method);
+        dto.setVersion(version);
+        dto.setParameterTypes(new String[]{});
+        dto.setParameterArgs(new Object[]{});
+        return invoke(dto);
+    }
 
     /**
      * invoke
@@ -127,6 +147,13 @@ public final class DubboUtil {
         Preconditions.checkNotNull(dto.getInterfaceName(), "interface 不能为空");
         Preconditions.checkNotNull(dto.getMethod(), "interface method 不能为空");
 
+        if (dto.getParameterTypes() == null) {
+            dto.setParameterTypes(new String[]{});
+        }
+        if (dto.getParameterArgs() == null) {
+            dto.setParameterArgs(new Object[]{});
+        }
+
         if (dto.getParameterTypes() != null && dto.getParameterArgs() != null) {
             if (!EqualUtil.isEq(dto.getParameterTypes().length, dto.getParameterArgs().length)) {
                 result.setErrorMessage("参数类型个数和参数类型值个数不相等.");
@@ -139,6 +166,7 @@ public final class DubboUtil {
 
         RegistryConfig registry = new RegistryConfig();
         registry.setAddress(dto.getRegistryAddress());
+        application.setQosEnable(ObjectUtil.defaultIfNull(dto.getQosEnable(), false));
 
         application.setRegistry(registry);
 
@@ -158,8 +186,7 @@ public final class DubboUtil {
             if (log.isDebugEnabled()) {
                 log.debug("dubbo generic service return ret={}", ret);
             }
-            result.setData(ret);
-            result.setSuccess(true);
+            result.value(ret);
         } catch (Exception e) {
             log.error("fail to invoke dubbo generic service", e);
         }

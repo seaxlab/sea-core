@@ -17,14 +17,20 @@ public class DubboGenericInvokeDTO extends BaseRequestDTO {
 
     private String registryAddress;
 
+    private Boolean qosEnable;
+
     private String interfaceName;
     private String method;
     private String version;
     private Integer timeout;
 
-    // 参数类型
+    /**
+     * 参数类型列表, 不能为空,invoke做了判空处理
+     */
     private String[] parameterTypes;
-    // 参数值
+    /**
+     * 参数值列表, 不能为空,invoke中做了判空处理
+     */
     private Object[] parameterArgs;
 
 }
