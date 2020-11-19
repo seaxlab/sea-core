@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.thread;
 
+import com.github.spy.sea.core.lock.impl.FileLock;
 import com.github.spy.sea.core.message.util.MessageUtil;
 import com.github.spy.sea.core.util.ListUtil;
 import com.github.spy.sea.core.util.StringUtil;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.locks.Lock;
 import java.util.stream.Collectors;
 
 /**
@@ -71,25 +73,31 @@ public class CleanFileThread {
      */
     private String threadNamePrefix;
 
+    /**
+     * 文件锁，一台机器有多个jvm时，针对的是同一个dirs，建议加锁
+     */
+    private String lockNamePrefix;
+
+    //inner field
+    private Lock fileLock;
+
     private CleanRunnable cleanRunnable;
 
 
     private CleanFileThread() {
     }
 
-    public CleanFileThread(String dir, int delay, TimeUnit delayTimeUnit,
+    public CleanFileThread(String dir,
                            int period, TimeUnit timeUnit,
                            int maxLifeTime, TimeUnit maxLifeTimeUnit) {
-        this(Arrays.asList(dir), delay, delayTimeUnit, period, timeUnit, maxLifeTime, maxLifeTimeUnit);
+        this(Arrays.asList(dir), period, timeUnit, maxLifeTime, maxLifeTimeUnit);
     }
 
-    public CleanFileThread(List<String> dirs, int delay, TimeUnit delayTimeUnit,
+    public CleanFileThread(List<String> dirs,
                            int period, TimeUnit periodTimeUnit,
                            int maxLifeTime, TimeUnit maxLifeTimeUnit) {
         Preconditions.checkNotNull(dirs, "file dir cannot be null");
         this.dirs = dirs;
-        this.delay = delay < 0 ? 0 : delay;
-        this.delayTimeUnit = delayTimeUnit == null ? TimeUnit.MINUTES : delayTimeUnit;
 
         this.period = period < 0 ? 1 : period;
         this.periodTimeUnit = periodTimeUnit == null ? TimeUnit.MINUTES : periodTimeUnit;
@@ -100,7 +108,16 @@ public class CleanFileThread {
     }
 
 
+    /**
+     * 启动函数
+     */
     public void start() {
+        delay = delay <= 0 ? 0 : delay;
+        delayTimeUnit = delayTimeUnit == null ? TimeUnit.MINUTES : delayTimeUnit;
+
+        // create file lock
+        fileLock = new FileLock(StringUtil.defaultIfBlank(lockNamePrefix, getThreadNamePrefix(), "sea"));
+
         String threadName = MessageUtil.format("{}-clean-file-thread-{}",
                 StringUtil.defaultIfEmpty(getThreadNamePrefix(), "sea")
                 , count.incrementAndGet());
@@ -113,10 +130,31 @@ public class CleanFileThread {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> cleanRunnable.stop()));
     }
 
+    /**
+     * 停止
+     */
     public void shutdown() {
         if (cleanRunnable != null) {
             cleanRunnable.stop();
         }
+    }
+
+    // get/set
+
+    public int getDelay() {
+        return delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public TimeUnit getDelayTimeUnit() {
+        return delayTimeUnit;
+    }
+
+    public void setDelayTimeUnit(TimeUnit delayTimeUnit) {
+        this.delayTimeUnit = delayTimeUnit;
     }
 
     public FilenameFilter getFilenameFilter() {
@@ -133,6 +171,14 @@ public class CleanFileThread {
 
     public void setThreadNamePrefix(String threadNamePrefix) {
         this.threadNamePrefix = threadNamePrefix;
+    }
+
+    public String getLockNamePrefix() {
+        return lockNamePrefix;
+    }
+
+    public void setLockNamePrefix(String lockNamePrefix) {
+        this.lockNamePrefix = lockNamePrefix;
     }
 
     // ----
@@ -157,10 +203,16 @@ public class CleanFileThread {
 
                 }
             }
+            boolean hasLockFlag = fileLock.tryLock();
             try {
+                // file lock
                 cleanFile();
             } catch (Exception e) {
                 log.error("fail to clean file.", e);
+            } finally {
+                if (hasLockFlag) {
+                    fileLock.unlock();
+                }
             }
             try {
                 Thread.sleep(TimeUnitUtil.toMills(period, periodTimeUnit));

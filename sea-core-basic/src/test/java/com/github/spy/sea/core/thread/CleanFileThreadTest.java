@@ -18,8 +18,12 @@ public class CleanFileThreadTest extends BaseCoreTest {
 
     @Test
     public void run17() throws Exception {
-        String dir = getUserHome() + "/logs/arthas-cache";
-        CleanFileThread thread = new CleanFileThread(dir, 0, TimeUnit.SECONDS, 10, TimeUnit.SECONDS, 30, TimeUnit.DAYS);
+        String dir = getUserHome() + "/logs/arthas";
+        CleanFileThread thread = new CleanFileThread(dir, 10, TimeUnit.SECONDS, 30, TimeUnit.DAYS);
+        thread.setFilenameFilter((dir1, name) -> {
+            log.info("dir={},name={}", dir1, name);
+            return false;
+        });
         thread.start();
 
         sleep(1000);
