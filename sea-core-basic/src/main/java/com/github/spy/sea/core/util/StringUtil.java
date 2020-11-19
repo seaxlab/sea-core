@@ -183,7 +183,7 @@ public final class StringUtil {
     }
 
     /**
-     * 只要有内容就为true
+     * 只要有内容就为true(可以为空格)
      *
      * @param str
      * @param defaultStr

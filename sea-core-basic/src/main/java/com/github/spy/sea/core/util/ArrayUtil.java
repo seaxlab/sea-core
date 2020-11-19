@@ -14,7 +14,28 @@ import java.util.List;
 @Slf4j
 public final class ArrayUtil {
 
+    private static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+
     private ArrayUtil() {
+    }
+
+    /**
+     * empty object array.
+     *
+     * @return
+     */
+    public static Object[] empty() {
+        return EMPTY_OBJECT_ARRAY;
+    }
+
+    /**
+     * empty string array.
+     *
+     * @return
+     */
+    public static String[] emptyStr() {
+        return EMPTY_STRING_ARRAY;
     }
 
     /**
@@ -57,11 +78,49 @@ public final class ArrayUtil {
         return list.toArray(arrays);
     }
 
+    /**
+     * list to array
+     *
+     * @param list
+     * @return
+     */
     public static Object[] toObjArray(List<Object> list) {
         if (ListUtil.isEmpty(list)) {
             return new Object[0];
         }
         return list.toArray();
+    }
+
+    /**
+     * return Object[] ,if null return empty Object[].
+     *
+     * @param objects
+     * @return
+     */
+    public static Object[] defaultIfNull(Object[] objects) {
+        return objects == null ? empty() : objects;
+    }
+
+    /**
+     * return object[], if null return default value.
+     *
+     * @param objects
+     * @param defaultValue
+     * @return
+     */
+    public static Object[] defaultIfNull(Object[] objects, Object[] defaultValue) {
+        return objects == null ? defaultValue : objects;
+    }
+
+    /**
+     * if objects=null or length=0, then return default value.
+     *
+     * @param objects
+     * @param defaultValue
+     * @return
+     */
+    public static Object[] defaultIfEmpty(Object[] objects, Object[] defaultValue) {
+        return (objects == null || objects.length == 0) ? defaultValue : objects;
     }
 
 

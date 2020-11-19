@@ -1,6 +1,5 @@
 package com.github.spy.sea.core.dubbo.common.dto;
 
-import com.github.spy.sea.core.model.BaseRequestDTO;
 import lombok.Data;
 
 /**
@@ -11,13 +10,12 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
-public class DubboGenericInvokeDTO extends BaseRequestDTO {
+public class DubboGenericInvokeDTO extends AppConfig {
 
-    private String appName;
-
-    private String registryAddress;
-
-    private Boolean qosEnable;
+    /**
+     * 直连机器服务，格式ip:port
+     */
+    private String url;
 
     private String interfaceName;
     private String method;

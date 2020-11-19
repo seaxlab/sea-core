@@ -8,6 +8,7 @@ import com.alibaba.dubbo.config.utils.ReferenceConfigCache;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.service.GenericService;
+import com.github.spy.sea.core.dubbo.common.commonn.Const;
 import com.github.spy.sea.core.dubbo.common.dto.DubboGenericInvokeDTO;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.util.ArrayUtil;
@@ -51,8 +52,8 @@ public final class DubboUtil {
         dto.setInterfaceName(interfaceName);
         dto.setMethod(method);
         dto.setVersion(version);
-        dto.setParameterTypes(new String[]{});
-        dto.setParameterArgs(new Object[]{});
+        dto.setParameterTypes(new String[0]);
+        dto.setParameterArgs(new Object[0]);
         return invoke(dto);
     }
 
@@ -117,8 +118,7 @@ public final class DubboUtil {
         dto.setMethod(method);
         dto.setVersion(version);
 
-        ArrayUtil.isArray(args);
-
+        args = ArrayUtil.defaultIfNull(args);
         List<String> parameterTypeList = new ArrayList<>();
         List<Object> parameterArgsList = new ArrayList<>();
 
@@ -144,9 +144,12 @@ public final class DubboUtil {
         BaseResult result = BaseResult.fail();
 
         Preconditions.checkNotNull(dto, "参数对象不能为空");
-        Preconditions.checkNotNull(dto.getRegistryAddress(), "registry address 不能为空");
         Preconditions.checkNotNull(dto.getInterfaceName(), "interface 不能为空");
         Preconditions.checkNotNull(dto.getMethod(), "interface method 不能为空");
+
+        if (StringUtil.isAllEmpty(dto.getRegistryAddress(), dto.getUrl())) {
+            throw new IllegalArgumentException("registry address 和url不能同时为空");
+        }
 
         if (dto.getParameterTypes() == null) {
             dto.setParameterTypes(new String[]{});
@@ -155,27 +158,31 @@ public final class DubboUtil {
             dto.setParameterArgs(new Object[]{});
         }
 
-        if (dto.getParameterTypes() != null && dto.getParameterArgs() != null) {
-            if (!EqualUtil.isEq(dto.getParameterTypes().length, dto.getParameterArgs().length)) {
-                result.setErrorMessage("参数类型个数和参数类型值个数不相等.");
-                return result;
-            }
+        if (!EqualUtil.isEq(dto.getParameterTypes().length, dto.getParameterArgs().length)) {
+            result.setErrorMessage("参数类型个数和参数类型值个数不相等.");
+            return result;
         }
 
         ApplicationConfig application = new ApplicationConfig();
         application.setName(StringUtil.defaultIfBlank(dto.getAppName(), DEFAULT_APP_NAME));
-
-        RegistryConfig registry = new RegistryConfig();
-        registry.setAddress(dto.getRegistryAddress());
         application.setQosEnable(ObjectUtil.defaultIfNull(dto.getQosEnable(), false));
-
-        application.setRegistry(registry);
+        if (StringUtil.isNotEmpty(dto.getRegistryAddress())) {
+            RegistryConfig registry = new RegistryConfig();
+            registry.setAddress(dto.getRegistryAddress());
+            application.setRegistry(registry);
+        }
 
         ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
         // 弱类型接口名
+        reference.setUrl(StringUtil.defaultIfEmpty(dto.getUrl(), null));
         reference.setInterface(dto.getInterfaceName());
-        reference.setVersion(StringUtil.defaultIfBlank(dto.getVersion(), DEFAULT_VERSION));
-        reference.setTimeout(ObjectUtil.defaultIfNull(dto.getTimeout(), DEFAULT_TIME_OUT));
+        reference.setGroup(StringUtil.defaultIfEmpty(dto.getGroup(), null));
+        reference.setVersion(StringUtil.defaultIfBlank(dto.getVersion(), Const.DEFAULT_VERSION));
+        reference.setTimeout(ObjectUtil.defaultIfNull(dto.getTimeout(), Const.DEFAULT_TIME_OUT));
+        reference.setRetries(ObjectUtil.defaultIfNull(dto.getRetry(), Const.DEFAULT_RETRY));
+        if (StringUtil.isNotEmpty(dto.getProtocol())) {
+            reference.setProtocol(dto.getProtocol());
+        }
         // 声明为泛化接口
         reference.setGeneric(true);
         reference.setApplication(application);

@@ -4,6 +4,7 @@ import com.github.spy.sea.core.dubbo.BaseDubboTest;
 import com.github.spy.sea.core.dubbo.util.DubboUtil;
 import com.github.spy.sea.core.model.BaseResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.rpc.service.EchoService;
 import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;
@@ -58,7 +59,30 @@ public class SeaMonitorDubboTest extends BaseDubboTest {
             BaseResult result = DubboUtil.invoke(dto);
             log.info("ret data={}", result.getData());
         }
+    }
 
+    @Test
+    public void directHostTest() throws Exception {
+        // 直连调用
+        dto.setUrl("10.10.11.195:20881");
+        dto.setInterfaceName("com.github.spy.sea.monitor.demo.service.UserService");
+        dto.setMethod("getUserName");
+
+        log.info("invoke====");
+        BaseResult result = DubboUtil.invoke(dto);
+        log.info("ret data={}", result.getData());
+    }
+
+    @Test
+    public void directHost2Test() throws Exception {
+        // 直连调用
+        dto.setUrl("10.10.11.195:20881");
+        dto.setInterfaceName(EchoService.class.getName());
+        dto.setMethod("$echo");
+
+        log.info("invoke====");
+        BaseResult result = DubboUtil.invoke(dto);
+        log.info("ret data={}", result.getData());
     }
 
 //    @Test
