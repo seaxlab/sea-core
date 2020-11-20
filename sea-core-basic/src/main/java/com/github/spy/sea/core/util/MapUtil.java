@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.common.SymbolConst;
+import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.KeyValue;
@@ -126,10 +127,17 @@ public final class MapUtil {
         return new HashMap<>(initialCapacity, 1);
     }
 
-//语义不太好
-//    public static <K, V> HashMap<K, V> newFixedHashMap(int initialCapacity) {
-//        return new HashMap<>(initialCapacity, 1);
-//    }
+    /**
+     * 减少扩容次数,
+     *
+     * @param expectedSize 根据expectedSize计算初始量
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public static <K, V> HashMap<K, V> newExpectedSizeHashMap(int expectedSize) {
+        return Maps.newHashMapWithExpectedSize(expectedSize);
+    }
 
 
     public static Object getObject(final Map map, final Object key) {
