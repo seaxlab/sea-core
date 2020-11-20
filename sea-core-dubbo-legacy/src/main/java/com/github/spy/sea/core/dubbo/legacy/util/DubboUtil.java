@@ -31,12 +31,6 @@ import java.util.List;
 @Slf4j
 public final class DubboUtil {
 
-    private static final String DEFAULT_APP_NAME = "sea-core-dubbo";
-
-    private static final String DEFAULT_VERSION = "";
-    // 默认超时时间
-    private static final Integer DEFAULT_TIME_OUT = 30 * 1000;
-
     /**
      * invoke with no args.
      *
@@ -164,7 +158,7 @@ public final class DubboUtil {
         }
 
         ApplicationConfig application = new ApplicationConfig();
-        application.setName(StringUtil.defaultIfBlank(dto.getAppName(), DEFAULT_APP_NAME));
+        application.setName(StringUtil.defaultIfBlank(dto.getAppName(), Const.DEFAULT_APP_NAME));
         application.setQosEnable(ObjectUtil.defaultIfNull(dto.getQosEnable(), false));
         if (StringUtil.isNotEmpty(dto.getRegistryAddress())) {
             RegistryConfig registry = new RegistryConfig();
