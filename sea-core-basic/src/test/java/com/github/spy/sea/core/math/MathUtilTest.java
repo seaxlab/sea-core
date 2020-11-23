@@ -4,6 +4,7 @@ import cn.hutool.core.math.Combination;
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
@@ -17,6 +18,18 @@ import java.util.List;
  */
 @Slf4j
 public class MathUtilTest extends BaseCoreTest {
+
+
+    @Test
+    public void run23() throws Exception {
+        Assert.assertEquals(true, MathUtil.isPowerOfTwo(16));
+        Assert.assertEquals(false, MathUtil.isPowerOfTwo(3));
+
+        log.info("{}", MathUtil.findNextPositivePowerOfTwo(12));
+        log.info("{}", MathUtil.findNextPositivePowerOfTwo(16));
+        log.info("{}", MathUtil.safeFindNextPositivePowerOfTwo(-1));
+    }
+
 
     String[] data = new String[]{"1", "2", "3", "4", "5"};
 
