@@ -177,6 +177,16 @@ public final class ClassUtil {
         return load(className) != null;
     }
 
+    /**
+     * check  class exist or not.
+     *
+     * @param className  full name.
+     * @param initialize true/false.
+     * @return
+     */
+    public static boolean has(String className, boolean initialize) {
+        return load(className, initialize) != null;
+    }
 
     public static ClassLoader getDefaultClassLoader() {
         ClassLoader cl = null;
