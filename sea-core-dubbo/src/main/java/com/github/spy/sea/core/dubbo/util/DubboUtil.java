@@ -225,6 +225,8 @@ public final class DubboUtil {
         reference.setRetries(ObjectUtil.defaultIfNull(dto.getRetry(), Const.DEFAULT_RETRY));
         reference.setTag(dto.getTag());
         reference.setProtocol(dto.getProtocol());
+        reference.setFilter(dto.getFilter());
+        reference.setAsync(dto.getAsync());
         // 声明为泛化接口
         reference.setGeneric(Boolean.TRUE.toString());
 
@@ -284,6 +286,8 @@ public final class DubboUtil {
         reference.setRetries(ObjectUtil.defaultIfNull(beanConfig.getRetry(), Const.DEFAULT_RETRY));
         reference.setTag(beanConfig.getTag());
         reference.setProtocol(beanConfig.getProtocol());
+        reference.setFilter(beanConfig.getFilter());
+        reference.setAsync(beanConfig.getAsync());
         // 声明为泛化接口
         reference.setGeneric(Boolean.TRUE.toString());
 

@@ -39,6 +39,11 @@ public class DubboGenericInvokeDTO extends AppConfig {
      */
     private Object[] parameterArgs;
 
+    /**
+     * 过滤器，多个用逗号隔开
+     */
+    private String filter;
+
     private Boolean async;
 
 }

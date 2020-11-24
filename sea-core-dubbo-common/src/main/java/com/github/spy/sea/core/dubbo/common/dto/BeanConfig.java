@@ -26,4 +26,10 @@ public class BeanConfig extends AppConfig {
      */
     private Integer retry;
     private Integer timeout;
+    /**
+     * 过滤器，多个用逗号隔开
+     */
+    private String filter;
+
+    private Boolean async;
 }
