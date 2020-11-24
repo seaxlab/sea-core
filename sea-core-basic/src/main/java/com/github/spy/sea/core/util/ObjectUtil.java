@@ -1,6 +1,5 @@
 package com.github.spy.sea.core.util;
 
-import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -74,14 +73,14 @@ public final class ObjectUtil {
 
 
     /**
-     * 返回有值内容的
+     * 如果value为空，则返回defaultValue.
      *
      * @param value
      * @param defaultValue
      * @return
      */
     public static <T> T defaultIfNull(T value, T defaultValue) {
-        Preconditions.checkNotNull(defaultValue, "defaultValue can not be null");
+//        Preconditions.checkNotNull(defaultValue, "defaultValue can not be null");
         if (value == null) {
             return defaultValue;
         }
