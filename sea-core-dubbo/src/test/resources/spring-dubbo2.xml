@@ -20,10 +20,6 @@
     <dubbo:protocol name="dubbo" port="20881"/>
 
     <!--dubbo接口-->
-    <bean id="userService" class="com.github.spy.sea.core.dubbo.service.UserFacadeServiceImpl"/>
-    <dubbo:service interface="com.github.spy.sea.core.dubbo.facade.UserFacadeService"
-                   ref="userService"
-                   version="1.0.0" retries="0" timeout="30000"/>
-
+    <import resource="spring-dubbo-common.xml"/>
 
 </beans>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://dubbo.apache.org/schema/dubbo
+       http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <!--dubbo接口-->
+    <bean id="userService" class="com.github.spy.sea.core.dubbo.service.UserFacadeServiceImpl"/>
+    <bean id="productFacadeService" class="com.github.spy.sea.core.dubbo.service.ProductFacadeServiceImpl"/>
+
+    <dubbo:service interface="com.github.spy.sea.core.dubbo.facade.UserFacadeService"
+                   ref="userService"
+                   version="1.0.0" retries="0" timeout="30000"/>
+    <dubbo:service interface="com.github.spy.sea.core.dubbo.facade.ProductFacadeService"
+                   ref="productFacadeService"
+                   version="1.0.0" retries="0" timeout="30000"/>
+
+</beans>
