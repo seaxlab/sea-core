@@ -9,6 +9,7 @@ import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.service.GenericService;
 import com.github.spy.sea.core.dubbo.common.commonn.Const;
+import com.github.spy.sea.core.dubbo.common.dto.BeanConfig;
 import com.github.spy.sea.core.dubbo.common.dto.DubboGenericInvokeDTO;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.util.ArrayUtil;
@@ -174,9 +175,7 @@ public final class DubboUtil {
         reference.setVersion(StringUtil.defaultIfBlank(dto.getVersion(), Const.DEFAULT_VERSION));
         reference.setTimeout(ObjectUtil.defaultIfNull(dto.getTimeout(), Const.DEFAULT_TIME_OUT));
         reference.setRetries(ObjectUtil.defaultIfNull(dto.getRetry(), Const.DEFAULT_RETRY));
-        if (StringUtil.isNotEmpty(dto.getProtocol())) {
-            reference.setProtocol(dto.getProtocol());
-        }
+        reference.setProtocol(ObjectUtil.defaultIfNull(dto.getProtocol(), null));
         // 声明为泛化接口
         reference.setGeneric(true);
         reference.setApplication(application);
@@ -196,6 +195,45 @@ public final class DubboUtil {
         }
         return result;
     }
+
+    /**
+     * get dubbo bean if you have dubbo facade client.
+     *
+     * @param beanConfig bean info config.
+     * @param clazz      real bean class
+     * @param <T>        bean class.
+     * @return
+     */
+    public static <T> T getBean(BeanConfig beanConfig, Class<T> clazz) {
+        ApplicationConfig application = new ApplicationConfig();
+        application.setName(StringUtil.defaultIfBlank(beanConfig.getAppName(), Const.DEFAULT_APP_NAME));
+        application.setQosEnable(ObjectUtil.defaultIfNull(beanConfig.getQosEnable(), false));
+
+        if (StringUtil.isNotEmpty(beanConfig.getRegistryAddress())) {
+            RegistryConfig registry = new RegistryConfig();
+            registry.setAddress(beanConfig.getRegistryAddress());
+            application.setRegistry(registry);
+        }
+
+
+        ReferenceConfig<T> reference = new ReferenceConfig<>();
+        // 弱类型接口名
+        reference.setUrl(StringUtil.defaultIfEmpty(beanConfig.getUrl(), null));
+        reference.setInterface(clazz);
+        reference.setGroup(StringUtil.defaultIfEmpty(beanConfig.getGroup(), null));
+        reference.setVersion(StringUtil.defaultIfBlank(beanConfig.getVersion(), Const.DEFAULT_VERSION));
+        reference.setTimeout(ObjectUtil.defaultIfNull(beanConfig.getTimeout(), Const.DEFAULT_TIME_OUT));
+        reference.setRetries(ObjectUtil.defaultIfNull(beanConfig.getRetry(), Const.DEFAULT_RETRY));
+        reference.setProtocol(ObjectUtil.defaultIfNull(beanConfig.getProtocol(), null));
+        // 声明为泛化接口
+        reference.setGeneric(true);
+        reference.setApplication(application);
+
+        // get reference from cache.
+        ReferenceConfigCache configCache = ReferenceConfigCache.getCache();
+        return configCache.get(reference);
+    }
+
 
     /**
      * check current node is consumer

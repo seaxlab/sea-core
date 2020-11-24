@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.dubbo.util;
 
 import com.github.spy.sea.core.dubbo.common.commonn.Const;
+import com.github.spy.sea.core.dubbo.common.dto.BeanConfig;
 import com.github.spy.sea.core.dubbo.common.dto.DubboGenericInvokeDTO;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.util.ArrayUtil;
@@ -16,6 +17,7 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.utils.ReferenceConfigCache;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.model.ApplicationModel;
 import org.apache.dubbo.rpc.service.GenericService;
 
 import java.util.ArrayList;
@@ -200,6 +202,7 @@ public final class DubboUtil {
             return result;
         }
 
+        // application
         ApplicationConfig application = new ApplicationConfig();
         application.setName(StringUtil.defaultIfBlank(dto.getAppName(), Const.DEFAULT_APP_NAME));
         application.setQosEnable(ObjectUtil.defaultIfNull(dto.getQosEnable(), false));
@@ -209,8 +212,9 @@ public final class DubboUtil {
             registry.setAddress(dto.getRegistryAddress());
             application.setRegistry(registry);
         }
+        ApplicationModel.getConfigManager().setApplication(application);
 
-
+        // reference
         ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
         // 弱类型接口名
         reference.setUrl(StringUtil.defaultIfEmpty(dto.getUrl(), null));
@@ -219,15 +223,10 @@ public final class DubboUtil {
         reference.setVersion(StringUtil.defaultIfBlank(dto.getVersion(), Const.DEFAULT_VERSION));
         reference.setTimeout(ObjectUtil.defaultIfNull(dto.getTimeout(), Const.DEFAULT_TIME_OUT));
         reference.setRetries(ObjectUtil.defaultIfNull(dto.getRetry(), Const.DEFAULT_RETRY));
-        if (StringUtil.isNotEmpty(dto.getTag())) {
-            reference.setTag(dto.getTag());
-        }
-        if (StringUtil.isNotEmpty(dto.getProtocol())) {
-            reference.setProtocol(dto.getProtocol());
-        }
+        reference.setTag(dto.getTag());
+        reference.setProtocol(dto.getProtocol());
         // 声明为泛化接口
-        reference.setGeneric(true);
-        reference.setApplication(application);
+        reference.setGeneric(Boolean.TRUE.toString());
 
         // get reference from cache.
         ReferenceConfigCache configCache = ReferenceConfigCache.getCache();
@@ -250,6 +249,47 @@ public final class DubboUtil {
             log.error("fail to invoke dubbo generic service", e);
         }
         return result;
+    }
+
+    /**
+     * get dubbo bean if you have dubbo facade client.
+     *
+     * @param beanConfig bean info config.
+     * @param clazz      real bean class
+     * @param <T>        bean class.
+     * @return
+     */
+    public static <T> T getBean(BeanConfig beanConfig, Class<T> clazz) {
+
+        // application
+        ApplicationConfig application = new ApplicationConfig();
+        application.setName(StringUtil.defaultIfBlank(beanConfig.getAppName(), Const.DEFAULT_APP_NAME));
+        application.setQosEnable(ObjectUtil.defaultIfNull(beanConfig.getQosEnable(), false));
+
+        if (StringUtil.isNotEmpty(beanConfig.getRegistryAddress())) {
+            RegistryConfig registry = new RegistryConfig();
+            registry.setAddress(beanConfig.getRegistryAddress());
+            application.setRegistry(registry);
+        }
+        ApplicationModel.getConfigManager().setApplication(application);
+
+        // reference
+        ReferenceConfig<T> reference = new ReferenceConfig<>();
+        // 弱类型接口名
+        reference.setUrl(StringUtil.defaultIfEmpty(beanConfig.getUrl(), null));
+        reference.setInterface(clazz);
+        reference.setGroup(StringUtil.defaultIfEmpty(beanConfig.getGroup(), null));
+        reference.setVersion(StringUtil.defaultIfBlank(beanConfig.getVersion(), Const.DEFAULT_VERSION));
+        reference.setTimeout(ObjectUtil.defaultIfNull(beanConfig.getTimeout(), Const.DEFAULT_TIME_OUT));
+        reference.setRetries(ObjectUtil.defaultIfNull(beanConfig.getRetry(), Const.DEFAULT_RETRY));
+        reference.setTag(beanConfig.getTag());
+        reference.setProtocol(beanConfig.getProtocol());
+        // 声明为泛化接口
+        reference.setGeneric(Boolean.TRUE.toString());
+
+        // get reference from cache.
+        ReferenceConfigCache configCache = ReferenceConfigCache.getCache();
+        return configCache.get(reference);
     }
 
 
