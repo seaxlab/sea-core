@@ -18,6 +18,7 @@ public class UserFacadeServiceImpl implements UserFacadeService {
 
     @Override
     public String getName(String userCode) {
-        return "name" + count.incrementAndGet();
+        log.info("userCode={},invokeCount={}", userCode, count.incrementAndGet());
+        return "name" + count.get();
     }
 }

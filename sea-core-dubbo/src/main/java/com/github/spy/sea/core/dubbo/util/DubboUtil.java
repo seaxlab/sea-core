@@ -229,6 +229,7 @@ public final class DubboUtil {
         reference.setAsync(dto.getAsync());
         // 声明为泛化接口
         reference.setGeneric(Boolean.TRUE.toString());
+        reference.setApplication(application);
 
         // get reference from cache.
         ReferenceConfigCache configCache = ReferenceConfigCache.getCache();
@@ -290,6 +291,7 @@ public final class DubboUtil {
         reference.setAsync(beanConfig.getAsync());
         // 声明为泛化接口
         reference.setGeneric(Boolean.TRUE.toString());
+        reference.setApplication(application);
 
         // get reference from cache.
         ReferenceConfigCache configCache = ReferenceConfigCache.getCache();
