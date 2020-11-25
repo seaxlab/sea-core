@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * module name
+ * Sea global filter
  *
  * @author spy
  * @version 1.0 2020/3/23
@@ -106,13 +106,13 @@ public class SeaGlobalFilter implements Filter {
         log.info("Http cookie parse extension count={}", extensionList.size());
 
         if (ListUtil.isNotEmpty(extensionList)) {
-            httpHeaderMap = new HashMap<>();
+            httpCookieMap = new HashMap<>();
             for (HttpCookieParseExtension extension : extensionList) {
                 Map<String, String> map = extension.get();
-                httpHeaderMap.putAll(map);
+                httpCookieMap.putAll(map);
             }
         } else {
-            httpHeaderMap = MapUtil.empty();
+            httpCookieMap = MapUtil.empty();
         }
     }
 
@@ -174,7 +174,7 @@ public class SeaGlobalFilter implements Filter {
                     log.debug("put [{}->{}={}] into thread context", entry.getKey(), entry.getValue(), value);
                 }
             } else {
-                log.warn("value of [{}] is null in http header", entry.getKey());
+                log.warn("value of [{}] is null in http cookie", entry.getKey());
             }
         }
     }
@@ -196,7 +196,7 @@ public class SeaGlobalFilter implements Filter {
                     log.debug("put [{}->{}={}] into thread context", entry.getKey(), entry.getValue(), value);
                 }
             } else {
-                log.warn("value of [{}] is null in http header", entry.getKey());
+                log.warn("value of [{}] is null in http request", entry.getKey());
             }
         }
     }
