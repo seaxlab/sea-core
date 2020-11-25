@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.web.filter;
 
 import com.github.spy.sea.core.common.CoreConst;
+import com.github.spy.sea.core.extension.HttpCookieParseExtension;
 import com.github.spy.sea.core.extension.HttpHeaderParseExtension;
 import com.github.spy.sea.core.extension.HttpRequestParseExtension;
 import com.github.spy.sea.core.loader.EnhancedServiceLoader;
@@ -8,6 +9,7 @@ import com.github.spy.sea.core.thread.ThreadContext;
 import com.github.spy.sea.core.util.ListUtil;
 import com.github.spy.sea.core.util.MapUtil;
 import com.github.spy.sea.core.util.StringUtil;
+import com.github.spy.sea.core.web.util.CookieUtil;
 import com.github.spy.sea.core.web.util.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,6 +31,7 @@ import java.util.Map;
 public class SeaGlobalFilter implements Filter {
 
     private static Map<String, String> httpHeaderMap;
+    private static Map<String, String> httpCookieMap;
     private static Map<String, String> httpRequestMap;
 
     @Override
@@ -36,17 +39,20 @@ public class SeaGlobalFilter implements Filter {
         log.info("sea global filter init");
 
         initHttpHeaderParse();
+        initHttpCookieParse();
         initHttpRequestParse();
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
+        HttpServletRequest req = (HttpServletRequest) request;
         try {
-            logRequest((HttpServletRequest) request);
-            parseHttpHeader((HttpServletRequest) request);
-            parseHttpRequest((HttpServletRequest) request);
-            initCommon((HttpServletRequest) request);
+            logRequest(req);
+            parseHttpHeader(req);
+            parseHttpCookie(req);
+            parseHttpRequest(req);
+
+            initCommon(req);
             chain.doFilter(request, response);
         } finally {
             ThreadContext.clean();
@@ -93,6 +99,24 @@ public class SeaGlobalFilter implements Filter {
     }
 
     /**
+     * parse cookie extension.
+     */
+    private void initHttpCookieParse() {
+        List<HttpCookieParseExtension> extensionList = EnhancedServiceLoader.loadAll(HttpCookieParseExtension.class);
+        log.info("Http cookie parse extension count={}", extensionList.size());
+
+        if (ListUtil.isNotEmpty(extensionList)) {
+            httpHeaderMap = new HashMap<>();
+            for (HttpCookieParseExtension extension : extensionList) {
+                Map<String, String> map = extension.get();
+                httpHeaderMap.putAll(map);
+            }
+        } else {
+            httpHeaderMap = MapUtil.empty();
+        }
+    }
+
+    /**
      * which key parameter should parse.
      */
     private void initHttpRequestParse() {
@@ -122,6 +146,28 @@ public class SeaGlobalFilter implements Filter {
         }
         for (Map.Entry<String, String> entry : httpHeaderMap.entrySet()) {
             String value = request.getHeader(entry.getKey());
+            if (StringUtil.isNotEmpty(value)) {
+                ThreadContext.putIfAbsent(entry.getValue(), value);
+                if (log.isDebugEnabled()) {
+                    log.debug("put [{}->{}={}] into thread context", entry.getKey(), entry.getValue(), value);
+                }
+            } else {
+                log.warn("value of [{}] is null in http header", entry.getKey());
+            }
+        }
+    }
+
+    /**
+     * parse specified http cookie into thread context.
+     *
+     * @param request
+     */
+    private void parseHttpCookie(HttpServletRequest request) {
+        if (MapUtil.isEmpty(httpCookieMap)) {
+            return;
+        }
+        for (Map.Entry<String, String> entry : httpCookieMap.entrySet()) {
+            String value = CookieUtil.get(request, entry.getKey());
             if (StringUtil.isNotEmpty(value)) {
                 ThreadContext.putIfAbsent(entry.getValue(), value);
                 if (log.isDebugEnabled()) {
