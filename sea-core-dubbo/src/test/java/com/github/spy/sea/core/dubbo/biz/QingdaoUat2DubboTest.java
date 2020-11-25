@@ -15,7 +15,7 @@ import org.junit.Test;
  */
 @Slf4j
 public class QingdaoUat2DubboTest extends BaseDubboTest {
-    private String REG_QING_DAO_UAT2 = "zookeeper://10.122.2.203:2181";
+
     private String VERSION = "1.0.0.uat";
 
     @Test
