@@ -1,5 +1,7 @@
 package com.github.spy.sea.core.algorithm.loadbalance.model;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+
 import java.io.Serializable;
 
 /**
@@ -16,6 +18,8 @@ public class Node implements Serializable {
      * 内部id
      */
     private String innerId;
+
+    private String name;
 
     private int weight = 1;
 
@@ -37,6 +41,14 @@ public class Node implements Serializable {
         this.innerId = innerId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getWeight() {
         return weight;
     }
@@ -51,5 +63,10 @@ public class Node implements Serializable {
 
     public void setExtra(Object extra) {
         this.extra = extra;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
     }
 }
