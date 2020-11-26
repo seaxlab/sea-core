@@ -1,6 +1,6 @@
-package com.github.spy.sea.core.algorithm.loadbalance;
+package com.github.spy.sea.core.function.loadbalance;
 
-import com.github.spy.sea.core.algorithm.loadbalance.model.Node;
+import com.github.spy.sea.core.function.loadbalance.model.Node;
 
 import java.util.Optional;
 

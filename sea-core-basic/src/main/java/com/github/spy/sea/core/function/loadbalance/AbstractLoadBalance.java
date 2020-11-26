@@ -1,6 +1,6 @@
-package com.github.spy.sea.core.algorithm.loadbalance;
+package com.github.spy.sea.core.function.loadbalance;
 
-import com.github.spy.sea.core.algorithm.loadbalance.model.Node;
+import com.github.spy.sea.core.function.loadbalance.model.Node;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
@@ -37,7 +37,7 @@ public abstract class AbstractLoadBalance implements LoadBalance {
 
     @Override
     public void removeById(String nodeId) {
-        
+
     }
 
     /**

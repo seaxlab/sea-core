@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.algorithm.loadbalance;
+package com.github.spy.sea.core.function.loadbalance;
 
 /**
  * module name

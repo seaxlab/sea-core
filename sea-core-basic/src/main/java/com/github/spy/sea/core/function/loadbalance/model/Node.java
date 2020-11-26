@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.algorithm.loadbalance.model;
+package com.github.spy.sea.core.function.loadbalance.model;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 

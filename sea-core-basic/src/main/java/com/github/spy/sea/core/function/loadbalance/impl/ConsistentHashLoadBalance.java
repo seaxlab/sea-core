@@ -1,8 +1,8 @@
-package com.github.spy.sea.core.algorithm.loadbalance.impl;
+package com.github.spy.sea.core.function.loadbalance.impl;
 
-import com.github.spy.sea.core.algorithm.loadbalance.AbstractLoadBalance;
-import com.github.spy.sea.core.algorithm.loadbalance.HashFunction;
-import com.github.spy.sea.core.algorithm.loadbalance.model.Node;
+import com.github.spy.sea.core.function.loadbalance.AbstractLoadBalance;
+import com.github.spy.sea.core.function.loadbalance.HashFunction;
+import com.github.spy.sea.core.function.loadbalance.model.Node;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 

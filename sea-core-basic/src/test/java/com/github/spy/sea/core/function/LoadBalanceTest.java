@@ -1,10 +1,11 @@
-package com.github.spy.sea.core.algorithm.loadbalance;
+package com.github.spy.sea.core.function;
 
 import com.github.spy.sea.core.BaseCoreTest;
-import com.github.spy.sea.core.algorithm.loadbalance.impl.ConsistentHashLoadBalance;
-import com.github.spy.sea.core.algorithm.loadbalance.impl.RandomLoadBalance;
-import com.github.spy.sea.core.algorithm.loadbalance.impl.RoundRobinLoadBalance;
-import com.github.spy.sea.core.algorithm.loadbalance.model.Node;
+import com.github.spy.sea.core.function.loadbalance.LoadBalance;
+import com.github.spy.sea.core.function.loadbalance.impl.ConsistentHashLoadBalance;
+import com.github.spy.sea.core.function.loadbalance.impl.RandomLoadBalance;
+import com.github.spy.sea.core.function.loadbalance.impl.RoundRobinLoadBalance;
+import com.github.spy.sea.core.function.loadbalance.model.Node;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
