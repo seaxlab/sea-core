@@ -1,7 +1,5 @@
 package com.github.spy.sea.core.model;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * module name
  *
@@ -9,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
  * @version 1.0 11/19/20
  * @since 1.0
  */
-@Slf4j
 public class Tuple2<V1, V2> extends Tuple {
 
     private Tuple2() {

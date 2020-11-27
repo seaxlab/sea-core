@@ -1,7 +1,5 @@
 package com.github.spy.sea.core.model;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -13,7 +11,6 @@ import java.util.Iterator;
  * @version 1.0 11/19/20
  * @since 1.0
  */
-@Slf4j
 public class Tuple implements Iterable<Object>, Serializable {
     /**
      * field
