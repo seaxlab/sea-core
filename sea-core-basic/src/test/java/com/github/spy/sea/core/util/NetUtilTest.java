@@ -21,6 +21,15 @@ public class NetUtilTest extends BaseCoreTest {
 
         println("ip", NetUtil.getLocalIp());
         println("localhost", NetUtil.getLocalHost());
+        println("public ip", NetUtil.getPublicIP());
+
+    }
+
+    @Test
+    public void publicIpLoopTest() throws Exception {
+        for (int i = 0; i < 100; i++) {
+            log.info("public ip={}", NetUtil.getPublicIP());
+        }
     }
 
 
