@@ -52,6 +52,21 @@ public final class StringUtil {
     }
 
     /**
+     * 判断对象全不为空
+     *
+     * @param params
+     * @return
+     */
+    public static boolean isAllNotEmpty(Object... params) {
+        for (Object param : params) {
+            if (param == null || param.toString().length() == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 字符串是否为空
      *
      * @param params

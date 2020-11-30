@@ -57,6 +57,11 @@ public class CoreConst {
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
     /**
+     * charset UTF_8
+     */
+    public static final Charset CHARSET_UTF8 = StandardCharsets.UTF_8;
+
+    /**
      * http
      */
     public static final String SCHEME_HTTP = "http";
