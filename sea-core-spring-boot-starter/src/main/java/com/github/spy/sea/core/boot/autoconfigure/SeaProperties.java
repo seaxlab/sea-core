@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
+import java.util.Properties;
+
 /**
  * 模块
  *
@@ -15,6 +17,19 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 @Data
 @ConfigurationProperties("sea")
 public class SeaProperties {
+
+    /**
+     * store all properties. eg. host field.
+     */
+    private Properties properties = new Properties();
+
+    public Properties getProperties() {
+        return this.properties;
+    }
+
+//    public void setHost(String host) {
+//        this.properties.setProperty("host", host);
+//    }
 
     @NestedConfigurationProperty
     private Fastjson fastjson;
