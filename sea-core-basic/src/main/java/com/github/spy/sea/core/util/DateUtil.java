@@ -401,6 +401,20 @@ public final class DateUtil {
         return calendar.getTime();
     }
 
+    /**
+     * 添加增加second之后的时间
+     *
+     * @param date
+     * @param second
+     * @return
+     */
+    public static Date addSecond(Date date, int second) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.SECOND, second);
+        return calendar.getTime();
+    }
+
 
     public static Date parseToDateYMDHMS(String date, String time) {
         if (StringUtils.isBlank(date)) {
