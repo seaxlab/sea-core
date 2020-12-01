@@ -8,6 +8,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,32 +76,57 @@ public final class XmlUtil {
      */
     public static <T> T getBean(Element root, Class<T> clazz) {
         try {
-            T t = clazz.newInstance();
-            Field[] properties = clazz.getDeclaredFields();
-            Method setmeth;
+            T obj = clazz.newInstance();
+            Field[] fields = clazz.getDeclaredFields();
+            Method setMethod;
             String fieldType;
             String fieldGenericType;
             String className;
-            for (int i = 0; i < properties.length; i++) {
-                fieldType = (properties[i].getType() + "");
-                setmeth = t.getClass().getMethod(
-                        "set"
-                                + properties[i].getName().substring(0, 1).toUpperCase()
-                                + properties[i].getName().substring(1), properties[i].getType());
+            for (int i = 0; i < fields.length; i++) {
+                Field field = fields[i];
+                fieldType = (field.getType() + "");
+                setMethod = obj.getClass().getMethod(
+                        "set" + fields[i].getName().substring(0, 1).toUpperCase()
+                                + fields[i].getName().substring(1), fields[i].getType());
                 if ("interface java.util.List".equals(fieldType)) {
-                    fieldGenericType = properties[i].getGenericType() + "";
+                    fieldGenericType = fields[i].getGenericType() + "";
                     String[] sp1 = fieldGenericType.split("<");
                     String[] sp2 = sp1[1].split(">");
                     className = sp2[0];
-                    Object listNode = getList(root.element(properties[i].getName()), Class.forName(className));
-                    setmeth.invoke(t, listNode);
+                    Object listNode = getList(root.element(fields[i].getName()), Class.forName(className));
+                    setMethod.invoke(obj, listNode);
+                    continue;
+                }
+
+                // check basic
+                String text = root.elementText(field.getName());
+                if (field.getType().equals(String.class)) {
+                    setMethod.invoke(obj, text);
+                } else if (field.getType().equals(Integer.class) || field.getType().equals(int.class)) {
+                    setMethod.invoke(obj, Integer.parseInt(text));
+                } else if (field.getType().equals(Long.class) || field.getType().equals(long.class)) {
+                    setMethod.invoke(obj, Long.parseLong(text));
+                } else if (field.getType().equals(Double.class) || field.getType().equals(double.class)) {
+                    setMethod.invoke(obj, Double.parseDouble(text));
+                } else if (field.getType().equals(Float.class) || field.getType().equals(float.class)) {
+                    setMethod.invoke(obj, Float.parseFloat(text));
+                } else if (field.getType().equals(Byte.class) || field.getType().equals(Byte.class)) {
+                    setMethod.invoke(obj, Byte.parseByte(text));
+                } else if (field.getType().equals(Boolean.class) || field.getType().equals(boolean.class)) {
+                    setMethod.invoke(obj, Boolean.valueOf(text));
+                } else if (field.getType().equals(Date.class)) {
+                    //TODO
+                    setMethod.invoke(obj, Date.parse(text));
                 } else {
-                    setmeth.invoke(t, root.elementText(properties[i].getName()));
+                    // check class
+                    className = field.getType().getName();
+                    Object fieldValue = getBean(root.element(field.getName()), Class.forName(className));
+                    setMethod.invoke(obj, fieldValue);
                 }
             }
-            return t;
+            return obj;
         } catch (Exception e) {
-            log.error("fail to get bean from xml", e);
+            log.error("fail to convert xml to bean", e);
         }
         return null;
     }

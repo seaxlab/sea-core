@@ -30,11 +30,20 @@ public class XmlUtilTest extends BaseCoreTest {
     @Data
     public static class DemoConfig {
         private List<User> users;
+        private Config config;
+        private String content;
+        private Integer count;
     }
 
     @Data
     public static class User {
         private String id;
         private String name;
+    }
+
+    @Data
+    public static class Config {
+        private Boolean open;
+        private Boolean close;
     }
 }

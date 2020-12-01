@@ -10,4 +10,11 @@
             <name>abc</name>
         </user>
     </users>
+    <config>
+        <open>true</open>
+        <close>false</close>
+    </config>
+
+    <content>hello world!</content>
+    <count>100</count>
 </root>
