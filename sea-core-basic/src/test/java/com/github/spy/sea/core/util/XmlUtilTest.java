@@ -51,6 +51,7 @@ public class XmlUtilTest extends BaseCoreTest {
     public static class DemoConfig2 {
         private String id;
         private Integer money;
+        private Card card;
     }
 
 
@@ -64,5 +65,10 @@ public class XmlUtilTest extends BaseCoreTest {
     public static class Config {
         private Boolean open;
         private Boolean close;
+    }
+
+    @Data
+    public static class Card {
+        private String id;
     }
 }
