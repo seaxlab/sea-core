@@ -22,6 +22,7 @@
         <module>sea-core-all-simple</module>
         <module>sea-core-basic</module>
         <module>sea-core-web</module>
+        <module>sea-core-dal</module>
         <module>sea-core-mybatis</module>
         <module>sea-core-test</module>
         <module>sea-core-cache</module>
