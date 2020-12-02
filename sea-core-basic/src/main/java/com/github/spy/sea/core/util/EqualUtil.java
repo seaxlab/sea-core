@@ -22,27 +22,53 @@ public final class EqualUtil {
 
     }
 
+    /**
+     * check equal.
+     *
+     * @param value1 Integer
+     * @param value2 Integer
+     * @return boolean
+     */
     public static boolean isEq(Integer value1, Integer value2) {
         if (Objects.nonNull(value1) && Objects.nonNull(value2)) {
             return value1.intValue() == value2.intValue();
         }
-
         return false;
     }
 
+    /**
+     * check equal.
+     *
+     * @param value1 Long
+     * @param value2 Long
+     * @return boolean
+     */
     public static boolean isEq(Long value1, Long value2) {
         if (Objects.nonNull(value1) && Objects.nonNull(value2)) {
             return value1.longValue() == value2.longValue();
         }
-
         return false;
     }
 
-
+    /**
+     * check equal.
+     *
+     * @param str1 String
+     * @param str2 String
+     * @return boolean
+     */
     public static boolean isEq(String str1, String str2) {
         return isEq(str1, str2, true);
     }
 
+    /**
+     * check equal
+     *
+     * @param str1          String
+     * @param str2          String
+     * @param caseSensitive boolean
+     * @return boolean
+     */
     public static boolean isEq(String str1, String str2, boolean caseSensitive) {
         if (Objects.nonNull(str1) && Objects.nonNull(str2)) {
             return caseSensitive ? str1.equals(str2) : str1.equalsIgnoreCase(str2);
@@ -53,9 +79,9 @@ public final class EqualUtil {
     /**
      * 判断两个集合是否相等
      *
-     * @param set1
-     * @param set2
-     * @return
+     * @param set1 Collection
+     * @param set2 Collection
+     * @return boolean
      */
     public static boolean isEq(final Collection<?> set1, final Collection<?> set2) {
         return SetUtils.isEqualSet(set1, set2);
@@ -64,11 +90,33 @@ public final class EqualUtil {
     //---不等操作
 
     /**
+     * is not equal check.
+     *
+     * @param value1 Integer
+     * @param value2 Integer
+     * @return boolean
+     */
+    public static boolean isNotEq(Integer value1, Integer value2) {
+        return !isEq(value1, value2);
+    }
+
+    /**
+     * is not equal check.
+     *
+     * @param value1 Long
+     * @param value2 Long
+     * @return boolean
+     */
+    public static boolean isNotEq(Long value1, Long value2) {
+        return isEq(value1, value2);
+    }
+
+    /**
      * is not equal check
      *
      * @param str1 string
      * @param str2 string
-     * @return
+     * @return boolean
      */
     public static boolean isNotEq(String str1, String str2) {
         return !isEq(str1, str2);
@@ -80,13 +128,19 @@ public final class EqualUtil {
      * @param str1          string
      * @param str2          string
      * @param caseSensitive boolean
-     * @return
+     * @return boolean
      */
     public static boolean isNotEq(String str1, String str2, boolean caseSensitive) {
         return !isNotEq(str1, str2, caseSensitive);
     }
 
-
+    /**
+     * 判断当前字符是否在数组中
+     *
+     * @param str1
+     * @param strArray
+     * @return
+     */
     public static boolean isIn(String str1, String... strArray) {
         Preconditions.checkNotNull(str1);
         Preconditions.checkNotNull(strArray);
@@ -102,6 +156,13 @@ public final class EqualUtil {
         return false;
     }
 
+    /**
+     * 判断当前value是否在其中
+     *
+     * @param value
+     * @param values
+     * @return
+     */
     public static boolean isIn(Integer value, Integer... values) {
         Preconditions.checkNotNull(value);
         Preconditions.checkNotNull(values);
@@ -118,6 +179,13 @@ public final class EqualUtil {
         return false;
     }
 
+    /**
+     * 判断是否在其中
+     *
+     * @param value
+     * @param values
+     * @return
+     */
     public static boolean isIn(Long value, Long... values) {
         Preconditions.checkNotNull(value);
         Preconditions.checkNotNull(values);
@@ -134,6 +202,13 @@ public final class EqualUtil {
         return false;
     }
 
+    /**
+     * 判断value是否在values中
+     *
+     * @param value
+     * @param values
+     * @return
+     */
     public static boolean isIn(Integer value, List<Integer> values) {
         if (value == null || values == null) {
             log.warn("value or values is null");
@@ -150,6 +225,13 @@ public final class EqualUtil {
         return false;
     }
 
+    /**
+     * 判断value是否在values中
+     *
+     * @param value
+     * @param values
+     * @return
+     */
     public static boolean isIn(Long value, List<Long> values) {
         if (value == null || values == null) {
             log.warn("value or values is null");
