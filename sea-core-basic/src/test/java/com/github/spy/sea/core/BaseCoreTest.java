@@ -3,6 +3,8 @@ package com.github.spy.sea.core;
 import com.github.spy.sea.core.config.ConfigurationFactory;
 import com.github.spy.sea.core.test.AbstractCoreTest;
 import org.junit.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +17,7 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class BaseCoreTest extends AbstractCoreTest {
 
+    private Logger logger = LoggerFactory.getLogger(BaseCoreTest.class);
     // 必须要有 User-Agent
     protected String IP_URL = "http://ip.taobao.com/service/getIpInfo.php?ip=115.204.165.147";
 
@@ -35,6 +38,10 @@ public abstract class BaseCoreTest extends AbstractCoreTest {
             TimeUnit.SECONDS.sleep(second);
         } catch (Exception e) {
         }
+    }
+
+    protected void println(Object obj) {
+        logger.info("{}", obj);
     }
 
 }

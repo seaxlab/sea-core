@@ -18,4 +18,13 @@ public class RegExpUtilTest extends BaseCoreTest {
     public void run17() throws Exception {
         log.info("{}", RegExpUtil.isCarNumber("浙A10232"));
     }
+
+    @Test
+    public void run23() throws Exception {
+        //不含加号
+        println(RegExpUtil.is("a_", RegExpUtil.letter_number_underline_regexp)); //true
+        println(RegExpUtil.is("a-", RegExpUtil.letter_number_underline_regexp)); //false
+        println(RegExpUtil.is("a.", RegExpUtil.letter_number_underline_regexp)); //false
+        println(RegExpUtil.is("a+", RegExpUtil.letter_number_underline_regexp)); //false
+    }
 }

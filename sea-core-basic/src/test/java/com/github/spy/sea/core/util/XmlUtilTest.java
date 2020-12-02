@@ -33,6 +33,8 @@ public class XmlUtilTest extends BaseCoreTest {
         private Config config;
         private String content;
         private Integer count;
+        // not exist element
+        private String id;
     }
 
     @Data
