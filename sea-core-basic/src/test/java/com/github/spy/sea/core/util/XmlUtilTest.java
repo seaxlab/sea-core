@@ -19,12 +19,21 @@ import java.util.List;
 public class XmlUtilTest extends BaseCoreTest {
 
     @Test
-    public void run17() throws Exception {
+    public void normalTest() throws Exception {
         String url = PathUtil.getPathFromClassPath("demo-config.xml");
         Element el = XmlUtil.getRoot(url);
 
         DemoConfig config = XmlUtil.getBean(el, DemoConfig.class);
         log.info("{}", config);
+    }
+
+    @Test
+    public void notExistFieldTest() throws Exception {
+        String url = PathUtil.getPathFromClassPath("demo-config.xml");
+        Element el = XmlUtil.getRoot(url);
+
+        DemoConfig2 config = XmlUtil.getBean(el, DemoConfig2.class);
+        log.info("config={}", config);
     }
 
     @Data
@@ -33,9 +42,17 @@ public class XmlUtilTest extends BaseCoreTest {
         private Config config;
         private String content;
         private Integer count;
-        // not exist element
+        //         not exist element
         private String id;
+        private Integer money;
     }
+
+    @Data
+    public static class DemoConfig2 {
+        private String id;
+        private Integer money;
+    }
+
 
     @Data
     public static class User {

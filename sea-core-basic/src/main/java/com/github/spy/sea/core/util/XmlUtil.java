@@ -103,20 +103,34 @@ public final class XmlUtil {
                 if (field.getType().equals(String.class)) {
                     setMethod.invoke(obj, text);
                 } else if (field.getType().equals(Integer.class) || field.getType().equals(int.class)) {
-                    setMethod.invoke(obj, Integer.parseInt(text));
+                    if (text != null) {
+                        setMethod.invoke(obj, Integer.parseInt(text.trim()));
+                    }
                 } else if (field.getType().equals(Long.class) || field.getType().equals(long.class)) {
-                    setMethod.invoke(obj, Long.parseLong(text));
+                    if (text != null) {
+                        setMethod.invoke(obj, Long.parseLong(text.trim()));
+                    }
                 } else if (field.getType().equals(Double.class) || field.getType().equals(double.class)) {
-                    setMethod.invoke(obj, Double.parseDouble(text));
+                    if (text != null) {
+                        setMethod.invoke(obj, Double.parseDouble(text.trim()));
+                    }
                 } else if (field.getType().equals(Float.class) || field.getType().equals(float.class)) {
-                    setMethod.invoke(obj, Float.parseFloat(text));
+                    if (text != null) {
+                        setMethod.invoke(obj, Float.parseFloat(text.trim()));
+                    }
                 } else if (field.getType().equals(Byte.class) || field.getType().equals(Byte.class)) {
-                    setMethod.invoke(obj, Byte.parseByte(text));
+                    if (text != null) {
+                        setMethod.invoke(obj, Byte.parseByte(text.trim()));
+                    }
                 } else if (field.getType().equals(Boolean.class) || field.getType().equals(boolean.class)) {
-                    setMethod.invoke(obj, Boolean.valueOf(text));
+                    if (text != null) {
+                        setMethod.invoke(obj, Boolean.valueOf(text.trim()));
+                    }
                 } else if (field.getType().equals(Date.class)) {
                     //TODO
-                    setMethod.invoke(obj, Date.parse(text));
+                    if (text != null) {
+                        setMethod.invoke(obj, Date.parse(text.trim()));
+                    }
                 } else {
                     // check class
                     className = field.getType().getName();
