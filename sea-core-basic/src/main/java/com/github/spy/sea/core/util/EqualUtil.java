@@ -50,7 +50,6 @@ public final class EqualUtil {
         return false;
     }
 
-
     /**
      * 判断两个集合是否相等
      *
@@ -60,6 +59,31 @@ public final class EqualUtil {
      */
     public static boolean isEq(final Collection<?> set1, final Collection<?> set2) {
         return SetUtils.isEqualSet(set1, set2);
+    }
+
+    //---不等操作
+
+    /**
+     * is not equal check
+     *
+     * @param str1 string
+     * @param str2 string
+     * @return
+     */
+    public static boolean isNotEq(String str1, String str2) {
+        return !isEq(str1, str2);
+    }
+
+    /**
+     * is not equal check
+     *
+     * @param str1          string
+     * @param str2          string
+     * @param caseSensitive boolean
+     * @return
+     */
+    public static boolean isNotEq(String str1, String str2, boolean caseSensitive) {
+        return !isNotEq(str1, str2, caseSensitive);
     }
 
 
