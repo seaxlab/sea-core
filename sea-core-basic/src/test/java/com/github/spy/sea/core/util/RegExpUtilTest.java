@@ -27,4 +27,9 @@ public class RegExpUtilTest extends BaseCoreTest {
         println(RegExpUtil.is("a.", RegExpUtil.letter_number_underline_regexp)); //false
         println(RegExpUtil.is("a+", RegExpUtil.letter_number_underline_regexp)); //false
     }
+
+    @Test
+    public void run32() throws Exception {
+        println(RegExpUtil.is("Aa1-_.", RegExpUtil.normal_id_regexp));
+    }
 }

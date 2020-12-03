@@ -92,6 +92,11 @@ public final class RegExpUtil {
     public static final String letter_number_underline_regexp = "^\\w+$";
 
     /**
+     * 数字、字母、中划线、下划线、点号
+     */
+    public static final String normal_id_regexp = "^[A-Za-z0-9\\-\\_\\.]+$";
+
+    /**
      * 正则表达式：验证手机号
      */
     public static final String REGEX_MOBILE = "^((13[0-9])|(14[0-9])|(15[^4,\\D])|(16[0-9])|(17[0-9])|(19[0-9])|(18[0-9]))\\d{8}$";
