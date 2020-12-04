@@ -2,6 +2,7 @@ package com.github.spy.sea.core.thread.util;
 
 import com.alipay.common.tracer.core.async.SofaTracerCallable;
 import com.alipay.common.tracer.core.async.SofaTracerRunnable;
+import com.github.spy.sea.core.common.CoreConst;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.*;
@@ -27,16 +28,31 @@ public final class ExecutorServiceUtil {
                 new ThreadPoolExecutor.AbortPolicy());
     }
 
-
+    /**
+     * global executor service.
+     *
+     * @return
+     */
     public static ExecutorService get() {
         return Holder.executor;
     }
 
+    /**
+     * submit callable
+     *
+     * @param callable
+     * @param <T>
+     */
     public static <T> void submit(Callable<T> callable) {
-        get().submit(new SofaTracerCallable(callable));
+        get().submit(CoreConst.HAS_SOFA_TRACER ? new SofaTracerCallable(callable) : callable);
     }
 
+    /**
+     * submit runnable.
+     *
+     * @param runnable
+     */
     public static void submit(Runnable runnable) {
-        get().submit(new SofaTracerRunnable(runnable));
+        get().submit(CoreConst.HAS_SOFA_TRACER ? new SofaTracerRunnable(runnable) : runnable);
     }
 }
