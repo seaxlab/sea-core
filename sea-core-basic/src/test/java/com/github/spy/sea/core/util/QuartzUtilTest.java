@@ -6,6 +6,9 @@ import com.github.spy.sea.core.model.BaseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * module name
  *
@@ -61,6 +64,20 @@ public class QuartzUtilTest extends BaseCoreTest {
     public void run58() throws Exception {
         BaseResult ret = QuartzUtil.removeJob(JOB_NAME, TRIGGER_NAME);
         log.info("ret={}", ret);
+    }
+
+    @Test
+    public void largeJobTest() throws Exception {
+        for (int i = 0; i < 30; i++) {
+            String jobId = "job" + i;
+            Map<String, Object> dataMap = new HashMap<>();
+            dataMap.put("jobId", jobId);
+
+            String triggerId = "trigger-" + jobId;
+            QuartzUtil.addJob(jobId, triggerId, MyJob.class, "0/" + (10 + i) + " * * * * ?", dataMap);
+        }
+
+        sleep(80);
 
     }
 

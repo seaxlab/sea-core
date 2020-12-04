@@ -8,10 +8,7 @@ import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.matchers.GroupMatcher;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * module name
@@ -57,6 +54,22 @@ public class QuartzUtil {
      */
     public static BaseResult addJob(String jobName, String triggerName, Class jobClass, String cron) {
         return addJob(jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, jobClass, cron);
+    }
+
+    /**
+     * add job
+     *
+     * @param jobName
+     * @param triggerName
+     * @param jobClass
+     * @param cron
+     * @param dataMap     额外参数
+     * @return
+     */
+    public static BaseResult addJob(String jobName, String triggerName, Class jobClass,
+                                    String cron, Map<String, Object> dataMap) {
+        return addJob(getScheduler(), jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME,
+                jobClass, cron, dataMap);
     }
 
     /**
@@ -113,6 +126,25 @@ public class QuartzUtil {
      */
     public static BaseResult addJob(Scheduler scheduler, String jobName, String jobGroupName,
                                     String triggerName, String triggerGroupName, Class jobClass, String cron) {
+        return addJob(scheduler, jobName, jobGroupName, triggerName, triggerGroupName, jobClass, cron, null);
+    }
+
+    /**
+     * 添加job
+     *
+     * @param scheduler
+     * @param jobName
+     * @param jobGroupName
+     * @param triggerName
+     * @param triggerGroupName
+     * @param jobClass
+     * @param cron
+     * @param dataMap          额外数据
+     * @return
+     */
+    public static BaseResult addJob(Scheduler scheduler, String jobName, String jobGroupName,
+                                    String triggerName, String triggerGroupName, Class jobClass, String cron,
+                                    Map<String, Object> dataMap) {
         log.info("[add job] jobName={},jobGroupName={},triggerName={},triggerGroupName={}",
                 jobName, jobGroupName, triggerName, triggerGroupName);
 
@@ -123,7 +155,9 @@ public class QuartzUtil {
         try {
             // 任务名，任务组，任务执行类
             JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(jobName, jobGroupName).build();
-
+            if (dataMap != null) {
+                jobDetail.getJobDataMap().putAll(dataMap);
+            }
             // 触发器
             TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
             // 触发器名,触发器组
@@ -600,11 +634,18 @@ public class QuartzUtil {
     }
 
     private static Properties getBaseQuartzProperties() {
+
+        int cpuCount = Runtime.getRuntime().availableProcessors();
+        cpuCount = cpuCount > 16 ? 16 : cpuCount;
+        cpuCount = cpuCount < 10 ? 10 : cpuCount;
+
         Properties result = new Properties();
         result.put("org.quartz.threadPool.class", org.quartz.simpl.SimpleThreadPool.class.getName());
-        result.put("org.quartz.threadPool.threadCount", "5");
+        result.put("org.quartz.threadPool.threadCount", "" + cpuCount);
         result.put("org.quartz.scheduler.instanceName", "sea-core-quartz-scheduler");
-        result.put("org.quartz.jobStore.misfireThreshold", "1");
+        // misfireThreshold是用来设置调度引擎对触发器超时的忍耐时间, 单位ms
+        // 当一个触发器超时时间如果大于misfireThreshold的值 就认为这个触发器真正的超时(也叫Misfires)
+//        result.put("org.quartz.jobStore.misfireThreshold", "5000");
 //        result.put("org.quartz.plugin.shutdownhook.class", JobShutdownHookPlugin.class.getName());
 //        result.put("org.quartz.plugin.shutdownhook.cleanShutdown", Boolean.TRUE.toString());
         return result;
