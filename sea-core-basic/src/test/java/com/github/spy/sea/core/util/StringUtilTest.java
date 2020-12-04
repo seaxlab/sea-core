@@ -55,5 +55,19 @@ public class StringUtilTest extends BaseCoreTest {
         log.info(StringUtil.removeEmoji("abc,ef123！高兴😄高兴"));
     }
 
+    @Test
+    public void run59() throws Exception {
+        Assert.assertEquals(true, StringUtil.contains("abcdefg", "abc"));
+        Assert.assertEquals(false, StringUtil.contains("abcdefg", "defs"));
+        Assert.assertEquals(false, StringUtil.contains(null, "defs"));
+        Assert.assertEquals(true, StringUtil.contains("abcdefg", null)); //true
+        Assert.assertEquals(true, StringUtil.contains("abcdefg", "")); //true
+    }
+
+    @Test
+    public void run68() throws Exception {
+        log.info("{}", "abc".contains(""));
+    }
+
 
 }

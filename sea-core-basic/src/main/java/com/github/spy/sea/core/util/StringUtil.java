@@ -610,8 +610,31 @@ public final class StringUtil {
      */
     private static final String REG_EXP_RMOJI = "[\ud83c\udf00-\ud83d\ude4f]|[\ud83d\ude80-\ud83d\udeff]";
 
+    /**
+     * remove emoji expression
+     *
+     * @param str string
+     * @return string
+     */
     public static String removeEmoji(String str) {
         return str.replaceAll(REG_EXP_RMOJI, "");
     }
+
+    /**
+     * check str contains part or not.
+     * <p>
+     * contains("abcdef", "xyz") //false
+     * contains("abcdef", null) //true //IMPORTANT
+     * contains("abcdef", "") //true //IMPORTANT
+     *
+     * @param str  string
+     * @param part string
+     * @return true/false
+     */
+    public static boolean contains(String str, String part) {
+        part = part == null ? "" : part;
+        return str != null && str.contains(part);
+    }
+
 
 }
