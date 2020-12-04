@@ -168,6 +168,37 @@ public class QuartzUtil {
             // 创建Trigger对象
             CronTrigger trigger = (CronTrigger) triggerBuilder.build();
 
+            BaseResult ret = addJob(scheduler, jobDetail, trigger);
+            result.setSuccess(ret.getSuccess());
+        } catch (Exception e) {
+            log.error("quartz add job error ", e);
+            result.setErrorMessage("添加任务失败");
+        }
+        return result;
+    }
+
+    /**
+     * 在默认调度器中，添加定时任务
+     *
+     * @param jobDetail job info
+     * @param trigger   trigger
+     * @return
+     */
+    public static BaseResult addJob(JobDetail jobDetail, Trigger trigger) {
+        return addJob(getScheduler(), jobDetail, trigger);
+    }
+
+    /**
+     * 添加job
+     *
+     * @param scheduler 调度器
+     * @param jobDetail job info
+     * @param trigger   trigger
+     * @return
+     */
+    public static BaseResult addJob(Scheduler scheduler, JobDetail jobDetail, Trigger trigger) {
+        BaseResult result = BaseResult.fail();
+        try {
             // 调度容器设置JobDetail和Trigger
             scheduler.scheduleJob(jobDetail, trigger);
 
@@ -177,8 +208,7 @@ public class QuartzUtil {
             }
             result.setSuccess(true);
         } catch (Exception e) {
-            log.error("quartz add job error ", e);
-            result.setErrorMessage("添加任务失败");
+            log.error("fail to add job.", e);
         }
         return result;
     }
