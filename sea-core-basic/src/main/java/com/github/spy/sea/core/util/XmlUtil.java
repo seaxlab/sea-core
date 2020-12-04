@@ -53,6 +53,9 @@ public final class XmlUtil {
      * @return bean
      */
     public static <T> List<T> getList(Element root, Class<T> clazz) {
+        if (root == null) {
+            return null;
+        }
         List<T> list = new ArrayList<>();
         try {
             List<Element> elements = root.elements();
@@ -75,6 +78,9 @@ public final class XmlUtil {
      * @return bean
      */
     public static <T> T getBean(Element root, Class<T> clazz) {
+        if (root == null) {
+            return null;
+        }
         try {
             T obj = clazz.newInstance();
             Field[] fields = clazz.getDeclaredFields();
