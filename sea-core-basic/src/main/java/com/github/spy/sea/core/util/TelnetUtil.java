@@ -1,10 +1,13 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.model.BaseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.telnet.TelnetClient;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +20,14 @@ import java.util.List;
  */
 @Slf4j
 public final class TelnetUtil {
+    /**
+     * 最小端口号
+     */
+    private static final int MIN_PORT = 0;
+    /**
+     * 最大端口号
+     */
+    private static final int MAX_PORT = 65535;
 
     //telnet客户端对象VT220/VT52
     TelnetClient client = new TelnetClient("VT52");
@@ -39,7 +50,27 @@ public final class TelnetUtil {
         pass.add("assword:");
     }
 
+    private String hostname;
+    private int port;
+
     /**
+     * telnet constructor
+     *
+     * @param hostname
+     * @param port
+     */
+    public TelnetUtil(String hostname, int port) {
+        if (port < MIN_PORT || port > MAX_PORT) {
+            throw new IllegalArgumentException("port should be in range 0~65535.");
+        }
+        this.hostname = hostname;
+        this.port = port;
+    }
+
+
+    /**
+     * telnet constructor.
+     *
      * @param hostname 服务器IP地址
      * @param port     telnet端口
      * @param username 用户名
@@ -55,6 +86,34 @@ public final class TelnetUtil {
         this.outputStream = this.client.getOutputStream();
 
         login(username, password);
+    }
+
+
+    /**
+     * check the connection is available.
+     *
+     * @return BaseResult<StatusEnum>
+     */
+    public BaseResult<StatusEnum> connectTest() {
+        log.info("check [{}:{}]available", this.hostname, this.port);
+        BaseResult result = BaseResult.fail();
+        StatusEnum status;
+        try {
+            client.connect(this.hostname, this.port);
+            client.disconnect();
+            status = StatusEnum.SUCCESS;
+        } catch (ConnectException ce) {
+            log.error("Could not connect to server={},port={},exception={}", this.hostname, this.port, ce);
+            status = StatusEnum.FAIL;
+        } catch (UnknownHostException e) {
+            log.error("Unknown host: {},exception={}", this.hostname, e);
+            status = StatusEnum.ERROR;
+        } catch (Exception e) {
+            log.error("Error connecting to server: {},exception={}", this.hostname, e);
+            status = StatusEnum.UNKNOWN;
+        }
+        result.value(status);
+        return result;
     }
 
     /**
@@ -160,5 +219,12 @@ public final class TelnetUtil {
 
     public boolean isClosed() {
         return (!(this.client.isConnected()));
+    }
+
+    /**
+     * 链接状态
+     */
+    public static enum StatusEnum {
+        SUCCESS, FAIL, ERROR, UNKNOWN
     }
 }
