@@ -42,9 +42,10 @@ public class XmlUtilTest extends BaseCoreTest {
         private Config config;
         private String content;
         private Integer count;
-        //         not exist element
+                 //not exist element
         private String id;
         private Integer money;
+        private List<Boolean> keys;
     }
 
     @Data

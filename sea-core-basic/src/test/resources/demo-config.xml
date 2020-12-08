@@ -17,4 +17,10 @@
 
     <content>hello world!</content>
     <count>100</count>
+
+    <keys>
+        <key>11</key>
+        <key>22</key>
+        <key>33</key>
+    </keys>
 </root>

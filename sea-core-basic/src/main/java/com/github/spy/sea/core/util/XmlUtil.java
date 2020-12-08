@@ -82,7 +82,28 @@ public final class XmlUtil {
             return null;
         }
         try {
-            T obj = clazz.newInstance();
+            T obj;
+
+            // check basic
+            String text = root.getText();
+            if (EqualUtil.isEq(clazz.getName(), String.class.getName())
+                    || EqualUtil.isEq(clazz.getName(), Integer.class.getName())
+                    || EqualUtil.isEq(clazz.getName(), Long.class.getName())
+                    || EqualUtil.isEq(clazz.getName(), Double.class.getName())
+                    || EqualUtil.isEq(clazz.getName(), Float.class.getName())
+                    || EqualUtil.isEq(clazz.getName(), Byte.class.getName())
+                    || EqualUtil.isEq(clazz.getName(), Boolean.class.getName())) {
+                // ignore node key.
+                if (text != null) {
+                    obj = clazz.getConstructor(String.class).newInstance(text.trim());
+                } else {
+                    obj = clazz.newInstance();
+                }
+                return obj;
+            }
+
+            obj = clazz.newInstance();
+
             Field[] fields = clazz.getDeclaredFields();
             Method setMethod;
             String fieldType;
@@ -105,7 +126,7 @@ public final class XmlUtil {
                 }
 
                 // check basic
-                String text = root.elementText(field.getName());
+                text = root.elementText(field.getName());
                 if (field.getType().equals(String.class)) {
                     setMethod.invoke(obj, text);
                 } else if (field.getType().equals(Integer.class) || field.getType().equals(int.class)) {
