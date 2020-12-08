@@ -43,6 +43,25 @@ public class RedisManager {
 
     public static final String NO_JEDIS_INSTANCE = "there is no available jedis instance from pool";
 
+    public RedisManager() {
+
+    }
+
+    /**
+     * constructor
+     *
+     * @param host
+     * @param port
+     * @param password
+     * @param database
+     */
+    public RedisManager(String host, int port, String password, int database) {
+        this.host = host;
+        this.port = port;
+        this.password = password;
+        this.database = database;
+    }
+
 
     public void init() {
         JedisPoolConfig config = new JedisPoolConfig();
@@ -175,6 +194,12 @@ public class RedisManager {
     }
 
 
+    /**
+     * delete one key
+     *
+     * @param key
+     * @return
+     */
     public boolean del(String key) {
         Jedis jedis = null;
         try {
@@ -183,8 +208,30 @@ public class RedisManager {
                 logger.error(NO_JEDIS_INSTANCE);
                 return false;
             }
-
             return jedis.del(key.getBytes()) > 0;
+        } finally {
+            if (jedis != null) {
+
+                jedis.close();
+            }
+        }
+    }
+
+    /**
+     * delete more
+     *
+     * @param keys
+     * @return
+     */
+    public boolean del(String... keys) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            if (jedis == null) {
+                logger.error(NO_JEDIS_INSTANCE);
+                return false;
+            }
+            return jedis.del(keys) > 0;
         } finally {
             if (jedis != null) {
 
