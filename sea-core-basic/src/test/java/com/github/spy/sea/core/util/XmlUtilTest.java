@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Element;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,14 +39,16 @@ public class XmlUtilTest extends BaseCoreTest {
 
     @Data
     public static class DemoConfig {
-        private List<User> users;
-        private Config config;
-        private String content;
-        private Integer count;
-                 //not exist element
-        private String id;
-        private Integer money;
-        private List<Boolean> keys;
+//        private List<User> users;
+//        private Config config;
+//        private String content;
+//        private Integer count;
+//                 not exist element
+//        private String id;
+//        private Integer money;
+//        private List<Boolean> keys;
+
+        private List<String> ids = new ArrayList<>();
     }
 
     @Data

@@ -120,8 +120,11 @@ public final class XmlUtil {
                     String[] sp1 = fieldGenericType.split("<");
                     String[] sp2 = sp1[1].split(">");
                     className = sp2[0];
-                    Object listNode = getList(root.element(fields[i].getName()), Class.forName(className));
-                    setMethod.invoke(obj, listNode);
+                    Element el = root.element(fields[i].getName());
+                    if (el != null) {
+                        Object listNode = getList(el, Class.forName(className));
+                        setMethod.invoke(obj, listNode);
+                    }
                     continue;
                 }
 
