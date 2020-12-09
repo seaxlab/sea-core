@@ -82,7 +82,7 @@ public final class XmlUtil {
             return null;
         }
         try {
-            T obj;
+            T obj = null;
 
             // check basic
             String text = root.getText();
@@ -95,9 +95,8 @@ public final class XmlUtil {
                     || EqualUtil.isEq(clazz.getName(), Boolean.class.getName())) {
                 // ignore node key.
                 if (text != null) {
+                    //TODO 基础类型通过构造函数直接生成
                     obj = clazz.getConstructor(String.class).newInstance(text.trim());
-                } else {
-                    obj = clazz.newInstance();
                 }
                 return obj;
             }
