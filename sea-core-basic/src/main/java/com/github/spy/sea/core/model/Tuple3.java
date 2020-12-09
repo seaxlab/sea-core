@@ -42,4 +42,18 @@ public class Tuple3<V1, V2, V3> extends Tuple {
     public V3 getThird() {
         return get(2);
     }
+
+
+    /**
+     * static method
+     *
+     * @param v1
+     * @param v2
+     * @param <V1>
+     * @param <V2>
+     * @return
+     */
+    public static <V1, V2, V3> Tuple3<V1, V2, V3> of(V1 v1, V2 v2, V3 v3) {
+        return new Tuple3<>(v1, v2, v3);
+    }
 }

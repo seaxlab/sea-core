@@ -33,4 +33,17 @@ public class Tuple2<V1, V2> extends Tuple {
     public V2 getSecond() {
         return get(1);
     }
+
+    /**
+     * static method
+     *
+     * @param v1
+     * @param v2
+     * @param <V1>
+     * @param <V2>
+     * @return
+     */
+    public static <V1, V2> Tuple2<V1, V2> of(V1 v1, V2 v2) {
+        return new Tuple2<>(v1, v2);
+    }
 }
