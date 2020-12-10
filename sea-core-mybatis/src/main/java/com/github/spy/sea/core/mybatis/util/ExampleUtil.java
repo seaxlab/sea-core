@@ -1,10 +1,7 @@
 package com.github.spy.sea.core.mybatis.util;
 
 import com.github.spy.sea.core.common.CoreConst;
-import com.github.spy.sea.core.util.EqualUtil;
-import com.github.spy.sea.core.util.ListUtil;
-import com.github.spy.sea.core.util.ReflectUtil;
-import com.github.spy.sea.core.util.StringUtil;
+import com.github.spy.sea.core.util.*;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +10,7 @@ import tk.mybatis.mapper.entity.Example;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Example util
@@ -90,7 +88,7 @@ public final class ExampleUtil {
     }
 
     /**
-     * 模糊匹配
+     * and 一个模糊匹配
      *
      * @param example
      * @param propertyName
@@ -100,6 +98,23 @@ public final class ExampleUtil {
         if (StringUtils.isNotEmpty(value)) {
             example.and().andLike(propertyName, "%" + value + "%");
         }
+    }
+
+    /**
+     * and 多个模糊匹配
+     * and(xx or xx or xx)
+     *
+     * @param example
+     * @param map
+     */
+    public static void setAndOrLikeValue(Example example, Map<String, String> map) {
+        if (MapUtil.isEmpty(map)) {
+            return;
+        }
+        Example.Criteria criteria = example.and();
+        map.forEach((key, value) -> {
+            criteria.orLike(key, "%" + value + "%");
+        });
     }
 
     /**
