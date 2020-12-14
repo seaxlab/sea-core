@@ -164,4 +164,19 @@ public final class PageUtil {
         }
     }
 
+    /**
+     * 检查分页信息
+     *
+     * @param pageInfo
+     */
+    public static void checkPageInfo(com.github.spy.sea.core.model.PageInfo pageInfo) {
+        if (pageInfo.getPageNum() == null || pageInfo.getPageNum() < 1) {
+            pageInfo.setPageSize(1);
+        }
+
+        if (pageInfo.getPageSize() != null || pageInfo.getPageSize() < 1) {
+            pageInfo.setPageSize(10);
+        }
+    }
+
 }
