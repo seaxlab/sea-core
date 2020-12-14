@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -42,6 +43,20 @@ public abstract class BaseCoreTest extends AbstractCoreTest {
 
     protected void println(Object obj) {
         logger.info("{}", obj);
+    }
+
+    /**
+     * 获取文件流
+     *
+     * @param fileInClassPath
+     * @return
+     */
+    protected InputStream getInputStream(String fileInClassPath) {
+        assert fileInClassPath != null;
+        InputStream inputStream = this.getClass()
+                                      .getClassLoader()
+                                      .getResourceAsStream(fileInClassPath);
+        return inputStream;
     }
 
 }
