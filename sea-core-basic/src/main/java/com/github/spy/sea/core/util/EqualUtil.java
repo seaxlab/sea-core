@@ -103,16 +103,66 @@ public final class EqualUtil {
     /**
      * is not equal check.
      *
+     * @param baseVar
+     * @param value1
+     * @param value2
+     * @return
+     */
+    public static boolean isNotEq(Integer baseVar, Integer value1, Integer value2) {
+        return (!isEq(baseVar, value1)) && (!isEq(baseVar, value2));
+    }
+
+    /**
+     * is not equal check.
+     *
+     * @param baseVar
+     * @param value1
+     * @param value2
+     * @param value3
+     * @return
+     */
+    public static boolean isNotEq(Integer baseVar, Integer value1, Integer value2, Integer value3) {
+        return (!isEq(baseVar, value1)) && (!isEq(baseVar, value2)) && (!isEq(baseVar, value3));
+    }
+
+    /**
+     * is not equal check.
+     *
      * @param value1 Long
      * @param value2 Long
      * @return boolean
      */
     public static boolean isNotEq(Long value1, Long value2) {
-        return isEq(value1, value2);
+        return !isEq(value1, value2);
     }
 
     /**
-     * is not equal check
+     * all not equal
+     *
+     * @param baseVar base variable
+     * @param value1  value1
+     * @param value2  value2
+     * @return
+     */
+    public static boolean isNotEq(Long baseVar, Long value1, Long value2) {
+        return (!isEq(baseVar, value1)) && (!isEq(baseVar, value2));
+    }
+
+    /**
+     * all not equal
+     *
+     * @param baseVar base variable
+     * @param value1  v1
+     * @param value2  v2
+     * @param value3  v3
+     * @return
+     */
+    public static boolean isNotEq(Long baseVar, Long value1, Long value2, Long value3) {
+        return (!isEq(baseVar, value1)) && (!isEq(baseVar, value2)) && (!isEq(baseVar, value3));
+    }
+
+    /**
+     * all not equal
      *
      * @param str1 string
      * @param str2 string
@@ -120,6 +170,32 @@ public final class EqualUtil {
      */
     public static boolean isNotEq(String str1, String str2) {
         return !isEq(str1, str2);
+    }
+
+
+    /**
+     * all not equal
+     *
+     * @param baseVar base var
+     * @param str1    string
+     * @param str2    string
+     * @return boolean
+     */
+    public static boolean isNotEq(String baseVar, String str1, String str2) {
+        return (!isEq(baseVar, str1)) && (!isEq(baseVar, str2));
+    }
+
+    /**
+     * all not equal
+     *
+     * @param baseVar base var
+     * @param str1    string
+     * @param str2    string
+     * @param str3    string
+     * @return boolean
+     */
+    public static boolean isNotEq(String baseVar, String str1, String str2, String str3) {
+        return (!isEq(baseVar, str1)) && (!isEq(baseVar, str2)) && (!isEq(baseVar, str3));
     }
 
     /**
