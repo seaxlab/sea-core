@@ -18,17 +18,30 @@ public class CoreConst {
     private CoreConst() {
     }
 
+    /**
+     * number of cpu
+     */
+    public static final int NCPU = Runtime.getRuntime().availableProcessors();
+
+    /**
+     * sys operator
+     */
     public static final String SYS_OPERATOR = "SYS_OPERATOR";
 
+    /**
+     * sys creator
+     */
     public static final String SYS_CREATOR = "SYS_CREATOR";
 
+    /**
+     * sys editor
+     */
     public static final String SYS_EDITOR = "SYS_EDITOR";
 
-
+    /* global yes flag */
     public static final Boolean YES = Boolean.TRUE;
-
+    /* global no flag */
     public static final Boolean NO = Boolean.FALSE;
-
 
     /**
      * 请求Id
