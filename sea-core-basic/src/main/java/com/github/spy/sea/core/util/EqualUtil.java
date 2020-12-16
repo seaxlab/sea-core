@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.SetUtils;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -221,15 +222,7 @@ public final class EqualUtil {
         Preconditions.checkNotNull(str1);
         Preconditions.checkNotNull(strArray);
 
-        for (int i = 0; i < strArray.length; i++) {
-            String item = strArray[i];
-
-            if (isEq(str1, item)) {
-                return true;
-            }
-        }
-
-        return false;
+        return Arrays.stream(strArray).anyMatch(item -> isEq(str1, item));
     }
 
     /**
@@ -243,16 +236,7 @@ public final class EqualUtil {
         Preconditions.checkNotNull(value);
         Preconditions.checkNotNull(values);
 
-
-        for (int i = 0; i < values.length; i++) {
-            Integer item = values[i];
-
-            if (item.intValue() == value.intValue()) {
-                return true;
-            }
-        }
-
-        return false;
+        return Arrays.stream(values).anyMatch(item -> item.intValue() == value.intValue());
     }
 
     /**
@@ -266,23 +250,29 @@ public final class EqualUtil {
         Preconditions.checkNotNull(value);
         Preconditions.checkNotNull(values);
 
-
-        for (int i = 0; i < values.length; i++) {
-            Long item = values[i];
-
-            if (item.longValue() == value.longValue()) {
-                return true;
-            }
-        }
-
-        return false;
+        return Arrays.stream(values).anyMatch(item -> item.longValue() == value.longValue());
     }
 
     /**
      * 判断value是否在values中
      *
-     * @param value
-     * @param values
+     * @param value  待检测变量
+     * @param values 集合
+     * @return
+     */
+    public static boolean isIn(String value, List<String> values) {
+        if (value == null || values == null) {
+            log.warn("value or values is null");
+            return false;
+        }
+        return values.stream().anyMatch(item -> isEq(item, value));
+    }
+
+    /**
+     * 判断value是否在values中
+     *
+     * @param value  待检测变量
+     * @param values 集合
      * @return
      */
     public static boolean isIn(Integer value, List<Integer> values) {
@@ -291,21 +281,14 @@ public final class EqualUtil {
             return false;
         }
 
-        for (int i = 0; i < values.size(); i++) {
-            Integer item = values.get(i);
-            if (item.intValue() == value.intValue()) {
-                return true;
-            }
-        }
-
-        return false;
+        return values.stream().anyMatch(item -> item.intValue() == value.intValue());
     }
 
     /**
      * 判断value是否在values中
      *
-     * @param value
-     * @param values
+     * @param value  待检测变量
+     * @param values 集合
      * @return
      */
     public static boolean isIn(Long value, List<Long> values) {
@@ -314,14 +297,7 @@ public final class EqualUtil {
             return false;
         }
 
-        for (int i = 0; i < values.size(); i++) {
-            Long item = values.get(i);
-            if (item.longValue() == value.longValue()) {
-                return true;
-            }
-        }
-
-        return false;
+        return values.stream().anyMatch(item -> item.longValue() == value.longValue());
     }
 
 }
