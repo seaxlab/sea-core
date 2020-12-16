@@ -152,7 +152,9 @@ public class SeaGlobalFilter implements Filter {
                     log.debug("put [{}->{}={}] into thread context", entry.getKey(), entry.getValue(), value);
                 }
             } else {
-                log.warn("value of [{}] is null in http header", entry.getKey());
+                if (log.isDebugEnabled()) {
+                    log.debug("value of [{}] is null in http header", entry.getKey());
+                }
             }
         }
     }
@@ -174,7 +176,9 @@ public class SeaGlobalFilter implements Filter {
                     log.debug("put [{}->{}={}] into thread context", entry.getKey(), entry.getValue(), value);
                 }
             } else {
-                log.warn("value of [{}] is null in http cookie", entry.getKey());
+                if (log.isDebugEnabled()) {
+                    log.debug("value of [{}] is null in http cookie", entry.getKey());
+                }
             }
         }
     }
@@ -196,7 +200,9 @@ public class SeaGlobalFilter implements Filter {
                     log.debug("put [{}->{}={}] into thread context", entry.getKey(), entry.getValue(), value);
                 }
             } else {
-                log.warn("value of [{}] is null in http request", entry.getKey());
+                if (log.isDebugEnabled()) {
+                    log.debug("value of [{}] is null in http request", entry.getKey());
+                }
             }
         }
     }
