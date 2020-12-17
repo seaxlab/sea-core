@@ -1,16 +1,9 @@
 package com.github.spy.sea.core.thread;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.github.spy.sea.core.common.CoreConst;
-import com.github.spy.sea.core.util.EqualUtil;
-import com.github.spy.sea.core.util.SetUtil;
-import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * 线程上下文
@@ -120,115 +113,6 @@ public class ThreadContext {
         T v = getSafe(key);
         return v == null ? defaultValue : v;
     }
-
-    /**
-     * 获取mock配置，默认返回false
-     *
-     * @param mockKey
-     * @return
-     */
-    public static final boolean getMockFlag(String mockKey) {
-        if (mockKey == null || mockKey.isEmpty()) {
-            return false;
-        }
-        if (mockKey.startsWith("sea.mock.")) {
-            mockKey = mockKey.replace("sea.mock.", "");
-        }
-        String value = getSafe(CoreConst.DEFAULT_MOCK_KEY);
-        if (StringUtil.isNotEmpty(value)) {
-            if (value.contains(",")) {
-                Set<String> keySet = SetUtil.toSet(value.split("\\,"));
-                return keySet.contains(mockKey);
-            } else {
-                return EqualUtil.isEq(mockKey, value, false);
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * get all mock data
-     *
-     * @return
-     */
-    public static final String getMockData() {
-        String value = getSafe(CoreConst.DEFAULT_MOCK_KEY);
-        return StringUtil.defaultIfBlank(value, StringUtil.EMPTY);
-    }
-
-    /**
-     * convert mock data to json.
-     *
-     * @return
-     */
-    public static final JSONObject getMockDataJSON() {
-        String value = getSafe(CoreConst.DEFAULT_MOCK_KEY);
-        if (StringUtil.isNotEmpty(value)) {
-            if (JSON.isValidObject(value)) {
-                return JSON.parseObject(value);
-            } else {
-                log.warn("mock data is not valid json object.");
-                return new JSONObject();
-            }
-        }
-
-        return new JSONObject();
-    }
-
-
-    /**
-     * 取json格式中的值
-     *
-     * @param mockDataKey mock data key in json
-     * @return
-     */
-    public static final String getMockDataStr(String mockDataKey) {
-        if (mockDataKey == null || mockDataKey.isEmpty()) {
-            return StringUtil.EMPTY;
-        }
-        if (mockDataKey.startsWith("sea.mock.")) {
-            mockDataKey = mockDataKey.replace("sea.mock.", "");
-        }
-        String value = getSafe(CoreConst.DEFAULT_MOCK_KEY);
-        if (StringUtil.isNotEmpty(value)) {
-            if (JSON.isValidObject(value)) {
-                JSONObject jsonObj = JSONObject.parseObject(value);
-                return jsonObj.getString(mockDataKey);
-            } else {
-                log.warn("sea mock data is not valid json object.");
-                return StringUtil.EMPTY;
-            }
-        }
-        return StringUtil.EMPTY;
-    }
-
-    /**
-     * 获取mockdata
-     *
-     * @param mockDataKey
-     * @return
-     */
-    public static final boolean getMockDataBool(String mockDataKey) {
-        if (mockDataKey == null || mockDataKey.isEmpty()) {
-            return false;
-        }
-        if (mockDataKey.startsWith("sea.mock.")) {
-            mockDataKey = mockDataKey.replace("sea.mock.", "");
-        }
-        String value = getSafe(CoreConst.DEFAULT_MOCK_KEY);
-        if (StringUtil.isNotEmpty(value)) {
-            if (JSON.isValidObject(value)) {
-                JSONObject jsonObj = JSONObject.parseObject(value);
-                return jsonObj.getBooleanValue(mockDataKey);
-            } else {
-                log.warn("mock data is not valida json object.");
-                return false;
-            }
-        }
-        return false;
-    }
-
 
     /**
      * 获取线程上下文
