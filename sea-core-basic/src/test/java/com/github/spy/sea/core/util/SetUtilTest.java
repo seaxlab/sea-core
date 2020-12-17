@@ -28,6 +28,17 @@ public class SetUtilTest extends BaseCoreTest {
     }
 
     @Test
+    public void toStringTest() throws Exception {
+        Set<User> set = new HashSet<>();
+        set.add(new User(10L, "s10"));
+        set.add(new User(2l, "s2"));
+        set.add(new User(20L, "s20"));
+
+        log.info("{}", SetUtil.toString(set, User::getName, ","));
+    }
+
+
+    @Test
     public void run30() throws Exception {
         Set<Set<String>> allSet = new HashSet<>();
 

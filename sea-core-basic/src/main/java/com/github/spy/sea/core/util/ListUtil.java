@@ -175,5 +175,23 @@ public final class ListUtil {
                    .collect(Collectors.groupingBy(keyMapper));
     }
 
+    /**
+     * toString
+     * <pre>
+     *
+     * </pre>
+     *
+     * @param list
+     * @param fn
+     * @param delimiter
+     * @param <T>
+     * @return
+     */
+    public static <T> String toString(List<T> list, Function<T, String> fn, String delimiter) {
+        if (isEmpty(list)) {
+            return StringUtil.EMPTY;
+        }
+        return list.stream().map(fn).collect(Collectors.joining(delimiter));
+    }
 
 }

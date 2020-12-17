@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.SetUtils;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * set util
@@ -62,7 +64,7 @@ public final class SetUtil {
     /**
      * 转换成string，同时带分隔符
      *
-     * @param set
+     * @param set       简单的Set<String>
      * @param delimiter
      * @return
      */
@@ -71,6 +73,26 @@ public final class SetUtil {
             return StringUtil.EMPTY;
         }
         return String.join(delimiter, set);
+    }
+
+    /**
+     * 分隔符
+     * <pre>
+     *      SetUtil.toString(set, User::getName, ",");
+     *      SetUtil.toString(set, user->user.getName(), ",");
+     * </pre>
+     *
+     * @param set
+     * @param fn        获取某个字段只
+     * @param delimiter
+     * @param <T>
+     * @return
+     */
+    public static <T> String toString(Set<T> set, Function<? super T, String> fn, String delimiter) {
+        if (set == null) {
+            return StringUtil.EMPTY;
+        }
+        return set.stream().map(fn).collect(Collectors.joining(delimiter));
     }
 
     /**

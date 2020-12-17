@@ -93,4 +93,14 @@ public class ListUtilTest extends BaseCoreTest {
         log.info("{}", userMap);
     }
 
+
+    @Test
+    public void toStringTest() throws Exception {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            users.add(new User(Long.valueOf(i), "n" + i));
+        }
+
+        log.info("{}", ListUtil.toString(users, User::getName, ","));
+    }
 }

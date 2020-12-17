@@ -21,6 +21,14 @@ public class User {
     private boolean isSuc;
     private Boolean isUsed;
 
+    public User() {
+    }
+
+    public User(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
 //    @Override
 //    public boolean equals(Object o) {
 //        if (this == o) return true;
