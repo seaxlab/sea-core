@@ -178,12 +178,14 @@ public final class ListUtil {
     /**
      * toString
      * <pre>
-     *
+     *  ListUtil.toString(users, User::getName, ",")
+     *  ListUtil.toString(users, user->user.getName(), ",")
+     *  n0,n1,n2,n3,n4,n5,n6,n7,n8,n9
      * </pre>
      *
-     * @param list
-     * @param fn
-     * @param delimiter
+     * @param list      data
+     * @param fn        function
+     * @param delimiter delimiter
      * @param <T>
      * @return
      */

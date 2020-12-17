@@ -850,6 +850,9 @@ public final class MapUtil {
 
     /**
      * to string
+     * <pre>
+     *     abc=111;abc2=dd
+     * </pre>
      *
      * @param map
      * @param separator
