@@ -1,12 +1,18 @@
 package com.github.spy.sea.core.cache.redis;
 
+import com.github.spy.sea.core.cache.BaseTest;
+import com.github.spy.sea.core.util.EqualUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
 import redis.embedded.RedisServer;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0
  */
 @Slf4j
-public class RedisManagerTest {
+public class RedisManagerTest extends BaseTest {
 
     RedisServer redisServer;
 
@@ -31,9 +37,10 @@ public class RedisManagerTest {
 
         redisManager = new RedisManager();
 
-        redisManager.setHost("localhost");
+        redisManager.setHost("10.122.2.110");
         redisManager.setPort(6379);
-        redisManager.setDatabase(0);
+        redisManager.setDatabase(1);
+        redisManager.setPassword("yuantu123");
 
 
         redisManager.init();
@@ -167,6 +174,65 @@ public class RedisManagerTest {
         redisManager.del(key);
     }
 
+    @Test
+    public void scanTest() throws Exception {
+        String cursor = ScanParams.SCAN_POINTER_START;
+        String key = "payBaseOne:*";
+        ScanParams scanParams = new ScanParams();
+        scanParams.match(key);// 匹配以 payBaseOne:* 为前缀的 key
+        scanParams.count(10);
+        while (true) {
+            //使用scan命令获取数据，使用cursor游标记录位置，下次循环使用
+            ScanResult<String> scanResult = redisManager.scan(cursor, scanParams);
+            cursor = scanResult.getCursor();// 返回0 说明遍历完成
+            List<String> list = scanResult.getResult();
+
+            stopwatch.reset();
+            stopwatch.start();
+
+            for (int m = 0; m < list.size(); m++) {
+                String realKey = list.get(m);
+                log.info("real key={}", realKey);
+            }
+            log.info("cursor={},list size={},cost={}ms", cursor, list.size(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
+
+            if (EqualUtil.isEq(cursor, ScanParams.SCAN_POINTER_START)) {
+                log.info("scan end.");
+                break;
+            }
+        }
+    }
+
+    @Test
+    public void testSscan(Jedis jedis) {
+        // 游标初始值为0
+        String cursor = ScanParams.SCAN_POINTER_START;
+        ScanParams scanParams = new ScanParams();
+        scanParams.count(1000);
+        String key = "PLFX-ZZSFP";
+        while (true) {
+            //使用sscan命令获取数据，使用cursor游标记录位置，下次循环使用
+            ScanResult<String> sscanResult = jedis.sscan(key, cursor, scanParams);
+            cursor = sscanResult.getCursor();// 返回0 说明遍历完成
+            List<String> list = sscanResult.getResult();
+            stopwatch.reset();
+            stopwatch.start();
+
+            for (int m = 0; m < list.size(); m++) {
+                String realKey = list.get(m);
+                log.info("real key={}", realKey);
+            }
+            log.info("cursor={},list size={},cost={}ms", cursor, list.size(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
+
+            if (EqualUtil.isEq(cursor, ScanParams.SCAN_POINTER_START)) {
+                log.info("scan end.");
+                break;
+            }
+        }
+    }
+
+    //HSCAN, ZSCAN
+
 
     @After
     public void after() throws Exception {
@@ -177,7 +243,6 @@ public class RedisManagerTest {
         }
 
         if (redisManager != null) {
-
             redisManager.destroy();
         }
 

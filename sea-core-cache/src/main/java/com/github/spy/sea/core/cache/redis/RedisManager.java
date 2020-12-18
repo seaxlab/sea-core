@@ -2,13 +2,11 @@ package com.github.spy.sea.core.cache.redis;
 
 import com.alibaba.fastjson.JSON;
 import com.github.spy.sea.core.util.SerializeUtil;
+import com.github.spy.sea.core.util.SetUtil;
 import com.github.spy.sea.core.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.*;
 
 import java.util.Optional;
 import java.util.Set;
@@ -78,6 +76,29 @@ public class RedisManager {
         pool.destroy();
     }
 
+
+    /**
+     * get jedis <br/>
+     * <p>
+     * IMPORTANT: if you use this method, you must close jedis instance.
+     * <pre>
+     *      Jedis jedis = redisManager.getJedis();
+     *      // your biz code.
+     *      jedis.close();
+     * </pre>
+     *
+     * @return
+     */
+    public Jedis getJedis() {
+        return pool.getResource();
+    }
+
+    /**
+     * get key
+     *
+     * @param key
+     * @return
+     */
     public Object get(String key) {
         Jedis jedis = null;
         try {
@@ -320,62 +341,67 @@ public class RedisManager {
 
     /**
      * keys
+     * TODO 大数据量下不推荐使用
      *
      * @param pattern
      * @return
      */
     public Set<byte[]> keys(String pattern) {
-        Set<byte[]> keys = null;
-
-        Jedis jedis = null;
-        try {
-            jedis = pool.getResource();
+        try (Jedis jedis = pool.getResource()) {
             if (jedis == null) {
                 logger.error(NO_JEDIS_INSTANCE);
-                return keys;
+                return SetUtil.empty();
             }
 
-            keys = jedis.keys(pattern.getBytes());
-        } finally {
-            if (jedis != null) {
-                jedis.close();
-            }
+            return jedis.keys(pattern.getBytes());
         }
-        return keys;
     }
 
+
+    /**
+     * 遍历
+     *
+     * @param cursor
+     * @param scanParams
+     */
+    public ScanResult<String> scan(String cursor, ScanParams scanParams) {
+        try (Jedis jedis = pool.getResource()) {
+            if (jedis == null) {
+                logger.error(NO_JEDIS_INSTANCE);
+                return null;
+            }
+            return jedis.scan(cursor, scanParams);
+        }
+    }
+
+    /**
+     * flush db
+     */
     public void flushDB() {
-        Jedis jedis = null;
-        try {
-            jedis = pool.getResource();
+        try (Jedis jedis = pool.getResource()) {
             if (jedis == null) {
                 logger.error(NO_JEDIS_INSTANCE);
                 return;
             }
 
             jedis.flushDB();
-        } finally {
-            if (jedis != null) {
-                jedis.close();
-            }
         }
 
     }
 
+    /**
+     * query db size
+     *
+     * @return
+     */
     public long dbSize() {
-        Jedis jedis = null;
-        try {
-            jedis = pool.getResource();
+        try (Jedis jedis = pool.getResource()) {
             if (jedis == null) {
                 logger.error(NO_JEDIS_INSTANCE);
                 return 0;
             }
 
             return jedis.dbSize();
-        } finally {
-            if (jedis != null) {
-                jedis.close();
-            }
         }
     }
 
@@ -609,6 +635,12 @@ public class RedisManager {
 
         try (Jedis jedis = pool.getResource()) {
             return jedis.setbit(key, offset, value);
+        }
+    }
+
+    private void close(Jedis jedis) {
+        if (jedis != null) {
+            jedis.close();
         }
     }
 

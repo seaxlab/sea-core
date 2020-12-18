@@ -23,6 +23,12 @@ public abstract class AbstractCoreTest {
 
     private static Stopwatch _stopwatch;
 
+    /**
+     * you can use it, anywhere.
+     */
+    protected Stopwatch stopwatch = Stopwatch.createStarted();
+
+
     @BeforeClass
     public static void testBefore() {
         _stopwatch = Stopwatch.createStarted();
