@@ -38,7 +38,6 @@
         <module>sea-core-support</module>
         <module>sea-core-example</module>
         <module>sea-core-rocketmq</module>
-        <module>sea-core-es</module>
     </modules>
 
 
