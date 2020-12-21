@@ -21,6 +21,10 @@ public class ThreadContextTest extends AbstractCoreTest {
         boolean hit2 = ThreadContext.get("abc"); // throw NPE
     }
 
+    @Test
+    public void run25() throws Exception {
+
+    }
 
 
 }
