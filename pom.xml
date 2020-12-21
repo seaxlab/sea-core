@@ -34,7 +34,6 @@
         <module>sea-core-dubbo-legacy</module>
         <module>sea-core-dubbo</module>
         <module>sea-core-springcloud</module>
-        <module>sea-core-serialize</module>
         <module>sea-core-support</module>
         <module>sea-core-example</module>
         <module>sea-core-rocketmq</module>
