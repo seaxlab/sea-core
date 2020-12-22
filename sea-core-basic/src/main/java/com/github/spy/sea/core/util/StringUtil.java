@@ -13,6 +13,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * String 工具
@@ -636,5 +637,50 @@ public final class StringUtil {
         return str != null && str.contains(part);
     }
 
+    /**
+     * 大小写敏感
+     *
+     * @param str
+     * @param prefixArray
+     * @return
+     */
+    public static boolean startsWith(String str, String... prefixArray) {
+        return startsWith(str, true, prefixArray);
+    }
+
+    /**
+     * 判断是否以指定prefix开始
+     *
+     * @param str
+     * @param caseSensitive
+     * @param prefixArray
+     * @return
+     */
+    public static boolean startsWith(String str, boolean caseSensitive, String... prefixArray) {
+        return Stream.of(prefixArray).anyMatch(item -> caseSensitive ? str.startsWith(item) : str.toLowerCase().startsWith(item.toLowerCase()));
+    }
+
+    /**
+     * （大小写敏感）
+     *
+     * @param str
+     * @param suffixArray
+     * @return
+     */
+    public static boolean endsWith(String str, String... suffixArray) {
+        return endsWith(str, true, suffixArray);
+    }
+
+    /**
+     * 判断是否以指定的suffix结束
+     *
+     * @param str
+     * @param caseSensitive
+     * @param suffixArray
+     * @return
+     */
+    public static boolean endsWith(String str, boolean caseSensitive, String... suffixArray) {
+        return Stream.of(suffixArray).anyMatch(item -> caseSensitive ? str.endsWith(item) : str.toLowerCase().endsWith(item.toLowerCase()));
+    }
 
 }

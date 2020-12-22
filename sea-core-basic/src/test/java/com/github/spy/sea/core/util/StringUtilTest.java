@@ -69,5 +69,15 @@ public class StringUtilTest extends BaseCoreTest {
         log.info("{}", "abc".contains(""));
     }
 
+    @Test
+    public void startsWithTest() throws Exception {
+        log.info("ret={}", StringUtil.startsWith("qingdao_uat", true, "qingdao"));
+    }
+
+    @Test
+    public void endsWithTest() throws Exception {
+        log.info("ret={}", StringUtil.endsWith("qingdao_uat", true, "uat", "sit", "dev"));
+    }
+
 
 }
