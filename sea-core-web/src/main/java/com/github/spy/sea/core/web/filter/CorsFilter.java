@@ -33,7 +33,7 @@ public class CorsFilter implements Filter {
         httpServletResponse.addHeader("Access-Control-Allow-Methods", "GET,HEAD,POST,PUT,DELETE,OPTIONS,PATCH");
         httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
         httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "sea-token,token,x-requested-with,Content-Type");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Sea-Mock,access_token,sea-token,token,x-requested-with,Content-Type");
 
         chain.doFilter(request, response);
     }
