@@ -1,6 +1,9 @@
 package com.github.spy.sea.core.mapper;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * module name
@@ -11,7 +14,6 @@ import lombok.*;
  */
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode

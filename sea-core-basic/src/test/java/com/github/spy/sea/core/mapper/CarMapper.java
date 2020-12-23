@@ -23,3 +23,28 @@ public interface CarMapper {
     })
     CarDTO carToCarDto(Car car);
 }
+
+
+/**
+ * it will be generate xxxImpl, look good.
+ * <pre>
+ *     package com.github.spy.sea.core.mapper;
+ *
+ * public class CarMapperImpl implements CarMapper {
+ *     public CarMapperImpl() {
+ *     }
+ *
+ *     public CarDTO carToCarDto(Car car) {
+ *         if (car == null) {
+ *             return null;
+ *         } else {
+ *             CarDTO carDTO = new CarDTO();
+ *             carDTO.setCarName(car.getName());
+ *             carDTO.setSeatCount(car.getNumberOfSeats());
+ *             carDTO.setMake(car.getMake());
+ *             return carDTO;
+ *         }
+ *     }
+ * }
+ * </pre>
+ */
