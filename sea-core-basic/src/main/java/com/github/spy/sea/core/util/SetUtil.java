@@ -41,6 +41,16 @@ public final class SetUtil {
     }
 
     /**
+     * check set is not empty.
+     *
+     * @param set
+     * @return
+     */
+    public static boolean isNotEmpty(Set set) {
+        return set != null && !set.isEmpty();
+    }
+
+    /**
      * list to set
      * 注意：如果list中对象有相同的hashCode，则不会重复添加
      *
