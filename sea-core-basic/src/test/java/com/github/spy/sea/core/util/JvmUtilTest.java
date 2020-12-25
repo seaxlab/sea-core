@@ -1,8 +1,6 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
-import com.github.spy.sea.core.config.Configuration;
-import com.github.spy.sea.core.config.ConfigurationFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -30,10 +28,6 @@ public class JvmUtilTest extends BaseCoreTest {
 
     @Test
     public void dumpStackTest() throws Exception {
-        Configuration cfg = ConfigurationFactory.getInstance();
-
-        cfg.getString("user.home");
-
         JvmUtil.dumpStack(getUserHome() + "/logs/jsdump.log");
 
         TimeUnit.MINUTES.sleep(2);

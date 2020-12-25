@@ -1,7 +1,5 @@
 package com.github.spy.sea.core.util;
 
-import com.github.spy.sea.core.config.Configuration;
-import com.github.spy.sea.core.config.ConfigurationFactory;
 import com.github.spy.sea.core.jvm.manager.StackManager;
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.RateLimiter;
@@ -84,10 +82,7 @@ public final class JvmUtil {
      * dump java stack
      */
     public static void dumpStack() {
-        Configuration cfg = ConfigurationFactory.getInstance();
-        String userHome = cfg.getString("user.home");
-
-        String logPath = PathUtil.join(userHome, "logs", "sea", "jstack");
+        String logPath = PathUtil.join(PathUtil.getUserHome(), "logs", "sea", "jstack");
         FileUtil.ensureDir(logPath);
         dumpStack(logPath + "/" + DateUtil.dateStr(new Date(), DateUtil.DATETIME_FORMAT_HUMAN) + "_" + getPID() + "_jstack.log");
     }
@@ -131,10 +126,7 @@ public final class JvmUtil {
      * it will block current thread
      */
     public static void dumpHeap() {
-        Configuration cfg = ConfigurationFactory.getInstance();
-        String userHome = cfg.getString("user.home");
-
-        String logPath = PathUtil.join(userHome, "logs");
+        String logPath = PathUtil.join(PathUtil.getSeaHome(), "heap");
         FileUtil.ensureDir(logPath);
         String filePath = logPath + "/" + DateUtil.dateStr(new Date(), DateUtil.DATETIME_FORMAT_HUMAN) + "_" + getPID() + "_heap.hprof";
         dumpHeap(filePath, true);

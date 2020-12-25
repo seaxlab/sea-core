@@ -1,7 +1,7 @@
 package com.github.spy.sea.core;
 
-import com.github.spy.sea.core.config.ConfigurationFactory;
 import com.github.spy.sea.core.test.AbstractCoreTest;
+import com.github.spy.sea.core.util.PathUtil;
 import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public abstract class BaseCoreTest extends AbstractCoreTest {
 
 
     protected String getUserHome() {
-        return ConfigurationFactory.getInstance().getString("user.home");
+        return PathUtil.getUserHome();
     }
 
     protected void sleep(int second) {

@@ -1,7 +1,5 @@
 package com.github.spy.sea.core.lock.impl;
 
-import com.github.spy.sea.core.config.Configuration;
-import com.github.spy.sea.core.config.ConfigurationFactory;
 import com.github.spy.sea.core.util.FileUtil;
 import com.github.spy.sea.core.util.PathUtil;
 import com.github.spy.sea.core.util.StringUtil;
@@ -49,12 +47,7 @@ public class FileLock implements Lock {
     }
 
     private void init() {
-        Configuration cfg = ConfigurationFactory.getInstance();
-        String userHome = cfg.getString("user.home", "");
-        if (StringUtil.isEmpty(userHome)) {
-            throw new RuntimeException("user.home is empty");
-        }
-        String path = PathUtil.join(userHome, "logs", "sea", "lock");
+        String path = PathUtil.join(PathUtil.getUserHome(), "logs", "sea", "lock");
         FileUtil.ensureDir(path);
 
         file = new File(path + "/" + prefix + ".lock");

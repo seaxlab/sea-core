@@ -1,8 +1,6 @@
 package com.github.spy.sea.core.lock;
 
 import com.github.spy.sea.core.BaseCoreTest;
-import com.github.spy.sea.core.config.Configuration;
-import com.github.spy.sea.core.config.ConfigurationFactory;
 import com.github.spy.sea.core.lock.impl.FileLock;
 import com.github.spy.sea.core.util.FileUtil;
 import com.github.spy.sea.core.util.PathUtil;
@@ -78,10 +76,7 @@ public class FileLockTest extends BaseCoreTest {
 
     @Test
     public void run51() throws Exception {
-        Configuration cfg = ConfigurationFactory.getInstance();
-
-        String userHome = cfg.getString("user.home", "");
-        String path = PathUtil.join(userHome, "logs", "sea", "file");
+        String path = PathUtil.join(PathUtil.getUserHome(), "logs", "sea", "file");
         FileUtil.ensureDir(path);
 
         File file = new File(path + "/a.txt");
@@ -94,10 +89,7 @@ public class FileLockTest extends BaseCoreTest {
 
     @Test
     public void run52() throws Exception {
-        Configuration cfg = ConfigurationFactory.getInstance();
-
-        String userHome = cfg.getString("user.home", "");
-        String path = PathUtil.join(userHome, "logs", "sea", "file");
+        String path = PathUtil.join(PathUtil.getUserHome(), "logs", "sea", "file");
         FileUtil.ensureDir(path);
 
         File file = new File(path + "/a.txt");

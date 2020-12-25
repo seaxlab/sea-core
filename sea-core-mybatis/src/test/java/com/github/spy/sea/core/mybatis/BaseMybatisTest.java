@@ -2,9 +2,9 @@ package com.github.spy.sea.core.mybatis;
 
 import ch.vorburger.mariadb4j.DB;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
-import com.github.spy.sea.core.config.ConfigurationFactory;
 import com.github.spy.sea.core.mybatis.dao.UserMapper;
 import com.github.spy.sea.core.test.AbstractCoreTest;
+import com.github.spy.sea.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -38,7 +38,7 @@ public class BaseMybatisTest extends AbstractCoreTest {
     private void startMySQL() throws Exception {
         DBConfigurationBuilder configBuilder = DBConfigurationBuilder.newBuilder();
         configBuilder.setPort(3306);
-        String userHome = ConfigurationFactory.getInstance().getString("user.home");
+        String userHome = PathUtil.getUserHome();
         configBuilder.setDataDir(userHome + "/db"); // just an example
 
         DB db = DB.newEmbeddedDB(configBuilder.build());

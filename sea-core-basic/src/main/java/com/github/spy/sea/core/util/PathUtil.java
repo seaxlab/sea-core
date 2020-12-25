@@ -1,5 +1,7 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.config.Configuration;
+import com.github.spy.sea.core.config.ConfigurationFactory;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
@@ -16,6 +18,31 @@ import java.nio.file.Paths;
 public final class PathUtil {
 
     private PathUtil() {
+    }
+
+
+    /**
+     * get user home of user who run current process
+     *
+     * @return
+     */
+    public static final String getUserHome() {
+        Configuration cfg = ConfigurationFactory.getInstance();
+        String userHome = cfg.getString("user.home", "");
+        if (StringUtil.isEmpty(userHome)) {
+            throw new RuntimeException("user.home is empty");
+        }
+        return userHome;
+    }
+
+    /**
+     * get sea home
+     * IMPORTANT： plz use this path in most case.
+     *
+     * @return
+     */
+    public static final String getSeaHome() {
+        return join(getUserHome(), "sea");
     }
 
     /**
