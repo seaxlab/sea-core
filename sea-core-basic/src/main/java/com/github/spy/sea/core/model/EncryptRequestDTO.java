@@ -1,6 +1,5 @@
 package com.github.spy.sea.core.model;
 
-import com.github.spy.sea.core.util.StringUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +16,6 @@ import java.io.Serializable;
  * @version 1.0 2019-07-22
  * @since 1.0
  */
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -53,34 +51,39 @@ public class EncryptRequestDTO implements Serializable {
     public BaseResult isValid() {
         BaseResult result = BaseResult.fail();
 
-        if (StringUtil.isEmpty(appId)) {
+        if (isEmpty(appId)) {
             result.setErrorMessage("appId不能为空");
             return result;
         }
 
-        if (StringUtil.isEmpty(bizContent)) {
+        if (isEmpty(bizContent)) {
             result.setErrorMessage("bizContent不能为空");
             return result;
         }
 
 
-        if (StringUtil.isEmpty(version)) {
+        if (isEmpty(version)) {
             result.setErrorMessage("version不能为空");
             return result;
         }
 
 
-        if (StringUtil.isEmpty(timestamp)) {
+        if (isEmpty(timestamp)) {
             result.setErrorMessage("timestamp不能为空");
             return result;
         }
 
-        if (StringUtil.isEmpty(sign)) {
+        if (isEmpty(sign)) {
             result.setErrorMessage("sign不能为空");
             return result;
         }
 
         result.setSuccess(true);
         return result;
+    }
+
+
+    private boolean isEmpty(String value) {
+        return value == null || value.isEmpty();
     }
 }
