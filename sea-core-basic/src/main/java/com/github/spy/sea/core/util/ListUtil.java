@@ -123,7 +123,10 @@ public final class ListUtil {
      * @param set
      * @return
      */
-    public static List<String> toList(Set<String> set) {
+//    public static List<String> toList(Set<String> set) {
+//        return new ArrayList<>(set);
+//    }
+    public static <T> List<T> toList(Set<T> set) {
         return new ArrayList<>(set);
     }
 
