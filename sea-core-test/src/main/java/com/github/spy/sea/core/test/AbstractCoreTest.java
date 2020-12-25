@@ -129,4 +129,16 @@ public abstract class AbstractCoreTest {
 
         }
     }
+
+    /**
+     * 获取下一个序列
+     *
+     * @param namespace
+     * @return
+     */
+    protected int nextSeq(String namespace) {
+
+
+        return 1;
+    }
 }
