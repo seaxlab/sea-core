@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * 模块
+ * Redis op manager
  *
  * @author spy
  * @version 1.0 2019-07-18
@@ -454,6 +454,7 @@ public class RedisManager {
 
     /**
      * left push
+     * Insert all the specified values at the head of the list stored at key.
      *
      * @param key
      * @param msg
@@ -475,8 +476,46 @@ public class RedisManager {
         }
     }
 
+
+    /**
+     * Insert all the specified values at the tail of the list stored at key
+     *
+     * @param key
+     * @param msg
+     * @return
+     */
+    public Long rpush(String key, String msg) {
+        try (Jedis jedis = pool.getResource()) {
+            if (jedis == null) {
+                logger.error(NO_JEDIS_INSTANCE);
+            }
+            return jedis.rpush(key, msg);
+        }
+    }
+
+    /**
+     * Removes and returns the first elements of the list stored at key.
+     * <p>
+     * By default, the command pops a single element from the beginning of the list.
+     * When provided with the optional count argument, the reply will consist of up to count elements,
+     * depending on the list's length.
+     *
+     * @param key
+     * @return
+     */
+    public String lpop(String key) {
+        try (Jedis jedis = pool.getResource()) {
+            return jedis.lpop(key);
+        }
+    }
+
     /**
      * right pop
+     * Removes and returns the last elements of the list stored at key.
+     * <p>
+     * By default, the command pops a single element from the end of the list.
+     * When provided with the optional count argument, the reply will consist of up to count elements,
+     * depending on the list's length.
      *
      * @param key
      * @return
@@ -496,6 +535,7 @@ public class RedisManager {
             }
         }
     }
+
 
     /**
      * list length.
