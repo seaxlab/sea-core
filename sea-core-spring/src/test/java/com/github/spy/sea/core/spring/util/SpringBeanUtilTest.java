@@ -23,10 +23,25 @@ public class SpringBeanUtilTest {
     public void oneTest() throws Exception {
 
         User1 user1 = new User1();
-        user1.setId(1L);
+        user1.setId("1");
         user1.setName("user1");
 
         log.info("user2={}", SpringBeanUtil.convert(user1, User2.class));
+    }
+
+    @Test
+    public void run33() throws Exception {
+
+        // IMPORTANT 名称相同，但是类型不同不能转换。
+        User1 user1 = new User1();
+        user1.setId("1");
+        user1.setName("user1");
+
+        User2 user2 = new User2();
+
+        BeanUtils.copyProperties(user1, user2);
+        log.info("user2={}", user2);
+
     }
 
 
@@ -35,7 +50,7 @@ public class SpringBeanUtilTest {
         List<User1> list = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             User1 user1 = new User1();
-            user1.setId(Long.valueOf(i));
+            user1.setId("" + i);
             user1.setName("name" + i);
             list.add(user1);
         }
@@ -70,7 +85,8 @@ public class SpringBeanUtilTest {
 
     @Data
     public static class User1 implements Serializable {
-        private Long id;
+        // 差异id，数据类型不一样
+        private String id;
         private String name;
         private String names;
     }

@@ -18,6 +18,7 @@ public class CarMapperTest extends BaseCoreTest {
     public void shouldMapCarToDto() {
         //given
         Car car = new Car();
+        car.setId("1");
         car.setName("audi A4L");
         car.setMake("china");
         car.setNumberOfSeats(5);

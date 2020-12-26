@@ -10,16 +10,21 @@ package com.github.spy.sea.core.mapper;
 
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Car {
-
+    private String id;
     private String make;
     private String name;
     private int numberOfSeats;
+    private List<String> names;
+    private List<String> wheels;
+
 //    private CarType type;
 
     //constructor, getters, setters etc.
