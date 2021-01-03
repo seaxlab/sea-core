@@ -88,4 +88,24 @@ public class CorpBasicServiceDubboTest extends BaseDubboTest {
         log.info("ret data={}", result.getData());
 
     }
+
+
+    @Test
+    public void loginTest() throws Exception {
+        String[] parameterTypes = new String[]{String.class.getName(), String.class.getName()};
+        Object[] parameterArgs = new Object[]{"admin", "1212"};
+
+//        dto.setRegistryAddress(REG_DING_DAO_UAT);
+        dto.setUrl("dubbo://10.10.11.195:20882");
+        dto.setInterfaceName("com.yuantu.corp.client.service.SysUserDubboApiService");
+        dto.setMethod("loginByNameAndPassword");
+        dto.setVersion("1.0.0.uat");
+        dto.setParameterTypes(parameterTypes);
+        dto.setParameterArgs(parameterArgs);
+
+        BaseResult result = DubboUtil.invoke(dto);
+
+        log.info("ret data={}", result.getData());
+
+    }
 }

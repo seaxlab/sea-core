@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.model;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
@@ -12,11 +13,27 @@ import java.io.Serializable;
  * @since 1.0
  */
 @Slf4j
+@Data
 public class PageInfo implements Serializable {
 
+    public static final String ASC = "ASC";
+
+    public static final String DESC = "DESC";
+
+    public static final Integer DEFAULT_PAGE_SIZE = 10;
+
+    /**
+     * the same as pageIndex
+     */
     private Integer pageNum = 1;
 
-    private Integer pageSize = 10;
+    private Integer pageSize = DEFAULT_PAGE_SIZE;
+
+    private String orderBy;
+
+    private String orderDirection;
+
+    private String groupBy;
 
     public static PageInfo of(int pageNum, int pageSize) {
         PageInfo pageInfo = new PageInfo();
@@ -25,20 +42,30 @@ public class PageInfo implements Serializable {
         return pageInfo;
     }
 
-
     public Integer getPageNum() {
+        if (pageNum < 1) {
+            return 1;
+        }
         return pageNum;
     }
 
-    public void setPageNum(Integer pageNum) {
-        this.pageNum = pageNum;
-    }
-
     public Integer getPageSize() {
+        if (pageSize < 1) {
+            return DEFAULT_PAGE_SIZE;
+        }
         return pageSize;
     }
 
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
+    public int getOffset() {
+        return (getPageNum() - 1) * getPageSize();
+    }
+
+    public void setOrderDirection(String orderDirection) {
+        if (orderDirection == null || orderDirection.isEmpty()) {
+            return;
+        }
+        if (ASC.equalsIgnoreCase(orderDirection) || DESC.equalsIgnoreCase(orderDirection)) {
+            this.orderDirection = orderDirection.toLowerCase();
+        }
     }
 }
