@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -21,6 +22,26 @@ public class UrlUtil {
     public static final String SCHEMA = "schema";
     public static final String HOST = "host";
     public static final String PORT = "port";
+
+    public static String decode(String str) {
+        try {
+            return URLDecoder.decode(str, "UTF-8");
+        } catch (IOException e) {
+            log.error("io exception.", e);
+            ExceptionHandler.publishMsg("url decode error.");
+        }
+        return "";
+    }
+
+    public static String encode(String str) {
+        try {
+            return URLEncoder.encode(str, "UTF-8");
+        } catch (IOException e) {
+            log.error("io exception.", e);
+            ExceptionHandler.publishMsg("url encode error.");
+        }
+        return "";
+    }
 
     /**
      * build url
@@ -95,7 +116,6 @@ public class UrlUtil {
                 break;
         }
 
-
         // params
         String params = strArray[1];
         String[] paramArray = params.split("&");
@@ -116,13 +136,5 @@ public class UrlUtil {
         return props;
     }
 
-    private static String decode(String str) {
-        try {
-            return URLDecoder.decode(str, "UTF-8");
-        } catch (IOException e) {
-            log.error("io exception.", e);
-            ExceptionHandler.publishMsg("url decode error.");
-        }
-        return null;
-    }
+
 }
