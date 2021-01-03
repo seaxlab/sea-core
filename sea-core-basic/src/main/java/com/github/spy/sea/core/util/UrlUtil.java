@@ -1,9 +1,13 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.exception.ExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * module name
@@ -14,6 +18,9 @@ import java.util.Map;
  */
 @Slf4j
 public class UrlUtil {
+    public static final String SCHEMA = "schema";
+    public static final String HOST = "host";
+    public static final String PORT = "port";
 
     /**
      * build url
@@ -53,4 +60,69 @@ public class UrlUtil {
         return finalUrl;
     }
 
+    /**
+     * parse url
+     * <p>
+     * http://ip:port?abc=1&a=2
+     *
+     * @param url
+     * @return
+     */
+    public static Properties parse(String url) {
+        // ip:port?database=x11&abc=xx;
+        String[] strArray = url.split("\\?");
+        Properties props = new Properties();
+
+        // schema
+        String instance = strArray[0];
+        if (instance.contains("://")) {
+            int index = instance.indexOf("://");
+            props.put(SCHEMA, instance.substring(0, index));
+            // left
+            instance = instance.substring(index + 3);
+        }
+        String[] instanceArray = instance.split(":");
+        switch (instanceArray.length) {
+            case 0:
+                break;
+            case 1:
+                props.put(HOST, instanceArray[0]);
+                props.put(PORT, "80");
+                break;
+            case 2:
+                props.put(HOST, instanceArray[0]);
+                props.put(PORT, instanceArray[1]);
+                break;
+        }
+
+
+        // params
+        String params = strArray[1];
+        String[] paramArray = params.split("&");
+        for (int i = 0; i < paramArray.length; i++) {
+            String item = paramArray[i];
+            String[] itemArray = item.split("=");
+            switch (itemArray.length) {
+                case 0:
+                    break;
+                case 1:
+                    props.put(itemArray[0], "");
+                    break;
+                case 2:
+                    props.put(itemArray[0], decode(itemArray[1]));
+                    break;
+            }
+        }
+        return props;
+    }
+
+    private static String decode(String str) {
+        try {
+            return URLDecoder.decode(str, "UTF-8");
+        } catch (IOException e) {
+            log.error("io exception.", e);
+            ExceptionHandler.publishMsg("url decode error.");
+        }
+        return null;
+    }
 }

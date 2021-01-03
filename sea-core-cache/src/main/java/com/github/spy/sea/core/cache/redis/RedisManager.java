@@ -139,7 +139,7 @@ public class RedisManager {
 
     }
 
-    public String set(String key, Object object, int expried) {
+    public String set(String key, Object object, int expired) {
         String ret = null;
 
         Jedis jedis = null;
@@ -151,7 +151,7 @@ public class RedisManager {
             }
 
             ret = jedis.set(key.getBytes(), SerializeUtil.serialize(object));
-            jedis.expire(key.getBytes(), expried);
+            jedis.expire(key.getBytes(), expired);
         } finally {
             if (jedis != null) {
                 jedis.close();
@@ -261,6 +261,8 @@ public class RedisManager {
         }
     }
 
+
+    //TODO 建议返回 JUC中Lock类，由Lock类进行try
 
     /**
      * 获取锁
