@@ -116,6 +116,10 @@ public class UrlUtil {
                 break;
         }
 
+        if (strArray.length <= 1) {
+            return props;
+        }
+
         // params
         String params = strArray[1];
         String[] paramArray = params.split("&");
