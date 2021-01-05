@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <property name="LOG_FORMAT"
+              value="%d{HH:mm:ss.SSS} %level [%thread] [%X{SOFA-TraceId},%X{SOFA-SpanId}] [%class{36}.%M:%line] - %m %n"/>
 
     <logger name="com.github.spy" level="DEBUG"/>
 
@@ -13,11 +15,10 @@
     <logger name="org.apache.ibatis" level="INFO"/>
     <logger name="org.apache.dubbo" level="DEBUG"/>
 
-
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <!--yyyy-MM-dd -->
-            <pattern>%d{HH:mm:ss.SSS} %level [%thread] [%class{36}.%M:%line] - %m %n</pattern>
+            <pattern>${LOG_FORMAT}</pattern>
         </encoder>
     </appender>
 
