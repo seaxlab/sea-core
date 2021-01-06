@@ -1,0 +1,52 @@
+package com.github.spy.sea.core.socket;
+
+import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.socket.model.SocketRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * module name
+ *
+ * @author spy
+ * @version 1.0 2021/1/6
+ * @since 1.0
+ */
+@Slf4j
+public class SocketServerTest extends BaseCoreTest {
+
+    private int port = 9001;
+    private ExecutorService executor;
+    private boolean loopFlag = true;
+
+    @Test
+    public void serverStartTest() throws Exception {
+        ServerSocket serverSocket = new ServerSocket(port);
+        executor = Executors.newSingleThreadExecutor();
+        executor.submit(() -> {
+            // create an open ended thread-pool
+            ExecutorService threadPool = Executors.newCachedThreadPool();
+            try {
+
+                while (loopFlag) {
+                    // wait for a client to connect
+                    Socket clientSocket = serverSocket.accept();
+                    // create a new Service Request object for that socket, and fork it in a background thread
+                    threadPool.submit(new SocketRequest(clientSocket));
+                }
+            } catch (IOException ex) {
+                log.error("io exception ", ex);
+            } finally {
+                threadPool.shutdown();
+            }
+        });
+
+        sleepMinute(10);
+    }
+}

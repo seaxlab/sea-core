@@ -71,6 +71,12 @@
             <artifactId>commons-codec</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!-- for telnet,ftp -->
         <dependency>
             <groupId>commons-net</groupId>
