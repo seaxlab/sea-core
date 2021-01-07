@@ -166,9 +166,11 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- MapUtil.clone中使用 -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
