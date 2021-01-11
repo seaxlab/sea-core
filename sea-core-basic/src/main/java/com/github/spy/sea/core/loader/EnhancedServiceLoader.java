@@ -18,9 +18,8 @@ package com.github.spy.sea.core.loader;
 import com.github.spy.sea.core.common.CoreConst;
 import com.github.spy.sea.core.intf.Initialize;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -224,7 +223,7 @@ public class EnhancedServiceLoader {
             if (extensions.isEmpty()) {
                 throw new EnhancedServiceNotFoundException(
                         "not found service provider for : " + service.getName() + "[" + activateName
-                                + "] and classloader : " + ObjectUtils.toString(loader));
+                                + "] and classloader : " + loader);
             }
             Class<?> extension = extensions.get(extensions.size() - 1);
             S result = initInstance(service, extension, argTypes, args);
@@ -239,7 +238,7 @@ public class EnhancedServiceLoader {
             } else {
                 throw new EnhancedServiceNotFoundException(
                         "not found service provider for : " + service.getName() + " caused by " + ExceptionUtils
-                                .getFullStackTrace(e));
+                                .getStackTrace(e));
             }
         }
     }

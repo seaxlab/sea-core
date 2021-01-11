@@ -22,6 +22,21 @@ public final class IOUtil {
     }
 
     /**
+     * close closeable resource.
+     *
+     * @param resource
+     */
+    public static void close(Closeable resource) {
+        if (resource != null) {
+            try {
+                resource.close();
+            } catch (IOException e) {
+                log.error("io exception.", e);
+            }
+        }
+    }
+
+    /**
      * write.
      *
      * @param is InputStream instance.

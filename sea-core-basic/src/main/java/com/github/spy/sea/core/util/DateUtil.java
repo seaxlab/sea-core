@@ -3,9 +3,8 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.enums.WeekEnum;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.Validate;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -723,9 +722,11 @@ public final class DateUtil {
      * @return
      */
     public static Date tryStr2Date(String value, String[] patterns) {
-        Validate.notEmpty(patterns, "patterns 不能为空");
+        if (patterns == null || patterns.length == 0) {
+            throw new IllegalArgumentException("patterns 不能为空");
+        }
         Date d = null;
-        if (org.apache.commons.lang.StringUtils.isNotEmpty(value)) {
+        if (StringUtils.isNotEmpty(value)) {
             for (String p : patterns) {
                 try {
                     d = DateUtil.str2Date(value, p);

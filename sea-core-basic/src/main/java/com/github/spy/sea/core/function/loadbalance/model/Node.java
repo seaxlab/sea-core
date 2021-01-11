@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.function.loadbalance.model;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -11,6 +11,7 @@ import java.io.Serializable;
  * @version 1.0 2020/11/26
  * @since 1.0
  */
+@Data
 public class Node implements Serializable {
 
     private String id;
@@ -63,10 +64,5 @@ public class Node implements Serializable {
 
     public void setExtra(Object extra) {
         this.extra = extra;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this);
     }
 }

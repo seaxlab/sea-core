@@ -4,8 +4,8 @@ import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.socket.SocketClient;
 import com.github.spy.sea.core.socket.model.SocketClientConfig;
 import com.github.spy.sea.core.socket.model.SocketClientSendData;
+import com.github.spy.sea.core.util.IOUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.compress.utils.IOUtils;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -70,9 +70,9 @@ public class DefaultSocketClient implements SocketClient {
     @Override
     public void close() {
         if (socket != null) {
-            IOUtils.closeQuietly(output);
-            IOUtils.closeQuietly(input);
-            IOUtils.closeQuietly(socket);
+            IOUtil.close(output);
+            IOUtil.close(input);
+            IOUtil.close(socket);
             this.socket = null;
             this.output = null;
             this.input = null;

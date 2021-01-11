@@ -62,7 +62,10 @@
         <mockito.version>2.23.4</mockito.version>
         <assertj-core.version>3.12.2</assertj-core.version>
         <junit-platform-launcher.version>1.5.1</junit-platform-launcher.version>
+
         <apache.commons.compress.version>1.18</apache.commons.compress.version>
+        <apache.commons.io.version>2.8.0</apache.commons.io.version>
+
         <google.zxing.version>3.4.0</google.zxing.version>
         <aliyun.oss.sdk.version>3.5.0</aliyun.oss.sdk.version>
         <javers.version>5.6.3</javers.version>
@@ -200,6 +203,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
                 <version>${apache.collection.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${apache.commons.io.version}</version>
             </dependency>
 
             <dependency>
