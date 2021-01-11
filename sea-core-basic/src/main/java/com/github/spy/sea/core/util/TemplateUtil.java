@@ -2,7 +2,6 @@ package com.github.spy.sea.core.util;
 
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.MapUtils;
 
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -31,7 +30,7 @@ public final class TemplateUtil {
      * @return
      */
     public static String replace(String sourceString, Map<String, String> param) {
-        if (Strings.isNullOrEmpty(sourceString) || MapUtils.isEmpty(param)) {
+        if (Strings.isNullOrEmpty(sourceString) || MapUtil.isEmpty(param)) {
             return sourceString;
         }
 

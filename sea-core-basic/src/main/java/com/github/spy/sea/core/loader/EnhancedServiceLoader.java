@@ -17,7 +17,7 @@ package com.github.spy.sea.core.loader;
 
 import com.github.spy.sea.core.common.CoreConst;
 import com.github.spy.sea.core.intf.Initialize;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;

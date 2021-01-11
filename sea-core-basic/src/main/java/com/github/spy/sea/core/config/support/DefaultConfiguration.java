@@ -3,7 +3,7 @@ package com.github.spy.sea.core.config.support;
 import com.github.spy.sea.core.config.Configuration;
 import com.github.spy.sea.core.loader.LoadLevel;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.MapUtils;
+import org.apache.commons.collections4.MapUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
