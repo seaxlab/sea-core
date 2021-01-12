@@ -2,4 +2,4 @@
 
 ## notice
 
-- 只使用lang3,不再使用lang2
+- 只使用lang3、collection4,不再使用lang2、collection
