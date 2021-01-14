@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Const {
 
-    public static final String DEFAULT_APP_NAME = "sea-core-dubbo";
+    public static final String DEFAULT_APP_NAME = "dubbo-test-app";
 
     public static final String DEFAULT_VERSION = "";
     // 默认超时时间
