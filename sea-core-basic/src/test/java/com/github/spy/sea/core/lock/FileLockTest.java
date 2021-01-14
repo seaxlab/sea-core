@@ -53,13 +53,17 @@ public class FileLockTest extends BaseCoreTest {
 
     @Test
     public void trylock1Test() throws Exception {
-        Lock lock = new FileLock("abc");
+        Runnable runnable = () -> {
+            Lock lock = new FileLock("abc");
 
-        boolean hasLockFlag = lock.tryLock();
-        if (hasLockFlag) {
-            log.info("----1");
-            lock.unlock();
-        }
+            boolean hasLockFlag = lock.tryLock();
+            log.info("has lock flag={}", hasLockFlag);
+            if (hasLockFlag) {
+                log.info("----1");
+                lock.unlock();
+            }
+        };
+        runInMultiThread(runnable);
     }
 
 
@@ -73,6 +77,7 @@ public class FileLockTest extends BaseCoreTest {
             lock.unlock();
         }
     }
+
 
     @Test
     public void run51() throws Exception {

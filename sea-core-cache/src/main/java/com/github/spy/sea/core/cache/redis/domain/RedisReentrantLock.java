@@ -9,17 +9,22 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 /**
- * module name
+ * redis reentrant lock, but it not support reentrant.
+ * plz use sea-ulock instead.
  *
  * @author spy
  * @version 1.0 2021/1/3
  * @since 1.0
  */
 @Slf4j
+@Deprecated
 public class RedisReentrantLock implements Lock {
+    //TODO 替换成redisson
 
     private JedisPool pool;
     private String lockKey;
+    private static final long DEFAULT_LOCK_TIMEOUT = 30 * 1000;
+
 
     public RedisReentrantLock(JedisPool pool, String lockKey) {
         this.pool = pool;
@@ -37,14 +42,21 @@ public class RedisReentrantLock implements Lock {
 
     @Override
     public boolean tryLock() {
-        throw new UnsupportedOperationException();
+        try {
+            return tryLock(3, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            log.error("interrupted exception.", e);
+        }
+
+        return false;
     }
 
     @Override
     public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
-        long expired = time;
+        long expired = TimeUnit.MILLISECONDS.convert(time, unit);
+
         if (expired == 0) {
-            expired = 3000;
+            expired = DEFAULT_LOCK_TIMEOUT;
         }
 
         try (Jedis jedis = pool.getResource()) {
