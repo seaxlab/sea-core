@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
  * @since 1.0
  */
 @Slf4j
-public class AbstractCore5Test {
+public class AbstractCore5Test extends AbstractCoreSuperTest {
     @BeforeEach
     public void testBefore() {
         log.info("--------------------before test------------------");
