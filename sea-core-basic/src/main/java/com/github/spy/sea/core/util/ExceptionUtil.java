@@ -39,6 +39,17 @@ public final class ExceptionUtil {
     }
 
     /**
+     * 获取最底层的异常,非常重要的接口
+     * 排除 InvocationTargetException/NestedServletException等嵌套异常
+     *
+     * @param throwable
+     * @return
+     */
+    public static Throwable getRootCause(final Throwable throwable) {
+        return ExceptionUtils.getRootCause(throwable);
+    }
+
+    /**
      * 获取跟路径堆栈信息
      *
      * @param throwable
