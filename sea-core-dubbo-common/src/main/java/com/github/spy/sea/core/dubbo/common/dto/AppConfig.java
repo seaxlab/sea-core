@@ -12,6 +12,10 @@ import lombok.Data;
 @Data
 public class AppConfig {
 
+    /**
+     * 一个应用只能有个一个application,dubbo限制
+     * Duplicate Config found for ApplicationConfig, you should use only one unique ApplicationConfig for one application.
+     */
     private Boolean hasApplication = false;
     private String appName;
 

@@ -203,7 +203,7 @@ public final class DubboUtil {
         }
 
         // application
-        if (!dto.getHasApplication()) {
+        if (dto.getHasApplication() == null || !dto.getHasApplication()) {
             ApplicationConfig application = new ApplicationConfig();
             application.setName(StringUtil.defaultIfBlank(dto.getAppName(), Const.DEFAULT_APP_NAME));
             application.setQosEnable(ObjectUtil.defaultIfNull(dto.getQosEnable(), false));
