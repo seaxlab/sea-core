@@ -203,16 +203,19 @@ public final class DubboUtil {
         }
 
         // application
-        ApplicationConfig application = new ApplicationConfig();
-        application.setName(StringUtil.defaultIfBlank(dto.getAppName(), Const.DEFAULT_APP_NAME));
-        application.setQosEnable(ObjectUtil.defaultIfNull(dto.getQosEnable(), false));
-
-        if (StringUtil.isNotEmpty(dto.getRegistryAddress())) {
-            RegistryConfig registry = new RegistryConfig();
-            registry.setAddress(dto.getRegistryAddress());
-            application.setRegistry(registry);
+        if (!dto.getHasApplication()) {
+            ApplicationConfig application = new ApplicationConfig();
+            application.setName(StringUtil.defaultIfBlank(dto.getAppName(), Const.DEFAULT_APP_NAME));
+            application.setQosEnable(ObjectUtil.defaultIfNull(dto.getQosEnable(), false));
+            ApplicationModel.getConfigManager().setApplication(application);
         }
-        ApplicationModel.getConfigManager().setApplication(application);
+
+        RegistryConfig registry = null;
+        if (StringUtil.isNotEmpty(dto.getRegistryAddress())) {
+            registry = new RegistryConfig();
+            registry.setAddress(dto.getRegistryAddress());
+            registry.setCheck(false);
+        }
 
         // reference
         ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
@@ -229,7 +232,7 @@ public final class DubboUtil {
         reference.setAsync(dto.getAsync());
         // 声明为泛化接口
         reference.setGeneric(Boolean.TRUE.toString());
-        reference.setApplication(application);
+        reference.setRegistry(registry);
 
         // get reference from cache.
         ReferenceConfigCache configCache = ReferenceConfigCache.getCache();

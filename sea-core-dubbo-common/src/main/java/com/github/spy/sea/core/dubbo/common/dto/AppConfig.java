@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 public class AppConfig {
 
+    private Boolean hasApplication = false;
     private String appName;
 
     /**
