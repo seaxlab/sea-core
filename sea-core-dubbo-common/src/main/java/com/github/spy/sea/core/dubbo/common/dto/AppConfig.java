@@ -24,6 +24,10 @@ public class AppConfig {
      */
     private String registryAddress;
     /**
+     * registry 缓存文件
+     */
+    private String registryFile;
+    /**
      * 机器服务，格式ip:port
      */
     private String defaultUrl;

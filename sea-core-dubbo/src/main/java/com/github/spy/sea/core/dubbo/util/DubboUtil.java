@@ -4,10 +4,7 @@ import com.github.spy.sea.core.dubbo.common.commonn.Const;
 import com.github.spy.sea.core.dubbo.common.dto.BeanConfig;
 import com.github.spy.sea.core.dubbo.common.dto.DubboGenericInvokeDTO;
 import com.github.spy.sea.core.model.BaseResult;
-import com.github.spy.sea.core.util.ArrayUtil;
-import com.github.spy.sea.core.util.EqualUtil;
-import com.github.spy.sea.core.util.ObjectUtil;
-import com.github.spy.sea.core.util.StringUtil;
+import com.github.spy.sea.core.util.*;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.common.constants.CommonConstants;
@@ -214,6 +211,7 @@ public final class DubboUtil {
         if (StringUtil.isNotEmpty(dto.getRegistryAddress())) {
             registry = new RegistryConfig();
             registry.setAddress(dto.getRegistryAddress());
+            registry.setFile(dto.getRegistryFile());
             registry.setCheck(false);
         }
 
@@ -237,6 +235,10 @@ public final class DubboUtil {
         // get reference from cache.
         ReferenceConfigCache configCache = ReferenceConfigCache.getCache();
         GenericService genericService = configCache.get(reference);
+        if (genericService == null) {
+            configCache.destroy(reference);
+            throw new RuntimeException("service unavailable..");
+        }
 
         boolean isAsync = ObjectUtil.defaultIfNull(dto.getAsync(), false);
         try {
@@ -253,6 +255,7 @@ public final class DubboUtil {
             result.value(ret);
         } catch (Exception e) {
             log.error("fail to invoke dubbo generic service", e);
+            result.setErrorMessage(ExceptionUtil.getMessage(e));
         }
         return result;
     }

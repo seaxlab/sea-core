@@ -46,4 +46,9 @@ public class DubboGenericInvokeDTO extends AppConfig {
 
     private Boolean async;
 
+    /**
+     * 参考 CommonConstants.GENERIC_SERIALIZATION_NATIVE_JAVA 等等
+     */
+    private String generic;
+
 }
