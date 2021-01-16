@@ -1,8 +1,5 @@
-package com.github.spy.sea.core.lock.impl;
+package com.github.spy.sea.core.test.lock;
 
-import com.github.spy.sea.core.util.FileUtil;
-import com.github.spy.sea.core.util.PathUtil;
-import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -41,7 +38,7 @@ public class FileLock implements Lock {
     }
 
     public FileLock(String prefix) {
-        if (StringUtil.isEmpty(prefix)) {
+        if (prefix == null || prefix.isEmpty()) {
             throw new RuntimeException("FileLock [prefix] cannot be null");
         }
         this.prefix = prefix;
@@ -49,8 +46,12 @@ public class FileLock implements Lock {
     }
 
     private void init() {
-        String path = PathUtil.join(PathUtil.getUserHome(), "logs", "sea", "lock");
-        FileUtil.ensureDir(path);
+        String userHome = System.getProperty("user.home");
+        String path = userHome + "/sea/lock";
+        File lockDir = new File(path);
+        if (!lockDir.exists()) {
+            lockDir.mkdirs();
+        }
 
         file = new File(path + "/" + prefix + ".lock");
         try {
@@ -96,7 +97,6 @@ public class FileLock implements Lock {
     public boolean tryLock() {
         boolean hasLock;
         try {
-            fileChannel = new RandomAccessFile(file, "rw").getChannel();
             innerFileLock = fileChannel.tryLock();
             hasLock = innerFileLock != null;
         } catch (Exception e) {

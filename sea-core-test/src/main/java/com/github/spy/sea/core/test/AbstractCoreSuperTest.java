@@ -1,6 +1,8 @@
 package com.github.spy.sea.core.test;
 
 import com.github.javafaker.Faker;
+import com.github.spy.sea.core.test.service.SequenceService;
+import com.github.spy.sea.core.test.service.impl.FileSequenceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,6 +10,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * module name
@@ -112,10 +115,8 @@ public class AbstractCoreSuperTest {
      * @param namespace
      * @return
      */
-    protected int nextSeq(String namespace) {
-        //TODO
-
-        return 1;
+    protected long nextSeq(String namespace) {
+        return getSequenceService().next(namespace);
     }
 
     /**
@@ -126,4 +127,21 @@ public class AbstractCoreSuperTest {
     protected Faker createFaker() {
         return new Faker(Locale.CHINA);
     }
+
+    AtomicReference<SequenceService> sequenceServiceAtomicRef = new AtomicReference<>(null);
+
+    /**
+     * sequence service
+     *
+     * @return
+     */
+    private SequenceService getSequenceService() {
+        SequenceService sequenceService = sequenceServiceAtomicRef.get();
+        if (sequenceService == null) {
+            sequenceServiceAtomicRef.compareAndSet(null, new FileSequenceService());
+        }
+
+        return sequenceServiceAtomicRef.get();
+    }
+
 }
