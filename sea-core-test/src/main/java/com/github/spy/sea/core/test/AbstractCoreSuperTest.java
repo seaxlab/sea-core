@@ -32,11 +32,11 @@ public class AbstractCoreSuperTest {
     }
 
     protected void runInMultiThread(Runnable runnable) {
-        runInMultiThread(runnable, 4, 8);
+        runInMultiThread(runnable, 4, 60);
     }
 
     protected void runInMultiThread(Runnable runnable, int runThreadCount) {
-        runInMultiThread(runnable, runThreadCount, 8);
+        runInMultiThread(runnable, runThreadCount, 60);
     }
 
     /**
@@ -119,13 +119,15 @@ public class AbstractCoreSuperTest {
         return getSequenceService().next(namespace);
     }
 
-    /**
-     * create java faker of china.
-     *
-     * @return
-     */
-    protected Faker createFaker() {
-        return new Faker(Locale.CHINA);
+    AtomicReference<Faker> fakerAtomicRef = new AtomicReference<>(null);
+
+    protected Faker getFakerInstance() {
+        Faker faker = fakerAtomicRef.get();
+        if (faker == null) {
+            fakerAtomicRef.compareAndSet(null, new Faker(Locale.CHINA));
+        }
+
+        return fakerAtomicRef.get();
     }
 
     AtomicReference<SequenceService> sequenceServiceAtomicRef = new AtomicReference<>(null);

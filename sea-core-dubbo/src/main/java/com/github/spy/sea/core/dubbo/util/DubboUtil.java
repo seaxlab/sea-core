@@ -217,7 +217,6 @@ public final class DubboUtil {
 
         // reference
         ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
-        // 弱类型接口名
         reference.setUrl(StringUtil.defaultIfEmpty(dto.getUrl(), null));
         reference.setInterface(dto.getInterfaceName());
         reference.setGroup(StringUtil.defaultIfEmpty(dto.getGroup(), null));
@@ -302,6 +301,32 @@ public final class DubboUtil {
         // get reference from cache.
         ReferenceConfigCache configCache = ReferenceConfigCache.getCache();
         return configCache.get(reference);
+    }
+
+    /**
+     * destroy one reference cache.
+     *
+     * @param interfaceName
+     * @param version
+     */
+    public static void destroyReferenceCache(String interfaceName, String version) {
+        // reference
+        ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
+        reference.setInterface(interfaceName);
+        reference.setVersion(StringUtil.defaultIfBlank(version, Const.DEFAULT_VERSION));
+
+        // get reference from cache.
+        ReferenceConfigCache configCache = ReferenceConfigCache.getCache();
+        configCache.destroy(reference);
+    }
+
+    /**
+     * destroy all reference cache all.
+     */
+    public static void destroyReferenceCacheAll() {
+        // get reference from cache.
+        ReferenceConfigCache configCache = ReferenceConfigCache.getCache();
+        configCache.destroyAll();
     }
 
 
