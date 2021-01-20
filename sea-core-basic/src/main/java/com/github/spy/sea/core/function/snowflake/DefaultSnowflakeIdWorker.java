@@ -23,6 +23,26 @@ public class DefaultSnowflakeIdWorker {
         idWorker = new SnowflakeIdWorker(getWorkId(), getDataCenterId());
     }
 
+    /**
+     * instance
+     *
+     * @return
+     */
+    public static SnowflakeIdWorker instance() {
+        return idWorker;
+    }
+
+    /**
+     * 静态工具类
+     *
+     * @return
+     */
+    public static synchronized Long generateId() {
+        long id = idWorker.nextId();
+        return id;
+    }
+
+
     private static Long getWorkId() {
         try {
             String hostAddress = Inet4Address.getLocalHost().getHostAddress();
@@ -55,14 +75,4 @@ public class DefaultSnowflakeIdWorker {
         return (long) (sums % 32);
     }
 
-
-    /**
-     * 静态工具类
-     *
-     * @return
-     */
-    public static synchronized Long generateId() {
-        long id = idWorker.nextId();
-        return id;
-    }
 }
