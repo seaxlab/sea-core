@@ -23,6 +23,12 @@ public class UrlUtil {
     public static final String HOST = "host";
     public static final String PORT = "port";
 
+    /**
+     * decode str
+     *
+     * @param str string value.
+     * @return
+     */
     public static String decode(String str) {
         try {
             return URLDecoder.decode(str, "UTF-8");
@@ -33,6 +39,12 @@ public class UrlUtil {
         return "";
     }
 
+    /**
+     * encode str
+     *
+     * @param str string value.
+     * @return
+     */
     public static String encode(String str) {
         try {
             return URLEncoder.encode(str, "UTF-8");
@@ -138,6 +150,26 @@ public class UrlUtil {
             }
         }
         return props;
+    }
+
+    /**
+     * param str to props.
+     *
+     * @param paramStr http param str.
+     * @return
+     */
+    public Properties parseParamToProps(String paramStr) {
+        return PropertiesUtil.parse(paramStr);
+    }
+
+    /**
+     * param str to map.
+     *
+     * @param paramStr http param str.
+     * @return
+     */
+    public Map<String, String> parseParamToMap(String paramStr) {
+        return MapUtil.parse(paramStr);
     }
 
 

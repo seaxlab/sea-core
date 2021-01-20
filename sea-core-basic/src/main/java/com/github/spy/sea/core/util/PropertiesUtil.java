@@ -60,4 +60,28 @@ public final class PropertiesUtil {
         }
         return map;
     }
+
+    /**
+     * param str to properties.
+     *
+     * @param paramStr
+     * @return
+     */
+    public static Properties parse(String paramStr) {
+        Properties props = new Properties();
+
+        String[] values = paramStr.split("&");
+
+        for (int i = 0; i < values.length; i++) {
+            String value = values[i];
+            String[] kv = value.split("=");
+            if (kv.length == 1) {
+                props.setProperty(kv[0], "");
+            } else if (kv.length == 2) {
+                props.setProperty(kv[0], kv[1]);
+            }
+        }
+
+        return props;
+    }
 }
