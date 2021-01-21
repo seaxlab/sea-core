@@ -46,10 +46,14 @@ public class ApplicationInitListener implements ApplicationListener<ApplicationR
         List<ApplicationInitBean> list = EnhancedServiceLoader.loadAll(ApplicationInitBean.class);
 
         list.stream().forEach(bean -> {
+            boolean hasException = true;
             try {
                 bean.init();
+                hasException = false;
             } catch (Exception e) {
                 log.error("fail to invoke init method", e);
+            } finally {
+                log.info("invoke {} init method. exception={}", bean.getClass().getName(), hasException);
             }
         });
 
@@ -58,11 +62,15 @@ public class ApplicationInitListener implements ApplicationListener<ApplicationR
 
         if (beanMap != null) {
             beanMap.forEach((name, bean) -> {
-                log.info("invoke [{}] bean init method", name);
+                boolean hasException = true;
+
                 try {
                     bean.init();
+                    hasException = false;
                 } catch (Exception e) {
                     log.error("fail to invoke bean init method", e);
+                } finally {
+                    log.info("invoke {} init method. exception={}", bean.getClass().getName(), hasException);
                 }
             });
         }
