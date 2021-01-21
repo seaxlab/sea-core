@@ -208,7 +208,7 @@ public final class EqualUtil {
      * @return boolean
      */
     public static boolean isNotEq(String str1, String str2, boolean caseSensitive) {
-        return !isNotEq(str1, str2, caseSensitive);
+        return !isEq(str1, str2, caseSensitive);
     }
 
     /**
