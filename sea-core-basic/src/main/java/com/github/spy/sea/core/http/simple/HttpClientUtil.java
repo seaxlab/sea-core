@@ -201,26 +201,43 @@ public class HttpClientUtil {
     }
 
     /**
+     * send post request.
+     *
+     * @param url     remote url
+     * @param payload payload.
+     * @return
+     */
+    public static String postJSON(String url, Object payload) {
+        return postJSON(url, payload, null);
+    }
+
+    /**
      * 发送POST, application/json请求
      *
-     * @param url
-     * @param obj
+     * @param url     remote url
+     * @param payload payload
+     * @param headers http headers
      * @return
      * @throws Exception
      */
-    public static String postJSON(String url, Object obj) {
+    public static String postJSON(String url, Object payload, Map<String, String> headers) {
         init();//初始化检查
         HttpPost httpPost = new HttpPost(url);
 
         httpPost.addHeader("Content-Type", "application/json;charset=utf8");
+
+        if (headers != null && !headers.isEmpty()) {
+            headers.forEach((key, value) -> httpPost.addHeader(key, value));
+        }
+
         log.info("request url={}", url);
 
-        if (obj != null) {
+        if (payload != null) {
             String jsonStr;
-            if (obj instanceof String) {
-                jsonStr = (String) obj;
+            if (payload instanceof String) {
+                jsonStr = (String) payload;
             } else {
-                jsonStr = JSON.toJSONString(obj);
+                jsonStr = JSON.toJSONString(payload);
             }
             StringEntity entity = new StringEntity(jsonStr, ContentType.APPLICATION_JSON);
             httpPost.setEntity(entity);
