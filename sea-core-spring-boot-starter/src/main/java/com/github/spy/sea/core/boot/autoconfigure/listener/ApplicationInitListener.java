@@ -53,7 +53,7 @@ public class ApplicationInitListener implements ApplicationListener<ApplicationR
             } catch (Exception e) {
                 log.error("fail to invoke init method", e);
             } finally {
-                log.info("invoke {} init method. exception={}", bean.getClass().getName(), hasException);
+                logInvokeMsg(bean.getClass().getName(), hasException);
             }
         });
 
@@ -70,9 +70,18 @@ public class ApplicationInitListener implements ApplicationListener<ApplicationR
                 } catch (Exception e) {
                     log.error("fail to invoke bean init method", e);
                 } finally {
-                    log.info("invoke {} init method. exception={}", bean.getClass().getName(), hasException);
+                    logInvokeMsg(bean.getClass().getName(), hasException);
                 }
             });
+        }
+    }
+
+
+    private void logInvokeMsg(String className, boolean hasException) {
+        if (hasException) {
+            log.info("fail to invoke {} init method.", className);
+        } else {
+            log.info("invoke {} init method successfully.", className);
         }
     }
 }
