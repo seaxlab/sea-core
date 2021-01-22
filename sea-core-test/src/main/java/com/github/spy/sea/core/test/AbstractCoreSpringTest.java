@@ -5,11 +5,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * module name
+ * spring base test
  *
  * @author spy
  * @version 1.0 2021/1/22
@@ -17,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = AbstractCoreSpringTest.class)
 public class AbstractCoreSpringTest extends AbstractCoreTest {
 
     @Autowired
@@ -25,6 +23,7 @@ public class AbstractCoreSpringTest extends AbstractCoreTest {
 
     // 这种方式也不错
 //    @ContextConfiguration("classpath:spring/*.xml")
+//    @ContextConfiguration(classes = AbstractCoreSpringTest.class)
 
     @Test
     public void test() {
