@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.test;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class AbstractCoreSpringTest extends AbstractCoreTest {
     // 这种方式也不错
 //    @ContextConfiguration("classpath:spring/*.xml")
 //    @ContextConfiguration(classes = AbstractCoreSpringTest.class)
+
+    @Before
+    public void setUp() throws Exception {
+        log.info("spring container ready!");
+    }
 
     @Test
     public void test() {
