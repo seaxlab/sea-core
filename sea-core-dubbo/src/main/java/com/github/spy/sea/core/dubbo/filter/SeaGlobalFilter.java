@@ -1,6 +1,9 @@
 package com.github.spy.sea.core.dubbo.filter;
 
+import com.github.spy.sea.core.common.CoreConst;
 import com.github.spy.sea.core.thread.ThreadContext;
+import com.github.spy.sea.core.util.StringUtil;
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.rpc.*;
 
 /**
@@ -13,6 +16,12 @@ import org.apache.dubbo.rpc.*;
 public class SeaGlobalFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
+        // support dubbo tag
+        String dubboTag = invocation.getAttachment(CommonConstants.TAG_KEY);
+        if (StringUtil.isNotEmpty(dubboTag)) {
+            ThreadContext.put(CoreConst.CTX_TAG_GRAY, dubboTag);
+        }
+
         Result ret;
         try {
             ret = invoker.invoke(invocation);
