@@ -94,15 +94,21 @@ public class CoreConst {
      */
     public static final String KEY_SEA_DEV_MODE = "sea.dev.mode";
 
+
     /**
-     * 灰度标识
+     * 灰度标识（限内部使用）
      */
     public static final String CTX_TAG_GRAY = "sea-tag-gray";
 
     /**
-     * 压力测试标识
+     * 压力测试标识（限内部使用）
      */
     public static final String CTX_TAG_STRESS_TESTING = "sea-tag-stress-testing";
+
+    /**
+     * http 外部灰度标识，内部不可用
+     */
+    public static final String HTTP_HEADER_X_SERVICE_CHAIN = "X-Service-Chain";
 
     public static final String REQUEST_URL = "request.url";
     public static final String REQUEST_USER_AGENT = "request.user.agent";
