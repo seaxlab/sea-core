@@ -20,7 +20,7 @@ public class CustomHttpHeaderParseExtension implements HttpHeaderParseExtension 
     public Map<String, String> get() {
         Map<String, String> map = MapUtil.newNoResizeHashMap(1);
 
-        map.put("X-Service-Chain", CoreConst.TAG_GRAY);
+        map.put("X-Service-Chain", CoreConst.CTX_TAG_GRAY);
         return map;
     }
 }

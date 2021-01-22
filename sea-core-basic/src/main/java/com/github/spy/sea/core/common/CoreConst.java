@@ -97,12 +97,12 @@ public class CoreConst {
     /**
      * 灰度标识
      */
-    public static final String TAG_GRAY = "sea-tag-gray";
+    public static final String CTX_TAG_GRAY = "sea-tag-gray";
 
     /**
      * 压力测试标识
      */
-    public static final String TAG_STRESS_TESTING = "sea-tag-stress-testing";
+    public static final String CTX_TAG_STRESS_TESTING = "sea-tag-stress-testing";
 
     public static final String REQUEST_URL = "request.url";
     public static final String REQUEST_USER_AGENT = "request.user.agent";
