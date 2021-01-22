@@ -1,9 +1,12 @@
 package com.github.spy.sea.core.test;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.After;
-import org.junit.Before;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * module name
@@ -13,24 +16,38 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @since 1.0
  */
 @Slf4j
-public abstract class AbstractCoreSpringTest extends AbstractCoreTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AbstractCoreSpringTest.class)
+public class AbstractCoreSpringTest extends AbstractCoreTest {
 
-    protected ClassPathXmlApplicationContext ctx;
+    @Autowired
+    protected AbstractApplicationContext ctx;
 
-    @Before
-    public void before() {
-        String xmlConfigFile = getXmlConfigFile();
-        ctx = new ClassPathXmlApplicationContext(new String[]{xmlConfigFile});
-        ctx.start();
-        log.info("spring container started.");
+    // 这种方式也不错
+//    @ContextConfiguration("classpath:spring/*.xml")
+
+    @Test
+    public void test() {
+        log.info("ctx={}", ctx);
+        log.info("bean={}", ctx.getBean("helloWorld"));
     }
 
-    protected abstract String getXmlConfigFile();
+// mannual.
+//    @Before
+//    public void before() {
+//        String xmlConfigFile = getXmlConfigFile();
+//        ctx = new ClassPathXmlApplicationContext(new String[]{xmlConfigFile});
+//        ctx.start();
+//        log.info("spring container started.");
+//    }
+//
+//    protected abstract String getXmlConfigFile();
+//
+//    @After
+//    public void after() {
+//        if (ctx != null) {
+//            ctx.close();
+//        }
+//    }
 
-    @After
-    public void after() {
-        if (ctx != null) {
-            ctx.close();
-        }
-    }
 }
