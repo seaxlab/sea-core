@@ -1,5 +1,7 @@
 package com.github.spy.sea.core.dubbo.legacy.filter;
 
+import com.alibaba.dubbo.common.Constants;
+import com.alibaba.dubbo.common.extension.Activate;
 import com.alibaba.dubbo.rpc.*;
 import com.github.spy.sea.core.thread.ThreadContext;
 
@@ -10,6 +12,7 @@ import com.github.spy.sea.core.thread.ThreadContext;
  * @version 1.0 2020/3/23
  * @since 1.0
  */
+@Activate(group = Constants.PROVIDER, order = 2)
 public class SeaGlobalFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
