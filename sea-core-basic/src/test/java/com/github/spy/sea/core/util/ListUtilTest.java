@@ -27,6 +27,15 @@ public class ListUtilTest extends BaseCoreTest {
     }
 
     @Test
+    public void test30() throws Exception {
+        User user1 = new User();
+        user1.setId(1L);
+        User user2 = new User();
+        user2.setId(2L);
+        log.info("{}", ListUtil.newArrayList(user1, user2));
+    }
+
+    @Test
     public void run26() throws Exception {
 
         // 不能使用 Arrays.asList();

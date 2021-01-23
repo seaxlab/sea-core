@@ -96,7 +96,9 @@ public final class ListUtil {
      * @return
      */
     public static <K, V> List<V> toList(Map<K, V> map) {
-
+        if (map == null || map.isEmpty()) {
+            return empty();
+        }
         // or return map.values().stream().collect(Collectors.toList());
 
         return new ArrayList<>(map.values());
@@ -112,8 +114,36 @@ public final class ListUtil {
         if (array == null || array.length == 0) {
             return empty();
         }
+        // cannot use Arrays.asList, because it is immutable.
+        return Lists.newArrayList(array);
+    }
 
-        return Arrays.asList(array);
+    /**
+     * T[] to list
+     *
+     * @param array
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> toList(T[] array) {
+        if (array == null || array.length == 0) {
+            return empty();
+        }
+        return Lists.newArrayList(array);
+    }
+
+    /**
+     * new array list
+     *
+     * @param e
+     * @param <E>
+     * @return
+     */
+    public static <E> List<E> newArrayList(E... e) {
+        if (e == null || e.length == 0) {
+            return empty();
+        }
+        return Lists.newArrayList(e);
     }
 
     /**
@@ -122,9 +152,6 @@ public final class ListUtil {
      * @param set
      * @return
      */
-//    public static List<String> toList(Set<String> set) {
-//        return new ArrayList<>(set);
-//    }
     public static <T> List<T> toList(Set<T> set) {
         return new ArrayList<>(set);
     }
