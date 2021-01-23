@@ -1,5 +1,6 @@
-package com.github.spy.sea.core.test;
+package com.github.spy.sea.core.test.spring;
 
+import com.github.spy.sea.core.test.AbstractCoreSpringTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.context.annotation.ComponentScan;

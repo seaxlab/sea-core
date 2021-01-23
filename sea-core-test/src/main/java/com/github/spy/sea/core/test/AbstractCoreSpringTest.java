@@ -37,7 +37,7 @@ public class AbstractCoreSpringTest extends AbstractCoreTest {
         log.info("bean={}", ctx.getBean("helloWorld"));
     }
 
-// mannual.
+// manual.
 //    @Before
 //    public void before() {
 //        String xmlConfigFile = getXmlConfigFile();
