@@ -96,6 +96,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--spring boot-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+        </dependency>
+
+
         <!-- mock server -->
         <dependency>
             <groupId>org.mock-server</groupId>
