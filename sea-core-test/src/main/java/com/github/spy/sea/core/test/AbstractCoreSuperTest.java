@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @version 1.0 2021/1/14
  * @since 1.0
  */
-public class AbstractCoreSuperTest {
+class AbstractCoreSuperTest {
     private Logger _log = LoggerFactory.getLogger(getClass());
 
     protected void println(Object obj) {
