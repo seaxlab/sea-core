@@ -32,22 +32,44 @@ public class RequestUtil {
      * get param
      * priority HEADER> PARAMETER > COOKIE
      *
-     * @param request
-     * @param key
+     * @param request http request
+     * @param key     key
      * @return
      */
     public static String getParamByPriority(HttpServletRequest request, String key) {
         Preconditions.checkNotNull(key, "key不能为空");
 
-        String value = request.getHeader(key);
+        return getParamByPriority(request, key, key, key);
+    }
+
+    /**
+     * get param by priority
+     * header -> request -> cookie
+     *
+     * @param request    http request
+     * @param headerKey  header key
+     * @param requestKey request key
+     * @param cookieKey  cookie key.
+     * @return
+     */
+    public static String getParamByPriority(HttpServletRequest request, String headerKey, String requestKey, String cookieKey) {
+        if (StringUtil.isAllEmpty(headerKey, requestKey, cookieKey)) {
+            return StringUtil.EMPTY;
+        }
+
+        // header
+        String value = request.getHeader(headerKey);
         if (StringUtil.isEmpty(value)) {
-            value = request.getParameter(key);
+            // request
+            value = request.getParameter(requestKey);
             if (StringUtil.isEmpty(value)) {
-                value = CookieUtil.get(request, key);
+                // cookie
+                value = CookieUtil.get(request, cookieKey);
             }
         }
         return value;
     }
+
 
     /**
      * print simple request info

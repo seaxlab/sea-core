@@ -1,5 +1,7 @@
 package com.github.spy.sea.core.enums;
 
+import java.io.Serializable;
+
 /**
  * 状态枚举标准定义
  *
@@ -7,7 +9,7 @@ package com.github.spy.sea.core.enums;
  * @version 1.0 2020/9/11
  * @since 1.0
  */
-public interface IBaseEnum<T> {
+public interface IBaseEnum<T> extends Serializable {
 
     T getCode();
 
