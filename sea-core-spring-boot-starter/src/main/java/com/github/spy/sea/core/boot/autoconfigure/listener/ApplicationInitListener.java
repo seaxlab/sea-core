@@ -1,9 +1,12 @@
 package com.github.spy.sea.core.boot.autoconfigure.listener;
 
+import com.github.spy.sea.core.common.CoreConst;
+import com.github.spy.sea.core.config.ConfigurationFactory;
 import com.github.spy.sea.core.intf.ApplicationInitBean;
 import com.github.spy.sea.core.loader.EnhancedServiceLoader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -23,8 +26,13 @@ public class ApplicationInitListener implements ApplicationListener<ApplicationR
     @Autowired
     private AbstractApplicationContext ctx;
 
+    @Value("${sea.env:pro}")
+    private String env;
+
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
+        ConfigurationFactory.getInstance().putString(CoreConst.KEY_SEA_DEV_MODE, env);
+
         log.info("=======================================");
         log.info("=         Application Ready           =");
         log.info("=======================================");
