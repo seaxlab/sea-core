@@ -1,7 +1,9 @@
 package com.github.spy.sea.core.spring.interceptor;
 
+import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.util.EqualUtil;
 import com.github.spy.sea.core.web.util.RequestUtil;
+import com.github.spy.sea.core.web.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +29,8 @@ public abstract class SimpleTokenInterceptor implements HandlerInterceptor {
             return true;
         }
         log.warn("client token[{}] is invalid", clientToken);
-
+        BaseResult ret = BaseResult.failMsg("invalid request.");
+        ResponseUtil.toJSON(response, ret);
         return false;
     }
 
