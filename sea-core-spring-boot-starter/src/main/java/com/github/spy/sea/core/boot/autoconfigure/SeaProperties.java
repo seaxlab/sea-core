@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import java.util.Properties;
 
 /**
- * 模块
+ * yml配置文件
  *
  * @author spy
  * @version 1.0 2019-07-19
@@ -27,9 +27,12 @@ public class SeaProperties {
         return this.properties;
     }
 
-//    public void setHost(String host) {
-//        this.properties.setProperty("host", host);
-//    }
+    /**
+     * 当前环境
+     *
+     * @see com.github.spy.sea.core.common.Env
+     */
+    private String env;
 
     @NestedConfigurationProperty
     private Fastjson fastjson;

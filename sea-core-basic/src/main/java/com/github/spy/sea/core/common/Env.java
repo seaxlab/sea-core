@@ -4,6 +4,8 @@ import com.github.spy.sea.core.config.ConfigurationFactory;
 import com.github.spy.sea.core.util.EqualUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serializable;
+
 /**
  * Env
  *
@@ -12,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 1.0
  */
 @Slf4j
-public class Env {
+public class Env implements Serializable {
 
     public static final String LOCAL = "local";
     public static final String DEV = "dev";

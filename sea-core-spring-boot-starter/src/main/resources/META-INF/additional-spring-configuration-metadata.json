@@ -8,6 +8,13 @@
   ],
   "properties": [
     {
+      "name": "sea.env",
+      "type": "java.lang.String",
+      "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "pro",
+      "description": "环境标识，local/dev/test/uat/sit/pre/pro."
+    },
+    {
       "name": "sea.fastjson.enable",
       "type": "java.lang.Boolean",
       "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
