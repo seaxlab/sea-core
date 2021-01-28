@@ -1,14 +1,17 @@
 package com.github.spy.sea.core.boot.autoconfigure;
 
+import com.github.spy.sea.core.spring.interceptor.SeaMockDisableInterceptor;
 import com.github.spy.sea.core.web.filter.SeaGlobalFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -39,4 +42,17 @@ public class SeaCoreWebAutoConfiguration implements WebMvcConfigurer {
         return registration;
     }
 
+    @Bean
+    @ConditionalOnClass(SeaMockDisableInterceptor.class)
+    @ConditionalOnMissingBean(name = "seaMockDisableInterceptor")
+    public SeaMockDisableInterceptor seaMockDisableInterceptor() {
+        return new SeaMockDisableInterceptor();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(seaMockDisableInterceptor())
+                .order(1000)
+                .addPathPatterns("/*");
+    }
 }

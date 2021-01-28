@@ -12,3 +12,4 @@ logging:
 
 sea:
   host: localhost
+  env: pro
