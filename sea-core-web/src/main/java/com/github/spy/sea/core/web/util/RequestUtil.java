@@ -77,7 +77,7 @@ public class RequestUtil {
      * @param request
      */
     public static void logSimple(HttpServletRequest request) {
-        log.info("request[{}] [{}] query={},ua={}", request.getMethod(), request.getRequestURI(), request.getQueryString(), getUserAgent(request));
+        log.info("sea request log: [{},{}] queryString={},userAgent={}", request.getMethod(), request.getRequestURI(), request.getQueryString(), getUserAgent(request));
     }
 
     /**
