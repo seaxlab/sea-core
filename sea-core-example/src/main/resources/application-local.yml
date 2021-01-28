@@ -1,2 +1,4 @@
 server:
   port: 8800
+sea:
+  env: local
