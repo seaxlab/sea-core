@@ -44,11 +44,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.github.spy.sea</groupId>
             <artifactId>sea-core-basic</artifactId>
         </dependency>
