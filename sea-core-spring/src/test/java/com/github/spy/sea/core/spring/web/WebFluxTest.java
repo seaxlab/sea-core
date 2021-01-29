@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.spring.webflux;
+package com.github.spy.sea.core.spring.web;
 
 import com.github.spy.sea.core.spring.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;

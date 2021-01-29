@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.github.spy.sea.core.boot.autoconfigure.SeaCoreAutoConfigure,\
-com.github.spy.sea.core.boot.autoconfigure.SeaCoreWebAutoConfiguration
+com.github.spy.sea.core.boot.autoconfigure.SeaCoreWebAutoConfiguration,\
+com.github.spy.sea.core.boot.autoconfigure.SeaCoreWebFluxAutoConfiguration

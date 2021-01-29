@@ -5,4 +5,4 @@
  * @version 1.0 2021/1/29
  * @since 1.0
  */
-package com.github.spy.sea.core.spring.webflux;
+package com.github.spy.sea.core.spring.web;
