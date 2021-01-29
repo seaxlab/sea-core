@@ -13,6 +13,22 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.github.spy.sea</groupId>
+            <artifactId>sea-core-basic</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.spy.sea</groupId>
+            <artifactId>sea-core-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.spy.sea</groupId>
+            <artifactId>sea-core-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
         </dependency>
@@ -39,19 +55,23 @@
 
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-webflux</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.projectreactor.netty</groupId>
+            <artifactId>reactor-netty</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.spy.sea</groupId>
-            <artifactId>sea-core-basic</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.spy.sea</groupId>
-            <artifactId>sea-core-web</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -59,11 +79,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.spy.sea</groupId>
-            <artifactId>sea-core-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+
     </dependencies>
 
 </project>
