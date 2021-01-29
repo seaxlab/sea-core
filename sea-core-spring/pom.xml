@@ -62,8 +62,8 @@
         <dependency>
             <groupId>io.projectreactor.netty</groupId>
             <artifactId>reactor-netty</artifactId>
+            <scope>provided</scope>
         </dependency>
-
 
         <dependency>
             <groupId>org.springframework</groupId>
