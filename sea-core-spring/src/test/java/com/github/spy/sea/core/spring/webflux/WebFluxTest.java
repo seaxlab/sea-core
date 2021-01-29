@@ -3,6 +3,9 @@ package com.github.spy.sea.core.spring.webflux;
 import com.github.spy.sea.core.spring.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.client.HttpClient;
 
 /**
  * module name
@@ -17,11 +20,11 @@ public class WebFluxTest extends BaseSpringTest {
     @Test
     public void test17() throws Exception {
 
-//        WebClient webClient = WebClient.builder()
-//                                       .clientConnector(new ReactorClientHttpConnector(
-//                                               HttpClient.create().followRedirect(true)
-//                                       )).build();
-//
-//        log.info("webclient={}", webClient);
+        WebClient webClient = WebClient.builder()
+                                       .clientConnector(new ReactorClientHttpConnector(
+                                               HttpClient.create().followRedirect(true)
+                                       )).build();
+
+        log.info("webclient={}", webClient);
     }
 }
