@@ -32,7 +32,7 @@ import java.util.Map;
  * @since 1.0
  */
 @Slf4j
-public class SeaGlobalWebFluxFilter implements WebFilter, Ordered {
+public class SeaGlobalSpringWebFilter implements WebFilter, Ordered {
 
     private static Map<String, String> httpHeaderMap;
     private static Map<String, String> httpCookieMap;

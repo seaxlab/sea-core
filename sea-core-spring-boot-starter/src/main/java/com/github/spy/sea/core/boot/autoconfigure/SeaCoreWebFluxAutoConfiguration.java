@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.boot.autoconfigure;
 
-import com.github.spy.sea.core.spring.web.filter.SeaGlobalWebFluxFilter;
+import com.github.spy.sea.core.spring.web.filter.SeaGlobalSpringWebFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -25,9 +25,9 @@ public class SeaCoreWebFluxAutoConfiguration {
     //TODO order、urlPattern field
 
     @Bean
-    @ConditionalOnMissingBean(name = "seaGlobalWebFluxFilter")
-    public SeaGlobalWebFluxFilter seaGlobalWebFluxFilter() {
-        return new SeaGlobalWebFluxFilter();
+    @ConditionalOnMissingBean(name = "seaGlobalSpringWebFilter")
+    public SeaGlobalSpringWebFilter seaGlobalSpringWebFilter() {
+        return new SeaGlobalSpringWebFilter();
     }
 
 }
