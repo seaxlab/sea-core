@@ -68,7 +68,7 @@ public class SeaGlobalSpringWebFilter implements WebFilter, Ordered {
      * @param request
      */
     private void initCommon(ServerHttpRequest request) {
-        ThreadContext.put(CoreConst.REQUEST_URL, request.getURI().toString());
+        ThreadContext.put(CoreConst.REQUEST_URL, request.getPath().toString());
         ThreadContext.put(CoreConst.REQUEST_USER_AGENT, RequestUtil.getUserAgent(request));
     }
 

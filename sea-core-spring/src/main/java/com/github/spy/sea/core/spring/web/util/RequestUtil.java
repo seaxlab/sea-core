@@ -72,7 +72,7 @@ public final class RequestUtil {
     public static void logSimple(ServerHttpRequest request) {
         log.info("sea request log: [{},{}] queryString={},userAgent={}",
                 request.getMethodValue(),
-                request.getURI(), request.getQueryParams(), getUserAgent(request));
+                request.getPath(), request.getQueryParams(), getUserAgent(request));
     }
 
     public static String getUserAgent(ServerHttpRequest request) {
