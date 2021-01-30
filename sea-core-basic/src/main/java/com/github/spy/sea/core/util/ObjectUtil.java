@@ -16,6 +16,12 @@ public final class ObjectUtil {
     private ObjectUtil() {
     }
 
+    private static final Object EMPTY = new Object();
+
+    public static Object empty() {
+        return EMPTY;
+    }
+
     /**
      * 取值
      *
