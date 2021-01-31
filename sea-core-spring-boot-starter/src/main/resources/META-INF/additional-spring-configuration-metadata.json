@@ -8,11 +8,25 @@
   ],
   "properties": [
     {
+      "name": "sea.region",
+      "type": "java.lang.String",
+      "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "default",
+      "description": "区域，jiangsu/shandong/-idc."
+    },
+    {
       "name": "sea.env",
       "type": "java.lang.String",
       "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
       "defaultValue": "pro",
       "description": "环境标识，local/dev/test/uat/sit/pre/pro."
+    },
+    {
+      "name": "sea.profile",
+      "type": "java.lang.String",
+      "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "",
+      "description": "profile for sub env, uat2,uat3."
     },
     {
       "name": "sea.fastjson.enable",

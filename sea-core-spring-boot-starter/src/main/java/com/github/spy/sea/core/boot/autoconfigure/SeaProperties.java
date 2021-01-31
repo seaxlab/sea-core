@@ -28,11 +28,21 @@ public class SeaProperties {
     }
 
     /**
+     * region, eg: jiangsu-idc
+     */
+    private String region;
+
+    /**
      * 当前环境
      *
      * @see com.github.spy.sea.core.common.Env
      */
     private String env;
+
+    /**
+     * profile for sub env.
+     */
+    private String profile;
 
     @NestedConfigurationProperty
     private Fastjson fastjson;
