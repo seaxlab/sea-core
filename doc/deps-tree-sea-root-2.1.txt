@@ -1,8 +1,4 @@
 [INFO] Scanning for projects...
-Downloading from yuantu-repo-snapshots: http://maven.yuantutech.com:8081/nexus/content/repositories/snapshots/com/github/spy/sea/sea-root/maven-metadata.xml
-Progress (1): 406 B
-
-Downloaded from yuantu-repo-snapshots: http://maven.yuantutech.com:8081/nexus/content/repositories/snapshots/com/github/spy/sea/sea-root/maven-metadata.xml (406 B at 2.3 kB/s)
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Build Order:
 [INFO]
