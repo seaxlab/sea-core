@@ -59,6 +59,7 @@ public class SeaCoreAutoConfigure {
                     SerializerFeature.QuoteFieldNames,
                     SerializerFeature.IgnoreErrorGetter,
                     SerializerFeature.WriteDateUseDateFormat,
+                    SerializerFeature.DisableCircularReferenceDetect,
                     SerializerFeature.WriteMapNullValue,
                     SerializerFeature.WriteNullBooleanAsFalse,
                     SerializerFeature.WriteNullListAsEmpty,
@@ -70,7 +71,8 @@ public class SeaCoreAutoConfigure {
                     SerializerFeature.PrettyFormat,
                     SerializerFeature.QuoteFieldNames,
                     SerializerFeature.IgnoreErrorGetter,
-                    SerializerFeature.WriteDateUseDateFormat
+                    SerializerFeature.WriteDateUseDateFormat,
+                    SerializerFeature.DisableCircularReferenceDetect
             );
         }
 
