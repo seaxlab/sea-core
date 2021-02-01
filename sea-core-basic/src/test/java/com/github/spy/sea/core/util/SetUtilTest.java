@@ -5,7 +5,7 @@ import com.github.spy.sea.core.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.javers.common.collections.Sets;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.*;
 
