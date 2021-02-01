@@ -44,9 +44,10 @@
 
 ## 升级说明
 
-### 2.3.0-SNAPSHOT 2020-09-08
+### 2.3.0-SNAPSHOT
 
-- 增加boot-stater支持`sea.env`变量
+- 封装webflux `WebClientUtil`
+- 增加boot-stater支持`sea.env`，`sea.region`,`sea.profile`变量 2-1
 - 增加`simple token interceptor`
 - RequestUtil增加 `header-> request -> cookie` 优先级获取方法
 - 规范化所有test基类，尤其是spring、springboot类
