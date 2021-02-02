@@ -225,4 +225,20 @@ public final class ListUtil {
         return list.stream().map(fn).collect(Collectors.joining(delimiter));
     }
 
+    /**
+     * filter empty item and distinct them.
+     *
+     * @param data list data
+     * @return
+     */
+    public static List<String> distinct(List<String> data) {
+        if (isEmpty(data)) {
+            return empty();
+        }
+        return data.stream()
+                   .filter(item -> StringUtil.isNotEmpty(item))
+                   .distinct()
+                   .collect(Collectors.toList());
+    }
+
 }
