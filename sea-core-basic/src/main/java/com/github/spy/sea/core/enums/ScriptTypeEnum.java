@@ -12,6 +12,8 @@ import com.github.spy.sea.core.util.EqualUtil;
 public enum ScriptTypeEnum implements IBaseEnum<String> {
     UNKNOWN("unknown", "未知脚本类型"),
     GROOVY("groovy", "groovy脚本"),
+    // 占位符为${code}
+    TEXT_TEMPLATE("text_template", "文本模板"),
     JAVASCRIPT("javascript", "javascript脚本");
 
     private String code;
