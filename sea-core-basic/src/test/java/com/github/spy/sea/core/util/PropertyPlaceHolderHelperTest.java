@@ -4,6 +4,8 @@ import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -22,5 +24,12 @@ public class PropertyPlaceHolderHelperTest extends BaseCoreTest {
         p.setProperty("a", "1");
 
         log.info("final value = {}", PropertyPlaceholderHelper.INSTANCE.replacePlaceholders("${a},${b:hao}", p));
+    }
+
+    @Test
+    public void testReplace() throws Exception {
+        Map<String, String> param = new HashMap<>();
+        param.put("a", "1");
+        log.info("final value = {}", PropertyPlaceholderHelper.INSTANCE.replace("${a},${b:hao}", param));
     }
 }

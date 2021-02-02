@@ -86,6 +86,7 @@ public enum PropertyPlaceholderHelper {
      * @param properties the {@code Properties} to use for replacement
      * @return the supplied value with placeholders replaced inline
      */
+    @Deprecated
     public String replacePlaceholders(String value, final Properties properties) {
         return replacePlaceholders(value, new PlaceholderResolver() {
             @Override
@@ -94,6 +95,37 @@ public enum PropertyPlaceholderHelper {
             }
         });
     }
+
+    /**
+     * replace placeholder.
+     *
+     * @param value      the value containing the placeholders to be replaced
+     * @param properties the {@code Properties} to use for replacement
+     * @return the supplied value with placeholders replaced inline
+     */
+    public String replace(String value, final Properties properties) {
+        return replacePlaceholders(value, placeholderName -> getConfigValue(placeholderName, properties));
+    }
+
+    /**
+     * replace placeholder.
+     *
+     * @param value the value containing the placeholders to be replaced
+     * @param param the {@code Map} to use for replacement
+     * @return the supplied value with placeholders replaced inline
+     */
+    public String replace(String value, final Map<String, String> param) {
+        Properties props = new Properties();
+        if (param == null || param.isEmpty()) {
+        } else {
+            param.forEach((k, v) -> {
+                props.put(k, v);
+            });
+        }
+
+        return replacePlaceholders(value, (placeholderName) -> getConfigValue(placeholderName, props));
+    }
+
 
     private String getConfigValue(String key, final Properties properties) {
         String value = System.getProperty(key);
