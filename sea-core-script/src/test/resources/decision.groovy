@@ -6,7 +6,7 @@ class decision implements GroovyRule {
 
     @Override
     GroovyResult run(GroovyContext context) {
-        def ret = "通过";
+        String ret = "通过";
 
         if (context.age < 18) {
             ret = "不通过";

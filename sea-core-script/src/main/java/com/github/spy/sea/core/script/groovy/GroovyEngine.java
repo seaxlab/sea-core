@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class GroovyEngine {
 
-    private static Map<String, GroovyClassDefinition> REGISTRY = new ConcurrentHashMap<>();
+    private static final Map<String, GroovyClassDefinition> REGISTRY = new ConcurrentHashMap<>();
 
     private static GroovyClassLoader loader;
 
@@ -50,7 +50,7 @@ public class GroovyEngine {
                 try {
                     String fileText = Files.toString(resource.getFile(), Charsets.UTF_8);
 
-                    return put(filePath, fileText);
+                    return putIfAbsent(filePath, fileText);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -83,7 +83,7 @@ public class GroovyEngine {
      * @param key
      * @param scriptText
      */
-    public static Class<?> put(String key, String scriptText) {
+    public static Class<?> putIfAbsent(String key, String scriptText) {
 
         getLoader();
 

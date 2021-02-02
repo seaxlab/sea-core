@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.script.groovy;
 
 import com.github.spy.sea.core.script.AbstractScriptTest;
+import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -9,6 +10,7 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 模块
@@ -77,9 +79,13 @@ public class GroovyTest extends AbstractScriptTest {
         GroovyContext context = new GroovyContext();
         context.put("age", 11);
 
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        for (int i = 0; i < 10; i++) {
+            GroovyResult result = groovyRule.run(context);
+            log.info("result={}", result);
+            log.info("cost={}ms", stopwatch.elapsed(TimeUnit.MILLISECONDS));
+            stopwatch.reset();
+        }
 
-        GroovyResult result = groovyRule.run(context);
-
-        log.info("result={}", result);
     }
 }

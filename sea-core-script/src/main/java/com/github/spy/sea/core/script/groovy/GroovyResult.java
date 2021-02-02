@@ -10,10 +10,9 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
-public class GroovyResult {
+public class GroovyResult<T> {
 
     private Boolean success;
 
-    private Object data;
-
+    private T data;
 }
