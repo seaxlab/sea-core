@@ -18,7 +18,7 @@ import java.util.Properties;
  * @since 1.0
  */
 @Slf4j
-public class UrlUtil {
+public final class UrlUtil {
     public static final String SCHEMA = "schema";
     public static final String HOST = "host";
     public static final String PORT = "port";
