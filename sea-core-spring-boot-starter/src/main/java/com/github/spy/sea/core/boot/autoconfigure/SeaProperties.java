@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.boot.autoconfigure;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
@@ -43,6 +44,13 @@ public class SeaProperties {
      * profile for sub env.
      */
     private String profile;
+
+    /**
+     * application name. if null, it will be spring.application.name.
+     */
+    @Value("${spring.application.name:sea-default-app}")
+    private String appName;
+
 
     @NestedConfigurationProperty
     private Fastjson fastjson;

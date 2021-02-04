@@ -29,6 +29,13 @@
       "description": "profile for sub env, uat2,uat3."
     },
     {
+      "name": "sea.app-name",
+      "type": "java.lang.String",
+      "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "${spring.application.name}",
+      "description": "sea application name."
+    },
+    {
       "name": "sea.fastjson.enable",
       "type": "java.lang.Boolean",
       "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
