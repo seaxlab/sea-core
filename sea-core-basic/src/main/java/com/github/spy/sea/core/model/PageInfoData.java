@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 模块名
+ * 设计有问题，总数和数据需要分开两个接口
  *
  * @author spy
  * @version 1.0 2019-05-13
@@ -17,6 +17,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Deprecated
 public class PageInfoData implements Serializable {
 
     // 数据

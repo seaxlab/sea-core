@@ -27,7 +27,7 @@ public class PageInfo implements Serializable {
      */
     private Integer pageNum = 1;
 
-    private Integer pageSize = DEFAULT_PAGE_SIZE;
+    private Integer pageSize = 10;
 
     private String orderBy;
 
