@@ -5,7 +5,7 @@
     <property name="DEFAULT_LOG_FORMAT"
               value="%d{HH:mm:ss.SSS} %level [%thread] [%X{SOFA-TraceId},%X{SOFA-SpanId}] [%class{36}.%M:%line] - %m %n"/>
     <property name="FILE_LOG_FORMAT"
-              value="%d{HH:mm:ss.SSS} %level [%thread] [%X{SOFA-TraceId},%X{SOFA-SpanId}] [%class{36}.%M:%line] - %m %n"/>
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] [%X{SOFA-TraceId},%X{SOFA-SpanId}] [%class{36}.%M:%line] - %m %n"/>
 
     <springProperty scope="context" name="appName" source="spring.application.name"
                     defaultValue="spring-app"/>

@@ -3,6 +3,9 @@
     <property name="DEFAULT_LOG_FORMAT"
               value="%d{HH:mm:ss.SSS} %level [%thread] [%X{SOFA-TraceId},%X{SOFA-SpanId}] [%class{36}.%M:%line] - %m %n"/>
 
+    <property name="FILE_LOG_FORMAT"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] [%X{SOFA-TraceId},%X{SOFA-SpanId}] [%class{36}.%M:%line] - %m %n"/>
+
     <logger name="com.github.spy" level="DEBUG"/>
 
     <logger name="org.springframework" level="INFO"/>
