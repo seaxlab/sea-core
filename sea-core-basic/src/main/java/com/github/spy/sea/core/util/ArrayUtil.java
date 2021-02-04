@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.util;
 
+import com.google.common.collect.ObjectArrays;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -121,6 +122,28 @@ public final class ArrayUtil {
      */
     public static Object[] defaultIfEmpty(Object[] objects, Object[] defaultValue) {
         return (objects == null || objects.length == 0) ? defaultValue : objects;
+    }
+
+    /**
+     * concat multi array.
+     *
+     * @param clazz
+     * @param first
+     * @param array
+     * @param <T>
+     * @return
+     */
+    public static <T> T[] concat(Class<T> clazz, final T[] first, final T[]... array) {
+        T[] all = null;
+        for (int i = 0; i < array.length; i++) {
+            if (i == 0) {
+                all = ObjectArrays.concat(first, array[i], clazz);
+            } else {
+                all = ObjectArrays.concat(all, array[i], clazz);
+            }
+        }
+
+        return all;
     }
 
 

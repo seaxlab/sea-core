@@ -28,4 +28,16 @@ public class ArrayUtilTest extends BaseCoreTest {
         String[] a = new String[]{"1", "s"};
         log.info("{}{}{}", a);
     }
+
+    @Test
+    public void testConcat() throws Exception {
+        String[] a = new String[]{"1", "2"};
+        String[] b = new String[]{"3"};
+        String[] c = new String[]{};
+        String[] d = new String[]{"5"};
+
+        String[] all = ArrayUtil.concat(String.class, a, b, c, d);
+        log.info("{},{},{},{},{},{},{},{}", all);
+
+    }
 }
