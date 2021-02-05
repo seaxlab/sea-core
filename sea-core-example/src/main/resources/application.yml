@@ -6,6 +6,8 @@ spring:
     active: local
   application:
     name: sea-core-example
+  main:
+    lazy-initialization: true
 logging:
   file: ${spring.application.name}
   path: ${user.home}/logs/${spring.application.name}
