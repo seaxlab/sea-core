@@ -118,13 +118,19 @@ public class CoreConst {
      */
     public static String WEB_ROOT = "";
 
-    /*1KB*/
+    /**
+     * 1KB
+     */
     public static long ONE_KB = 1024;
 
-    /*1MB*/
+    /**
+     * 1MB
+     */
     public static long ONE_MB = ONE_KB * 1024;
 
-    /*1GB*/
+    /**
+     * 1GB
+     */
     public static long ONE_GB = ONE_MB * 1024;
 
     /**
@@ -137,6 +143,14 @@ public class CoreConst {
      */
     public static final boolean HAS_SOFA_TRACER = ClassUtil.has("com.alipay.common.tracer.core.SofaTracer");
 
+
+    /**
+     * Java MiddleWare Log Path,
+     * <code>
+     * https://github.com/alibaba/logger.api/blob/master/logger.core/src/main/java/com/taobao/middleware/logger/support/LoggerHelper.java#L69
+     * </code>
+     */
+    public static final String JM_LOG_PATH = "JM.LOG.PATH";
 
     //---private method
 
