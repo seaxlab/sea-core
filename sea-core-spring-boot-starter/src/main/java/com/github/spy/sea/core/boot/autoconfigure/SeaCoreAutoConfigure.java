@@ -29,5 +29,10 @@ public class SeaCoreAutoConfigure {
         return new SpringContextHolder();
     }
 
+    // a good choice.
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void doSomethingAfterStartup() {
+//        System.out.println("hello world, I have just started up");
+//    }
 
 }
