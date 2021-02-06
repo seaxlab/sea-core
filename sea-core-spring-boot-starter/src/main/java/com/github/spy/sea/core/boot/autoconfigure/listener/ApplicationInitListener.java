@@ -5,11 +5,11 @@ import com.github.spy.sea.core.config.ConfigurationFactory;
 import com.github.spy.sea.core.intf.ApplicationInitBean;
 import com.github.spy.sea.core.loader.EnhancedServiceLoader;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.BeansException;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.support.AbstractApplicationContext;
 
 import java.util.List;
 import java.util.Map;
@@ -21,16 +21,24 @@ import java.util.Map;
  * @version 2019-07-23
  */
 @Slf4j
-public class ApplicationInitListener implements ApplicationListener<ApplicationReadyEvent> {
+public class ApplicationInitListener implements ApplicationContextAware, ApplicationListener<ApplicationReadyEvent> {
 
-    @Autowired
-    private AbstractApplicationContext ctx;
+    private ApplicationContext ctx;
 
-    @Value("${sea.env:pro}")
-    private String env;
+    // 这里不是bean，因此还不能获取到@Value值
+//    @Value("${sea.env:pro}")
+//    private String env;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.ctx = applicationContext;
+    }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
+        String env = ctx.getEnvironment().getProperty("sea.env", "pro");
+        log.info("sea.env={}", env);
+
         ConfigurationFactory.getInstance().putString(CoreConst.KEY_SEA_DEV_MODE, env);
 
         log.info("=======================================");
@@ -49,7 +57,6 @@ public class ApplicationInitListener implements ApplicationListener<ApplicationR
     }
 
     private void doSystemInit() {
-        log.info("--- system init ---");
         //SPI way
         List<ApplicationInitBean> list = EnhancedServiceLoader.loadAll(ApplicationInitBean.class);
 
@@ -92,4 +99,6 @@ public class ApplicationInitListener implements ApplicationListener<ApplicationR
             log.info("invoke {} init method successfully.", className);
         }
     }
+
+
 }
