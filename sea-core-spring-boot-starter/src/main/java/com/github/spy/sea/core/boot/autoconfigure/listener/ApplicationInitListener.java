@@ -57,6 +57,8 @@ public class ApplicationInitListener implements ApplicationContextAware, Applica
     }
 
     private void doSystemInit() {
+        log.info("load init bean.");
+
         //SPI way
         List<ApplicationInitBean> list = EnhancedServiceLoader.loadAll(ApplicationInitBean.class);
 
