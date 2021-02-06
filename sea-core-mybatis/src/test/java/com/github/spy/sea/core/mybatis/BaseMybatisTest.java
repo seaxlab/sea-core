@@ -7,13 +7,19 @@ import com.github.spy.sea.core.test.AbstractCoreTest;
 import com.github.spy.sea.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.mapping.Environment;
+import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.ibatis.transaction.TransactionFactory;
+import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.h2.jdbcx.JdbcConnectionPool;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.sql.DataSource;
 import java.io.Reader;
 import java.util.ArrayList;
 
@@ -62,6 +68,25 @@ public class BaseMybatisTest extends AbstractCoreTest {
     @After
     public void tearDown() throws Exception {
         log.info("closing down myBatis tests");
+    }
+
+    /**
+     * start h2 db.
+     */
+    protected void startH2() {
+        DataSource dataSource = JdbcConnectionPool.create("jdbc:h2:file:./testDB", "root", "root");
+
+        TransactionFactory transactionFactory = new JdbcTransactionFactory();
+        Environment environment = new Environment("development", transactionFactory, dataSource);
+        Configuration configuration = new Configuration(environment);
+        configuration.addMapper(UserMapper.class);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            UserMapper userMapper = session.getMapper(UserMapper.class);
+            //这里能够执行findAll说明userMapper是一个实例，那一定是在getMapper中发生了实例化
+            userMapper.queryAll().forEach(System.out::println);
+        }
     }
 
 
