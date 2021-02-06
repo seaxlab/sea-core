@@ -54,3 +54,4 @@ disconf/
 disconf/download
 deps_tree.log
 **/rebel.xml
+*.jfr

@@ -36,6 +36,20 @@
       "description": "sea application name."
     },
     {
+      "name": "sea.schedule-thread-context-enable",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "false",
+      "description": "是否需要开启@scheduled注解清理上下文，默认false"
+    },
+    {
+      "name": "sea.schedule-thread-context-base-package",
+      "type": "java.lang.String",
+      "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "",
+      "description": "schedule需要清理thread context包路径，需符合aspectj pointcut expression规范,默认所有@Scheduled注解，例如execution(public * com.github.spy..*.*(..))."
+    },
+    {
       "name": "sea.fastjson.enable",
       "type": "java.lang.Boolean",
       "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",

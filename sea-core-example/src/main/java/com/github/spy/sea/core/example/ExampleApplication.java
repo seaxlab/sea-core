@@ -3,6 +3,7 @@ package com.github.spy.sea.core.example;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * module name
@@ -12,7 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 1.0
  */
 @Slf4j
-@SpringBootApplication
+@EnableScheduling
+@SpringBootApplication(
+        scanBasePackages = "com.github.spy.sea.core.example"
+)
 public class ExampleApplication {
 
     public static void main(String[] args) {

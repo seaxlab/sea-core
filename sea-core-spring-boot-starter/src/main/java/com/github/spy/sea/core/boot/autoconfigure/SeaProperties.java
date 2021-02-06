@@ -55,6 +55,15 @@ public class SeaProperties {
     @NestedConfigurationProperty
     private Fastjson fastjson;
 
+    /**
+     * 是否需要开启@scheduled注解清理上下文，默认false
+     */
+    public Boolean scheduleThreadContextEnable = false;
+    /**
+     * Scheduled注解需要清理thread context包路径，需符合aspectj pointcut expression规范
+     */
+    private String scheduleThreadContextBasePackage;
+
     @Data
     public static class Fastjson {
         private Boolean enable;

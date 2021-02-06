@@ -4,8 +4,12 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.github.spy.sea.core.boot.autoconfigure.listener.ApplicationInitListener;
+import com.github.spy.sea.core.spring.aop.advisor.DynamicPointcutAdvisor;
+import com.github.spy.sea.core.spring.aop.interceptor.ThreadContextMethodInterceptor;
 import com.github.spy.sea.core.spring.context.SpringContextHolder;
+import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -13,6 +17,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
 
 import java.util.Arrays;
@@ -31,6 +36,30 @@ public class SeaCoreAutoConfigure {
 
     @Value("${sea.fastjson.writeNullValue:false}")
     private Boolean writeNullValueFlag;
+
+    @Autowired
+    private SeaProperties seaProps;
+
+    public static final String DEFAULT_EXPRESSION_SCHEDULE = "@annotation(org.springframework.scheduling.annotation.Scheduled)";
+
+    @Bean
+    @ConditionalOnProperty(name = "sea.schedule-thread-context-enable", havingValue = "true")
+    public DynamicPointcutAdvisor seaDynamicPointcutAdvisor() {
+        String expression = seaProps.getScheduleThreadContextBasePackage();
+
+        if (StringUtil.isNotEmpty(expression)) {
+            expression = expression + " and " + DEFAULT_EXPRESSION_SCHEDULE;
+        } else {
+            expression = DEFAULT_EXPRESSION_SCHEDULE;
+        }
+        log.info("sea schedule thread context expression={}", expression);
+        DynamicPointcutAdvisor advisor = new DynamicPointcutAdvisor(expression);
+        advisor.setAdviceBeanName("seaScheduleThreadContextPointcutAdvisor");
+        advisor.setAdvice(new ThreadContextMethodInterceptor());
+        advisor.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return advisor;
+    }
+
 
     @Bean
     public ApplicationInitListener applicationInitListener() {
@@ -84,4 +113,6 @@ public class SeaCoreAutoConfigure {
 
         return fastConverter;
     }
+
+
 }

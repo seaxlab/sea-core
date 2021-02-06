@@ -6,8 +6,8 @@ spring:
     active: local
   application:
     name: sea-core-example
-  main:
-    lazy-initialization: true
+#  main:
+#    lazy-initialization: true
 logging:
   file: ${spring.application.name}
   path: ${user.home}/logs/${spring.application.name}
@@ -15,3 +15,5 @@ logging:
 sea:
   host: localhost
   env: pro
+
+  schedule-thread-context-base-package: execution(public * com.abc..*.*(..))

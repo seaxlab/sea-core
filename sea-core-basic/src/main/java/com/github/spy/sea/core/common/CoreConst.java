@@ -96,6 +96,11 @@ public class CoreConst {
 
 
     /**
+     * 租户标识（上下文）
+     */
+    public static final String CTX_TENANT_ID = "sea-tenant-id";
+
+    /**
      * 灰度标识（限内部使用）
      */
     public static final String CTX_TAG_GRAY = "sea-tag-gray";
