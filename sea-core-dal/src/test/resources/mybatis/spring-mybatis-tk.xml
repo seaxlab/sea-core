@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- SqlSessionFactory Config -->
+
+    <bean id="mybatisConfig" class="tk.mybatis.mapper.session.Configuration">
+        <!-- 配置通用 Mapper，有三种属性注入方式 -->
+        <property name="mapperProperties">
+            <value>
+                notEmpty=true
+            </value>
+        </property>
+    </bean>
+
+    <bean id="sqlSessionFactory1" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configuration" ref="mybatisConfig"/>
+        <property name="mapperLocations" value="classpath:mybatis/tk/*.xml"/>
+    </bean>
+
+    <!-- MyBatis Mapper Scan Config  -->
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.github.spy.sea.core.dal.mybatis.tk"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory1"/>
+    </bean>
+</beans>
