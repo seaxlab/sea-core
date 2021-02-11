@@ -45,6 +45,7 @@ public class TkAndPlusTest extends AbstractCoreSpringTest {
         log.info("user2={}", user2);
     }
 
+    //重点： 在同一个事务中
     @Test
     @Transactional
     public void addTest() throws Exception {
