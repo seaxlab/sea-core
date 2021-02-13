@@ -214,6 +214,13 @@
             <artifactId>snakeyaml</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
 

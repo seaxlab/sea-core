@@ -80,6 +80,8 @@
         <apache.collection.version>4.4</apache.collection.version>
         <dom4j.version>2.1.3</dom4j.version>
         <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
+        <reflections.version>0.9.12</reflections.version>
+
 
         <sea.dubbo.legacy.version>2.6.7</sea.dubbo.legacy.version>
         <sea.dubbo.version>2.7.8</sea.dubbo.version>
@@ -292,6 +294,12 @@
                 <groupId>org.mock-server</groupId>
                 <artifactId>mockserver-netty</artifactId>
                 <version>${mockserver.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
