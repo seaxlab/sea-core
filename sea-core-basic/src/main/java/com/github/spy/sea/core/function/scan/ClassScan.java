@@ -23,12 +23,30 @@ public interface ClassScan {
     Set<String> get(String packages);
 
     /**
+     * scan class.
+     *
+     * @param packages
+     * @param classLoader
+     * @return
+     */
+    Set<String> get(String packages, ClassLoader classLoader);
+
+    /**
      * 扫描多个包下的Class
      *
      * @param packages
      * @return
      */
     Set<String> get(List<String> packages);
+
+    /**
+     * scan class
+     *
+     * @param packages
+     * @param classLoader
+     * @return
+     */
+    Set<String> get(List<String> packages, ClassLoader classLoader);
 
     /**
      * 扫描多个包下带有注解的Class

@@ -21,16 +21,23 @@ import java.util.Set;
 public class DefaultClassScan extends AbstractClassScan {
     @Override
     public Set<String> get(String packages) {
-        Reflections reflections = new Reflections(packages,
-                Thread.currentThread().getContextClassLoader(),
-                new SubTypesScanner(false));
+        return get(packages, Thread.currentThread().getContextClassLoader());
+    }
+
+    @Override
+    public Set<String> get(String packages, ClassLoader classLoader) {
+        Reflections reflections = new Reflections(packages, classLoader, new SubTypesScanner(false));
         return reflections.getAllTypes();
     }
 
     @Override
     public Set<String> get(List<String> packages) {
-        Reflections reflections = new Reflections(packages,
-                Thread.currentThread().getContextClassLoader(),
+        return get(packages, Thread.currentThread().getContextClassLoader());
+    }
+
+    @Override
+    public Set<String> get(List<String> packages, ClassLoader classLoader) {
+        Reflections reflections = new Reflections(packages, classLoader,
                 new SubTypesScanner(false));
         return reflections.getAllTypes();
     }

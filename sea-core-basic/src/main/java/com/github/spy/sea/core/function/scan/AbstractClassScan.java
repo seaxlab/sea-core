@@ -23,7 +23,17 @@ public abstract class AbstractClassScan implements ClassScan {
     }
 
     @Override
+    public Set<String> get(String packages, ClassLoader classLoader) {
+        return null;
+    }
+
+    @Override
     public Set<String> get(List<String> packages) {
+        return null;
+    }
+
+    @Override
+    public Set<String> get(List<String> packages, ClassLoader classLoader) {
         return null;
     }
 

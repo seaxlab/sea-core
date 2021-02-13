@@ -46,6 +46,7 @@
 
 ### 2.3.0-SNAPSHOT
 
+- 增加`ClassScan`扫描指定class/method.
 - 封装webflux `WebClientUtil`
 - 增加boot-stater支持`sea.env`，`sea.region`,`sea.profile`变量 2-1
 - 增加`simple token interceptor`
