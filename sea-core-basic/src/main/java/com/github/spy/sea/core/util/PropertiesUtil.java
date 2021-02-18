@@ -97,7 +97,7 @@ public final class PropertiesUtil {
      * @return
      */
     public static boolean write(Properties properties, String fileName) {
-        return write(properties, fileName, "");
+        return write(properties, fileName, null);
     }
 
     /**

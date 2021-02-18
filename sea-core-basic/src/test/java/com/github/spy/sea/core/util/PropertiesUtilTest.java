@@ -41,7 +41,7 @@ public class PropertiesUtilTest extends BaseCoreTest {
         Properties props = new Properties();
         props.setProperty("key1", "value1");
         props.setProperty("key2", "value2");
-        boolean suc = PropertiesUtil.write(props, path, "create by spy");
+        boolean suc = PropertiesUtil.write(props, path);
         log.info("suc={}", suc);
     }
 }
