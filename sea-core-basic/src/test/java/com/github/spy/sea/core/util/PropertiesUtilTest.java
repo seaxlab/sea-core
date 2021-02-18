@@ -34,4 +34,14 @@ public class PropertiesUtilTest extends BaseCoreTest {
         Map<String, String> map = PropertiesUtil.loadForMap("app.properties");
         log.info("map={}", map);
     }
+
+    @Test
+    public void writeTest() throws Exception {
+        String path = getUserHome() + "/logs/properties-util.properties";
+        Properties props = new Properties();
+        props.setProperty("key1", "value1");
+        props.setProperty("key2", "value2");
+        boolean suc = PropertiesUtil.write(props, path, "create by spy");
+        log.info("suc={}", suc);
+    }
 }

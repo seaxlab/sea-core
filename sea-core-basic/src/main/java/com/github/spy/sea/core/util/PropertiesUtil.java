@@ -2,7 +2,11 @@ package com.github.spy.sea.core.util;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -84,4 +88,43 @@ public final class PropertiesUtil {
 
         return props;
     }
+
+    /**
+     * write properties file.
+     *
+     * @param properties
+     * @param fileName
+     * @return
+     */
+    public static boolean write(Properties properties, String fileName) {
+        return write(properties, fileName, "");
+    }
+
+    /**
+     * write properties
+     *
+     * @param properties
+     * @param fileName
+     * @return
+     */
+    public static boolean write(Properties properties, String fileName, String comment) {
+        boolean successFlag = true;
+
+        FileOutputStream out = null;
+        OutputStreamWriter writer = null;
+        try {
+            out = new FileOutputStream(fileName);
+            writer = new OutputStreamWriter(out, Charset.forName("UTF-8"));
+            properties.store(writer, comment);
+        } catch (IOException e) {
+            successFlag = false;
+            log.error("io exception", e);
+        } finally {
+            IOUtil.close(writer);
+            IOUtil.close(out);
+        }
+
+        return successFlag;
+    }
+
 }
