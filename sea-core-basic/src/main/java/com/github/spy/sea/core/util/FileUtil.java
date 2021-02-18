@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.io.Files;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.http.util.ByteArrayBuffer;
 
 import java.io.*;
@@ -202,6 +203,13 @@ public final class FileUtil {
         return result;
     }
 
+    /**
+     * write file
+     *
+     * @param path
+     * @param content
+     * @return
+     */
     public static boolean writeFile(String path, String content) {
         boolean result = true;
         try {
@@ -262,6 +270,95 @@ public final class FileUtil {
             file.delete();// 删除当前目录
         }
     }
+
+    /**
+     * clean dir
+     *
+     * @param directory
+     * @throws IOException
+     */
+    public static void cleanDir(String directory) throws IOException {
+        cleanDir(new File(directory));
+    }
+
+    /**
+     * clean dir
+     *
+     * @param directory
+     * @throws IOException
+     */
+    public static void cleanDir(File directory) throws IOException {
+        String message;
+        if (!directory.exists()) {
+            message = directory + " does not exist";
+            throw new IllegalArgumentException(message);
+        } else if (!directory.isDirectory()) {
+            message = directory + " is not a directory";
+            throw new IllegalArgumentException(message);
+        } else {
+            IOException exception = null;
+            File[] files = directory.listFiles();
+            if (files != null) {
+                int length = files.length;
+
+                for (int i = 0; i < length; ++i) {
+                    File file = files[i];
+                    try {
+                        FileUtils.forceDelete(file);
+                    } catch (IOException var8) {
+                        exception = var8;
+                    }
+                }
+
+                if (null != exception) {
+                    throw exception;
+                }
+            }
+        }
+    }
+
+    /**
+     * size of dir
+     *
+     * @param directory
+     * @return
+     */
+    public static long sizeOfDir(String directory) {
+        return sizeOfDir(new File(directory));
+    }
+
+    /**
+     * size of dir.
+     *
+     * @param directory
+     * @return
+     */
+    public static long sizeOfDir(File directory) {
+        String message;
+        if (!directory.exists()) {
+            message = directory + " does not exist";
+            throw new IllegalArgumentException(message);
+        } else if (!directory.isDirectory()) {
+            message = directory + " is not a directory";
+            throw new IllegalArgumentException(message);
+        } else {
+            long size = 0L;
+            File[] files = directory.listFiles();
+            int length = files.length;
+
+            for (int i = 0; i < length; ++i) {
+                File file = files[i];
+                if (file.isDirectory()) {
+                    size += sizeOfDir(file);
+                } else {
+                    size += file.length();
+                }
+            }
+
+            return size;
+        }
+    }
+
 
     /**
      * list files

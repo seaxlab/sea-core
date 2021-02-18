@@ -30,4 +30,12 @@ public class FileUtilTest extends BaseCoreTest {
             log.info("files={}", files[i]);
         }
     }
+
+    @Test
+    public void test35() throws Exception {
+
+        String logDir = getUserHome() + "/logs";
+        long size = FileUtil.sizeOfDir(logDir);
+        log.info("size={},human size={}", size, ByteUnitUtil.format(size));
+    }
 }
