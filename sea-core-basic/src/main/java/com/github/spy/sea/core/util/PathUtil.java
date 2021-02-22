@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.config.Configuration;
 import com.github.spy.sea.core.config.ConfigurationFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 
 import java.net.URL;
 import java.nio.file.Paths;
@@ -72,4 +73,19 @@ public final class PathUtil {
         log.warn("file[{}] is not in classpath", filePath);
         return null;
     }
+
+    /**
+     * normalize path
+     * <pre>
+     *   /foo/../bar          -->   /bar
+     *   /foo/../bar/         -->   /bar/
+     * </pre>
+     *
+     * @param filename
+     * @return
+     */
+    public static String normalize(String filename) {
+        return FilenameUtils.normalize(filename);
+    }
+
 }
