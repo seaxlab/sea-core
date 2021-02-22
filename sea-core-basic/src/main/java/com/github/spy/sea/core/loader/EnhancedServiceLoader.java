@@ -307,12 +307,19 @@ public class EnhancedServiceLoader {
                         }
                         line = line.trim();
                         if (line.length() > 0) {
-                            extensions.add(Class.forName(line, true, classLoader));
+                            Class<?> clazz = null;
+                            try {
+                                clazz = Class.forName(line, true, classLoader);
+                            } catch (ClassNotFoundException e) {
+                                LOGGER.warn("some class not found", e);
+                            }
+                            if (clazz != null) {
+                                extensions.add(clazz);
+                            }
                         }
                     }
-                } catch (ClassNotFoundException e) {
                 } catch (Throwable e) {
-                    LOGGER.warn(e.getMessage());
+                    LOGGER.warn("unknown exception", e);
                 } finally {
                     try {
                         if (reader != null) {
