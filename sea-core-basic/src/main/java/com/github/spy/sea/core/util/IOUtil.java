@@ -1,8 +1,10 @@
 package com.github.spy.sea.core.util;
 
+import com.google.common.io.CharStreams;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -219,5 +221,16 @@ public final class IOUtil {
         writeLines(new FileOutputStream(file, true), lines);
     }
 
+    /**
+     * to string
+     *
+     * @param inputStream
+     * @param charset
+     * @return
+     * @throws IOException
+     */
+    public static String toString(InputStream inputStream, Charset charset) throws IOException {
+        return CharStreams.toString(new InputStreamReader(inputStream, charset));
+    }
 
 }

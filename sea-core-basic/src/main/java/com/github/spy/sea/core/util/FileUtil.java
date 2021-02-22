@@ -9,6 +9,7 @@ import org.apache.http.util.ByteArrayBuffer;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
@@ -80,7 +81,15 @@ public final class FileUtil {
      * @return
      */
     public static String readFormClasspath(String path) {
-        return readFileToString(PathUtil.getPathFromClassPath(path));
+        //重点：要方式从 file:/x/x/x.jar!/xx.properties读取文件
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
+        try {
+            return IOUtil.toString(inputStream, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            log.error("io exception", e);
+        }
+        return StringUtil.EMPTY;
+//        return readFileToString(PathUtil.getPathFromClassPath(path));
     }
 
 
