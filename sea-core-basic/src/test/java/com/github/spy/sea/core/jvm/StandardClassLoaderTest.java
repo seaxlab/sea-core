@@ -20,6 +20,7 @@ public class StandardClassLoaderTest extends BaseCoreTest {
 
     @Test
     public void run17() throws Exception {
+        // 保存之前的classloader
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
 
         String path = "/Users/shipengyan/spy/test/citic";
@@ -28,6 +29,10 @@ public class StandardClassLoaderTest extends BaseCoreTest {
         Thread.currentThread().setContextClassLoader(standardExecutorClassLoader);
 
         Class<?> clazz = standardExecutorClassLoader.loadClass("com.lsy.baselib.crypto.util.Base64");
+        Class<?> clazz2 = standardExecutorClassLoader.loadClass("com.lsy.baselib.crypto.util.Base64");
+
+        log.info("clazz[{}], class loader is {}", clazz, clazz.getClassLoader());
+
         Object instance = clazz.newInstance();
         Method method = clazz.getMethod("encode", byte[].class);
 
@@ -42,6 +47,7 @@ public class StandardClassLoaderTest extends BaseCoreTest {
         Object ret2 = method2.invoke(instance, ret);
         log.info("ret decode={}", new String((byte[]) ret2));
 
+        // 恢复之前的classloader
         Thread.currentThread().setContextClassLoader(oldClassLoader);
     }
 
