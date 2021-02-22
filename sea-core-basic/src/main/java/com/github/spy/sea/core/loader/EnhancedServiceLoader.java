@@ -309,9 +309,9 @@ public class EnhancedServiceLoader {
                         if (line.length() > 0) {
                             Class<?> clazz = null;
                             try {
-                                clazz = Class.forName(line, true, classLoader);
-                            } catch (ClassNotFoundException e) {
-                                LOGGER.warn("some class not found", e);
+                                clazz = Class.forName(line, false, classLoader);
+                            } catch (Exception e) {
+                                LOGGER.warn("Class.forName exception.", e);
                             }
                             if (clazz != null) {
                                 extensions.add(clazz);
