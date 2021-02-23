@@ -82,8 +82,9 @@ public final class FileUtil {
      */
     public static String readFormClasspath(String path) {
         //重点：要方式从 file:/x/x/x.jar!/xx.properties读取文件
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
-        try {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        // you should close input stream.
+        try (InputStream inputStream = classLoader.getResourceAsStream(path)) {
             return IOUtil.toString(inputStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             log.error("io exception", e);

@@ -21,4 +21,11 @@ public class ResourceUtilTest extends BaseCoreTest {
         File file = ResourceUtil.getResourceAsFile("classpath:app.properties");
         log.info("file exist={}", file.exists());
     }
+
+    @Test
+    public void test26() throws Exception {
+        String content = ResourceUtil.getResourceAsString("app.properties");
+        log.info("content={}", content);
+    }
+
 }

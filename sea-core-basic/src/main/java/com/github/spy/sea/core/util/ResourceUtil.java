@@ -1,10 +1,13 @@
 package com.github.spy.sea.core.util;
 
+import com.google.common.io.CharStreams;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 /**
@@ -102,6 +105,32 @@ public final class ResourceUtil {
         }
         return in;
     }
+
+    /**
+     * return a resource on the classpath as string.
+     *
+     * @param resource
+     * @return
+     * @throws IOException
+     */
+    public static String getResourceAsString(String resource) throws IOException {
+        return getResourceAsString(resource, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * return a resource on the classpath as string.
+     *
+     * @param resource
+     * @param charset
+     * @return
+     * @throws IOException
+     */
+    public static String getResourceAsString(String resource, Charset charset) throws IOException {
+        try (InputStream in = getResourceAsStream(resource)) {
+            return CharStreams.toString(new InputStreamReader(in, charset));
+        }
+    }
+
 
     /**
      * Returns a resource on the classpath as a Properties object.

@@ -4,6 +4,9 @@ import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ClassUtils;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 /**
  * class util
  *
@@ -188,6 +191,11 @@ public final class ClassUtil {
         return load(className, initialize) != null;
     }
 
+    /**
+     * get default class loader.
+     *
+     * @return
+     */
     public static ClassLoader getDefaultClassLoader() {
         ClassLoader cl = null;
         try {
@@ -208,5 +216,18 @@ public final class ClassUtil {
             }
         }
         return cl;
+    }
+
+    /**
+     * resolve generic type.
+     *
+     * @param declaredClass target class
+     * @param <T>
+     * @return
+     */
+    public static <T> Class<T> resolveGenericType(Class<?> declaredClass) {
+        ParameterizedType parameterizedType = (ParameterizedType) declaredClass.getGenericSuperclass();
+        Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+        return (Class<T>) actualTypeArguments[0];
     }
 }
