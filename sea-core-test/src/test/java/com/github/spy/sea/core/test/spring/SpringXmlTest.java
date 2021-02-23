@@ -14,12 +14,19 @@ import org.springframework.test.context.ContextConfiguration;
  * @since 1.0
  */
 @Slf4j
-@ContextConfiguration("classpath:spring/spring.xml")
+@ContextConfiguration(value = "classpath:spring/spring.xml", initializers = SpringAppInitializer.class)
 @ComponentScan("com.github.spy.sea.core.test.spring.listener")
 public class SpringXmlTest extends AbstractCoreSpringTest {
 
     @Test
     public void test17() throws Exception {
         log.info("ctx={}", ctx);
+        log.info("sea.appName in app.properties={}", getEnvValue("sea.appName"));
+        log.info("a={} in spring.properties", getEnvValue("a"));
+    }
+
+
+    private String getEnvValue(String key) {
+        return ctx.getEnvironment().getProperty(key);
     }
 }
