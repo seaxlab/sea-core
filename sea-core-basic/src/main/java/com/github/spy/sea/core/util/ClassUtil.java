@@ -220,6 +220,10 @@ public final class ClassUtil {
 
     /**
      * resolve generic type.
+     * 获取继承的泛型，泛型可能有多个，这里只取了第一个
+     * <pre>
+     * public class User extends Person<? extend Annotation>
+     * /pre>
      *
      * @param declaredClass target class
      * @param <T>

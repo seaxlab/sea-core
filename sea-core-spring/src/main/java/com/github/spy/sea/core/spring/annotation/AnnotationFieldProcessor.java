@@ -21,8 +21,8 @@ import java.lang.annotation.Annotation;
  * @since 1.0
  */
 @Slf4j
-public abstract class AnnotationFieldProcessor<A extends Annotation> implements InstantiationAwareBeanPostProcessor,
-        ApplicationContextAware, EnvironmentAware {
+public abstract class AnnotationFieldProcessor<A extends Annotation>
+        implements InstantiationAwareBeanPostProcessor, ApplicationContextAware, EnvironmentAware {
 
     protected ApplicationContext applicationContext;
 
@@ -44,8 +44,14 @@ public abstract class AnnotationFieldProcessor<A extends Annotation> implements 
     public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
 
         ReflectionUtils.doWithFields(bean.getClass(), field -> {
+            //获取泛型类型，在
             A annotation = field.getAnnotation(ClassUtil.resolveGenericType(this.getClass()));
             if (annotation == null) {
+                return;
+            }
+
+            if (!isSupport(bean, beanName, annotation)) {
+                log.info("current annotation is not support");
                 return;
             }
 
@@ -64,6 +70,17 @@ public abstract class AnnotationFieldProcessor<A extends Annotation> implements 
 
         return true;
     }
+
+
+    /**
+     * 判断是否支持
+     *
+     * @param bean
+     * @param beanName
+     * @param annotation
+     * @return true支持/false不支持
+     */
+    public abstract boolean isSupport(Object bean, String beanName, A annotation);
 
     /**
      * 具体对象实例
