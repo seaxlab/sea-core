@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.web.controller;
+package com.github.spy.sea.core.spring.controller;
 
 import com.github.spy.sea.core.web.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 1.0
  */
 @Slf4j
-@Controller
+@Controller("seaPingController")
 public class SeaPingController {
 
     @RequestMapping("/api/sea/ping")
