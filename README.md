@@ -10,6 +10,12 @@
 
 ## 升级说明
 
+### TODO
+
+- fastjson漏洞较多
+- spring/springboot test需要进行归类
+- sea-core-model拆分出来，sea-core-basic作为
+
 ### 2.3.0-SNAPSHOT
 
 - 增加`ClassScan`扫描指定class/method.

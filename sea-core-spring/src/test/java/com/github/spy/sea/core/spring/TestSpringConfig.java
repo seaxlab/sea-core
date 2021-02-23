@@ -15,7 +15,7 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 @ComponentScan(value = {"com.github.spy.sea.core.spring"})
-@PropertySource(value = {"/sample.properties"})
+@PropertySource(value = {"classpath:sample.properties"})
 public class TestSpringConfig {
 
     /**
