@@ -23,6 +23,7 @@ public class SpringXmlTest extends AbstractCoreSpringTest {
         log.info("ctx={}", ctx);
         log.info("sea.appName in app.properties={}", getEnvValue("sea.appName"));
         log.info("a={} in spring.properties", getEnvValue("a"));
+        log.info("sea.xxx={}", getEnvValue("sea.xxx"));
     }
 
 
