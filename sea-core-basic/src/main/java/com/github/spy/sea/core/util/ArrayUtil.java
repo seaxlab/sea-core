@@ -3,6 +3,8 @@ package com.github.spy.sea.core.util;
 import com.google.common.collect.ObjectArrays;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.Array;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -15,8 +17,8 @@ import java.util.List;
 @Slf4j
 public final class ArrayUtil {
 
-    private static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+    public static final Object[] EMPTY_OBJECT_ARRAY = new Object[0]; // or {}
+    public static final String[] EMPTY_STRING_ARRAY = new String[0]; // or {}
 
     private ArrayUtil() {
     }
@@ -61,6 +63,25 @@ public final class ArrayUtil {
             return false;
         }
         return obj.getClass().isArray();
+    }
+
+    /**
+     * 集合转数组
+     *
+     * @param list
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> T[] toArray(Collection<T> list, Class<T> clazz) {
+        if (list == null || list.isEmpty()) {
+            return (T[]) Array.newInstance(clazz, 0);
+        }
+
+        T[] array = (T[]) Array.newInstance(clazz, list.size());
+        list.toArray(array);
+
+        return array;
     }
 
     /**
@@ -147,4 +168,25 @@ public final class ArrayUtil {
     }
 
 
+    /**
+     * Convert from variable arguments to array
+     *
+     * @param values variable arguments
+     * @param <T>    The class
+     * @return array
+     */
+    public static <T> T[] of(T... values) {
+        return values;
+    }
+
+    /**
+     * Create a new empty array from the specified component type
+     *
+     * @param componentType the specified component type
+     * @param <T>           the specified component type
+     * @return new empty array
+     */
+    public static <T> T[] emptyArray(Class<T> componentType) {
+        return (T[]) Array.newInstance(componentType, 0);
+    }
 }

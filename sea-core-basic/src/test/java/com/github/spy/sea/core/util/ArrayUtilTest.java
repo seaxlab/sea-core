@@ -2,6 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -22,12 +23,23 @@ public class ArrayUtilTest extends BaseCoreTest {
         List<String> list = new ArrayList<>();
         list.add("java");
         list.add("c#");
-        String[] arrays = ArrayUtil.toArray(list);
-        log.info("arrays={}", arrays);
-
-        String[] a = new String[]{"1", "s"};
-        log.info("{}{}{}", a);
+        String[] array = ArrayUtil.toArray(list);
+        Assert.assertEquals("java", array[0]);
+        Assert.assertEquals("c#", array[1]);
     }
+
+    @Test
+    public void toArrayTest() throws Exception {
+        List<String> list = new ArrayList<>();
+        list.add("java");
+        list.add("c#");
+
+        String[] array = ArrayUtil.toArray(list, String.class);
+
+        Assert.assertEquals("java", array[0]);
+        Assert.assertEquals("c#", array[1]);
+    }
+
 
     @Test
     public void testConcat() throws Exception {
