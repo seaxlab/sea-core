@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.spring.annotation;
+package com.github.spy.sea.core.spring.context.annotation;
 
 import com.github.spy.sea.core.util.ClassUtil;
 import lombok.extern.slf4j.Slf4j;
