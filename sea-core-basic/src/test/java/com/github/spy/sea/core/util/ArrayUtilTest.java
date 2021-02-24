@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,5 +68,15 @@ public class ArrayUtilTest extends BaseCoreTest {
         Assert.assertEquals("2", all[1]);
         Assert.assertEquals("3", all[2]);
         Assert.assertEquals("5", all[3]);
+    }
+
+    @Test
+    public void test73() throws Exception {
+        Object[] arrays = (Object[]) Array.newInstance(Object.class, 1024);
+        Assert.assertEquals(1024, arrays.length);
+
+        int[] x = {256};
+        Object[] a2 = (Object[]) Array.newInstance(Object.class, x);
+        log.info("{}", a2.length);
     }
 }
