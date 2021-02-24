@@ -449,4 +449,58 @@ public final class ReflectUtil {
         return true;
     }
 
+    /**
+     * check has spec field.
+     *
+     * @param clazz
+     * @param fieldName
+     * @return
+     */
+    public static boolean hasField(Class<?> clazz, String fieldName) {
+        return hasField(clazz, fieldName, null);
+    }
+
+
+    /**
+     * check has spec field.
+     *
+     * @param clazz
+     * @param fieldName
+     * @param fieldType
+     * @return
+     */
+    public static boolean hasField(Class<?> clazz, String fieldName, Class<?> fieldType) {
+        try {
+            Field field = FieldUtils.getField(clazz, fieldName);
+            if (field != null) {
+                if (fieldType != null) {
+                    return fieldType.equals(field.getType());
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            log.error("fail to check field", e);
+        }
+
+        return false;
+    }
+
+    /**
+     * check has spec method.
+     *
+     * @param clazz
+     * @param methodName
+     * @param parameterType
+     * @return
+     */
+    public static boolean hasMethod(Class<?> clazz, String methodName, Class<?>... parameterType) {
+        try {
+            Method method = MethodUtils.getMatchingMethod(clazz, methodName, parameterType);
+            return method != null;
+        } catch (Exception e) {
+            log.error("fail to check method.", e);
+        }
+        return false;
+    }
+
 }
