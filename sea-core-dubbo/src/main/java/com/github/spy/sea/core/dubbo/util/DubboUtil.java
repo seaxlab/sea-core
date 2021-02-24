@@ -133,8 +133,8 @@ public final class DubboUtil {
             parameterTypeList.add(arg.getClass().getName());
             parameterArgsList.add(arg);
         }
-        dto.setParameterTypes(ArrayUtil.toArray(parameterTypeList));
-        dto.setParameterArgs(ArrayUtil.toObjArray(parameterArgsList));
+        dto.setParameterTypes(ArrayUtil.toArray(parameterTypeList, String.class));
+        dto.setParameterArgs(ArrayUtil.toArray(parameterArgsList, Object.class));
         return invoke(dto);
     }
 
@@ -164,8 +164,8 @@ public final class DubboUtil {
             parameterTypeList.add(arg.getClass().getName());
             parameterArgsList.add(arg);
         }
-        dto.setParameterTypes(ArrayUtil.toArray(parameterTypeList));
-        dto.setParameterArgs(ArrayUtil.toObjArray(parameterArgsList));
+        dto.setParameterTypes(ArrayUtil.toArray(parameterTypeList, String.class));
+        dto.setParameterArgs(ArrayUtil.toArray(parameterArgsList, Object.class));
         return invoke(dto);
     }
 

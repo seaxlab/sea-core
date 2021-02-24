@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -18,11 +19,27 @@ import java.util.List;
 @Slf4j
 public class ArrayUtilTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        List<String> list = new ArrayList<>();
+    List<String> list = null;
+
+    @Before
+    public void before() throws Exception {
+        super.before();
+        list = new ArrayList<>();
         list.add("java");
         list.add("c#");
+    }
+
+    @Test
+    public void toArrayJdkTest() throws Exception {
+        String[] array = {};
+
+        list.toArray(array);
+        Assert.assertEquals(0, array.length);
+    }
+
+    @Test
+    public void toArrayStringTest() throws Exception {
+
         String[] array = ArrayUtil.toArray(list);
         Assert.assertEquals("java", array[0]);
         Assert.assertEquals("c#", array[1]);
@@ -30,10 +47,6 @@ public class ArrayUtilTest extends BaseCoreTest {
 
     @Test
     public void toArrayTest() throws Exception {
-        List<String> list = new ArrayList<>();
-        list.add("java");
-        list.add("c#");
-
         String[] array = ArrayUtil.toArray(list, String.class);
 
         Assert.assertEquals("java", array[0]);
@@ -49,7 +62,10 @@ public class ArrayUtilTest extends BaseCoreTest {
         String[] d = new String[]{"5"};
 
         String[] all = ArrayUtil.concat(String.class, a, b, c, d);
-        log.info("{},{},{},{},{},{},{},{}", all);
 
+        Assert.assertEquals("1", all[0]);
+        Assert.assertEquals("2", all[1]);
+        Assert.assertEquals("3", all[2]);
+        Assert.assertEquals("5", all[3]);
     }
 }

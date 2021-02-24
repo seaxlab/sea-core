@@ -17,8 +17,21 @@ import java.util.List;
 @Slf4j
 public final class ArrayUtil {
 
-    public static final Object[] EMPTY_OBJECT_ARRAY = new Object[0]; // or {}
-    public static final String[] EMPTY_STRING_ARRAY = new String[0]; // or {}
+    /**
+     * empty Object Array
+     * or {}
+     */
+    public static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
+    /**
+     * empty string array
+     * or {}
+     */
+    public static final String[] EMPTY_STRING_ARRAY = new String[0];
+
+    /**
+     * empty class array
+     */
+    public static final Class[] EMPTY_CLASS_ARRAY = {};
 
     private ArrayUtil() {
     }
@@ -68,28 +81,30 @@ public final class ArrayUtil {
     /**
      * 集合转数组
      *
-     * @param list
-     * @param clazz
-     * @param <T>
-     * @return
+     * @param data  collection data
+     * @param clazz target class
+     * @param <T>   generic class type
+     * @return array
      */
-    public static <T> T[] toArray(Collection<T> list, Class<T> clazz) {
-        if (list == null || list.isEmpty()) {
+    public static <T> T[] toArray(Collection<T> data, Class<T> clazz) {
+        if (data == null || data.isEmpty()) {
             return (T[]) Array.newInstance(clazz, 0);
         }
 
-        T[] array = (T[]) Array.newInstance(clazz, list.size());
-        list.toArray(array);
+        T[] array = (T[]) Array.newInstance(clazz, data.size());
+        data.toArray(array);
 
         return array;
     }
 
     /**
      * to array
+     * pls use toArray(Collection ,clazz)
      *
      * @param list
      * @return
      */
+    @Deprecated
     public static String[] toArray(List<String> list) {
         if (ListUtil.isEmpty(list)) {
             return new String[0];
@@ -102,10 +117,12 @@ public final class ArrayUtil {
 
     /**
      * list to array
+     * pls use toArray(Collection ,clazz)
      *
      * @param list
      * @return
      */
+    @Deprecated
     public static Object[] toObjArray(List<Object> list) {
         if (ListUtil.isEmpty(list)) {
             return new Object[0];
