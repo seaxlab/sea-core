@@ -597,6 +597,10 @@ public final class FileUtil {
         FileChannel outChannel = new FileOutputStream(file).getChannel();
 
         sourceFiles.forEach(sourceFile -> {
+            if (sourceFile == null) {
+                log.warn("current source file item is null.");
+                return;
+            }
             try (FileChannel tmpIn = new FileInputStream(sourceFile).getChannel()) {
                 //合并每个临时文件
                 outChannel.transferFrom(tmpIn, outChannel.size(), tmpIn.size());
