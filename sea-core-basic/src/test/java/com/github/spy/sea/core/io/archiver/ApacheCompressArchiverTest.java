@@ -8,8 +8,6 @@ import org.apache.commons.compress.archivers.zip.Zip64Mode;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
-import org.codehaus.plexus.archiver.zip.ZipUnArchiver;
-import org.codehaus.plexus.logging.console.ConsoleLogger;
 import org.junit.Test;
 
 import java.io.*;
@@ -44,10 +42,8 @@ public class ApacheCompressArchiverTest extends BaseCoreTest {
         String destDir = getUserHome() + "/logs/sea.apache";
         FileUtil.ensureDir(destDir);
 
-        ZipUnArchiver unArchiver = new ZipUnArchiver(new File(sourceFile));
-        unArchiver.enableLogging(new ConsoleLogger(org.codehaus.plexus.logging.Logger.LEVEL_INFO, "console"));
-        unArchiver.setDestDirectory(new File(destDir));
-        unArchiver.extract();
+        decompressZip(sourceFile, destDir);
+        log.info("zip file has bean unzip");
     }
 
 
