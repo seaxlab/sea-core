@@ -16,9 +16,12 @@
 - spring自定义注解扫描，类似@MapperScan
 - fastjson漏洞较多
 - sea-core-model拆分出来，sea-core-basic作为
+- 文件下载进度日志
+- 网速显示
 
 ### 2.3.0-SNAPSHOT
 
+- 文件下载器、文件切割/合并
 - 集成alibaba spring-context-support 2021-02-24
 - 增加spring 方法级注解扫描、属性级注入 2021-02-23
 - fix classpath 读取文件
