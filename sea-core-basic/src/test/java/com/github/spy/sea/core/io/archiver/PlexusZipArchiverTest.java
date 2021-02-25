@@ -19,8 +19,9 @@ import java.io.File;
  * @since 1.0
  */
 @Slf4j
-public class ZipArchiverTest extends BaseCoreTest {
+public class PlexusZipArchiverTest extends BaseCoreTest {
 
+    // plexus zip archiver
     @Test
     public void archiverTest() throws Exception {
         String sourceDir = getUserHome() + "/logs/sea";

@@ -53,27 +53,28 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- bzip2, gzip, pack200, lzma, xz, Snappy, traditional Unix Compress, DEFLATE, DEFLATE64,-->
+        <!-- LZ4, Brotli, Zstandard and ar, cpio, jar, tar, zip, dump, 7z, arj.-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!--
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-compress</artifactId>
-        </dependency>
-        -->
-
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <!-- for telnet,ftp -->
@@ -115,12 +116,14 @@
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
             <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-core</artifactId>
             <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -164,6 +167,7 @@
                 </exclusion>
             </exclusions>
             <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
 
         <!-- MapUtil.clone中使用 -->
