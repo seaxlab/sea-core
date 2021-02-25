@@ -49,6 +49,7 @@ public abstract class AbstractDownloader<A extends DownloaderDTO> implements Dow
 
 
         try {
+            log.info("download file begin.");
             download(dto);
             DownloaderVO vo = new DownloaderVO();
             vo.setFileUrl(getLocalFileAbsolutePath(dto));
@@ -59,6 +60,8 @@ public abstract class AbstractDownloader<A extends DownloaderDTO> implements Dow
         } catch (Exception e) {
             log.error("download exception.", e);
             result.setErrorMessage(e.getMessage());
+        } finally {
+            log.info("download file completely.");
         }
         stopwatch.stop();
         log.info("download file={} ,cost={}ms", dto.getRemoteFileUrl(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
