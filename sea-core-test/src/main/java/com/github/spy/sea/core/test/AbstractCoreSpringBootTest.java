@@ -26,4 +26,7 @@ public class AbstractCoreSpringBootTest extends AbstractCoreTest {
     @Autowired
     protected AbstractApplicationContext ctx;
 
+    private void usage() {
+        log.info("@SpringBootTest(classes = SpringBootWebApplication.class)");
+    }
 }

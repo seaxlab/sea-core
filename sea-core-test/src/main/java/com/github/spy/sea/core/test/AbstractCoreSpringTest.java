@@ -22,10 +22,6 @@ public class AbstractCoreSpringTest extends AbstractCoreTest {
     @Autowired
     protected AbstractApplicationContext ctx;
 
-    // 这种方式也不错
-//    @ContextConfiguration("classpath:spring/*.xml")
-//    @ContextConfiguration(classes = AbstractCoreSpringTest.class)
-
     @Before
     public void setUp() throws Exception {
         log.info("spring container ready!");
@@ -37,22 +33,16 @@ public class AbstractCoreSpringTest extends AbstractCoreTest {
         log.info("bean={}", ctx.getBean("helloWorld"));
     }
 
-// manual.
-//    @Before
-//    public void before() {
-//        String xmlConfigFile = getXmlConfigFile();
-//        ctx = new ClassPathXmlApplicationContext(new String[]{xmlConfigFile});
-//        ctx.start();
-//        log.info("spring container started.");
-//    }
-//
-//    protected abstract String getXmlConfigFile();
-//
-//    @After
-//    public void after() {
-//        if (ctx != null) {
-//            ctx.close();
-//        }
-//    }
+    private void usage() {
+        log.info("@ContextConfiguration(classpath:spring/*.xml)");
+        log.info("or");
+        log.info("@ContextConfiguration(classes = AbstractCoreSpringTest.class)");
+    }
+
+    private void startXmlApplication() {
+        log.info("this is by manual");
+        log.info("ctx = new ClassPathXmlApplicationContext(new String[]{xmlConfigFile});");
+        log.info("ctx.start();");
+    }
 
 }
