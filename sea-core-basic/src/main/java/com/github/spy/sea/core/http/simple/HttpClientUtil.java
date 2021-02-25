@@ -3,7 +3,10 @@ package com.github.spy.sea.core.http.simple;
 import com.alibaba.fastjson.JSON;
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.exception.ExceptionHandler;
+import com.github.spy.sea.core.http.common.HttpHeaderConst;
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.util.StringUtil;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -11,6 +14,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.config.Registry;
@@ -124,6 +128,16 @@ public class HttpClientUtil {
     }
 
     /**
+     * get http client.
+     *
+     * @return
+     */
+    public static CloseableHttpClient getHttpClient() {
+        init();
+        return httpClient;
+    }
+
+    /**
      * 发送post请求
      *
      * @param url
@@ -156,18 +170,13 @@ public class HttpClientUtil {
                                                        .setConnectTimeout(connectionTimeout)
                                                        .build();
             httpPost.setConfig(requestConfig);
-            CloseableHttpResponse response = null;
-            try {
-                response = httpClient.execute(httpPost);
+            try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
                 if (response != null) {
                     HttpEntity resEntity = response.getEntity();
                     if (resEntity != null) {
                         result = EntityUtils.toString(resEntity, charset);
                     }
                 }
-            } finally {
-                if (response != null)
-                    response.close();
             }
         } catch (Exception e) {
             log.error("http exception", e);
@@ -250,21 +259,12 @@ public class HttpClientUtil {
         httpPost.setConfig(requestConfig);
 
         String result = null;
-        CloseableHttpResponse response = null;
-
-        try {
-
-            try {
-                response = httpClient.execute(httpPost);
-                if (response != null) {
-                    HttpEntity resEntity = response.getEntity();
-                    if (resEntity != null) {
-                        result = EntityUtils.toString(resEntity, DEFAULT_CHARSET);
-                    }
+        try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
+            if (response != null) {
+                HttpEntity resEntity = response.getEntity();
+                if (resEntity != null) {
+                    result = EntityUtils.toString(resEntity, DEFAULT_CHARSET);
                 }
-            } finally {
-                if (response != null)
-                    response.close();
             }
         } catch (Exception e) {
             log.error("http exception", e);
@@ -369,22 +369,12 @@ public class HttpClientUtil {
 
 
         String result = null;
-        CloseableHttpResponse response = null;
-
-        try {
-            try {
-                response = httpClient.execute(request);
-
-                if (response != null) {
-                    if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                        result = EntityUtils.toString(response.getEntity(), DEFAULT_CHARSET);
-                    } else {
-                        log.warn("http status not 200, status code={}", response.getStatusLine().getStatusCode());
-                    }
-                }
-            } finally {
-                if (response != null) {
-                    response.close();
+        try (CloseableHttpResponse response = httpClient.execute(request)) {
+            if (response != null) {
+                if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                    result = EntityUtils.toString(response.getEntity(), DEFAULT_CHARSET);
+                } else {
+                    log.warn("http status not 200, status code={}", response.getStatusLine().getStatusCode());
                 }
             }
         } catch (Exception e) {
@@ -394,4 +384,32 @@ public class HttpClientUtil {
 
         return result;
     }
+
+    /**
+     * 获取远端文件大小
+     *
+     * @param url
+     * @return
+     */
+    public static long getContentLength(String url) {
+        long contentLength = 0;
+        HttpHead httpHead = new HttpHead(url);
+
+        try (CloseableHttpResponse response = HttpClientUtil.getHttpClient().execute(httpHead)) {
+
+            if (!response.containsHeader(HttpHeaderConst.CONTENT_LENGTH)) {
+                log.warn("Content-Length is not exist");
+                return contentLength;
+            }
+
+            Header header = response.getLastHeader(HttpHeaderConst.CONTENT_LENGTH);
+
+            contentLength = StringUtil.isEmpty(header.getValue()) ? 0 : Long.valueOf(header.getValue());
+        } catch (Exception e) {
+            log.error("http exception.", e);
+        }
+        log.info("remote file size={}", contentLength);
+        return contentLength;
+    }
+
 }
