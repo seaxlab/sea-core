@@ -8,10 +8,12 @@ import org.apache.commons.io.FileUtils;
 import org.apache.http.util.ByteArrayBuffer;
 
 import java.io.*;
+import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -426,6 +428,187 @@ public final class FileUtil {
             fileAttr = null;
         }
         return Optional.ofNullable(fileAttr);
+    }
+
+    /**
+     * split file by file count.
+     *
+     * @param sourceFile     source file
+     * @param targetDir      target dir
+     * @param targetFileName target file name.
+     * @param fileCount      size per file
+     * @param overwrite      overwrite exist file.
+     * @return
+     */
+    public static List<File> splitByFileCount(File sourceFile, File targetDir, String targetFileName,
+                                              int fileCount, boolean overwrite) {
+        if (sourceFile == null) {
+            throw new IllegalArgumentException("source file is null.");
+        }
+        if (!sourceFile.exists()) {
+            throw new IllegalArgumentException("source file is not exists");
+        }
+        if (!sourceFile.isFile()) {
+            throw new IllegalArgumentException("source file is not file.");
+        }
+
+        long maxFileSize = sourceFile.length() / fileCount;
+        boolean allMatch = sourceFile.length() % fileCount == 0;
+
+        List<File> files = new ArrayList<>();
+
+        targetDir = targetDir == null ? sourceFile.getParentFile() : targetDir;
+        if (targetDir.exists()) {
+            if (!targetDir.isDirectory()) {
+                throw new IllegalArgumentException("target dir is not a directory, plz check.");
+            }
+        } else {
+            targetDir.mkdirs();
+        }
+
+        targetFileName = StringUtil.isEmpty(targetFileName) ? sourceFile.getName() : targetFileName;
+
+        long hasTotalWriteFileSize = 0;
+        int count = 1, data;
+
+        //RandomAccessFile infile = new RandomAccessFile(filename, "r");
+        try (InputStream in = new BufferedInputStream(new FileInputStream(sourceFile))) {
+            data = in.read();
+            while (data != -1) {
+                int leng = 0;
+                File partFile = new File(targetDir.getAbsolutePath(), targetFileName + ".part" + count);
+                files.add(partFile);
+                log.info("write split file={}", partFile.getAbsolutePath());
+
+                //RandomAccessFile outfile = new RandomAccessFile(filename, "rw");
+                OutputStream outfile = new BufferedOutputStream(new FileOutputStream(partFile));
+                while (data != -1 && leng < maxFileSize) {
+                    outfile.write(data);
+                    leng++;
+                    data = in.read();
+                }
+
+                if ((!allMatch) && fileCount == count) {
+                    while (data != -1) {
+                        outfile.write(data);
+                        data = in.read();
+                    }
+                }
+
+                hasTotalWriteFileSize += leng;
+                outfile.close();
+                count++;
+            }
+        } catch (Exception e) {
+            log.error("io exception", e);
+        }
+
+        return files;
+    }
+
+    /**
+     * split file by file size
+     *
+     * @param sourceFile     source file
+     * @param targetDir      target dir
+     * @param targetFileName target file name
+     * @param eachFileSize   size per file
+     * @param overwrite      overwrite exist file.
+     * @return
+     */
+    public static List<File> splitByFileSize(File sourceFile, File targetDir, String targetFileName,
+                                             final long eachFileSize, boolean overwrite) {
+        if (sourceFile == null) {
+            throw new IllegalArgumentException("source file is null.");
+        }
+        if (!sourceFile.exists()) {
+            throw new IllegalArgumentException("source file is not exists");
+        }
+        if (!sourceFile.isFile()) {
+            throw new IllegalArgumentException("source file is not file.");
+        }
+
+        List<File> files = new ArrayList<>();
+
+        targetDir = targetDir == null ? sourceFile.getParentFile() : targetDir;
+        if (targetDir.exists()) {
+            if (!targetDir.isDirectory()) {
+                throw new IllegalArgumentException("target dir is not a directory, plz check.");
+            }
+        } else {
+            targetDir.mkdirs();
+        }
+
+        targetFileName = StringUtil.isEmpty(targetFileName) ? sourceFile.getName() : targetFileName;
+
+        long hasTotalWriteFileSize = 0;
+        int count = 1, data;
+
+        //RandomAccessFile infile = new RandomAccessFile(filename, "r");
+        try (InputStream in = new BufferedInputStream(new FileInputStream(sourceFile))) {
+            data = in.read();
+            while (data != -1) {
+                int leng = 0;
+                File partFile = new File(targetDir.getAbsolutePath(), targetFileName + ".part" + count);
+                files.add(partFile);
+                log.info("write split file={}", partFile.getAbsolutePath());
+
+                //RandomAccessFile outfile = new RandomAccessFile(filename, "rw");
+                OutputStream outfile = new BufferedOutputStream(new FileOutputStream(partFile));
+                while (data != -1 && leng < eachFileSize) {
+                    outfile.write(data);
+                    leng++;
+                    data = in.read();
+                }
+                hasTotalWriteFileSize += leng;
+                outfile.close();
+                count++;
+            }
+        } catch (Exception e) {
+            log.error("io exception", e);
+        }
+
+        return files;
+    }
+
+
+    /**
+     * merge files to one file.
+     * 重点: sourceFiles必须是有序的
+     *
+     * @param sourceFiles multi source file （must be ordered）
+     * @param targetFile  target file
+     * @param overwrite   overwrite file if target file exist.
+     * @return
+     */
+    public static boolean merge(List<File> sourceFiles, File targetFile, boolean overwrite)
+            throws IOException {
+        if (ListUtil.isEmpty(sourceFiles)) {
+            throw new IllegalArgumentException("source files is empty.");
+        }
+        Preconditions.checkNotNull(targetFile, "targetFile is null.");
+
+        if (targetFile.exists() && overwrite) {
+            targetFile.delete();
+        }
+
+        String tmpFilePath = targetFile.getAbsolutePath() + ".merge";
+        File file = new File(tmpFilePath);
+        FileChannel outChannel = new FileOutputStream(file).getChannel();
+
+        sourceFiles.forEach(sourceFile -> {
+            try (FileChannel tmpIn = new FileInputStream(sourceFile).getChannel()) {
+                //合并每个临时文件
+                outChannel.transferFrom(tmpIn, outChannel.size(), tmpIn.size());
+            } catch (IOException e) {
+                log.error("merge file exception.", e);
+            }
+        });
+        outChannel.close();
+
+        file.renameTo(targetFile);
+
+        return true;
     }
 
 

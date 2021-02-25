@@ -16,10 +16,7 @@ import java.io.*;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * module name
@@ -45,7 +42,8 @@ public class MultiThreadDownloader extends AbstractDownloader {
             return;
         }
 
-        ExecutorService executorService = Executors.newFixedThreadPool(threadNum);
+        ExecutorService executorService = new ThreadPoolExecutor(threadNum, threadNum,
+                0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
 
         //均分文件的大小
         long step = contentLength / threadNum;

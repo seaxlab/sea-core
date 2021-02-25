@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.common.CoreConst;
 import com.github.spy.sea.core.message.util.MessageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -8,6 +9,8 @@ import org.junit.Test;
 import java.io.File;
 import java.net.JarURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
@@ -101,4 +104,31 @@ public class FileUtilTest extends BaseCoreTest {
         long size = FileUtil.sizeOfDir(logDir);
         log.info("size={},human size={}", size, ByteUnitUtil.format(size));
     }
+
+    @Test
+    public void splitByFileSizeTest() throws Exception {
+        File file = new File(getUserHome() + "/sea/download-bigfile.zip");
+        File targetFile = new File(getUserHome() + "/sea/split-by-file-size");
+        FileUtil.splitByFileSize(file, targetFile, "abc.zip", 10 * CoreConst.ONE_MB, true);
+    }
+
+    @Test
+    public void splitByFileCountTest() throws Exception {
+        File file = new File(getUserHome() + "/sea/download-bigfile.zip");
+        File targetFile = new File(getUserHome() + "/sea/split-by-file-count");
+        FileUtil.splitByFileCount(file, targetFile, "abc.zip", 2, true);
+    }
+
+    @Test
+    public void mergeFileTest() throws Exception {
+        List<File> files = new ArrayList<>();
+        File file1 = new File(getUserHome() + "/sea/split-by-file-count/abc.zip.part1");
+        File file2 = new File(getUserHome() + "/sea/split-by-file-count/abc.zip.part2");
+        files.add(file1);
+        files.add(file2);
+
+        FileUtil.merge(files, new File(getUserHome(), "/sea/merge-file.zip"), true);
+
+    }
+
 }
