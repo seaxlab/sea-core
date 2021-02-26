@@ -5,7 +5,7 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.google.zxing.oned.EAN13Writer;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
@@ -19,17 +19,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 二维码生成工具
+ * module name
  *
  * @author spy
- * @version 1.0
+ * @version 1.0 2021/2/26
  * @since 1.0
  */
 @Slf4j
-public final class QRCodeUtil {
+public final class BarCodeUtil {
 
-    private QRCodeUtil() {
-    }
 
     /**
      * 默认图像类型
@@ -57,11 +55,12 @@ public final class QRCodeUtil {
      * @throws WriterException
      */
     public static void encode(String filePath, String content, int height, int width) throws IOException, WriterException {
+        height = height < 0 ? 300 : height;
+        width = width < 0 ? 150 : width;
 
-        Map<EncodeHintType, Object> hints = getEncodeHints();
+        EAN13Writer barcodeWriter = new EAN13Writer();
+        BitMatrix bitMatrix = barcodeWriter.encode(content, BarcodeFormat.EAN_13, height, width, getEncodeHints());
 
-        // 生成矩阵
-        BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
         Path path = FileSystems.getDefault().getPath(filePath);
         // 输出图像
         MatrixToImageWriter.writeToPath(bitMatrix, DEFAULT_FORMAT, path);
@@ -78,7 +77,7 @@ public final class QRCodeUtil {
     public static BufferedImage toBufferedImage(String content, int width, int height) throws WriterException {
         Map<EncodeHintType, Object> hints = getEncodeHints();
 
-        BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
+        BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.EAN_13, width, height, hints);
         return MatrixToImageWriter.toBufferedImage(bitMatrix);
     }
 
@@ -93,9 +92,10 @@ public final class QRCodeUtil {
     public static void writeToStream(String content, OutputStream stream, int width, int height) throws WriterException, IOException {
         Map<EncodeHintType, Object> hints = getEncodeHints();
 
-        BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
+        BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.EAN_13, width, height, hints);
         MatrixToImageWriter.writeToStream(bitMatrix, DEFAULT_FORMAT, stream);
     }
+
 
     /**
      * 对二维码进行解码，获取内容
@@ -112,16 +112,16 @@ public final class QRCodeUtil {
     }
 
     public static Result decodeResult(String filePath) throws IOException, NotFoundException {
-        BufferedImage image;
-        image = ImageIO.read(new File(filePath));
+        //TODO confirm? not working.
+        BufferedImage image = ImageIO.read(new File(filePath));
         LuminanceSource source = new BufferedImageLuminanceSource(image);
         Binarizer binarizer = new HybridBinarizer(source);
         BinaryBitmap binaryBitmap = new BinaryBitmap(binarizer);
 
-        Map<DecodeHintType, Object> hints = getDecodeHint();
+//        Map<DecodeHintType, Object> hints = getDecodeHint();
 
         // 对图像进行解码
-        return new MultiFormatReader().decode(binaryBitmap, hints);
+        return new MultiFormatReader().decode(binaryBitmap);
     }
 
 
@@ -129,10 +129,10 @@ public final class QRCodeUtil {
         Map<EncodeHintType, Object> hints = new HashMap<>();
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         // 容错等级 L、M、Q、H 其中 L 为最低, H 为最高
-        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+//        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
 
         // 二维码与图片边距
-        hints.put(EncodeHintType.MARGIN, 1);
+//        hints.put(EncodeHintType.MARGIN, 1);
 
         return hints;
     }
@@ -143,6 +143,5 @@ public final class QRCodeUtil {
 
         return hints;
     }
-
 
 }
