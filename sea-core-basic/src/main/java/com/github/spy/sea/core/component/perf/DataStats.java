@@ -1,10 +1,10 @@
-package com.github.spy.sea.core.perf;
+package com.github.spy.sea.core.component.perf;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * common data collector for <font color='red'> system level, this is very important </font>
@@ -16,7 +16,10 @@ import java.util.concurrent.atomic.AtomicLong;
 @Slf4j
 public class DataStats {
     private static DataStats current = null;
-    private Map<String, AtomicLong> cache = new ConcurrentHashMap<>();
+    /**
+     * LongAdder比AtomicLong有更好的性能
+     */
+    private Map<String, LongAdder> cache = new ConcurrentHashMap<>();
 
     private DataStats() {
     }
@@ -39,8 +42,8 @@ public class DataStats {
      */
     public void count(String metric) {
         try {
-            cache.putIfAbsent(metric, new AtomicLong());
-            cache.get(metric).incrementAndGet();
+            cache.putIfAbsent(metric, new LongAdder());
+            cache.get(metric).increment();
         } catch (Exception e) {
             // ignore
         }
@@ -63,7 +66,7 @@ public class DataStats {
      *
      * @return
      */
-    public Map<String, AtomicLong> getCache() {
+    public Map<String, LongAdder> getCache() {
         return cache;
     }
 }
