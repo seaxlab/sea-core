@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.dag;
+package com.github.spy.sea.core.component.dag;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

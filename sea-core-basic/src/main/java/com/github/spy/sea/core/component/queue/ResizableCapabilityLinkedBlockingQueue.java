@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.queue;
+package com.github.spy.sea.core.component.queue;
 
 import java.util.*;
 import java.util.concurrent.BlockingQueue;

@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.queue.persist;
+package com.github.spy.sea.core.component.queue.persist;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

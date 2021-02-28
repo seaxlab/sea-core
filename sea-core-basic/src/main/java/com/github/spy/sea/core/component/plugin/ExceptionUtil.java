@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.plugin;
+package com.github.spy.sea.core.component.plugin;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;

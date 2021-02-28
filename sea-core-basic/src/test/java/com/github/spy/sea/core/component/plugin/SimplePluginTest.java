@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.plugin;
+package com.github.spy.sea.core.component.plugin;
 
 import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
