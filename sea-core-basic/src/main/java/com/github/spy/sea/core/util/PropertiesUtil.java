@@ -49,6 +49,24 @@ public final class PropertiesUtil {
     }
 
     /**
+     * load input stream.
+     *
+     * @param inputStream
+     * @return
+     * @throws IOException
+     */
+    public static Properties load(InputStream inputStream) throws IOException {
+        if (inputStream == null) {
+            return new Properties();
+        }
+
+        Properties props = new Properties();
+        props.load(inputStream);
+        return props;
+    }
+
+
+    /**
      * load into Map
      *
      * @param path

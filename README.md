@@ -15,7 +15,7 @@
 - spring/springboot test需要进行归类
 - spring自定义注解扫描，类似@MapperScan
 - fastjson漏洞较多
-- sea-core-model拆分出来，sea-core-basic作为
+- sea-core-model拆分出来，sea-core-basic依赖sea-core-model，尽量保证sea-core-model的稳定和少依赖
 - 文件下载进度日志
 - 网速显示
 

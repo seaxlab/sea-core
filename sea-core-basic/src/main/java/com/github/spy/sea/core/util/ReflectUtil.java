@@ -11,10 +11,7 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import java.beans.Introspector;
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -430,6 +427,15 @@ public final class ReflectUtil {
         }
 
         return data.toArray(new Class<?>[data.size()]);
+    }
+
+    public static Constructor<?> getConstructor(Class<?> clazz, Class<?>... parameterType) {
+        try {
+            return clazz.getConstructor(parameterType);
+        } catch (NoSuchMethodException e) {
+            log.error("no such method.", e);
+        }
+        return null;
     }
 
 

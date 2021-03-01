@@ -1,0 +1,3 @@
+com.github.spy.sea.core.loader.IdGenerator=\
+com.github.spy.sea.core.loader.UUIDGenerator,\
+com.github.spy.sea.core.loader.CustomGenerator

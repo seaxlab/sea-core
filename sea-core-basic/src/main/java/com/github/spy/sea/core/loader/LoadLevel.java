@@ -35,7 +35,7 @@ public @interface LoadLevel {
     String name();
 
     /**
-     * Order int.
+     * Order int. the smaller, the more forward.
      *
      * @return the int
      */

@@ -256,31 +256,25 @@ public class EnhancedServiceLoader {
         if (extensions.isEmpty()) {
             return extensions;
         }
-        Collections.sort(extensions, new Comparator<Class>() {
-            @Override
-            public int compare(Class c1, Class c2) {
-                Integer o1 = 0;
-                Integer o2 = 0;
-                @SuppressWarnings("unchecked")
-                LoadLevel a1 = (LoadLevel) c1.getAnnotation(LoadLevel.class);
-                @SuppressWarnings("unchecked")
-                LoadLevel a2 = (LoadLevel) c2.getAnnotation(LoadLevel.class);
 
-                if (a1 != null) {
-                    o1 = a1.order();
-                }
-
-                if (a2 != null) {
-                    o2 = a2.order();
-                }
-
-                return o1.compareTo(o2);
-
-            }
+        //指定类型排序
+        Collections.sort(extensions, (c1, c2) -> {
+            Integer o1 = getOrder(c1);
+            Integer o2 = getOrder(c2);
+            return Integer.compare(o1, o2);
         });
 
         return extensions;
     }
+
+    private static int getOrder(Class obj) {
+        if (obj == null) {
+            return 0;
+        }
+        LoadLevel loadLevel = obj.getClass().getAnnotation(LoadLevel.class);
+        return loadLevel == null ? 0 : loadLevel.order();
+    }
+
 
     @SuppressWarnings("rawtypes")
     private static void loadFile(Class<?> service, String dir, ClassLoader classLoader, List<Class> extensions)
