@@ -130,6 +130,27 @@ public class BaseResult<T> implements Serializable {
         return new BaseResult(true, null, data);
     }
 
+    /**
+     * success msg
+     *
+     * @param message msg
+     * @return
+     */
+    public static BaseResult successMsg(String message) {
+        return new BaseResult(true, message);
+    }
+
+    /**
+     * success msg
+     *
+     * @param code         code
+     * @param errorMessage msg
+     * @return
+     */
+    public static BaseResult successMsg(String code, String errorMessage) {
+        return new BaseResult(true, code, errorMessage);
+    }
+
     public static BaseResult fail() {
         return fail(null);
     }
