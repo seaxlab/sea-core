@@ -2,7 +2,6 @@ package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.exception.ExceptionHandler;
-import com.github.spy.sea.core.function.Fn;
 import com.github.spy.sea.core.model.BaseResult;
 import com.google.common.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +9,7 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.beans.Introspector;
+import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -18,6 +18,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 /**
@@ -501,6 +502,19 @@ public final class ReflectUtil {
             log.error("fail to check method.", e);
         }
         return false;
+    }
+
+
+    // public static class
+    // 重点：interface is static
+
+    /**
+     * Custom Function that can get writeReplace method.
+     *
+     * @param <T>
+     * @param <R>
+     */
+    public interface Fn<T, R> extends Function<T, R>, Serializable {
     }
 
 }
