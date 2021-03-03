@@ -3,6 +3,7 @@ package com.github.spy.sea.core.spring.context;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -11,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.ResolvableType;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -275,6 +277,29 @@ public class SpringContextHolder implements ApplicationContextAware {
         String beanName = ClassUtils.getUserClass(bean).getName();
         factory.initializeBean(bean, beanName);
     }
+
+    /**
+     * get object provider
+     *
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> ObjectProvider<T> getBeanProvider(Class<T> clazz) {
+        return getApplicationContext().getBeanProvider(clazz);
+    }
+
+    /**
+     * get object provider.
+     *
+     * @param resolvableType
+     * @param <T>
+     * @return
+     */
+    public static <T> ObjectProvider<T> getBeanProvider(ResolvableType resolvableType) {
+        return getApplicationContext().getBeanProvider(resolvableType);
+    }
+
 
     /**
      * 发布一个事件
