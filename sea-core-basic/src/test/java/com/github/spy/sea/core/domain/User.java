@@ -16,10 +16,14 @@ public class User {
 
     private Long id;
     private String name;
+    private int age;
+
     List<Role> roles;
 
     private boolean isSuc;
     private Boolean isUsed;
+
+    private Group group;
 
     public User() {
     }

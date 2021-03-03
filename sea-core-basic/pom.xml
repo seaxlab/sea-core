@@ -241,6 +241,12 @@
         </dependency>
         <!-- archiver/un-archiver end -->
 
+        <dependency>
+            <groupId>ognl</groupId>
+            <artifactId>ognl</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
 
