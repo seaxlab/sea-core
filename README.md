@@ -21,6 +21,8 @@
 
 ### 2.3.0-SNAPSHOT
 
+- add murmur hash
+- fix HttpClientUtil中Response的status code
 - 文件下载器、文件切割/合并
 - 集成alibaba spring-context-support 2021-02-24
 - 增加spring 方法级注解扫描、属性级注入 2021-02-23

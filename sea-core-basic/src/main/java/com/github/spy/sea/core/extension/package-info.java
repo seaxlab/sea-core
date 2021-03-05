@@ -1,5 +1,5 @@
 /**
- * module name
+ * http相关扩展放这里不太合适
  *
  * @author spy
  * @version 1.0 2020/5/21
