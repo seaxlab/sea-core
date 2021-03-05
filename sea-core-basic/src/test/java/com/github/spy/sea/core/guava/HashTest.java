@@ -9,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * module name
@@ -37,10 +39,24 @@ public class HashTest extends BaseCoreTest {
 
 
     @Test
-    public void test40() throws Exception {
+    public void crc32Test() throws Exception {
         for (int i = 0; i < 100; i++) {
             int hashCode = Hashing.crc32().hashString("" + i, StandardCharsets.UTF_8).hashCode();
             log.info("hashCode={}", hashCode);
         }
+    }
+
+    @Test
+    public void consistentHashTest() throws Exception {
+        Map<Integer, Long> bucketMap = new HashMap<>();
+
+        for (int i = 0; i < 100; i++) {
+            int bucket = Hashing.consistentHash(i, 10);
+//            log.info("i={},bucket={}", i, bucket);
+            bucketMap.putIfAbsent(bucket, new Long(0));
+            bucketMap.put(bucket, bucketMap.get(bucket) + 1);
+        }
+
+        log.info("bucket map={}", bucketMap);
     }
 }
