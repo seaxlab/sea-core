@@ -7,9 +7,9 @@ import com.github.spy.sea.core.http.common.HttpHeaderConst;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.util.StringUtil;
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -171,12 +171,7 @@ public class HttpClientUtil {
                                                        .build();
             httpPost.setConfig(requestConfig);
             try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-                if (response != null) {
-                    HttpEntity resEntity = response.getEntity();
-                    if (resEntity != null) {
-                        result = EntityUtils.toString(resEntity, charset);
-                    }
-                }
+                result = getRespEntityStr(response);
             }
         } catch (Exception e) {
             log.error("http exception", e);
@@ -260,12 +255,7 @@ public class HttpClientUtil {
 
         String result = null;
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-            if (response != null) {
-                HttpEntity resEntity = response.getEntity();
-                if (resEntity != null) {
-                    result = EntityUtils.toString(resEntity, DEFAULT_CHARSET);
-                }
-            }
+            result = getRespEntityStr(response);
         } catch (Exception e) {
             log.error("http exception", e);
             ExceptionHandler.publish(CoreErrorConst.HTTP_ERR, "http请求异常");
@@ -370,13 +360,7 @@ public class HttpClientUtil {
 
         String result = null;
         try (CloseableHttpResponse response = httpClient.execute(request)) {
-            if (response != null) {
-                if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                    result = EntityUtils.toString(response.getEntity(), DEFAULT_CHARSET);
-                } else {
-                    log.warn("http status not 200, status code={}", response.getStatusLine().getStatusCode());
-                }
-            }
+            result = getRespEntityStr(response);
         } catch (Exception e) {
             log.error("http exception", e);
             ExceptionHandler.publish(CoreErrorConst.HTTP_ERR, "http请求异常");
@@ -412,4 +396,27 @@ public class HttpClientUtil {
         return contentLength;
     }
 
+    /**
+     * get response entity.
+     *
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    private static String getRespEntityStr(CloseableHttpResponse response) throws IOException {
+        String result = "";
+        if (response != null) {
+            StatusLine statusLine = response.getStatusLine();
+            if (statusLine == null) {
+                log.warn("status line is null");
+            } else {
+                if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+                    result = EntityUtils.toString(response.getEntity(), DEFAULT_CHARSET);
+                } else {
+                    log.warn("http status not 200, status code={}", response.getStatusLine().getStatusCode());
+                }
+            }
+        }
+        return result;
+    }
 }
