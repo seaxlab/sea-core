@@ -79,4 +79,11 @@ public class ArrayUtilTest extends BaseCoreTest {
         Object[] a2 = (Object[]) Array.newInstance(Object.class, x);
         log.info("{}", a2.length);
     }
+
+    @Test
+    public void test84() throws Exception {
+        String[] arrays = new String[]{"123", "23"};
+
+        Assert.assertTrue(ArrayUtil.isNotEmpty(arrays));
+    }
 }

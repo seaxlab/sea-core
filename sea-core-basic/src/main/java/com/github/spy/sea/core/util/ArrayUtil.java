@@ -66,6 +66,17 @@ public final class ArrayUtil {
     }
 
     /**
+     * check array is not empty.
+     *
+     * @param arrays 数组
+     * @param <T>    数组元素类型
+     * @return 是否为空
+     */
+    public static <T> boolean isNotEmpty(final T... arrays) {
+        return !isEmpty(arrays);
+    }
+
+    /**
      * 对象是否为数组对象
      *
      * @param obj 对象
