@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.common.SymbolConst;
 import com.github.spy.sea.core.exception.ExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 
@@ -91,6 +92,42 @@ public final class UrlUtil {
         String finalUrl = url + (url.indexOf('?') > 0 ? "&" : "?") + strBuilder.toString();
 
         return finalUrl;
+    }
+
+    /**
+     * join other part of url
+     *
+     * @param url
+     * @param paths
+     * @return
+     */
+    public static String join(final String url, String... paths) {
+        StringBuilder builder = new StringBuilder();
+        String first = url;
+        if (url.endsWith(SymbolConst.SLASH)) {
+            first = first.substring(0, first.length() - 1);
+        }
+        builder.append(first);
+
+        if (paths != null && paths.length > 0) {
+            for (int i = 0; i < paths.length; i++) {
+                String item = paths[i];
+                if (StringUtil.isEmpty(item)) {
+                    continue;
+                }
+
+                if (!item.startsWith(SymbolConst.SLASH)) {
+                    item = SymbolConst.SLASH + item;
+                }
+                if (item.endsWith(SymbolConst.SLASH)) {
+                    item = item.substring(0, item.length() - 1);
+                }
+                builder.append(item);
+            }
+        }
+
+
+        return builder.toString();
     }
 
     /**

@@ -2,6 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -21,5 +22,14 @@ public class UrlUtilTest extends BaseCoreTest {
 
         url = "https://www.baidu.com:1000?a=1";
         log.info("props={}", UrlUtil.parse(url));
+    }
+
+    @Test
+    public void joinTest() throws Exception {
+        Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com", "abc", "csd"));
+        Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com", "/abc", "csd"));
+        Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com/", "/abc", "csd"));
+        Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com/", "/abc", "/csd"));
+        Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com/", "/abc/", "/csd"));
     }
 }
