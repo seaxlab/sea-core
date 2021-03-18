@@ -72,13 +72,13 @@ public class TypeSafeConfiguration implements Configuration {
     }
 
     @Override
-    public boolean putString(String key, String content) {
+    public synchronized boolean putString(String key, String content) {
         config = config.withValue(key, ConfigValueFactory.fromAnyRef(content));
         return true;
     }
 
     @Override
-    public boolean putStringIfAbsent(String key, String content) {
+    public synchronized boolean putStringIfAbsent(String key, String content) {
         if (config.hasPath(key)) {
             return false;
         }
@@ -87,7 +87,7 @@ public class TypeSafeConfiguration implements Configuration {
     }
 
     @Override
-    public boolean remove(String key) {
+    public synchronized boolean remove(String key) {
         config = config.withoutPath(key);
         return true;
     }
