@@ -9,6 +9,7 @@ import com.github.spy.sea.core.util.ListUtil;
 import com.github.spy.sea.core.util.MapUtil;
 import com.github.spy.sea.core.util.StringUtil;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Stopwatch;
 import com.influxdb.LogLevel;
 import com.influxdb.client.InfluxDBClient;
 import com.influxdb.client.InfluxDBClientFactory;
@@ -23,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -136,12 +138,20 @@ public class DefaultInfluxDao implements InfluxDao {
         subFlux = subFlux.sum();
 
         Flux finalFlux = subFlux;
-
         String sql = finalFlux.toString();
         log.info("flux SQL is\n{}", sql);
-        List<FluxTable> list = influxDBClient.getQueryApi().query(sql);
 
-        log.info("{}", list.size());
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        List<FluxTable> list;
+        try {
+            list = influxDBClient.getQueryApi().query(sql);
+        } finally {
+            log.info("influx query cost={}ms", stopwatch.elapsed(TimeUnit.MILLISECONDS));
+        }
+        if (ListUtil.isEmpty(list)) {
+            return ListUtil.empty();
+        }
+        log.info("record size={}", list.size());
 
         List<Row> items = new ArrayList<>();
         list.stream().forEach(item -> {
