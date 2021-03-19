@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 
 /**
  * HOCON 实现(Human-Optimized Config Object Notation)
+ * 可以自动加载sea.properties、sea.conf等文件
  *
  * @author spy
  * @version 1.0 2019-07-25

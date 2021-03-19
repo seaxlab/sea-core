@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.config;
 
+import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +13,7 @@ import org.junit.Test;
  * @since 1.0
  */
 @Slf4j
-public class ConfigurationTest {
+public class ConfigurationTest extends BaseCoreTest {
 
     Configuration config;
 
@@ -27,6 +28,7 @@ public class ConfigurationTest {
     public void run16() throws Exception {
 
         println("1");
+        println("a");
         println("user.home");
         println("sea.env");
         println("sea.config.env");
@@ -67,6 +69,15 @@ public class ConfigurationTest {
 
     }
 
+    @Test
+    public void test72() throws Exception {
+
+        //FIXME 没法写
+        Runnable runnable = () -> {
+
+        };
+        runInMultiThread(runnable);
+    }
 
     private void println(String path) {
         log.info("{}={}", path, config.getString(path));
