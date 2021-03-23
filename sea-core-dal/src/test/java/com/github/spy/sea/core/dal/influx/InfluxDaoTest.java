@@ -62,7 +62,7 @@ public class InfluxDaoTest extends BaseCoreDalTest {
         Date start = dates[0];
         Date stop = dates[1];
 
-        basicSum(start, stop, InfluxDao.SORT_NAME_ASC);
+        basicSum(start, stop, InfluxDao.SORT_VALUE_DESC);
     }
 
     /**
