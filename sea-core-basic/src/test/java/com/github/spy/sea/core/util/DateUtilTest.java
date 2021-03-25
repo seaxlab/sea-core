@@ -4,6 +4,7 @@ import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -40,5 +41,10 @@ public class DateUtilTest extends BaseCoreTest {
     public void run40() throws Exception {
         log.info("{}-{}", DateUtil.getBeginAndEndDateTimeOfDay(new Date()));
         log.info("{}", DateUtil.getBeginDateTimeOfDay());
+    }
+
+    @Test
+    public void parseTest() throws Exception {
+        log.info("{}", DateUtil.parse(Instant.now()));
     }
 }

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
@@ -488,6 +489,21 @@ public final class DateUtil {
             return false;
         }
         return date1.getTime() == date2.getTime();
+    }
+
+
+    /**
+     * 转换成日期
+     *
+     * @param instant
+     * @return
+     */
+    public static Date parse(Instant instant) {
+        if (instant == null) {
+            return null;
+        }
+
+        return new Date(instant.toEpochMilli());
     }
 
     /**
