@@ -28,7 +28,7 @@ public class CookieUtil {
      * @param response
      * @param name     Key
      * @param value    Value
-     * @param maxAge   有效时间
+     * @param maxAge   有效时间，单位秒
      */
     public static void set(HttpServletResponse response, String domain, String path,
                            String name, String value, int maxAge) {
