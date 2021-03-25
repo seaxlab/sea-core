@@ -91,8 +91,15 @@ public class CoreConst {
 
     /**
      * 程序当前运行模式
+     * 请使用KEY_SEA_ENV
      */
+    @Deprecated
     public static final String KEY_SEA_DEV_MODE = "sea.dev.mode";
+
+    /**
+     * 当前程序运行模式
+     */
+    public static final String KEY_SEA_ENV = "sea.env";
 
 
     /**
