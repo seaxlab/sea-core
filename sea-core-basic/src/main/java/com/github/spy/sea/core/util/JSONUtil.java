@@ -59,7 +59,10 @@ public final class JSONUtil {
      * @return String
      */
     public static String toStr(Object obj) {
-        return JSON.toJSONString(obj, SerializerFeature.WriteDateUseDateFormat, SerializerFeature.WriteMapNullValue, SerializerFeature.DisableCircularReferenceDetect);
+        return JSON.toJSONString(obj,
+                SerializerFeature.WriteDateUseDateFormat,
+                SerializerFeature.WriteMapNullValue,
+                SerializerFeature.DisableCircularReferenceDetect);
     }
 
     public static JSONObject toJSONObj(String str) {

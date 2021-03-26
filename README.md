@@ -3,6 +3,7 @@
 ## 注意事项
 
 - 如果用了`JSON.isValid()`,则必须升级到1.2.25及以上
+- 统一使用JSONUtil，禁止直接使用json库API。fastjson有一些潜在的问题
 
 ## 使用说明
 
