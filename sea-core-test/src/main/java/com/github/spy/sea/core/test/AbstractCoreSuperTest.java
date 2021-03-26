@@ -3,9 +3,11 @@ package com.github.spy.sea.core.test;
 import com.github.javafaker.Faker;
 import com.github.spy.sea.core.test.service.SequenceService;
 import com.github.spy.sea.core.test.service.impl.FileSequenceService;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -29,6 +31,45 @@ class AbstractCoreSuperTest {
 
     protected void println(String label, Object obj) {
         _log.info("{}={}", label, obj);
+    }
+
+
+    protected void _printTable(List<String> headers, List data) {
+        _printTable(headers, data, 16);
+    }
+
+    /**
+     * print table
+     *
+     * @param headers table header
+     * @param data    data
+     * @param size    column with size
+     */
+    protected void _printTable(List<String> headers, List data, int size) {
+        String format = "%" + size + "s|";
+        for (String header : headers) {
+            System.out.printf(format, header);
+        }
+        System.out.println("");
+
+        if (data == null || data.isEmpty()) {
+            return;
+        }
+
+        data.stream().forEach(item -> {
+            headers.stream().forEach(header -> {
+                Object value = null;
+                try {
+                    value = FieldUtils.readField(item, header, true);
+                } catch (Exception e) {
+                    _log.error("fail to read field.", e);
+                    value = "";
+                }
+                System.out.printf(format, value);
+            });
+            System.out.println("");
+        });
+
     }
 
     protected void runInMultiThread(Runnable runnable) {
