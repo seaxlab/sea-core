@@ -2,14 +2,19 @@ package com.github.spy.sea.core.spring.web.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.github.spy.sea.core.exception.ExceptionHandler;
+import com.github.spy.sea.core.http.common.MediaType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import reactor.core.publisher.Mono;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
- * module name
+ * response util in spring mvc.
  *
  * @author spy
  * @version 1.0 2021/1/29
@@ -19,6 +24,19 @@ import reactor.core.publisher.Mono;
 public final class ResponseUtil {
 
     private ResponseUtil() {
+    }
+
+    /**
+     * get response in spring mvc
+     *
+     * @return response
+     */
+    public static HttpServletResponse getResponse() {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (servletRequestAttributes == null) {
+            ExceptionHandler.publishMsg("非Web上下文无法获取Response");
+        }
+        return servletRequestAttributes.getResponse();
     }
 
     /**

@@ -1,14 +1,19 @@
 package com.github.spy.sea.core.spring.web.util;
 
+import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.util.StringUtil;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * module name
+ * request util in spring mvc
  *
  * @author spy
  * @version 1.0 2021/1/29
@@ -16,9 +21,22 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
  */
 @Slf4j
 public final class RequestUtil {
+
     private RequestUtil() {
     }
 
+    /**
+     * get request in spring mvc
+     *
+     * @return request
+     */
+    public static HttpServletRequest getRequest() {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (servletRequestAttributes == null) {
+            ExceptionHandler.publishMsg("非Web上下文无法获取Request");
+        }
+        return servletRequestAttributes.getRequest();
+    }
 
     /**
      * get param
