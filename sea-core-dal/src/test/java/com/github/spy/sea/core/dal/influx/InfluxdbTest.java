@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 /**
@@ -140,6 +141,38 @@ public class InfluxdbTest extends BaseCoreDalTest {
         }
     }
 
+    /**
+     * 单表聚合曲线sql
+     *
+     * @throws Exception
+     */
+    @Test
+    public void buildAggrSum() throws Exception {
+        // 时间
+        Date[] dates = DateUtil.getBeginAndEndDateTimeOfDay(new Date());
+        Instant start = dates[0].toInstant();
+        Instant stop = dates[1].toInstant();
+
+        // tag过滤
+        Restrictions restriction = Restrictions.and(
+                Restrictions.measurement().equal("/plancenter/rest/api/schList"),
+                Restrictions.tag("region").equal("qingdao_pro"),
+                Restrictions.tag("app").equal("plancenter")
+        );
+
+        // 分组
+        String[] group = {"_measurement"};
+
+        Flux flux = Flux.from(bucket)
+                        .range(start, stop)
+                        .filter(restriction)
+                        .groupBy(group)
+                        .aggregateWindow(1L, ChronoUnit.MINUTES, "sum");
+
+
+        log.info("flux sql is \n{}", flux.toString());
+    }
+
 
     @Test
     public void testInflux() throws Exception {
@@ -165,7 +198,7 @@ public class InfluxdbTest extends BaseCoreDalTest {
                         .groupBy(group);
 
 
-        log.info("flux max={}", flux.max().toString());
+        log.info("flux max\n{}", flux.max().toString());
         List<FluxTable> list = influxDBClient.getQueryApi().query(flux.sum().toString());
 
         list.stream().forEach(item -> {
