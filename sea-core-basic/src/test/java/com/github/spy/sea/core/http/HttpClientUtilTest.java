@@ -1,12 +1,16 @@
 package com.github.spy.sea.core.http;
 
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.http.dto.HttpUploadDTO;
 import com.github.spy.sea.core.http.simple.HttpClientUtil;
 import com.github.spy.sea.core.model.BaseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 模块
@@ -43,5 +47,23 @@ public class HttpClientUtilTest extends BaseCoreTest {
         log.info("str={}", str);
     }
 
+
+    @Test
+    public void uploadTet() throws Exception {
+        String userHome = getUserHome();
+
+        HttpUploadDTO uploadDTO = new HttpUploadDTO();
+        uploadDTO.setUrl("http://httpbin.org/post");
+
+        File testFile = new File(userHome + "/test/qr.png");
+
+        Map<String, File> fileMap = new HashMap<>();
+        fileMap.put("abc", testFile);
+
+        uploadDTO.setFileFieldMap(fileMap);
+
+        BaseResult result = HttpClientUtil.upload(uploadDTO);
+        log.info("result={}", result);
+    }
 
 }

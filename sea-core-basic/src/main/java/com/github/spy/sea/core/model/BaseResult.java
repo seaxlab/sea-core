@@ -106,7 +106,7 @@ public class BaseResult<T> implements Serializable {
     }
 
     /**
-     * set value
+     * set value, mark success is true, clean error code and error message.
      *
      * @param data
      */

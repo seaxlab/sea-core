@@ -92,6 +92,12 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpasyncclient</artifactId>
         </dependency>
+        <!--upload file-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!--  okhttp3  -->
         <dependency>

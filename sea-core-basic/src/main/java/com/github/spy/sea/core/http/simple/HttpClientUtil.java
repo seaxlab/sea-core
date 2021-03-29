@@ -4,18 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.http.common.HttpHeaderConst;
+import com.github.spy.sea.core.http.dto.HttpUploadDTO;
+import com.github.spy.sea.core.http.vo.HttpUploadVO;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.util.StringUtil;
-import org.apache.http.Header;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
+import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpHead;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -25,6 +21,8 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -36,7 +34,9 @@ import org.slf4j.LoggerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -379,7 +379,7 @@ public class HttpClientUtil {
         long contentLength = 0;
         HttpHead httpHead = new HttpHead(url);
 
-        try (CloseableHttpResponse response = HttpClientUtil.getHttpClient().execute(httpHead)) {
+        try (CloseableHttpResponse response = getHttpClient().execute(httpHead)) {
 
             if (!response.containsHeader(HttpHeaderConst.CONTENT_LENGTH)) {
                 log.warn("Content-Length is not exist");
@@ -395,6 +395,81 @@ public class HttpClientUtil {
         log.info("remote file size={}", contentLength);
         return contentLength;
     }
+
+    /**
+     * upload file to remote server.
+     *
+     * @param dto
+     * @return
+     */
+    public static BaseResult<HttpUploadVO> upload(HttpUploadDTO dto) {
+        BaseResult<HttpUploadVO> result = BaseResult.fail();
+
+        //Creating the MultipartEntityBuilder
+        MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
+
+        //Setting the mode
+        entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        //Adding text
+        Map<String, Object> textFieldMap = dto.getTextFieldMap();
+        if (textFieldMap != null && !textFieldMap.isEmpty()) {
+            textFieldMap.forEach((key, value) -> {
+                if (value != null) {
+                    entityBuilder.addTextBody(key, value.toString());
+                }
+            });
+        }
+
+        //Adding a file
+        Map<String, File> fileFieldMap = dto.getFileFieldMap();
+        if (fileFieldMap != null && !fileFieldMap.isEmpty()) {
+            fileFieldMap.forEach((key, value) -> {
+                if (value != null) {
+                    entityBuilder.addBinaryBody(key, value);
+                }
+            });
+        }
+
+        // add stream support.
+        Map<String, InputStream> streamFieldMap = dto.getStreamFieldMap();
+        if (streamFieldMap != null && !streamFieldMap.isEmpty()) {
+            streamFieldMap.forEach((key, value) -> {
+                if (value != null) {
+                    entityBuilder.addBinaryBody(key, value);
+                }
+            });
+        }
+
+        //Building a single entity using the parts
+        HttpEntity httpEntity = entityBuilder.build();
+
+        //Building the RequestBuilder request object
+        RequestBuilder requestBuilder = RequestBuilder.post(dto.getUrl());
+
+        //Set the entity object to the RequestBuilder
+        requestBuilder.setEntity(httpEntity);
+
+        //Building the request
+        HttpUriRequest multipartRequest = requestBuilder.build();
+
+        //Executing the request
+        try (CloseableHttpResponse response = getHttpClient().execute(multipartRequest)) {
+
+            String respStr = getRespEntityStr(response);
+            //
+            HttpUploadVO uploadVO = new HttpUploadVO();
+            uploadVO.setContent(respStr);
+            result.value(uploadVO);
+        } catch (Exception e) {
+            result.setErrorMessage(e.getMessage());
+        }
+
+        return result;
+    }
+
+
+    //-------- private method -------
 
     /**
      * get response entity.
