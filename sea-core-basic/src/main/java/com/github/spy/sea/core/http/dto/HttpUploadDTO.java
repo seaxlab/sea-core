@@ -16,6 +16,8 @@ import java.util.Map;
 @Data
 public class HttpUploadDTO extends BaseHttpDTO {
 
+    // file/stream二选一即可
+
     /**
      * 常规字段
      */

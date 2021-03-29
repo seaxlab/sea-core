@@ -12,5 +12,9 @@ import lombok.Data;
  */
 @Data
 public class HttpUploadVO extends BaseResponseVO {
+
+    /**
+     * 服务端响应内容（目前），具体内容，由调用方来反序列化成对象
+     */
     private String content;
 }
