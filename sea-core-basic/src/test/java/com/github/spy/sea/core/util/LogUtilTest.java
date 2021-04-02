@@ -41,4 +41,26 @@ public class LogUtilTest extends BaseCoreTest {
 
         LogUtil.printTable(headers, users);
     }
+
+    @Test
+    public void test46() throws Exception {
+        Exception e = new NullPointerException();
+        log.error("exception in {} {}", e, "12");
+    }
+
+    @Test
+    public void dumpTest() throws Exception {
+        LogUtil.dump("cc", "abcd");
+        sleep(10);
+    }
+
+    @Test
+    public void dumpByRateTest() throws Exception {
+        for (int i = 0; i < 100; i++) {
+            LogUtil.dumpByRate("cc", "abcd");
+        }
+        sleep(10);
+    }
+
+
 }
