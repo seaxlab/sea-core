@@ -77,6 +77,7 @@ public class RequestUtil {
      * @param request
      */
     public static void logSimple(HttpServletRequest request) {
+        //TODO if you have invokerAppVersion/invokerChannel/invokerDeviceType, you can add more.
         log.info("sea request log: [{},{}] queryString={},userAgent={}", request.getMethod(), request.getRequestURI(), request.getQueryString(), getUserAgent(request));
     }
 
