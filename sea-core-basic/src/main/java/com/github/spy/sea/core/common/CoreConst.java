@@ -1,13 +1,14 @@
 package com.github.spy.sea.core.common;
 
 import com.github.spy.sea.core.util.ClassUtil;
+import com.github.spy.sea.core.util.JvmUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 模块名
+ * sea core const
  *
  * @author spy
  * @version 1.0 2019-05-14
@@ -16,6 +17,10 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class CoreConst {
     private CoreConst() {
+    }
+
+    static {
+        log.info("sea app pid={}", JvmUtil.getPID());
     }
 
     /**
