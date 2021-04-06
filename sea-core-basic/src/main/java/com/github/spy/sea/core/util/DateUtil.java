@@ -1051,6 +1051,8 @@ public final class DateUtil {
 
 
         DateTime end = new DateTime(date.getTime());
+        //	|> range(start:2021-04-04T16:00:00.000000000Z, stop:2021-04-05T15:59:59.999000000Z)
+        // TODO 最后的999？
         end = end.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999);
         return new Date[]{begin.toDate(), end.toDate()};
     }
