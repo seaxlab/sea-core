@@ -42,6 +42,7 @@ public final class BatchUtil {
                                                                        List list) {
         if (ListUtil.isEmpty(list)) {
             log.warn("list is empty");
+            return;
         }
 
 
@@ -85,6 +86,7 @@ public final class BatchUtil {
                                                                                                  List list) {
         if (ListUtil.isEmpty(list)) {
             log.warn("list is empty");
+            return;
         }
 
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
