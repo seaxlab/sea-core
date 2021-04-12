@@ -1,10 +1,10 @@
 package com.github.spy.sea.core.rocketmq.common;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.alibaba.rocketmq.client.producer.SendResult;
 import com.alibaba.rocketmq.common.message.Message;
+import com.github.spy.sea.core.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -58,11 +58,11 @@ public class CommonRocketMqProducer {
 
     public SendResult sendMessage(Object messageBody, String tag) throws Exception {
 
-        Message message = new Message(topicId, tag, JSON.toJSONString(messageBody).getBytes("utf-8"));
+        Message message = new Message(topicId, tag, JSONUtil.toStr(messageBody).getBytes("utf-8"));
 
         SendResult send = producer.send(message);
 
-        log.info("消息发送成功：{},结果：{}", JSON.toJSONString(messageBody), send);
+        log.info("消息发送成功：{},结果：{}", JSONUtil.toStr(messageBody), send);
         return send;
     }
 }

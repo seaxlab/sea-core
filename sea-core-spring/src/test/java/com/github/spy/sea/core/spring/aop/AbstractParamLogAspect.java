@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.spring.aop;
 
-import com.alibaba.fastjson.JSON;
+import com.github.spy.sea.core.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 
@@ -22,7 +22,7 @@ public abstract class AbstractParamLogAspect {
 
         String result = "";
         if (returnObj != null) {
-            result = JSON.toJSONString(returnObj);
+            result = JSONUtil.toStr(returnObj);
         }
         log.info("请求响应:{}", result);
         return returnObj;

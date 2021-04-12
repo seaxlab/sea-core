@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.spring.aop;
 
-import com.alibaba.fastjson.JSON;
+import com.github.spy.sea.core.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.ui.ModelMap;
@@ -48,7 +48,7 @@ public class HttpParamLogAspectAdapter extends AbstractParamLogAspect {
                       }
                       logArgs.add(arg);
                   });
-            parameter = JSON.toJSONString(logArgs);
+            parameter = JSONUtil.toStr(logArgs);
         }
         log.info("请求,url:{},入参:{}", url, parameter);
     }

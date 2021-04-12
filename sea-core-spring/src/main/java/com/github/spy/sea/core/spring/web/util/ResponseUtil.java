@@ -1,9 +1,8 @@
 package com.github.spy.sea.core.spring.web.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.http.common.MediaType;
+import com.github.spy.sea.core.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -65,7 +64,7 @@ public final class ResponseUtil {
      */
     public static Mono<Void> toJSON(ServerHttpResponse response, Object obj) {
         try {
-            String content = obj == null ? "" : JSON.toJSONString(obj, SerializerFeature.DisableCircularReferenceDetect);
+            String content = obj == null ? "" : JSONUtil.toStr(obj);
             response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
             return response
                     .writeWith(Mono.just(response.bufferFactory().wrap(content.getBytes())));

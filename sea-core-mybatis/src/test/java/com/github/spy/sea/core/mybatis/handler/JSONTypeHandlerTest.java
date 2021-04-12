@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.mybatis.handler;
 
-import com.alibaba.fastjson.JSON;
+import com.github.spy.sea.core.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.TypeHandler;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +36,7 @@ public class JSONTypeHandlerTest extends BaseTypeHandlerTest {
     @DisplayName("设置参数")
     public void shouldSetParameter() throws Exception {
         TYPE_HANDLER.setParameter(ps, 1, user, null);
-        verify(ps).setString(1, JSON.toJSONString(user));
+        verify(ps).setString(1, JSONUtil.toStr(user));
     }
 
     @Override

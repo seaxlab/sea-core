@@ -1,8 +1,8 @@
 package com.github.spy.sea.core.http.okhttp;
 
-import com.alibaba.fastjson.JSON;
 import com.github.spy.sea.core.http.common.HttpHeaderConst;
 import com.github.spy.sea.core.http.okhttp.callback.EmptyCallback;
+import com.github.spy.sea.core.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 
@@ -152,7 +152,7 @@ public class OkHttpClientUtil {
         log.info("okhttp post url={}", url);
 
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        RequestBody requestBody = RequestBody.create(mediaType, JSON.toJSONString(obj));
+        RequestBody requestBody = RequestBody.create(mediaType, JSONUtil.toStr(obj));
 
         Request request = new Request.Builder()
                 .url(url)

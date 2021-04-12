@@ -1,6 +1,5 @@
 package com.github.spy.sea.core.util;
 
-import com.alibaba.fastjson.JSON;
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.util.model.Teacher;
 import lombok.extern.slf4j.Slf4j;
@@ -60,8 +59,8 @@ public class MapUtilTest extends BaseCoreTest {
         map.put("key", 11);
         map.put("teachers", list);
 
-        log.info("{}", JSON.toJSONString(map.toString()));
-        Map newMap = JSON.parseObject(JSON.toJSONString(map.toString()), Map.class);
+        log.info("{}", JSONUtil.toStr(map.toString()));
+        Map newMap = JSONUtil.toObj(JSONUtil.toStr(map.toString()), Map.class);
         log.info("{}", newMap);
     }
 

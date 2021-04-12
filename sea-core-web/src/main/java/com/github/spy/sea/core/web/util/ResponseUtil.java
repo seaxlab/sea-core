@@ -1,8 +1,7 @@
 package com.github.spy.sea.core.web.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.spy.sea.core.http.common.MediaType;
+import com.github.spy.sea.core.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +43,7 @@ public class ResponseUtil {
     public static void toJSON(HttpServletResponse response, Object obj) {
         try {
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-            response.getWriter().write(JSON.toJSONString(obj, SerializerFeature.DisableCircularReferenceDetect));
+            response.getWriter().write(JSONUtil.toStr(obj));
         } catch (Exception e) {
             log.error("response error", e);
         }

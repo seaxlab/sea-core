@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.dubbo.filter;
 
-import com.alibaba.fastjson.JSON;
+import com.github.spy.sea.core.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.rpc.*;
 
@@ -21,7 +21,7 @@ public class RequestLogFilter implements Filter {
         Object[] args = invocation.getArguments();
 
         log.info("调用DUBBO方法:{}.{}, args={}", invoker.getInterface().getName(), invocation.getMethodName(),
-                JSON.toJSONString(args));
+                JSONUtil.toStr(args));
 
         return invoker.invoke(invocation);
     }

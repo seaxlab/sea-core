@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.logging;
 
-import com.alibaba.fastjson.JSON;
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ public class LogTest extends BaseCoreTest {
     public void test17() throws Exception {
         Object[] args = {"1", "2", "3"};
 
-        log.info(" args={}", JSON.toJSONString(args));
-        log.info(" args={}", JSON.toJSONString(null));
+        log.info(" args={}", JSONUtil.toStr(args));
+        log.info(" args={}", JSONUtil.toStr(null));
     }
 }

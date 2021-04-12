@@ -1,10 +1,10 @@
 package com.github.spy.sea.core.security;
 
-import com.alibaba.fastjson.JSON;
 import com.github.spy.sea.core.model.EncryptRequestDTO;
 import com.github.spy.sea.core.model.EncryptResult;
 import com.github.spy.sea.core.security.util.AESUtil;
 import com.github.spy.sea.core.security.util.SignUtil;
+import com.github.spy.sea.core.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
@@ -70,7 +70,7 @@ public class SignTest {
         requestDTO.setSign(sign);
         requestDTO.setBizContent(encryptedBizContent);
 
-        log.info("encryptRequestDTO={}", JSON.toJSONString(requestDTO));
+        log.info("encryptRequestDTO={}", JSONUtil.toStr(requestDTO));
 
 
         // 解密
@@ -103,7 +103,7 @@ public class SignTest {
 
 
         String timestamp = "20190722100911";
-        String bizContent = JSON.toJSONString(retMap);
+        String bizContent = JSONUtil.toStr(retMap);
         String msg = "成功";
 
         Map<String, String> map = new HashMap<>();
@@ -130,7 +130,7 @@ public class SignTest {
         result.setSign(sign);
         result.setVersion(version);
 
-        log.info("result={}", JSON.toJSONString(result));
+        log.info("result={}", JSONUtil.toStr(result));
 
     }
 

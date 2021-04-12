@@ -33,4 +33,9 @@ public class JSONUtilTest extends BaseCoreTest {
     }
 
 
+    @Test
+    public void test37() throws Exception {
+        log.info("{}", JSONUtil.toStr(""));
+    }
+
 }

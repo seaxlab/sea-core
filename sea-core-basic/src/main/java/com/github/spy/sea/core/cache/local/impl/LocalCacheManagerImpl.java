@@ -1,9 +1,9 @@
 package com.github.spy.sea.core.cache.local.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.github.spy.sea.core.cache.CacheConfig;
 import com.github.spy.sea.core.cache.CacheManager;
 import com.github.spy.sea.core.cache.local.domain.LocalReentrantLock;
+import com.github.spy.sea.core.util.JSONUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -79,7 +79,7 @@ public class LocalCacheManagerImpl implements CacheManager {
 
     @Override
     public boolean setJSON(String key, Object obj) {
-        cache.put(key, JSON.toJSONString(obj));
+        cache.put(key, JSONUtil.toStr(obj));
         return true;
     }
 
@@ -90,7 +90,7 @@ public class LocalCacheManagerImpl implements CacheManager {
             return Optional.empty();
         }
 
-        return Optional.of(JSON.parseObject(value.toString(), clazz));
+        return Optional.of(JSONUtil.toObj(value.toString(), clazz));
     }
 
     @Override

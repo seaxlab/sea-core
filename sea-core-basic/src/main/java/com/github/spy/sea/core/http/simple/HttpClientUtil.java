@@ -1,12 +1,12 @@
 package com.github.spy.sea.core.http.simple;
 
-import com.alibaba.fastjson.JSON;
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.http.common.HttpHeaderConst;
 import com.github.spy.sea.core.http.dto.HttpUploadDTO;
 import com.github.spy.sea.core.http.vo.HttpUploadVO;
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.util.JSONUtil;
 import com.github.spy.sea.core.util.StringUtil;
 import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
@@ -241,7 +241,7 @@ public class HttpClientUtil {
             if (payload instanceof String) {
                 jsonStr = (String) payload;
             } else {
-                jsonStr = JSON.toJSONString(payload);
+                jsonStr = JSONUtil.toStr(payload);
             }
             StringEntity entity = new StringEntity(jsonStr, ContentType.APPLICATION_JSON);
             httpPost.setEntity(entity);
