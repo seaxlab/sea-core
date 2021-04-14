@@ -14,6 +14,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * module name
@@ -57,6 +58,21 @@ public class DiffUtilTest extends BaseCoreTest {
         log.info("diff={}", diff);
         diff.getChanges();
     }
+
+    @Test
+    public void testProperties() throws Exception {
+        Properties p1 = new Properties();
+        p1.put("a", 1);
+        p1.put("b", 2);
+
+        Properties p2 = new Properties();
+        p2.put("b", 3);
+        p2.put("c", 3);
+
+        Diff diff = DiffUtil.compare(p1, p2);
+        log.info("diff={}", diff);
+    }
+
 
     @Test
     public void testMapDiff() throws Exception {
