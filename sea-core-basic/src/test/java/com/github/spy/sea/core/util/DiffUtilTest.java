@@ -3,12 +3,17 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.domain.Role;
 import com.github.spy.sea.core.domain.User;
+import com.google.common.collect.MapDifference;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
 import org.javers.core.diff.Diff;
 import org.junit.Test;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * module name
@@ -52,4 +57,36 @@ public class DiffUtilTest extends BaseCoreTest {
         log.info("diff={}", diff);
         diff.getChanges();
     }
+
+    @Test
+    public void testMapDiff() throws Exception {
+        String json1 = FileUtil.readFormClasspath("util/diff_json1.json");
+        String json2 = FileUtil.readFormClasspath("util/diff_json2.json");
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String, Object>>() {
+        }.getType();
+
+        Map<String, Object> leftMap = gson.fromJson(json1, type);
+        Map<String, Object> rightMap = gson.fromJson(json2, type);
+
+        MapDifference difference = DiffUtil.compare(leftMap, rightMap);
+
+        System.out.println("Entries only on the left\n--------------------------");
+        difference.entriesOnlyOnLeft()
+                  .forEach((key, value) -> System.out.println(key + ": " + value));
+
+        System.out.println("\n\nEntries only on the right\n--------------------------");
+        difference.entriesOnlyOnRight()
+                  .forEach((key, value) -> System.out.println(key + ": " + value));
+
+        System.out.println("\n\nEntries differing\n--------------------------");
+        difference.entriesDiffering()
+                  .forEach((key, value) -> System.out.println(key + ": " + value));
+
+        System.out.println("\n\nEntries common\n--------------------------");
+        difference.entriesInCommon()
+                  .forEach((key, value) -> System.out.println(key + ": " + value));
+    }
+
 }
