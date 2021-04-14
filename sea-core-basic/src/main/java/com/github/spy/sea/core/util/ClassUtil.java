@@ -6,6 +6,10 @@ import org.apache.commons.lang3.ClassUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * class util
@@ -234,4 +238,67 @@ public final class ClassUtil {
         Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
         return (Class<T>) actualTypeArguments[0];
     }
+
+
+    /**
+     * 判断class是否重复(不同版本的class)
+     *
+     * @param cls
+     * @param failOnError
+     * @return
+     */
+    public static boolean checkDuplicate(Class<?> cls, boolean failOnError) {
+        return checkDuplicate(cls.getName().replace('.', '/') + ".class", failOnError);
+    }
+
+    /**
+     * 检查 class是否有多个(不同版本的class)
+     *
+     * @param cls
+     * @return
+     */
+    public static boolean checkDuplicate(Class<?> cls) {
+        return checkDuplicate(cls, false);
+    }
+
+
+    /**
+     * 检查class是否有多个(不同版本的class)
+     *
+     * @param path
+     * @param failOnError
+     * @return
+     */
+    public static boolean checkDuplicate(String path, boolean failOnError) {
+        try {
+            // 在ClassPath搜文件
+            Enumeration<URL> urls = VersionUtil.class.getClassLoader().getResources(path);
+            Set<String> files = new HashSet<String>();
+            while (urls.hasMoreElements()) {
+                URL url = urls.nextElement();
+                if (url != null) {
+                    String file = url.getFile();
+                    if (file != null && file.length() > 0) {
+                        files.add(file);
+                    }
+                }
+            }
+            // 如果有多个，就表示重复
+            if (files.size() > 1) {
+                String error = "Duplicate class " + path + " in " + files.size() + " jar " + files;
+                if (failOnError) {
+                    throw new IllegalStateException(error);
+                } else {
+                    log.error(error);
+                }
+
+                return true;
+            }
+        } catch (Throwable e) { // 防御性容错
+            log.error(e.getMessage(), e);
+        }
+
+        return false;
+    }
+
 }

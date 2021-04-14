@@ -4,7 +4,9 @@ import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import java.net.URL;
 import java.security.CodeSource;
+import java.util.Enumeration;
 
 /**
  * 版本比较工具
@@ -123,6 +125,104 @@ public final class VersionUtil {
         //如果已经分出大小，则直接返回，如果未分出大小，则再比较位数，有子版本的为大；
         diff = (diff != 0) ? diff : versionArray1.length - versionArray2.length;
         return diff;
+    }
+
+
+    /**
+     * 检查下对应class path的版本，是否>minVersion
+     *
+     * @param name       jar 名称
+     * @param path       类路径，例如com/google/gson/Gson.class //TODO 这种写法是不是很别扭？
+     * @param minVersion
+     */
+    public static boolean validVersion(String name, String path, String minVersion) {
+        try {
+            if (minVersion == null) {
+                return true;
+            }
+
+            Long minV = convertVersion(minVersion);
+            Enumeration<URL> urls = VersionUtil.class.getClassLoader().getResources(path);
+            while (urls.hasMoreElements()) {
+                URL url = urls.nextElement();
+                if (url != null) {
+                    String file = url.getFile();
+                    if (file != null && file.length() > 0) {
+                        String version = getVersionByPath(file);
+                        if (checkVersionNecessary(version)) {
+                            Long ver = convertVersion(version);
+                            if (ver < minV) {
+                                throw new IllegalStateException("check " + name + " version is " + version + " <= "
+                                        + minVersion + "(the minimum version), please upgrade "
+                                        + name + " jar version");
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Throwable e) { // 防御性容错
+            log.error("valid version error.", e);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 根据jar包的路径，找到对应的版本号
+     *
+     * @param file file path
+     */
+    public static String getVersionByPath(String file) {
+        if (file != null && file.length() > 0 && StringUtils.contains(file, ".jar")) {
+            int index = StringUtils.indexOf(file, ".jar");
+            file = file.substring(0, index);
+            int i = file.lastIndexOf('/');
+            if (i >= 0) {
+                file = file.substring(i + 1);
+            }
+            i = file.indexOf("-");
+            if (i >= 0) {
+                file = file.substring(i + 1);
+            }
+            while (file.length() > 0 && !Character.isDigit(file.charAt(0))) {
+                i = file.indexOf("-");
+                if (i >= 0) {
+                    file = file.substring(i + 1);
+                } else {
+                    break;
+                }
+            }
+            return file;
+        } else {
+            return null;
+        }
+    }
+
+    public static Long convertVersion(String version) {
+        String parts[] = StringUtils.split(version, '.');
+        Long result = 0L;
+        int i = 1;
+        int size = parts.length > 4 ? parts.length : 4;
+        for (String part : parts) {
+            if (StringUtils.isNumeric(part)) {
+                result += Long.valueOf(part) * Double.valueOf(Math.pow(100, (size - i))).longValue();
+            } else {
+                String subParts[] = StringUtils.split(part, '-');
+                if (StringUtils.isNumeric(subParts[0])) {
+                    result += Long.valueOf(subParts[0]) * Double.valueOf(Math.pow(100, (size - i))).longValue();
+                }
+            }
+
+            i++;
+        }
+
+        return result;
+    }
+
+    private static boolean checkVersionNecessary(String versionStr) {
+        return !(versionStr == null || StringUtils.contains(versionStr, "with-dependencies") || StringUtils.contains(versionStr,
+                "storm"));
     }
 
 

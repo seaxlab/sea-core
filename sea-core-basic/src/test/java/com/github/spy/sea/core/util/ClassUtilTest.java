@@ -7,6 +7,7 @@ import com.github.spy.sea.core.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -80,6 +81,15 @@ public class ClassUtilTest extends BaseCoreTest {
         AA aa = new AA();
         aa.init();
     }
+
+
+    @Test
+    public void testCheckDumplicate() throws Exception {
+
+        boolean ret = ClassUtil.checkDuplicate(Logger.class);
+        log.info("has duplicate class ret={}", ret);
+    }
+
 
     private class Person<T1, T2> {
 
