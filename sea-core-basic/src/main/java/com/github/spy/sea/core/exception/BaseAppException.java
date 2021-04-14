@@ -27,6 +27,10 @@ public class BaseAppException extends RuntimeException {
         super();
     }
 
+    public BaseAppException(Throwable throwable) {
+        super(throwable);
+    }
+
     public BaseAppException(String code) {
         this(code, null, ErrorTypeEnum.APPLICATION.getCode());
     }
