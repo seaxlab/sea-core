@@ -4,6 +4,8 @@ import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.helpers.MessageFormatter;
 
+import java.text.MessageFormat;
+
 /**
  * message format util.
  *
@@ -18,10 +20,10 @@ public final class MessageUtil {
     }
 
     /**
-     * 格式化信息
+     * 使用{}格式化信息
      *
-     * @param messagePattern
-     * @param args
+     * @param messagePattern 模板字符串，使用{}作为占位符
+     * @param args           参数列表
      * @return
      */
     public static String format(String messagePattern, Object... args) {
@@ -39,6 +41,17 @@ public final class MessageUtil {
         return new StringBuilder(str).append(splitChar)
                                      .append(str2)
                                      .toString();
+    }
+
+    /**
+     * 使用索引{N}进行格式化信息
+     *
+     * @param messagePattern 模板字符串，使用{N}作为占位符,N从0开始
+     * @param args           参数列表
+     * @return
+     */
+    public static String formatByIndex(String messagePattern, Object... args) {
+        return MessageFormat.format(messagePattern, args);
     }
 
 }
