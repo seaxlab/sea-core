@@ -30,7 +30,7 @@ public abstract class AbstractCoreTest extends AbstractCoreSuperTest {
     @AfterClass
     public static void testEnd() {
         _stopwatch.stop();
-        System.out.println("cost: " + _stopwatch.toString());
+        System.out.println("\ncost: " + _stopwatch.toString());
         System.out.println("-------------------- test  end  ------------------");
     }
 
