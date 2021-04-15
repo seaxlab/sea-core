@@ -15,10 +15,10 @@ import org.junit.Test;
 public class CarMapperTest extends BaseCoreTest {
 
     @Test
-    public void shouldMapCarToDto() {
+    public void testToDTO() {
         //given
         Car car = new Car();
-        car.setId("1");
+        car.setId("s");
         car.setName("audi A4L");
         car.setMake("china");
         car.setNumberOfSeats(5);

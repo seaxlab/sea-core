@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.mapper;
 
+import com.github.spy.sea.core.mapper.util.ConvertUtil;
 import com.github.spy.sea.core.util.ListUtil;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,11 +18,12 @@ import java.util.Collections;
  * @since 1.0
  */
 // 这里无论是jdk的类还是业务系统中，都需要import进来
-@Mapper(imports = {ListUtil.class, Collections.class})
+@Mapper(imports = {ListUtil.class, Collections.class, ConvertUtil.class})
 public interface CarMapper {
 
     CarMapper INSTANCE = Mappers.getMapper(CarMapper.class);
 
+    @Mapping(target = "id", expression = "java(ConvertUtil.toInt(car.getId()))")
     @Mapping(source = "numberOfSeats", target = "seatCount")
     @Mapping(source = "name", target = "carName")
     @Mapping(source = "names", target = "names", defaultExpression = "java(ListUtil.empty())")
