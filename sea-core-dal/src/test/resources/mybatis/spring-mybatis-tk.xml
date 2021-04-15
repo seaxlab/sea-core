@@ -18,6 +18,11 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="configuration" ref="mybatisConfig"/>
         <property name="mapperLocations" value="classpath:mybatis/tk/*.xml"/>
+        <property name="plugins">
+            <array>
+                <bean class="com.github.spy.sea.core.dal.mybatis.common.interceptor.HintInterceptor"/>
+            </array>
+        </property>
     </bean>
 
     <!-- MyBatis Mapper Scan Config  -->
