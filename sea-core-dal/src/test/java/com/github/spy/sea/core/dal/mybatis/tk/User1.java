@@ -25,9 +25,14 @@ public class User1 {
     @GeneratedValue(generator = "JDBC")
     private Long id;
 
+    @Column(name = "code")
+    private String code;
+
     @Column(name = "`name`")
     private String name;
 
+    @Column(name = "`card_no`")
+    private String cardNo;
 
     @Column(name = "`age`")
     private Integer age;

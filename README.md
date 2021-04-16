@@ -22,6 +22,7 @@
 
 ### 2.3.0-SNAPSHOT
 
+- 增加tk InsertOrUpdateMapper便于减少sql语句，其中OGNL很不错，在静态化之前进行预编译
 - add murmur hash
 - fix HttpClientUtil中Response的status code
 - 文件下载器、文件切割/合并

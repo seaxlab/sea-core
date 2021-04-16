@@ -20,6 +20,7 @@ public class User2 {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
+    private String code;
     private String name;
     private Integer age;
     private String email;
