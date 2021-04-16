@@ -77,6 +77,12 @@ public class BaseResult<T> implements Serializable {
     private T data;
 
     /**
+     * 扩展参数，如果data中无法存放时才使用此参数
+     */
+    @JSONField(ordinal = 1070)
+    private Object extra;
+
+    /**
      * 请求id
      * 请使用traceId
      *
@@ -115,6 +121,15 @@ public class BaseResult<T> implements Serializable {
         this.data = data;
         this.errorMessage = "";
         this.errorCode = "";
+    }
+
+    /**
+     * extra obj for special case
+     *
+     * @param obj extra obj.
+     */
+    public void extra(Object obj) {
+        this.extra = obj;
     }
 
     /**
