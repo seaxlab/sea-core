@@ -21,6 +21,7 @@ public class CoreConst {
 
     static {
         log.info("sea app pid={}", JvmUtil.getPID());
+        printLogo();
     }
 
     /**
@@ -171,4 +172,15 @@ public class CoreConst {
 
     //---private method
 
+    private static void printLogo() {
+        StringBuilder logo = new StringBuilder();
+        logo.append("\n");
+        logo.append("   _____               _____               \n");
+        logo.append("  / ____|             / ____|              \n");
+        logo.append(" | (___   ___  __ _  | |     ___  _ __ ___ \n");
+        logo.append("  \\___ \\ / _ \\/ _` | | |    / _ \\| '__/ _ \\\n");
+        logo.append("  ____) |  __/ (_| | | |___| (_) | | |  __/\n");
+        logo.append(" |_____/ \\___|\\__,_|  \\_____\\___/|_|  \\___|   Power by SPY.\n");
+        System.out.println(logo.toString());
+    }
 }
