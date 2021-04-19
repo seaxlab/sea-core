@@ -19,6 +19,7 @@ public abstract class SuspendedLoopRunnable implements Runnable {
         init();
 
         while (running) {
+            log.info("{} running", name());
             try {
                 loopRun();
             } catch (Exception e) {
