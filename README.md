@@ -3,7 +3,7 @@
 ## 注意事项
 
 - 如果用了`JSON.isValid()`,则必须升级到1.2.25及以上
-- 统一使用JSONUtil，禁止直接使用json库API。fastjson有一些潜在的问题
+- 统一使用JSONUtil，禁止直接使用json库API,便于统一管理和升级。fastjson有一些潜在的漏洞问题
 
 ## 使用说明
 
@@ -16,12 +16,13 @@
 - spring/springboot test需要进行归类
 - spring自定义注解扫描，类似@MapperScan
 - fastjson漏洞较多
-- sea-core-model拆分出来，sea-core-basic依赖sea-core-model，尽量保证sea-core-model的稳定和少依赖
 - 文件下载进度日志
 - 网速显示
+- sea-core-mybatis合并至sea-core-dal（统一数据访问层）中
 
 ### 2.3.0-SNAPSHOT
 
+- sea-core-model拆分出来，sea-core-basic依赖sea-core-model，尽量保证sea-core-model的稳定和少依赖 2021-04-20
 - 增加tk InsertOrUpdateMapper便于减少sql语句，其中OGNL很不错，在静态化之前进行预编译
 - add murmur hash
 - fix HttpClientUtil中Response的status code
