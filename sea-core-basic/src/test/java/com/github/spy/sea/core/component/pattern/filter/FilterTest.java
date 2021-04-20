@@ -1,6 +1,8 @@
-package com.github.spy.sea.core.pattern.filter;
+package com.github.spy.sea.core.component.pattern.filter;
 
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.pattern.filter.Filter;
+import com.github.spy.sea.core.pattern.filter.FilterChain;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 

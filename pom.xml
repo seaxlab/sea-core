@@ -37,6 +37,7 @@
         <module>sea-core-support</module>
         <module>sea-core-example</module>
         <module>sea-core-rocketmq</module>
+        <module>sea-core-model</module>
     </modules>
 
 
@@ -117,6 +118,15 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- common model -->
+            <dependency>
+                <groupId>com.github.spy.sea</groupId>
+                <artifactId>sea-core-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- very important component. -->
             <dependency>
                 <groupId>com.github.spy.sea</groupId>
                 <artifactId>sea-core-basic</artifactId>

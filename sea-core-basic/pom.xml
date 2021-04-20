@@ -11,6 +11,12 @@
     <artifactId>sea-core-basic</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.github.spy.sea</groupId>
+            <artifactId>sea-core-model</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.github.spy.sea</groupId>
             <artifactId>sea-core-test</artifactId>
