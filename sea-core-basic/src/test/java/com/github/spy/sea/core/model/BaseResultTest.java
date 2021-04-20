@@ -20,4 +20,9 @@ public class BaseResultTest extends BaseCoreTest {
         BaseResult ret = BaseResult.success("abc");
         log.info("{}", JSONUtil.toStr(ret));
     }
+
+    @Test
+    public void testNullInstanceOf() throws Exception {
+        log.info("{}", null instanceof BaseResult);
+    }
 }
