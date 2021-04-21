@@ -459,6 +459,19 @@ public final class DateUtil {
         return DateUtils.truncate(date, Calendar.DATE);
     }
 
+    /**
+     * 截取日期
+     * 2021-04-12 12:12:12-- HOUR --> 2021-04-12 12:00:00
+     *
+     * @param date
+     * @param field Calendar.xxx DATE/HOUR/SECOND
+     * @return
+     */
+    public static Date truncate(Date date, int field) {
+        return DateUtils.truncate(date, field);
+    }
+
+
     public static long getCurrentMillis() {
         return System.currentTimeMillis();
     }

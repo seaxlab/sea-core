@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -46,5 +47,12 @@ public class DateUtilTest extends BaseCoreTest {
     @Test
     public void parseTest() throws Exception {
         log.info("{}", DateUtil.parse(Instant.now()));
+    }
+
+    @Test
+    public void testTruncate() throws Exception {
+        for (int i = 0; i < 10000; i++) {
+            log.info("{}", DateUtil.truncate(new Date(), Calendar.MINUTE));
+        }
     }
 }
