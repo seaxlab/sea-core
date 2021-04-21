@@ -12,8 +12,10 @@ import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
 import redis.embedded.RedisServer;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,12 +39,13 @@ public class RedisManagerTest extends BaseTest {
 
         redisManager = new RedisManager();
 
-        redisManager.setHost("10.122.2.110");
+//        redisManager.setHost("10.122.2.110");
+//        redisManager.setPassword("yuantu123");
+
+        redisManager.setHost("mylab");
+
         redisManager.setPort(6379);
         redisManager.setDatabase(1);
-        redisManager.setPassword("yuantu123");
-
-
         redisManager.init();
     }
 
@@ -204,7 +207,8 @@ public class RedisManagerTest extends BaseTest {
     }
 
     @Test
-    public void testSscan(Jedis jedis) {
+    public void testSscan() {
+        Jedis jedis = redisManager.getJedis();
         // 游标初始值为0
         String cursor = ScanParams.SCAN_POINTER_START;
         ScanParams scanParams = new ScanParams();
@@ -232,6 +236,30 @@ public class RedisManagerTest extends BaseTest {
     }
 
     //HSCAN, ZSCAN
+
+    @Test
+    public void testMultiLock() throws Exception {
+        Set<String> keys = new HashSet<>();
+        keys.add("test:lock:1");
+        keys.add("test:lock:2");
+        keys.add("test:lock:3");
+
+
+        Runnable runnable = () -> {
+            boolean flag = redisManager.tryLock(keys, 2, TimeUnit.MINUTES);
+            log.info("flag={}", flag);
+            if (flag) {
+                try {
+                    log.info("do some biz....");
+                } finally {
+                    redisManager.unLock(keys);
+                }
+            }
+
+        };
+        runInMultiThread(runnable, 8);
+
+    }
 
 
     @After

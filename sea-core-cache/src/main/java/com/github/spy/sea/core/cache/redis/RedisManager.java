@@ -1,15 +1,18 @@
 package com.github.spy.sea.core.cache.redis;
 
 import com.alibaba.fastjson.JSON;
-import com.github.spy.sea.core.util.SerializeUtil;
-import com.github.spy.sea.core.util.SetUtil;
-import com.github.spy.sea.core.util.StringUtil;
+import com.github.spy.sea.core.util.*;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Redis op manager
@@ -19,7 +22,8 @@ import java.util.Set;
  * @since 1.0
  */
 public class RedisManager {
-    private static Logger logger = LoggerFactory.getLogger(RedisManager.class);
+
+    private static Logger log = LoggerFactory.getLogger(RedisManager.class);
 
     // Redis服务器IP
     private String host;
@@ -69,7 +73,7 @@ public class RedisManager {
         config.setTestOnReturn(false);
 
         pool = new JedisPool(config, host, port, TIME_OUT, password, database);
-        logger.info("redis init success.");
+        log.info("redis init success.");
     }
 
     public void destroy() {
@@ -104,7 +108,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return null;
             }
 
@@ -127,7 +131,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return null;
             }
             return jedis.set(key.getBytes(), SerializeUtil.serialize(object));
@@ -146,7 +150,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return null;
             }
 
@@ -173,7 +177,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return;
             }
             jedis.set(key, JSON.toJSONString(obj));
@@ -197,7 +201,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return Optional.empty();
             }
 
@@ -226,7 +230,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return false;
             }
             return jedis.del(key.getBytes()) > 0;
@@ -249,7 +253,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return false;
             }
             return jedis.del(keys) > 0;
@@ -281,7 +285,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return false;
             }
 
@@ -309,7 +313,7 @@ public class RedisManager {
 
             //未超时，则直接返回失败
         } catch (Exception e) {
-            logger.error("acquireLock error ==> ", e);
+            log.error("acquireLock error ==> ", e);
         } finally {
             if (jedis != null) {
                 jedis.close();
@@ -328,7 +332,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return;
             }
 
@@ -341,6 +345,160 @@ public class RedisManager {
         }
     }
 
+
+    /**
+     * try lock multi lock
+     *
+     * @param keys     resource keys
+     * @param timeout  key life time
+     * @param timeUnit time unit of timeout,
+     * @return
+     */
+    public boolean tryLock(final Set<String> keys, int timeout, TimeUnit timeUnit) {
+        return tryLock(keys, 0, timeUnit.toMillis(timeout));
+    }
+
+    /**
+     * try lock multi lock.
+     *
+     * @param keys
+     * @param waitTime
+     * @param waitTimeUnit
+     * @param timeout
+     * @param timeoutTimeUnit
+     * @return
+     */
+    public boolean tryLock(final Set<String> keys, int waitTime, TimeUnit waitTimeUnit,
+                           int timeout, TimeUnit timeoutTimeUnit) {
+        return tryLock(keys, waitTimeUnit.toMillis(waitTime), timeoutTimeUnit.toMillis(timeout));
+    }
+
+    /**
+     * try lock multi lock
+     *
+     * @param keys    resource keys.
+     * @param maxWait max wait time. unit:ms
+     * @param timeout key life. unit:ms
+     * @return
+     */
+    public boolean tryLock(final Set<String> keys, long maxWait, long timeout) {
+        try {
+            log.info("尝试获取锁：{}", keys);
+
+            // 需要获取的锁
+            final List<String> needLocking = new CopyOnWriteArrayList<>();
+            needLocking.addAll(keys);
+
+            // 已经获取的锁
+            List<String> locked = new CopyOnWriteArrayList<>();
+
+            if (maxWait <= 0) {
+                return hasMultiLock(needLocking, locked, timeout);
+            } else {
+                long expireAt = System.currentTimeMillis() + maxWait;
+
+                // 循环判断锁是否一直存在
+                while (System.currentTimeMillis() <= expireAt) {
+                    boolean flag = hasMultiLock(needLocking, locked, timeout);
+                    if (flag) {
+                        return true;
+                    }
+
+                    // 部分资源未能锁住，间隔N毫秒后重试
+                    Thread.sleep(10);
+                }
+            }
+
+            // 仍有资源未被锁住（needLocking不为空），释放已锁定的资源，并返回失败false
+            if (!CollectionUtils.isEmpty(needLocking)) {
+                log.info("can not get the lock, keys:{}", needLocking);
+                unLock(locked);
+            }
+        } catch (Exception e) {
+            log.info("尝试获取锁失败：{}", e);
+        }
+
+        return false;
+    }
+
+    private boolean hasMultiLock(List<String> needLocking, List<String> locked, long timeout) {
+        // 通过管道批量获取锁
+        log.info("进入tryLock while，needLocking：{}", needLocking);
+
+        Long expire = TimeUnit.MILLISECONDS.toSeconds(timeout);
+
+        try (Jedis jedis = pool.getResource()) {
+            Pipeline pipeline = jedis.pipelined();
+
+            String value = System.currentTimeMillis() + "";
+            for (String key : needLocking) {
+                log.debug("try to setnx {}", key);
+                pipeline.setnx(key.getBytes(), value.getBytes());
+            }
+            List<Object> results = pipeline.syncAndReturnAll();
+
+            // 提交redis执行计数
+            log.info("needLocking:{},results:{}", needLocking, results);
+            for (int i = 0; i < results.size(); i++) {
+                // 锁的KEY
+                String key = needLocking.get(i);
+                Object result = results.get(i);
+                Boolean success = result != null && EqualUtil.isEq(result.toString(), "1");
+
+                // setnx成功，获得锁
+                if (success) {
+                    // 设置锁的过期时间
+                    jedis.expire(key, expire.intValue());
+                    locked.add(key);
+                }
+            }
+
+            // 移除已锁定资源
+            needLocking.removeAll(locked);
+
+            // 是否锁住全部资源
+            if (CollectionUtils.isEmpty(needLocking)) {
+                // 全部资源均已锁住，返回成功true
+                return true;
+            } else {
+                // 补偿处理，防止异常情况下（宕机/重启/连接超时等）导致的锁永不过期
+                List<String> exceptionLock = new CopyOnWriteArrayList<>();
+                for (String key : needLocking) {
+                    String val = jedis.get(key);
+                    // 当前时间 > 上锁时间 + 超时时间 + 2秒（经验时间），表示为该过期却未过期的数据，即异常数据
+                    if (null != val && System.currentTimeMillis() > Long.parseLong(val) + timeout + 2000) {
+                        exceptionLock.add(key);
+                    }
+                }
+                // 删除所有异常的 KEY
+                if (CollectionUtils.isNotEmpty(exceptionLock)) {
+                    unLock(exceptionLock);
+                }
+            }
+        }
+
+
+        return false;
+    }
+
+    /**
+     * unlock multi keys
+     *
+     * @param keys
+     */
+    public void unLock(Collection<String> keys) {
+        if (keys == null || keys.isEmpty()) {
+            log.warn("unlock keys is empty.");
+            return;
+        }
+        try (Jedis jedis = pool.getResource()) {
+            jedis.del(ArrayUtil.toArray(keys, String.class));
+        } catch (Exception e) {
+            log.error("批量释放锁失败!", e);
+        }
+    }
+
+
     /**
      * keys
      * TODO 大数据量下不推荐使用
@@ -351,7 +509,7 @@ public class RedisManager {
     public Set<byte[]> keys(String pattern) {
         try (Jedis jedis = pool.getResource()) {
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return SetUtil.empty();
             }
 
@@ -369,7 +527,7 @@ public class RedisManager {
     public ScanResult<String> scan(String cursor, ScanParams scanParams) {
         try (Jedis jedis = pool.getResource()) {
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return null;
             }
             return jedis.scan(cursor, scanParams);
@@ -382,7 +540,7 @@ public class RedisManager {
     public void flushDB() {
         try (Jedis jedis = pool.getResource()) {
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return;
             }
 
@@ -399,7 +557,7 @@ public class RedisManager {
     public long dbSize() {
         try (Jedis jedis = pool.getResource()) {
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return 0;
             }
 
@@ -419,7 +577,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return -1L;
             }
             return jedis.publish(channel, message);
@@ -442,7 +600,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return;
             }
             jedis.subscribe(jedisPubSub, channels);
@@ -467,7 +625,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return -2L;
             }
             return jedis.lpush(key, msg);
@@ -489,7 +647,7 @@ public class RedisManager {
     public Long rpush(String key, String msg) {
         try (Jedis jedis = pool.getResource()) {
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
             }
             return jedis.rpush(key, msg);
         }
@@ -527,7 +685,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return StringUtil.EMPTY;
             }
             return jedis.rpop(key);
@@ -550,7 +708,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return 0;
             }
             return jedis.llen(key);
@@ -573,7 +731,7 @@ public class RedisManager {
         try {
             jedis = pool.getResource();
             if (jedis == null) {
-                logger.error(NO_JEDIS_INSTANCE);
+                log.error(NO_JEDIS_INSTANCE);
                 return 0;
             }
             return jedis.expire(key, second);
@@ -651,7 +809,7 @@ public class RedisManager {
      */
     public boolean setBit(String key, long offset, String value) {
         if (offset > BIT_OFFSET_MAX_VALUE) {
-            logger.error("offset is out of range");
+            log.error("offset is out of range");
             throw new RuntimeException("offset is out of range.");
         }
 
@@ -671,7 +829,7 @@ public class RedisManager {
      */
     public boolean setBit(String key, long offset, boolean value) {
         if (offset > BIT_OFFSET_MAX_VALUE) {
-            logger.error("offset is out of range");
+            log.error("offset is out of range");
             throw new RuntimeException("offset is out of range.");
         }
 
