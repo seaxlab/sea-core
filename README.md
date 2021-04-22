@@ -22,6 +22,7 @@
 
 ### 2.3.0-SNAPSHOT
 
+- 增加服务线程ServiceThread
 - RedisManager批量获取多个锁
 - sea-core-model拆分出来，sea-core-basic依赖sea-core-model，尽量保证sea-core-model的稳定和少依赖 2021-04-20
 - 增加tk InsertOrUpdateMapper便于减少sql语句，其中OGNL很不错，在静态化之前进行预编译
