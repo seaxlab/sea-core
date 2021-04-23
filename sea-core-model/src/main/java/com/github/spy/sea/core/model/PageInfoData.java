@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Deprecated
+@Deprecated// 请使用PageInfo
 public class PageInfoData implements Serializable {
 
     // 数据

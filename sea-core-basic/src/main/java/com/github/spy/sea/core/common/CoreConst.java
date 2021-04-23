@@ -159,7 +159,7 @@ public class CoreConst {
     /**
      * 判断是否有sofa tracer
      */
-    public static final boolean HAS_SOFA_TRACER = ClassUtil.has("com.alipay.common.tracer.core.SofaTracer");
+    public static final boolean HAS_SOFA_TRACER = ClassUtil.has("com.alipay.common.tracer.core.SofaTracer", false);
 
 
     /**
