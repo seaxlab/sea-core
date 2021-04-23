@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * module name
+ * multi thread downloader file.
  *
  * @author spy
  * @version 1.0 2021/2/25
