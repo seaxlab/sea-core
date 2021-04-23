@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -231,6 +232,30 @@ public final class IOUtil {
      */
     public static String toString(InputStream inputStream, Charset charset) throws IOException {
         return CharStreams.toString(new InputStreamReader(inputStream, charset));
+    }
+
+    static public String toString(InputStream input, String encoding) throws IOException {
+        if (encoding == null) {
+            return toString(new InputStreamReader(input, StandardCharsets.UTF_8));
+        }
+        return toString(new InputStreamReader(input, encoding));
+    }
+
+
+    public static String toString(Reader reader) throws IOException {
+        CharArrayWriter sw = new CharArrayWriter();
+        copy(reader, sw);
+        return sw.toString();
+    }
+
+    public static long copy(Reader input, Writer output) throws IOException {
+        char[] buffer = new char[1 << 12];
+        long count = 0;
+        for (int n = 0; (n = input.read(buffer)) >= 0; ) {
+            output.write(buffer, 0, n);
+            count += n;
+        }
+        return count;
     }
 
 }
