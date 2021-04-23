@@ -26,7 +26,7 @@ public class NamedThreadFactory implements ThreadFactory {
 
     @Override
     public Thread newThread(Runnable r) {
-        Thread thread = new Thread(r, threadNamePrefix + this.threadIndex.incrementAndGet());
+        Thread thread = new Thread(r, threadNamePrefix + "-" + this.threadIndex.incrementAndGet());
         thread.setDaemon(daemon);
         return thread;
     }
