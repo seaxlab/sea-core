@@ -1,18 +1,16 @@
 package com.github.spy.sea.core.model;
 
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 
 /**
- * module name
+ * 分页信息，从1开始
  *
  * @author spy
  * @version 1.0 2020/12/14
  * @since 1.0
  */
-@Slf4j
 @Data
 public class PageInfo implements Serializable {
 
