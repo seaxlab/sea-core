@@ -2,7 +2,8 @@ package com.github.spy.sea.core.common;
 
 import com.github.spy.sea.core.util.ClassUtil;
 import com.github.spy.sea.core.util.JvmUtil;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -14,8 +15,10 @@ import java.nio.charset.StandardCharsets;
  * @version 1.0 2019-05-14
  * @since 1.0
  */
-@Slf4j
 public class CoreConst {
+
+    private static final Logger log = LoggerFactory.getLogger(CoreConst.class);
+
     private CoreConst() {
     }
 
