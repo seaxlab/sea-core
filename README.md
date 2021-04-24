@@ -22,6 +22,7 @@
 
 ### 2.3.0-SNAPSHOT
 
+- TxUtil增加post commit事务回调，适用于需要事务提交后再发送mq消息
 - 增加独立logging模块，可以独立输出日志
 - 增加服务线程ServiceThread，可立即唤醒执行
 - RedisManager批量获取多个锁
