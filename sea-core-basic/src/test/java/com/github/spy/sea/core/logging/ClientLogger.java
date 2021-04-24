@@ -66,7 +66,7 @@ public class ClientLogger {
                                       .build();
 
         Appender clientAppender = LoggingBuilder.newAppenderBuilder()
-                                                .withDailyFileRollingAppender(logFileName, "yyyyMMdd")
+                                                .withDailyFileRollingAppender(logFileName, "'.'yyyyMMdd")
 //                                              .withRollingFileAppender(logFileName, maxFileSize, maxFileIndex)
                                                 .withAsync(false, queueSize)
                                                 .withName(CLIENT_APPENDER_NAME)
