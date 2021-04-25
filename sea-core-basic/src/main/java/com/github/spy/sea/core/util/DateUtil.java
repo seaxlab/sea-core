@@ -973,9 +973,13 @@ public final class DateUtil {
     /**
      * 判断当前日期时间是否在指定范围内
      *
-     * @param targetDate
-     * @param beginDate
-     * @param endDate
+     * <p>
+     * beginDate <= targetDate <= endDate
+     * </p>
+     *
+     * @param targetDate 目标日期
+     * @param beginDate  开始日期
+     * @param endDate    结束日期
      * @return
      */
     public static boolean isInRange(Date targetDate, Date beginDate, Date endDate) {
@@ -985,6 +989,31 @@ public final class DateUtil {
         }
 
         return targetDate.getTime() >= beginDate.getTime() && targetDate.getTime() <= endDate.getTime();
+    }
+
+    /**
+     * 判断当前时间范围是否在指定范围内
+     * <p>
+     * totalBeginDate <= targetStartDate<=targetEndDate<= totalEndDate
+     * </p>
+     *
+     * @param targetBeginDate 目标开始日期 （小）
+     * @param targetEndDate   目标结束日期
+     * @param totalBeginDate  总的开始日期
+     * @param totalEndDate    总的结束日期 （大）
+     * @return
+     */
+    public static boolean isInRange(Date targetBeginDate, Date targetEndDate, Date totalBeginDate, Date totalEndDate) {
+        if (targetBeginDate == null || targetEndDate == null || totalBeginDate == null || totalEndDate == null) {
+            log.warn("some one is null");
+            return false;
+        }
+
+        boolean flag1 = targetBeginDate.getTime() >= totalBeginDate.getTime();
+        boolean flag2 = targetEndDate.getTime() >= targetBeginDate.getTime();
+        boolean flag3 = totalEndDate.getTime() >= targetEndDate.getTime();
+
+        return flag1 && flag2 && flag3;
     }
 
 
