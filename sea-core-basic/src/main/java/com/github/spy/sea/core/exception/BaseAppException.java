@@ -40,7 +40,7 @@ public class BaseAppException extends RuntimeException {
     }
 
     public BaseAppException(String code, String desc, String type) {
-        super(code != null ? (code + ":" + desc) : desc);
+        super((code != null && !code.isEmpty()) ? (code + ":" + desc) : desc);
         this.code = code;
         this.desc = desc;
         this.type = type;
