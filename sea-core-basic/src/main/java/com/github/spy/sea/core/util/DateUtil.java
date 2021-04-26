@@ -992,6 +992,49 @@ public final class DateUtil {
     }
 
     /**
+     * 日期边界值
+     */
+    public enum RangeMode {
+        OPEN_OPEN,
+        OPEN_CLOSE,
+        CLOSE_OPEN,
+        CLOSE_CLOSE
+    }
+
+    /**
+     * 判断当前日期时间是否在指定范围内
+     *
+     * <p>
+     * beginDate <= targetDate <= endDate
+     * </p>
+     *
+     * @param targetDate 目标日期
+     * @param beginDate  开始日期
+     * @param endDate    结束日期
+     * @param rangeMode  边界值 ()、(]、[)、[]
+     * @return
+     */
+    public static boolean isInRange(Date targetDate, Date beginDate, Date endDate, RangeMode rangeMode) {
+        if (targetDate == null || beginDate == null || endDate == null) {
+            log.warn("some one is null");
+            return false;
+        }
+        switch (rangeMode) {
+            case OPEN_OPEN:
+                return beginDate.getTime() < targetDate.getTime() && targetDate.getTime() < endDate.getTime();
+            case OPEN_CLOSE:
+                return beginDate.getTime() < targetDate.getTime() && targetDate.getTime() <= endDate.getTime();
+            case CLOSE_OPEN:
+                return beginDate.getTime() <= targetDate.getTime() && targetDate.getTime() < endDate.getTime();
+            case CLOSE_CLOSE:
+                return beginDate.getTime() <= targetDate.getTime() && targetDate.getTime() <= endDate.getTime();
+        }
+
+        return false;
+    }
+
+
+    /**
      * 判断当前时间范围是否在指定范围内
      * <p>
      * totalBeginDate <= targetStartDate<=targetEndDate<= totalEndDate
