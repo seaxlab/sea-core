@@ -1,5 +1,7 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.enums.RangeModeEnum;
+import com.github.spy.sea.core.model.Tuple2;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,6 +11,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -53,14 +56,7 @@ public final class TimeUtil {
         if (StringUtil.isEmpty(timeFormatStr)) {
             timeFormatStr = FORMAT_HHmm;
         }
-
-        SimpleDateFormat format = new SimpleDateFormat(timeFormatStr);
-
         try {
-            // 1970
-            Date beginDate = format.parse(beginTime);
-            Date endDate = format.parse(endTime);
-
             // now
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 24);
@@ -70,20 +66,130 @@ public final class TimeUtil {
             int minute = calendar.get(Calendar.MINUTE);
             int second = calendar.get(Calendar.SECOND);
 
-            Date now;
+            String now;
             if (EqualUtil.isEq(timeFormatStr, FORMAT_HHmmSS)) {
-                now = format.parse(hour + ":" + minute + ":" + second);
+                now = hour + ":" + minute + ":" + second;
             } else {
-                now = format.parse(hour + ":" + minute);
+                now = hour + ":" + minute;
             }
-
-            return now.before(endDate) && now.after(beginDate);
+            return isInRange(now, beginTime, endTime, timeFormatStr, RangeModeEnum.CLOSE_CLOSE);
         } catch (Exception e) {
             log.error("fail to parse time", e);
         }
 
         return false;
     }
+
+    /**
+     * 判断是否在时间范围内
+     *
+     * @param targetTime
+     * @param timeList
+     * @param timeFormatStr
+     * @param rangeMode
+     * @return
+     */
+    public static boolean isInRange(String targetTime, List<Tuple2<String, String>> timeList,
+                                    String timeFormatStr, RangeModeEnum rangeMode) {
+
+        Preconditions.checkNotNull(targetTime, "target time cannot be null");
+        if (timeList == null || timeList.isEmpty()) {
+            return false;
+        }
+
+        for (int i = 0; i < timeList.size(); i++) {
+            Tuple2<String, String> tuple = timeList.get(i);
+            boolean ret = isInRange(targetTime, tuple.getFirst(), tuple.getSecond(), timeFormatStr, rangeMode);
+            if (ret) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断时间是否在指定范围内
+     *
+     * @param targetTime    目标时间
+     * @param beginTime     开始时间
+     * @param endTime       结束时间
+     * @param timeFormatStr 时间格式
+     * @param rangeMode     区间范围
+     * @return
+     */
+    public static boolean isInRange(String targetTime, String beginTime, String endTime,
+                                    String timeFormatStr, RangeModeEnum rangeMode) {
+        Preconditions.checkNotNull(targetTime, "target time cannot be null");
+        Preconditions.checkNotNull(beginTime, "begin time cannot be null");
+        Preconditions.checkNotNull(endTime, "end time cannot be null");
+        Preconditions.checkNotNull(rangeMode, "区间模式不能为空");
+
+//        if (targetTime.length() != beginTime.length() || beginTime.length() != endTime.length()) {
+//            log.warn("targetTime,beginTime,endTime不相同:[{},{},{}]", targetTime.length(), beginTime.length(), endTime.length());
+//            return false;
+//        }
+
+        if (StringUtil.isEmpty(timeFormatStr)) {
+            timeFormatStr = FORMAT_HHmm;
+        }
+
+        SimpleDateFormat format = new SimpleDateFormat(timeFormatStr);
+
+        try {
+            // 1970
+            Date now = format.parse(targetTime);
+            Date beginDate = format.parse(beginTime);
+            Date endDate = format.parse(endTime);
+
+            //这个没有区间包含
+//            now.before(endDate) && now.after(beginDate);
+
+            switch (rangeMode) {
+                case OPEN_OPEN:
+                    return beginDate.getTime() < now.getTime() && now.getTime() < endDate.getTime();
+
+                case OPEN_CLOSE:
+                    return beginDate.getTime() < now.getTime() && now.getTime() <= endDate.getTime();
+
+                case CLOSE_OPEN:
+                    return beginDate.getTime() <= now.getTime() && now.getTime() < endDate.getTime();
+
+                case CLOSE_CLOSE:
+                    return beginDate.getTime() <= now.getTime() && now.getTime() <= endDate.getTime();
+            }
+
+        } catch (Exception e) {
+            log.error("fail to parse time", e);
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断当前时间是否在指定时间范围内
+     *
+     * @param timeList
+     * @param timeFormatStr
+     * @return
+     */
+    public static boolean nowIsInRange(List<Tuple2<String, String>> timeList, String timeFormatStr) {
+        if (ListUtil.isEmpty(timeList)) {
+            log.warn("timeList is empty.");
+            return false;
+        }
+
+        for (int i = 0; i < timeList.size(); i++) {
+            Tuple2<String, String> tuple = timeList.get(i);
+            boolean isIn = nowIsInRange(tuple.getFirst(), tuple.getSecond(), timeFormatStr);
+            if (isIn) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     /**
      * 比较时间,默认格式HH:mm

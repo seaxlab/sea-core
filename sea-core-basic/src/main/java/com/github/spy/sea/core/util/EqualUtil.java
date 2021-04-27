@@ -4,10 +4,7 @@ import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.SetUtils;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * equal util
@@ -87,6 +84,91 @@ public final class EqualUtil {
     public static boolean isEq(final Collection<?> set1, final Collection<?> set2) {
         return SetUtils.isEqualSet(set1, set2);
     }
+
+    public enum DateMode {
+        YEAR,
+        MONTH,
+        DAY,
+        HOUR,
+        MINUTE,
+        SECOND,
+        MIllI_SECOND
+    }
+
+    /**
+     * 日期比较
+     *
+     * @param date1 datetime
+     * @param date2 datetime
+     * @return
+     */
+    public static boolean isEq(final Date date1, final Date date2) {
+        if (date1 == null || date2 == null) {
+            log.warn("date1 or date2 is null, plz check.");
+            return false;
+        }
+
+        return date1.getTime() == date2.getTime();
+    }
+
+    /**
+     * 日期比较
+     *
+     * @param date1    datetime
+     * @param date2    datetime
+     * @param dateMode date mode
+     * @return
+     */
+    public static boolean isEq(final Date date1, final Date date2, DateMode dateMode) {
+        if (date1 == null || date2 == null) {
+            log.warn("date1 or date2 is null, plz check.");
+            return false;
+        }
+        Preconditions.checkNotNull(dateMode, "日期比较模式不能为空");
+
+//        Calendar c1 = Calendar.getInstance();
+//        Calendar c2 = Calendar.getInstance();
+//
+//        c1.setTime(date1);
+//        c2.setTime(date2);
+        //yyyyMMddHHmmss
+        String format = "";
+        switch (dateMode) {
+            case YEAR:
+                format = "yyyy";
+                break;
+            case MONTH:
+                format = "yyyyMM";
+                break;
+            case DAY:
+                format = "yyyyMMdd";
+                break;
+            case HOUR:
+                format = "yyyyMMddHH";
+                break;
+            case MINUTE:
+                format = "yyyyMMddHHmm";
+                break;
+            case SECOND:
+                format = "yyyyMMddHHmmss";
+                break;
+            case MIllI_SECOND:
+                format = "yyyyMMddHHmmssSSS";
+                break;
+            default:
+
+                break;
+        }
+        if (format.isEmpty()) {
+            log.warn("format is empty.");
+            return false;
+        }
+        String left = DateUtil.toString(date1, "yyyy");
+        String right = DateUtil.toString(date2, "yyyy");
+
+        return left.equalsIgnoreCase(right);
+    }
+
 
     //---不等操作
 
