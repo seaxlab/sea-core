@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.enums.RangeModeEnum;
 import com.github.spy.sea.core.enums.WeekEnum;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -992,20 +993,10 @@ public final class DateUtil {
     }
 
     /**
-     * 日期边界值
-     */
-    public enum RangeMode {
-        OPEN_OPEN,
-        OPEN_CLOSE,
-        CLOSE_OPEN,
-        CLOSE_CLOSE
-    }
-
-    /**
      * 判断当前日期时间是否在指定范围内
      *
      * <p>
-     * beginDate <= targetDate <= endDate
+     * beginDate <=? targetDate <=? endDate
      * </p>
      *
      * @param targetDate 目标日期
@@ -1013,8 +1004,9 @@ public final class DateUtil {
      * @param endDate    结束日期
      * @param rangeMode  边界值 ()、(]、[)、[]
      * @return
+     * @see RangeModeEnum
      */
-    public static boolean isInRange(Date targetDate, Date beginDate, Date endDate, RangeMode rangeMode) {
+    public static boolean isInRange(Date targetDate, Date beginDate, Date endDate, RangeModeEnum rangeMode) {
         if (targetDate == null || beginDate == null || endDate == null) {
             log.warn("some one is null");
             return false;
