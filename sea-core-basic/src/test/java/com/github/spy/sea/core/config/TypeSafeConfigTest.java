@@ -41,7 +41,17 @@ public class TypeSafeConfigTest extends BaseCoreTest {
     }
 
     @Test
-    public void run44() throws Exception {
+    public void testOverride() throws Exception {
+        Config config = ConfigFactory.load();
+
+        log.info("config={}", config);
+
+        config = config.withValue("sea.config.a2", ConfigValueFactory.fromAnyRef("sbc"));
+        log.info("config={}", config);
+
+        // 其存储结构是json，因此会覆盖
+        config = config.withValue("sea.config", ConfigValueFactory.fromAnyRef("ccc"));
+        log.info("config={}", config);
 
     }
 }
