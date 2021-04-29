@@ -25,7 +25,7 @@ public class User1 {
     @GeneratedValue(generator = "JDBC")
     private Long id;
 
-    @Column(name = "code")
+    @Column(name = "`code`")
     private String code;
 
     @Column(name = "`name`")

@@ -2,8 +2,10 @@ package com.github.spy.sea.core.dal.mybatis.tk.util;
 
 import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.util.ListUtil;
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import tk.mybatis.mapper.entity.EntityColumn;
+import tk.mybatis.mapper.entity.EntityTable;
 import tk.mybatis.mapper.mapperhelper.EntityHelper;
 
 import java.util.*;
@@ -104,4 +106,62 @@ public class TkOgnlUtil {
 
         return "";
     }
+
+    /**
+     * 获取子查询sql
+     *
+     * @param record
+     * @param maxColumn
+     * @return
+     */
+    public static String getMaxSubQuerySQL(Object record, String maxColumn) {
+        EntityTable entityTable = EntityHelper.getEntityTable(record.getClass());
+        Set<EntityColumn> allColumns = EntityHelper.getColumns(record.getClass());
+        // to db column
+        Map<String, String> columnMap = getColumnMap(allColumns);
+        String maxColumnName = columnMap.get(maxColumn);
+        Preconditions.checkNotNull(maxColumnName, "列属性不能为空");
+//        SELECT
+        //        MAX(USER_ID) AS 'MAX_USER_ID'
+        //    FROM
+        //        sys_user
+        //    where id=1
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT MAX(").append(maxColumnName.replaceAll("`", "")).append(") AS ").append("'").append(DynamicSqlUtil.DEFAULT_MAX_SUB_QUERY_FILED).append("' ");
+        sql.append("FROM ").append(entityTable.getName()).append(" ");
+
+
+        return sql.toString();
+    }
+
+
+    public static String whereTableAColumns(Object record, String maxColumn) {
+        //TODO 这里record不能为空，否则就不知道类型了
+//        EntityTable entityTable = EntityHelper.getEntityTable(record.getClass());
+        Set<EntityColumn> allColumns = EntityHelper.getColumns(record.getClass());
+        // to db column
+        Map<String, String> columnMap = getColumnMap(allColumns);
+        String maxColumnName = columnMap.get(maxColumn);
+
+        StringBuilder sql = new StringBuilder();
+        sql.append(" WHERE ")
+           .append("a.").append(maxColumnName.replaceAll("`", ""))
+           .append("=").append("b.").append(DynamicSqlUtil.DEFAULT_MAX_SUB_QUERY_FILED);
+
+        return sql.toString();
+    }
+
+
+    /**
+     * 注意这里返回的是`id`,`code`
+     *
+     * @param allColumns
+     * @return
+     */
+    private static Map<String, String> getColumnMap(Set<EntityColumn> allColumns) {
+        return allColumns.stream()
+                         .collect(Collectors.toMap(EntityColumn::getProperty, EntityColumn::getColumn));
+    }
+
+
 }

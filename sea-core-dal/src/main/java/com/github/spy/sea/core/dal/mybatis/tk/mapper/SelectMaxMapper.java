@@ -13,6 +13,7 @@ import java.util.List;
  * @version 1.0 2021/4/26
  * @since 1.0
  */
+//@RegisterMapper
 public interface SelectMaxMapper<T> {
 
 //    /**
@@ -32,6 +33,8 @@ public interface SelectMaxMapper<T> {
 //     */
 //    @SelectProvider(type = SelectMaxProviderExt.class, method = "dynamicSQL")
 //    List<T> selectMaxList(@Param("maxColumn") String maxColumn);
+
+    // 正常情况下过滤条件肯定是有的
 
     /**
      * 选择最大值对应的记录
