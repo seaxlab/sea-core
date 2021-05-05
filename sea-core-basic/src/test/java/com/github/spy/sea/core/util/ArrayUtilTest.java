@@ -86,4 +86,12 @@ public class ArrayUtilTest extends BaseCoreTest {
 
         Assert.assertTrue(ArrayUtil.isNotEmpty(arrays));
     }
+
+    @Test
+    public void testSwap() {
+        String[] arrays = new String[]{"a", "b", "c"};
+        ArrayUtil.swap(arrays, 2, 0);
+        Assert.assertEquals("c", arrays[0]);
+        Assert.assertEquals("a", arrays[2]);
+    }
 }

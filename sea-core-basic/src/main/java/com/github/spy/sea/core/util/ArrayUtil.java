@@ -217,4 +217,18 @@ public final class ArrayUtil {
     public static <T> T[] emptyArray(Class<T> componentType) {
         return (T[]) Array.newInstance(componentType, 0);
     }
+
+    /**
+     * swap element.
+     *
+     * @param array element
+     * @param i     index of element.
+     * @param j     index of element.
+     * @param <T>
+     */
+    public static final <T> void swap(T[] array, int i, int j) {
+        T t = array[i];
+        array[i] = array[j];
+        array[j] = t;
+    }
 }
