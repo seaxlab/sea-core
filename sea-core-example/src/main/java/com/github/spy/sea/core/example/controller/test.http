@@ -1,0 +1,5 @@
+### log get
+GET {{baseUrl}}/api/test/log/get?id=99
+Accept: application/json
+
+###
