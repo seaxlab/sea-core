@@ -112,4 +112,14 @@ public class ListUtilTest extends BaseCoreTest {
 
         log.info("{}", ListUtil.toString(users, User::getName, ","));
     }
+
+    @Test
+    public void testSwap() throws Exception {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            users.add(new User(Long.valueOf(i), "n" + i));
+        }
+        ListUtil.swap(users, 0, 3);
+        log.info("{}", ListUtil.toString(users, User::getName, ","));
+    }
 }

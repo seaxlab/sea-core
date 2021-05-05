@@ -241,4 +241,17 @@ public final class ListUtil {
                    .collect(Collectors.toList());
     }
 
+    /**
+     * 交换两个元素位置
+     *
+     * @param list list
+     * @param i    index
+     * @param j    index
+     * @param <E>  entity.
+     */
+    public static <E> void swap(List<E> list, int i, int j) {
+        list.set(i, list.set(j, list.get(i)));
+    }
+
+
 }
