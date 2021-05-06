@@ -4,6 +4,9 @@ import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * module name
  *
@@ -21,4 +24,22 @@ public class IdUtilTest extends BaseCoreTest {
             log.info("{}={}", i, IdUtil.getSimpleId());
         }
     }
+
+    /**
+     * 判断是否有重复
+     */
+    @Test
+    public void testSimpleIdDuplicated() {
+        Set<String> ids = new HashSet<>();
+
+        for (int i = 0; i < 1000_000; i++) {
+            String id = IdUtil.getSimpleId();
+            if (ids.contains(id)) {
+                log.warn("id={} is duplicated.", id);
+            } else {
+                ids.add(id);
+            }
+        }
+    }
+
 }
