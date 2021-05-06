@@ -15,6 +15,7 @@
 
 - tk select MAX/MIN
 - tree模块，丰富AVLTree等
+- 统一TreeNode
 - spring/springboot test需要进行归类
 - spring自定义注解扫描，类似@MapperScan
 - fastjson漏洞较多
@@ -24,6 +25,7 @@
 
 ### 2.3.0-SNAPSHOT
 
+- 增加Base62Util
 - TxUtil增加post commit事务回调，适用于需要事务提交后再发送mq消息
 - 增加独立logging模块，可以独立输出日志
 - 增加服务线程ServiceThread，可立即唤醒执行

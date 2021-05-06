@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.component.tree;
 
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.component.tree.binary.RedBlackTree;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 

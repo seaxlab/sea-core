@@ -1,9 +1,9 @@
-package com.github.spy.sea.core.component.tree;
+package com.github.spy.sea.core.component.tree.binary;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 红黑树
+ * 红黑树，是一种特殊的二叉树
  * <p>
  * https://www.cnblogs.com/skywang12345/p/3624343.html
  * </p>
@@ -131,7 +131,7 @@ public class RedBlackTree<T extends Comparable<T>> {
     }
 
 
-    /*
+    /**
      * (递归实现)查找"红黑树x"中键值为key的节点
      */
     private RBTNode<T> search(RBTNode<T> x, T key) {
@@ -151,7 +151,7 @@ public class RedBlackTree<T extends Comparable<T>> {
         return search(mRoot, key);
     }
 
-    /*
+    /**
      * (非递归实现)查找"红黑树x"中键值为key的节点
      */
     private RBTNode<T> iterativeSearch(RBTNode<T> x, T key) {
