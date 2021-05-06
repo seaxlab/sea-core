@@ -21,6 +21,8 @@ import java.util.TreeSet;
 @Slf4j
 public final class NumberUtil {
 
+    private static final String ZERO = "0";
+
     private NumberUtil() {
     }
 
@@ -377,5 +379,155 @@ public final class NumberUtil {
         return bd.setScale(scale, mode);
     }
 
+
+    // ---------N进制转换
+
+    /**
+     * 十进制转成二进制
+     */
+    public static String convert10To2(int val) {
+        return convertInt(val, 1, 1);
+    }
+
+    /**
+     * 二进制转十进制
+     *
+     * @param val
+     * @return
+     */
+    public static Long convert2To10(String val) {
+        return Long.parseLong(val, 2);
+    }
+
+    /**
+     * 十进制转化成八进制
+     *
+     * @param value
+     * @return
+     */
+    public static String convert10To8(int value) {
+        return convertInt(value, 7, 3);
+    }
+
+    /**
+     * 八进制转十进制
+     *
+     * @param val
+     * @return
+     */
+    public static Long convert8To10(String val) {
+        return Long.parseLong(val, 8);
+    }
+
+    /**
+     * 十进制转换成十六进制
+     *
+     * @param val
+     * @return
+     */
+    public static String convert10To16(int val) {
+        return convertInt(val, 15, 4);
+    }
+
+    /**
+     * 十六进制转十进制
+     *
+     * @param val
+     * @return
+     */
+    public static Long convert16To10(String val) {
+        return Long.parseLong(val, 16);
+    }
+
+    /**
+     * 把int类型数据转换成其他进制
+     *
+     * @param num    转换值
+     * @param base   与基数
+     * @param offset 位移数
+     * @return
+     */
+    private static String convertInt(int num, int base, int offset) {
+        if (num == 0) {
+            return ZERO;
+        }
+        char[] chs = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        char[] result = new char[32];
+        int index = result.length;
+        while (num != 0) {
+            int temp = num & base;
+            result[--index] = chs[temp];
+            num = num >>> offset;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = index; i < result.length; i++) {
+            sb.append(result[i]);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 初始化 62 进制数据，索引位置代表转换字符的数值 0-61，比如 A代表10，z代表61
+     */
+//    private static String CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private static String CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    /**
+     * 匹配字符串只包含数字和大小写字母
+     */
+    private static String REGEX_NORMAL_62 = "^[0-9a-zA-Z]+$";
+
+    /**
+     * 进制转换比率62
+     */
+    private static int SCALE_62 = 62;
+
+    /**
+     * 十进制数字转为62进制字符串
+     *
+     * @param val 十进制数字
+     * @return 62进制字符串
+     */
+    public static String convert10To62(long val) {
+        if (val < 0) {
+            throw new IllegalArgumentException("this is an Invalid parameter:" + val);
+        }
+        StringBuilder sb = new StringBuilder();
+        int remainder;
+        while (Math.abs(val) > SCALE_62 - 1) {
+            //从最后一位开始进制转换，取转换后的值，最后反转字符串
+            remainder = Long.valueOf(val % SCALE_62).intValue();
+            sb.append(CHARS.charAt(remainder));
+            val = val / SCALE_62;
+        }
+        //获取最高位
+        sb.append(CHARS.charAt(Long.valueOf(val).intValue()));
+        return sb.reverse().toString();
+    }
+
+    /**
+     * 十进制数字转为62进制字符串
+     *
+     * @param val 62进制字符串
+     * @return 十进制数字
+     */
+    public static long convert62To10(String val) {
+        if (val == null) {
+            throw new NumberFormatException("null");
+        }
+        if (!val.matches(REGEX_NORMAL_62)) {
+            throw new IllegalArgumentException("this is an Invalid parameter:" + val);
+        }
+        String tmp = val.replace("^0*", "");
+
+        long result = 0;
+        int index = 0;
+        int length = tmp.length();
+        for (int i = 0; i < length; i++) {
+            index = CHARS.indexOf(tmp.charAt(i));
+            result += (long) (index * Math.pow(SCALE_62, length - i - 1));
+        }
+        return result;
+    }
 
 }

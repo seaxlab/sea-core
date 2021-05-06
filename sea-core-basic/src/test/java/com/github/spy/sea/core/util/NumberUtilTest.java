@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 
 /**
@@ -70,5 +71,49 @@ public class NumberUtilTest extends BaseCoreTest {
 
         BigDecimal c = NumberUtil.divide(1.0, 200.0, 3, RoundingMode.UP);
         log.info("c={}", c.doubleValue());
+    }
+
+    @Test
+    public void test10T062() throws Exception {
+        log.info("{}", NumberUtil.convert10To62(123456));
+        log.info("{}", NumberUtil.convert10To62(100000000000000L));
+        log.info("{}", NumberUtil.convert10To62(1000000000000000000L));
+        log.info("{}", NumberUtil.convert62To10("ZZZZZZZZZZZZZ"));
+    }
+
+    @Test
+    public void testConvert() throws Exception {
+        int i = 666;
+        String hexString = Integer.toHexString(i);
+        System.out.println("十进制转换为十六进制：" + hexString);
+
+        int hexInt = Integer.parseInt(hexString, 16);
+        //如果是负数十六进制转为十进制，使用 BigInteger 获取
+        int hexNegativeInt = new BigInteger(hexString, 16).intValue();
+
+        String binaryString = Integer.toBinaryString(i);
+        System.out.println("十进制转换为二进制：" + binaryString);
+
+        int binaryInt = Integer.parseInt(binaryString, 2);
+
+        String octalString = Integer.toOctalString(i);
+
+        System.out.println("十进制转换为八进制：" + octalString);
+        int octalInt = Integer.parseInt(octalString, 8);
+        System.out.println("十六进制反转：" + hexInt + " 二进制反转：" + binaryInt + " 八进制反转：" + octalInt);
+    }
+
+    @Test
+    public void testConvert2() {
+        Assert.assertEquals("10100", NumberUtil.convert10To2(20));
+        Assert.assertEquals("24", NumberUtil.convert10To8(20));
+        Assert.assertEquals("14", NumberUtil.convert10To16(20));
+        Assert.assertEquals("k", NumberUtil.convert10To62(20));
+
+        Assert.assertEquals(20, NumberUtil.convert2To10("10100").intValue());
+        Assert.assertEquals(20, NumberUtil.convert8To10("24").intValue());
+        Assert.assertEquals(20, NumberUtil.convert16To10("14").intValue());
+        Assert.assertEquals(20, NumberUtil.convert62To10("k"));
+
     }
 }
