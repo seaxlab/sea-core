@@ -19,6 +19,11 @@ import java.util.Map;
 public class MurmurUtilTest extends BaseCoreTest {
 
     @Test
+    public void TestEncode() throws Exception {
+        log.info("{}", MurmurUtil.hash3_32("http://www.baidu.com"));
+    }
+
+    @Test
     public void test22() throws Exception {
         // 测试均匀性
         int bucketSize = 10;

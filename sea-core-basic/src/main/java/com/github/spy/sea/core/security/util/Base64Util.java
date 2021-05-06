@@ -7,7 +7,7 @@ import org.apache.commons.codec.binary.Base64;
 import java.io.UnsupportedEncodingException;
 
 /**
- * 模块
+ * 0-9,A-Z,a-z,+,=(或-,=)
  *
  * @author spy
  * @version 1.0 2019-07-22
