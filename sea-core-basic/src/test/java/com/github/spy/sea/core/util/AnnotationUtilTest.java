@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.annotation.InnerTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -17,6 +18,7 @@ import java.util.Map;
  * @since 1.0
  */
 @Slf4j
+@InnerTesting
 public class AnnotationUtilTest extends BaseCoreTest {
 
     @Test
@@ -38,6 +40,15 @@ public class AnnotationUtilTest extends BaseCoreTest {
         greet = Demo.class.getAnnotation(Greet.class);
         log.info("After alteration...Hello there [{}]", greet.name());
     }
+
+
+    @Test
+    public void testFind() throws Exception {
+        // 这里不能用@Slf4j,这个注解会在编译时，生成其他代码
+        InnerTesting anno = AnnotationUtil.findClassAnnotation(AnnotationUtilTest.class, InnerTesting.class);
+        log.info("anno={}", anno);
+    }
+
 
     @Retention(RetentionPolicy.RUNTIME)
     public @interface Greet {

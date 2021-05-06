@@ -3,10 +3,13 @@ package com.github.spy.sea.core.util;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -115,5 +118,108 @@ public final class AnnotationUtil {
             jdk7OrLower = false;
         }
         return jdk7OrLower;
+    }
+
+
+    /**
+     * 根据类命名、注解类型查找类上的注解
+     *
+     * @param className
+     * @param annotationClass
+     * @param <T>
+     * @return
+     * @throws ClassNotFoundException
+     */
+    public static <T extends Annotation> Annotation findClassAnnotation(String className, Class<T> annotationClass)
+            throws ClassNotFoundException {
+        //反射使用类加载器加载类
+        Class type = Class.forName(className);
+        return findClassAnnotation(type, annotationClass);
+    }
+
+    /**
+     * 根据类类型、注解类型查找类上的注解
+     *
+     * @param type
+     * @param annotationClass
+     * @param <T>
+     * @param <U>
+     * @return
+     * @throws ClassNotFoundException
+     */
+    public static <T, U extends Annotation> U findClassAnnotation(Class<T> type, Class<U> annotationClass) {
+        U annotation = null;
+        //判断类上面的注解是否存在
+        boolean isExist = type.isAnnotationPresent(annotationClass);
+        if (isExist) {
+            annotation = type.getAnnotation(annotationClass);
+        }
+        return annotation;
+    }
+
+    /**
+     * 根据类类型、注解类型查找方法上的注解
+     *
+     * @param className
+     * @param annotationClass
+     * @param <T>
+     * @return
+     * @throws ClassNotFoundException
+     */
+    public static <T extends Annotation> Annotation[] findMethodAnnotation(String className, Class<T> annotationClass)
+            throws ClassNotFoundException {
+        Class type = Class.forName(className);
+        return findMethodAnnotationByExist(type, annotationClass);
+    }
+
+    /**
+     * 根据类类型、注解类型查找方法上的注解，使用了isAnnotationPresent();判断注解是否存在
+     *
+     * @param type
+     * @param annotationClass
+     * @param <T>
+     * @param <U>
+     * @return
+     * @throws ClassNotFoundException
+     */
+    public static <T, U extends Annotation> U[] findMethodAnnotationByExist(Class<T> type, Class<U> annotationClass) {
+        //获取类的所有方法
+        Method[] method = type.getMethods();
+        List<U> lists = new ArrayList<>();
+        for (int i = 0; i < method.length; i++) {
+            //判断当前方法上是否存在对应注解
+            boolean isExist = method[i].isAnnotationPresent(annotationClass);
+            if (isExist) {
+                lists.add(method[i].getAnnotation(annotationClass));
+            }
+        }
+        return lists.toArray((U[]) Array.newInstance(annotationClass, lists.size()));
+    }
+
+    /**
+     * 根据类类型、注解类型查找方法上的注解，使用了isInstance();判断注解是否是对应注解
+     *
+     * @param type
+     * @param annotationClass
+     * @param <T>
+     * @param <U>
+     * @return
+     * @throws ClassNotFoundException
+     */
+    public static <T, U extends Annotation> U[] findMethodAnnotationByIsInstance(Class<T> type,
+                                                                                 Class<U> annotationClass) {
+        Method[] method = type.getMethods();
+        List<U> lists = new ArrayList<>();
+        for (int i = 0; i < method.length; i++) {
+            //获取方法上的所有的注解遍历
+            Annotation[] annotations = method[i].getAnnotations();
+            for (Annotation ann : annotations) {
+                //判断annotationClass注解是否ann的实例,此外还有instanceof和isAssignableFrom
+                if (annotationClass.isInstance(ann)) {
+                    lists.add((U) ann);
+                }
+            }
+        }
+        return lists.toArray((U[]) Array.newInstance(annotationClass, lists.size()));
     }
 }
