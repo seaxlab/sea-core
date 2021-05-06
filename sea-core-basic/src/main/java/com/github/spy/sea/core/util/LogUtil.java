@@ -14,7 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
- * module name
+ * 向指定目录输出日志dump文件
+ * ${user.home}/logs/sea/${MODULE_NAME}/${yyyyMMdd_HHmmss}_${PID}_${MODULE_NAME}.log
  *
  * @author spy
  * @version 1.0 2021/3/26
