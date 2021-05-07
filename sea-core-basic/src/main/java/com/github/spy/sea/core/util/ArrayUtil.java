@@ -29,6 +29,11 @@ public final class ArrayUtil {
     public static final String[] EMPTY_STRING_ARRAY = new String[0];
 
     /**
+     * empty byte array
+     */
+    private static final byte[] EMPTY_BYTE_ARRAY = {};
+
+    /**
      * empty class array
      */
     public static final Class[] EMPTY_CLASS_ARRAY = {};
@@ -53,6 +58,11 @@ public final class ArrayUtil {
     public static String[] emptyStr() {
         return EMPTY_STRING_ARRAY;
     }
+
+    public static byte[] emptyByte() {
+        return EMPTY_BYTE_ARRAY;
+    }
+
 
     /**
      * check array is empty

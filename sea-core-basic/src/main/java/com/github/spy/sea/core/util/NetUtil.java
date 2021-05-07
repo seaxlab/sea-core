@@ -208,10 +208,113 @@ public final class NetUtil {
         if (validLocalAndAny) {
             return ip != null && IP_PATTERN.matcher(ip).matches();
         } else {
-            return (ip != null && !ANY_HOST.equals(ip) && !LOCALHOST.equals(ip) && IP_PATTERN.matcher(ip).matches());
+            return (ip != null
+                    && !ANY_HOST.equals(ip)
+                    && !LOCALHOST.equals(ip)
+                    && IP_PATTERN.matcher(ip).matches());
+        }
+    }
+
+
+    /**
+     * ip字符串转byte[]
+     * byte会溢出 ，byte的范围是[-128,127]
+     *
+     * @param ipStr
+     * @return
+     */
+    public static byte[] toByte(String ipStr) {
+        InetAddress ip = null;
+        try {
+            ip = InetAddress.getByName(ipStr);
+        } catch (UnknownHostException e) {
+            log.error("to byte exception", e);
+            return ArrayUtil.emptyByte();
+        }
+        return ip.getAddress();
+    }
+
+    /**
+     * byte[] to ip str
+     *
+     * @param ip
+     * @return
+     */
+    public static String toString(byte[] ip) {
+        if (ip.length != 4) {
+            throw new RuntimeException("illegal ipv4 bytes");
+        }
+        StringBuilder builder = new StringBuilder();
+        for (byte b : ip) {
+            builder.append(b & 0xFF).append(".");
+        }
+        String ipStr = builder.toString();
+        return ipStr.substring(0, ipStr.length() - 1);
+    }
+
+    /**
+     * 判断是否是内网IPV4
+     *
+     * @param ip byte
+     * @return true/false
+     */
+    public static boolean isInternalIPV4(byte[] ip) {
+        if (ip.length != 4) {
+            throw new RuntimeException("illegal ipv4 bytes");
         }
 
+        //10.0.0.0~10.255.255.255
+        //172.16.0.0~172.31.255.255
+        //192.168.0.0~192.168.255.255
+        if (ip[0] == (byte) 10) {
+            return true;
+        } else if (ip[0] == (byte) 172) {
+            if (ip[1] >= (byte) 16 && ip[1] <= (byte) 31) {
+                return true;
+            }
+        } else if (ip[0] == (byte) 192) {
+            if (ip[1] == (byte) 168) {
+                return true;
+            }
+        }
+        return false;
     }
+
+    /**
+     * 判断是否是IPV6
+     *
+     * @param inetAddr
+     * @return
+     */
+    public static boolean isInternalIPV6(InetAddress inetAddr) {
+        if (inetAddr.isAnyLocalAddress() // Wild card ipv6
+                || inetAddr.isLinkLocalAddress() // Single broadcast ipv6 address: fe80:xx:xx...
+                || inetAddr.isLoopbackAddress() //Loopback ipv6 address
+                || inetAddr.isSiteLocalAddress()) { // Site local ipv6 address: fec0:xx:xx...
+            return true;
+        }
+        return false;
+    }
+
+    // apache common-validator
+//    private static boolean ipCheck(byte[] ip) {
+//        if (ip.length != 4) {
+//            throw new RuntimeException("illegal ipv4 bytes");
+//        }
+//
+//        InetAddressValidator validator = InetAddressValidator.getInstance();
+//        return validator.isValidInet4Address(ipToIPv4Str(ip));
+//    }
+//
+//    private static boolean ipV6Check(byte[] ip) {
+//        if (ip.length != 16) {
+//            throw new RuntimeException("illegal ipv6 bytes");
+//        }
+//
+//        InetAddressValidator validator = InetAddressValidator.getInstance();
+//        return validator.isValidInet6Address(ipToIPv6Str(ip));
+//    }
+
 
     /**
      * 获取当前主机公网IP
@@ -238,15 +341,13 @@ public final class NetUtil {
             }
         } catch (Exception e) {
             log.error("fail to reach jsonip.com", e);
-        }
-        // 使用finally块来关闭输入流
-        finally {
+        } finally {
             try {
                 if (in != null) {
                     in.close();
                 }
             } catch (Exception e2) {
-                e2.printStackTrace();
+                log.error("fail to close input stream.", e2);
             }
 
         }
