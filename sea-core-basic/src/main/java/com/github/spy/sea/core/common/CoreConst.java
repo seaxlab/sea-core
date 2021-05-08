@@ -53,6 +53,17 @@ public class CoreConst {
     public static final Boolean NO = Boolean.FALSE;
 
     /**
+     * status=1
+     */
+    public static final Integer STATUS_YES = 1;
+
+    /**
+     * status=0
+     */
+    public static final Integer STATUS_NO = 0;
+
+
+    /**
      * 请求Id
      */
     public static final String REQUEST_ID = "requestId";
