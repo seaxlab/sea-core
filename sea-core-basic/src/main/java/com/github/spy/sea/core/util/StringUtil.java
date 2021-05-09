@@ -738,4 +738,31 @@ public final class StringUtil {
         return Stream.of(suffixArray).anyMatch(item -> caseSensitive ? str.endsWith(item) : str.toLowerCase().endsWith(item.toLowerCase()));
     }
 
+    /**
+     * 在指定位置插入字符
+     *
+     * @param str       原始字符串
+     * @param offset    偏移量
+     * @param character 新字符
+     * @return
+     */
+    public static String insert(String str, int offset, Character character) {
+        StringBuilder builder = new StringBuilder(str);
+        builder.insert(offset, character);
+        return builder.toString();
+    }
+
+    /**
+     * 在指定位置插入字符串
+     *
+     * @param str    原始字符串
+     * @param offset 偏移量
+     * @param newStr 新字符
+     * @return
+     */
+    public static String insert(String str, int offset, String newStr) {
+        StringBuilder builder = new StringBuilder(str);
+        builder.insert(offset, newStr);
+        return builder.toString();
+    }
 }

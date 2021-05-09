@@ -79,5 +79,10 @@ public class StringUtilTest extends BaseCoreTest {
         log.info("ret={}", StringUtil.endsWith("qingdao_uat", true, "uat", "sit", "dev"));
     }
 
+    @Test
+    public void testInsert() throws Exception {
+        Assert.assertEquals("ab-cdef", StringUtil.insert("abcdef", 2, "-"));
+    }
+
 
 }
