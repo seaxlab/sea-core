@@ -658,9 +658,7 @@ public final class DateUtil {
     public static List<String> betweenDays(Date start, Date end) {
         if (start.after(end)) return Lists.newArrayList();
 
-        List<String> returnBetweentDaysList = Lists.newArrayList();
-
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
+        List<String> days = Lists.newArrayList();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(start);
@@ -670,27 +668,33 @@ public final class DateUtil {
         calendar.set(Calendar.MILLISECOND, 0);
 
 //        returnBetweentDaysList.add(simpleDateFormat.format(start));
-        returnBetweentDaysList.add(dateStr(start, DEFAULT_DATE_FORMAT));
+        days.add(dateStr(start, DEFAULT_DATE_FORMAT));
 
         while (true) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             if (calendar.getTime().compareTo(end) == -1 || calendar.getTime().compareTo(end) == 0) {
-//                returnBetweentDaysList.add(simpleDateFormat.format(calendar.getTime()));
-                returnBetweentDaysList.add(dateStr(calendar.getTime(), DEFAULT_DATE_FORMAT));
+//                days.add(simpleDateFormat.format(calendar.getTime()));
+                days.add(dateStr(calendar.getTime(), DEFAULT_DATE_FORMAT));
             } else {
                 break;
             }
         }
 
-        return returnBetweentDaysList;
+        return days;
     }
 
+    /**
+     * 指定日期范围的天数
+     *
+     * @param start
+     * @param end
+     * @param dateFormat
+     * @return
+     */
     public static List<String> betweenDays(Date start, Date end, String dateFormat) {
         if (start.after(end)) return Lists.newArrayList();
 
-        List<String> returnBetweentDaysList = Lists.newArrayList();
-
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+        List<String> days = Lists.newArrayList();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(start);
@@ -699,20 +703,21 @@ public final class DateUtil {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-//        returnBetweentDaysList.add(simpleDateFormat.format(start));
-        returnBetweentDaysList.add(dateStr(start, dateFormat));
+        //        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+//        days.add(simpleDateFormat.format(start));
+        days.add(dateStr(start, dateFormat));
 
         while (true) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             if (calendar.getTime().compareTo(end) == -1 || calendar.getTime().compareTo(end) == 0) {
-//                returnBetweentDaysList.add(simpleDateFormat.format(calendar.getTime()));
-                returnBetweentDaysList.add(dateStr(calendar.getTime(), dateFormat));
+//                days.add(simpleDateFormat.format(calendar.getTime()));
+                days.add(dateStr(calendar.getTime(), dateFormat));
             } else {
                 break;
             }
         }
 
-        return returnBetweentDaysList;
+        return days;
     }
 
 
@@ -989,7 +994,7 @@ public final class DateUtil {
             return false;
         }
 
-        return targetDate.getTime() >= beginDate.getTime() && targetDate.getTime() <= endDate.getTime();
+        return beginDate.getTime() <= targetDate.getTime() && targetDate.getTime() <= endDate.getTime();
     }
 
     /**
