@@ -43,8 +43,15 @@ public class IdCardUtil {
             // 统一转成18位
             idNo = checkLength(idNo);
             idCard.setNativePlace(getNativePlace(idNo));
-            idCard.setBirthday(getBirthdayDate(idNo));
-            idCard.setAge(getAge(idNo));
+
+            // 生日部分
+            Date birthday = getBirthdayDate(idNo);
+            idCard.setBirthday(birthday);
+            idCard.setBirthdayStr(getBirthdayStr(idNo));
+            idCard.setAge(Long.valueOf(BirthdayUtil.getAge(birthday)).intValue());
+            idCard.setMonthsOfAge(BirthdayUtil.getMonths(birthday));
+            idCard.setDaysOfAge(BirthdayUtil.getDays(birthday));
+
             GenderEnum genderEnum = getGender(idNo);
             idCard.setSex(genderEnum.getCode());
             idCard.setSexLabel(genderEnum.getDesc());
@@ -176,6 +183,14 @@ public class IdCardUtil {
         return AreaCodeUtil.getNativePlace(Integer.valueOf(addressCode));
     }
 
+    public static String getBirthdayStr(String idNo) {
+        String birthday = idNo.substring(6, 14);
+        StringBuilder sb = new StringBuilder(birthday);
+        sb.insert(6, "-");
+        sb.insert(4, "-");
+        return sb.toString();
+    }
+
     /**
      * 获取出生年月日
      *
@@ -186,26 +201,8 @@ public class IdCardUtil {
         String year = cardNumber.substring(6, 10);
         String month = cardNumber.substring(10, 12);
         String day = cardNumber.substring(12, 14);
-//        Birthday birthday = new Birthday();
-//        birthday.setYear(Integer.valueOf(year));
-//        birthday.setMonth(Integer.valueOf(month));
-//        birthday.setDay(Integer.valueOf(day));
 
         return DateUtil.strDate(year + month + day, DateUtil.DAY_FORMAT2);
-    }
-
-    /**
-     * 计算年龄
-     *
-     * @param idNo
-     * @return
-     */
-    private static int getAge(String idNo) {
-        String birthdayYear = idNo.substring(6, 10);
-        SimpleDateFormat df = new SimpleDateFormat("yyyy");
-        String nowYear = df.format(new Date());
-
-        return Integer.parseInt(nowYear) - Integer.parseInt(birthdayYear);
     }
 
     /**
