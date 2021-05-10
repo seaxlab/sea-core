@@ -16,10 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * Date util
@@ -646,6 +643,40 @@ public final class DateUtil {
 
     /**
      * start和end之间的日期，包含start和end
+     *
+     * @param start
+     * @param end
+     * @return
+     */
+    public static List<Date> betweenDayList(Date start, Date end) {
+        if (start.after(end)) {
+            return Lists.newArrayList();
+        }
+        List<Date> days = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(start);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        days.add(start);
+
+        while (true) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            if (calendar.getTime().compareTo(end) == -1 || calendar.getTime().compareTo(end) == 0) {
+                days.add(new Date(calendar.getTime().getTime()));
+            } else {
+                break;
+            }
+        }
+
+        return days;
+    }
+
+    /**
+     * start和end之间的日期，包含start和end
      * 例如：
      * start:2017/03/02 12:00:00
      * end :2017/03/04 13:00:00
@@ -666,15 +697,13 @@ public final class DateUtil {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-
-//        returnBetweentDaysList.add(simpleDateFormat.format(start));
-        days.add(dateStr(start, DEFAULT_DATE_FORMAT));
+        SimpleDateFormat sdf = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
+        days.add(sdf.format(start));
 
         while (true) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             if (calendar.getTime().compareTo(end) == -1 || calendar.getTime().compareTo(end) == 0) {
-//                days.add(simpleDateFormat.format(calendar.getTime()));
-                days.add(dateStr(calendar.getTime(), DEFAULT_DATE_FORMAT));
+                days.add(sdf.format(calendar.getTime()));
             } else {
                 break;
             }

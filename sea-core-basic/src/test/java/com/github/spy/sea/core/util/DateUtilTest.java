@@ -55,4 +55,12 @@ public class DateUtilTest extends BaseCoreTest {
             log.info("{}", DateUtil.truncate(new Date(), Calendar.MINUTE));
         }
     }
+
+
+    @Test
+    public void testBetweenDays() throws Exception {
+        Date start = DateUtil.str2Date("2021-04-01", DateUtil.DAY_FORMAT);
+        Date end = DateUtil.str2Date("2021-06-02", DateUtil.DAY_FORMAT);
+        log.info("days={}", DateUtil.betweenDayList(start, end));
+    }
 }
