@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * module name
@@ -62,5 +64,22 @@ public class DateUtilTest extends BaseCoreTest {
         Date start = DateUtil.str2Date("2021-04-01", DateUtil.DAY_FORMAT);
         Date end = DateUtil.str2Date("2021-06-02", DateUtil.DAY_FORMAT);
         log.info("days={}", DateUtil.betweenDayList(start, end));
+    }
+
+    @Test
+    public void testDiffSimple() throws Exception {
+        Date start = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date end = DateUtil.str2Date("2021-04-02 13:01:00", DateUtil.DEFAULT_FORMAT);
+
+        log.info("minutes={}", DateUtil.diffSimple(start, end, ChronoUnit.MINUTES));
+        log.info("days={}", DateUtil.diffSimple(start, end, ChronoUnit.DAYS));
+    }
+
+    @Test
+    public void testDiff() throws Exception {
+        Date start = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date end = DateUtil.str2Date("2021-04-02 10:01:00", DateUtil.DEFAULT_FORMAT);
+        log.info("minutes={}", DateUtil.diff(start, end, TimeUnit.MINUTES));
+        log.info("days={}", DateUtil.diff(start, end, TimeUnit.DAYS));
     }
 }

@@ -2,6 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.enums.RangeModeEnum;
 import com.github.spy.sea.core.enums.WeekEnum;
+import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +17,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Date util
@@ -612,6 +616,92 @@ public final class DateUtil {
         return dateStr(date, DAY_FORMAT);
     }
 
+    /**
+     * 两个日期时间的差异量,(截断指定单位之后的）
+     *
+     * @param beginDate 开始
+     * @param endDate   结束
+     * @param timeUnit  单位
+     * @return
+     */
+    public static Long diffSimple(Date beginDate, Date endDate, ChronoUnit timeUnit) {
+        Preconditions.checkNotNull(beginDate, "beginDate不能为空");
+        Preconditions.checkNotNull(endDate, "endDate不能为空");
+        Preconditions.checkNotNull(timeUnit, "timeUnit不能为空");
+
+        switch (timeUnit) {
+            case SECONDS: {
+                LocalDateTime l1 = beginDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                LocalDateTime l2 = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                return ChronoUnit.SECONDS.between(l1, l2);
+            }
+            case MINUTES: {
+                LocalDateTime l1 = beginDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withSecond(0);
+                LocalDateTime l2 = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withSecond(0);
+                return ChronoUnit.MINUTES.between(l1, l2);
+            }
+            case HOURS: {
+                LocalDateTime l1 = beginDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+                                            .withMinute(0)
+                                            .withSecond(0);
+                LocalDateTime l2 = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+                                          .withMinute(0)
+                                          .withSecond(0);
+                return ChronoUnit.HOURS.between(l1, l2);
+            }
+            case DAYS: {
+                java.time.LocalDate l1 = beginDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                java.time.LocalDate l2 = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                return ChronoUnit.DAYS.between(l1, l2);
+            }
+            case MONTHS: {
+                java.time.LocalDate l1 = beginDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                                                  .withDayOfMonth(1);
+                java.time.LocalDate l2 = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                                                .withDayOfMonth(1);
+                return ChronoUnit.DAYS.between(l1, l2);
+            }
+            case YEARS: {
+                java.time.LocalDate l1 = beginDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                java.time.LocalDate l2 = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                return ChronoUnit.YEARS.between(l1, l2);
+            }
+            default:
+                ExceptionHandler.publishMsg("不支持的时间单位");
+                break;
+        }
+
+        return 0L;
+    }
+
+    /**
+     * 两个日期时间的差异量(准确计算）
+     *
+     * @param beginDate 开始
+     * @param endDate   结束
+     * @param timeUnit  单位
+     * @return
+     */
+    public static Long diff(Date beginDate, Date endDate, TimeUnit timeUnit) {
+        Preconditions.checkNotNull(beginDate, "beginDate不能为空");
+        Preconditions.checkNotNull(endDate, "endDate不能为空");
+        Preconditions.checkNotNull(timeUnit, "timeUnit不能为空");
+
+        long time = endDate.getTime() - beginDate.getTime();
+        switch (timeUnit) {
+            case SECONDS:
+                return time / 1000;
+            case MINUTES:
+                return (time / (1000 * 60));
+            case HOURS:
+                return (time / (1000 * 60 * 60));
+            case DAYS:
+                return (time / (1000 * 60 * 60 * 24));
+        }
+
+        return 0L;
+    }
+
 
     /**
      * 凌晨
@@ -872,6 +962,26 @@ public final class DateUtil {
 
         return WeekEnum.getDescByType(dayOfWeek);
     }
+
+    /**
+     * 获取指定日期的星期
+     *
+     * @param date
+     * @return
+     */
+    public static int getWeek(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        // 默认是从1-7，减一0（周日）-6（周六）
+        int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
+
+        if (w == 0) {
+            w = 7;
+        }
+        //1(周一)-7(周日)
+        return w;
+    }
+
 
     /**
      * 获取当前月的第一天
