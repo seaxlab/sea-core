@@ -33,6 +33,16 @@ public class CoreConst {
     public static final int NCPU = Runtime.getRuntime().availableProcessors();
 
     /**
+     * console session
+     */
+    public static final String SYS_SESSION_CONSOLE = "SYS_SESSION_CONSOLE";
+
+    /**
+     * app session.
+     */
+    public static final String SYS_SESSION_APP = "SYS_SESSION_APP";
+
+    /**
      * sys operator
      */
     public static final String SYS_OPERATOR = "SYS_OPERATOR";
