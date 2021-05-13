@@ -3,6 +3,8 @@ package com.github.spy.sea.core.example.controller;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.web.util.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestController
 @RequestMapping("/api/test")
-public class TestController {
+public class TestController implements InitializingBean {
 
 
     @GetMapping("/log/get")
@@ -42,5 +44,15 @@ public class TestController {
         return BaseResult.success();
     }
 
+    @Value("sea.list")
+    private String[] list;
 
+    @Value("${sea.list2}")
+    private String[] list2;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info("list={}", list);
+        log.info("list2={}", list2);
+    }
 }

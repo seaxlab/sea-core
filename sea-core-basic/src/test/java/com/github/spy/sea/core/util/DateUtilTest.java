@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,6 +35,15 @@ public class DateUtilTest extends BaseCoreTest {
 
         println(DateUtil.addHour(now, 1));
         println(DateUtil.addMinute(now, 15));
+    }
+
+    @Test
+    public void testToLocalDate() throws Exception {
+        Date input = new Date();
+        Instant instant = input.toInstant();
+        ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+        LocalDate date = zdt.toLocalDate();
+        log.info("local date={}", date);
     }
 
     @Test

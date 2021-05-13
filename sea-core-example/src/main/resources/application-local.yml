@@ -2,3 +2,9 @@ server:
   port: 8800
 sea:
   env: local
+  list:
+    - a
+    - b
+    - c
+  #  @Value方式注入成员
+  list2: a,b,c

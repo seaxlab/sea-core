@@ -23,8 +23,25 @@ public class ListUtilTest extends BaseCoreTest {
         String[] array = new String[]{"1", "s"};
 
         log.info("{}", ListUtil.toList(array));
+    }
+
+    @Test
+    public void testList() throws Exception {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+
+        List<Integer> removedList = new ArrayList<>();
+        removedList.add(2);
+        removedList.add(3);
+
+        list.removeAll(removedList);
+        log.info("{}", list);
 
     }
+
 
     @Test
     public void test30() throws Exception {
