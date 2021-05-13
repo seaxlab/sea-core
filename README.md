@@ -26,6 +26,7 @@
 
 ### 2.3.0-SNAPSHOT
 
+- MathUtil增加连续的是数组信息
 - 增加Base62Util
 - TxUtil增加post commit事务回调，适用于需要事务提交后再发送mq消息
 - 增加独立logging模块，可以独立输出日志
