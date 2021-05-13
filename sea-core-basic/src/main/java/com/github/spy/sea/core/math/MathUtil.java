@@ -1,6 +1,8 @@
 package com.github.spy.sea.core.math;
 
 import cn.hutool.core.math.Combination;
+import cn.hutool.core.util.ArrayUtil;
+import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.util.SetUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -183,4 +185,52 @@ public final class MathUtil {
 
         return list.stream().filter(item -> item != null).collect(Collectors.toList());
     }
+
+    /**
+     * 找出第一个满足count个连续的数组的下标
+     *
+     * @param array
+     * @param count
+     * @return
+     */
+    public static BaseResult<Integer> findContinuousIndex(int[] array, int count) {
+        BaseResult<Integer> result = BaseResult.fail();
+        if (array.length < count) {
+            result.setErrorMessage("数据太少");
+            return result;
+        }
+
+        boolean flag;
+        for (int i = count; i < array.length; i++) {
+            int[] subArray = ArrayUtil.sub(array, i - count, i);
+            flag = isContinuous(subArray);
+            if (flag) {
+                result.value(i - count);
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * 判断整个数组是否连续
+     *
+     * @param array
+     * @return
+     */
+    public static boolean isContinuous(int[] array) {
+        boolean flag = true;
+        for (int i = 0; i < array.length - 1; i++) {
+            int start = array[i];
+            int next = array[i + 1];
+            if (start + 1 != next) {
+                flag = false;
+                break;
+            }
+        }
+
+        return flag;
+    }
+
 }

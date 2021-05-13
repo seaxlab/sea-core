@@ -91,4 +91,19 @@ public class MathUtilTest extends BaseCoreTest {
         });
         log.info("-------");
     }
+
+    @Test
+    public void testIsContinuous() throws Exception {
+
+        log.info("{}", MathUtil.isContinuous(new int[]{1, 2, 3, 4, 5, 6}));
+        log.info("{}", MathUtil.isContinuous(new int[]{1, 2, 3, 5, 5, 6}));
+    }
+
+    @Test
+    public void testIsContinuous2() throws Exception {
+        log.info("{}", MathUtil.findContinuousIndex(new int[]{1, 2, 3, 4, 5, 6}, 3).getData());
+        log.info("{}", MathUtil.findContinuousIndex(new int[]{1, 2, 5, 6, 7, 8}, 3).getData());
+
+    }
+
 }
