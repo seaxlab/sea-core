@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.SetUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -126,12 +127,6 @@ public final class EqualUtil {
         }
         Preconditions.checkNotNull(dateMode, "日期比较模式不能为空");
 
-//        Calendar c1 = Calendar.getInstance();
-//        Calendar c2 = Calendar.getInstance();
-//
-//        c1.setTime(date1);
-//        c2.setTime(date2);
-        //yyyyMMddHHmmss
         String format = "";
         switch (dateMode) {
             case YEAR:
@@ -163,8 +158,9 @@ public final class EqualUtil {
             log.warn("format is empty.");
             return false;
         }
-        String left = DateUtil.toString(date1, "yyyy");
-        String right = DateUtil.toString(date2, "yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String left = sdf.format(date1);
+        String right = sdf.format(date2);
 
         return left.equalsIgnoreCase(right);
     }
