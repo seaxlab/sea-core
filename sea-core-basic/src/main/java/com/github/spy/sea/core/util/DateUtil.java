@@ -659,7 +659,7 @@ public final class DateUtil {
                                                   .withDayOfMonth(1);
                 java.time.LocalDate l2 = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
                                                 .withDayOfMonth(1);
-                return ChronoUnit.DAYS.between(l1, l2);
+                return ChronoUnit.MONTHS.between(l1, l2);
             }
             case YEARS: {
                 java.time.LocalDate l1 = beginDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
