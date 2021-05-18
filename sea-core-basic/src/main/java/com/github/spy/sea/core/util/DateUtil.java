@@ -181,6 +181,27 @@ public final class DateUtil {
         return getDate(date, 1);
     }
 
+
+    /**
+     * 获取当前交易日，<font color="red">时间部分为00:00:00</font>
+     *
+     * @return
+     */
+    public static Date getBillDate() {
+        return truncate(nowDate());
+    }
+
+    /**
+     * 将制定日期转换成交易日，
+     * <font color="red">时间部分为00:00:00</font>
+     *
+     * @param date
+     * @return
+     */
+    public static Date getBillDate(Date date) {
+        return truncate(date);
+    }
+
     /**
      * 获取下一天，
      * <font color="red">时间部分为00:00:00</font>
