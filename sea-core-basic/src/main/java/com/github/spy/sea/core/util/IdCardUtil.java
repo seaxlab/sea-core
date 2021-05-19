@@ -197,7 +197,10 @@ public class IdCardUtil {
      * @param cardNumber
      * @return
      */
-    private static Date getBirthdayDate(String cardNumber) {
+    public static Date getBirthdayDate(String cardNumber) {
+        if (cardNumber == null || cardNumber.isEmpty()) {
+            return null;
+        }
         String year = cardNumber.substring(6, 10);
         String month = cardNumber.substring(10, 12);
         String day = cardNumber.substring(12, 14);
