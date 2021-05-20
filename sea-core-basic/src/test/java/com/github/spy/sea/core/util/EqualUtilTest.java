@@ -4,6 +4,7 @@ import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,5 +24,19 @@ public class EqualUtilTest extends BaseCoreTest {
         log.info("{}", EqualUtil.isIn(1, list));
         log.info("{}", EqualUtil.isIn(6, list));
         log.info("{}", EqualUtil.isIn(-1, list));
+    }
+
+    @Test
+    public void test29() throws Exception {
+        List<Long> left = new ArrayList<>();
+        left.add(10000000L);
+        left.add(1L);
+
+        List<Long> right = new ArrayList<>();
+        right.add(10000000L);
+
+        log.info("{}", left.containsAll(right));
+
+
     }
 }

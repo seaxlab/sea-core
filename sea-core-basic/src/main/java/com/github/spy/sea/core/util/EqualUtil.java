@@ -378,4 +378,17 @@ public final class EqualUtil {
         return values.stream().anyMatch(item -> item.longValue() == value.longValue());
     }
 
+    /**
+     * check all element in left side must be in right side
+     *
+     * @param left  small one
+     * @param right big one
+     * @return
+     */
+    public static boolean isIn(Collection<Object> left, Collection<Object> right) {
+        Preconditions.checkNotNull(left, "");
+        Preconditions.checkNotNull(right, "");
+        return right.containsAll(left);
+    }
+
 }

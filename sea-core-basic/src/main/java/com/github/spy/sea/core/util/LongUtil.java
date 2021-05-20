@@ -26,4 +26,19 @@ public final class LongUtil {
 
         return value;
     }
+
+    /**
+     * 非0数字
+     *
+     * @param value
+     * @return
+     */
+    public static boolean isNotZero(Long value) {
+        if (value == null) {
+            return false;
+        }
+        return value.longValue() != 0L;
+    }
+
+
 }

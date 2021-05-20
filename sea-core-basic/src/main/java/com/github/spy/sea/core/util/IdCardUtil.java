@@ -184,6 +184,9 @@ public class IdCardUtil {
     }
 
     public static String getBirthdayStr(String idNo) {
+        if (idNo == null || idNo.isEmpty()) {
+            return "";
+        }
         String birthday = idNo.substring(6, 14);
         StringBuilder sb = new StringBuilder(birthday);
         sb.insert(6, "-");

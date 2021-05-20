@@ -32,4 +32,17 @@ public final class IntegerUtil {
         return value;
     }
 
+    /**
+     * 非0数字
+     *
+     * @param value
+     * @return
+     */
+    public static boolean isNotZero(Integer value) {
+        if (value == null) {
+            return false;
+        }
+        return value.intValue() != 0L;
+    }
+
 }
