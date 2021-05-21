@@ -30,7 +30,8 @@ public final class BatchUtil {
 
 
     /**
-     * 批量添加
+     * 批量添加，必须开启事务<br/>
+     * 重点：这段代码中开启了session，所以外层中必须开启事务
      *
      * @param sqlSessionFactory sqlSessionFactory
      * @param mapperClass       xxMapper
@@ -63,6 +64,9 @@ public final class BatchUtil {
     }
 
     /**
+     * 批量插入，必须开启事务<br/>
+     * 重点：这段代码中开启了session，所以外层中必须开启事务
+     *
      * @param sqlSessionFactory
      * @param mapperClass
      * @param list
@@ -76,7 +80,8 @@ public final class BatchUtil {
 
 
     /**
-     * 批量更新
+     * 批量更新，必须开启事务<br/>
+     * 重点：这段代码中开启了session，所以外层中必须开启事务
      *
      * @param sqlSessionFactory
      * @param mapperClass
