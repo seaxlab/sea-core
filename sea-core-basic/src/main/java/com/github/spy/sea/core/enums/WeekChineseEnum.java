@@ -6,20 +6,17 @@ import org.apache.commons.lang3.StringUtils;
  * 星期枚举
  *
  * <p>
- * 0:周日
  * 1：周一
  * .
- * 6：周六
+ * 7：周日
  * </p>
  *
  * @author spy
  * @version 1.0 2019-08-20
  * @since 1.0
  */
-public enum WeekEnum {
-
+public enum WeekChineseEnum {
     UNKNOWN(-1, "未知"),
-
     /**
      * 周一
      */
@@ -47,7 +44,7 @@ public enum WeekEnum {
     /**
      * 周日
      */
-    Sunday(0, "周日");
+    Sunday(7, "周日");
 
     private int type;
 
@@ -61,13 +58,13 @@ public enum WeekEnum {
         return desc;
     }
 
-    WeekEnum(int type, String desc) {
+    WeekChineseEnum(int type, String desc) {
         this.type = type;
         this.desc = desc;
     }
 
-    public static WeekEnum of(int week) {
-        for (WeekEnum item : values()) {
+    public static WeekChineseEnum of(int week) {
+        for (WeekChineseEnum item : WeekChineseEnum.values()) {
             if (item.getType() == week) {
                 return item;
             }
@@ -75,11 +72,11 @@ public enum WeekEnum {
         return UNKNOWN;
     }
 
-
     public static String getDescByType(int type) {
-        for (WeekEnum result : WeekEnum.values()) {
-            if (result.getType() == type) {
-                return result.desc;
+
+        for (WeekChineseEnum item : values()) {
+            if (item.getType() == type) {
+                return item.desc;
             }
         }
         return StringUtils.EMPTY;
