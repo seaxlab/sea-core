@@ -44,7 +44,9 @@ public final class BatchUtil {
             log.warn("list is empty");
             return;
         }
-
+        if (log.isDebugEnabled()) {
+            log.debug("WARNING you MUST use @transactional in your biz service.");
+        }
 
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
         T mapper = sqlSession.getMapper(mapperClass);
@@ -87,6 +89,10 @@ public final class BatchUtil {
         if (ListUtil.isEmpty(list)) {
             log.warn("list is empty");
             return;
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug("WARNING you MUST use @transactional in your biz service.");
         }
 
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
