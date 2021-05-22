@@ -84,6 +84,7 @@
         <reflections.version>0.9.12</reflections.version>
         <ognl.version>3.2.18</ognl.version>
         <influxdb.version>2.0.0</influxdb.version>
+        <clickhouse.version>0.3.1</clickhouse.version>
 
         <sea.dubbo.legacy.version>2.6.7</sea.dubbo.legacy.version>
         <sea.dubbo.version>2.7.8</sea.dubbo.version>
@@ -344,6 +345,12 @@
                 <version>${influxdb.version}</version>
             </dependency>
             <!-- influxdb end -->
+
+            <dependency>
+                <groupId>ru.yandex.clickhouse</groupId>
+                <artifactId>clickhouse-jdbc</artifactId>
+                <version>${clickhouse.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
