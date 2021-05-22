@@ -94,6 +94,16 @@ public final class TxUtil {
         });
     }
 
+    public static void registerAfterCommit(Callback callback) {
+        log.info("register after commit");
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
+            public void afterCommit() {
+                log.info("tx after commit");
+                callback.execute();
+            }
+        });
+    }
+
     /**
      * transaction synchronization callbacks
      *
@@ -102,6 +112,10 @@ public final class TxUtil {
     public static void registerSynchronization(TransactionSynchronization transactionSynchronization) {
         log.info("register synchronization");
         TransactionSynchronizationManager.registerSynchronization(transactionSynchronization);
+    }
+
+    public interface Callback {
+        void execute();
     }
 
 }
