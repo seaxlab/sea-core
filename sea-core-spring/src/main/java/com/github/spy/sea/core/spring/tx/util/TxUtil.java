@@ -84,6 +84,7 @@ public final class TxUtil {
      *
      * @param supplier supplier
      */
+    @Deprecated
     public static void registerAfterCommit(Supplier<Void> supplier) {
         log.info("register after commit");
         TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {

@@ -28,6 +28,7 @@ public class CorsFilter implements Filter {
         String originHeader = ((HttpServletRequest) request).getHeader("Origin");
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
+        // 必须放在chain.doFilter之前，否则会出现header设置不生效问题
         // 若有端口需写全（协议+域名+端口）
         httpServletResponse.setHeader("Access-Control-Allow-Origin", originHeader);
         httpServletResponse.addHeader("Access-Control-Allow-Methods", "GET,HEAD,POST,PUT,DELETE,OPTIONS,PATCH");
