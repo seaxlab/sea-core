@@ -166,6 +166,19 @@ public class ThreadContext {
         CTX_HOLDER.remove();
     }
 
+    public static final void clean(boolean showLog) {
+        if (showLog && log.isDebugEnabled()) {
+            log.debug("thread context clean");
+        }
+
+        Map<String, Object> ctx = CTX_HOLDER.get();
+        if (ctx != null) {
+            ctx.clear();
+        }
+        CTX_HOLDER.remove();
+    }
+
+
     /**
      * 初始化线程上下文
      */
