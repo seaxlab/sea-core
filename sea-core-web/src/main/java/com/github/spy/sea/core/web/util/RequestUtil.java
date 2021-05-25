@@ -27,6 +27,105 @@ public class RequestUtil {
     private RequestUtil() {
     }
 
+    public enum Priority {
+        REQUEST_HEADER_COOKIE,
+        REQUEST_COOKIE_HEADER,
+        HEADER_REQUEST_COOKIE,
+        HEADER_COOKIE_REQUEST,
+        COOKIE_REQUEST_HEADER,
+        COOKIE_HEADER_REQUEST
+    }
+
+    /**
+     * 按priority顺序进行取值
+     *
+     * @param request
+     * @param priority
+     * @param key
+     * @return
+     */
+    public static String getParamByPriority(HttpServletRequest request, Priority priority, String key) {
+        return getParamByPriority(request, priority, key, key, key);
+    }
+
+    /**
+     * 按priorty 顺序进行取值
+     *
+     * @param request
+     * @param priority
+     * @param key1
+     * @param key2
+     * @param key3
+     * @return
+     */
+    public static String getParamByPriority(HttpServletRequest request, Priority priority, String key1, String key2, String key3) {
+        Preconditions.checkNotNull(request, "request cannot be null");
+        Preconditions.checkNotNull(priority, "priority cannot be null");
+        Preconditions.checkNotNull(key1, "key1 cannot be null");
+        Preconditions.checkNotNull(key2, "key2 cannot be null");
+        Preconditions.checkNotNull(key3, "key3 cannot be null");
+
+        String value = "";
+        switch (priority) {
+            case REQUEST_HEADER_COOKIE:
+                value = request.getParameter(key1);
+                if (StringUtil.isEmpty(value)) {
+                    value = request.getHeader(key2);
+                    if (StringUtil.isEmpty(value)) {
+                        value = CookieUtil.get(request, key3);
+                    }
+                }
+                break;
+            case REQUEST_COOKIE_HEADER:
+                value = request.getParameter(key1);
+                if (StringUtil.isEmpty(value)) {
+                    value = CookieUtil.get(request, key2);
+                    if (StringUtil.isEmpty(value)) {
+                        value = request.getHeader(key3);
+                    }
+                }
+                break;
+            case HEADER_REQUEST_COOKIE:
+                value = request.getHeader(key1);
+                if (StringUtil.isEmpty(value)) {
+                    value = request.getParameter(key2);
+                    if (StringUtil.isEmpty(value)) {
+                        value = CookieUtil.get(request, key3);
+                    }
+                }
+                break;
+            case HEADER_COOKIE_REQUEST:
+                value = request.getHeader(key1);
+                if (StringUtil.isEmpty(value)) {
+                    value = CookieUtil.get(request, key2);
+                    if (StringUtil.isEmpty(value)) {
+                        value = request.getHeader(key3);
+                    }
+                }
+                break;
+            case COOKIE_REQUEST_HEADER:
+                value = CookieUtil.get(request, key1);
+                if (StringUtil.isEmpty(value)) {
+                    value = request.getParameter(key2);
+                    if (StringUtil.isEmpty(value)) {
+                        value = request.getHeader(key3);
+                    }
+                }
+
+                break;
+            case COOKIE_HEADER_REQUEST:
+                value = CookieUtil.get(request, key1);
+                if (StringUtil.isEmpty(value)) {
+                    value = request.getHeader(key2);
+                    if (StringUtil.isEmpty(value)) {
+                        value = request.getParameter(key3);
+                    }
+                }
+                break;
+        }
+
+        return StringUtil.defaultIfEmpty(value, StringUtil.EMPTY);
+    }
 
     /**
      * get param
@@ -62,6 +161,44 @@ public class RequestUtil {
         if (StringUtil.isEmpty(value)) {
             // request
             value = request.getParameter(requestKey);
+            if (StringUtil.isEmpty(value)) {
+                // cookie
+                value = CookieUtil.get(request, cookieKey);
+            }
+        }
+        return value;
+    }
+
+    /**
+     * request-->header--> cookie
+     *
+     * @param request
+     * @param key
+     * @return
+     */
+    public static String getParamByPriority2(HttpServletRequest request, String key) {
+        return getParamByPriority2(request, key, key, key);
+    }
+
+    /**
+     * request-->header--> cookie
+     *
+     * @param request
+     * @param requestKey
+     * @param headerKey
+     * @param cookieKey
+     * @return
+     */
+    public static String getParamByPriority2(HttpServletRequest request, String requestKey, String headerKey, String cookieKey) {
+        if (StringUtil.isAllEmpty(headerKey, requestKey, cookieKey)) {
+            return StringUtil.EMPTY;
+        }
+
+        // request
+        String value = request.getParameter(requestKey);
+        if (StringUtil.isEmpty(value)) {
+            // header
+            value = request.getHeader(headerKey);
             if (StringUtil.isEmpty(value)) {
                 // cookie
                 value = CookieUtil.get(request, cookieKey);
