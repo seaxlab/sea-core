@@ -565,6 +565,22 @@ public final class DateUtil {
         }
     }
 
+    /**
+     * merge date and time to datetime.
+     *
+     * @param date
+     * @param time
+     * @return
+     */
+    public static Date parseToDate(Date date, Date time) {
+        Preconditions.checkNotNull(date, "date cannot be null.");
+        Preconditions.checkNotNull(time, "time cannot be null.");
+
+        String dateStr = dateStr(date, DAY_FORMAT);
+        String timeStr = dateStr(time, TIME_FORMAT);
+
+        return parseToDate(dateStr, timeStr);
+    }
 
     /**
      * @param sDate 格式 yyyy-MM-dd

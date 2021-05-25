@@ -94,4 +94,12 @@ public class DateUtilTest extends BaseCoreTest {
         log.info("minutes={}", DateUtil.diff(start, end, TimeUnit.MINUTES));
         log.info("days={}", DateUtil.diff(start, end, TimeUnit.DAYS));
     }
+
+    @Test
+    public void testParseToDate() throws Exception {
+        Date start = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date end = DateUtil.str2Date("2021-04-02 10:01:01", DateUtil.DEFAULT_FORMAT);
+
+        log.info("{}", DateUtil.toString(DateUtil.parseToDate(start, end), DateUtil.DEFAULT_FORMAT));
+    }
 }
