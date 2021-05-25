@@ -12,10 +12,7 @@ import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
 import redis.embedded.RedisServer;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,29 +46,27 @@ public class RedisManagerTest extends BaseTest {
         redisManager.init();
     }
 
+    @Test
+    public void testInfo() throws Exception {
+        Map<String, String> map = redisManager.info("stats");
+        log.info("info={}", map);
+    }
+
 
     @Test
     public void simpleTest() throws Exception {
-
-
         redisManager.set("11", "abc");
-
         String value = (String) redisManager.get("11");
-
         log.info("value={}", value);
-
     }
 
     @Test
     public void jsonTest() throws Exception {
-
         String key = "my-json";
         User user = User.builder().id(1L).name("abc").build();
 
         redisManager.setJSON(key, user);
-
         Optional<User> optionalUser = redisManager.getJSON(key, User.class);
-
 
         log.info("my user={}", optionalUser);
     }

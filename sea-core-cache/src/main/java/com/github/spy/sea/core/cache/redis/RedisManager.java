@@ -7,10 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -95,6 +92,37 @@ public class RedisManager {
      */
     public Jedis getJedis() {
         return pool.getResource();
+    }
+
+    /**
+     * 获取redis相关信息
+     *
+     * @param section
+     * @return
+     */
+    public Map<String, String> info(String section) {
+        try (Jedis jedis = pool.getResource()) {
+            if (jedis == null) {
+                log.error(NO_JEDIS_INSTANCE);
+                return MapUtil.empty();
+            }
+            //# Stats\r\ntotal_connections_received:4\r\ntotal_commands_processed:8...
+            String content = jedis.info(section);
+            if (StringUtil.isNotEmpty(content)) {
+                String[] kv = content.split("\r\n");
+                Map<String, String> map = new HashMap<>();
+                for (int i = 0; i < kv.length; i++) {
+                    String item = kv[i];
+                    String[] keyValue = item.split(":");
+                    if (keyValue.length == 2) {
+                        map.put(keyValue[0], keyValue[1]);
+                    }
+                }
+
+                return map;
+            }
+        }
+        return MapUtil.empty();
     }
 
     /**
