@@ -1,7 +1,9 @@
 package com.github.spy.sea.core.thread;
 
+import com.github.spy.sea.core.common.CoreConst;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -113,6 +115,16 @@ public class ThreadContext {
         T v = getSafe(key);
         return v == null ? defaultValue : v;
     }
+
+    /**
+     * 获取当前上下文操作时间
+     *
+     * @return
+     */
+    public static final Date getNowDate() {
+        return getSafe(CoreConst.SYS_DATE_NOW, new Date());
+    }
+
 
     /**
      * 获取线程上下文
