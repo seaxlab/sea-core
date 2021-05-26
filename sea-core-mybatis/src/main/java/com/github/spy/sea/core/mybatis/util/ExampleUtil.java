@@ -205,5 +205,15 @@ public final class ExampleUtil {
                .andEqualTo("isEnabled", CoreConst.YES);
     }
 
+    /**
+     * 同时设置isEnabled,isDeleted.
+     *
+     * @param example
+     */
+    public static void setIsEnabledAndIsDeletedFlag(Example example) {
+        example.and()
+               .andEqualTo("isEnabled", CoreConst.YES)
+               .andEqualTo("isDeleted", CoreConst.NO);
+    }
 
 }
