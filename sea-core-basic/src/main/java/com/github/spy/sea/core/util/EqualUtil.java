@@ -303,6 +303,10 @@ public final class EqualUtil {
         return Arrays.stream(strArray).anyMatch(item -> isEq(str1, item));
     }
 
+    public static boolean isNotIn(String str, String... strArray) {
+        return !isIn(str, strArray);
+    }
+
     /**
      * 判断当前value是否在其中
      *
@@ -315,6 +319,10 @@ public final class EqualUtil {
         Preconditions.checkNotNull(values);
 
         return Arrays.stream(values).anyMatch(item -> item.intValue() == value.intValue());
+    }
+
+    public static boolean isNotIn(Integer value, Integer... values) {
+        return !isIn(value, values);
     }
 
     /**
@@ -331,6 +339,10 @@ public final class EqualUtil {
         return Arrays.stream(values).anyMatch(item -> item.longValue() == value.longValue());
     }
 
+    public static boolean isNotIn(Long value, Long... values) {
+        return !isIn(value, values);
+    }
+
     /**
      * 判断value是否在values中
      *
@@ -344,6 +356,10 @@ public final class EqualUtil {
             return false;
         }
         return values.stream().anyMatch(item -> isEq(item, value));
+    }
+
+    public static boolean isNotIn(String value, List<String> values) {
+        return !isIn(value, values);
     }
 
     /**
@@ -362,6 +378,10 @@ public final class EqualUtil {
         return values.stream().anyMatch(item -> item.intValue() == value.intValue());
     }
 
+    public static boolean isNotIn(Integer value, List<Integer> values) {
+        return !isIn(value, values);
+    }
+
     /**
      * 判断value是否在values中
      *
@@ -376,6 +396,10 @@ public final class EqualUtil {
         }
 
         return values.stream().anyMatch(item -> item.longValue() == value.longValue());
+    }
+
+    public static boolean isNotIn(Long value, List<Long> values) {
+        return !isIn(value, values);
     }
 
     /**
