@@ -409,7 +409,7 @@ public final class EqualUtil {
      * @param right big one
      * @return
      */
-    public static boolean isIn(Collection<Object> left, Collection<Object> right) {
+    public static <T> boolean isIn(Collection<T> left, Collection<T> right) {
         Preconditions.checkNotNull(left, "");
         Preconditions.checkNotNull(right, "");
         return right.containsAll(left);

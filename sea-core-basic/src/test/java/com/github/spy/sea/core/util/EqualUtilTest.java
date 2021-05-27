@@ -36,7 +36,16 @@ public class EqualUtilTest extends BaseCoreTest {
         right.add(10000000L);
 
         log.info("{}", left.containsAll(right));
+    }
 
+    @Test
+    public void test42() throws Exception {
+        List<Long> left = new ArrayList<>();
+        left.add(10000000L);
+        left.add(1L);
 
+        List<Long> right = new ArrayList<>();
+        right.add(10000000L);
+        EqualUtil.isIn(left, right);
     }
 }
