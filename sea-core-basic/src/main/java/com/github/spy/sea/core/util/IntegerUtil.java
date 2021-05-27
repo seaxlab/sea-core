@@ -2,6 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * module name
@@ -43,6 +44,30 @@ public final class IntegerUtil {
             return false;
         }
         return value.intValue() != 0L;
+    }
+
+    /**
+     * 分割成Integer[]
+     *
+     * @param arrayStr
+     * @param splitChar
+     * @return
+     */
+    public static Integer[] split(String arrayStr, char splitChar) {
+        String[] array = StringUtils.split(arrayStr, splitChar);
+        if (array == null || array.length == 0) {
+            return ArrayUtil.emptyArray(Integer.class);
+        }
+        Integer[] values = new Integer[array.length];
+        for (int i = 0; i < array.length; i++) {
+            String item = array[i];
+            if (StringUtil.isBlank(item)) {
+                values[i] = 0;
+            } else {
+                values[i] = Integer.valueOf(item.trim());
+            }
+        }
+        return values;
     }
 
 }

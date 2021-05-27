@@ -84,6 +84,15 @@ public final class StringUtil {
         return false;
     }
 
+    public static boolean isBlank(String... strs) {
+        for (String str : strs) {
+            if (str == null || str.trim().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * 字符串是否不为空
      *

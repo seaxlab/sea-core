@@ -2,6 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * module name
@@ -40,5 +41,28 @@ public final class LongUtil {
         return value.longValue() != 0L;
     }
 
+    /**
+     * 分割成Long[]
+     *
+     * @param arrayStr
+     * @param splitChar
+     * @return
+     */
+    public static Long[] split(String arrayStr, char splitChar) {
+        String[] array = StringUtils.split(arrayStr, splitChar);
+        if (array == null || array.length == 0) {
+            return ArrayUtil.emptyArray(Long.class);
+        }
+        Long[] values = new Long[array.length];
+        for (int i = 0; i < array.length; i++) {
+            String item = array[i];
+            if (StringUtil.isBlank(item)) {
+                values[i] = 0L;
+            } else {
+                values[i] = Long.valueOf(item.trim());
+            }
+        }
+        return values;
+    }
 
 }
