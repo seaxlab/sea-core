@@ -2,6 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -39,13 +40,47 @@ public class EqualUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void test42() throws Exception {
+    public void testCollectionIsIn() throws Exception {
         List<Long> left = new ArrayList<>();
         left.add(10000000L);
         left.add(1L);
 
         List<Long> right = new ArrayList<>();
         right.add(10000000L);
-        EqualUtil.isIn(left, right);
+        Assert.assertEquals(false, EqualUtil.isIn(left, right));
+    }
+
+    @Test
+    public void testCollectionIsNotIn() throws Exception {
+        List<Long> left = new ArrayList<>();
+        left.add(10000000L);
+        left.add(1L);
+
+        List<Long> right = new ArrayList<>();
+        right.add(10000000L);
+        log.info("{}", EqualUtil.isAllNotIn(left, right));
+    }
+
+    @Test
+    public void testCollectionIsNotIn2() throws Exception {
+        List<Long> right = new ArrayList<>();
+        right.add(1L);
+        right.add(2L);
+        right.add(3L);
+
+        List<Long> left = new ArrayList<>();
+        left.add(10000000L);
+        left.add(1L);
+
+        log.info("{}", EqualUtil.isAllNotIn(left, right));
+
+        List<Long> left2 = new ArrayList<>();
+        left2.add(1L);
+        left2.add(5L);
+        log.info("{}", EqualUtil.isAllNotIn(left2, right));
+
+        List<Long> left3 = new ArrayList<>();
+        left3.add(5L);
+        log.info("{}", EqualUtil.isAllNotIn(left3, right));
     }
 }

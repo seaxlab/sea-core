@@ -410,9 +410,36 @@ public final class EqualUtil {
      * @return
      */
     public static <T> boolean isIn(Collection<T> left, Collection<T> right) {
+        Preconditions.checkNotNull(left, "left cannot be null");
+        Preconditions.checkNotNull(right, "right cannot be null");
+        return right.containsAll(left);
+    }
+
+    /**
+     * check all element in left side must be in right side.
+     *
+     * @param left
+     * @param right
+     * @param <T>
+     * @return
+     */
+    public static <T> boolean isAllNotIn(Collection<T> left, Collection<T> right) {
         Preconditions.checkNotNull(left, "");
         Preconditions.checkNotNull(right, "");
-        return right.containsAll(left);
+        if (left.isEmpty()) {
+            return true;
+        }
+        boolean allNotIn = true;
+        Iterator<T> it = left.iterator();
+        while (it.hasNext()) {
+            T obj = it.next();
+            allNotIn = allNotIn && (!right.contains(obj));
+            if (!allNotIn) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }
