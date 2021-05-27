@@ -2,7 +2,6 @@ package com.github.spy.sea.core.enums;
 
 import com.github.spy.sea.core.util.EqualUtil;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Date type enum.
@@ -16,10 +15,13 @@ public enum DataTypeEnum {
     BOOLEAN("BOOLEAN"),
     NUMBER("NUMBER"),
     TEXT("TEXT"),
-    JSON("JSON");
+    JSON("JSON"),
+    MOBILE("mobile"),
+
+
+    ;
 
     @Getter
-    @Setter
     private String key;
 
     DataTypeEnum(String key) {

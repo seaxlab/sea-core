@@ -11,6 +11,7 @@ import com.github.spy.sea.core.util.EqualUtil;
  */
 public enum NetworkEnum implements IBaseEnum<String> {
     UNKNOWN("unknown", "未知"),
+
     INTRANET("intranet", "内网"),
     EXTRANET("extranet", "专网"),
     INTERNET("internet", "互联网");
@@ -40,6 +41,9 @@ public enum NetworkEnum implements IBaseEnum<String> {
      * @return
      */
     public static NetworkEnum of(String code) {
+        if (code == null || code.trim().isEmpty()) {
+            return UNKNOWN;
+        }
         for (NetworkEnum item : values()) {
             if (EqualUtil.isEq(item.getCode(), code, false)) {
                 return item;
