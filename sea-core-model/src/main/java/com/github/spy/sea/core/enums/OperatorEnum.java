@@ -11,25 +11,31 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public enum OperatorEnum implements IBaseEnum<Integer> {
-    UNKNOWN(0, "未知", "??"),
+    UNKNOWN(0, "未知", "??", "{}??{}"),
 
-    EQUAL(1, "等于", "="),
-    NOT_EQUAL(2, "不等于", "!="),
-    GREATER_THAN(3, "大于", ">"),
-    GREATER_THAN_OR_EQUAL(4, "大于等于", ">="),
-    LESS_THAN(5, "小于", "<"),
-    LESS_THAN_OR_EQUAL(6, "小于等于", "<="),
-    RANGE(7, "在此范围（含边界）", "[,]"),
+    EQUAL(1, "等于", "=", "{}={}"),
+    NOT_EQUAL(2, "不等于", "!=", "{}!={}"),
+    GREATER_THAN(3, "大于", ">", "{}>{}"),
+    GREATER_THAN_OR_EQUAL(4, "大于等于", ">=", "{}>={}"),
+    LESS_THAN(5, "小于", "<", "{}<{}"),
+    LESS_THAN_OR_EQUAL(6, "小于等于", "<=", "{}<={}"),
+    RANGE(7, "在此范围（含边界）", "[,]", "[{},{}]"),
+    RANGE_OPEN_OPEN(8, "在此范围（左开右开）", "(,)", "({},{})"),
+    RANGE_OPEN_CLOSE(9, "在此范围（左开右闭）", "(,]", "({},{}]"),
+    RANGE_CLOSE_OPEN(10, "在此范围（左闭右开）", "[,)", "[{},{})"),
+
 
     ;
     private Integer code;
     private String name;
     private String symbol;
+    private String format;
 
-    OperatorEnum(Integer code, String name, String symbol) {
+    OperatorEnum(Integer code, String name, String symbol, String format) {
         this.code = code;
         this.name = name;
         this.symbol = symbol;
+        this.format = format;
     }
 
     @Override
