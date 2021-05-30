@@ -2,6 +2,7 @@ package com.github.spy.sea.core.cache.redis;
 
 import com.github.spy.sea.core.cache.BaseTest;
 import com.github.spy.sea.core.util.EqualUtil;
+import com.github.spy.sea.core.util.ListUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
@@ -39,7 +40,8 @@ public class RedisManagerTest extends BaseTest {
 //        redisManager.setHost("10.122.2.110");
 //        redisManager.setPassword("yuantu123");
 
-        redisManager.setHost("mylab");
+        redisManager.setHost("localhost");
+//        redisManager.setHost("mylab");
 
         redisManager.setPort(6379);
         redisManager.setDatabase(1);
@@ -256,6 +258,61 @@ public class RedisManagerTest extends BaseTest {
 
     }
 
+
+    @Test
+    public void testBatchIncr() throws Exception {
+        List<String> keys = ListUtil.newArrayList("test-batch-incr1", "test-batch-incr2");
+
+        for (int i = 0; i < 10; i++) {
+            boolean ret = redisManager.batchIncr(keys);
+            log.info("batch no={},result={}", i, ret);
+        }
+
+    }
+
+    @Test
+    public void testBatchIncrLimit() throws Exception {
+        List<String> keys = ListUtil.newArrayList("test-batch-incr1", "test-batch-incr2");
+        List<Integer> limits = ListUtil.newArrayList(10, 30);
+        for (int i = 0; i < 14; i++) {
+            boolean ret = redisManager.batchIncrLimit(keys, limits);
+            log.info("batch no={},result={}", i, ret);
+        }
+    }
+
+    @Test
+    public void testBatchDecr() throws Exception {
+        List<String> keys = ListUtil.newArrayList("test-batch-incr1", "test-batch-incr2");
+        for (int i = 0; i < 5; i++) {
+            boolean ret = redisManager.batchDecr(keys);
+            log.info("batch no={},result={}", i, ret);
+        }
+    }
+
+    @Test
+    public void testBatchDecrLimit() throws Exception {
+        List<String> keys = ListUtil.newArrayList("test-batch-incr1", "test-batch-incr2");
+        List<Integer> limits = ListUtil.newArrayList(10, 20);
+        for (int i = 0; i < 5; i++) {
+            boolean ret = redisManager.batchDecrLimit(keys, limits);
+            log.info("batch no={},result={}", i, ret);
+        }
+    }
+
+
+    @Test
+    public void testNextId() throws Exception {
+        for (int i = 0; i < 10; i++) {
+            log.info("id={}", redisManager.nextId("abc"));
+        }
+    }
+
+    @Test
+    public void testNextIds() throws Exception {
+        for (int i = 0; i < 10; i++) {
+            log.info("id={}", redisManager.nextIds("a2", 5));
+        }
+    }
 
     @After
     public void after() throws Exception {

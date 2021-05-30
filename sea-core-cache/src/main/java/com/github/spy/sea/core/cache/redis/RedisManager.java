@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.cache.redis;
 
 import com.alibaba.fastjson.JSON;
+import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.util.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -8,8 +9,10 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * Redis op manager
@@ -41,6 +44,8 @@ public class RedisManager {
     private JedisPool pool;
 
     public static final String NO_JEDIS_INSTANCE = "there is no available jedis instance from pool";
+
+    private static final Map<String, String> scriptMap = new ConcurrentHashMap<>();
 
     public RedisManager() {
 
@@ -865,6 +870,177 @@ public class RedisManager {
             return jedis.setbit(key, offset, value);
         }
     }
+
+    public long nextId(String bizType) {
+        return nextId(bizType, 1);
+    }
+
+    public long nextId(String bizType, int step) {
+        try (Jedis jedis = pool.getResource()) {
+
+            List<String> keys = new ArrayList<>();
+            keys.add(bizType);
+            keys.add(String.valueOf(step));
+            Long result = Long.valueOf(jedis.eval(getLuaScript(RedisConst.LUA_GENERATE_ID), keys, ListUtil.empty()).toString());
+
+            return result;
+        }
+    }
+
+    public List<Long> nextIds(String bizType, int size) {
+        return nextIds(bizType, size, 1);
+    }
+
+    public List<Long> nextIds(String bizType, int size, int step) {
+        try (Jedis jedis = pool.getResource()) {
+
+            List<String> keys = new ArrayList<>();
+            keys.add(bizType);
+            keys.add(String.valueOf(size));
+            keys.add(String.valueOf(step));
+            Object obj = jedis.eval(getLuaScript(RedisConst.LUA_GENERATE_ID_BATCH), keys, ListUtil.empty());
+
+            if (obj == null) {
+                return ListUtil.empty();
+            }
+            List<Long> values = (List<Long>) obj;
+            if (values.isEmpty()) {
+                return ListUtil.empty();
+            }
+
+            if (values.size() != 2) {
+                ExceptionHandler.publishMsg("lua return value error.");
+            }
+
+            long begin = values.get(0);
+            long end = values.get(1);
+
+            List<Long> ids = new ArrayList<>();
+            for (int i = 1; i <= size; i++) {
+                ids.add(begin + i * step);
+            }
+            if (EqualUtil.isNotEq(end, ids.get(ids.size() - 1))) {
+                ExceptionHandler.publishMsg("Consistency check fail.");
+            }
+            return ids;
+        }
+    }
+
+    /**
+     * 批量增加
+     *
+     * @param keys
+     * @return
+     */
+    public boolean batchIncr(List<String> keys) {
+        return batchIncr(keys, 1);
+    }
+
+    /**
+     * 批量增加
+     *
+     * @param keys
+     * @param step
+     * @return
+     */
+    public boolean batchIncr(List<String> keys, int step) {
+        try (Jedis jedis = pool.getResource()) {
+            List<String> args = new ArrayList<>();
+            args.add(String.valueOf(step));
+            jedis.eval(getLuaScript(RedisConst.LUA_BATCH_INCR), keys, args);
+        }
+        return true;
+    }
+
+    /**
+     * 批量增加（数量限制）
+     *
+     * @param keys
+     * @param limits
+     * @return
+     */
+    public boolean batchIncrLimit(List<String> keys, List<Integer> limits) {
+        return batchIncrLimit(keys, limits, 1, 0);
+    }
+
+    /**
+     * 批量增加（数量限制）
+     *
+     * @param keys
+     * @param limits
+     * @param step
+     * @param timeout 单位秒
+     * @return
+     */
+    public boolean batchIncrLimit(List<String> keys, List<Integer> limits, int step, long timeout) {
+        try (Jedis jedis = pool.getResource()) {
+            List<String> args = new ArrayList<>();
+            args.addAll(limits.stream().map(item -> String.valueOf(item)).collect(Collectors.toList()));
+            args.add(String.valueOf(step));
+
+            timeout = timeout < 0 ? 0 : timeout;
+            args.add(String.valueOf(timeout));
+            Object resultObj = jedis.eval(getLuaScript(RedisConst.LUA_BATCH_INCR_LIMIT), keys, args);
+
+            if (resultObj == null) {
+                return false;
+            }
+            Long result = (Long) resultObj;
+            return EqualUtil.isEq(result, RedisConst.LUA_BOOLEAN_TRUE);
+        }
+    }
+
+    public boolean batchDecr(List<String> keys) {
+        return batchDecr(keys, 1);
+    }
+
+    public boolean batchDecr(List<String> keys, int step) {
+        try (Jedis jedis = pool.getResource()) {
+            List<String> args = new ArrayList<>();
+            args.add(String.valueOf(step));
+            jedis.eval(getLuaScript(RedisConst.LUA_BATCH_DECR), keys, args);
+        }
+        return true;
+    }
+
+    /**
+     * 批量减少
+     *
+     * @param keys
+     * @return
+     */
+    public boolean batchDecrLimit(List<String> keys, List<Integer> limits) {
+        return batchDecrLimit(keys, limits, 1);
+    }
+
+    public boolean batchDecrLimit(List<String> keys, List<Integer> limits, int step) {
+        try (Jedis jedis = pool.getResource()) {
+            List<String> args = new ArrayList<>();
+            args.addAll(limits.stream().map(item -> String.valueOf(item)).collect(Collectors.toList()));
+            args.add(String.valueOf(step));
+            Object resultObj = jedis.eval(getLuaScript(RedisConst.LUA_BATCH_DECR_LIMIT), keys, args);
+
+            if (resultObj == null) {
+                return false;
+            }
+            Long result = (Long) resultObj;
+            return EqualUtil.isEq(result, RedisConst.LUA_BOOLEAN_TRUE);
+        }
+    }
+
+
+    /**
+     * read lua script content.
+     *
+     * @param filename
+     * @return
+     */
+    private String getLuaScript(String filename) {
+        return scriptMap.computeIfAbsent(filename,
+                key -> FileUtil.readFormClasspath("sea/core/lua/" + filename));
+    }
+
+    //--------------------private
 
     private void close(Jedis jedis) {
         if (jedis != null) {
