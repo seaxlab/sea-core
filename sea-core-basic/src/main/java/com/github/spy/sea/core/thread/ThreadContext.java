@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.thread;
 
 import com.github.spy.sea.core.common.CoreConst;
+import com.github.spy.sea.core.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
@@ -123,6 +124,16 @@ public class ThreadContext {
      */
     public static final Date getNowDate() {
         return getSafe(CoreConst.SYS_DATE_NOW, new Date());
+    }
+
+    /**
+     * 当前交易日
+     *
+     * @return yyyy-MM-dd
+     */
+    public static final Date getTradeDate() {
+        return getSafe(CoreConst.SYS_TRADE_DATE_NOW, DateUtil.getBillDate());
+
     }
 
 
