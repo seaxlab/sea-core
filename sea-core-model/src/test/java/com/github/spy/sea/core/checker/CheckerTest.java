@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.checker;
 
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.checker.Checker;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
