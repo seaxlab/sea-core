@@ -45,11 +45,13 @@ public final class DateUtil {
 
     public static final String DATETIME_FORMAT2 = "yyyyMMddHHmmssSSS";
     public static final String DATETIME_FORMAT_HUMAN = "yyyyMMdd_HHmmss";
+    public static final String DATETIME_YMHM = "yyyy-MM-dd HH:mm";
 
     public static final String OUTPUT_FORMAT = "yyyy年MM月dd日";
 
     public static final String TIME_FORMAT = "HH:mm:ss";
     public static final String TIME_FORMAT2 = "HHmmss";
+    public static final String TIME_HHMM = "HH:mm";
 
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 
@@ -271,6 +273,14 @@ public final class DateUtil {
 
     public static Date getCurrentDateWithOutTimeStamp() {
         return DateUtil.strDate(DateUtil.dateStr(new Date(), DEFAULT_DATE_FORMAT), DEFAULT_DATE_FORMAT);
+    }
+
+    public static String toYMDHM(Date date) {
+        if (date == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(DATETIME_YMHM);
+        return sdf.format(date);
     }
 
     /**
