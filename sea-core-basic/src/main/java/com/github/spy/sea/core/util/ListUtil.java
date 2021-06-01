@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -239,6 +240,23 @@ public final class ListUtil {
                    .filter(item -> StringUtil.isNotEmpty(item))
                    .distinct()
                    .collect(Collectors.toList());
+    }
+
+    /**
+     * distinct obj
+     *
+     * @param data
+     * @param function
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> distinctObj(List<T> data, Function<? super T, ?> function) {
+        return data.stream().filter(distinctByKey(function)).collect(Collectors.toList());
+    }
+
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
     }
 
     /**

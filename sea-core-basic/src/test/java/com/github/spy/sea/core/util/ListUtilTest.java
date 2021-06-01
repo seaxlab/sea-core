@@ -139,4 +139,30 @@ public class ListUtilTest extends BaseCoreTest {
         ListUtil.swap(users, 0, 3);
         log.info("{}", ListUtil.toString(users, User::getName, ","));
     }
+
+    @Test
+    public void testdistinctObj() throws Exception {
+
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setId(i % 2 == 0 ? 1L : 2L);
+            user.setName("abc" + i);
+            users.add(user);
+        }
+
+        log.info("{}", ListUtil.distinctObj(users, User::getId));
+
+        List<User> users2 = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setId(i % 2 == 0 ? 1L : 3L);
+            user.setName("abc" + i);
+            user.setAge(10);
+            users2.add(user);
+        }
+        log.info("{}", ListUtil.distinctObj(users2, User::getId));
+
+
+    }
 }
