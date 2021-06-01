@@ -1232,6 +1232,27 @@ public final class DateUtil {
         return flag1 && flag2 && flag3;
     }
 
+    /**
+     * 判断是否有交集
+     *
+     * @param targetBeginDate
+     * @param targetEndDate
+     * @param totalBeginDate
+     * @param totalEndDate
+     * @return
+     */
+    public static boolean hasIntersection(Date targetBeginDate, Date targetEndDate, Date totalBeginDate, Date totalEndDate) {
+        if (targetBeginDate == null || targetEndDate == null || totalBeginDate == null || totalEndDate == null) {
+            log.warn("some one is null");
+            return false;
+        }
+
+        boolean flag1 = targetBeginDate.getTime() >= totalEndDate.getTime();
+        boolean flag2 = targetEndDate.getTime() <= totalBeginDate.getTime();
+
+        return !(flag1 || flag2);
+    }
+
 
     /**
      * 获取当前时间所在周的开始日期和结束日期

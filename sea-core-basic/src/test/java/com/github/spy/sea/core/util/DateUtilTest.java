@@ -102,4 +102,30 @@ public class DateUtilTest extends BaseCoreTest {
 
         log.info("{}", DateUtil.toString(DateUtil.parseToDate(start, end), DateUtil.DEFAULT_FORMAT));
     }
+
+    @Test
+    public void testHasIntersection() throws Exception {
+
+        Date totalStart = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date totalEnd = DateUtil.str2Date("2021-04-01 13:01:00", DateUtil.DEFAULT_FORMAT);
+
+        Date start, end;
+        start = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        end = DateUtil.str2Date("2021-04-01 14:01:01", DateUtil.DEFAULT_FORMAT);
+        log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
+
+
+        start = DateUtil.str2Date("2021-04-01 13:01:00", DateUtil.DEFAULT_FORMAT);
+        end = DateUtil.str2Date("2021-04-01 14:01:01", DateUtil.DEFAULT_FORMAT);
+        log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
+
+
+        start = DateUtil.str2Date("2021-04-01 08:01:00", DateUtil.DEFAULT_FORMAT);
+        end = DateUtil.str2Date("2021-04-01 12:00:01", DateUtil.DEFAULT_FORMAT);
+        log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
+
+        start = DateUtil.str2Date("2021-04-01 08:01:00", DateUtil.DEFAULT_FORMAT);
+        end = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
+    }
 }
