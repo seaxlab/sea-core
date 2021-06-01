@@ -88,6 +88,41 @@ public final class ExampleUtil {
     }
 
     /**
+     * 设置 反向值
+     *
+     * @param example      example
+     * @param propertyName property name of entity
+     * @param value        value.
+     */
+    public static void setNotEqual(Example example, String propertyName, Object value) {
+        if (example == null) {
+            log.warn("example is null");
+            return;
+        }
+        if (StringUtil.isEmpty(propertyName)) {
+            log.warn("property name is empty.");
+        }
+        if (value == null) {
+            log.warn("value is null");
+            return;
+        }
+        if (value instanceof String) {
+            if (StringUtil.isNotEmpty(value)) {
+                example.and().andNotEqualTo(propertyName, value);
+            }
+        } else if (value instanceof List) {
+            List dataList = (List) value;
+            if (ListUtil.isNotEmpty(dataList)) {
+                example.and().andNotIn(propertyName, dataList);
+            }
+        } else {
+            example.and().andNotEqualTo(propertyName, value);
+        }
+
+
+    }
+
+    /**
      * and 一个模糊匹配
      *
      * @param example
