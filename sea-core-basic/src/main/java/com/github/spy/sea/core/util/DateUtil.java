@@ -41,6 +41,8 @@ public final class DateUtil {
 
     public static final String DAY_FORMAT = "yyyy-MM-dd";
     public static final String DAY_FORMAT2 = "yyyyMMdd";
+    public static final String DAY_MMDD = "MMdd";
+    public static final String DAY_MM_DD = "MM-dd";
     public static final String DATETIME_FORMAT = "yyyyMMddHHmmss";
 
     public static final String DATETIME_FORMAT2 = "yyyyMMddHHmmssSSS";
@@ -1240,6 +1242,40 @@ public final class DateUtil {
         boolean flag3 = totalEndDate.getTime() >= targetEndDate.getTime();
 
         return flag1 && flag2 && flag3;
+    }
+
+    /**
+     * 判断MMdd是否在指定的时间范围内
+     *
+     * @param targetDate
+     * @param beginDate
+     * @param endDate
+     * @param rangeMode
+     * @return
+     */
+    public static boolean isMonthAndDayInRange(Date targetDate, Date beginDate, Date endDate, RangeModeEnum rangeMode) {
+        if (targetDate == null || beginDate == null || endDate == null) {
+            log.warn("some one is null");
+            return false;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat(DAY_MMDD);
+        int targetMonth = Integer.parseInt(sdf.format(targetDate));
+        int beginMonth = Integer.parseInt(sdf.format(beginDate));
+        int endMonth = Integer.parseInt(sdf.format(endDate));
+
+        switch (rangeMode) {
+            case OPEN_OPEN:
+                return beginMonth < targetMonth && targetMonth < endMonth;
+            case OPEN_CLOSE:
+                return beginMonth < targetMonth && targetMonth <= endMonth;
+            case CLOSE_OPEN:
+                return beginMonth <= targetMonth && targetMonth < endMonth;
+            case CLOSE_CLOSE:
+                return beginMonth <= targetMonth && targetMonth <= endMonth;
+        }
+
+        return false;
     }
 
     /**

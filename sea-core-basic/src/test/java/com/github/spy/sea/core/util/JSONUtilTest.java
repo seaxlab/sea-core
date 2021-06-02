@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.util;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.domain.User;
@@ -36,6 +37,9 @@ public class JSONUtilTest extends BaseCoreTest {
     @Test
     public void test37() throws Exception {
         log.info("{}", JSONUtil.toStr(""));
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("empty", "true");
+        log.info("{}", JSONUtil.toStr(jsonObj));
     }
 
 }

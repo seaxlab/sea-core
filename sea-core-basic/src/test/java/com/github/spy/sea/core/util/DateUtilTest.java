@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.enums.RangeModeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -101,6 +102,21 @@ public class DateUtilTest extends BaseCoreTest {
         Date end = DateUtil.str2Date("2021-04-02 10:01:01", DateUtil.DEFAULT_FORMAT);
 
         log.info("{}", DateUtil.toString(DateUtil.parseToDate(start, end), DateUtil.DEFAULT_FORMAT));
+    }
+
+    @Test
+    public void testIsMonthAndDayInRange() throws Exception {
+        Date start = DateUtil.str2Date("2021-05-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date end = DateUtil.str2Date("2021-12-10 10:01:01", DateUtil.DEFAULT_FORMAT);
+
+        Date target = DateUtil.str2Date("2021-04-03 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date target2 = DateUtil.str2Date("2021-08-03 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date target3 = DateUtil.str2Date("2021-12-13 12:00:00", DateUtil.DEFAULT_FORMAT);
+
+        log.info("{}", DateUtil.isMonthAndDayInRange(target, start, end, RangeModeEnum.CLOSE_CLOSE));
+        log.info("{}", DateUtil.isMonthAndDayInRange(target2, start, end, RangeModeEnum.CLOSE_CLOSE));
+        log.info("{}", DateUtil.isMonthAndDayInRange(target3, start, end, RangeModeEnum.CLOSE_CLOSE));
+
     }
 
     @Test
