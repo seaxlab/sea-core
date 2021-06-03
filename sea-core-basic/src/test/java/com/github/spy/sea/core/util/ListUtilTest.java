@@ -162,7 +162,25 @@ public class ListUtilTest extends BaseCoreTest {
             users2.add(user);
         }
         log.info("{}", ListUtil.distinctObj(users2, User::getId));
+    }
 
+
+    @Test
+    public void testPage() throws Exception {
+        List<Integer> data = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            data.add(i);
+        }
+        int pageNum = 1, pageSize = 10;
+
+        while (true) {
+            List<Integer> page = ListUtil.page(data, pageNum, pageSize);
+            if (ListUtil.isEmpty(page) || page.size() < pageSize) {
+                break;
+            }
+            log.info("page={}", page);
+            pageNum++;
+        }
 
     }
 }

@@ -272,4 +272,64 @@ public final class ListUtil {
     }
 
 
+    /**
+     * 分页
+     *
+     * @param data
+     * @param pageSize
+     * @param <T>
+     * @return
+     */
+    public static <T> List<List<T>> page(List<T> data, int pageSize) {
+        List<List<T>> list = new ArrayList<>();
+        int pageNum = 1;
+        boolean hasNext = true;
+
+        while (hasNext) {
+            List<T> subList = page(data, pageNum, pageSize);
+            if (isEmpty(subList)) {
+                break;
+            }
+            if (subList.size() < pageSize) {
+                break;
+            }
+            list.add(subList);
+        }
+
+        return list;
+    }
+
+    /**
+     * page
+     *
+     * @param data
+     * @param pageNum
+     * @param pageSize
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> page(List<T> data, int pageNum, int pageSize) {
+
+        if (data == null) {
+            return empty();
+        }
+        if (data.size() == 0) {
+            return empty();
+        }
+
+        List<T> listSort;
+        int size = data.size();
+        int pageStart = pageNum == 1 ? 0 : (pageNum - 1) * pageSize;//截取的开始位置
+        int pageEnd = size < pageNum * pageSize ? size : pageNum * pageSize;//截取的结束位置
+
+        if (pageStart < size) {
+            listSort = data.subList(pageStart, pageEnd);
+        } else {
+            listSort = empty();
+        }
+
+        return listSort;
+    }
+
+
 }
