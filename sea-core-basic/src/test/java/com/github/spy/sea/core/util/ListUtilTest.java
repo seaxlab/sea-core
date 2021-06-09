@@ -183,4 +183,12 @@ public class ListUtilTest extends BaseCoreTest {
         }
 
     }
+
+    @Test
+    public void test188() throws Exception {
+        List<String> codes = new ArrayList<>();
+        codes.add("a");
+        codes.add("b");
+        log.info("codes={}", codes);
+    }
 }
