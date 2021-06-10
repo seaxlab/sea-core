@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.spring.cache;
+package com.github.spy.sea.core.cache;
 
 /**
  * module name

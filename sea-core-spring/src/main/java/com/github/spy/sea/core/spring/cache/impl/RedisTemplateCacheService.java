@@ -3,9 +3,9 @@ package com.github.spy.sea.core.spring.cache.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.spy.sea.core.cache.CacheConst;
+import com.github.spy.sea.core.cache.CacheExceptionHandler;
+import com.github.spy.sea.core.cache.CacheService;
 import com.github.spy.sea.core.enums.CacheOpEnum;
-import com.github.spy.sea.core.spring.cache.CacheExceptionHandler;
-import com.github.spy.sea.core.spring.cache.CacheService;
 import com.github.spy.sea.core.util.EqualUtil;
 import com.github.spy.sea.core.util.JSONUtil;
 import com.github.spy.sea.core.util.SetUtil;
@@ -28,17 +28,17 @@ import java.util.function.Supplier;
  * @since 1.0
  */
 @Slf4j
-public class DefaultCacheService implements CacheService {
+public class RedisTemplateCacheService implements CacheService {
 
     private RedisTemplate redisTemplate;
 
     @Setter
     private CacheExceptionHandler exceptionHandler;
 
-    private DefaultCacheService() {
+    private RedisTemplateCacheService() {
     }
 
-    public DefaultCacheService(RedisTemplate redisTemplate) {
+    public RedisTemplateCacheService(RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
@@ -61,10 +61,6 @@ public class DefaultCacheService implements CacheService {
             if (this.exceptionHandler != null) {
                 this.exceptionHandler.handle(CacheOpEnum.SET.getCode(), key, e);
             }
-//            MetricDTO metric = buildBizCommonMetric(SeaMonitorEnum.REDIS_GET_ERR.getCode());
-//            metric.setException(e);
-//            metric.setRemark(key);
-//            SeaMonitor.logMetric(metric);
             return Optional.ofNullable(supplier.get());
         }
         T data;
