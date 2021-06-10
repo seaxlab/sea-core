@@ -9,7 +9,6 @@ import com.github.spy.sea.core.enums.CacheOpEnum;
 import com.github.spy.sea.core.util.EqualUtil;
 import com.github.spy.sea.core.util.JSONUtil;
 import com.github.spy.sea.core.util.SetUtil;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.Cursor;
@@ -32,14 +31,18 @@ public class RedisTemplateCacheService implements CacheService {
 
     private RedisTemplate redisTemplate;
 
-    @Setter
     private CacheExceptionHandler exceptionHandler;
 
-    private RedisTemplateCacheService() {
+    public RedisTemplateCacheService() {
     }
 
     public RedisTemplateCacheService(RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
+    }
+
+    public RedisTemplateCacheService(RedisTemplate redisTemplate, CacheExceptionHandler exceptionHandler) {
+        this.redisTemplate = redisTemplate;
+        this.exceptionHandler = exceptionHandler;
     }
 
 
