@@ -24,6 +24,20 @@ public final class EqualUtil {
     /**
      * check equal.
      *
+     * @param value1 Byte
+     * @param value2 Byte
+     * @return boolean
+     */
+    public static boolean isEq(Byte value1, Byte value2) {
+        if (Objects.nonNull(value1) && Objects.nonNull(value2)) {
+            return value1.byteValue() == value2.byteValue();
+        }
+        return false;
+    }
+
+    /**
+     * check equal.
+     *
      * @param value1 Integer
      * @param value2 Integer
      * @return boolean
@@ -84,6 +98,37 @@ public final class EqualUtil {
      */
     public static boolean isEq(final Collection<?> set1, final Collection<?> set2) {
         return SetUtils.isEqualSet(set1, set2);
+    }
+
+    private <T> boolean isEq(T a, T b, Class<T> clazz) {
+        if (clazz == String.class) {
+            return isEq((String) a, (String) b);
+        } else if (clazz == Integer.class) {
+            return isEq((Integer) a, (Integer) b);
+        } else if (clazz == Long.class) {
+            return isEq((Long) a, (Long) b);
+        } else {
+            return isEq(String.valueOf(a), String.valueOf(b));
+        }
+    }
+
+    private <T> boolean isIn(T a, List<T> b, Class<T> clazz) {
+        if (clazz == String.class) {
+            List<String> bb = (List<String>) b;
+            return isIn((String) a, bb);
+        } else if (clazz == Byte.class) {
+            List<Byte> bb = (List<Byte>) b;
+            return isIn((Byte) a, bb);
+        } else if (clazz == Integer.class) {
+            List<Integer> bb = (List<Integer>) b;
+            return isIn((Integer) a, bb);
+        } else if (clazz == Long.class) {
+            List<Long> bb = (List<Long>) b;
+            return isIn((Long) a, bb);
+        } else {
+            List<String> bb = (List<String>) b;
+            return isIn(String.valueOf(a), bb);
+        }
     }
 
     public enum DateMode {
@@ -363,11 +408,27 @@ public final class EqualUtil {
     }
 
     /**
+     * check value is in values.
+     *
+     * @param value  target.
+     * @param values list pool.
+     * @return boolean
+     */
+    public static boolean isIn(Byte value, List<Byte> values) {
+        if (value == null || values == null) {
+            log.warn("value or values is null");
+            return false;
+        }
+
+        return values.stream().anyMatch(item -> item.byteValue() == value.byteValue());
+    }
+
+    /**
      * 判断value是否在values中
      *
      * @param value  待检测变量
      * @param values 集合
-     * @return
+     * @return boolean
      */
     public static boolean isIn(Integer value, List<Integer> values) {
         if (value == null || values == null) {
