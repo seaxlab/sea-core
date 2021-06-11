@@ -62,6 +62,10 @@ public class BaseMybatisTest extends AbstractCoreTest {
         log.info("starting up myBatis tests");
         String resource = "mybatis-config.xml";
         Reader reader = Resources.getResourceAsReader(resource);
+
+        // 直接测试example时需要加上这行代码
+        //EntityHelper.initEntityNameMap(User.class, new Config());
+
         sf = new SqlSessionFactoryBuilder().build(reader, "dev"); //we're using the 'testing'
     }
 

@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.mybatis.dao;
 
 import com.github.spy.sea.core.mybatis.domain.User;
+import tk.mybatis.mapper.common.BaseMapper;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @version 1.0 2020/12/18
  * @since 1.0
  */
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<User> {
     List<User> queryAll();
 
     User queryById(Long id);

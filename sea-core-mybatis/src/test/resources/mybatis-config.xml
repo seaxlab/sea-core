@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
-<!-- Created by 2011: http://blog.idleworx.com http://www.idleworx.com -->
 <configuration>
 
     <properties resource="db.properties"/>
@@ -11,7 +10,6 @@
     </settings>
 
     <typeAliases>
-        <typeAlias alias="User" type="com.github.spy.sea.core.mybatis.domain.User"/>
     </typeAliases>
 
     <environments default="dev">

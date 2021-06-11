@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.mybatis.util;
 
 import com.github.spy.sea.core.common.CoreConst;
+import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.util.*;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
@@ -71,19 +72,73 @@ public final class ExampleUtil {
      * @param value
      */
     public static void setValue(Example example, String propertyName, Object value) {
-        if (value != null) {
-            if (value instanceof String) {
-                if (StringUtil.isNotEmpty(value)) {
-                    example.and().andEqualTo(propertyName, value);
-                }
-            } else if (value instanceof List) {
-                List dataList = (List) value;
-                if (ListUtil.isNotEmpty(dataList)) {
-                    example.and().andIn(propertyName, dataList);
-                }
-            } else {
+        if (value == null) {
+            return;
+        }
+        if (value instanceof String) {
+            if (StringUtil.isNotEmpty(value)) {
                 example.and().andEqualTo(propertyName, value);
             }
+        } else if (value instanceof List) {
+            List dataList = (List) value;
+            if (ListUtil.isNotEmpty(dataList)) {
+                example.and().andIn(propertyName, dataList);
+            }
+        } else {
+            example.and().andEqualTo(propertyName, value);
+        }
+    }
+
+    /**
+     * set all value.
+     *
+     * @param example -
+     * @param args    -
+     */
+    public static void setValueAll(Example example, Object... args) {
+        Example.Criteria criteria = example.and();
+        setAll(criteria, args);
+    }
+
+    /**
+     * set value
+     *
+     * @param criteria     条件语句
+     * @param propertyName 属性名称
+     * @param value        值，null值会跳过
+     */
+    public static void set(Example.Criteria criteria, String propertyName, Object value) {
+        if (value == null) {
+            return;
+        }
+        if (value instanceof String) {
+            if (StringUtil.isNotEmpty(value)) {
+                criteria.andEqualTo(propertyName, value);
+            }
+        } else if (value instanceof List) {
+            List dataList = (List) value;
+            if (ListUtil.isNotEmpty(dataList)) {
+                criteria.andIn(propertyName, dataList);
+            }
+        } else {
+            criteria.andEqualTo(propertyName, value);
+        }
+    }
+
+    public static void setAll(Example.Criteria criteria, Object... args) {
+        if (args.length == 0) {
+            log.warn("args is empty.");
+            return;
+        }
+
+        if (args.length % 2 != 0) {
+            ExceptionHandler.publishMsg("参数个数必须是2的整数倍");
+        }
+
+        for (int i = 0; i < args.length; i = i + 2) {
+            Object propertyObj = args[i];
+            Object valueObj = args[i + 1];
+            set(criteria, (String) propertyObj, valueObj);
         }
     }
 
@@ -103,7 +158,6 @@ public final class ExampleUtil {
             log.warn("property name is empty.");
         }
         if (value == null) {
-            log.warn("value is null");
             return;
         }
         if (value instanceof String) {
