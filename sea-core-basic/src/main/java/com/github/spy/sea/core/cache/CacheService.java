@@ -71,9 +71,9 @@ public interface CacheService {
     /**
      * set key
      *
-     * @param key
-     * @param obj
-     * @return
+     * @param key -
+     * @param obj -
+     * @return boolean
      */
     boolean set(String key, Object obj);
 
@@ -82,7 +82,7 @@ public interface CacheService {
      *
      * @param key -
      * @param obj -
-     * @return -
+     * @return boolean
      */
     boolean setExpire(String key, Object obj);
 
@@ -93,7 +93,7 @@ public interface CacheService {
      * @param obj      -
      * @param timeout  -
      * @param timeUnit -
-     * @return
+     * @return boolean
      */
     boolean set(String key, Object obj, long timeout, TimeUnit timeUnit);
 
@@ -103,7 +103,7 @@ public interface CacheService {
      *
      * @param key -
      * @param obj -
-     * @return -
+     * @return boolean
      */
     boolean setJson(String key, Object obj);
 
@@ -112,7 +112,7 @@ public interface CacheService {
      *
      * @param key -
      * @param obj -
-     * @return -
+     * @return boolean
      */
     boolean setJsonExpire(String key, Object obj);
 
@@ -123,42 +123,42 @@ public interface CacheService {
      * @param obj      -
      * @param timeout  -
      * @param timeUnit -
-     * @return
+     * @return boolean
      */
     boolean setJson(String key, Object obj, long timeout, TimeUnit timeUnit);
 
     /**
      * expire key
      *
-     * @param key
-     * @param timeout
-     * @param timeUnit
-     * @return
+     * @param key      -
+     * @param timeout  -
+     * @param timeUnit -
+     * @return boolean
      */
     boolean expire(String key, long timeout, TimeUnit timeUnit);
 
     /**
      * delete key
      *
-     * @param key
-     * @return
+     * @param key -
+     * @return boolean
      */
     boolean delete(String key);
 
     /**
      * delete keys
      *
-     * @param keys
-     * @return
+     * @param keys -
+     * @return long
      */
     Long delete(Collection keys);
 
     /**
      * 扫描匹配的key
      *
-     * @param pattern
-     * @param count
-     * @return
+     * @param pattern -
+     * @param count   -
+     * @return string set
      */
     Set<String> scan(String pattern, int count);
 
