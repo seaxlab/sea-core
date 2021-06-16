@@ -144,4 +144,31 @@ public class DateUtilTest extends BaseCoreTest {
         end = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
         log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
     }
+
+    @Test
+    public void testSetSecond() throws Exception {
+        Date now = new Date();
+        Date date = DateUtil.setYear(now, 1999);
+        log.info("time={}", DateUtil.toYMDHMS(date));
+
+
+        date = DateUtil.setMonth(now, 12);
+        log.info("time={}", DateUtil.toYMDHMS(date));
+
+
+        date = DateUtil.setDay(now, 20);
+        log.info("time={}", DateUtil.toYMDHMS(date));
+
+
+        date = DateUtil.setHour(now, 8);
+        log.info("time={}", DateUtil.toYMDHMS(date));
+
+        date = DateUtil.setMinute(now, 10);
+        log.info("time={}", DateUtil.toYMDHMS(date));
+
+        date = DateUtil.setSecond(now, 20);
+        log.info("time={}", DateUtil.toYMDHMS(date));
+
+
+    }
 }

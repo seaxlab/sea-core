@@ -384,6 +384,20 @@ public final class DateUtil {
      * 计算 month个月后的时间
      *
      * @param date
+     * @param delta
+     * @return
+     */
+    public static Date addYear(Date date, int delta) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.YEAR, delta);
+        return calendar.getTime();
+    }
+
+    /**
+     * 计算 month个月后的时间
+     *
+     * @param date
      * @param month
      * @return
      */
@@ -448,6 +462,100 @@ public final class DateUtil {
         calendar.setTime(date);
         calendar.add(Calendar.SECOND, second);
         return calendar.getTime();
+    }
+
+    // 设置指定时间
+
+    /**
+     * 设置指定 year
+     *
+     * @param date  -
+     * @param delta -
+     * @return -
+     */
+    public static Date setYear(Date date, int delta) {
+        DateTime dateTime = new DateTime(date.getTime());
+        dateTime = dateTime.withYear(delta);
+        return dateTime.toDate();
+    }
+
+
+    /**
+     * 设置指定 month
+     *
+     * @param date  -
+     * @param delta -
+     * @return -
+     */
+    public static Date setMonth(Date date, int delta) {
+        DateTime dateTime = new DateTime(date.getTime());
+        dateTime = dateTime.withMonthOfYear(delta);
+        return dateTime.toDate();
+    }
+
+    /**
+     * 设置指定 day
+     *
+     * @param date  -
+     * @param delta -
+     * @return -
+     */
+    public static Date setDay(Date date, int delta) {
+        DateTime dateTime = new DateTime(date.getTime());
+        dateTime = dateTime.withDayOfMonth(delta);
+        return dateTime.toDate();
+    }
+
+    /**
+     * 设置指定 hour
+     *
+     * @param date  -
+     * @param delta -
+     * @return -
+     */
+    public static Date setHour(Date date, int delta) {
+        DateTime dateTime = new DateTime(date.getTime());
+        dateTime = dateTime.withHourOfDay(delta);
+        return dateTime.toDate();
+    }
+
+    /**
+     * 设置指定minute
+     *
+     * @param date  -
+     * @param delta -
+     * @return -
+     */
+    public static Date setMinute(Date date, int delta) {
+        DateTime dateTime = new DateTime(date.getTime());
+        dateTime = dateTime.withMinuteOfHour(delta);
+        return dateTime.toDate();
+    }
+
+    /**
+     * 设置成指定秒
+     *
+     * @param date  -
+     * @param delta -
+     * @return date
+     */
+    public static Date setSecond(Date date, int delta) {
+        DateTime dateTime = new DateTime(date.getTime());
+        dateTime = dateTime.withSecondOfMinute(delta);
+        return dateTime.toDate();
+    }
+
+    /**
+     * 设置指定 millis
+     *
+     * @param date  -
+     * @param delta -
+     * @return -
+     */
+    public static Date setMillis(Date date, int delta) {
+        DateTime dateTime = new DateTime(date.getTime());
+        dateTime = dateTime.withMillisOfSecond(delta);
+        return dateTime.toDate();
     }
 
 
