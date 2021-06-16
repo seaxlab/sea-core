@@ -21,7 +21,7 @@ public final class ListUtil {
     /**
      * empty list
      *
-     * @return
+     * @return -
      */
     public static List empty() {
         return Collections.EMPTY_LIST;
@@ -30,8 +30,8 @@ public final class ListUtil {
     /**
      * list集合是否为空
      *
-     * @param list
-     * @return
+     * @param list -
+     * @return -
      */
     public static <T> boolean isEmpty(List<T> list) {
         if (list == null || list.isEmpty()) {
@@ -44,8 +44,8 @@ public final class ListUtil {
     /**
      * list集合是否不为空
      *
-     * @param list
-     * @return
+     * @param list -
+     * @return -
      */
     public static <T> boolean isNotEmpty(List<T> list) {
         if (list == null || list.isEmpty()) {
@@ -59,8 +59,8 @@ public final class ListUtil {
     /**
      * 字符串数组转列表
      *
-     * @param listStr
-     * @return
+     * @param listStr -
+     * @return -
      */
     public static List<Integer> strToList(String listStr) {
         List<Integer> resultList = Lists.newArrayList();

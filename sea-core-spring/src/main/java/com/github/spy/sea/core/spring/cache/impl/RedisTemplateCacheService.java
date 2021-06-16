@@ -136,8 +136,33 @@ public class RedisTemplateCacheService implements CacheService {
     }
 
     @Override
+    public boolean setExpire(String key, Object obj) {
+        redisTemplate.opsForValue().set(key, obj, CACHE_CONFIG.getFirst(), CACHE_CONFIG.getSecond());
+        return true;
+    }
+
+    @Override
     public boolean set(String key, Object obj, long timeout, TimeUnit timeUnit) {
         redisTemplate.opsForValue().set(key, obj, timeout, timeUnit);
+        return true;
+    }
+
+
+    @Override
+    public boolean setJson(String key, Object obj) {
+        redisTemplate.opsForValue().set(key, JSONUtil.toStr(obj));
+        return true;
+    }
+
+    @Override
+    public boolean setJsonExpire(String key, Object obj) {
+        redisTemplate.opsForValue().set(key, JSONUtil.toStr(obj), CACHE_CONFIG.getFirst(), CACHE_CONFIG.getSecond());
+        return true;
+    }
+
+    @Override
+    public boolean setJson(String key, Object obj, long timeout, TimeUnit timeUnit) {
+        redisTemplate.opsForValue().set(key, JSONUtil.toStr(obj), timeout, timeUnit);
         return true;
     }
 

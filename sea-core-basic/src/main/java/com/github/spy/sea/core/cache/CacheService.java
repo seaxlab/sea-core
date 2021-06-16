@@ -78,15 +78,54 @@ public interface CacheService {
     boolean set(String key, Object obj);
 
     /**
+     * 设置成默认过期时间
+     *
+     * @param key -
+     * @param obj -
+     * @return -
+     */
+    boolean setExpire(String key, Object obj);
+
+    /**
      * set key with expire time.
      *
-     * @param key
-     * @param obj
-     * @param timeout
-     * @param timeUnit
+     * @param key      -
+     * @param obj      -
+     * @param timeout  -
+     * @param timeUnit -
      * @return
      */
     boolean set(String key, Object obj, long timeout, TimeUnit timeUnit);
+
+
+    /**
+     * 设置json
+     *
+     * @param key -
+     * @param obj -
+     * @return -
+     */
+    boolean setJson(String key, Object obj);
+
+    /**
+     * 设置json字符串，带默认过期时间
+     *
+     * @param key -
+     * @param obj -
+     * @return -
+     */
+    boolean setJsonExpire(String key, Object obj);
+
+    /**
+     * 设置json 字符串
+     *
+     * @param key      -
+     * @param obj      -
+     * @param timeout  -
+     * @param timeUnit -
+     * @return
+     */
+    boolean setJson(String key, Object obj, long timeout, TimeUnit timeUnit);
 
     /**
      * expire key
