@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.common.SymbolConst;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.SetUtils;
 
@@ -69,6 +70,16 @@ public final class SetUtil {
      */
     public static Set toSet(Object[] arrays) {
         return new HashSet(Arrays.asList(arrays));
+    }
+
+    /**
+     * to string
+     *
+     * @param set data
+     * @return string
+     */
+    public static String toString(Set set) {
+        return toString(set, SymbolConst.COMMA);
     }
 
     /**

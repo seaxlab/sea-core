@@ -121,13 +121,18 @@ public class ListUtilTest extends BaseCoreTest {
 
 
     @Test
-    public void toStringTest() throws Exception {
+    public void testToString() throws Exception {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             users.add(new User(Long.valueOf(i), "n" + i));
         }
 
         log.info("{}", ListUtil.toString(users, User::getName, ","));
+        List<String> strs = new ArrayList<>();
+        strs.add("a");
+        strs.add("b");
+        strs.add("c");
+        log.info("simple to string={}", ListUtil.toString(strs));
     }
 
     @Test
@@ -141,7 +146,7 @@ public class ListUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void testdistinctObj() throws Exception {
+    public void testDistinctObj() throws Exception {
 
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 10; i++) {

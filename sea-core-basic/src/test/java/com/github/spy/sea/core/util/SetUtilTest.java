@@ -34,7 +34,7 @@ public class SetUtilTest extends BaseCoreTest {
         set.add(new User(2l, "s2"));
         set.add(new User(20L, "s20"));
 
-        log.info("{}", SetUtil.toString(set, User::getName, ","));
+        Assert.assertEquals("s2,s10,s20", SetUtil.toString(set, User::getName, ","));
     }
 
 

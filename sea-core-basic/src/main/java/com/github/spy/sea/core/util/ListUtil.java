@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.common.SymbolConst;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -218,6 +219,40 @@ public final class ListUtil {
         }
         return list.stream()
                    .collect(Collectors.groupingBy(keyMapper));
+    }
+
+    /**
+     * to string
+     *
+     * @param list data
+     * @param <T>  class
+     * @return string
+     */
+    public static <T> String toString(List<T> list) {
+        if (isEmpty(list)) {
+            return StringUtil.EMPTY;
+        }
+
+        T el = list.get(0);
+
+        if (el != null) {
+            if (ClassUtil.isSimpleType(el.getClass())) {
+                return toString(list, item -> String.valueOf(item), SymbolConst.COMMA);
+            }
+        }
+        log.warn("first element is null, so no execute toString function.");
+        return StringUtil.EMPTY;
+    }
+
+    /**
+     * to string
+     *
+     * @param list data
+     * @param <T>  class
+     * @return string
+     */
+    public static <T> String toString(List<T> list, Function<T, String> fn) {
+        return toString(list, fn, SymbolConst.COMMA);
     }
 
     /**
