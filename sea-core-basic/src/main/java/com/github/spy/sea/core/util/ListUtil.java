@@ -55,6 +55,22 @@ public final class ListUtil {
         return true;
     }
 
+    /**
+     * check is all empty
+     *
+     * @param lists multi list
+     * @param <T>   entity
+     * @return boolean
+     */
+    public static <T> boolean isAllEmpty(List<T>... lists) {
+        for (List<T> list : lists) {
+            if (isNotEmpty(list)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     /**
      * 字符串数组转列表

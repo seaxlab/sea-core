@@ -40,6 +40,22 @@ public final class CollectionUtil {
     }
 
     /**
+     * check all empty.
+     *
+     * @param collections multi collection
+     * @return boolean
+     */
+    public static boolean isAllEmpty(Collection<?>... collections) {
+        for (Collection<?> collection : collections) {
+            if (isEmpty(collection)) {
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * check map is empty
      *
      * @param map
