@@ -191,4 +191,12 @@ public class ListUtilTest extends BaseCoreTest {
         codes.add("b");
         log.info("codes={}", codes);
     }
+
+    @Test
+    public void test196() throws Exception {
+        List<String> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+
+        log.info("{}", ListUtil.isAllEmpty(list1, list2));
+    }
 }

@@ -59,11 +59,10 @@ public final class ListUtil {
      * check is all empty
      *
      * @param lists multi list
-     * @param <T>   entity
      * @return boolean
      */
-    public static <T> boolean isAllEmpty(List<T>... lists) {
-        for (List<T> list : lists) {
+    public static boolean isAllEmpty(List<?>... lists) {
+        for (List<?> list : lists) {
             if (isNotEmpty(list)) {
                 return false;
             }
