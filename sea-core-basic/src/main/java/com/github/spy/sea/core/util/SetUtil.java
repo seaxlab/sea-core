@@ -63,6 +63,25 @@ public final class SetUtil {
     }
 
     /**
+     * list to set
+     *
+     * @param <I>  input
+     * @param <R>  return
+     * @param list data
+     * @param func convert function
+     * @return set
+     */
+    public static <I, R> Set<R> toSet(List<I> list, Function<I, R> func) {
+        if (list == null || list.isEmpty()) {
+            return empty();
+        }
+
+        return list.stream()
+                   .map(func)
+                   .collect(Collectors.toSet());
+    }
+
+    /**
      * array to set
      *
      * @param arrays

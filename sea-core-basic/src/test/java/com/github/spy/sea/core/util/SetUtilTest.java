@@ -207,5 +207,29 @@ public class SetUtilTest extends BaseCoreTest {
         log.info("{}", SetUtil.first(set1));
     }
 
+    @Test
+    public void testToSet() throws Exception {
+        List<User> users = new ArrayList<>();
+
+        User user = new User();
+        user.setId(1L);
+        user.setName("1");
+        users.add(user);
+
+        user = new User();
+        user.setId(2L);
+        user.setName("2");
+        users.add(user);
+
+        user = new User();
+        user.setId(2L);
+        user.setName("12");
+        users.add(user);
+
+        log.info("{}", SetUtil.toSet(users, User::getId));
+        log.info("{}", SetUtil.toSet(users, User::getName));
+
+    }
+
 
 }

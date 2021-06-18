@@ -173,6 +173,43 @@ public final class ListUtil {
         return new ArrayList<>(set);
     }
 
+    /**
+     * convert complex to simple R
+     *
+     * @param list data
+     * @param func convert function
+     * @param <T>  input
+     * @param <R>  return
+     * @return list
+     */
+    public static <T, R> List<R> toList(List<T> list, Function<T, R> func) {
+        if (isEmpty(list)) {
+            return empty();
+        }
+        return list.stream()
+                   .map(func)
+                   .collect(Collectors.toList());
+    }
+
+    /**
+     * convert complex to simple R
+     *
+     * @param list data
+     * @param func convert function
+     * @param <T>  input
+     * @param <R>  return
+     * @return list
+     */
+    public static <T, R> List<R> toListDistinct(List<T> list, Function<T, R> func) {
+        if (isEmpty(list)) {
+            return empty();
+        }
+        return list.stream()
+                   .map(func)
+                   .distinct()
+                   .collect(Collectors.toList());
+    }
+
 
     /**
      * 删除元素
