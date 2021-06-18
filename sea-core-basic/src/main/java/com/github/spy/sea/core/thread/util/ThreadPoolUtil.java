@@ -6,7 +6,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * module name
+ * 创建全局线程池，或创建临时线程池
  *
  * @author spy
  * @version 1.0 2020/12/4
@@ -70,8 +70,71 @@ public final class ThreadPoolUtil {
      * @return ThreadPoolExecutor old thread pool executor.
      */
     public static ThreadPoolExecutor remove(String uniqueName) {
+        if (executorMap.contains(uniqueName)) {
+            destroyTpe(uniqueName, executorMap.get(uniqueName));
+        }
         return executorMap.remove(uniqueName);
     }
+
+    /**
+     * try to destroy global thread pool executors.
+     */
+    public static void destroy() {
+        if (!executorMap.isEmpty()) {
+            executorMap.forEach((uniqueName, tpe) -> {
+                destroyTpe(uniqueName, tpe);
+            });
+        }
+    }
+
+    /**
+     * destroy single tpe.
+     *
+     * @param uniqueName unique name
+     * @param tpe        thread pool executor
+     */
+    public static void destroyTpe(String uniqueName, ThreadPoolExecutor tpe) {
+        log.info("try shutdown thread pool executor [{}]", uniqueName);
+        if (tpe != null && !tpe.isShutdown()) {
+            try {
+                tpe.shutdownNow();
+            } catch (Exception e) {
+                log.error("fail to shutdown thread pool executor.", e);
+            }
+        }
+    }
+
+    /**
+     * create temp thread pool executor, and it is away from global executor map.
+     * <p>
+     * You Should destroy it by yourself.
+     * </p>
+     *
+     * @param uniqueName   thread pool name
+     * @param corePoolSize core pool size
+     * @param maxPoolSize  max pool size
+     * @return thread pool executor
+     */
+    public static ThreadPoolExecutor createTemp(final String uniqueName, final int corePoolSize, final int maxPoolSize) {
+        log.info("try to create temp thread pool executor[{}]", uniqueName);
+        return new ThreadPoolExecutor(corePoolSize, maxPoolSize, 1L, TimeUnit.MINUTES,
+                new LinkedBlockingQueue<>(),
+                new ThreadFactory() {
+                    private AtomicInteger counter = new AtomicInteger(0);
+
+                    @Override
+                    public Thread newThread(Runnable r) {
+                        Thread thread = new Thread(r);
+                        thread.setName(uniqueName + "-" + counter.incrementAndGet());
+                        return thread;
+                    }
+                },
+                (runnable, executor) -> log.error("{} reject exception.", uniqueName));
+    }
+
+
+    //------------------------private method.
+
 
     /**
      * 创建固定大小的线程数
@@ -87,15 +150,17 @@ public final class ThreadPoolUtil {
                                                             final int core, final int max, final int queueSize,
                                                             RejectedExecutionHandler handler) {
         return new ThreadPoolExecutor(core, max, 1L, TimeUnit.MINUTES,
-                new ArrayBlockingQueue<>(queueSize), new ThreadFactory() {
-            private AtomicInteger counter = new AtomicInteger(0);
+                new ArrayBlockingQueue<>(queueSize),
+                new ThreadFactory() {
+                    private AtomicInteger counter = new AtomicInteger(0);
 
-            @Override
-            public Thread newThread(Runnable r) {
-                Thread thread = new Thread(r);
-                thread.setName(uniqueName + "-" + counter.incrementAndGet());
-                return thread;
-            }
-        }, handler);
+                    @Override
+                    public Thread newThread(Runnable r) {
+                        Thread thread = new Thread(r);
+                        thread.setName(uniqueName + "-" + counter.incrementAndGet());
+                        return thread;
+                    }
+                }, handler);
     }
+
 }
