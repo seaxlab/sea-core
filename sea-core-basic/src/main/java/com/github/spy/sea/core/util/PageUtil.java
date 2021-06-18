@@ -174,7 +174,7 @@ public final class PageUtil {
             pageInfo.setPageSize(1);
         }
 
-        if (pageInfo.getPageSize() != null || pageInfo.getPageSize() < 1) {
+        if (pageInfo.getPageSize() == null || pageInfo.getPageSize() < 1) {
             pageInfo.setPageSize(10);
         }
     }
