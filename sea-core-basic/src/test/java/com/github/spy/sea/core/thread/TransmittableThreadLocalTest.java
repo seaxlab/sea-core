@@ -112,7 +112,12 @@ public class TransmittableThreadLocalTest extends AbstractCoreTest {
 
     @Test
     public void testThreadPool() throws Exception {
+        int loopCount = 0;
         while (true) {
+            loopCount++;
+            if (loopCount > 100) {
+                break;
+            }
             /*
              这里就是循环执行10次，每次对数值加1并设置到threadlocal中，然后再使用TTL去执行来打印这个值。
              这里外部为什么使用线程池，是为了证明TTL确实可以达到我们想要的效果：即线程池中多任务带着
@@ -126,8 +131,9 @@ public class TransmittableThreadLocalTest extends AbstractCoreTest {
                     });
                 }
             });
+            sleepSecond(3);
         }
-
+        log.info("ttl test end.");
     }
 
 }
