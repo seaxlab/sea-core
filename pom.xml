@@ -75,6 +75,7 @@
         <minio.version>8.2.1</minio.version>
         <javers.version>5.6.3</javers.version>
         <alibaba.rocketmq.version>3.4.9</alibaba.rocketmq.version>
+        <alibaba.ttl.version>2.12.1</alibaba.ttl.version>
 
         <sofa.tracer.version>[3.0.5, 3.0.99]</sofa.tracer.version>
         <jedis.version>3.2.0</jedis.version>
@@ -294,6 +295,12 @@
                 <groupId>com.alibaba.rocketmq</groupId>
                 <artifactId>rocketmq-client</artifactId>
                 <version>${alibaba.rocketmq.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${alibaba.ttl.version}</version>
             </dependency>
 
             <dependency>
