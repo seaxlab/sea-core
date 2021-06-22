@@ -1262,6 +1262,107 @@ public final class DateUtil {
 
 
     /**
+     * 判断[指定日期时间]是否在[当前日期时间]之后
+     *
+     * @param date 指定日期时间
+     * @return boolean
+     */
+    public static boolean afterNow(Date date) {
+        if (date.getTime() > new Date().getTime()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断[指定日期时间]是否在[当前日期时间]之前
+     *
+     * @param date 指定日期时间
+     * @return boolean
+     */
+    public static boolean beforeNow(Date date) {
+        if (date.getTime() < new Date().getTime()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断指定日期是否在当前日期之前
+     *
+     * @param date 指定日期
+     * @return boolean
+     */
+    public static boolean beforeToday(Date date) {
+        return beforeDay(date, new Date());
+    }
+
+    /**
+     * 判断指定日期是否在当前日期之后
+     *
+     * @param date 指定日期
+     * @return boolean
+     */
+    public static boolean afterToday(Date date) {
+        return afterDay(date, new Date());
+    }
+
+    /**
+     * 比较两个日期
+     * srcDate < destDate 则返回true，否则返回false
+     *
+     * @param srcDate  要比较的日期
+     * @param destDate 参考日期
+     * @return boolean
+     */
+    public static boolean beforeDay(Date srcDate, Date destDate) {
+        Calendar fromCalendar = Calendar.getInstance();
+        fromCalendar.setTime(srcDate);
+        fromCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        fromCalendar.set(Calendar.MINUTE, 0);
+        fromCalendar.set(Calendar.SECOND, 0);
+        fromCalendar.set(Calendar.MILLISECOND, 0);
+
+        Calendar nowCalendar = Calendar.getInstance();
+        nowCalendar.setTime(destDate);
+        nowCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        nowCalendar.set(Calendar.MINUTE, 0);
+        nowCalendar.set(Calendar.SECOND, 0);
+        nowCalendar.set(Calendar.MILLISECOND, 0);
+
+        return fromCalendar.getTime().getTime() < nowCalendar.getTime().getTime();
+    }
+
+    /**
+     * 比较两个日期
+     * srcDate > destDate 则返回true，否则返回false
+     *
+     * @param srcDate  要比较的日期
+     * @param destDate 参考日期
+     * @return boolean
+     */
+    public static boolean afterDay(Date srcDate, Date destDate) {
+        Calendar fromCalendar = Calendar.getInstance();
+        fromCalendar.setTime(srcDate);
+        fromCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        fromCalendar.set(Calendar.MINUTE, 0);
+        fromCalendar.set(Calendar.SECOND, 0);
+        fromCalendar.set(Calendar.MILLISECOND, 0);
+
+        Calendar nowCalendar = Calendar.getInstance();
+        nowCalendar.setTime(destDate);
+        nowCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        nowCalendar.set(Calendar.MINUTE, 0);
+        nowCalendar.set(Calendar.SECOND, 0);
+        nowCalendar.set(Calendar.MILLISECOND, 0);
+
+        return fromCalendar.getTime().getTime() > nowCalendar.getTime().getTime();
+    }
+
+
+    /**
      * 判断当前日期时间是否在指定范围内
      *
      * @param beginDate
