@@ -6,7 +6,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * http util
+ * http util （rest template impl）
  *
  * @author spy
  * @version 1.0 2021/5/6
@@ -14,6 +14,29 @@ import org.springframework.web.client.RestTemplate;
  */
 @Slf4j
 public final class RestTemplateUtil {
+
+
+    // 配置超时时间
+    //RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+    //
+    //private ClientHttpRequestFactory getClientHttpRequestFactory() {
+    //    int timeout = 5000;
+    //    HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+    //    clientHttpRequestFactory.setConnectTimeout(timeout);
+    //    return clientHttpRequestFactory;
+    //}
+
+    /**
+     * get headers
+     *
+     * @param url request url
+     * @return http headers.
+     */
+    public static HttpHeaders headers(String url) {
+        RestTemplate client = new RestTemplate();
+
+        return client.headForHeaders(url);
+    }
 
     /**
      * 向目的URL发送get请求
