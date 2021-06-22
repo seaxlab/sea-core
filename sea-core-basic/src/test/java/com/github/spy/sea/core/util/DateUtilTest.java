@@ -2,6 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.enums.RangeModeEnum;
+import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -12,6 +13,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -168,7 +170,20 @@ public class DateUtilTest extends BaseCoreTest {
 
         date = DateUtil.setSecond(now, 20);
         log.info("time={}", DateUtil.toYMDHMS(date));
+    }
 
+    @Test
+    public void testIsValidDate() throws Exception {
+        List<String> dates = ImmutableList.of("202108-1", "2021-09-01");
+        log.info("{}", DateUtil.isValidDate(dates, DateUtil.DAY_FORMAT));
+
+        List<String> dates2 = ImmutableList.of("2021-19-19");
+        log.info("{}", DateUtil.isValidDate(dates2, DateUtil.DAY_FORMAT));
+
+        List<String> dates3 = ImmutableList.of("2021-09-01", "2021-10-11");
+
+        log.info("{}", DateUtil.isValidDate(dates3, DateUtil.DAY_FORMAT));
+        log.info("{}", DateUtil.isValidDate(dates3, DateUtil.DATETIME_YMHM));
 
     }
 }

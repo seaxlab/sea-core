@@ -1196,21 +1196,68 @@ public final class DateUtil {
     /**
      * 校验日期格式是否合法
      *
-     * @param str
-     * @param format yyyy-MM-dd,  yyyyMMdd
+     * @param dateStr date str
+     * @param format  yyyy-MM-dd,  yyyyMMdd
      * @return
      */
-    public static boolean isValidDate(String str, String format) {
-        if (StringUtils.isEmpty(format) || StringUtils.isEmpty(str)) {
+    public static boolean isValidDate(String dateStr, String format) {
+        if (StringUtils.isEmpty(format) || StringUtils.isEmpty(dateStr)) {
             return false;
         }
+//        try {
+//            Date date = strDate(str, format);
+//            return str.equals(dateStr(date, format));
+//        } catch (Exception e) {
+//            return false;
+//        }
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        // 严格模式
+        sdf.setLenient(false);
         try {
-            Date date = strDate(str, format);
-            return str.equals(dateStr(date, format));
-        } catch (Exception e) {
+            sdf.parse(dateStr);
+            return true;
+        } catch (ParseException e) {
+            log.error("parseException", e);
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断日期是否符合指定的格式
+     *
+     * @param dateList date str list
+     * @param format   date time format
+     * @return
+     */
+    public static boolean isValidDate(List<String> dateList, String format) {
+        if (StringUtil.isEmpty(format) || ListUtil.isEmpty(dateList)) {
             return false;
         }
+
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        // 严格模式
+        sdf.setLenient(false);
+
+        boolean valid = true;
+        for (int i = 0; i < dateList.size(); i++) {
+            String date = dateList.get(i);
+
+            try {
+                sdf.parse(date);
+                valid = true;
+            } catch (ParseException e) {
+                log.error("parseException", e);
+                valid = false;
+            }
+            if (!valid) {
+                break;
+            }
+        }
+
+        return valid;
     }
+
 
     public static String now(String format) {
         if (StringUtils.isEmpty(format)) {
