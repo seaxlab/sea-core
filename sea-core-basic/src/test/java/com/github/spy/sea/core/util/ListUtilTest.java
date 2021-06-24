@@ -190,7 +190,7 @@ public class ListUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void test188() throws Exception {
+    public void testPrint() throws Exception {
         List<String> codes = new ArrayList<>();
         codes.add("a");
         codes.add("b");
@@ -198,10 +198,21 @@ public class ListUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void test196() throws Exception {
+    public void testIsAllEmpty() throws Exception {
         List<String> list1 = new ArrayList<>();
         List<Integer> list2 = new ArrayList<>();
 
         log.info("{}", ListUtil.isAllEmpty(list1, list2));
+    }
+
+    @Test
+    public void testNoResize() throws Exception {
+        List<String> list = new ArrayList<>(4);
+
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        list.add("4"); // no resize(no grow)
+
     }
 }

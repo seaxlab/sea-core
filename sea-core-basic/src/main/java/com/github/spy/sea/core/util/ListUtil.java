@@ -150,6 +150,17 @@ public final class ListUtil {
     }
 
     /**
+     * 初始化指定大小的数组容量，超过该容量后才会扩容
+     *
+     * @param initialCapacity initial capacity
+     * @param <E>
+     * @return
+     */
+    public static <E> List<E> newNoResizeArrayList(int initialCapacity) {
+        return new ArrayList<>(initialCapacity);
+    }
+
+    /**
      * new array list
      *
      * @param e
