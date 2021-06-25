@@ -1192,6 +1192,20 @@ public final class DateUtil {
         return calendar.getTime();
     }
 
+    /**
+     * 判断是否合法的范围
+     *
+     * @param begin 开始日期
+     * @param end   结束日期
+     * @return boolean
+     */
+    public static boolean isValidRange(Date begin, Date end) {
+        if (begin == null || end == null) {
+            return false;
+        }
+
+        return begin.getTime() <= end.getTime();
+    }
 
     /**
      * 校验日期格式是否合法
