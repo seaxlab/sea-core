@@ -2,6 +2,7 @@ package com.github.spy.sea.core.model;
 
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,31 +20,28 @@ import java.io.Serializable;
 @Data
 @Builder
 @AllArgsConstructor
+@JSONType(orders = {"success", "traceId", "errorCode", "errorMessage", "errorField", "errorType", "data", "extra"})
 public class BaseResult<T> implements Serializable {
 
     /**
      * 调用结果
      */
-    @JSONField(ordinal = 1000)
     @Builder.Default
     private Boolean success = true;
 
     /**
      * 链路id
      */
-    @JSONField(ordinal = 1010)
     private String traceId;
 
     /**
      * 当前系统节点id
      */
-    @JSONField(ordinal = 1011)
     private String spanId;
 
     /**
      * 错误编码
      */
-    @JSONField(ordinal = 1020)
     private String errorCode;
 
     /**
@@ -54,31 +52,26 @@ public class BaseResult<T> implements Serializable {
     /**
      * 错误信息
      */
-    @JSONField(ordinal = 1030)
     private String errorMessage;
 
     /**
      * 错误字段
      */
-    @JSONField(ordinal = 1040)
     private String errorField;
 
     /**
      * 错误类别
      */
-    @JSONField(ordinal = 1050)
     private String errorType;
 
     /**
      * 默认返回结果
      */
-    @JSONField(ordinal = 1060)
     private T data;
 
     /**
      * 扩展参数，如果data中无法存放时才使用此参数
      */
-    @JSONField(ordinal = 1070)
     private Object extra;
 
     /**
@@ -87,7 +80,6 @@ public class BaseResult<T> implements Serializable {
      *
      * @deprecated 请使用traceId
      */
-    @JSONField(ordinal = -980)
     @Deprecated
     private String requestId;
 
