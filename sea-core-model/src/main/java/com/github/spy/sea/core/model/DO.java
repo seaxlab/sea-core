@@ -3,11 +3,11 @@ package com.github.spy.sea.core.model;
 import java.io.Serializable;
 
 /**
- * View Object
+ * domain object
  *
  * @author spy
- * @version 1.0 2020/9/11
+ * @version 1.0 2021/6/27
  * @since 1.0
  */
-public class VO implements Serializable {
+public class DO implements Serializable {
 }
