@@ -16,8 +16,6 @@ public abstract class AbstractEvent implements Event {
 
     protected String id;
 
-    protected String body;
-
     protected Date createTime;
 
     protected Integer version;

@@ -22,13 +22,6 @@ public interface Event extends Serializable {
     String getId();
 
     /**
-     * event body
-     *
-     * @return
-     */
-    String getBody();
-
-    /**
      * create time
      *
      * @return
