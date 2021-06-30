@@ -78,6 +78,15 @@ public interface CacheService {
     boolean set(String key, Object obj);
 
     /**
+     * set key safely
+     *
+     * @param key -
+     * @param obj -
+     * @return
+     */
+    boolean setSafe(String key, Object obj);
+
+    /**
      * 设置成默认过期时间
      *
      * @param key -
@@ -99,6 +108,17 @@ public interface CacheService {
 
 
     /**
+     * set key with expire time.
+     *
+     * @param key      -
+     * @param obj      -
+     * @param timeout  -
+     * @param timeUnit -
+     * @return boolean
+     */
+    boolean setSafe(String key, Object obj, long timeout, TimeUnit timeUnit);
+
+    /**
      * 设置json
      *
      * @param key -
@@ -106,6 +126,15 @@ public interface CacheService {
      * @return boolean
      */
     boolean setJson(String key, Object obj);
+
+    /**
+     * 设置json
+     *
+     * @param key -
+     * @param obj -
+     * @return boolean
+     */
+    boolean setJsonSafe(String key, Object obj);
 
     /**
      * 设置json字符串，带默认过期时间
@@ -128,6 +157,17 @@ public interface CacheService {
     boolean setJson(String key, Object obj, long timeout, TimeUnit timeUnit);
 
     /**
+     * 设置json 字符串
+     *
+     * @param key      -
+     * @param obj      -
+     * @param timeout  -
+     * @param timeUnit -
+     * @return boolean
+     */
+    boolean setJsonSafe(String key, Object obj, long timeout, TimeUnit timeUnit);
+
+    /**
      * expire key
      *
      * @param key      -
@@ -146,12 +186,28 @@ public interface CacheService {
     boolean delete(String key);
 
     /**
+     * delete key safely
+     *
+     * @param key -
+     * @return boolean
+     */
+    boolean deleteSafe(String key);
+
+    /**
      * delete keys
      *
      * @param keys -
      * @return long
      */
     Long delete(Collection keys);
+
+    /**
+     * delete key safely
+     *
+     * @param keys -
+     * @return Long
+     */
+    Long deleteSafe(Collection keys);
 
     /**
      * 扫描匹配的key

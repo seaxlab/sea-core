@@ -12,7 +12,11 @@ import lombok.Getter;
 @Getter
 public enum CacheOpEnum implements IBaseEnum<String> {
     SET("set", "set op"),
-    GET("get", "get op");
+    GET("get", "get op"),
+    DELETE("delete", "delete op"),
+
+    // add here
+    ;
 
     private String code;
     private String desc;

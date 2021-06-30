@@ -136,6 +136,17 @@ public class RedisTemplateCacheService implements CacheService {
     }
 
     @Override
+    public boolean setSafe(String key, Object obj) {
+        try {
+            redisTemplate.opsForValue().set(key, obj);
+        } catch (Exception e) {
+            log.error("fail to set key={}, obj={}, ex={}", key, obj, e);
+            handleException(CacheOpEnum.SET, key, e);
+        }
+        return true;
+    }
+
+    @Override
     public boolean setExpire(String key, Object obj) {
         redisTemplate.opsForValue().set(key, obj, CACHE_CONFIG.getFirst(), CACHE_CONFIG.getSecond());
         return true;
@@ -147,12 +158,34 @@ public class RedisTemplateCacheService implements CacheService {
         return true;
     }
 
+    @Override
+    public boolean setSafe(String key, Object obj, long timeout, TimeUnit timeUnit) {
+        try {
+            redisTemplate.opsForValue().set(key, obj, timeout, timeUnit);
+        } catch (Exception e) {
+            log.error("fail to set key={}, obj={}, ex={}", key, obj, e);
+            handleException(CacheOpEnum.SET, key, e);
+        }
+        return true;
+    }
 
     @Override
     public boolean setJson(String key, Object obj) {
         redisTemplate.opsForValue().set(key, JSONUtil.toStr(obj));
         return true;
     }
+
+    @Override
+    public boolean setJsonSafe(String key, Object obj) {
+        try {
+            redisTemplate.opsForValue().set(key, JSONUtil.toStr(obj));
+        } catch (Exception e) {
+            log.error("fail to set json key={}, obj={}, ex={}", key, obj, e);
+            handleException(CacheOpEnum.SET, key, e);
+        }
+        return true;
+    }
+
 
     @Override
     public boolean setJsonExpire(String key, Object obj) {
@@ -167,6 +200,17 @@ public class RedisTemplateCacheService implements CacheService {
     }
 
     @Override
+    public boolean setJsonSafe(String key, Object obj, long timeout, TimeUnit timeUnit) {
+        try {
+            redisTemplate.opsForValue().set(key, JSONUtil.toStr(obj), timeout, timeUnit);
+        } catch (Exception e) {
+            log.error("fail to set json key={}, obj={}, ex={}", key, obj, e);
+            handleException(CacheOpEnum.SET, key, e);
+        }
+        return true;
+    }
+
+    @Override
     public boolean expire(String key, long timeout, TimeUnit timeUnit) {
         return redisTemplate.expire(key, timeout, timeUnit);
     }
@@ -177,8 +221,32 @@ public class RedisTemplateCacheService implements CacheService {
     }
 
     @Override
+    public boolean deleteSafe(String key) {
+        try {
+            return redisTemplate.delete(key);
+        } catch (Exception e) {
+            log.error("fail to delete key={},ex={}", key, e);
+            handleException(CacheOpEnum.DELETE, key, e);
+        }
+
+        return false;
+    }
+
+    @Override
     public Long delete(Collection keys) {
         return redisTemplate.delete(keys);
+    }
+
+    @Override
+    public Long deleteSafe(Collection keys) {
+        try {
+            return redisTemplate.delete(keys);
+        } catch (Exception e) {
+            log.error("fail to delete key={},ex={}", keys, e);
+            handleException(CacheOpEnum.DELETE, keys, e);
+        }
+
+        return 0L;
     }
 
     @Override
@@ -222,5 +290,22 @@ public class RedisTemplateCacheService implements CacheService {
 //            return ids;
 //        });
     }
+
+
+    // ----------------------private method region---------------------
+    private void handleException(CacheOpEnum cacheOpEnum, String key, Throwable t) {
+        if (this.exceptionHandler != null) {
+            this.exceptionHandler.handle(cacheOpEnum.getCode(), key, t);
+        }
+    }
+
+    private void handleException(CacheOpEnum cacheOpEnum, Collection keys, Throwable t) {
+        if (this.exceptionHandler != null) {
+            StringBuilder builder = new StringBuilder();
+            keys.stream().forEach(key -> builder.append((String) key));
+            this.exceptionHandler.handle(cacheOpEnum.getCode(), builder.toString(), t);
+        }
+    }
+
 
 }
