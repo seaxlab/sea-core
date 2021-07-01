@@ -26,7 +26,9 @@ public interface Event extends Serializable {
      *
      * @return integer
      */
-    String eventSource();
+    default String eventSource() {
+        return "";
+    }
 
     /**
      * create time
