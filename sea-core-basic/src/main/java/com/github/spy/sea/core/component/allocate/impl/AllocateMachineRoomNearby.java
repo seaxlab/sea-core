@@ -94,10 +94,12 @@ public class AllocateMachineRoomNearby implements AllocateStrategy {
         List<Node> mqInThisMachineRoom = mr2Mq.remove(currentMachineRoom);
         List<String> consumerInThisMachineRoom = mr2c.get(currentMachineRoom);
         if (mqInThisMachineRoom != null && !mqInThisMachineRoom.isEmpty()) {
+            // 就近原则时实际上的分配算法allocateStrategy
             allocateResults.addAll(allocateStrategy.allocate(consumerGroup, currentCID, mqInThisMachineRoom, consumerInThisMachineRoom));
         }
 
         //2.allocate the rest node to each machine room if there are no consumer alive in that machine room
+        // 有剩余队列时，实际上的分配算法，allocateStrategy
         for (String machineRoom : mr2Mq.keySet()) {
             if (!mr2c.containsKey(machineRoom)) { // no alive consumer in the corresponding machine room, so all consumers share these queues
                 allocateResults.addAll(allocateStrategy.allocate(consumerGroup, currentCID, mr2Mq.get(machineRoom), cidAll));

@@ -1,19 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.github.spy.sea.core.component.allocate;
 
 import com.github.spy.sea.core.component.allocate.impl.AllocateAveragely;
@@ -43,6 +27,7 @@ public class AllocateMachineRoomNearByTest {
     };
     private final AllocateStrategy allocateStrategy = new AllocateMachineRoomNearby(new AllocateAveragely(), machineRoomResolver);
 
+    private boolean printFlag = true;
 
     @Before
     public void init() {
@@ -51,26 +36,26 @@ public class AllocateMachineRoomNearByTest {
 
     @Test
     public void test1() {
-        testWhenIDCSizeEquals(5, 20, 10, false);
-        testWhenIDCSizeEquals(5, 20, 20, false);
-        testWhenIDCSizeEquals(5, 20, 30, false);
-        testWhenIDCSizeEquals(5, 20, 0, false);
+        testWhenIDCSizeEquals(5, 20, 10, printFlag);
+        testWhenIDCSizeEquals(5, 20, 20, printFlag);
+        testWhenIDCSizeEquals(5, 20, 30, printFlag);
+        testWhenIDCSizeEquals(5, 20, 0, printFlag);
     }
 
     @Test
     public void test2() {
-        testWhenConsumerIDCIsMore(5, 1, 10, 10, false);
-        testWhenConsumerIDCIsMore(5, 1, 10, 5, false);
-        testWhenConsumerIDCIsMore(5, 1, 10, 20, false);
-        testWhenConsumerIDCIsMore(5, 1, 10, 0, false);
+        testWhenConsumerIDCIsMore(5, 1, 10, 10, printFlag);
+        testWhenConsumerIDCIsMore(5, 1, 10, 5, printFlag);
+        testWhenConsumerIDCIsMore(5, 1, 10, 20, printFlag);
+        testWhenConsumerIDCIsMore(5, 1, 10, 0, printFlag);
     }
 
     @Test
     public void test3() {
-        testWhenConsumerIDCIsLess(5, 2, 10, 10, false);
-        testWhenConsumerIDCIsLess(5, 2, 10, 5, false);
-        testWhenConsumerIDCIsLess(5, 2, 10, 20, false);
-        testWhenConsumerIDCIsLess(5, 2, 10, 0, false);
+        testWhenConsumerIDCIsLess(5, 2, 10, 10, printFlag);
+        testWhenConsumerIDCIsLess(5, 2, 10, 5, printFlag);
+        testWhenConsumerIDCIsLess(5, 2, 10, 20, printFlag);
+        testWhenConsumerIDCIsLess(5, 2, 10, 0, printFlag);
     }
 
 
@@ -83,23 +68,34 @@ public class AllocateMachineRoomNearByTest {
             int consumerIDCSize = new Random().nextInt(10) + 1;//1-10
 
             if (brokerIDCSize == consumerIDCSize) {
-                testWhenIDCSizeEquals(brokerIDCSize, queueSize, consumerSize, false);
+                testWhenIDCSizeEquals(brokerIDCSize, queueSize, consumerSize, printFlag);
             } else if (brokerIDCSize > consumerIDCSize) {
-                testWhenConsumerIDCIsLess(brokerIDCSize, brokerIDCSize - consumerIDCSize, queueSize, consumerSize, false);
+                testWhenConsumerIDCIsLess(brokerIDCSize, brokerIDCSize - consumerIDCSize, queueSize, consumerSize, printFlag);
             } else {
-                testWhenConsumerIDCIsMore(brokerIDCSize, consumerIDCSize - brokerIDCSize, queueSize, consumerSize, false);
+                testWhenConsumerIDCIsMore(brokerIDCSize, consumerIDCSize - brokerIDCSize, queueSize, consumerSize, printFlag);
             }
         }
     }
 
 
+    /**
+     * @param IDCSize      idc数量
+     * @param queueSize    每个topic的队列大小
+     * @param consumerSize 消费者个数
+     * @param print        是否打印日志
+     */
     public void testWhenIDCSizeEquals(int IDCSize, int queueSize, int consumerSize, boolean print) {
         if (print) {
-            System.out.println("Test : IDCSize = " + IDCSize + "queueSize = " + queueSize + " consumerSize = " + consumerSize);
+            System.out.println("Test : IDCSize = " + IDCSize + ", queueSize = " + queueSize + ", consumerSize = " + consumerSize);
         }
+        // 所有消费者
         List<String> cidAll = prepareConsumer(IDCSize, consumerSize);
+        // 所有队列
         List<Node> mqAll = prepareMQ(IDCSize, queueSize);
+
         List<Node> resAll = new ArrayList<Node>();
+
+        // 遍历所有消费者
         for (String currentID : cidAll) {
             List<Node> res = allocateStrategy.allocate("Test-C-G", currentID, mqAll, cidAll);
             if (print) {

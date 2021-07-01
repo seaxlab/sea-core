@@ -11,7 +11,7 @@ import java.util.Set;
  * Computer room Hashing queue algorithm, such as Alipay logic room
  */
 public class AllocateByMachineRoom implements AllocateStrategy {
-    private Set<String> consumeridcs;
+    private Set<String> consumerIdcs;
 
     @Override
     public List<Node> allocate(String consumerGroup, String currentCID,
@@ -24,7 +24,7 @@ public class AllocateByMachineRoom implements AllocateStrategy {
         List<Node> premqAll = new ArrayList<>();
         for (Node node : nodeAll) {
             String[] temp = node.getBrokerName().split("@");
-            if (temp.length == 2 && consumeridcs.contains(temp[0])) {
+            if (temp.length == 2 && consumerIdcs.contains(temp[0])) {
                 premqAll.add(node);
             }
         }
@@ -47,11 +47,11 @@ public class AllocateByMachineRoom implements AllocateStrategy {
         return "MACHINE_ROOM";
     }
 
-    public Set<String> getConsumeridcs() {
-        return consumeridcs;
+    public Set<String> getConsumerIdcs() {
+        return consumerIdcs;
     }
 
-    public void setConsumeridcs(Set<String> consumeridcs) {
-        this.consumeridcs = consumeridcs;
+    public void setConsumerIdcs(Set<String> consumerIdcs) {
+        this.consumerIdcs = consumerIdcs;
     }
 }
