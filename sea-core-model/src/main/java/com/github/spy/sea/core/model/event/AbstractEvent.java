@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * module name
+ * global abstract event
  *
  * @author spy
  * @version 1.0 2021/6/27
@@ -14,15 +14,30 @@ import java.util.Date;
 @Data
 public abstract class AbstractEvent implements Event {
 
+    /**
+     * 事件标识
+     */
     protected String id;
 
+    /**
+     * 事件来源
+     */
+    protected String eventSource;
+
+    /**
+     * 事件创建时间
+     */
     protected Date createTime;
 
+    /**
+     * 事件版本，默认1
+     */
     protected Integer version;
 
 
     public AbstractEvent() {
 //        this.id = "";
+        this.eventSource = "";
         this.createTime = new Date();
         this.version = 1;
     }

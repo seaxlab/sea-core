@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * module name
+ * global event model
  *
  * @author spy
  * @version 1.0 2021/6/27
@@ -20,6 +20,13 @@ public interface Event extends Serializable {
      * @return
      */
     String getId();
+
+    /**
+     * 事件来源
+     *
+     * @return integer
+     */
+    String eventSource();
 
     /**
      * create time
