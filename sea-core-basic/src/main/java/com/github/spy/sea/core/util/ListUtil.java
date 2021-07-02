@@ -71,6 +71,34 @@ public final class ListUtil {
         return true;
     }
 
+    /**
+     * return first element
+     *
+     * @param list data
+     * @param <E>  entity
+     * @return first element
+     */
+    public static <E> E first(List<E> list) {
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    /**
+     * return last element
+     *
+     * @param list data
+     * @param <E>  entity
+     * @return last element
+     */
+    public static <E> E last(List<E> list) {
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        return list.get(list.size() - 1);
+    }
+
 
     /**
      * 字符串数组转列表
