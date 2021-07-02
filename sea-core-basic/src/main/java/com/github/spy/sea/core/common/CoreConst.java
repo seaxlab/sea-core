@@ -196,6 +196,26 @@ public class CoreConst {
      */
     public static final boolean HAS_SOFA_TRACER = ClassUtil.has("com.alipay.common.tracer.core.SofaTracer", false);
 
+    /**
+     * 最大日期跨度30天
+     */
+    public static final Integer MAX_DATE_RANGE_30 = 30;
+
+    /**
+     * 最大日期跨度60天
+     */
+    public static final Integer MAX_DATE_RANGE_60 = 60;
+
+    /**
+     * 最大日期跨度90天
+     */
+    public static final Integer MAX_DATE_RANGE_90 = 90;
+
+    /**
+     * 最大日期跨度180天
+     */
+    public static final Integer MAX_DATE_RANGE_180 = 180;
+
 
     /**
      * Java MiddleWare Log Path,
