@@ -23,6 +23,16 @@ import org.springframework.context.annotation.Import;
 @Import({SeaCoreConfig.class, SeaScheduleConfig.class})
 public class SeaCoreAutoConfigure {
 
+    /**
+     * create spring context holder
+     * <p>
+     * if you want to create early, you should use @dependOn("springContextHolder")
+     * such as: mq listener, it should be after spring context holder init.
+     * </p>
+     * 重点：请勿更改方法名，这是唯一bean id
+     *
+     * @return spring context holder bean
+     */
     @Bean
     @ConditionalOnMissingBean
     public SpringContextHolder springContextHolder() {

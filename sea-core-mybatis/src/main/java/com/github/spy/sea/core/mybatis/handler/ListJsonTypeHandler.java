@@ -18,6 +18,11 @@ import java.util.List;
 
 /**
  * List<T><=> JSON Array string.
+ * <p>
+ * at MappedTypes({List.class})
+ * at MappedJdbcTypes({JdbcType.VARCHAR})
+ * 引用对象上可引用，也可不引用
+ * </p>
  *
  * @author spy
  * @version 1.0 2020/11/9
