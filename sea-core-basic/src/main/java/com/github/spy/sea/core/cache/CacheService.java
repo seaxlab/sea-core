@@ -22,51 +22,108 @@ public interface CacheService {
 
 
     /**
-     * query one obj.
+     * query one obj, if null then cache with default value.
      *
-     * @param key
-     * @param supplier
-     * @param clazz
-     * @return
+     * @param key      cache key
+     * @param supplier supplier function
+     * @param clazz    object clazz
+     * @param <T>      obj class
+     * @return obj list
      */
     <T> Optional<T> query(String key, Supplier<T> supplier, Class<T> clazz);
 
     /**
-     * query one obj
+     * query one key,
+     * <p>if null in cache, then supplier.</p>
+     * <p>if null in supplier, then return null and no store in cache with default value</p>
      *
-     * @param key
-     * @param supplier
-     * @param clazz
-     * @param timeout
-     * @param timeUnit
-     * @param <T>
-     * @return
+     * @param key      cache key
+     * @param supplier supplier function
+     * @param clazz    object clazz
+     * @param <T>      obj class
+     * @return obj list
+     */
+    <T> Optional<T> queryIfAbsent(String key, Supplier<T> supplier, Class<T> clazz);
+
+    /**
+     * query one obj, if null then cache with default value
+     *
+     * @param key      cache key
+     * @param supplier supplier function
+     * @param clazz    object clazz
+     * @param timeout  cache timeout
+     * @param timeUnit cache timeout unit
+     * @param <T>      obj class
+     * @return obj list
      */
     <T> Optional<T> query(String key, Supplier<T> supplier, Class<T> clazz, long timeout, TimeUnit timeUnit);
 
     /**
-     * query obj list.
+     * query one key,
+     * <p>if null in cache, then supplier.</p>
+     * <p>if null in supplier, then return null and no store in cache with default value</p>
      *
-     * @param key
-     * @param supplier
-     * @param clazz
-     * @param <T>
-     * @return
+     * @param key      cache key
+     * @param supplier supplier function
+     * @param clazz    object clazz
+     * @param timeout  cache timeout
+     * @param timeUnit cache timeout unit
+     * @param <T>      obj class
+     * @return obj list
+     */
+    <T> Optional<T> queryIfAbsent(String key, Supplier<T> supplier, Class<T> clazz, long timeout, TimeUnit timeUnit);
+
+    /**
+     * query obj list, if null then cache with default value
+     *
+     * @param key      cache key
+     * @param supplier supplier function
+     * @param clazz    object clazz
+     * @param <T>      obj class
+     * @return obj list
      */
     <T> List<T> queryList(String key, Supplier<List<T>> supplier, Class<T> clazz);
 
     /**
-     * query obj list
+     * query obj list,
+     * <p>if null in cache, then supplier.</p>
+     * <p>if null in supplier, then return null and no store in cache with default value</p>
      *
-     * @param key
-     * @param supplier
-     * @param clazz
-     * @param timeout
-     * @param timeUnit
-     * @param <T>
-     * @return
+     * @param key      cache key
+     * @param supplier supplier function
+     * @param clazz    object clazz
+     * @param <T>      obj class
+     * @return obj list
+     */
+    <T> List<T> queryListIfAbsent(String key, Supplier<List<T>> supplier, Class<T> clazz);
+
+    /**
+     * query obj list, if null then cache with default value
+     *
+     * @param key      cache key
+     * @param supplier supplier function
+     * @param clazz    object clazz
+     * @param timeout  cache timeout
+     * @param timeUnit cache timeout unit
+     * @param <T>      obj class
+     * @return obj list
      */
     <T> List<T> queryList(String key, Supplier<List<T>> supplier, Class<T> clazz, long timeout, TimeUnit timeUnit);
+
+    /**
+     * query obj list,
+     * <p>if null in cache, then supplier.</p>
+     * <p>if null in supplier, then return null and no store in cache with default value</p>
+     *
+     * @param key      cache key
+     * @param supplier supplier function
+     * @param clazz    object clazz
+     * @param timeout  cache timeout
+     * @param timeUnit cache timeout unit
+     * @param <T>      obj class
+     * @return obj list
+     */
+    <T> List<T> queryListIfAbsent(String key, Supplier<List<T>> supplier, Class<T> clazz, long timeout, TimeUnit timeUnit);
 
     /**
      * set key

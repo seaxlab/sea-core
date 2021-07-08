@@ -93,6 +93,49 @@ public class RedisTemplateCacheService implements CacheService {
     }
 
     @Override
+    public <T> Optional<T> queryIfAbsent(String key, Supplier<T> supplier, Class<T> clazz) {
+        return queryIfAbsent(key, supplier, clazz, CACHE_CONFIG.getFirst(), CACHE_CONFIG.getSecond());
+    }
+
+    @Override
+    public <T> Optional<T> queryIfAbsent(String key, Supplier<T> supplier, Class<T> clazz, long timeout, TimeUnit timeUnit) {
+        timeout = timeout <= 0 ? CACHE_CONFIG.getFirst() : timeout;
+        timeUnit = timeUnit == null ? CACHE_CONFIG.getSecond() : timeUnit;
+
+        String content;
+        try {
+            content = (String) redisTemplate.opsForValue().get(key);
+        } catch (Exception e) {
+            log.error("fail to get cache, key={}, so query from supplier. ex={}", key, e);
+            if (this.exceptionHandler != null) {
+                this.exceptionHandler.handle(CacheOpEnum.SET.getCode(), key, e);
+            }
+            return Optional.ofNullable(supplier.get());
+        }
+        T data;
+
+        if (content == null) {
+            data = supplier.get();
+
+            if (data != null) {
+                try {
+                    redisTemplate.opsForValue()
+                                 .set(key, JSONUtil.toStr(data), timeout, timeUnit);
+                } catch (Exception e) {
+                    log.error("fail to set one record, key={}, exception={}", key, e);
+                    if (this.exceptionHandler != null) {
+                        this.exceptionHandler.handle(CacheOpEnum.SET.getCode(), key, e);
+                    }
+                }
+            }
+        } else {
+            data = JSONObject.parseObject(content, clazz);
+        }
+
+        return Optional.ofNullable(data);
+    }
+
+    @Override
     public <T> List<T> queryList(String key, Supplier<List<T>> supplier, Class<T> clazz) {
         return queryList(key, supplier, clazz, CACHE_CONFIG.getFirst(), CACHE_CONFIG.getSecond());
     }
@@ -128,6 +171,43 @@ public class RedisTemplateCacheService implements CacheService {
         return data;
     }
 
+    @Override
+    public <T> List<T> queryListIfAbsent(String key, Supplier<List<T>> supplier, Class<T> clazz) {
+        return queryListIfAbsent(key, supplier, clazz, CACHE_CONFIG.getFirst(), CACHE_CONFIG.getSecond());
+    }
+
+    @Override
+    public <T> List<T> queryListIfAbsent(String key, Supplier<List<T>> supplier, Class<T> clazz, long timeout, TimeUnit timeUnit) {
+        timeout = timeout <= 0 ? CACHE_CONFIG.getFirst() : timeout;
+        timeUnit = timeUnit == null ? CACHE_CONFIG.getSecond() : timeUnit;
+
+        String content;
+        try {
+            content = (String) redisTemplate.opsForValue().get(key);
+        } catch (Exception e) {
+            log.error("fail to get cache, key={}, so query from supplier. ex={}", key, e);
+            return supplier.get();
+        }
+
+        List<T> data;
+        if (content == null) {
+            data = supplier.get();
+            if (data != null) {
+                try {
+                    redisTemplate.opsForValue()
+                                 .set(key, JSONUtil.toStr(data), timeout, timeUnit);
+                } catch (Exception e) {
+                    log.error("fail to set list key={},exception={}", key, e);
+                    if (this.exceptionHandler != null) {
+                        this.exceptionHandler.handle(CacheOpEnum.SET.getCode(), key, e);
+                    }
+                }
+            }
+        } else {
+            data = JSONArray.parseArray(content, clazz);
+        }
+        return data;
+    }
 
     @Override
     public boolean set(String key, Object obj) {
