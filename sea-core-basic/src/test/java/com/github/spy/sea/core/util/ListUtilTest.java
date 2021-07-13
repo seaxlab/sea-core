@@ -215,4 +215,24 @@ public class ListUtilTest extends BaseCoreTest {
         list.add("4"); // no resize(no grow)
 
     }
+
+    @Test
+    public void testIterator() throws Exception {
+        List<String> list = new ArrayList<>(4);
+
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        list.add("4"); // no resize(no grow)
+
+        Iterator<String> it = list.iterator();
+        while (it.hasNext()) {
+            String item = it.next();
+            if (EqualUtil.isEq("2", item)) {
+                it.remove();
+            }
+        }
+
+        log.info("list={}", list);
+    }
 }
