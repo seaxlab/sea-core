@@ -122,6 +122,31 @@ public class DateUtilTest extends BaseCoreTest {
     }
 
     @Test
+    public void testHasIntersection2() throws Exception {
+        Date totalStart = DateUtil.str2Date("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
+        Date totalEnd = DateUtil.str2Date("2021-04-01 09:00:00", DateUtil.DEFAULT_FORMAT);
+
+        Date start, end;
+        start = DateUtil.str2Date("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
+        end = DateUtil.str2Date("2021-04-01 08:30:00", DateUtil.DEFAULT_FORMAT);
+        log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
+
+    }
+
+    @Test
+    public void testHasIntersection3() throws Exception {
+        Date totalStart = DateUtil.str2Date("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
+        Date totalEnd = DateUtil.str2Date("2021-04-01 09:00:00", DateUtil.DEFAULT_FORMAT);
+
+        Date start, end;
+        start = DateUtil.str2Date("2021-04-01 07:00:00", DateUtil.DEFAULT_FORMAT);
+        end = DateUtil.str2Date("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
+        log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
+
+    }
+
+
+    @Test
     public void testHasIntersection() throws Exception {
 
         Date totalStart = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
