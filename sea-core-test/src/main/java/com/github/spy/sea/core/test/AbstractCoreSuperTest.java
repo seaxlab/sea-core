@@ -9,10 +9,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * module name
@@ -107,6 +109,72 @@ class AbstractCoreSuperTest {
         }
 
         sleepSecond(sleepSecond);
+        executorService.shutdown();
+    }
+
+    /**
+     * 真正的并发执行
+     *
+     * @param runnable            执行任务
+     * @param totalPoolSize       线程池总大小
+     * @param runThreadCount      执行任务的线程数
+     * @param countDownLatchCount 门栓数量
+     */
+    protected void runConcurrencyInMultiThread(Runnable runnable, int totalPoolSize,
+                                               int runThreadCount,
+                                               int countDownLatchCount) {
+        totalPoolSize = totalPoolSize < 0 ? 8 : totalPoolSize;
+        runThreadCount = runThreadCount < 0 ? 4 : runThreadCount;
+        countDownLatchCount = countDownLatchCount < 0 ? runThreadCount : countDownLatchCount;
+
+        ExecutorService pool = Executors.newFixedThreadPool(totalPoolSize);
+
+        //主线程根据此CountDownLatch阻塞
+        CountDownLatch mainThreadHolder = new CountDownLatch(countDownLatchCount);
+
+        //并发的多个子线程根据此CountDownLatch阻塞
+        CountDownLatch multiThreadHolder = new CountDownLatch(1);
+
+        //失败次数计数器
+        LongAdder failedCount = new LongAdder();
+
+        //并发执行
+        for (int i = 0; i < runThreadCount; i++) {
+            pool.execute(() -> {
+                try {
+                    _log.info("waiting main thread single");
+                    //子线程等待，等待主线程通知后统一执行
+                    multiThreadHolder.await();
+
+                    _log.info("execute runnable");
+
+                    //调用被测试的方法
+                    runnable.run();
+
+                    _log.info("execute runnable successfully.");
+                } catch (Exception e) {
+                    _log.error("fail to execute runnable", e);
+                    //异常发生时，对失败计数器+1
+                    failedCount.increment();
+                } finally {
+                    //主线程的阻塞器奇数-1
+                    mainThreadHolder.countDown();
+                }
+            });
+        }
+        _log.info("main thread count down, allow all sub thread execute");
+        //通知所有子线程可以执行方法调用了
+        multiThreadHolder.countDown();
+
+        try {
+            //主线程等子线程都执行完
+            _log.info("main thread is waiting sub thread execute to finish");
+            mainThreadHolder.await();
+        } catch (InterruptedException e) {
+            _log.info("interrupted exception", e);
+        }
+        _log.info("sub thread fail count={}/{}", failedCount.sum(), runThreadCount);
+        _log.info("all end.");
     }
 
 
