@@ -298,6 +298,28 @@ public final class ListUtil {
     }
 
     /**
+     * <p>
+     * convert list to map[key,List[Value]]
+     * </p>
+     *
+     * @param list        data
+     * @param keyMapper   key mapper
+     * @param valueMapper value mapper
+     * @param <E>         entity
+     * @param <A>         map key type
+     * @param <B>         map value type
+     * @return
+     */
+    public static <E, A, B> Map<A, List<B>> toMapList(List<E> list,
+                                                      Function<? super E, ? extends A> keyMapper,
+                                                      Function<? super E, ? extends B> valueMapper) {
+
+        return list.stream()
+                   .collect(Collectors.groupingBy(keyMapper,
+                           Collectors.mapping(valueMapper, Collectors.toList())));
+    }
+
+    /**
      * to string
      *
      * @param list data

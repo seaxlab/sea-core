@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.domain.User;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.*;
@@ -119,6 +120,21 @@ public class ListUtilTest extends BaseCoreTest {
         log.info("{}", userMap);
     }
 
+    @Test
+    public void testToMapList2() throws Exception {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setId(Long.valueOf(i % 3));
+            user.setName("n" + i);
+            users.add(user);
+        }
+
+        Map<Long, List<String>> userMap = ListUtil.toMapList(users, user -> user.getId(), user -> user.getName());
+        log.info("{}", userMap);
+        // {0=[n0, n3, n6, n9], 1=[n1, n4, n7], 2=[n2, n5, n8]}
+        Assert.assertEquals(userMap.get(0L).size(), 4);
+    }
 
     @Test
     public void testToString() throws Exception {
