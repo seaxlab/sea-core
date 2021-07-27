@@ -464,7 +464,84 @@ public final class DateUtil {
         return calendar.getTime();
     }
 
-    // 设置指定时间
+    /**
+     * 获取指定日期时间的年值，yyyy
+     *
+     * @param date date time
+     * @return int
+     */
+    public static int getYear(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        return cal.get(Calendar.YEAR);
+    }
+
+    /**
+     * 获取指定日期时间的月值，MM
+     *
+     * @param date date time
+     * @return int
+     */
+    public static int getMonth(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        return cal.get(Calendar.MONTH) + 1;
+    }
+
+    /**
+     * 获取指定日期时间的日值，dd
+     *
+     * @param date date time
+     * @return int
+     */
+    public static int getDay(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        return cal.get(Calendar.DATE);
+    }
+
+    /**
+     * 获取指定日期时间的小时，HH
+     *
+     * @param date date time
+     * @return int
+     */
+    public static int getHour(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        return cal.get(Calendar.HOUR_OF_DAY);
+    }
+
+    /**
+     * 获取指定日期时间的分钟，mm
+     *
+     * @param date date time
+     * @return int
+     */
+    public static int getMinute(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        return cal.get(Calendar.MINUTE);
+    }
+
+    /**
+     * 获取指定日期时间的秒值，ss
+     *
+     * @param date date time
+     * @return int
+     */
+    public static int getSecond(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        return cal.get(Calendar.SECOND);
+    }
+
 
     /**
      * 设置指定 year

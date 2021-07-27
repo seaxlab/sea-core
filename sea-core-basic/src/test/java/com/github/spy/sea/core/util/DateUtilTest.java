@@ -4,6 +4,7 @@ import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.enums.RangeModeEnum;
 import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.time.Instant;
@@ -211,4 +212,18 @@ public class DateUtilTest extends BaseCoreTest {
         log.info("{}", DateUtil.isValidDate(dates3, DateUtil.DATETIME_YMHM));
 
     }
+
+    @Test
+    public void testGet() throws Exception {
+        Date date = DateUtil.str2Date("2021-04-01 13:01:50", DateUtil.DEFAULT_FORMAT);
+
+        Assert.assertEquals(2021, DateUtil.getYear(date));
+        Assert.assertEquals(4, DateUtil.getMonth(date));
+        Assert.assertEquals(1, DateUtil.getDay(date));
+        Assert.assertEquals(13, DateUtil.getHour(date));
+        Assert.assertEquals(1, DateUtil.getMinute(date));
+        Assert.assertEquals(50, DateUtil.getSecond(date));
+
+    }
+
 }
