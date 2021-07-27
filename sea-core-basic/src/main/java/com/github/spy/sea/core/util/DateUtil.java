@@ -1712,6 +1712,32 @@ public final class DateUtil {
     }
 
     /**
+     * get end date time of date
+     *
+     * @param date date
+     * @return date
+     */
+    public static Date getBeginDateTimeOfDay(Date date) {
+        DateTime begin = new DateTime(date.getTime());
+        DateTime newBegin = begin.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
+        return newBegin.toDate();
+    }
+
+    /**
+     * get end date time of date
+     *
+     * @param date date
+     * @return date
+     */
+    public static Date getEndDateTimeOfDay(Date date) {
+        DateTime end = new DateTime(date.getTime());
+        //	|> range(start:2021-04-04T16:00:00.000000000Z, stop:2021-04-05T15:59:59.999000000Z)
+        DateTime newEnd = end.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999);
+        return newEnd.toDate();
+    }
+
+
+    /**
      * 指定日期的开始和结束日期
      *
      * @param date
