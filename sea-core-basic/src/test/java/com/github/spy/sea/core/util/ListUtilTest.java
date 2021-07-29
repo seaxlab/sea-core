@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.domain.Role;
 import com.github.spy.sea.core.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -135,6 +136,51 @@ public class ListUtilTest extends BaseCoreTest {
         // {0=[n0, n3, n6, n9], 1=[n1, n4, n7], 2=[n2, n5, n8]}
         Assert.assertEquals(userMap.get(0L).size(), 4);
     }
+
+
+    @Test
+    public void testToFlatList() throws Exception {
+
+        List<List<User>> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            List<User> users = new ArrayList<>();
+            for (int j = 0; j < 10; j++) {
+                User user = new User();
+                user.setId(Long.valueOf(i % 3));
+                user.setName("n" + i + "_" + j);
+                users.add(user);
+            }
+            list.add(users);
+        }
+
+        List<User> data = ListUtil.toFlatList(list);
+        log.info("flat list size={}", data.size());
+        log.info("{}", data);
+    }
+
+
+    @Test
+    public void testToFlatList2() throws Exception {
+        List<User> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setId(Long.valueOf(i));
+
+            List<Role> roles = new ArrayList<>();
+            for (int j = 0; j < 10; j++) {
+                Role role = new Role();
+                role.setName("role-n" + i + "_" + j);
+                roles.add(role);
+            }
+            user.setRoles(roles);
+            list.add(user);
+        }
+
+        List<String> data = ListUtil.toFlatList(list, user -> ListUtil.toList(user.getRoles(), role -> role.getName()));
+        log.info("flat list size={}", data.size());
+        log.info("{}", data);
+    }
+
 
     @Test
     public void testToString() throws Exception {

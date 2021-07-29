@@ -320,6 +320,37 @@ public final class ListUtil {
     }
 
     /**
+     * to flat list
+     *
+     * @param list -
+     * @param <E>  entity.
+     * @return
+     */
+    public static <E> List<E> toFlatList(List<List<E>> list) {
+        return list.stream()
+                   .flatMap(Collection::stream)
+                   .collect(Collectors.toList());
+    }
+
+    /**
+     * to flat list with draw list field of E
+     *
+     * @param list
+     * @param mapper
+     * @param <E>
+     * @param <R>
+     * @param <T>
+     * @return
+     */
+    public static <E, R, T> List<R> toFlatList(List<E> list, Function<? super E, List<? extends R>> mapper) {
+        return list.stream()
+                   .map(mapper)
+                   .flatMap(Collection::stream)
+                   .collect(Collectors.toList());
+    }
+
+
+    /**
      * to string
      *
      * @param list data
