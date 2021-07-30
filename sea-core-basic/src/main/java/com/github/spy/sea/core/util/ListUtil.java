@@ -313,6 +313,9 @@ public final class ListUtil {
     public static <E, A, B> Map<A, List<B>> toMapList(List<E> list,
                                                       Function<? super E, ? extends A> keyMapper,
                                                       Function<? super E, ? extends B> valueMapper) {
+        if (isEmpty(list)) {
+            return MapUtil.empty();
+        }
 
         return list.stream()
                    .collect(Collectors.groupingBy(keyMapper,
@@ -327,6 +330,11 @@ public final class ListUtil {
      * @return
      */
     public static <E> List<E> toFlatList(List<List<E>> list) {
+
+        if (isEmpty(list)) {
+            return empty();
+        }
+
         return list.stream()
                    .flatMap(Collection::stream)
                    .collect(Collectors.toList());
@@ -343,6 +351,11 @@ public final class ListUtil {
      * @return
      */
     public static <E, R, T> List<R> toFlatList(List<E> list, Function<? super E, List<? extends R>> mapper) {
+
+        if (isEmpty(list)) {
+            return empty();
+        }
+
         return list.stream()
                    .map(mapper)
                    .flatMap(Collection::stream)
