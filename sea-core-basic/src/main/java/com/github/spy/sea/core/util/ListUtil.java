@@ -502,10 +502,7 @@ public final class ListUtil {
      */
     public static <T> List<T> page(List<T> data, int pageNum, int pageSize) {
 
-        if (data == null) {
-            return empty();
-        }
-        if (data.size() == 0) {
+        if (isEmpty(data)) {
             return empty();
         }
 
@@ -515,6 +512,8 @@ public final class ListUtil {
         int pageEnd = size < pageNum * pageSize ? size : pageNum * pageSize;//截取的结束位置
 
         if (pageStart < size) {
+            // page start include
+            // page end exclude
             listSort = data.subList(pageStart, pageEnd);
         } else {
             listSort = empty();
