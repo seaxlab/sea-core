@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1101,6 +1102,29 @@ public final class DateUtil {
         return true;
     }
 
+    /**
+     * 只比较日期部分
+     *
+     * @param date1 date
+     * @param date2 date
+     * @return 1大于，0相等，-1小于
+     */
+    public static int compareDate(Date date1, Date date2) {
+        DateTimeComparator comparator = DateTimeComparator.getDateOnlyInstance();
+        return comparator.compare(date1, date2);
+    }
+
+    /**
+     * 只比较时间部分
+     *
+     * @param date1 date
+     * @param date2 date
+     * @return 1大于，0相等，-1小于
+     */
+    public static int compareTime(Date date1, Date date2) {
+        DateTimeComparator comparator = DateTimeComparator.getTimeOnlyInstance();
+        return comparator.compare(date1, date2);
+    }
 
     /**
      * 尝试把一个String按照指定的多个pattern进行转换,转换成功返回结果,失败返回null,如果值为空直接返回null
