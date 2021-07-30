@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static com.github.spy.sea.core.util.TimeUtil.FORMAT_HHmm;
@@ -62,4 +63,13 @@ public class TimeUtilTest extends BaseCoreTest {
     public void run42() throws Exception {
         Assert.assertEquals(TimeUtil.toTimeUnit(10000), "10.00 μs");
     }
+
+    @Test
+    public void testCompare() throws Exception {
+        Date date1 = DateUtil.str2Date("2021-04-01 13:01:50", DateUtil.DEFAULT_FORMAT);
+        Date date2 = DateUtil.str2Date("2021-03-01 14:01:50", DateUtil.DEFAULT_FORMAT);
+
+        Assert.assertEquals(TimeUtil.compare(date1, date2), -1);
+    }
+
 }

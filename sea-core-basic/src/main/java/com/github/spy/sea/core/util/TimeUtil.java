@@ -4,6 +4,7 @@ import com.github.spy.sea.core.enums.RangeModeEnum;
 import com.github.spy.sea.core.model.Tuple2;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTimeComparator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -190,6 +191,17 @@ public final class TimeUtil {
         return false;
     }
 
+    /**
+     * compare two time part only.
+     *
+     * @param date1 datetime
+     * @param date2 datetime
+     * @return
+     */
+    public static int compare(Date date1, Date date2) {
+        DateTimeComparator comparator = DateTimeComparator.getTimeOnlyInstance();
+        return comparator.compare(date1, date2);
+    }
 
     /**
      * 比较时间,默认格式HH:mm
