@@ -459,6 +459,36 @@ public final class EqualUtil {
         return values.stream().anyMatch(item -> item.longValue() == value.longValue());
     }
 
+
+    // is in set
+    public static boolean isIn(Byte value, Set<Byte> values) {
+        if (value == null || values == null) {
+            log.warn("value or values is null");
+            return false;
+        }
+
+        return values.stream().anyMatch(item -> item.byteValue() == value.byteValue());
+    }
+
+    public static boolean isIn(Integer value, Set<Integer> values) {
+        if (value == null || values == null) {
+            log.warn("value or values is null");
+            return false;
+        }
+
+        return values.stream().anyMatch(item -> item.intValue() == value.intValue());
+    }
+
+    public static boolean isIn(Long value, Set<Long> values) {
+        if (value == null || values == null) {
+            log.warn("value or values is null");
+            return false;
+        }
+
+        return values.stream().anyMatch(item -> item.longValue() == value.longValue());
+    }
+
+
     public static boolean isNotIn(Long value, List<Long> values) {
         return !isIn(value, values);
     }
