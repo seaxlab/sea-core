@@ -125,6 +125,81 @@ public final class ExampleUtil {
         }
     }
 
+    public static void setLikeValue(Example.Criteria criteria, String propertyName, Object value) {
+        if (value == null) {
+            return;
+        }
+        criteria.andLike(propertyName, "%" + value + "%");
+    }
+
+
+    /**
+     * and 多个模糊匹配
+     * and(xx or xx or xx)
+     *
+     * @param criteria criteria
+     * @param map
+     */
+    public static void setAndOrLikeValue(final Example.Criteria criteria, Map<String, String> map) {
+        if (MapUtil.isEmpty(map)) {
+            return;
+        }
+        map.forEach((key, value) -> {
+            criteria.orLike(key, "%" + value + "%");
+        });
+    }
+
+    /**
+     * 左匹配
+     *
+     * @param criteria     criteria
+     * @param propertyName property name
+     * @param value        value
+     */
+    public static void setLikeLeftValue(Example.Criteria criteria, String propertyName, String value) {
+        if (StringUtils.isNotEmpty(value)) {
+            criteria.andLike(propertyName, "%" + value);
+        }
+    }
+
+    /**
+     * 右匹配
+     *
+     * @param criteria     criteria
+     * @param propertyName property name
+     * @param value        vlaue
+     */
+    public static void setLikeRightValue(Example.Criteria criteria, String propertyName, String value) {
+        if (StringUtils.isNotEmpty(value)) {
+            criteria.andLike(propertyName, value + "%");
+        }
+    }
+
+    /**
+     * 设置范围日期
+     *
+     * @param criteria     criteria
+     * @param propertyName property name
+     * @param beginDate    begin date
+     * @param endDate      end date
+     */
+    public static void setRangeDate(final Example.Criteria criteria, String propertyName, Date beginDate, Date endDate) {
+        if (beginDate != null) {
+            criteria.andGreaterThanOrEqualTo(propertyName, beginDate);
+        }
+
+        if (endDate != null) {
+            criteria.andLessThanOrEqualTo(propertyName, endDate);
+        }
+    }
+
+
+    /**
+     * set all args to criteria
+     *
+     * @param criteria criteria
+     * @param args     args map
+     */
     public static void setAll(Example.Criteria criteria, Object... args) {
         if (args.length == 0) {
             log.warn("args is empty.");
@@ -141,6 +216,59 @@ public final class ExampleUtil {
             set(criteria, (String) propertyObj, valueObj);
         }
     }
+
+
+    /**
+     * 同时设置status,isDeleted
+     * 过滤有效数据
+     *
+     * @param criteria criteria
+     */
+    public static void setStatusAndIsDeletedFlag(final Example.Criteria criteria) {
+        criteria.andEqualTo("status", CoreConst.YES)
+                .andEqualTo("isDeleted", CoreConst.NO);
+
+    }
+
+    /**
+     * set status=1
+     *
+     * @param criteria criteria
+     */
+    public static void setStatusFlag(final Example.Criteria criteria) {
+        criteria.andEqualTo("status", CoreConst.YES);
+    }
+
+    /**
+     * set isDeleted=0
+     *
+     * @param criteria criteria
+     */
+    public static void setIsDeletedFlag(final Example.Criteria criteria) {
+        criteria.andEqualTo("isDeleted", CoreConst.NO);
+    }
+
+    /**
+     * set isEnabled=1
+     *
+     * @param criteria criteria
+     */
+    public static void setIsEnabled(final Example.Criteria criteria) {
+        criteria.andEqualTo("isEnabled", CoreConst.YES);
+    }
+
+    /**
+     * 同时设置isEnabled,isDeleted.
+     *
+     * @param criteria criteria
+     */
+    public static void setIsEnabledAndIsDeletedFlag(final Example.Criteria criteria) {
+        criteria.andEqualTo("isEnabled", CoreConst.YES)
+                .andEqualTo("isDeleted", CoreConst.NO);
+    }
+
+
+    // ---------------------example util
 
     /**
      * 设置 反向值
