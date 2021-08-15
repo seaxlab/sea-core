@@ -56,4 +56,46 @@ public final class BooleanUtil {
     public static boolean isFalse(String flag) {
         return flag != null && !flag.trim().equalsIgnoreCase("false");
     }
+
+    /**
+     * whether is true
+     *
+     * @param flag int
+     * @return boolean
+     */
+    public static boolean isTrue(Integer flag) {
+        return flag != null && flag > 0;
+    }
+
+    /**
+     * whether is false
+     *
+     * @param flag int
+     * @return boolean
+     */
+    public static boolean isFalse(Integer flag) {
+        return flag != null && flag <= 0;
+    }
+
+    /**
+     * whether is true
+     *
+     * @param flag byte
+     * @return boolean
+     */
+    public static boolean isTrue(Byte flag) {
+        return flag != null && flag > 0;
+    }
+
+    /**
+     * whether is true
+     *
+     * @param flag byte
+     * @return boolean
+     */
+    public static boolean isFalse(Byte flag) {
+        return flag != null && flag <= 0;
+    }
+
+
 }
