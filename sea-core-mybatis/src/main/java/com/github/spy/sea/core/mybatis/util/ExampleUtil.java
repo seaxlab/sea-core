@@ -15,6 +15,7 @@ import java.util.Map;
 
 /**
  * Example util
+ * 注意： 推荐使用Criteria参数，不在推荐使用example参数，因为example方式会多一层括号
  *
  * @author spy
  * @version 1.0 2019/3/18
@@ -124,6 +125,32 @@ public final class ExampleUtil {
             criteria.andEqualTo(propertyName, value);
         }
     }
+
+    /**
+     * set not equal
+     *
+     * @param criteria     criteria
+     * @param propertyName property name
+     * @param value        value
+     */
+    public static void setNot(Example.Criteria criteria, String propertyName, Object value) {
+        if (value == null) {
+            return;
+        }
+        if (value instanceof String) {
+            if (StringUtil.isNotEmpty(value)) {
+                criteria.andNotEqualTo(propertyName, value);
+            }
+        } else if (value instanceof List) {
+            List dataList = (List) value;
+            if (ListUtil.isNotEmpty(dataList)) {
+                criteria.andNotIn(propertyName, dataList);
+            }
+        } else {
+            criteria.andNotEqualTo(propertyName, value);
+        }
+    }
+
 
     public static void setLikeValue(Example.Criteria criteria, String propertyName, Object value) {
         if (value == null) {
