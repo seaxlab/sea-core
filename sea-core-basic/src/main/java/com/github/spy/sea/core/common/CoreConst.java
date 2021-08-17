@@ -216,6 +216,11 @@ public class CoreConst {
      */
     public static final Integer MAX_DATE_RANGE_180 = 180;
 
+    /**
+     * 最大日期跨度365天
+     */
+    public static final Integer MAX_DATE_RANGE_ONE_YEAR = 365;
+
 
     /**
      * Java MiddleWare Log Path,
