@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.exception;
 
+import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -21,4 +22,17 @@ public final class Precondition {
             throw new NullPointerException();
         }
     }
+
+    public static void checkNotEmpty(String field, String errorMsg) {
+        if (StringUtil.isEmpty(field)) {
+            ExceptionHandler.publishMsg(errorMsg);
+        }
+    }
+
+    public static void checkNotEmpty(String field, String errorCode, String errorMsg) {
+        if (StringUtil.isEmpty(field)) {
+            ExceptionHandler.publish(errorCode, errorMsg);
+        }
+    }
+
 }
