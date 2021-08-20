@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -10,12 +11,31 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
+@Builder
 public class SimpleDTO extends DTO {
 
     private Long id;
     private String code;
-    private String type;
     private String name;
+    private String type;
     private String remark;
+
+    public SimpleDTO() {
+    }
+
+    public static SimpleDTO create(String code, String name) {
+        SimpleDTO dto = new SimpleDTO();
+        dto.setCode(code);
+        dto.setName(name);
+        return dto;
+    }
+
+    public static SimpleDTO create(String code, String name, String type) {
+        SimpleDTO dto = new SimpleDTO();
+        dto.setCode(code);
+        dto.setName(name);
+        dto.setType(type);
+        return dto;
+    }
 
 }
