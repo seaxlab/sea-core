@@ -97,5 +97,80 @@ public final class BooleanUtil {
         return flag != null && flag <= 0;
     }
 
+    /**
+     * one true is true
+     *
+     * @param flags flags
+     * @return boolean
+     */
+    public static boolean hasTrue(Boolean... flags) {
+        if (flags.length == 0) {
+            return false;
+        }
+        for (Boolean flag : flags) {
+            if (isTrue(flag)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * both true are true
+     *
+     * @param flags flags
+     * @return boolean
+     */
+    public static boolean bothTrue(Boolean... flags) {
+        if (flags.length == 0) {
+            return false;
+        }
+        for (Boolean flag : flags) {
+            if (isTrue(flag)) {
+
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * one false is true
+     *
+     * @param flags flags
+     * @return boolean
+     */
+    public static boolean hasFalse(Boolean... flags) {
+        if (flags.length == 0) {
+            return false;
+        }
+        for (Boolean flag : flags) {
+            if (isFalse(flag)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * both false are true
+     *
+     * @param flags flags
+     * @return boolean
+     */
+    public static boolean bothFalse(Boolean... flags) {
+        if (flags.length == 0) {
+            return false;
+        }
+        for (Boolean flag : flags) {
+            if (isFalse(flag)) {
+
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }
