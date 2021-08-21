@@ -1,7 +1,9 @@
 package com.github.spy.sea.core.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Simple dto
@@ -12,6 +14,8 @@ import lombok.Data;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SimpleDTO extends DTO {
 
     private Long id;
@@ -19,9 +23,6 @@ public class SimpleDTO extends DTO {
     private String name;
     private String type;
     private String remark;
-
-    public SimpleDTO() {
-    }
 
     public static SimpleDTO create(String code, String name) {
         SimpleDTO dto = new SimpleDTO();
