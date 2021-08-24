@@ -23,9 +23,9 @@ public final class VersionUtil {
     /**
      * 获取jar包版本号 (bug启动过早是无法读取的，只能返回defaultVersion)
      *
-     * @param cls
-     * @param defaultVersion
-     * @return
+     * @param cls            class loader
+     * @param defaultVersion default version
+     * @return 格式 x.y.z
      * @see com.github.spy.sea.core.common.Version
      */
     public static String getVersion(Class<?> cls, String defaultVersion) {
@@ -105,7 +105,7 @@ public final class VersionUtil {
      *
      * @param version1 版本1，如1.0.0
      * @param version2 版本2，如2.0.0
-     * @return
+     * @return int
      */
     public static int compare(String version1, String version2) {
         Preconditions.checkNotNull(version1, "version1不能为null");
@@ -133,7 +133,7 @@ public final class VersionUtil {
      *
      * @param name       jar 名称
      * @param path       类路径，例如com/google/gson/Gson.class //TODO 这种写法是不是很别扭？
-     * @param minVersion
+     * @param minVersion min version
      */
     public static boolean validVersion(String name, String path, String minVersion) {
         try {
@@ -200,17 +200,17 @@ public final class VersionUtil {
     }
 
     public static Long convertVersion(String version) {
-        String parts[] = StringUtils.split(version, '.');
+        String[] parts = StringUtils.split(version, '.');
         Long result = 0L;
         int i = 1;
-        int size = parts.length > 4 ? parts.length : 4;
+        int size = Math.max(parts.length, 4);
         for (String part : parts) {
             if (StringUtils.isNumeric(part)) {
-                result += Long.valueOf(part) * Double.valueOf(Math.pow(100, (size - i))).longValue();
+                result += Long.parseLong(part) * Double.valueOf(Math.pow(100, (size - i))).longValue();
             } else {
-                String subParts[] = StringUtils.split(part, '-');
+                String[] subParts = StringUtils.split(part, '-');
                 if (StringUtils.isNumeric(subParts[0])) {
-                    result += Long.valueOf(subParts[0]) * Double.valueOf(Math.pow(100, (size - i))).longValue();
+                    result += Long.parseLong(subParts[0]) * Double.valueOf(Math.pow(100, (size - i))).longValue();
                 }
             }
 
