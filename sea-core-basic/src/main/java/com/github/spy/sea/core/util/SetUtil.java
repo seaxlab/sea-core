@@ -252,8 +252,8 @@ public final class SetUtil {
      *
      * @param a   左侧
      * @param b   右侧
-     * @param <T>
-     * @return
+     * @param <T> simple obj
+     * @return Diff
      */
     public static <T> Diff<T> diff(Set<T> a, Set<T> b) {
         Diff<T> diff = new Diff<>();
