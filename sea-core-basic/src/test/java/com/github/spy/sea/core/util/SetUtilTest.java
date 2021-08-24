@@ -2,6 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.domain.User;
+import com.github.spy.sea.core.model.Diff;
 import lombok.extern.slf4j.Slf4j;
 import org.javers.common.collections.Sets;
 import org.junit.Assert;
@@ -229,6 +230,18 @@ public class SetUtilTest extends BaseCoreTest {
         log.info("{}", SetUtil.toSet(users, User::getId));
         log.info("{}", SetUtil.toSet(users, User::getName));
 
+    }
+
+    @Test
+    public void testDiff() throws Exception {
+        Set<String> set1 = Sets.asSet("1", "2");
+        Set<String> set2 = Sets.asSet("2", "3");
+
+        Diff<String> diff = SetUtil.diff(set1, set2);
+
+        log.info("common={}", diff.getIntersections());
+        log.info("lefts={}", diff.getLefts());
+        log.info("rights={}", diff.getRights());
     }
 
 

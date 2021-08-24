@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.common.SymbolConst;
+import com.github.spy.sea.core.model.Diff;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.SetUtils;
 
@@ -228,8 +229,10 @@ public final class SetUtil {
     }
 
     /**
-     * 差集（注意:有序）
-     * a中有，b中没有的
+     * 差集
+     * <p>
+     * 注意参数顺序；a中有，b中没有
+     * </p>
      *
      * @param a
      * @param b
@@ -241,8 +244,38 @@ public final class SetUtil {
     }
 
     /**
-     * 集合差集（注意:有序）
-     * 只存在a中和只存在b中的部分
+     * 返回差异对象
+     *
+     * <p>
+     * 注意参数顺序
+     * </p>
+     *
+     * @param a   左侧
+     * @param b   右侧
+     * @param <T>
+     * @return
+     */
+    public static <T> Diff<T> diff(Set<T> a, Set<T> b) {
+        Diff<T> diff = new Diff<>();
+
+        // 交集
+        diff.setIntersections(intersection(a, b));
+
+        // only left has
+        diff.setLefts(difference(a, b));
+
+        // only right has
+        diff.setRights(difference(b, a));
+
+        return diff;
+    }
+
+
+    /**
+     * 集合差集
+     * <p>
+     * 注意参数顺序；只存在a中和只存在b中的部分
+     * </p>
      *
      * @param a
      * @param b
