@@ -98,7 +98,7 @@ public class ListUtilTest extends BaseCoreTest {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             User user = new User();
-            user.setId(Long.valueOf(i));
+            user.setId((long) i);
             user.setName("n" + i);
             users.add(user);
         }
@@ -112,7 +112,7 @@ public class ListUtilTest extends BaseCoreTest {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             User user = new User();
-            user.setId(Long.valueOf(i % 3));
+            user.setId((long) (i % 3));
             user.setName("n" + i);
             users.add(user);
         }
@@ -126,7 +126,7 @@ public class ListUtilTest extends BaseCoreTest {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             User user = new User();
-            user.setId(Long.valueOf(i % 3));
+            user.setId((long) (i % 3));
             user.setName("n" + i);
             users.add(user);
         }
