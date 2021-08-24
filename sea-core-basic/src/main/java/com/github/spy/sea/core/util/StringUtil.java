@@ -475,6 +475,14 @@ public final class StringUtil {
         return StringUtils.left(str, len);
     }
 
+    public static String left20(String str) {
+        return left(str, 20);
+    }
+
+    public static String left32(String str) {
+        return left(str, 32);
+    }
+
     public static String left64(String str) {
         return left(str, 64);
     }
@@ -485,6 +493,10 @@ public final class StringUtil {
 
     public static String left512(String str) {
         return left(str, 512);
+    }
+
+    public static String left1024(String str) {
+        return left(str, 1024);
     }
 
     public static String right(String str, int len) {
