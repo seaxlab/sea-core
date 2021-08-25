@@ -56,7 +56,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <scope>test</scope>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -107,6 +107,19 @@
             <artifactId>clickhouse-jdbc</artifactId>
             <scope>provided</scope>
         </dependency>
+
+
+        <!-- screw begin, 数据库表结构文档生成器-->
+        <dependency>
+            <groupId>cn.smallbun.screw</groupId>
+            <artifactId>screw-core</artifactId>
+            <version>1.0.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- 数据库连接 -->
+        <!--依赖HikariCP,mysql-connector-java-->
+        <!-- screw end-->
 
     </dependencies>
 
