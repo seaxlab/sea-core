@@ -2,13 +2,17 @@ package com.github.spy.sea.core.mybatis.util;
 
 import com.github.spy.sea.core.common.CoreConst;
 import com.github.spy.sea.core.exception.ExceptionHandler;
-import com.github.spy.sea.core.util.*;
+import com.github.spy.sea.core.util.EqualUtil;
+import com.github.spy.sea.core.util.MapUtil;
+import com.github.spy.sea.core.util.ReflectUtil;
+import com.github.spy.sea.core.util.StringUtil;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -80,10 +84,12 @@ public final class ExampleUtil {
             if (StringUtil.isNotEmpty(value)) {
                 example.and().andEqualTo(propertyName, value);
             }
-        } else if (value instanceof List) {
-            List dataList = (List) value;
-            if (ListUtil.isNotEmpty(dataList)) {
-                example.and().andIn(propertyName, dataList);
+        } else if (value instanceof Collection) {
+            Collection data = (Collection) value;
+            if (data.isEmpty()) {
+                log.warn("collection [value] is empty.");
+            } else {
+                example.and().andIn(propertyName, data);
             }
         } else {
             example.and().andEqualTo(propertyName, value);
@@ -116,10 +122,12 @@ public final class ExampleUtil {
             if (StringUtil.isNotEmpty(value)) {
                 criteria.andEqualTo(propertyName, value);
             }
-        } else if (value instanceof List) {
-            List dataList = (List) value;
-            if (ListUtil.isNotEmpty(dataList)) {
-                criteria.andIn(propertyName, dataList);
+        } else if (value instanceof Collection) {
+            Collection data = (Collection) value;
+            if (data.isEmpty()) {
+                log.warn("collection [value] is empty.");
+            } else {
+                criteria.andIn(propertyName, data);
             }
         } else {
             criteria.andEqualTo(propertyName, value);
@@ -141,10 +149,12 @@ public final class ExampleUtil {
             if (StringUtil.isNotEmpty(value)) {
                 criteria.andNotEqualTo(propertyName, value);
             }
-        } else if (value instanceof List) {
-            List dataList = (List) value;
-            if (ListUtil.isNotEmpty(dataList)) {
-                criteria.andNotIn(propertyName, dataList);
+        } else if (value instanceof Collection) {
+            Collection data = (Collection) value;
+            if (data.isEmpty()) {
+                log.warn("collection [value] is empty.");
+            } else {
+                criteria.andNotIn(propertyName, data);
             }
         } else {
             criteria.andNotEqualTo(propertyName, value);
@@ -319,10 +329,12 @@ public final class ExampleUtil {
             if (StringUtil.isNotEmpty(value)) {
                 example.and().andNotEqualTo(propertyName, value);
             }
-        } else if (value instanceof List) {
-            List dataList = (List) value;
-            if (ListUtil.isNotEmpty(dataList)) {
-                example.and().andNotIn(propertyName, dataList);
+        } else if (value instanceof Collection) {
+            Collection data = (Collection) value;
+            if (data.isEmpty()) {
+                log.warn("collection [value] is empty.");
+            } else {
+                example.and().andNotIn(propertyName, data);
             }
         } else {
             example.and().andNotEqualTo(propertyName, value);
