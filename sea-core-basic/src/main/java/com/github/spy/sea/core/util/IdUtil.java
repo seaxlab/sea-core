@@ -32,6 +32,10 @@ public final class IdUtil {
         return DateUtil.toString(new Date(), DateUtil.DAY_FORMAT2);
     }
 
+    public static String getYYYYMMDDHHMM() {
+        return DateUtil.toString(new Date(), "yyyyMMddHHmm");
+    }
+
     /**
      * simple datetime id
      *

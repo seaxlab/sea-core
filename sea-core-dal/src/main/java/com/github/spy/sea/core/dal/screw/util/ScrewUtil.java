@@ -29,10 +29,19 @@ import java.util.Collections;
 public final class ScrewUtil {
 
     public static void dump(DBModelCreateDTO dto) {
+        // set default
+        if (StringUtil.isBlank(dto.getVersion())) {
+            dto.setVersion("1.0.0");
+        }
+        if (StringUtil.isBlank(dto.getDescription())) {
+            dto.setDescription("DB Model");
+        }
+
+
         // 创建 screw 的配置
         Configuration.ConfigurationBuilder builder = Configuration.builder()
-                                                                  .version(StringUtil.defaultIfBlank(dto.getVersion(), "1.0.0"))  // 版本
-                                                                  .description(StringUtil.defaultIfBlank(dto.getDescription(), "DB Model")) // 描述
+                                                                  .version(dto.getVersion())  // 版本
+                                                                  .description(dto.getDescription()) // 描述
                                                                   .dataSource(buildDataSource(dto)) // 数据源
                                                                   .engineConfig(buildEngineConfig(dto)); // 引擎配置
         if (dto.getProcessConfig() != null) {
@@ -42,7 +51,7 @@ public final class ScrewUtil {
         // 执行 screw，生成数据库文档
         new DocumentationExecute(builder.build()).execute();
 
-        log.info("dump db model successfully.");
+        log.info("dump db model [{} {}] successfully.", dto.getOutPutFileName(), dto.getVersion());
     }
 
     /**
