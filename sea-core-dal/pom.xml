@@ -109,7 +109,7 @@
         </dependency>
 
 
-        <!-- screw begin, 数据库表结构文档生成器-->
+        <!-- screw begin, db table doc generator-->
         <dependency>
             <groupId>cn.smallbun.screw</groupId>
             <artifactId>screw-core</artifactId>
