@@ -2,6 +2,7 @@ package com.github.spy.sea.core.http.jdk;
 
 
 import com.github.spy.sea.core.util.IOUtil;
+import com.github.spy.sea.core.util.StringUtil;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -129,6 +130,70 @@ public class HttpUtil {
             }
         }
     }
+
+    /**
+     * check url support range
+     *
+     * @param url request url
+     * @return boolean
+     * @throws Exception
+     */
+    public static boolean isSupportRange(String url) throws Exception {
+        HttpURLConnection connection = getHttpUrlConnection(url);
+        String acceptRanges = connection.getHeaderField("Accept-Ranges");
+        closeHttpUrlConnection(connection);
+
+        if (StringUtil.isEmpty(acceptRanges)) {
+            return false;
+        }
+        if ("bytes".equalsIgnoreCase(acceptRanges)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 获取远程文件大小
+     *
+     * @param netUrl request url
+     * @return file content length (byte)
+     */
+    public static int getFileContentLength(String netUrl) throws Exception {
+        HttpURLConnection connection = getHttpUrlConnection(netUrl);
+        int contentLength = connection.getContentLength();
+        closeHttpUrlConnection(connection);
+
+        return contentLength;
+    }
+
+    // -----------------private -------------
+
+    /**
+     * 获取连接
+     *
+     * @param netUrl request url
+     */
+    private static HttpURLConnection getHttpUrlConnection(String netUrl) throws Exception {
+        URL url = new URL(netUrl);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        // 设置超时间为3秒
+        httpURLConnection.setConnectTimeout(10 * 1000);
+        // 防止屏蔽程序抓取而返回403错误
+        httpURLConnection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+        return httpURLConnection;
+    }
+
+    /**
+     * close connection
+     *
+     * @param connection http connection
+     */
+    private static void closeHttpUrlConnection(HttpURLConnection connection) {
+        if (connection != null) {
+            connection.disconnect();
+        }
+    }
+
 
     public static class HttpResult {
         final public int code;
