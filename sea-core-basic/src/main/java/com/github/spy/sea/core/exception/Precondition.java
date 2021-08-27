@@ -23,6 +23,12 @@ public final class Precondition {
         }
     }
 
+    public static <T> void checkNotNull(T reference, String errorMsg) {
+        if (reference == null) {
+            ExceptionHandler.publishMsg(errorMsg);
+        }
+    }
+
     public static void checkNotEmpty(String field, String errorMsg) {
         if (StringUtil.isEmpty(field)) {
             ExceptionHandler.publishMsg(errorMsg);
