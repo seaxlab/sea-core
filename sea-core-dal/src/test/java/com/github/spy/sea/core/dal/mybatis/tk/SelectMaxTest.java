@@ -3,8 +3,8 @@ package com.github.spy.sea.core.dal.mybatis.tk;
 import com.github.spy.sea.core.dal.mybatis.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 public class SelectMaxTest extends BaseSpringTest {
 
-    @Autowired
+    @Resource
     private User1Mapper user1Mapper;
 
     @Test
