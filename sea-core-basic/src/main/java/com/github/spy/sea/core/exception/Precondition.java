@@ -29,14 +29,26 @@ public final class Precondition {
         }
     }
 
-    public static void checkNotEmpty(String field, String errorMsg) {
-        if (StringUtil.isEmpty(field)) {
+    public static void checkNotEmpty(String value, String errorMsg) {
+        if (StringUtil.isEmpty(value)) {
             ExceptionHandler.publishMsg(errorMsg);
         }
     }
 
-    public static void checkNotEmpty(String field, String errorCode, String errorMsg) {
-        if (StringUtil.isEmpty(field)) {
+    public static void checkNotEmpty(String value, String errorCode, String errorMsg) {
+        if (StringUtil.isEmpty(value)) {
+            ExceptionHandler.publish(errorCode, errorMsg);
+        }
+    }
+
+    public static void checkNotBlank(String value, String errorMsg) {
+        if (StringUtil.isBlank(value)) {
+            ExceptionHandler.publishMsg(errorMsg);
+        }
+    }
+
+    public static void checkNotBlank(String value, String errorCode, String errorMsg) {
+        if (StringUtil.isBlank(value)) {
             ExceptionHandler.publish(errorCode, errorMsg);
         }
     }
