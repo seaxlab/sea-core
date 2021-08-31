@@ -230,5 +230,13 @@ public class BaseResult<T> implements Serializable {
         return true;
     }
 
+    public void from(BaseResult otherResult) {
+        if (otherResult == null) {
+            return;
+        }
+        this.errorCode = otherResult.getErrorCode();
+        this.errorMessage = otherResult.getErrorMessage();
+    }
+
 
 }
