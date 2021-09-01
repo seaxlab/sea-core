@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * module name
+ * 统计周期枚举
  *
  * @author spy
  * @version 1.0 2021/7/26
