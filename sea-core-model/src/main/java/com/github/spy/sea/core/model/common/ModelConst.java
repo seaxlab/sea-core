@@ -22,6 +22,10 @@ public final class ModelConst {
     public static final String TYPE = "type";
     public static final String BIZ_TYPE = "bizType";
     public static final String BIZ_SUB_TYPE = "bizSubType";
+
+    public static final String BIZ_TYPE_CODE = "bizTypeCode";
+    public static final String BIZ_SUB_TYPE_CODE = "bizSubTypeCode";
+
     public static final String STATUS = "status";
     public static final String VALUE = "value";
 
