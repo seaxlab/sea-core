@@ -16,9 +16,9 @@ public final class ModelConst {
     public static final String INTRO = "intro";
     public static final String EXTRA = "extra";
     public static final String REMARK = "remark";
-    public static final String IS_ENABLED = "is_enabled";
-    public static final String IS_DELETED = "is_deleted";
-    public static final String TENANT_ID = "tenant_id";
+    public static final String IS_ENABLED = "isEnabled";
+    public static final String IS_DELETED = "isDeleted";
+    public static final String TENANT_ID = "tenantId";
 
     // value
     public static final String REMARK_EMPTY = "-";
