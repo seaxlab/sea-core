@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public final class ModelConst {
 
     // field
-    public static final String id = "id";
+    public static final String ID = "id";
     public static final String CODE = "code";
     public static final String GROUP_CODE = "groupCode";
     public static final String PARENT_CODE = "parentCode";
@@ -30,6 +30,7 @@ public final class ModelConst {
     public static final String VALUE = "value";
 
     public static final String SORT = "sort";
+    public static final String ORDER = "order";
     public static final String PRIORITY = "priority";
 
     public static final String INTRO = "intro";
@@ -51,6 +52,21 @@ public final class ModelConst {
     public static final String UPDATE_USER = "updateUser";
     public static final String UPDATE_TIME = "updateTime";
     public static final String GMT_MODIFY = "gmtModify";
+
+    public static final String TRADING_DAY = "tradingDay";
+    public static final String BILL_DATE = "billDate";
+
+    public static final String PERIOD_TYPE = "periodType";
+
+    public static final String BATCH_NO = "batchNo";
+
+    public static final String TAG = "tag";
+    public static final String TAG1 = "tag1";
+    public static final String TAG2 = "tag2";
+    public static final String TAG3 = "tag3";
+    public static final String TAG4 = "tag4";
+    public static final String TAG5 = "tag5";
+    public static final String TAG6 = "tag6";
 
 
     // value
