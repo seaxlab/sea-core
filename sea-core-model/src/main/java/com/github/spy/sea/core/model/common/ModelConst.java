@@ -15,6 +15,7 @@ public final class ModelConst {
     // field
     public static final String ID = "id";
     public static final String REF_ID = "refId";
+    public static final String REF_CODE = "refCode";
 
     public static final String CODE = "code";
     public static final String GROUP_CODE = "groupCode";
