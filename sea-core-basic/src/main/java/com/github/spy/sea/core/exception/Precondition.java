@@ -53,4 +53,16 @@ public final class Precondition {
         }
     }
 
+    public static void checkState(boolean expression, String errorMsg) {
+        if (!expression) {
+            ExceptionHandler.publishMsg(errorMsg);
+        }
+    }
+
+    public static void checkState(boolean expression, String errorCode, String errorMsg) {
+        if (!expression) {
+            ExceptionHandler.publish(errorCode, errorMsg);
+        }
+    }
+
 }
