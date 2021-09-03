@@ -16,6 +16,7 @@ public final class ModelConst {
     public static final String ID = "id";
     public static final String REF_ID = "refId";
     public static final String REF_CODE = "refCode";
+    public static final String REF_KEY = "refKey";
 
     // order
     public static final String ORDER_NO = "orderNo";
@@ -34,6 +35,8 @@ public final class ModelConst {
 
     public static final String BIZ_TYPE_CODE = "bizTypeCode";
     public static final String BIZ_SUB_TYPE_CODE = "bizSubTypeCode";
+
+    public static final String BIZ_KEY = "bizKey";
 
     public static final String STATUS = "status";
     public static final String STATE = "state";
