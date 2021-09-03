@@ -17,6 +17,12 @@ public final class ModelConst {
     public static final String REF_ID = "refId";
     public static final String REF_CODE = "refCode";
 
+    // order
+    public static final String ORDER_NO = "orderNo";
+    public static final String SUB_ORDER_NO = "subOrderNo";
+    public static final String SERIAL_NUMBER = "serialNumber";
+    public static final String TRANS_NO = "transNo";
+
     public static final String CODE = "code";
     public static final String GROUP_CODE = "groupCode";
     public static final String PARENT_CODE = "parentCode";
