@@ -3,7 +3,10 @@ package com.github.spy.sea.core.dal.mybatis.tk;
 import com.github.spy.sea.core.dal.mybatis.tk.mapper.CheckExistMapper;
 import com.github.spy.sea.core.dal.mybatis.tk.mapper.InsertOrUpdateMapper;
 import com.github.spy.sea.core.dal.mybatis.tk.mapper.SelectMaxMapper;
+import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.BaseMapper;
+
+import java.util.List;
 
 /**
  * module name
@@ -17,4 +20,6 @@ public interface User1Mapper extends
         InsertOrUpdateMapper<User1>,
         SelectMaxMapper<User1>,
         CheckExistMapper<User1> {
+
+    List<User1> queryHistory(@Param("delayMinute") int delayMinute);
 }

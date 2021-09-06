@@ -15,4 +15,10 @@
     </sql>
 
 
+    <select id="queryHistory" parameterType="int" resultMap="userResultMap">
+        select *
+        from user1
+        where create_time &lt;= date_add(now(), interval #{delayMinute} minute)
+
+    </select>
 </mapper>
