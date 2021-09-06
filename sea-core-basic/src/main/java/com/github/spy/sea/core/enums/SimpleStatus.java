@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.enums;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * module name
@@ -9,31 +10,20 @@ import lombok.Getter;
  * @version 1.0 2021/5/8
  * @since 1.0
  */
+@Slf4j
+@Getter
 public enum SimpleStatus implements IBaseEnum<Integer> {
     UNKNOWN(-1, "未知"),
     ENABLED(1, "启用"),
     DISABLED(0, "禁用");
 
-    @Getter
-    private int code;
+    private Integer code;
 
-    @Getter
     private String desc;
 
     SimpleStatus(int code, String desc) {
         this.code = code;
         this.desc = desc;
-    }
-
-
-    @Override
-    public Integer getCode() {
-        return this.code;
-    }
-
-    @Override
-    public String getDesc() {
-        return this.desc;
     }
 
     /**
@@ -44,6 +34,7 @@ public enum SimpleStatus implements IBaseEnum<Integer> {
      */
     public static SimpleStatus of(Integer code) {
         if (code == null) {
+            log.warn("code is null");
             return UNKNOWN;
         }
 
@@ -52,6 +43,7 @@ public enum SimpleStatus implements IBaseEnum<Integer> {
                 return status;
             }
         }
+        log.warn("unknown code={}", code);
         return UNKNOWN;
     }
 
@@ -63,10 +55,11 @@ public enum SimpleStatus implements IBaseEnum<Integer> {
      */
     public static boolean isEnabled(Integer code) {
         if (code == null) {
+            log.warn("code is null");
             return false;
         }
 
-        return ENABLED.code == code.intValue();
+        return ENABLED.code.intValue() == code.intValue();
     }
 
 
@@ -78,9 +71,10 @@ public enum SimpleStatus implements IBaseEnum<Integer> {
      */
     public static boolean isDisabled(Integer code) {
         if (code == null) {
+            log.warn("code is null");
             return false;
         }
-        return DISABLED.code == code.intValue();
+        return DISABLED.code.intValue() == code.intValue();
     }
 
 }

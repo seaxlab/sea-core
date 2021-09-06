@@ -1,5 +1,8 @@
 package com.github.spy.sea.core.enums;
 
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * gender enum
  *
@@ -7,12 +10,15 @@ package com.github.spy.sea.core.enums;
  * @version 1.0 2020/11/13
  * @since 1.0
  */
-public enum GenderEnum {
-    MAN(0, "男"),
-    WOMAN(1, "女"),
-    UNKNOWN(2, "未知");
+@Slf4j
+@Getter
+public enum GenderEnum implements IBaseEnum<Integer> {
+    UNKNOWN(0, "未知"),
 
-    private int code;
+    MAN(1, "男"),
+    WOMAN(2, "女");
+
+    private Integer code;
     private String desc;
 
     GenderEnum(int code, String desc) {
@@ -20,27 +26,34 @@ public enum GenderEnum {
         this.desc = desc;
     }
 
-    public int getCode() {
-        return code;
+    public static GenderEnum of(Integer code) {
+        return get(code);
     }
 
-    public String getDesc() {
-        return desc;
-    }
+    /**
+     * plz use [of] method.
+     *
+     * @param code code
+     * @return gender enum
+     */
+    @Deprecated
+    public static GenderEnum get(Integer code) {
+        if (code == null) {
+            log.warn("code is null");
+            return UNKNOWN;
+        }
 
-    public static GenderEnum get(int code) {
         GenderEnum[] values = values();
-
-        for (int i = 0; i < values.length; i++) {
-            GenderEnum genderEnum = values[i];
-            if (genderEnum.getCode() == code) {
+        for (GenderEnum genderEnum : values) {
+            if (genderEnum.getCode().intValue() == code.intValue()) {
                 return genderEnum;
             }
         }
-        return null;
+        log.warn("unknown code={}", code);
+        return UNKNOWN;
     }
 
-    public static String getLabel(int code) {
+    public static String getLabel(Integer code) {
         GenderEnum genderEnum = get(code);
         return genderEnum == null ? "" : genderEnum.getDesc();
     }

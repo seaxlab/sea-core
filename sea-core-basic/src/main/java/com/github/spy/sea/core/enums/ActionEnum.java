@@ -1,8 +1,7 @@
 package com.github.spy.sea.core.enums;
 
-import com.github.spy.sea.core.util.EqualUtil;
-import com.github.spy.sea.core.util.StringUtil;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 
@@ -14,11 +13,15 @@ import java.io.Serializable;
  * @since 1.0
  */
 @Getter
+@Slf4j
 public enum ActionEnum implements Serializable {
     UNKNOWN("unknown", "未知"),
 
     ADD("add", "新增"),
     DELETE("delete", "删除"),
+    DELETE_LOGIC("delete_logic", "逻辑删除"),
+    DELETE_PHYSICS("delete_physics", "物理删除"),
+
     UPDATE("update", "更新"),
     QUERY("query", "查询"),
 
@@ -45,17 +48,19 @@ public enum ActionEnum implements Serializable {
     }
 
     public static ActionEnum of(String action) {
-        if (StringUtil.isEmpty(action)) {
+        if (action == null || action.trim().isEmpty()) {
+            log.warn("action is empty");
             return UNKNOWN;
         }
 
         ActionEnum[] values = ActionEnum.values();
-        for (int i = 0; i < values.length; i++) {
-            ActionEnum item = values[i];
-            if (EqualUtil.isEq(action, item.getKey(), false)) {
+        for (ActionEnum item : values) {
+            if (item.getKey().equalsIgnoreCase(action)) {
                 return item;
             }
         }
+
+        log.warn("unknown code={}", action);
         return UNKNOWN;
     }
 

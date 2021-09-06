@@ -25,6 +25,9 @@ public final class ModelConst {
     public static final String TRANS_NO = "transNo";
 
     public static final String CODE = "code";
+    public static final String INNER_CODE = "innerCode";
+    public static final String STANDARD_CODE = "standardCode";
+    public static final String UNIFIED_CODE = "unifiedCode";
     public static final String GROUP_CODE = "groupCode";
     public static final String PARENT_CODE = "parentCode";
 
@@ -57,6 +60,7 @@ public final class ModelConst {
     public static final String VERSION = "version";
     public static final String TENANT_ID = "tenantId";
 
+    /*----------这里兼容了几种常用的字段-----------------*/
     public static final String CREATOR = "creator";
     public static final String CREATE_USER = "createUser";
     public static final String CREATE_TIME = "createTime";
@@ -87,10 +91,26 @@ public final class ModelConst {
     public static final String TAG5 = "tag5";
     public static final String TAG6 = "tag6";
 
+
+    /*-------------共性字段-----------------*/
     public static final String REQUEST_ID = "requestId";
     public static final String TRACE_ID = "traceId";
     public static final String SOURCE = "source";
     public static final String CHANNEL = "channel";
+    /*场景*/
+    public static final String SCENE = "scene";
+    public static final String SCENE_NAME = "sceneName";
+    public static final String ACTION = "action";
+    public static final String ACTION_NAME = "actionName";
+
+    public static final String IP = "ip";
+    public static final String USER_AGENT = "userAgent";
+    public static final String REQUEST = "request";
+    public static final String RESPONSE = "response";
+    public static final String PARAMETER = "parameter";
+    public static final String BODY = "body";
+    public static final String PAYLOAD = "payload";
+    public static final String RESULT = "result";
 
 
     // value
