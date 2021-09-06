@@ -95,7 +95,9 @@ public final class ModelConst {
     /*-------------共性字段-----------------*/
     public static final String REQUEST_ID = "requestId";
     public static final String TRACE_ID = "traceId";
+    /* 来源 */
     public static final String SOURCE = "source";
+    /* 用户操作时系统渠道 */
     public static final String CHANNEL = "channel";
     /*场景*/
     public static final String SCENE = "scene";
@@ -111,6 +113,9 @@ public final class ModelConst {
     public static final String BODY = "body";
     public static final String PAYLOAD = "payload";
     public static final String RESULT = "result";
+
+    public static final String COUNT = "count";
+    public static final String SIZE = "size";
 
 
     // value
