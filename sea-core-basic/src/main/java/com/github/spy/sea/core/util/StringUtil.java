@@ -94,6 +94,21 @@ public final class StringUtil {
     }
 
     /**
+     * 必须全部不为空
+     *
+     * @param strs
+     * @return
+     */
+    public static boolean isAllBlank(String... strs) {
+        for (String str : strs) {
+            if (isNotBlank(str)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * is not blank.
      *
      * @param strs string array param
