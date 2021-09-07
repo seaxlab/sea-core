@@ -43,14 +43,26 @@ public final class ModelConst {
 
     public static final String STATUS = "status";
     public static final String STATE = "state";
+    //阶段
+    public static final String STAGE = "stage";
+    public static final String SCOPE = "scope";
+    public static final String RANGE = "range";
     public static final String VALUE = "value";
+
+    public static final String ENV = "env";
 
     public static final String SORT = "sort";
     public static final String ORDER = "order";
     public static final String PRIORITY = "priority";
+    public static final String RANK = "rank";
+    public static final String SCORE = "score";
+    public static final String LEVEL = "level";
+    public static final String GRADE = "grade";
 
     public static final String PREFIX = "prefix";
+    public static final String SUFFIX = "suffix";
     public static final String INTRO = "intro";
+    public static final String META = "meta";
     public static final String EXTRA = "extra";
     public static final String REMARK = "remark";
     public static final String DESCRIPTION = "description";
@@ -105,6 +117,9 @@ public final class ModelConst {
     public static final String ACTION = "action";
     public static final String ACTION_NAME = "actionName";
 
+    public static final String STRATEGY = "strategy";
+
+    public static final String URL = "url";
     public static final String IP = "ip";
     public static final String USER_AGENT = "userAgent";
     public static final String REQUEST = "request";
