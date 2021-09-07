@@ -94,6 +94,21 @@ public final class StringUtil {
     }
 
     /**
+     * is not blank.
+     *
+     * @param strs string array param
+     * @return boolean
+     */
+    public static boolean isNotBlank(String... strs) {
+        for (String str : strs) {
+            if (str == null || str.trim().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 字符串是否不为空
      *
      * @param params
