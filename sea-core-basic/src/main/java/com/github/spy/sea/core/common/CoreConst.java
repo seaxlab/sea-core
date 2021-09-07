@@ -221,7 +221,10 @@ public class CoreConst {
      */
     public static final Integer MAX_DATE_RANGE_ONE_YEAR = 365;
 
-    // loop=1开始，++loop<= DEFAULT_RETRY_COUNT
+    /**
+     * <p>总共尝试3次</p>
+     * loop=1开始，++loop<= DEFAULT_RETRY_COUNT
+     */
     public static final int DEFAULT_RETRY_COUNT = 3;
 
 
