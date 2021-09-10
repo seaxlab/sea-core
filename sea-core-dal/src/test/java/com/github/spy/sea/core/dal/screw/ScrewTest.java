@@ -43,6 +43,19 @@ public class ScrewTest extends BaseCoreDalTest {
         ScrewUtil.dump(dto);
     }
 
+    @Test
+    public void testDumpAolsee() throws Exception {
+        DBModelCreateDTO dto = new DBModelCreateDTO();
+        dto.setUrl("jdbc:mysql://rdsj56325f0xdcn346hn.mysql.rds.aliyuncs.com/aolsee?characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false");
+        dto.setUsername("aolsee");
+        dto.setPassword("YTuat123");
+
+        dto.setOutPutFileName(getFileName("aolsee"));
+
+        ScrewUtil.dump(dto);
+
+    }
+
 
     private String getFileName(String prefix) {
         return prefix + "_" + IdUtil.getYYYYMMDDHHMM();

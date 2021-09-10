@@ -39,11 +39,12 @@ public final class ScrewUtil {
 
 
         // 创建 screw 的配置
+        EngineConfig engineConfig = buildEngineConfig(dto);
         Configuration.ConfigurationBuilder builder = Configuration.builder()
                                                                   .version(dto.getVersion())  // 版本
                                                                   .description(dto.getDescription()) // 描述
                                                                   .dataSource(buildDataSource(dto)) // 数据源
-                                                                  .engineConfig(buildEngineConfig(dto)); // 引擎配置
+                                                                  .engineConfig(engineConfig); // 引擎配置
         if (dto.getProcessConfig() != null) {
             builder.produceConfig(dto.getProcessConfig());
         }
@@ -51,7 +52,7 @@ public final class ScrewUtil {
         // 执行 screw，生成数据库文档
         new DocumentationExecute(builder.build()).execute();
 
-        log.info("dump db model [{} {}] successfully.", dto.getOutPutFileName(), dto.getVersion());
+        log.info("dump db model successfully. [{}/{} {}] ", engineConfig.getFileOutputDir(), dto.getOutPutFileName(), dto.getVersion());
     }
 
     /**
