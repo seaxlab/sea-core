@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.enums.RangeModeEnum;
+import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.model.Tuple2;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,35 @@ public final class TimeUtil {
     public static final String FORMAT_HHmm = "HH:mm";
 
     private TimeUtil() {
+    }
+
+
+    /**
+     * format time str to date
+     *
+     * @param timeStr
+     * @return
+     */
+    public static Date format(String timeStr) {
+        return format(timeStr, FORMAT_HHmm);
+    }
+
+    /**
+     * format time str to date.
+     *
+     * @param timeStr time str
+     * @param format  format
+     * @return
+     */
+    public static Date format(String timeStr, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        try {
+            return sdf.parse(timeStr);
+        } catch (Exception e) {
+            log.error("fail to parse exception", e);
+            ExceptionHandler.publishMsg("parse date time error");
+            return null;
+        }
     }
 
     /**
