@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.dal.mybatis.tk.model;
+package com.github.spy.sea.core.dal.mybatis.tk.sharding;
 
 import lombok.extern.slf4j.Slf4j;
 import tk.mybatis.mapper.entity.Example;
@@ -13,9 +13,9 @@ import tk.mybatis.mapper.entity.Example;
 @Slf4j
 public class ShardingExample extends Example {
 
-    private AbstractDynamicTableEntity entity;
+    private AbstractShardingEntity entity;
 
-    public ShardingExample(AbstractDynamicTableEntity entity) {
+    public ShardingExample(AbstractShardingEntity entity) {
         super(entity.getClass());
         this.entity = entity;
     }

@@ -1,4 +1,6 @@
-package com.github.spy.sea.core.dal.mybatis.tk.model;
+package com.github.spy.sea.core.dal.mybatis.tk.sharding;
+
+import com.github.spy.sea.core.dal.mybatis.common.enums.ShardingEnum;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -22,4 +24,11 @@ public @interface ShardingKey {
      * @return int
      */
     int value() default 1;
+
+    /**
+     * 分库策略
+     *
+     * @return sharding enum
+     */
+    ShardingEnum strategy() default ShardingEnum.MOD;
 }

@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.dal.mybatis.tk.model;
+package com.github.spy.sea.core.dal.mybatis.tk.sharding;
 
 import com.github.spy.sea.core.util.NumberUtil;
 import com.github.spy.sea.core.util.StringUtil;
@@ -18,10 +18,10 @@ import java.lang.reflect.Field;
  * @since 1.0
  */
 @Slf4j
-public abstract class AbstractDynamicTableEntity implements IDynamicTableName {
+public abstract class AbstractShardingEntity implements IDynamicTableName {
 
     @Override
-    @Transient //
+    @Transient // tk中需要忽略的属性/方法
     public String getDynamicTableName() {
         StringBuilder strBuilder = new StringBuilder(this.getClass().getAnnotation(Table.class).name());
         Field[] fields = this.getClass().getDeclaredFields();
@@ -38,6 +38,8 @@ public abstract class AbstractDynamicTableEntity implements IDynamicTableName {
                     try {
                         fields[i].setAccessible(true);
                         Object obj = fields[i].get(this);
+
+                        //TODO 分库算法
                         int order = Math.abs(obj.hashCode()) % tableCount;
 
                         // such as order_001
