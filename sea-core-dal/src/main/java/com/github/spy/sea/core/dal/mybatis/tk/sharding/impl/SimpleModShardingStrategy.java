@@ -2,26 +2,27 @@ package com.github.spy.sea.core.dal.mybatis.tk.sharding.impl;
 
 import com.github.spy.sea.core.dal.mybatis.tk.sharding.ShardingExtra;
 import com.github.spy.sea.core.dal.mybatis.tk.sharding.ShardingStrategy;
-import com.github.spy.sea.core.util.NumberUtil;
-import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 固定长度的后缀,不足部分用0填充
- * id=1100 -> order_010
+ * 后缀长度不固定
+ * <p>
+ * order_0
+ * order_1
+ * order_10
+ * </p>
  *
  * @author spy
  * @version 1.0 2021/9/13
  * @since 1.0
  */
 @Slf4j
-public class ModShardingStrategy implements ShardingStrategy<Long> {
+public class SimpleModShardingStrategy implements ShardingStrategy<Long> {
 
     @Override
     public String execute(Long value, ShardingExtra extra) {
-        int length = NumberUtil.length(extra.getTableCount());
         long sharding = value % extra.getTableCount();
 
-        return StringUtil.addZeroLeft(sharding, length);
+        return "" + sharding;
     }
 }
