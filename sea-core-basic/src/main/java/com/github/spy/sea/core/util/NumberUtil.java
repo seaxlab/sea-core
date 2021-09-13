@@ -530,4 +530,15 @@ public final class NumberUtil {
         return result;
     }
 
+    /**
+     * 获取数字的长度
+     * 1100 -> 4
+     *
+     * @param value 数字值
+     * @return int
+     */
+    public static int length(int value) {
+        return String.valueOf(value).length();
+    }
+
 }

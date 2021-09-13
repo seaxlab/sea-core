@@ -84,5 +84,9 @@ public class StringUtilTest extends BaseCoreTest {
         Assert.assertEquals("ab-cdef", StringUtil.insert("abcdef", 2, "-"));
     }
 
+    @Test
+    public void test88() throws Exception {
+        Assert.assertEquals(StringUtil.addZeroLeft("1", 4), "0001");
+    }
 
 }
