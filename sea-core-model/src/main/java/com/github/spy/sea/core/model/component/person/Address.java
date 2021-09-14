@@ -29,7 +29,7 @@ public class Address extends DTO {
     private String streetCode;
     private String streetName;
 
-    // 具体地址
+    // 详细地址，门牌
     private String detail;
 
     /**
@@ -43,7 +43,7 @@ public class Address extends DTO {
                 + contact(countryName, "")
                 + contact(streetName, "")
                 + contact(detail, "");
-        
+
         return address.trim();
     }
 
