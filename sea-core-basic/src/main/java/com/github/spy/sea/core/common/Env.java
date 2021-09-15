@@ -38,6 +38,15 @@ public class Env implements Serializable {
     }
 
     /**
+     * check is pre env.
+     *
+     * @return boolean
+     */
+    public static boolean isPreMode() {
+        return EqualUtil.isEq(PRE, ConfigurationFactory.getInstance().getString(CoreConst.KEY_SEA_DEV_MODE, PRO), false);
+    }
+
+    /**
      * check is pro env
      *
      * @return
