@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.common;
 
 import com.github.spy.sea.core.config.ConfigurationFactory;
+import com.github.spy.sea.core.util.BooleanUtil;
 import com.github.spy.sea.core.util.EqualUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,6 +63,16 @@ public class Env implements Serializable {
      */
     public static boolean isNonProMode() {
         return !isProMode();
+    }
+
+    /**
+     * intellij debug agent flag;
+     *
+     * @return
+     */
+    public static boolean isInIDEMode() {
+        String value = System.getProperty("intellij.debug.agent", "false");
+        return BooleanUtil.isTrue(value);
     }
 
 }

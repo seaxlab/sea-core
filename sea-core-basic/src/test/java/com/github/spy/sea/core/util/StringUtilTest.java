@@ -86,6 +86,10 @@ public class StringUtilTest extends BaseCoreTest {
 
     @Test
     public void test88() throws Exception {
+        log.info("{}", System.getProperties());
+        log.info("--------");
+        log.info("{}", System.getenv());
+
         Assert.assertEquals(StringUtil.addZeroLeft("1", 4), "0001");
     }
 
