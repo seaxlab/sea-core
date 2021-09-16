@@ -4,10 +4,12 @@ import com.github.spy.sea.core.BaseCoreTest;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.yaml.snakeyaml.Yaml;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.PrintWriter;
+import java.util.*;
 
 /**
  * module name
@@ -56,6 +58,41 @@ public class YmlUtilTest extends BaseCoreTest {
         data.put("race", "Human");
         data.put("traits", new String[]{"ONE_HAND", "ONE_EYE"});
         log.info("dump str={}", YmlUtil.dump(data));
+    }
+
+    @Test
+    public void test67() throws Exception {
+        String path = getUserHome() + "/spy/gitlab/yuantu/arch/sea-core/sea-core-basic/src/test/resources/yaml/test.yaml";
+
+        Yaml yaml = new Yaml();
+        Object obj = yaml.load(new FileInputStream(path));
+
+        List<Object> objs = new ArrayList<>();
+        objs.add(obj);
+
+        Map<String, String> data = new HashMap<>();
+        data.put("key", "--");
+        objs.add(data);
+
+        PrintWriter writer = new PrintWriter(new File(path));
+        yaml.dumpAll(objs.iterator(), writer);
+    }
+
+    @Test
+    public void testDumpAppend() throws Exception {
+
+        String path = getUserHome() + "/spy/gitlab/yuantu/arch/sea-core/sea-core-basic/src/test/resources/yaml/test.yaml";
+
+        Map<String, String> data = new HashMap<>();
+        data.put("key", "--");
+
+        Yaml yaml = new Yaml();
+        yaml.loadAll(new FileInputStream(new File(path)));
+
+        PrintWriter writer = new PrintWriter(new File(path));
+        yaml.dump(data, writer);
+
+//        FileUtil.writeFile()
     }
 
 

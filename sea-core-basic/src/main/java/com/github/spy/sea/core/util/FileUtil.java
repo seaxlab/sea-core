@@ -2,6 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
+import com.google.common.io.FileWriteMode;
 import com.google.common.io.Files;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -225,13 +226,34 @@ public final class FileUtil {
     public static boolean writeFile(String path, String content) {
         boolean result = true;
         try {
-            Files.write(content, new File(path), Charsets.UTF_8);
+            Files.asCharSink(new File(path), Charsets.UTF_8)
+                 .write(content);
         } catch (Exception e) {
             result = false;
-            log.info("write file error", e);
+            log.error("fail to write file", e);
         }
         return result;
     }
+
+    /**
+     * append content
+     *
+     * @param path    target file
+     * @param content append content
+     * @return
+     */
+    public static boolean append(String path, String content) {
+        boolean result = true;
+        try {
+            Files.asCharSink(new File(path), Charsets.UTF_8, FileWriteMode.APPEND)
+                 .write(content);
+        } catch (Exception e) {
+            result = false;
+            log.error("fail to file append", e);
+        }
+        return result;
+    }
+
 
     /**
      * 根据给出路径自动选择复制文件或整个文件夹
