@@ -30,6 +30,24 @@ public class Env implements Serializable {
     }
 
     /**
+     * set env var
+     *
+     * @param env
+     */
+    public static void set(String env) {
+        ConfigurationFactory.getInstance().putString(CoreConst.KEY_SEA_DEV_MODE, env);
+    }
+
+    /**
+     * get env var
+     *
+     * @return
+     */
+    public static String get() {
+        return ConfigurationFactory.getInstance().getString(CoreConst.KEY_SEA_DEV_MODE, PRO);
+    }
+
+    /**
      * check is local env
      *
      * @return
