@@ -13,15 +13,24 @@ import lombok.extern.slf4j.Slf4j;
 public final class ModelConst {
 
     // field
+    // ID
     public static final String ID = "id";
+    // 关联id
     public static final String REF_ID = "refId";
+    // 关联code
     public static final String REF_CODE = "refCode";
+    // 关联key
     public static final String REF_KEY = "refKey";
+    // 关联单号
+    public static final String REF_NO = "refNo";
 
-    // order
+    // 单号
     public static final String ORDER_NO = "orderNo";
+    // 子单号
     public static final String SUB_ORDER_NO = "subOrderNo";
+    // 流水号
     public static final String SERIAL_NUMBER = "serialNumber";
+    // 交易号
     public static final String TRANS_NO = "transNo";
 
     public static final String CODE = "code";
@@ -33,13 +42,17 @@ public final class ModelConst {
 
     public static final String NAME = "name";
     public static final String TYPE = "type";
+    public static final String CATEGORY = "category";
     public static final String BIZ_TYPE = "bizType";
     public static final String BIZ_SUB_TYPE = "bizSubType";
 
     public static final String BIZ_TYPE_CODE = "bizTypeCode";
     public static final String BIZ_SUB_TYPE_CODE = "bizSubTypeCode";
 
+    // 业务键
     public static final String BIZ_KEY = "bizKey";
+    // 业务单号
+    public static final String BIZ_NO = "bizNo";
 
     public static final String STATUS = "status";
     public static final String STATE = "state";
