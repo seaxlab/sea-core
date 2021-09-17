@@ -245,6 +245,8 @@ public final class FileUtil {
     public static boolean append(String path, String content) {
         boolean result = true;
         try {
+            // jdk 原生方式
+            //Files.write(Paths.get("myfile.txt"), "the text".getBytes(), StandardOpenOption.APPEND);
             Files.asCharSink(new File(path), Charsets.UTF_8, FileWriteMode.APPEND)
                  .write(content);
         } catch (Exception e) {
