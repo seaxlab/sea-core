@@ -14,6 +14,7 @@ public enum CacheOpEnum implements IBaseEnum<String> {
     SET("set", "set op"),
     GET("get", "get op"),
     DELETE("delete", "delete op"),
+    SCAN("scan", "scan op")
 
     // add here
     ;

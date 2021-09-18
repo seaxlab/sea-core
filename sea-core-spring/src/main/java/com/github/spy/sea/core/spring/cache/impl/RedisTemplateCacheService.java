@@ -6,17 +6,20 @@ import com.github.spy.sea.core.cache.CacheConst;
 import com.github.spy.sea.core.cache.CacheExceptionHandler;
 import com.github.spy.sea.core.cache.CacheService;
 import com.github.spy.sea.core.enums.CacheOpEnum;
+import com.github.spy.sea.core.exception.Precondition;
 import com.github.spy.sea.core.util.EqualUtil;
 import com.github.spy.sea.core.util.JSONUtil;
-import com.github.spy.sea.core.util.SetUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -330,45 +333,27 @@ public class RedisTemplateCacheService implements CacheService {
     }
 
     @Override
-    public Set<String> scan(String pattern, int count) {
-        if (count > 1000) {
-            log.warn("count large 1000, return empty.");
-            return SetUtil.empty();
-        }
-
-        Set<String> ids = new HashSet<>();
+    public void scan(String pattern, Consumer<byte[]> consumer) {
+        Precondition.checkNotBlank(pattern, "pattern cannot be null");
+        Precondition.checkNotNull(consumer, "consumer cannot be null");
 
         RedisConnection redisConnection = null;
         try {
             redisConnection = redisTemplate.getConnectionFactory().getConnection();
-            ScanOptions options = ScanOptions.scanOptions().match(pattern).build();
+            ScanOptions options = ScanOptions.scanOptions()
+                                             .match(pattern)
+                                             .count(Integer.MAX_VALUE)
+                                             .build();
 
-            Cursor<byte[]> c = redisConnection.scan(options);
-            while (c.hasNext()) {
-                ids.add(new String(c.next(), "Utf-8"));
+            try (Cursor<byte[]> cursor = redisConnection.scan(options)) {
+                cursor.forEachRemaining(consumer);
             }
         } catch (Exception e) {
             log.error("fail to scan ", e);
+            handleException(CacheOpEnum.SCAN, pattern, e);
         } finally {
             redisConnection.close();
         }
-        return ids;
-
-//        return (Set<String>) redisTemplate.execute((RedisCallback<Set<String>>) connection -> {
-//            Set<String> ids = new HashSet<>();
-//            ScanOptions options = ScanOptions.scanOptions()
-//                                             .match(pattern)
-//                                             .count(count)
-//                                             .build();
-//            try (Cursor<byte[]> cursor = connection.scan(options)) {
-//                while (cursor.hasNext()) {
-//                    ids.add(new String(cursor.next(), "Utf-8"));
-//                }
-//            } catch (Exception e) {
-//                log.error("fail to scan", e);
-//            }
-//            return ids;
-//        });
     }
 
 

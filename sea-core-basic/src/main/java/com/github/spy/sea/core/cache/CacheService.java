@@ -5,8 +5,8 @@ import com.github.spy.sea.core.model.Tuple2;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -273,6 +273,6 @@ public interface CacheService {
      * @param count   -
      * @return string set
      */
-    Set<String> scan(String pattern, int count);
+    void scan(String pattern, Consumer<byte[]> consumer);
 
 }
