@@ -52,7 +52,7 @@ public class RedisTemplateCacheServiceTest extends BaseSpringTest {
 
     @Test
     public void testScan() throws Exception {
-        redisTemplateCacheService.scan("key10*", bytes -> {
+        redisTemplateCacheService.scan("key10*", 100, bytes -> {
             String key = new String(bytes);
             log.info("key={}", key);
         });

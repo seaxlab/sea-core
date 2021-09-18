@@ -269,10 +269,10 @@ public interface CacheService {
     /**
      * 扫描匹配的key
      *
-     * @param pattern -
-     * @param count   -
-     * @return string set
+     * @param pattern  -
+     * @param count    -
+     * @param consumer -
      */
-    void scan(String pattern, Consumer<byte[]> consumer);
+    void scan(String pattern, int count, Consumer<byte[]> consumer);
 
 }

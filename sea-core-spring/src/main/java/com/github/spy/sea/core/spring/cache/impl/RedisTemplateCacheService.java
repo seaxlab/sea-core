@@ -333,16 +333,18 @@ public class RedisTemplateCacheService implements CacheService {
     }
 
     @Override
-    public void scan(String pattern, Consumer<byte[]> consumer) {
+    public void scan(String pattern, int count, Consumer<byte[]> consumer) {
+        // check args
         Precondition.checkNotBlank(pattern, "pattern cannot be null");
         Precondition.checkNotNull(consumer, "consumer cannot be null");
+        count = count <= 0 ? 1000 : count;
 
         RedisConnection redisConnection = null;
         try {
             redisConnection = redisTemplate.getConnectionFactory().getConnection();
             ScanOptions options = ScanOptions.scanOptions()
                                              .match(pattern)
-                                             .count(Integer.MAX_VALUE)
+                                             .count(count)
                                              .build();
 
             try (Cursor<byte[]> cursor = redisConnection.scan(options)) {
