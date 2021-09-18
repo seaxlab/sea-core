@@ -419,6 +419,22 @@ public final class ListUtil {
     }
 
     /**
+     * filter
+     *
+     * @param list      list data
+     * @param predicate predicate func
+     * @param <T>       entity
+     * @return new list
+     */
+    public static <T> List<T> filter(List<T> list, Predicate<? super T> predicate) {
+        if (isEmpty(list)) {
+            return empty();
+        }
+
+        return list.stream().filter(predicate).collect(Collectors.toList());
+    }
+
+    /**
      * filter empty item and distinct them.
      *
      * @param data list data
