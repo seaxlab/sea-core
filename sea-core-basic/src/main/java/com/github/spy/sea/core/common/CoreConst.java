@@ -227,6 +227,21 @@ public class CoreConst {
      */
     public static final int DEFAULT_RETRY_COUNT = 3;
 
+    // lock time
+    public static final long LOCK_TIME_30_SECOND = 30 * 1000L;
+    public static final long LOCK_TIME_1_MINUTE = 1 * 60 * 1000L;
+    public static final long LOCK_TIME_2_MINUTE = 2 * LOCK_TIME_1_MINUTE;
+    public static final long LOCK_TIME_10_MINUTE = 10 * LOCK_TIME_1_MINUTE;
+    public static final long LOCK_TIME_30_MINUTE = 30 * LOCK_TIME_1_MINUTE;
+    public static final long LOCK_TIME_1_HOUR = 60 * LOCK_TIME_1_MINUTE;
+
+    // 锁号失败文案
+    public static final String LOCK_FAIL_COMMON_DESC = "操作进行中，请稍后尝试。";
+
+    /**
+     * 业务单元使用线程池的默认最大线程池
+     */
+    public static final int DEFAULT_BIZ_THREAD_POOL_SIZE = 4;
 
     /**
      * Java MiddleWare Log Path,
