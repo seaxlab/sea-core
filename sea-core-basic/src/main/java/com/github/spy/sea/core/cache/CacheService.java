@@ -269,9 +269,9 @@ public interface CacheService {
     /**
      * 扫描匹配的key
      *
-     * @param pattern  -
-     * @param count    -
-     * @param consumer -
+     * @param pattern  匹配字符, 例如key*
+     * @param count    每次遍历的个数
+     * @param consumer 消费者
      */
     void scan(String pattern, int count, Consumer<byte[]> consumer);
 
