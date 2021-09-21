@@ -32,6 +32,18 @@ public class Address extends DTO {
     // 详细地址，门牌
     private String detail;
 
+    // 邮政编码
+    private String postCode;
+
+    // 用户名称
+    private String userName;
+
+    // 用户手机号
+    private String phone;
+
+    // 是否默认
+    private Boolean isDefault;
+
     /**
      * 全名
      *
