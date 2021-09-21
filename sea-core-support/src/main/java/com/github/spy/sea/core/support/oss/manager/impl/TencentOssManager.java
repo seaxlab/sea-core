@@ -4,7 +4,7 @@ import com.github.spy.sea.core.support.oss.manager.AbstractOssManager;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * module name
+ * tencent oss manager
  *
  * @author spy
  * @version 1.0 2021/5/16

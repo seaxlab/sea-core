@@ -13,7 +13,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 /**
- * module name
+ * aliyun oss manager
  *
  * @author spy
  * @version 1.0 2021/5/16

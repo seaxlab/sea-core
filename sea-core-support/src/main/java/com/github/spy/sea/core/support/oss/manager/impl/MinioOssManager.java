@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * module name
+ * minio oss manager
  *
  * @author spy
  * @version 1.0 2021/5/16
