@@ -3,7 +3,9 @@ package com.github.spy.sea.core.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.github.spy.sea.core.model.BaseResult;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Type;
@@ -85,6 +87,31 @@ public final class JSONUtil {
      */
     public static <T> T toObj(String str, Type type) {
         return JSON.parseObject(str, type);
+    }
+
+    /**
+     * to base result
+     *
+     * @param str data
+     * @param <T> entity
+     * @return BaseResult&lt;T&gt;
+     */
+    public static <T> BaseResult<T> toResult(String str, Class<T> clazz) {
+        return JSON.parseObject(str, new TypeReference<BaseResult<T>>(clazz) {
+        });
+    }
+
+    /**
+     * to base result list.
+     *
+     * @param str   data
+     * @param clazz class type
+     * @param <T>   entity
+     * @return BaseResult&lt;List&lt;T&gt;&gt;
+     */
+    public static <T> BaseResult<List<T>> toResultList(String str, Class<T> clazz) {
+        return JSON.parseObject(str, new TypeReference<BaseResult<List<T>>>(clazz) {
+        });
     }
 
     public static JSONArray toJSONArray(String str) {

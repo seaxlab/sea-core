@@ -4,8 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.domain.User;
+import com.github.spy.sea.core.model.BaseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * module name
@@ -40,6 +44,37 @@ public class JSONUtilTest extends BaseCoreTest {
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("empty", "true");
         log.info("{}", JSONUtil.toStr(jsonObj));
+    }
+
+    @Test
+    public void testToResult() throws Exception {
+        User user = new User();
+        user.setId(1L);
+        user.setName("smith");
+
+        BaseResult<User> userResult = BaseResult.success(user);
+        String text = JSONUtil.toStr(userResult);
+
+        BaseResult<User> result = JSONUtil.toResult(text, User.class);
+        log.info("result={}", result);
+    }
+
+    @Test
+    public void testToResultList() throws Exception {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setId(1L);
+            user.setName("smith");
+            users.add(user);
+        }
+
+        BaseResult<List<User>> userResult = BaseResult.success(users);
+        String text = JSONUtil.toStr(userResult);
+
+        BaseResult<List<User>> result = JSONUtil.toResultList(text, User.class);
+        log.info("result={}", result);
+
     }
 
 }
