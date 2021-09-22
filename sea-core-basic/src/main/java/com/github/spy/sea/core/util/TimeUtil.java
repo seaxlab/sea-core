@@ -9,7 +9,7 @@ import org.joda.time.DateTimeComparator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +33,53 @@ public final class TimeUtil {
     public static final String FORMAT_HHmm = "HH:mm";
 
     private TimeUtil() {
+    }
+
+    /**
+     * create time, and convert to date.
+     *
+     * @param hour   时
+     * @param minute 分
+     * @return Date
+     */
+    public static Date of(int hour, int minute) {
+        return of(hour, minute, 0);
+    }
+
+    /**
+     * create time, and convert to date
+     *
+     * @param hour   时
+     * @param minute 分
+     * @param second 秒
+     * @return Date
+     */
+    public static Date of(int hour, int minute, int second) {
+        ZoneId zone = ZoneId.systemDefault();
+        return of(hour, minute, second, zone);
+    }
+
+    /**
+     * create time, and convert to date
+     *
+     * @param hour   时
+     * @param minute 分
+     * @param second 秒
+     * @param zoneId 时区
+     * @return Date
+     */
+    public static Date of(int hour, int minute, int second, ZoneId zoneId) {
+        if (zoneId == null) {
+            zoneId = ZoneId.systemDefault();
+        }
+
+        LocalDate localDate = LocalDate.now();
+        LocalTime localTime = LocalTime.of(hour, minute, second);
+
+        LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
+        Instant instant = localDateTime.atZone(zoneId).toInstant();
+
+        return Date.from(instant);
     }
 
 

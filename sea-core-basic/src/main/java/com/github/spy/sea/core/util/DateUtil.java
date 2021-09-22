@@ -727,6 +727,55 @@ public final class DateUtil {
 
 
     /**
+     * 创建日期
+     *
+     * @param year  年
+     * @param month 月
+     * @param day   日
+     * @return Date
+     */
+    public static Date of(int year, int month, int day) {
+        return of(year, month, day, 0, 0, 0);
+    }
+
+    /**
+     * 创建日期时间
+     *
+     * @param year   年
+     * @param month  月
+     * @param day    日
+     * @param hour   时
+     * @param minute 分
+     * @param second 秒
+     * @return Date
+     */
+    public static Date of(int year, int month, int day, int hour, int minute, int second) {
+        LocalDateTime localDateTime = LocalDateTime.of(year, month, day, hour, minute, second);
+        return toDate(localDateTime);
+    }
+
+    /**
+     * convert LocalDateTime to Date
+     *
+     * @param localDateTime local date time
+     * @return Date
+     */
+    public static Date toDate(LocalDateTime localDateTime) {
+        return toDate(localDateTime, ZoneId.systemDefault());
+    }
+
+    /**
+     * convert LocalDateTime to Date
+     *
+     * @param localDateTime local date time
+     * @param zoneId        zone id
+     * @return Date
+     */
+    public static Date toDate(LocalDateTime localDateTime, ZoneId zoneId) {
+        return Date.from(localDateTime.atZone(zoneId).toInstant());
+    }
+
+    /**
      * 转换成日期
      *
      * @param instant

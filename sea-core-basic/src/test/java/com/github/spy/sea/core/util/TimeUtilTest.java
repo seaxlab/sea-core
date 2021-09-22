@@ -24,11 +24,19 @@ import static com.github.spy.sea.core.util.TimeUtil.FORMAT_HHmm;
 public class TimeUtilTest extends BaseCoreTest {
 
     @Test
-    public void run17() throws Exception {
+    public void testCompareTime() throws Exception {
 
         Assert.assertEquals(-1, TimeUtil.compare("01:00", "02:00"));
         Assert.assertEquals(0, TimeUtil.compare("01:00", "01:00"));
         Assert.assertEquals(1, TimeUtil.compare("01:00", "00:20"));
+    }
+
+    @Test
+    public void testCompareDateTime() throws Exception {
+        Date date1 = DateUtil.str2Date("2021-04-01 13:01:50", DateUtil.DEFAULT_FORMAT);
+        Date date2 = DateUtil.str2Date("2021-03-01 14:01:50", DateUtil.DEFAULT_FORMAT);
+
+        Assert.assertEquals(TimeUtil.compare(date1, date2), -1);
     }
 
 
@@ -49,7 +57,7 @@ public class TimeUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void run27() throws Exception {
+    public void testAdd() throws Exception {
         String newTimeStr = TimeUtil.add("12:10", FORMAT_HHmm, 20, TimeUnit.MINUTES);
         log.info("newTimeStr={}", newTimeStr);
 
@@ -60,16 +68,18 @@ public class TimeUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void run42() throws Exception {
+    public void testToTimeUnit() throws Exception {
         Assert.assertEquals(TimeUtil.toTimeUnit(10000), "10.00 μs");
     }
 
     @Test
-    public void testCompare() throws Exception {
-        Date date1 = DateUtil.str2Date("2021-04-01 13:01:50", DateUtil.DEFAULT_FORMAT);
-        Date date2 = DateUtil.str2Date("2021-03-01 14:01:50", DateUtil.DEFAULT_FORMAT);
+    public void testOf1() throws Exception {
+        Date date = TimeUtil.of(12, 10);
+        log.info("date={}", date);
 
-        Assert.assertEquals(TimeUtil.compare(date1, date2), -1);
+        Date date2 = TimeUtil.of(12, 10, 30);
+        log.info("date2={}", date2);
     }
+
 
 }

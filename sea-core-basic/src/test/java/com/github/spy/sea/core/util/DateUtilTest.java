@@ -226,4 +226,16 @@ public class DateUtilTest extends BaseCoreTest {
 
     }
 
+    @Test
+    public void testOf1() throws Exception {
+        Date date = DateUtil.of(2021, 1, 31);
+        log.info("date={}", date);
+    }
+
+    @Test
+    public void testOf2() throws Exception {
+        Date date = DateUtil.of(2021, 1, 31, 12, 10, 30);
+        log.info("date={}", date);
+    }
+
 }
