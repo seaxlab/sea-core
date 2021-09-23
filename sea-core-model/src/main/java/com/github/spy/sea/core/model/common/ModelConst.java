@@ -87,15 +87,15 @@ public final class ModelConst {
 
     /*----------这里兼容了几种常用的字段-----------------*/
     public static final String CREATOR = "creator";
-    public static final String CREATE_USER_ID = "create_user_id";
-    public static final String CREATE_USER_NAME = "create_user_name";
+    public static final String CREATE_USER_ID = "createUserId";
+    public static final String CREATE_USER_NAME = "createUserName";
     public static final String CREATE_USER = "createUser";
     public static final String CREATE_TIME = "createTime";
     public static final String GMT_CREATE = "gmtCreate";
 
     public static final String EDITOR = "editor";
-    public static final String UPDATE_USER_ID = "update_user_id";
-    public static final String UPDATE_USER_NAME = "update_user_name";
+    public static final String UPDATE_USER_ID = "updateUserId";
+    public static final String UPDATE_USER_NAME = "updateUserName";
     public static final String UPDATE_USER = "updateUser";
     public static final String UPDATE_TIME = "updateTime";
     public static final String GMT_MODIFY = "gmtModify";
