@@ -20,7 +20,7 @@ public class YuantuTest extends ScrewTest {
         DBModelCreateDTO dto = new DBModelCreateDTO();
         dto.setUrl("jdbc:mysql://rdsj56325f0xdcn346hn.mysql.rds.aliyuncs.com:3306/dc_device");
         dto.setUsername("dc_device");
-        dto.setPassword("yuantu@123");
+        dto.setPassword(getPassword("db_dc_device"));
 
         dto.setOutPutFileName(getFileName("hcrm"));
         dto.setVersion("1.0.0");
@@ -33,7 +33,7 @@ public class YuantuTest extends ScrewTest {
         DBModelCreateDTO dto = new DBModelCreateDTO();
         dto.setUrl("jdbc:mysql://10.122.2.17:1211/medical_skill?characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false");
         dto.setUsername("medical_skill");
-        dto.setPassword("Yuantu123");
+        dto.setPassword(getPassword("db_medical_skill"));
 
         dto.setOutPutFileName(getFileName("medical-skill"));
 
@@ -45,7 +45,7 @@ public class YuantuTest extends ScrewTest {
         DBModelCreateDTO dto = new DBModelCreateDTO();
         dto.setUrl("jdbc:mysql://rdsj56325f0xdcn346hn.mysql.rds.aliyuncs.com/aolsee?characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false");
         dto.setUsername("aolsee");
-        dto.setPassword("YTuat123");
+        dto.setPassword(getPassword("db_aolsee"));
 
         dto.setOutPutFileName(getFileName("aolsee"));
 
@@ -57,7 +57,7 @@ public class YuantuTest extends ScrewTest {
         DBModelCreateDTO dto = new DBModelCreateDTO();
         dto.setUrl("jdbc:mysql://rdsj56325f0xdcn346hn.mysql.rds.aliyuncs.com:3306/account_uat?characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false");
         dto.setUsername("account_uat");
-        dto.setPassword("ACC_0unt2073");
+        dto.setPassword(getPassword("db_account_uat"));
 
         dto.setOutPutFileName(getFileName("account"));
 
