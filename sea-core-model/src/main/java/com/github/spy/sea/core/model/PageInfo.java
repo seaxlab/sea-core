@@ -27,6 +27,11 @@ public class PageInfo implements Serializable {
 
     private Integer pageSize = 10;
 
+    /**
+     * 每页最大记录数
+     */
+    private Integer pageMaxSize;
+
     private String orderBy;
 
     private String orderDirection;

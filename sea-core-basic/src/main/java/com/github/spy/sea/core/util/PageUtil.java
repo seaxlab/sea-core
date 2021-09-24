@@ -164,6 +164,9 @@ public final class PageUtil {
         }
     }
 
+    // just my happy, no reason
+    private static final int MAX_PAGE_SIZE = 10000;
+
     /**
      * 检查分页信息
      *
@@ -176,6 +179,18 @@ public final class PageUtil {
 
         if (pageInfo.getPageSize() == null || pageInfo.getPageSize() < 1) {
             pageInfo.setPageSize(10);
+        }
+
+        if (pageInfo.getPageMaxSize() == null) {
+            if (pageInfo.getPageSize() > MAX_PAGE_SIZE) {
+                log.warn("pageSize[{}] > default[{}], so sent to {}", pageInfo.getPageNum(), MAX_PAGE_SIZE, MAX_PAGE_SIZE);
+                pageInfo.setPageSize(MAX_PAGE_SIZE);
+            }
+        } else {
+            if (pageInfo.getPageSize() > pageInfo.getPageMaxSize()) {
+                log.warn("pageSize[{}] > pageMaxSize[{}], so sent to {}", pageInfo.getPageSize(), pageInfo.getPageMaxSize(), pageInfo.getPageMaxSize());
+                pageInfo.setPageSize(pageInfo.getPageMaxSize());
+            }
         }
     }
 
