@@ -468,6 +468,19 @@ public final class ListUtil {
     }
 
     /**
+     * remove null element
+     *
+     * @param list
+     * @param <E>
+     */
+    public static <E> void removeNull(List<E> list) {
+        if (isEmpty(list)) {
+            return;
+        }
+        list.removeAll(Collections.singleton(null));
+    }
+
+    /**
      * 交换两个元素位置
      *
      * @param list list

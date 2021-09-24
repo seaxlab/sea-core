@@ -297,4 +297,18 @@ public class ListUtilTest extends BaseCoreTest {
 
         log.info("list={}", list);
     }
+
+
+    @Test
+    public void testRemoveNull() throws Exception {
+        List<String> list = new ArrayList<>();
+        list.add("1");
+        list.add(null);
+        list.add("3");
+        list.add(null);
+
+        log.info("list={}", list);
+        ListUtil.removeNull(list);
+        log.info("list={}, after remove null", list);
+    }
 }
