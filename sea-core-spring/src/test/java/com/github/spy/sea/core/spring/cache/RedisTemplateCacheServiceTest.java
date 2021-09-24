@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.github.spy.sea.core.spring.BaseSpringTest;
 import com.github.spy.sea.core.spring.cache.impl.RedisTemplateCacheService;
 import com.github.spy.sea.core.spring.model.User;
@@ -40,7 +41,10 @@ public class RedisTemplateCacheServiceTest extends BaseSpringTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//        objectMapper.setDateFormat(new SimpleDateFormat(DateUtil.DEFAULT_FORMAT));
+        // output detailed class type, if no need, you should comment it.
+        objectMapper.activateDefaultTyping(
+                LaissezFaireSubTypeValidator.instance,
+                ObjectMapper.DefaultTyping.NON_FINAL);
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
 
@@ -90,11 +94,8 @@ public class RedisTemplateCacheServiceTest extends BaseSpringTest {
         redisTemplateCacheService.delete(key);
 
         List<String> mapKeys = ImmutableList.of("field1", "field2");
-
         List<User> users = redisTemplateCacheService.queryMapList(key, mapKeys, (userCodes) -> {
-
             List<User> dbUsers = new ArrayList<>();
-
             for (int i = 0; i < 100; i++) {
                 User user = new User();
                 user.setCode("code" + RandomUtil.numeric(6));
@@ -103,6 +104,14 @@ public class RedisTemplateCacheServiceTest extends BaseSpringTest {
 
             return dbUsers;
         });
+        log.info("users={}", users);
+    }
+
+    @Test
+    public void testQueryMapListOnly() throws Exception {
+        String key = "users";
+        List<String> mapKeys = ImmutableList.of("code215815", "code700073");
+        List<User> users = redisTemplateCacheService.queryMapList(key, mapKeys);
         log.info("users={}", users);
     }
 }
