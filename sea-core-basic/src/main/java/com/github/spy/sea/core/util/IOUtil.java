@@ -34,7 +34,7 @@ public final class IOUtil {
             try {
                 resource.close();
             } catch (IOException e) {
-                log.error("io exception.", e);
+                log.error("close resource io exception.", e);
             }
         }
     }

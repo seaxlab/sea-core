@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.dal.screw;
 
 import com.github.spy.sea.core.dal.BaseCoreDalTest;
+import com.github.spy.sea.core.util.IOUtil;
 import com.github.spy.sea.core.util.IdUtil;
 import com.github.spy.sea.core.util.PathUtil;
 import com.github.spy.sea.core.util.PropertiesUtil;
@@ -31,6 +32,8 @@ public class ScrewTest extends BaseCoreDalTest {
             Properties properties = PropertiesUtil.load(fileInputStream);
             String value = properties.getProperty(key, "");
             log.info("get properties {}={}", key, value);
+
+            IOUtil.close(fileInputStream);
             return value;
         } catch (Exception e) {
             log.error("", e);
