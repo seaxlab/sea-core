@@ -6,9 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
+import java.util.BitSet;
 import java.util.Enumeration;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
 /**
@@ -371,4 +374,58 @@ public final class NetUtil {
 //        }
 //        return res;
     }
+
+
+    // returned port range is [30000, 39999]
+    private static final int RND_PORT_START = 30000;
+    private static final int RND_PORT_RANGE = 10000;
+
+    // valid port range is (0, 65535]
+    private static final int MIN_PORT = 1;
+    private static final int MAX_PORT = 65535;
+    private static BitSet USED_PORT = new BitSet(65536);
+
+    public static int getRandomPort() {
+        return RND_PORT_START + ThreadLocalRandom.current().nextInt(RND_PORT_RANGE);
+    }
+
+    public synchronized static int getAvailablePort() {
+        int randomPort = getRandomPort();
+        return getAvailablePort(randomPort);
+    }
+
+    public synchronized static int getAvailablePort(int port) {
+        if (port < MIN_PORT) {
+            return port = MIN_PORT;
+        }
+        for (int i = port; i < MAX_PORT; i++) {
+            if (USED_PORT.get(i)) {
+                continue;
+            }
+            try (ServerSocket ignored = new ServerSocket(i)) {
+                USED_PORT.set(i);
+                return i;
+            } catch (IOException e) {
+                // continue
+            }
+        }
+        return port;
+    }
+
+    /**
+     * Check the port whether is in use in os
+     *
+     * @param port
+     * @return
+     */
+    public static boolean isPortInUsed(int port) {
+        try (ServerSocket ignored = new ServerSocket(port)) {
+            return false;
+        } catch (IOException e) {
+            // continue
+        }
+        return true;
+    }
+
+
 }

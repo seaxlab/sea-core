@@ -55,5 +55,18 @@ public class NetUtilTest extends BaseCoreTest {
         log.info("{}", (byte) 192); //这里溢出了
     }
 
+    @Test
+    public void testGetAvailablePort() throws Exception {
+        for (int i = 0; i < 10; i++) {
+            log.info("available port={}", NetUtil.getAvailablePort());
+        }
+    }
+
+    @Test
+    public void testIsAvailablePort() throws Exception {
+        for (int i = 0; i < 100; i++) {
+            log.info("port={}, available={}", i, NetUtil.isPortInUsed(i));
+        }
+    }
 
 }
