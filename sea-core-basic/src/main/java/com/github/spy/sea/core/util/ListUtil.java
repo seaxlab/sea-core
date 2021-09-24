@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * List工具
@@ -279,6 +280,21 @@ public final class ListUtil {
         return list.stream()
                    .collect(Collectors.toMap(keyMapper, Function.identity()));
     }
+
+    public static <K, R> Map<K, R> toMap(List<R> list, Predicate<? super R> predicate, Function<? super R, ? extends K> keyMapper) {
+        if (isEmpty(list)) {
+            return MapUtil.empty();
+        }
+        Stream<R> stream = list.stream();
+
+        if (predicate != null) {
+            stream = stream.filter(predicate);
+        }
+
+        return stream
+                .collect(Collectors.toMap(keyMapper, Function.identity()));
+    }
+
 
     /**
      * convert list to Map<K ,List<R>>

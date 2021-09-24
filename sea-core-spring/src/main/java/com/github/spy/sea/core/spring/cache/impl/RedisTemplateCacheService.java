@@ -7,19 +7,21 @@ import com.github.spy.sea.core.cache.CacheExceptionHandler;
 import com.github.spy.sea.core.cache.CacheService;
 import com.github.spy.sea.core.enums.CacheOpEnum;
 import com.github.spy.sea.core.exception.Precondition;
+import com.github.spy.sea.core.model.EntityKey;
 import com.github.spy.sea.core.util.EqualUtil;
 import com.github.spy.sea.core.util.JSONUtil;
+import com.github.spy.sea.core.util.ListUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -64,9 +66,7 @@ public class RedisTemplateCacheService implements CacheService {
             content = (String) redisTemplate.opsForValue().get(key);
         } catch (Exception e) {
             log.error("fail to get cache, key={}, so query from supplier. ex={}", key, e);
-            if (this.exceptionHandler != null) {
-                this.exceptionHandler.handle(CacheOpEnum.SET.getCode(), key, e);
-            }
+            handleException(CacheOpEnum.GET, key, e);
             return Optional.ofNullable(supplier.get());
         }
         T data;
@@ -80,9 +80,7 @@ public class RedisTemplateCacheService implements CacheService {
                              .set(key, value, timeout, timeUnit);
             } catch (Exception e) {
                 log.error("fail to set one record, key={}, exception={}", key, e);
-                if (this.exceptionHandler != null) {
-                    this.exceptionHandler.handle(CacheOpEnum.SET.getCode(), key, e);
-                }
+                handleException(CacheOpEnum.SET, key, e);
             }
         } else {
             if (EqualUtil.isEq(content, CacheConst.EMPTY_OBJ)) {
@@ -110,9 +108,7 @@ public class RedisTemplateCacheService implements CacheService {
             content = (String) redisTemplate.opsForValue().get(key);
         } catch (Exception e) {
             log.error("fail to get cache, key={}, so query from supplier. ex={}", key, e);
-            if (this.exceptionHandler != null) {
-                this.exceptionHandler.handle(CacheOpEnum.SET.getCode(), key, e);
-            }
+            handleException(CacheOpEnum.GET, key, e);
             return Optional.ofNullable(supplier.get());
         }
         T data;
@@ -126,9 +122,7 @@ public class RedisTemplateCacheService implements CacheService {
                                  .set(key, JSONUtil.toStr(data), timeout, timeUnit);
                 } catch (Exception e) {
                     log.error("fail to set one record, key={}, exception={}", key, e);
-                    if (this.exceptionHandler != null) {
-                        this.exceptionHandler.handle(CacheOpEnum.SET.getCode(), key, e);
-                    }
+                    handleException(CacheOpEnum.SET, key, e);
                 }
             }
         } else {
@@ -153,6 +147,7 @@ public class RedisTemplateCacheService implements CacheService {
             content = (String) redisTemplate.opsForValue().get(key);
         } catch (Exception e) {
             log.error("fail to get cache, key={}, so query from supplier. ex={}", key, e);
+            handleException(CacheOpEnum.GET, key, e);
             return supplier.get();
         }
 
@@ -164,9 +159,7 @@ public class RedisTemplateCacheService implements CacheService {
                              .set(key, JSONUtil.toStr(data), timeout, timeUnit);
             } catch (Exception e) {
                 log.error("fail to set list key={},exception={}", key, e);
-                if (this.exceptionHandler != null) {
-                    this.exceptionHandler.handle(CacheOpEnum.SET.getCode(), key, e);
-                }
+                handleException(CacheOpEnum.SET, key, e);
             }
         } else {
             data = JSONArray.parseArray(content, clazz);
@@ -189,6 +182,7 @@ public class RedisTemplateCacheService implements CacheService {
             content = (String) redisTemplate.opsForValue().get(key);
         } catch (Exception e) {
             log.error("fail to get cache, key={}, so query from supplier. ex={}", key, e);
+            handleException(CacheOpEnum.GET, key, e);
             return supplier.get();
         }
 
@@ -201,13 +195,70 @@ public class RedisTemplateCacheService implements CacheService {
                                  .set(key, JSONUtil.toStr(data), timeout, timeUnit);
                 } catch (Exception e) {
                     log.error("fail to set list key={},exception={}", key, e);
-                    if (this.exceptionHandler != null) {
-                        this.exceptionHandler.handle(CacheOpEnum.SET.getCode(), key, e);
-                    }
+                    handleException(CacheOpEnum.SET, key, e);
                 }
             }
         } else {
             data = JSONArray.parseArray(content, clazz);
+        }
+        return data;
+    }
+
+    @Override
+    public <T extends EntityKey> List<T> queryMapList(String key, List<String> mapKeys) {
+        return queryMapList(key, mapKeys, null);
+    }
+
+    @Override
+    public <T extends EntityKey> List<T> queryMapList(String key, List<String> mapKeys, Function<List<String>, List<T>> function) {
+        return queryMapList(key, mapKeys, function, CACHE_CONFIG.getFirst(), CACHE_CONFIG.getSecond());
+    }
+
+    @Override
+    public <T extends EntityKey> List<T> queryMapList(String key, List<String> mapKeys, Function<List<String>, List<T>> function, long timeout, TimeUnit timeUnit) {
+        List<T> data = null;
+        try {
+            List<String> hKeys = new ArrayList<>(mapKeys);
+            data = redisTemplate.opsForHash().multiGet(key, hKeys);
+        } catch (Exception e) {
+            log.error("failed get from cache, key={},ex={}", key, e);
+            handleException(CacheOpEnum.GET_MAP, key, e);
+        }
+        // insure data is not null
+        if (data == null) {
+            data = new ArrayList<>();
+        }
+
+        //重点：redis hashmap 独有的类型，获取不到就会返回null
+        data.removeAll(Collections.singleton(null));
+        if (mapKeys.size() == data.size()) {
+            return data;
+        }
+
+        if (function == null) {
+            return data;
+        }
+
+        List<String> exitKeys = ListUtil.toListDistinct(data, EntityKey::getEntityKey);
+        List<String> restKeys = ListUtil.filter(mapKeys, keys -> !exitKeys.contains(keys));
+        // 没有查询到的key
+        List<T> restData = function.apply(restKeys);
+        log.info("rest data size={}", restData.size());
+
+        if (ListUtil.isNotEmpty(restData)) {
+            data.addAll(restData);
+
+            Map<String, T> restDataMap = ListUtil.toMap(restData, item -> StringUtils.isNotBlank(item.getEntityKey()), EntityKey::getEntityKey);
+            try {
+                redisTemplate.opsForHash().putAll(key, restDataMap);
+                if (timeout <= 0) {
+                    log.warn("timeout={}<=0, so no expire", timeout);
+                    redisTemplate.expire(key, timeout, timeUnit);
+                }
+            } catch (Exception e) {
+                log.error("failed put hash to cache, key={},ex={}", key, e);
+                handleException(CacheOpEnum.SET_MAP, key, e);
+            }
         }
         return data;
     }

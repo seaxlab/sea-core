@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.cache;
 
+import com.github.spy.sea.core.model.EntityKey;
 import com.github.spy.sea.core.model.Tuple2;
 
 import java.util.Collection;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -124,6 +126,55 @@ public interface CacheService {
      * @return obj list
      */
     <T> List<T> queryListIfAbsent(String key, Supplier<List<T>> supplier, Class<T> clazz, long timeout, TimeUnit timeUnit);
+
+
+    /**
+     * just query map list, if no exist so return
+     * <p>
+     * entity should implement EntityKey interface
+     * </p>
+     *
+     * @param key     cache key
+     * @param mapKeys hash map keys
+     * @param <T>
+     * @return
+     */
+    <T extends EntityKey> List<T> queryMapList(String key, List<String> mapKeys);
+
+    /**
+     * query map list
+     * <p>
+     * entity should implement EntityKey interface
+     * </p>
+     *
+     * @param key      cache key
+     * @param mapKeys  hash map keys
+     * @param function function to query if absent.
+     * @param <T>
+     * @return
+     */
+    <T extends EntityKey> List<T> queryMapList(String key,
+                                               List<String> mapKeys,
+                                               Function<List<String>/*mapKeys*/, List<T>> function);
+
+    /**
+     * query map list
+     * <p>
+     * entity should implement EntityKey interface
+     * </p>
+     *
+     * @param key      cache key
+     * @param mapKeys  hash map keys
+     * @param function function to query if absent.
+     * @param timeout
+     * @param timeUnit
+     * @param <T>
+     * @return
+     */
+    <T extends EntityKey> List<T> queryMapList(String key,
+                                               List<String> mapKeys,
+                                               Function<List<String>/*mapKeys*/, List<T>> function,
+                                               long timeout, TimeUnit timeUnit);
 
     /**
      * set key
