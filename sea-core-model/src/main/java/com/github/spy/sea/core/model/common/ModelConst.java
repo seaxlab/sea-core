@@ -33,6 +33,13 @@ public final class ModelConst {
     // 交易号
     public static final String TRANS_NO = "transNo";
 
+    // 申请单-单号
+    public static final String APPLY_NO = "applyNo";
+    // 申请单-状态
+    public static final String APPLY_STATUS = "applyStatus";
+
+    public static final String INVOICE_NO = "invoiceNo";
+
     public static final String CODE = "code";
     public static final String INNER_CODE = "innerCode";
     public static final String STANDARD_CODE = "standardCode";
@@ -139,6 +146,8 @@ public final class ModelConst {
     public static final String URL = "url";
     public static final String IP = "ip";
     public static final String USER_AGENT = "userAgent";
+    // 设备号、设备标识
+    public static final String DEVICE_NO = "deviceNo";
     public static final String REQUEST = "request";
     public static final String RESPONSE = "response";
     public static final String PARAMETER = "parameter";
