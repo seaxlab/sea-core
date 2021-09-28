@@ -30,6 +30,16 @@ public abstract class AbstractEvent implements Event {
     protected Date createTime;
 
     /**
+     * 时间创建人ID
+     */
+    protected String createUserId;
+
+    /**
+     * 时间创建人名称
+     */
+    protected String createUserName;
+
+    /**
      * 事件版本，默认1
      */
     protected Integer version;

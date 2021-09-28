@@ -41,6 +41,24 @@ public interface Event extends Serializable {
     }
 
     /**
+     * 时间创建人id
+     *
+     * @return
+     */
+    default String getCreateUserId() {
+        return "";
+    }
+
+    /**
+     * 时间创建人名称
+     *
+     * @return
+     */
+    default String getCreateUserName() {
+        return "";
+    }
+
+    /**
      * event version
      *
      * @return
