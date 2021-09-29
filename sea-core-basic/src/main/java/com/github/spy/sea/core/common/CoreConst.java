@@ -227,6 +227,14 @@ public class CoreConst {
      */
     public static final int DEFAULT_RETRY_COUNT = 3;
 
+    public static final int DEFAULT_RETRY_COUNT_1 = 1;
+    public static final int DEFAULT_RETRY_COUNT_2 = 2;
+    public static final int DEFAULT_RETRY_COUNT_3 = 3;
+    public static final int DEFAULT_RETRY_COUNT_4 = 4;
+    public static final int DEFAULT_RETRY_COUNT_5 = 5;
+    public static final int DEFAULT_RETRY_COUNT_6 = 6;
+
+
     // lock time
     public static final long LOCK_TIME_30_SECOND = 30 * 1000L;
     public static final long LOCK_TIME_1_MINUTE = 1 * 60 * 1000L;
