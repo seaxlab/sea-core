@@ -26,7 +26,7 @@ public class DownloadFileUtil {
                                         String realFileName) throws Exception {
         String browName = null;
         String clientInfo = request.getHeader("User-agent");
-        log.info("uat={}", clientInfo);
+        log.info("user agent={}", clientInfo);
 
         if (clientInfo != null && clientInfo.indexOf("MSIE") > 0) {//
             // IE采用URLEncoder方式处理
