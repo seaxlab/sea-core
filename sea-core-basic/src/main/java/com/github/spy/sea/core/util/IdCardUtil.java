@@ -187,6 +187,13 @@ public class IdCardUtil {
         if (idNo == null || idNo.isEmpty()) {
             return "";
         }
+
+        if (idNo.length() == OLD_CARD_NUMBER_LENGTH || idNo.length() == NEW_CARD_NUMBER_LENGTH) {
+        } else {
+            log.warn("card number length is not {} or {}, so return null", OLD_CARD_NUMBER_LENGTH, NEW_CARD_NUMBER_LENGTH);
+            return "";
+        }
+
         String birthday = idNo.substring(6, 14);
         StringBuilder sb = new StringBuilder(birthday);
         sb.insert(6, "-");
@@ -204,6 +211,13 @@ public class IdCardUtil {
         if (cardNumber == null || cardNumber.isEmpty()) {
             return null;
         }
+
+        if (cardNumber.length() == OLD_CARD_NUMBER_LENGTH || cardNumber.length() == NEW_CARD_NUMBER_LENGTH) {
+        } else {
+            log.warn("card number length is not {} or {}, so return null", OLD_CARD_NUMBER_LENGTH, NEW_CARD_NUMBER_LENGTH);
+            return null;
+        }
+
         String year = cardNumber.substring(6, 10);
         String month = cardNumber.substring(10, 12);
         String day = cardNumber.substring(12, 14);
