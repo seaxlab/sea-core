@@ -32,8 +32,7 @@ public class DownloadFileUtil {
             // IE采用URLEncoder方式处理
             if (clientInfo.indexOf("MSIE 6") > 0
                     || clientInfo.indexOf("MSIE 5") > 0) {// IE6，用GBK，此处实现有局限性
-                browName = new String(realFileName.getBytes("UTF-8"),
-                        "ISO-8859-1");
+                browName = new String(realFileName.getBytes("UTF-8"), "ISO-8859-1");
             } else {// ie7+用URLEncoder方式
                 browName = java.net.URLEncoder.encode(realFileName, "UTF-8");
             }
