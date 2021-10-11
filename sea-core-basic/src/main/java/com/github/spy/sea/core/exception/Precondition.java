@@ -3,6 +3,8 @@ package com.github.spy.sea.core.exception;
 import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collection;
+
 /**
  * custom precondition check.
  *
@@ -40,6 +42,19 @@ public final class Precondition {
             ExceptionHandler.publish(errorCode, errorMsg);
         }
     }
+
+    public static void checkNotEmpty(Collection collection, String errorMsg) {
+        if (collection == null || collection.isEmpty()) {
+            ExceptionHandler.publishMsg(errorMsg);
+        }
+    }
+
+    public static void checkNotEmpty(Collection collection, String errorCode, String errorMsg) {
+        if (collection == null || collection.isEmpty()) {
+            ExceptionHandler.publish(errorCode, errorMsg);
+        }
+    }
+
 
     public static void checkNotBlank(String value, String errorMsg) {
         if (StringUtil.isBlank(value)) {
