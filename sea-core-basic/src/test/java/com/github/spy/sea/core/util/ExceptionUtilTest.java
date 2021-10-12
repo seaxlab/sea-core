@@ -6,6 +6,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.SocketTimeoutException;
 
 /**
  * module name
@@ -34,5 +35,26 @@ public class ExceptionUtilTest extends BaseCoreTest {
     @Test
     public void run34() throws Exception {
         log.info("{}", ExceptionUtils.getStackTrace(new NullPointerException()));
+    }
+
+    @Test
+    public void test40() throws Exception {
+        String str = "";
+
+        String[] values = str.split(",", 10);
+        log.info("values={}", values);
+    }
+
+
+    @Test
+    public void testGetMsgN() throws Exception {
+
+        SocketTimeoutException e = new SocketTimeoutException("This is socket timeout");
+
+        String msg = ExceptionUtil.getMsgN(e, 10);
+        log.info("msg={}", msg);
+
+        log.info("msg={}", ExceptionUtil.getMsg1(e));
+
     }
 }
