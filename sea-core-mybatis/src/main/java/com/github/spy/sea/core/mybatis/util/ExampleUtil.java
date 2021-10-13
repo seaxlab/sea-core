@@ -230,6 +230,32 @@ public final class ExampleUtil {
         }
     }
 
+    /**
+     * 只设置开始时间
+     *
+     * @param criteria     criteria
+     * @param propertyName property name
+     * @param beginDate    begin date
+     */
+    public static void setDateBegin(final Example.Criteria criteria, String propertyName, Date beginDate) {
+        if (beginDate != null) {
+            criteria.andGreaterThanOrEqualTo(propertyName, beginDate);
+        }
+    }
+
+    /**
+     * 只设置结束时间
+     *
+     * @param criteria     criteria
+     * @param propertyName property name
+     * @param endDate      end date
+     */
+    public static void setDateEnd(final Example.Criteria criteria, String propertyName, Date endDate) {
+        if (endDate != null) {
+            criteria.andLessThanOrEqualTo(propertyName, endDate);
+        }
+    }
+
 
     /**
      * set all args to criteria
