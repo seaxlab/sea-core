@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class DateUtilTest extends BaseCoreTest {
 
     @Test
-    public void run17() throws Exception {
+    public void testCommon() throws Exception {
         println(DateUtil.nowStr());
         println(DateUtil.nowDate());
         println(DateUtil.now("MM-dd*HH:mm"));
@@ -40,6 +40,15 @@ public class DateUtilTest extends BaseCoreTest {
         println(DateUtil.addHour(now, 1));
         println(DateUtil.addMinute(now, 15));
     }
+
+    @Test
+    public void testAddDay() throws Exception {
+        Date now = DateUtil.nowDate();
+
+        Date day = DateUtil.addDay(now, 0);
+        log.info("day={}", day);
+    }
+
 
     @Test
     public void testToLocalDate() throws Exception {
