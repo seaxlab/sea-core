@@ -1,9 +1,9 @@
-package com.github.spy.sea.core.example.config;
+package com.github.spy.sea.core.example.task;
 
+import com.github.spy.sea.core.thread.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
@@ -15,13 +15,13 @@ import javax.annotation.PostConstruct;
  * @since 1.0
  */
 @Slf4j
-@Lazy(value = false)
-@Configuration
-public class TaskConfig {
+@Component
+public class DemoTask {
 
     @Scheduled(cron = "*/10 * * * * *")
     public void queryFailTask() {
         log.info("query fail task...");
+        ThreadUtil.sleepSecond(25);
     }
 
     @PostConstruct
