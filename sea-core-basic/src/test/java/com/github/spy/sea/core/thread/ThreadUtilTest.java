@@ -5,6 +5,8 @@ import com.github.spy.sea.core.thread.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * module name
  *
@@ -16,7 +18,7 @@ import org.junit.Test;
 public class ThreadUtilTest extends BaseCoreTest {
 
     @Test
-    public void run17() throws Exception {
+    public void testExceptionHandler() throws Exception {
 
         ThreadUtil.addGlobalUncaughtExceptionChainHandler((t, e) -> {
             log.info("handler1 t", t.getName());
@@ -33,5 +35,11 @@ public class ThreadUtilTest extends BaseCoreTest {
         t.start();
 
         sleep(10);
+    }
+
+
+    @Test
+    public void testSleep() throws Exception {
+        ThreadUtil.sleep(30, TimeUnit.SECONDS);
     }
 }

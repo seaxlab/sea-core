@@ -1,8 +1,10 @@
 package com.github.spy.sea.core.thread.util;
 
+import com.github.spy.sea.core.exception.Precondition;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
 /**
@@ -56,6 +58,36 @@ public final class ThreadUtil {
                 handler.uncaughtException(thread, exception);
             }
         });
+    }
+
+    public static void sleepMinute(long duration) {
+        sleep(duration, TimeUnit.MINUTES);
+    }
+
+    public static void sleepSecond(long duration) {
+        sleep(duration, TimeUnit.SECONDS);
+    }
+
+    public static void sleepMillSecond(long duration) {
+        sleep(duration, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * sleep
+     *
+     * @param duration
+     * @param timeUnit
+     */
+    public static void sleep(long duration, TimeUnit timeUnit) {
+        Precondition.checkState(duration > 0, "时长必须大于0");
+        Precondition.checkNotNull(timeUnit, "时间单位不能为空");
+
+        try {
+            Thread.sleep(TimeUnit.MILLISECONDS.convert(duration, timeUnit));
+        } catch (Exception e) {
+            log.error("fail to sleep", e);
+        }
+
     }
 
 }
