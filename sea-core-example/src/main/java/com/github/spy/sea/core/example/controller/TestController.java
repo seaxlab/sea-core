@@ -1,6 +1,9 @@
 package com.github.spy.sea.core.example.controller;
 
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.thread.util.CallableUtil;
+import com.github.spy.sea.core.thread.util.ThreadPoolUtil;
+import com.github.spy.sea.core.thread.util.ThreadUtil;
 import com.github.spy.sea.core.web.util.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * module name
@@ -27,6 +32,16 @@ public class TestController implements InitializingBean {
 
     @GetMapping("/log/get")
     public BaseResult getTest() {
+        ThreadPoolExecutor tpe = ThreadPoolUtil.createTemp("sea-test", 4, 4);
+
+        log.info("-----");
+        Callable<String> callable = CallableUtil.create(true, () -> {
+            log.info("get data");
+            return "";
+        });
+        tpe.submit(callable);
+        ThreadUtil.sleepMinute(1);
+
         return BaseResult.success();
     }
 

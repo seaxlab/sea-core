@@ -60,6 +60,24 @@
             <artifactId>aspectjweaver</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.alipay.sofa</groupId>
+            <artifactId>tracer-sofa-boot-starter</artifactId>
+            <version>3.9.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alipay.sofa</groupId>
+                    <artifactId>sofa-tracer-datasource-plugin</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.spy.sea</groupId>
+            <artifactId>sofa-tracer-simple-plugin</artifactId>
+            <version>[1.0.0,1.0.99]</version>
+        </dependency>
+
     </dependencies>
 
     <build>
