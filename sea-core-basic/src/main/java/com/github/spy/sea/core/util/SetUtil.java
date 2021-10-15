@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.SetUtils;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -61,6 +62,16 @@ public final class SetUtil {
      */
     public static Set toSet(List list) {
         return new HashSet(list);
+    }
+
+    /**
+     * new concurrent hash set
+     *
+     * @param <E>
+     * @return
+     */
+    public static <E> Set<E> newConcurrentHashSet() {
+        return Collections.newSetFromMap(new ConcurrentHashMap<E, Boolean>());
     }
 
     /**

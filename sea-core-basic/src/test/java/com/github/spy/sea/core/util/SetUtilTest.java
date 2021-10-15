@@ -20,8 +20,40 @@ import java.util.*;
 @Slf4j
 public class SetUtilTest extends BaseCoreTest {
 
+
     @Test
-    public void run17() throws Exception {
+    public void testNewConcurrentHashSet() throws Exception {
+        Set<String> cache = SetUtil.newConcurrentHashSet();
+        // this is thread safe
+        runInMultiThread(() -> {
+            for (int i = 0; i < 100; i++) {
+                if (cache.add("" + i)) {
+                    log.info("add i={}", i);
+                }
+            }
+        });
+
+        sleepMinute(1);
+    }
+
+    @Test
+    public void testThreadNotSafe() throws Exception {
+        Set<String> cache = new HashSet<>();
+        // this is thread safe
+        runInMultiThread(() -> {
+            for (int i = 0; i < 100; i++) {
+                if (cache.add("" + i)) {
+                    log.info("add i={}", i);
+                }
+            }
+        });
+
+        sleepMinute(1);
+    }
+
+
+    @Test
+    public void testToString() throws Exception {
         Set<String> set = new HashSet<>();
         set.add("abc");
         set.add("hello");
@@ -29,7 +61,7 @@ public class SetUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void toStringTest() throws Exception {
+    public void testToString2() throws Exception {
         Set<User> set = new HashSet<>();
         set.add(new User(10L, "s10"));
         set.add(new User(2l, "s2"));
@@ -40,7 +72,7 @@ public class SetUtilTest extends BaseCoreTest {
 
 
     @Test
-    public void run30() throws Exception {
+    public void testIntersectionBig() throws Exception {
         Set<Set<String>> allSet = new HashSet<>();
 
         Set<String> set1 = new HashSet<>();
