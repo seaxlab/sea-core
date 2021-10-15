@@ -33,5 +33,16 @@ public final class TimeoutUtil {
         return timer;
     }
 
+    // another demo.
+    //ExecutorService executor = Executors.newSingleThreadExecutor();
+    //Future future = executor.submit(new LongRunningTask());
+    //try {
+    //    f.get(30, TimeUnit.SECONDS);
+    //} catch (TimeoutException e) {
+    //    f.cancel(true);
+    //} finally {
+    //    service.shutdownNow();
+    //}
+
 
 }
