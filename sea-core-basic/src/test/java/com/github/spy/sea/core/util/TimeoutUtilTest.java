@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.Timer;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * module name
@@ -40,5 +42,23 @@ public class TimeoutUtilTest extends BaseCoreTest {
 
         sleepSecond(20);
         log.info("end.");
+    }
+
+    @Test
+    public void test46() throws Exception {
+        String str = "";
+        try {
+            str = CompletableFuture.supplyAsync(() -> {
+                                       // your biz logic
+                                       sleepSecond(3);
+                                       return "success";
+                                   })
+                                   .get(30, TimeUnit.SECONDS);
+        } catch (TimeoutException e) {
+            log.error("timeout exception.", e);
+            str = "";
+        }
+
+        log.info("str={}", str);
     }
 }
