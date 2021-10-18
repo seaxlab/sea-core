@@ -54,6 +54,7 @@ public enum OperatorEnum implements IBaseEnum<Integer> {
 
     public static OperatorEnum of(Integer code) {
         if (code == null) {
+            log.warn("code is null");
             return UNKNOWN;
         }
 
