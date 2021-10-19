@@ -11,6 +11,7 @@ import com.github.spy.sea.core.model.EntityKey;
 import com.github.spy.sea.core.util.EqualUtil;
 import com.github.spy.sea.core.util.JSONUtil;
 import com.github.spy.sea.core.util.ListUtil;
+import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -23,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * cache service.
@@ -216,6 +218,20 @@ public class RedisTemplateCacheService implements CacheService {
 
     @Override
     public <T extends EntityKey> List<T> queryMapList(String key, List<String> mapKeys, Function<List<String>, List<T>> function, long timeout, TimeUnit timeUnit) {
+        if (ListUtil.isEmpty(mapKeys)) {
+            log.warn("map keys is empty.");
+            return ListUtil.empty();
+        }
+
+        mapKeys = mapKeys.stream()
+                         .filter(item -> StringUtil.isNotBlank(item))
+                         .distinct()
+                         .collect(Collectors.toList());
+        if (ListUtil.isEmpty(mapKeys)) {
+            log.warn("map keys is empty after filter blank element.");
+            return ListUtil.empty();
+        }
+
         List<T> data = null;
         try {
             List<String> hKeys = new ArrayList<>(mapKeys);
