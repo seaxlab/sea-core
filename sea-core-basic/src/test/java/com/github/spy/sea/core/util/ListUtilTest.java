@@ -137,6 +137,28 @@ public class ListUtilTest extends BaseCoreTest {
         Assert.assertEquals(userMap.get(0L).size(), 4);
     }
 
+    @Test
+    public void testToMapFlatList() throws Exception {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setId((long) (i % 3));
+            user.setName("n" + i);
+
+            List<String> codes = new ArrayList<>();
+            codes.add("role1-" + i);
+            codes.add("role2-" + i);
+            user.setRoleCodes(codes);
+
+            users.add(user);
+        }
+
+        Map<Long, List<String>> userMap = ListUtil.toMapFlatList(users, User::getId, user -> user.getRoleCodes().stream());
+
+        log.info("{}", userMap);
+
+    }
+
 
     @Test
     public void testToFlatList() throws Exception {

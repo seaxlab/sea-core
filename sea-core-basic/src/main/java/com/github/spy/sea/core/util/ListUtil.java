@@ -7,8 +7,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -336,6 +338,41 @@ public final class ListUtil {
         return list.stream()
                    .collect(Collectors.groupingBy(keyMapper,
                            Collectors.mapping(valueMapper, Collectors.toList())));
+    }
+
+    /**
+     * <p>
+     * convert list(A(List p)) to map[key,List[Value]]
+     * </p>
+     *
+     * @param list        data
+     * @param keyMapper   key mapper
+     * @param valueMapper value mapper 注意这里是stream，需要注意是否为空
+     * @param <E>         entity
+     * @param <A>         map key type
+     * @param <B>         map value type
+     * @return
+     */
+    public static <E, A, B> Map<A, List<B>> toMapFlatList(List<E> list,
+                                                          Function<? super E, ? extends A> keyMapper,
+                                                          Function<? super E, ? extends Stream<? extends B>> valueMapper) {
+        if (isEmpty(list)) {
+            return MapUtil.empty();
+        }
+
+        return list.stream()
+                   .collect(Collectors.groupingBy(keyMapper, flatMapping(valueMapper, Collectors.toList())));
+    }
+
+
+    private static <T, U, A, R> Collector<T, ?, R> flatMapping(Function<? super T, ? extends Stream<? extends U>> mapper,
+                                                               Collector<? super U, A, R> downstream) {
+        BiConsumer<A, ? super U> downstreamAccumulator = downstream.accumulator();
+        return Collector.of(downstream.supplier(),
+                (r, t) -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u)),
+                downstream.combiner(),
+                downstream.finisher(),
+                downstream.characteristics().stream().toArray(Collector.Characteristics[]::new));
     }
 
     /**

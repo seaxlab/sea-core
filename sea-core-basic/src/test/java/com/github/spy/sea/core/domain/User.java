@@ -19,6 +19,7 @@ public class User {
     private int age;
 
     List<Role> roles;
+    List<String> roleCodes;
 
     private boolean isSuc;
     private Boolean isUsed;
