@@ -2,10 +2,7 @@ package com.github.spy.sea.core.dal.mybatis.tk;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * module name
@@ -22,7 +19,7 @@ public class User1 {
      */
     @Id
     @Column(name = "`id`")
-    @GeneratedValue(generator = "JDBC")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "`code`")
@@ -39,4 +36,7 @@ public class User1 {
 
     @Column(name = "`email`")
     private String email;
+
+    @Column(name = "`create_time`")
+    private String createTime;
 }

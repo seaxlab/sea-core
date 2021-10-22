@@ -6,6 +6,7 @@ import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import tk.mybatis.mapper.entity.EntityColumn;
 import tk.mybatis.mapper.entity.EntityTable;
+import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.mapperhelper.EntityHelper;
 
 import java.util.*;
@@ -134,6 +135,21 @@ public class TkOgnlUtil {
         return sql.toString();
     }
 
+    public static String getOrderByProperty(Object record, String orderByProperty) {
+        Set<EntityColumn> allColumns;
+        if (record instanceof Example) {
+            Example example = (Example) record;
+            allColumns = EntityHelper.getColumns(example.getEntityClass());
+        } else {
+            allColumns = EntityHelper.getColumns(record.getClass());
+        }
+
+        // to db column
+        Map<String, String> columnMap = getColumnMap(allColumns);
+        String columnName = columnMap.get(orderByProperty);
+
+        return columnName.replaceAll("`", "");
+    }
 
     public static String whereTableAColumns(Object record, String maxColumn) {
         //TODO 这里record不能为空，否则就不知道类型了
