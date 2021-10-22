@@ -32,7 +32,7 @@ public class SelectLatestOneProviderExt extends MapperTemplate {
 
         sql.append(DynamicSqlUtil.selectTableAColumns(entityClass));
         sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(DynamicSqlUtil.whereTableAFilterColumns(entityClass, isNotEmpty(), false));
+        sql.append(DynamicSqlUtil.whereTableRecordFilterColumns(entityClass, isNotEmpty(), false));
         // 这里必须使用record.xxx
 //        sql.append(" where <if test=' record.age != null'> age=#{record.age}</if>");
 //

@@ -85,7 +85,15 @@ public class DynamicSqlUtil {
         return "${@" + OGNL_FQN + "@whereTableAColumns(record,maxColumn)}";
     }
 
-    public static String whereTableAFilterColumns(Class<?> entityClass, boolean empty, boolean useVersion) {
+    /**
+     * 表别名为record
+     *
+     * @param entityClass
+     * @param empty
+     * @param useVersion
+     * @return
+     */
+    public static String whereTableRecordFilterColumns(Class<?> entityClass, boolean empty, boolean useVersion) {
         StringBuilder sql = new StringBuilder();
         boolean hasLogicDelete = false;
 
