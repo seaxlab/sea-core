@@ -181,6 +181,39 @@ public final class ListUtil {
     }
 
     /**
+     * 多个list合并
+     *
+     * @param list1
+     * @param args
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> toList(List<T> list1, List<T>... args) {
+        List<T> newList = new ArrayList<>();
+        newList.addAll(list1);
+
+        if (args != null && args.length != 0) {
+            for (List<T> tempList : args) {
+                newList.addAll(tempList);
+            }
+        }
+        return newList;
+    }
+
+    /**
+     * 多个list相加
+     *
+     * @param list1
+     * @param args
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> add(List<T> list1, List<T>... args) {
+        return toList(list1, args);
+    }
+
+
+    /**
      * 初始化指定大小的数组容量，超过该容量后才会扩容
      *
      * @param initialCapacity initial capacity
