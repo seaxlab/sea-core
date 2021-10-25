@@ -190,11 +190,15 @@ public final class ListUtil {
      */
     public static <T> List<T> toList(List<T> list1, List<T>... args) {
         List<T> newList = new ArrayList<>();
-        newList.addAll(list1);
+        if (isNotEmpty(list1)) {
+            newList.addAll(list1);
+        }
 
         if (args != null && args.length != 0) {
             for (List<T> tempList : args) {
-                newList.addAll(tempList);
+                if (isNotEmpty(tempList)) {
+                    newList.addAll(tempList);
+                }
             }
         }
         return newList;
@@ -406,6 +410,39 @@ public final class ListUtil {
                 downstream.combiner(),
                 downstream.finisher(),
                 downstream.characteristics().stream().toArray(Collector.Characteristics[]::new));
+    }
+
+    /**
+     * <p>
+     * convert list(A(List p)) to map[key,List[Value]]
+     * </p>
+     *
+     * @param list        data
+     * @param keyMapper   key mapper
+     * @param valueMapper value mapper
+     * @param <E>         entity
+     * @param <A>         map key type
+     * @param <B>         map value type
+     * @return
+     */
+    public static <E, A, B> Map<A, List<B>> toMapFlatList2(List<E> list,
+                                                           Function<? super E, ? extends A> keyMapper,
+                                                           Function<? super E, List<B>> valueMapper) {
+        if (isEmpty(list)) {
+            return MapUtil.empty();
+        }
+
+        return list.stream()
+                   .collect(Collectors.toMap(keyMapper, valueMapper, (old, newValue) -> {
+                       List<B> all = new ArrayList<>();
+                       if (old != null) {
+                           all.addAll(old);
+                       }
+                       if (newValue != null) {
+                           all.addAll(newValue);
+                       }
+                       return all;
+                   }));
     }
 
     /**
