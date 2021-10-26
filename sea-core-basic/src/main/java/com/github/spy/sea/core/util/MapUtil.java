@@ -129,7 +129,7 @@ public final class MapUtil {
     }
 
     /**
-     * convert list to Map<K ,List<R>>
+     * convert list to Map[K ,List[R]]
      *
      * @param list
      * @param keyMapper
@@ -139,6 +139,19 @@ public final class MapUtil {
      */
     public static <K, R> Map<K, List<R>> toMapList(List<R> list, Function<? super R, ? extends K> keyMapper) {
         return ListUtil.toMapList(list, keyMapper);
+    }
+
+    /**
+     * convert list to map [keymapper, item count]
+     *
+     * @param list
+     * @param keyMapper
+     * @param <E>
+     * @param <A>
+     * @return
+     */
+    public static <E, A> Map<A, Long> toMapCount(List<E> list, Function<? super E, ? extends A> keyMapper) {
+        return ListUtil.toMapCount(list, keyMapper);
     }
 
     /**

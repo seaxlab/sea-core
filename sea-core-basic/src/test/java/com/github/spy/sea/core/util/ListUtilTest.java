@@ -155,6 +155,22 @@ public class ListUtilTest extends BaseCoreTest {
     }
 
     @Test
+    public void testToMapCount() throws Exception {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setId((long) (i % 3));
+            user.setName("n" + i);
+            users.add(user);
+        }
+
+        log.info("users={}", users);
+        Map<Long, Long> userMap = ListUtil.toMapCount(users, user -> user.getId());
+        log.info("userMap={}", userMap);
+    }
+
+
+    @Test
     public void testToMapFlatList() throws Exception {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 10; i++) {

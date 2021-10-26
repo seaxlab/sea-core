@@ -378,6 +378,24 @@ public final class ListUtil {
     }
 
     /**
+     * to map count
+     *
+     * @param list
+     * @param keyMapper
+     * @param <E>
+     * @param <A>
+     * @return
+     */
+    public static <E, A> Map<A, Long> toMapCount(List<E> list, Function<? super E, ? extends A> keyMapper) {
+        if (isEmpty(list)) {
+            return MapUtil.empty();
+        }
+
+        return list.stream()
+                   .collect(Collectors.groupingBy(keyMapper, Collectors.counting()));
+    }
+
+    /**
      * <p>
      * convert list(A(List p)) to map[key,List[Value]]
      * </p>
