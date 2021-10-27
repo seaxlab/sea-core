@@ -334,6 +334,17 @@ public final class EqualUtil {
         return !isEq(str1, str2, caseSensitive);
     }
 
+
+    // -----------------------isIn
+    //TODO enable
+//
+//    public static <E> boolean isIn(E value, Collection<E> values) {
+//        if (value == null || values == null) {
+//            return false;
+//        }
+//        return values.stream().anyMatch(item -> item == value);
+//    }
+
     /**
      * 判断当前字符是否在数组中
      *
@@ -404,6 +415,18 @@ public final class EqualUtil {
     }
 
     public static boolean isNotIn(String value, List<String> values) {
+        return !isIn(value, values);
+    }
+
+    public static boolean isIn(String value, Set<String> values) {
+        if (value == null || values == null) {
+            log.warn("value or values is null");
+            return false;
+        }
+        return values.stream().anyMatch(item -> isEq(item, value));
+    }
+
+    public static boolean isNotIn(String value, Set<String> values) {
         return !isIn(value, values);
     }
 
