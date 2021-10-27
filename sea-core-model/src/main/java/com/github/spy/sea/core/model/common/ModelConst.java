@@ -139,6 +139,7 @@ public final class ModelConst {
     public static final String SCENE = "scene";
     public static final String SCENE_NAME = "sceneName";
     public static final String ACTION = "action";
+    public static final String ACTION_TYPE = "actionType";
     public static final String ACTION_NAME = "actionName";
 
     public static final String STRATEGY = "strategy";
