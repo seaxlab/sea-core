@@ -7,9 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -633,6 +631,51 @@ public final class ListUtil {
         list.set(i, list.set(j, list.get(i)));
     }
 
+    /**
+     * sum
+     *
+     * @param data
+     * @param mapper
+     * @param <T>
+     * @return
+     */
+    public static <T> int sum(List<T> data, ToIntFunction<? super T> mapper) {
+        if (isEmpty(data)) {
+            return 0;
+        }
+        return data.stream().mapToInt(mapper).sum();
+    }
+
+    /**
+     * sum
+     *
+     * @param data
+     * @param mapper
+     * @param <T>
+     * @return
+     */
+    public static <T> long sum(List<T> data, ToLongFunction<? super T> mapper) {
+        if (isEmpty(data)) {
+            return 0;
+        }
+        return data.stream().mapToLong(mapper).sum();
+    }
+
+    /**
+     * sum
+     *
+     * @param data
+     * @param mapper
+     * @param <T>
+     * @return
+     */
+    public static <T> double sum(List<T> data, ToDoubleFunction<? super T> mapper) {
+        if (isEmpty(data)) {
+            return 0;
+        }
+        return data.stream().mapToDouble(mapper).sum();
+    }
+
 
     /**
      * 分页
@@ -691,6 +734,4 @@ public final class ListUtil {
 
         return listSort;
     }
-
-
 }

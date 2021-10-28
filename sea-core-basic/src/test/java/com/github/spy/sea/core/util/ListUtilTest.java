@@ -386,4 +386,19 @@ public class ListUtilTest extends BaseCoreTest {
         ListUtil.removeNull(list);
         log.info("list={}, after remove null", list);
     }
+
+    @Test
+    public void testSum() throws Exception {
+        int sum = 0;
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setAge(i);
+            users.add(user);
+
+            sum += i;
+        }
+
+        log.info("list sum={}, our sum={}", ListUtil.sum(users, User::getAge), sum);
+    }
 }
