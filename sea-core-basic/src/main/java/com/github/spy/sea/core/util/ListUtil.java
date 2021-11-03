@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.common.SymbolConst;
+import com.github.spy.sea.core.exception.Precondition;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -629,6 +630,15 @@ public final class ListUtil {
      */
     public static <E> void swap(List<E> list, int i, int j) {
         list.set(i, list.set(j, list.get(i)));
+    }
+
+    public static <E> void swap(List<E> list1, List<E> list2) {
+        Precondition.checkNotEmpty(list1, "list1不能为空");
+        Precondition.checkNotEmpty(list2, "list2不能为空");
+
+        List<E> tmp = list2;
+        list2 = list1;
+        list1 = tmp;
     }
 
     /**

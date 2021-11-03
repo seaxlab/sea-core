@@ -401,4 +401,10 @@ public class ListUtilTest extends BaseCoreTest {
 
         log.info("list sum={}, our sum={}", ListUtil.sum(users, User::getAge), sum);
     }
+
+    @Test
+    public void testSum2() throws Exception {
+        List<User> users = new ArrayList<>();
+        log.info("sum={}", ListUtil.sum(users, User::getAge));
+    }
 }

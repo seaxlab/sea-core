@@ -2,6 +2,7 @@ package com.github.spy.sea.core.spring.web.util;
 
 import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.util.StringUtil;
+import com.github.spy.sea.core.web.common.WebConst;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -150,6 +151,24 @@ public final class RequestUtil {
         }
 
         return sb.toString();
+    }
+
+
+    /**
+     * get client ip address
+     *
+     * @param request
+     * @return
+     */
+    public static String getClientIpAddress(ServerHttpRequest request) {
+        HttpHeaders httpHeaders = request.getHeaders();
+        for (String header : WebConst.IP_HEADER_CANDIDATES) {
+            String ip = httpHeaders.getFirst(header);
+            if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+                return ip;
+            }
+        }
+        return request.getRemoteAddress().getAddress().getHostAddress();
     }
 
 }

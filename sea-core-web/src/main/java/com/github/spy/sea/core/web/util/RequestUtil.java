@@ -5,6 +5,7 @@ import com.github.spy.sea.core.http.common.HttpHeaderConst;
 import com.github.spy.sea.core.util.IOUtil;
 import com.github.spy.sea.core.util.RandomUtil;
 import com.github.spy.sea.core.util.StringUtil;
+import com.github.spy.sea.core.web.common.WebConst;
 import com.github.spy.sea.core.web.model.RequestDTO;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
@@ -402,19 +403,6 @@ public class RequestUtil {
     }
 
 
-    private static final String[] IP_HEADER_CANDIDATES = {
-            "X-Forwarded-For",
-            "Proxy-Client-IP",
-            "WL-Proxy-Client-IP",
-            "HTTP_X_FORWARDED_FOR",
-            "HTTP_X_FORWARDED",
-            "HTTP_X_CLUSTER_CLIENT_IP",
-            "HTTP_CLIENT_IP",
-            "HTTP_FORWARDED_FOR",
-            "HTTP_FORWARDED",
-            "HTTP_VIA",
-            "REMOTE_ADDR"};
-
     /**
      * get client ip address
      *
@@ -422,7 +410,7 @@ public class RequestUtil {
      * @return
      */
     public static String getClientIpAddress(HttpServletRequest request) {
-        for (String header : IP_HEADER_CANDIDATES) {
+        for (String header : WebConst.IP_HEADER_CANDIDATES) {
             String ip = request.getHeader(header);
             if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
                 return ip;
