@@ -54,6 +54,54 @@ public final class NumberUtil {
     }
 
     /**
+     * 判断是否正数
+     *
+     * @param value
+     * @return
+     */
+    public static boolean isPositive(Long value) {
+        if (value == null || value.longValue() <= 0) {
+            return false;
+        }
+        return true;
+    }
+
+
+    public static boolean isPositive(Integer value) {
+        if (value == null || value.intValue() <= 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 判断是否是负数
+     *
+     * @param value
+     * @return
+     */
+    public static boolean isNegative(Long value) {
+        if (value == null || value.longValue() >= 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 判断是否是负数
+     *
+     * @param value
+     * @return
+     */
+    public static boolean isNegative(Integer value) {
+        if (value == null || value.intValue() >= 0) {
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
      * integer to BigDecimal
      *
      * @param value
