@@ -32,11 +32,22 @@ public final class BirthdayUtil {
      * @return
      */
     public static long getAge(Date birthday) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy");
-        String year = df.format(birthday);
-        String nowYear = df.format(new Date());
+        if (birthday == null) {
+            log.warn("birthday is null");
+            return 0;
+        }
 
-        return Integer.parseInt(nowYear) - Integer.parseInt(year);
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy");
+            String year = df.format(birthday);
+            String nowYear = df.format(new Date());
+
+            return Integer.parseInt(nowYear) - Integer.parseInt(year);
+        } catch (Exception e) {
+            log.error("fail to parse", e);
+        }
+
+        return 0;
     }
 
     /**
@@ -46,6 +57,11 @@ public final class BirthdayUtil {
      * @return
      */
     public static long getMonths(Date birthday) {
+        if (birthday == null) {
+            log.warn("birthday is null");
+            return 0;
+        }
+
         String birthdayStr2 = DateUtil.toString(birthday, DateUtil.DAY_FORMAT);
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -63,6 +79,11 @@ public final class BirthdayUtil {
      * @return
      */
     public static long getDays(Date birthday) {
+        if (birthday == null) {
+            log.warn("birthday is null");
+            return 0;
+        }
+
         String birthdayStr2 = DateUtil.toString(birthday, DateUtil.DAY_FORMAT);
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");

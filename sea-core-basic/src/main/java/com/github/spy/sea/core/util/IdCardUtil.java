@@ -193,36 +193,46 @@ public class IdCardUtil {
             log.warn("card number length is not {} or {}, so return null", OLD_CARD_NUMBER_LENGTH, NEW_CARD_NUMBER_LENGTH);
             return "";
         }
-
-        String birthday = idNo.substring(6, 14);
-        StringBuilder sb = new StringBuilder(birthday);
-        sb.insert(6, "-");
-        sb.insert(4, "-");
-        return sb.toString();
+        try {
+            String birthday = idNo.substring(6, 14);
+            StringBuilder sb = new StringBuilder(birthday);
+            sb.insert(6, "-");
+            sb.insert(4, "-");
+            return sb.toString();
+        } catch (Exception e) {
+            log.error("fail to parse IdNo={}", idNo, e);
+        }
+        return "";
     }
 
     /**
      * 获取出生年月日
      *
-     * @param cardNumber
+     * @param idNo
      * @return
      */
-    public static Date getBirthdayDate(String cardNumber) {
-        if (cardNumber == null || cardNumber.isEmpty()) {
+    public static Date getBirthdayDate(String idNo) {
+        if (idNo == null || idNo.isEmpty()) {
             return null;
         }
 
-        if (cardNumber.length() == OLD_CARD_NUMBER_LENGTH || cardNumber.length() == NEW_CARD_NUMBER_LENGTH) {
+        if (idNo.length() == OLD_CARD_NUMBER_LENGTH || idNo.length() == NEW_CARD_NUMBER_LENGTH) {
         } else {
             log.warn("card number length is not {} or {}, so return null", OLD_CARD_NUMBER_LENGTH, NEW_CARD_NUMBER_LENGTH);
             return null;
         }
 
-        String year = cardNumber.substring(6, 10);
-        String month = cardNumber.substring(10, 12);
-        String day = cardNumber.substring(12, 14);
+        try {
+            String year = idNo.substring(6, 10);
+            String month = idNo.substring(10, 12);
+            String day = idNo.substring(12, 14);
 
-        return DateUtil.strDate(year + month + day, DateUtil.DAY_FORMAT2);
+            return DateUtil.strDate(year + month + day, DateUtil.DAY_FORMAT2);
+        } catch (Exception e) {
+            log.error("fail to parse idNo={}", idNo, e);
+        }
+
+        return null;
     }
 
     /**
