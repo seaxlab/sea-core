@@ -15,4 +15,12 @@ import java.io.Serializable;
 public class KeyValuePair<K, V> implements Serializable {
     private K key;
     private V value;
+
+
+    public static <K, V> KeyValuePair<K, V> of(K k, V v) {
+        KeyValuePair<K, V> kv = new KeyValuePair<>();
+        kv.setKey(k);
+        kv.setValue(v);
+        return kv;
+    }
 }

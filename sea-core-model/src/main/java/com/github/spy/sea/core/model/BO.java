@@ -9,5 +9,6 @@ import java.io.Serializable;
  * @version 1.0 11/17/20
  * @since 1.0
  */
+@Deprecated// 禁止使用BO
 public class BO implements Serializable {
 }
