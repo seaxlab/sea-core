@@ -730,7 +730,7 @@ public final class ListUtil {
             return empty();
         }
 
-        List<T> listSort;
+        List<T> part;
         int size = data.size();
         int pageStart = pageNum == 1 ? 0 : (pageNum - 1) * pageSize;//截取的开始位置
         int pageEnd = size < pageNum * pageSize ? size : pageNum * pageSize;//截取的结束位置
@@ -738,11 +738,11 @@ public final class ListUtil {
         if (pageStart < size) {
             // page start include
             // page end exclude
-            listSort = data.subList(pageStart, pageEnd);
+            part = data.subList(pageStart, pageEnd);
         } else {
-            listSort = empty();
+            part = empty();
         }
 
-        return listSort;
+        return part;
     }
 }
