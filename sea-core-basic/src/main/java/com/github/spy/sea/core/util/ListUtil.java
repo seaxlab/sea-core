@@ -706,9 +706,10 @@ public final class ListUtil {
                 break;
             }
             if (subList.size() < pageSize) {
-                break;
+                hasNext = false;
             }
             list.add(subList);
+            pageNum++;
         }
 
         return list;

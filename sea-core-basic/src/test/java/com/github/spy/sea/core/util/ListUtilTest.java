@@ -306,6 +306,14 @@ public class ListUtilTest extends BaseCoreTest {
         log.info("{}", ListUtil.distinctObj(users2, User::getId));
     }
 
+    @Test
+    public void testPage1() throws Exception {
+        List<Integer> data = new ArrayList<>();
+        for (int i = 0; i < 23; i++) {
+            data.add(i);
+        }
+        log.info("{}", ListUtil.page(data, 10));
+    }
 
     @Test
     public void testPage() throws Exception {
