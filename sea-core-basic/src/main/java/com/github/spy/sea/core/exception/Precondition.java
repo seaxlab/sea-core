@@ -4,6 +4,7 @@ import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * custom precondition check.
@@ -51,6 +52,18 @@ public final class Precondition {
 
     public static void checkNotEmpty(Collection collection, String errorCode, String errorMsg) {
         if (collection == null || collection.isEmpty()) {
+            ExceptionHandler.publish(errorCode, errorMsg);
+        }
+    }
+
+    public static void checkNotEmpty(Map data, String errorMsg) {
+        if (data == null || data.isEmpty()) {
+            ExceptionHandler.publish(errorMsg);
+        }
+    }
+
+    public static void checkNotEmpty(Map data, String errorCode, String errorMsg) {
+        if (data == null || data.isEmpty()) {
             ExceptionHandler.publish(errorCode, errorMsg);
         }
     }
