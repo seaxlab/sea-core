@@ -160,6 +160,12 @@ public final class ModelConst {
     public static final String COUNT = "count";
     public static final String SIZE = "size";
 
+    public static final String TOKEN = "token";
+    public static final String ACCESS_TOKEN = "accessToken";
+    public static final String REFRESH_TOKEN = "refreshToken";
+
+    public static final String MOBILE = "mobile";
+    public static final String PHONE = "phone";
 
     // value
     public static final String REMARK_EMPTY = "-";
