@@ -111,7 +111,7 @@ public class ListUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void toMapTest() throws Exception {
+    public void testToMap() throws Exception {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             User user = new User();
@@ -123,6 +123,44 @@ public class ListUtilTest extends BaseCoreTest {
         Map<Long, User> userMap = ListUtil.toMap(users, user -> user.getId());
         log.info("{}", userMap);
     }
+
+    @Test
+    public void testToMap2Error() throws Exception {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setId((long) i);
+            user.setName("n" + i);
+            users.add(user);
+        }
+        User user = new User();
+        user.setId((long) 0);
+        user.setName("n" + 0);
+        users.add(user);
+
+        Map<Long, User> userMap = ListUtil.toMap(users, item -> item.getId());
+        log.info("{}", userMap);
+        //java.lang.IllegalStateException: Duplicate key User(id=0, name=n0, age=0, roles=null, roleCodes=null, isSuc=false, isUsed=null, group=null)
+    }
+
+    @Test
+    public void testToDistinctMap() throws Exception {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setId((long) i);
+            user.setName("n" + i);
+            users.add(user);
+        }
+        User user = new User();
+        user.setId((long) 0);
+        user.setName("n" + 0);
+        users.add(user);
+
+        Map<Long, User> userMap = ListUtil.toDistinctMap(users, item -> item.getId());
+        log.info("{}", userMap);
+    }
+
 
     @Test
     public void toMapListTest() throws Exception {

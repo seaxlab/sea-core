@@ -333,6 +333,24 @@ public final class ListUtil {
                    .collect(Collectors.toMap(keyMapper, Function.identity()));
     }
 
+    /**
+     * to distinct map if have multi [unique key]
+     *
+     * @param list
+     * @param keyMapper
+     * @param <K>
+     * @param <R>
+     * @return
+     */
+    public static <K, R> Map<K, R> toDistinctMap(List<R> list, Function<? super R, ? extends K> keyMapper) {
+        if (isEmpty(list)) {
+            return MapUtil.empty();
+        }
+        return list.stream()
+                   .collect(Collectors.toMap(keyMapper, Function.identity(), (o1, o2) -> o1));
+    }
+
+
     public static <K, R> Map<K, R> toMap(List<R> list, Predicate<? super R> predicate, Function<? super R, ? extends K> keyMapper) {
         if (isEmpty(list)) {
             return MapUtil.empty();
