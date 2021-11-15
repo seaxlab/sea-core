@@ -1719,6 +1719,51 @@ public final class DateUtil {
         return !(flag1 || flag2);
     }
 
+    /**
+     * 获取当前时间所在月的开始日期和结束日期
+     *
+     * @return
+     */
+    public static Date[] getBeginAndEndOfMonth() {
+        return getBeginAndEndOfMonth(0);
+    }
+
+    /**
+     * 获取当前时间所在月的开始日期和结束日期
+     *
+     * @param offset 偏移量  0本月，-1上月，-2上上月，1下月，2下下月；依次类推
+     * @return
+     */
+    public static Date[] getBeginAndEndOfMonth(int offset) {
+        return getBeginAndEndOfMonth(new Date(), offset);
+    }
+
+    /**
+     * 获取当前时间所在月的开始日期和结束日期
+     *
+     * @param date   指定日期
+     * @param offset 偏移量  0本月，-1上月，-2上上月，1下月，2下下月；依次类推
+     * @return
+     */
+    public static Date[] getBeginAndEndOfMonth(Date date, int offset) {
+        DateTime dateTime;
+        if (date == null) {
+            dateTime = new DateTime();
+        } else {
+            dateTime = new DateTime(date.getTime());
+        }
+
+        LocalDate localDate = new LocalDate(dateTime.plusMonths(offset));
+        Date beginDate = localDate.dayOfMonth().withMinimumValue().toDate();
+
+
+        org.joda.time.LocalDateTime localDateTime = new org.joda.time.LocalDateTime(dateTime.plusMonths(offset));
+        Date endDate = localDateTime.dayOfMonth()
+                                    .withMaximumValue()
+                                    .withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999)
+                                    .toDate();
+        return new Date[]{beginDate, endDate};
+    }
 
     /**
      * 获取当前时间所在周的开始日期和结束日期

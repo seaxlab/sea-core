@@ -247,4 +247,13 @@ public class DateUtilTest extends BaseCoreTest {
         log.info("date={}", date);
     }
 
+    @Test
+    public void testGetBeginAndEndOfMonth() throws Exception {
+        Date[] dates = DateUtil.getBeginAndEndOfMonth(new Date(), 0);
+        log.info("{},{}", dates[0], dates[1]);
+
+        dates = DateUtil.getBeginAndEndOfMonth(new Date(), 1);
+        log.info("{},{}", dates[0], dates[1]);
+    }
+
 }
