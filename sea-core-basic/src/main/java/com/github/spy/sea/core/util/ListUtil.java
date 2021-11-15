@@ -215,6 +215,20 @@ public final class ListUtil {
         return toList(list1, args);
     }
 
+    /**
+     * add all if necessary.
+     *
+     * @param allList
+     * @param part
+     * @param <T>
+     */
+    public static <T> void addAllIfNecessary(List<T> allList, List<T> part) {
+        Precondition.checkNotNull(allList);
+        if (isNotEmpty(part)) {
+            allList.addAll(part);
+        }
+    }
+
 
     /**
      * 初始化指定大小的数组容量，超过该容量后才会扩容

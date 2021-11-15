@@ -415,4 +415,23 @@ public class ListUtilTest extends BaseCoreTest {
         List<User> users = new ArrayList<>();
         log.info("sum={}", ListUtil.sum(users, User::getAge));
     }
+
+    @Test
+    public void testAddAllError() throws Exception {
+        List<Integer> all = new ArrayList<>();
+        all.add(1);
+        List<Integer> part = Collections.EMPTY_LIST;
+        all.addAll(part);
+        log.info("all={}", all);
+    }
+
+    @Test
+    public void testAddAllIfNecessary() throws Exception {
+        List<Integer> all = new ArrayList<>();
+        all.add(1);
+        List<Integer> part = Collections.EMPTY_LIST;
+
+        ListUtil.addAllIfNecessary(all, part);
+        log.info("all={}", all);
+    }
 }
