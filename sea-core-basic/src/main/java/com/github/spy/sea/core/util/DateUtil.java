@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.enums.RangeModeEnum;
 import com.github.spy.sea.core.enums.WeekEnum;
 import com.github.spy.sea.core.exception.ExceptionHandler;
+import com.github.spy.sea.core.exception.Precondition;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
@@ -1764,6 +1765,24 @@ public final class DateUtil {
                                     .toDate();
         return new Date[]{beginDate, endDate};
     }
+
+    public static Date getBeginOfMonth(Date date) {
+        Precondition.checkNotNull(date, "date不能为空");
+
+        LocalDate localDate = new LocalDate(date.getTime());
+        return localDate.dayOfMonth().withMinimumValue().toDate();
+    }
+
+    public static Date getEndOfMonth(Date date) {
+        Precondition.checkNotNull(date, "date不能为空");
+
+        org.joda.time.LocalDateTime localDateTime = new org.joda.time.LocalDateTime(date.getTime());
+        return localDateTime.dayOfMonth()
+                            .withMaximumValue()
+                            .withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999)
+                            .toDate();
+    }
+
 
     /**
      * 获取当前时间所在周的开始日期和结束日期
