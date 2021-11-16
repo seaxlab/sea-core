@@ -116,4 +116,16 @@ public class NumberUtilTest extends BaseCoreTest {
         Assert.assertEquals(20, NumberUtil.convert62To10("k"));
 
     }
+
+    @Test
+    public void testRatio() throws Exception {
+        log.info("{}", NumberUtil.ratio(10, 30));
+    }
+
+    @Test
+    public void testComparisonRatio() throws Exception {
+        log.info("{}", NumberUtil.comparisonRatio(10, 30));
+
+    }
 }
+

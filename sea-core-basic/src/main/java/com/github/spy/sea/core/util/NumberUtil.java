@@ -589,4 +589,64 @@ public final class NumberUtil {
         return String.valueOf(value).length();
     }
 
+
+    /**
+     * 百分比
+     *
+     * @param part
+     * @param total
+     * @return x.xxx
+     */
+    public static BigDecimal ratio(long part, long total) {
+        return divide(part, total, 2, RoundingMode.DOWN);
+    }
+
+    /**
+     * 百分比, toString or doubleValue()
+     *
+     * @param part
+     * @param total
+     * @param scale
+     * @param roundingMode
+     * @return x.xxx
+     */
+    public static BigDecimal ratio(long part, long total, int scale, RoundingMode roundingMode) {
+        if (scale < 0) {
+            scale = 2;
+        }
+        if (roundingMode == null) {
+            roundingMode = RoundingMode.DOWN;
+        }
+        return divide(part, total, scale, roundingMode);
+    }
+
+    /**
+     * 同环比
+     *
+     * @param before
+     * @param now
+     * @return x.xx
+     */
+    public static BigDecimal comparisonRatio(long before, long now) {
+        return comparisonRatio(before, now, 2, RoundingMode.DOWN);
+    }
+
+    /**
+     * 同环比, toString or doubleValue()
+     *
+     * @param before
+     * @param now
+     * @param scale
+     * @param roundingMode
+     * @return x.xx
+     */
+    public static BigDecimal comparisonRatio(long before, long now, int scale, RoundingMode roundingMode) {
+        if (scale < 0) {
+            scale = 2;
+        }
+        if (roundingMode == null) {
+            roundingMode = RoundingMode.DOWN;
+        }
+        return divide(now - before, before, scale, roundingMode);
+    }
 }
