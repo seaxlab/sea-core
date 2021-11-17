@@ -45,4 +45,10 @@ public class ObjectUtilTest extends BaseCoreTest {
         log.info("remark={}", user.getRemark());
     }
 
+    @Test
+    public void test2() throws Exception {
+        User user = new User();
+        log.info("user={}", user);
+    }
+
 }

@@ -28,6 +28,8 @@ public class User {
 
     private String remark;
 
+    private String remark2 = "abc";
+
     public User() {
     }
 
