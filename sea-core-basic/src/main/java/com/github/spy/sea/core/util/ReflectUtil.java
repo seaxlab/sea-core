@@ -63,7 +63,7 @@ public final class ReflectUtil {
     public static Object readStatic(final Class<?> clz, String fieldName) {
         try {
             return FieldUtils.readStaticField(clz, fieldName, true);
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             log.error("fail to read static field", e);
         }
         return null;
@@ -79,7 +79,7 @@ public final class ReflectUtil {
     public static Object read(final Object target, final String fieldName) {
         try {
             return FieldUtils.readField(target, fieldName, true);
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             log.error("fail to read field name", e);
         }
         return null;
@@ -93,9 +93,49 @@ public final class ReflectUtil {
      * @return
      */
     public static String readAsString(final Object target, final String fieldName) {
-        Object obj = read(target, fieldName);
+        Object value = read(target, fieldName);
 
-        return obj == null ? null : obj.toString();
+        return value == null ? null : value.toString();
+    }
+
+    /**
+     * get As Integer.
+     *
+     * @param target
+     * @param fieldName
+     * @return
+     */
+    public static Integer readAsInteger(final Object target, final String fieldName) {
+        Object value = read(target, fieldName);
+
+        if (value != null) {
+            try {
+                return (Integer) value;
+            } catch (Exception e) {
+                log.error("fail to convert to Long", e);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * get As Long.
+     *
+     * @param target
+     * @param fieldName
+     * @return
+     */
+    public static Long readAsLong(final Object target, final String fieldName) {
+        Object value = read(target, fieldName);
+
+        if (value != null) {
+            try {
+                return (Long) value;
+            } catch (Exception e) {
+                log.error("fail to convert to Long", e);
+            }
+        }
+        return null;
     }
 
 
@@ -119,8 +159,8 @@ public final class ReflectUtil {
 
 
             FieldUtils.writeField(target, fieldName, finalValue, true);
-        } catch (IllegalAccessException e) {
-            log.error("赋值失败", e);
+        } catch (Exception e) {
+            log.error("fail to write value", e);
         }
     }
 

@@ -1,6 +1,8 @@
 package com.github.spy.sea.core.mybatis.util;
 
+import com.github.pagehelper.PageHelper;
 import com.github.spy.sea.core.exception.ExceptionHandler;
+import com.github.spy.sea.core.util.ListUtil;
 import com.github.spy.sea.core.util.ReflectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.binding.MapperProxy;
@@ -8,6 +10,8 @@ import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * module name
@@ -19,6 +23,7 @@ import java.lang.reflect.Proxy;
 @Slf4j
 public final class MapperUtil {
 
+    private static final int DEFAULT_DELETE_PAGE_SIZE = 500;
 
     /**
      * check code.
@@ -248,4 +253,85 @@ public final class MapperUtil {
         return baseUpdateSelective(record, mapper, key, value);
     }
 
+    /**
+     * 分页删除数据
+     *
+     * @param clazz
+     * @param mapper
+     * @param example
+     * @param <T>
+     * @return
+     */
+    public static <T> boolean delete(Class<?> clazz, Mapper<T> mapper, Example example) {
+        return delete(clazz, mapper, example, DEFAULT_DELETE_PAGE_SIZE);
+    }
+
+    /**
+     * 分页删除数据
+     *
+     * @param clazz
+     * @param mapper
+     * @param example
+     * @param pageSize
+     * @param <T>
+     * @return
+     */
+    public static <T> boolean delete(Class<?> clazz, Mapper<T> mapper, Example example, int pageSize) {
+        if (clazz == null || mapper == null || example == null) {
+            log.warn("clazz or mapper or example is null");
+            return false;
+        }
+        int count = mapper.selectCountByExample(example);
+        log.info("to be delete {} record count={}", clazz.getSimpleName(), count);
+
+        if (count <= 0) {
+            return true;
+        }
+
+        if (pageSize <= 0) {
+            pageSize = DEFAULT_DELETE_PAGE_SIZE;
+        }
+
+        // lets delete them.
+        example.selectProperties("id");
+        int loopCount = 0;
+        boolean hasNext = true;
+        while (hasNext) {
+            loopCount++;
+            log.info("{} loop count={}", clazz.getSimpleName(), loopCount);
+
+            PageHelper.startPage(1, pageSize, false);
+            List<T> records = mapper.selectByExample(example);
+            if (ListUtil.isEmpty(records)) {
+                log.info("{} records is empty, so end.", clazz.getSimpleName());
+                hasNext = false;
+                break;
+            }
+            if (records.size() < pageSize) {
+                log.info("{} records size {} < {}, so will end loop", clazz.getSimpleName(), records.size(), pageSize);
+                hasNext = false;
+            }
+            List<Long> ids = new ArrayList<>();
+
+            for (T record : records) {
+                Long id = ReflectUtil.readAsLong(record, "id");
+                if (id == null) {
+                    continue;
+                }
+                ids.add(id);
+            }
+            if (ListUtil.isEmpty(ids)) {
+                log.warn("delete {} ids is empty, plz check.", clazz.getSimpleName());
+                return true;
+            }
+
+            Example deleteExample = new Example(clazz);
+            Example.Criteria deleteCriteria = deleteExample.createCriteria();
+            ExampleUtil.set(deleteCriteria, "id", ids);
+            int rowCount = mapper.deleteByExample(deleteExample);
+            log.info("delete {} count={}", clazz.getSimpleName(), rowCount);
+        }
+
+        return true;
+    }
 }
