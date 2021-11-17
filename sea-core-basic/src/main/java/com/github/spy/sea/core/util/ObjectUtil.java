@@ -142,4 +142,25 @@ public final class ObjectUtil {
             }
         }
     }
+
+    public static void truncateStr(Object obj, String field, int maxLength) {
+        if (obj == null) {
+            return;
+        }
+        if (StringUtil.isBlank(field)) {
+            return;
+        }
+
+        try {
+            String remark = ReflectUtil.readAsString(obj, field);
+            if (StringUtil.isNotBlank(remark)) {
+                if (remark.length() > maxLength) {
+                    String newRemark = StringUtil.left(remark, maxLength);
+                    ReflectUtil.write(obj, field, newRemark);
+                }
+            }
+        } catch (Exception e) {
+            log.error("fail to truncate remark.", e);
+        }
+    }
 }

@@ -26,6 +26,8 @@ public class User {
 
     private Group group;
 
+    private String remark;
+
     public User() {
     }
 

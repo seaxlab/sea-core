@@ -36,4 +36,13 @@ public class ObjectUtilTest extends BaseCoreTest {
         log.info("after set properties, user={}", user);
     }
 
+    @Test
+    public void testTruncateStr() throws Exception {
+        User user = new User();
+        user.setRemark("asdfghjkl;");
+
+        ObjectUtil.truncateStr(user, "remark", 5);
+        log.info("remark={}", user.getRemark());
+    }
+
 }
