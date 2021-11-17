@@ -112,7 +112,7 @@ public final class ReflectUtil {
             try {
                 return (Integer) value;
             } catch (Exception e) {
-                log.error("fail to convert to Long", e);
+                log.error("fail to convert to Integer", e);
             }
         }
         return null;
