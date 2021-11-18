@@ -14,6 +14,12 @@ import org.junit.Test;
  */
 @Slf4j
 public class StringUtilTest extends BaseCoreTest {
+
+    @Test
+    public void testIsNullStr() throws Exception {
+        Assert.assertTrue(StringUtil.isNullStr("nuLL"));
+    }
+
     @Test
     public void run16() throws Exception {
 

@@ -32,16 +32,32 @@ public final class StringUtil {
      */
     public static final String SPACE = " ";
 
+    public static final String STR_NULL = "null";
+
     private static final String[] EMPTY_STRING_ARRAY = {};
 
     private StringUtil() {
     }
 
     /**
+     * check is 'null', 不区分大小写
+     *
+     * @param value str
+     * @return boolean
+     */
+    public static boolean isNullStr(String value) {
+        if (value == null) {
+            return false;
+        }
+
+        return value.trim().equalsIgnoreCase(STR_NULL);
+    }
+
+    /**
      * 字符串是否为空
      *
-     * @param params
-     * @return
+     * @param params objs
+     * @return boolean
      */
     public static boolean isAllEmpty(Object... params) {
 
@@ -56,8 +72,8 @@ public final class StringUtil {
     /**
      * 判断对象全不为空
      *
-     * @param params
-     * @return
+     * @param params objs
+     * @return boolean
      */
     public static boolean isAllNotEmpty(Object... params) {
         for (Object param : params) {
@@ -71,8 +87,8 @@ public final class StringUtil {
     /**
      * 字符串是否为空
      *
-     * @param params
-     * @return
+     * @param params objs
+     * @return boolean
      */
     public static boolean isEmpty(Object... params) {
 
@@ -96,8 +112,8 @@ public final class StringUtil {
     /**
      * 必须全部不为空
      *
-     * @param strs
-     * @return
+     * @param strs strs
+     * @return boolean
      */
     public static boolean isAllBlank(String... strs) {
         for (String str : strs) {
@@ -126,8 +142,8 @@ public final class StringUtil {
     /**
      * 字符串是否不为空
      *
-     * @param params
-     * @return
+     * @param params str
+     * @return boolean
      */
     public static boolean isNotEmpty(Object... params) {
 
@@ -142,9 +158,9 @@ public final class StringUtil {
     /**
      * join the string by separator.
      *
-     * @param separator
-     * @param strs
-     * @return
+     * @param separator str
+     * @param strs      str
+     * @return boolean
      */
     public static String join(String separator, String... strs) {
         Preconditions.checkState(isNotEmpty(separator), "separator cannot be null");
@@ -152,8 +168,7 @@ public final class StringUtil {
             return "";
         }
         StringBuilder strBuilder = new StringBuilder();
-        for (int i = 0; i < strs.length; i++) {
-            String str = strs[i];
+        for (String str : strs) {
             if (isNotEmpty(str)) {
                 if (strBuilder.toString().length() != 0) {
                     strBuilder.append(separator);
@@ -168,20 +183,20 @@ public final class StringUtil {
     /**
      * 字符串左侧补零
      *
-     * @param obj
-     * @param strLength
-     * @return
+     * @param obj       obj
+     * @param strLength str length
+     * @return string
      */
     public static String addZeroLeft(Object obj, int strLength) {
         String str = obj == null ? "" : obj.toString();
         int strLen = str.length();
         if (strLen < strLength) {
             while (strLen < strLength) {
-                StringBuilder sb = new StringBuilder();
                 // 左补0
-                sb.append("0").append(str);
                 // sb.append(str).append("0");//右补0
-                str = sb.toString();
+                str = "0" + str
+                // sb.append(str).append("0");//右补0
+                ;
                 strLen = str.length();
             }
         }
@@ -202,7 +217,7 @@ public final class StringUtil {
         for (Object object : set) {
             if (object instanceof String || object instanceof Long || object instanceof Integer) {
                 if (isNotEmpty(object.toString())) {
-                    sb.append(object.toString()).append(",");
+                    sb.append(object).append(",");
                 }
             }
         }
@@ -327,10 +342,6 @@ public final class StringUtil {
         return null;
     }
 
-    /**
-     * @param originalName
-     * @return
-     */
 //    public static String toCamelCase(String originalName) {
 //        String[] words = originalName.split("-+");
 //        StringBuilder nameBuilder = new StringBuilder(originalName.length());
@@ -558,7 +569,7 @@ public final class StringUtil {
      *
      * @param str
      * @param separatorChar
-     * @return
+     * @return iterable
      */
     public static Iterable<String> splitToIterable(String str, char separatorChar) {
         if (StringUtils.isEmpty(str)) {
@@ -769,9 +780,9 @@ public final class StringUtil {
     /**
      * （大小写敏感）
      *
-     * @param str
-     * @param suffixArray
-     * @return
+     * @param str         str
+     * @param suffixArray suffix array
+     * @return boolean
      */
     public static boolean endsWith(String str, String... suffixArray) {
         return endsWith(str, true, suffixArray);
@@ -780,10 +791,10 @@ public final class StringUtil {
     /**
      * 判断是否以指定的suffix结束
      *
-     * @param str
-     * @param caseSensitive
-     * @param suffixArray
-     * @return
+     * @param str           str
+     * @param caseSensitive case sentitive
+     * @param suffixArray   suffixs
+     * @return boolean
      */
     public static boolean endsWith(String str, boolean caseSensitive, String... suffixArray) {
         return Stream.of(suffixArray).anyMatch(item -> caseSensitive ? str.endsWith(item) : str.toLowerCase().endsWith(item.toLowerCase()));
@@ -795,7 +806,7 @@ public final class StringUtil {
      * @param str       原始字符串
      * @param offset    偏移量
      * @param character 新字符
-     * @return
+     * @return str
      */
     public static String insert(String str, int offset, Character character) {
         StringBuilder builder = new StringBuilder(str);
@@ -809,7 +820,7 @@ public final class StringUtil {
      * @param str    原始字符串
      * @param offset 偏移量
      * @param newStr 新字符
-     * @return
+     * @return string
      */
     public static String insert(String str, int offset, String newStr) {
         StringBuilder builder = new StringBuilder(str);
