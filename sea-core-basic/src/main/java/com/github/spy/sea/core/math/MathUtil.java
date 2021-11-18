@@ -6,6 +6,9 @@ import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.util.SetUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,6 +24,50 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public final class MathUtil {
+
+    /**
+     * get min value
+     *
+     * @param numbers
+     * @return
+     */
+    public static BigDecimal min(Number... numbers) {
+        if (numbers == null || numbers.length == 0) {
+            return null;
+        }
+
+        List<BigDecimal> list = new ArrayList<>(numbers.length);
+        for (Number item : numbers) {
+            if (item == null) {
+                continue;
+            }
+            list.add(new BigDecimal(item.toString()));
+        }
+        list.sort(Comparator.comparing(BigDecimal::doubleValue));
+        return list.get(0);
+    }
+
+    /**
+     * get max value.
+     *
+     * @param numbers
+     * @return
+     */
+    public static BigDecimal max(Number... numbers) {
+        if (numbers == null || numbers.length == 0) {
+            return null;
+        }
+
+        List<BigDecimal> list = new ArrayList<>(numbers.length);
+        for (Number item : numbers) {
+            if (item == null) {
+                continue;
+            }
+            list.add(new BigDecimal(item.toString()));
+        }
+        list.sort(Comparator.comparing(BigDecimal::doubleValue).reversed());
+        return list.get(0);
+    }
 
     /**
      * check is power of 2.

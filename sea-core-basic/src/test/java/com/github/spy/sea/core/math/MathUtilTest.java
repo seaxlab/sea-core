@@ -19,6 +19,16 @@ import java.util.List;
 @Slf4j
 public class MathUtilTest extends BaseCoreTest {
 
+    @Test
+    public void testMin() throws Exception {
+        log.info("{}", MathUtil.min(10, 1, -1, 0));
+    }
+
+    @Test
+    public void testMax() throws Exception {
+        log.info("{}", MathUtil.max(20, 100, 11));
+    }
+
 
     @Test
     public void run23() throws Exception {
