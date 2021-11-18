@@ -13,9 +13,18 @@
 
 
     <dependencies>
+
+        <!-- 由于动态脚本库比较大，并不是所有应用需要，因此这里建议用户自行引入 -->
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.aviator</groupId>
+            <artifactId>aviator</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
