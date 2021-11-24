@@ -93,4 +93,33 @@ public final class Precondition {
         }
     }
 
+    /**
+     * 检查每个元素是否不为空
+     *
+     * @param arrays
+     * @param message
+     * @param <T>
+     */
+    public static <T> void checkElementNotNull(T[] arrays, String message) {
+        checkNotNull(arrays);
+
+        for (T element : arrays) {
+            checkNotNull(element, message);
+        }
+    }
+
+    /**
+     * 检查每个‘字符串’元素不为空
+     *
+     * @param arrays
+     * @param message
+     */
+    public static void checkStrElementNotBlank(String[] arrays, String message) {
+        checkNotNull(arrays);
+
+        for (String element : arrays) {
+            checkNotBlank(element, message);
+        }
+    }
+
 }
