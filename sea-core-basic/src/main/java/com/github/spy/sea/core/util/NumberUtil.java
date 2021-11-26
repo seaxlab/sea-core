@@ -205,7 +205,7 @@ public final class NumberUtil {
                 log.warn("value is blank.");
                 continue;
             }
-            sum += Integer.parseInt(value);
+            sum += Long.parseLong(value);
         }
 
         return sum;
