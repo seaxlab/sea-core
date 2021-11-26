@@ -167,6 +167,50 @@ public final class NumberUtil {
         return value.toString();
     }
 
+    /**
+     * int数值字符串累加
+     *
+     * @param values values
+     * @return long
+     */
+    public static int addInt(String... values) {
+        if (ArrayUtil.isEmpty(values)) {
+            return 0;
+        }
+        int sum = 0;
+        for (String value : values) {
+            if (StringUtil.isBlank(value)) {
+                log.warn("value is blank.");
+                continue;
+            }
+            sum += Integer.parseInt(value);
+        }
+
+        return sum;
+    }
+
+    /**
+     * long数值字符串累加
+     *
+     * @param values values
+     * @return long
+     */
+    public static long addLong(String... values) {
+        if (ArrayUtil.isEmpty(values)) {
+            return 0L;
+        }
+        long sum = 0;
+        for (String value : values) {
+            if (StringUtil.isBlank(value)) {
+                log.warn("value is blank.");
+                continue;
+            }
+            sum += Integer.parseInt(value);
+        }
+
+        return sum;
+    }
+
 
     /**
      * 多个数值累加
