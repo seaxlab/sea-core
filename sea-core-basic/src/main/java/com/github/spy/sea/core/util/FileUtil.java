@@ -454,6 +454,50 @@ public final class FileUtil {
         return Optional.ofNullable(fileAttr);
     }
 
+
+    /**
+     * 按行分割文件
+     *
+     * @param sourceFilePath      为源文件路径
+     * @param targetDirectoryPath 文件分割后存放的目标目录
+     * @param rows                为多少行一个文件
+     */
+    public static int splitByLine(String sourceFilePath, String targetDirectoryPath, int rows) {
+        String sourceFileName = sourceFilePath.substring(sourceFilePath.lastIndexOf(File.separator) + 1, sourceFilePath.lastIndexOf("."));//源文件名
+        String splitFileName = targetDirectoryPath + File.separator + sourceFileName + "-%s.txt";//切割后的文件名
+        File targetDirectory = new File(targetDirectoryPath);
+        if (!targetDirectory.exists()) {
+            targetDirectory.mkdirs();
+        }
+
+        PrintWriter pw = null;//字符输出流
+        String tempLine;
+        int lineNum = 0;//本次行数累计 , 达到rows开辟新文件
+        int splitFileIndex = 1;//当前文件索引
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sourceFilePath)))) {
+            pw = new PrintWriter(String.format(splitFileName, splitFileIndex));
+            while ((tempLine = br.readLine()) != null) {
+                if (lineNum > 0 && lineNum % rows == 0) {//需要换新文件
+                    pw.flush();
+                    pw.close();
+                    pw = new PrintWriter(String.format(splitFileName, ++splitFileIndex));
+                }
+                pw.write(tempLine + "\n");
+                lineNum++;
+            }
+            return splitFileIndex;
+        } catch (Exception e) {
+            log.error("fail to split file by line", e);
+            return -1;
+        } finally {
+            if (null != pw) {
+                pw.flush();
+                pw.close();
+            }
+        }
+    }
+
     /**
      * split file by file count.
      *
@@ -637,6 +681,43 @@ public final class FileUtil {
         file.renameTo(targetFile);
 
         return true;
+    }
+
+    /**
+     * 获取一个文件的行数
+     *
+     * @param filePath
+     * @return
+     */
+    public static long getLineNumber(String filePath) {
+        return getLineNumber(new File(filePath));
+    }
+
+    /**
+     * 获取一个文件的行数
+     *
+     * @param file
+     * @return
+     */
+    public static long getLineNumber(File file) {
+        if (!file.exists()) {
+            log.warn("file is not exist");
+            return -1;
+        }
+
+        if (!file.isFile()) {
+            log.warn("file is not a file, plz check.");
+            return -1;
+        }
+        //         return Files.lines(Paths.get(filePath)).count(); //jdk8 原始方法较慢
+        try (LineNumberReader lineNumberReader = new LineNumberReader(new FileReader(file))) {
+            lineNumberReader.skip(file.length());
+            int lineNumber = lineNumberReader.getLineNumber();
+            return lineNumber + 1;//实际上是读取换行符数量 , 所以需要+1
+        } catch (Exception e) {
+            log.error("fail to get line number", e);
+            return -1;
+        }
     }
 
 

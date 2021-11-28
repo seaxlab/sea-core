@@ -105,6 +105,23 @@ public class FileUtilTest extends BaseCoreTest {
         log.info("size={},human size={}", size, ByteUnitUtil.format(size));
     }
 
+
+    @Test
+    public void testSplitByLine() throws Exception {
+        String filePath = getUserHome() + "/sea/split-file-line.txt";
+        String targetDir = getUserHome() + "/sea/";
+        FileUtil.deleteFiles(filePath);
+        File file = FileUtil.createNewFile(filePath);
+        List<String> lineList = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            lineList.add("" + i);
+        }
+
+        IOUtil.writeLines(file, ArrayUtil.toArray(lineList, String.class));
+
+        FileUtil.splitByLine(filePath, targetDir, 30);
+    }
+
     @Test
     public void splitByFileSizeTest() throws Exception {
         File file = new File(getUserHome() + "/sea/download-bigfile.zip");
@@ -131,4 +148,10 @@ public class FileUtilTest extends BaseCoreTest {
 
     }
 
+
+    @Test
+    public void testGetLineNumber() throws Exception {
+        String filePath = getUserHome() + "/sea/split-file-line.txt";
+        log.info("file line number={}", FileUtil.getLineNumber(filePath));
+    }
 }
