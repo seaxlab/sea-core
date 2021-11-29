@@ -13,7 +13,7 @@ import javax.annotation.Resource;
  * @author fulan.zjf 2017-11-05
  */
 @Slf4j
-@Component
+@Component("seaCoreExtensionExecutor")
 public class ExtensionExecutor extends AbstractComponentExecutor {
 
     @Resource
@@ -97,7 +97,7 @@ public class ExtensionExecutor extends AbstractComponentExecutor {
 
     private <Ext> Ext locate(String name, String uniqueIdentity) {
         final Ext ext = (Ext) extensionRepository.getExtensionRepo().
-                get(new ExtensionCoordinate(name, uniqueIdentity));
+                                                 get(new ExtensionCoordinate(name, uniqueIdentity));
         if (ext != null) {
             log.info("active extension uniqueIdentity={}", uniqueIdentity);
         }

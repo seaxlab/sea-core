@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.spring;
 
-import com.github.spy.sea.core.spring.extension.SpringExtensionBootstrap;
+import com.github.spy.sea.core.spring.extension.ExtensionBootstrap;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -18,7 +18,7 @@ public class BaseSpringTest {
     @Test
     public void run17() throws Exception {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestSpringConfig.class);
-        SpringExtensionBootstrap bootstrap = (SpringExtensionBootstrap) context.getBean("bootstrap");
+        ExtensionBootstrap bootstrap = (ExtensionBootstrap) context.getBean("bootstrap");
         System.out.println(bootstrap);
     }
 

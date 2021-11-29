@@ -23,7 +23,7 @@ public class ExtensionCoordinate {
         return bizScenario;
     }
 
-    public static ExtensionCoordinate valueOf(Class extPtClass, BizScenario bizScenario) {
+    public static ExtensionCoordinate of(Class extPtClass, BizScenario bizScenario) {
         return new ExtensionCoordinate(extPtClass, bizScenario);
     }
 

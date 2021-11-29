@@ -1,10 +1,3 @@
-/*
- * Copyright 2017 Alibaba.com All right reserved. This software is the
- * confidential and proprietary information of Alibaba.com ("Confidential
- * Information"). You shall not disclose such Confidential Information and shall
- * use it only in accordance with the terms of the license agreement you entered
- * into with Alibaba.com.
- */
 package com.github.spy.sea.core.spring.extension;
 
 import com.github.spy.sea.core.common.CoreErrorConst;
@@ -18,7 +11,7 @@ import javax.annotation.Resource;
  *
  * @author fulan.zjf 2017-11-05
  */
-@Component
+@Component("seaCoreExtensionRegister")
 public class ExtensionRegister {
 
     @Resource
@@ -28,7 +21,7 @@ public class ExtensionRegister {
     public void doRegistration(IExtensionPoint extensionObject) {
         Class<?> extensionClz = extensionObject.getClass();
         Extension extensionAnn = extensionClz.getDeclaredAnnotation(Extension.class);
-        BizScenario bizScenario = BizScenario.valueOf(extensionAnn.bizId(), extensionAnn.useCase(), extensionAnn.scenario());
+        BizScenario bizScenario = BizScenario.of(extensionAnn.bizId(), extensionAnn.useCase(), extensionAnn.scenario());
         ExtensionCoordinate extensionCoordinate = new ExtensionCoordinate(calculateExtensionPoint(extensionClz), bizScenario.getUniqueIdentity());
         IExtensionPoint preVal = extensionRepository.getExtensionRepo().put(extensionCoordinate, extensionObject);
         if (preVal != null) {

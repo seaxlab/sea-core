@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
 import java.lang.annotation.*;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class AnnotationBeanDefinitionRegistryPostProcessorTest {
     static class MyService {
     }
 
-    @Autowired
+    @Resource
     private MyService myService;
 
     @Qualifier("stringBean")

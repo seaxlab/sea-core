@@ -1,0 +1,44 @@
+package com.github.spy.sea.core.boot.autoconfigure;
+
+import com.github.spy.sea.core.spring.extension.ExtensionBootstrap;
+import com.github.spy.sea.core.spring.extension.ExtensionExecutor;
+import com.github.spy.sea.core.spring.extension.ExtensionRegister;
+import com.github.spy.sea.core.spring.extension.ExtensionRepository;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * @ Description   :
+ * @ Author        :  Frank Zhang
+ * @ CreateDate    :  2020/11/09
+ * @ Version       :  1.0
+ */
+@Configuration
+public class SeaCoreExtensionAutoConfiguration {
+
+    @Bean(initMethod = "init", name = "seaCoreExtensionBootstrap")
+    @ConditionalOnMissingBean(ExtensionBootstrap.class)
+    public ExtensionBootstrap bootstrap() {
+        return new ExtensionBootstrap();
+    }
+
+    @Bean("seaCoreExtensionRepository")
+    @ConditionalOnMissingBean(ExtensionRepository.class)
+    public ExtensionRepository repository() {
+        return new ExtensionRepository();
+    }
+
+    @Bean("seaCoreExtensionExecutor")
+    @ConditionalOnMissingBean(ExtensionExecutor.class)
+    public ExtensionExecutor executor() {
+        return new ExtensionExecutor();
+    }
+
+    @Bean("seaCoreExtensionRegister")
+    @ConditionalOnMissingBean(ExtensionRegister.class)
+    public ExtensionRegister register() {
+        return new ExtensionRegister();
+    }
+
+}

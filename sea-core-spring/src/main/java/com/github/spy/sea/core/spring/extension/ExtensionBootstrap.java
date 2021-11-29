@@ -1,10 +1,13 @@
 package com.github.spy.sea.core.spring.extension;
 
-import com.github.spy.sea.core.spring.context.SpringContextHolder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
 
 /**
@@ -14,14 +17,19 @@ import java.util.Map;
  * @date 2020-06-18 7:55 PM
  */
 @Slf4j
-public class SpringExtensionBootstrap {
+@Component("seaCoreExtensionBootstrap")
+public class ExtensionBootstrap implements ApplicationContextAware {
 
     @Autowired
     private ExtensionRegister extensionRegister;
 
+    private ApplicationContext applicationContext;
+
+
+    @PostConstruct
     public void init() {
         log.info("init sea core spring extension begin.");
-        ApplicationContext applicationContext = SpringContextHolder.getApplicationContext();
+//        ApplicationContext applicationContext = SpringContextHolder.getApplicationContext();
         Map<String, Object> extensionBeans = applicationContext.getBeansWithAnnotation(Extension.class);
 
         log.info("spring extension size={}", extensionBeans.size());
@@ -30,5 +38,10 @@ public class SpringExtensionBootstrap {
                 extension -> extensionRegister.doRegistration((IExtensionPoint) extension)
         );
         log.info("init sea core spring extension end.");
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

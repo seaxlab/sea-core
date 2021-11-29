@@ -41,7 +41,7 @@ public class BizScenario {
         return bizId + DOT_SEPARATOR + useCase + DOT_SEPARATOR + scenario;
     }
 
-    public static BizScenario valueOf(String bizId, String useCase, String scenario) {
+    public static BizScenario of(String bizId, String useCase, String scenario) {
         BizScenario bizScenario = new BizScenario();
         bizScenario.bizId = bizId;
         bizScenario.useCase = useCase;
@@ -49,16 +49,16 @@ public class BizScenario {
         return bizScenario;
     }
 
-    public static BizScenario valueOf(String bizId, String useCase) {
-        return BizScenario.valueOf(bizId, useCase, DEFAULT_SCENARIO);
+    public static BizScenario of(String bizId, String useCase) {
+        return BizScenario.of(bizId, useCase, DEFAULT_SCENARIO);
     }
 
-    public static BizScenario valueOf(String bizId) {
-        return BizScenario.valueOf(bizId, DEFAULT_USE_CASE, DEFAULT_SCENARIO);
+    public static BizScenario of(String bizId) {
+        return BizScenario.of(bizId, DEFAULT_USE_CASE, DEFAULT_SCENARIO);
     }
 
     public static BizScenario newDefault() {
-        return BizScenario.valueOf(DEFAULT_BIZ_ID, DEFAULT_USE_CASE, DEFAULT_SCENARIO);
+        return BizScenario.of(DEFAULT_BIZ_ID, DEFAULT_USE_CASE, DEFAULT_SCENARIO);
     }
 
     public String getIdentityWithDefaultScenario() {

@@ -30,6 +30,12 @@ public class NumberUtilTest extends BaseCoreTest {
         Assert.assertEquals(100, NumberUtil.addLong("1", "-1", "", "100"));
     }
 
+
+    @Test
+    public void testAdd() throws Exception {
+        log.info("{}", NumberUtil.addInt("1", "2.000"));
+    }
+
     @Test
     public void run17() throws Exception {
         println(NumberUtil.substract(1, 10, 20));
