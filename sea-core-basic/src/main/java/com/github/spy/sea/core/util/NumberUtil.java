@@ -211,9 +211,31 @@ public final class NumberUtil {
         return sum;
     }
 
+    /**
+     * 多个数值累加（高精度）
+     *
+     * @param values
+     * @return
+     */
+    public static BigDecimal addStr(String... values) {
+        if (ArrayUtil.isEmpty(values)) {
+            return BigDecimal.ZERO;
+        }
+
+        String value = values[0];
+        BigDecimal result = new BigDecimal(null == value ? "0" : value);
+        for (int i = 1; i < values.length; i++) {
+            value = values[i];
+            if (null != value) {
+                result = result.add(new BigDecimal(value));
+            }
+        }
+        return result;
+    }
+
 
     /**
-     * 多个数值累加
+     * 多个数值累加（高精度）
      *
      * @param values
      * @return
@@ -229,6 +251,28 @@ public final class NumberUtil {
             value = values[i];
             if (null != value) {
                 result = result.add(new BigDecimal(value.toString()));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 多个数做减法
+     *
+     * @param values
+     * @return
+     */
+    public static BigDecimal substract(String... values) {
+        if (ArrayUtil.isEmpty(values)) {
+            return BigDecimal.ZERO;
+        }
+
+        String value = values[0];
+        BigDecimal result = new BigDecimal(null == value ? "0" : value);
+        for (int i = 1; i < values.length; i++) {
+            value = values[i];
+            if (null != value) {
+                result = result.subtract(new BigDecimal(value));
             }
         }
         return result;

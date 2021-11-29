@@ -26,20 +26,31 @@ public class NumberUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void testAddLong() throws Exception {
-        Assert.assertEquals(100, NumberUtil.addLong("1", "-1", "", "100"));
-    }
-
-
-    @Test
-    public void testAdd() throws Exception {
+    public void testAddInt2() throws Exception {
         log.info("{}", NumberUtil.addInt("1", "2.000"));
     }
 
     @Test
-    public void run17() throws Exception {
-        println(NumberUtil.substract(1, 10, 20));
+    public void testAddLong() throws Exception {
+        Assert.assertEquals(100, NumberUtil.addLong("1", "-1", "", "100"));
     }
+
+    @Test
+    public void testStr() throws Exception {
+        log.info("{}", NumberUtil.addStr("1", "2", "3.0001"));
+    }
+
+
+    @Test
+    public void testSubstract() throws Exception {
+        log.info("{}", NumberUtil.substract(1, 10, 20));
+    }
+
+    @Test
+    public void testSubstract2() throws Exception {
+        log.info("{}", NumberUtil.substract("1.0", "0.0001", "0.000005"));
+    }
+
 
     @Test
     public void run23() throws Exception {
