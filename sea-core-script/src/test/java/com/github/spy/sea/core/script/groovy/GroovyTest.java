@@ -34,7 +34,7 @@ public class GroovyTest extends AbstractScriptTest {
         GroovyShell groovyShell = new GroovyShell();
         ret = groovyShell.evaluate("[1..12]");
         log.info("ret={}", ret);
-
+        // padLeft是groovy中方法
         Script parse = groovyShell.parse("(1..12).collect {t -> t.toString().padLeft(2,'0')}");
         ret = parse.run();
         log.info("ret={}", ret);
