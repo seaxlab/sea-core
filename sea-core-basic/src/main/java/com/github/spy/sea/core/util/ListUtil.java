@@ -256,6 +256,17 @@ public final class ListUtil {
     }
 
     /**
+     * iterator to List
+     *
+     * @param iterator
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> toList(Iterator<T> iterator) {
+        return Lists.newArrayList(iterator);
+    }
+
+    /**
      * set to list.
      *
      * @param set

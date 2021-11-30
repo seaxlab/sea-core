@@ -2,6 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.common.SymbolConst;
 import com.github.spy.sea.core.model.Diff;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.SetUtils;
 
@@ -51,6 +52,18 @@ public final class SetUtil {
      */
     public static boolean isNotEmpty(Set set) {
         return set != null && !set.isEmpty();
+    }
+
+    /**
+     * iterator to set
+     *
+     * @param iterator
+     * @param <T>
+     * @return
+     */
+    public static <T> Set<T> toSet(Iterator<T> iterator) {
+        return Sets.newHashSet(iterator);
+
     }
 
     /**
