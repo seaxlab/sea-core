@@ -1,7 +1,11 @@
 package com.github.spy.sea.core.script.groovy;
 
 import com.github.spy.sea.core.script.AbstractScriptTest;
+import com.github.spy.sea.core.util.ListUtil;
 import com.google.common.base.Stopwatch;
+import groovy.lang.GroovyShell;
+import groovy.lang.IntRange;
+import groovy.lang.Script;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -10,6 +14,7 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,7 +28,24 @@ import java.util.concurrent.TimeUnit;
 public class GroovyTest extends AbstractScriptTest {
 
     @Test
-    public void evalScript() throws Exception {
+    public void testShell() throws Exception {
+        Object ret;
+
+        GroovyShell groovyShell = new GroovyShell();
+        ret = groovyShell.evaluate("[1..12]");
+        log.info("ret={}", ret);
+
+        Script parse = groovyShell.parse("(1..12).collect {t -> t.toString().padLeft(2,'0')}");
+        ret = parse.run();
+        log.info("ret={}", ret);
+
+        IntRange integers = new IntRange(1, 12);
+        Iterator<Integer> toInt = integers.iterator();
+        log.info("ret={}", ListUtil.toList(toInt));
+    }
+
+    @Test
+    public void testEvalScript() throws Exception {
         ScriptEngineManager factory = new ScriptEngineManager();
 
         //每次生成一个engine实例
@@ -52,7 +74,7 @@ public class GroovyTest extends AbstractScriptTest {
 
 
     @Test
-    public void complexTest() throws Exception {
+    public void testComplex() throws Exception {
         String key = "classpath:Hello.groovy";
         Class<GroovyRule> hello = (Class<GroovyRule>) GroovyEngine.load(key);
 
@@ -69,7 +91,7 @@ public class GroovyTest extends AbstractScriptTest {
     }
 
     @Test
-    public void run70() throws Exception {
+    public void testComplex2() throws Exception {
         String key = "classpath:decision.groovy";
         Class<GroovyRule> hello = (Class<GroovyRule>) GroovyEngine.load(key);
 
