@@ -43,6 +43,7 @@ public final class DateUtil {
 
     public static final String DAY_FORMAT = "yyyy-MM-dd";
     public static final String DAY_FORMAT2 = "yyyyMMdd";
+    public static final String FORMAT_YYYYMM = "yyyyMM";
     public static final String DAY_MMDD = "MMdd";
     public static final String DAY_MM_DD = "MM-dd";
     public static final String DATETIME_FORMAT = "yyyyMMddHHmmss";
