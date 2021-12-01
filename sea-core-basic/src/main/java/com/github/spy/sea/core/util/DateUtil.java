@@ -112,8 +112,8 @@ public final class DateUtil {
     /**
      * 重新生成一个对象
      *
-     * @param date
-     * @return
+     * @param date -
+     * @return -
      */
     public static Date dateNew(Date date) {
         return new Date(date.getTime());
