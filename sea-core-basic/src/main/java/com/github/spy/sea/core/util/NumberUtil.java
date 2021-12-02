@@ -690,6 +690,18 @@ public final class NumberUtil {
     }
 
     /**
+     * 百分比
+     *
+     * @param part
+     * @param total
+     * @param scale
+     * @return x.xx
+     */
+    public static BigDecimal ratio(long part, long total, int scale) {
+        return divide(part, total, scale, RoundingMode.DOWN);
+    }
+
+    /**
      * 百分比, toString or doubleValue()
      *
      * @param part
@@ -717,6 +729,18 @@ public final class NumberUtil {
      */
     public static BigDecimal comparisonRatio(long before, long now) {
         return comparisonRatio(before, now, 2, RoundingMode.DOWN);
+    }
+
+    /**
+     * 同环比
+     *
+     * @param before
+     * @param now
+     * @param scale
+     * @return
+     */
+    public static BigDecimal comparisonRatio(long before, long now, int scale) {
+        return comparisonRatio(before, now, scale, RoundingMode.DOWN);
     }
 
     /**
