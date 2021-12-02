@@ -135,6 +135,48 @@ public final class ExampleUtil {
     }
 
     /**
+     * 设置日期
+     *
+     * @param criteria
+     * @param propertyName
+     * @param date
+     */
+    public static void setDate(Example.Criteria criteria, String propertyName, Date date) {
+        if (date == null) {
+            return;
+        }
+        criteria.andEqualTo(propertyName, new java.sql.Date(date.getTime()));
+    }
+
+    /**
+     * 设置日期时间
+     *
+     * @param criteria
+     * @param propertyName
+     * @param dateTime
+     */
+    public static void setDateTime(Example.Criteria criteria, String propertyName, Date dateTime) {
+        if (dateTime == null) {
+            return;
+        }
+        criteria.andEqualTo(propertyName, dateTime);
+    }
+
+    /**
+     * set time
+     *
+     * @param criteria     criteria
+     * @param propertyName property name
+     * @param date         date
+     */
+    public static void setTime(Example.Criteria criteria, String propertyName, Date date) {
+        if (date == null) {
+            return;
+        }
+        criteria.andEqualTo(propertyName, new java.sql.Time(date.getTime()));
+    }
+
+    /**
      * set not equal
      *
      * @param criteria     criteria

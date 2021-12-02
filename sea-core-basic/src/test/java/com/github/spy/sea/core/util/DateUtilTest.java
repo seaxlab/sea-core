@@ -254,6 +254,9 @@ public class DateUtilTest extends BaseCoreTest {
 
         dates = DateUtil.getBeginAndEndOfMonth(new Date(), 1);
         log.info("{},{}", dates[0], dates[1]);
+
+        dates = DateUtil.getBeginAndEndOfMonth(DateUtil.getPreBillDate(), -1);
+        log.info("{},{}", dates[0], dates[1]);
     }
 
     @Test
