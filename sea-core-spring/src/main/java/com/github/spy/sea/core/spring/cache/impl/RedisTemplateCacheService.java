@@ -413,7 +413,7 @@ public class RedisTemplateCacheService implements CacheService {
             if (StringUtil.isBlank(key)) {
                 return;
             }
-            log.info("try delete cache key={}", key);
+            log.info("try to delete cache key={}", key);
             redisTemplate.delete(key);
         });
     }
