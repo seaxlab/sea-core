@@ -69,6 +69,10 @@ public final class DateUtil {
     private DateUtil() {
     }
 
+    public static Date strDate(String str) {
+        return strDate(str, null);
+    }
+
     /**
      * <字符串转换成日期>
      * <如果转换格式为空，则利用默认格式进行转换操作>
@@ -87,8 +91,15 @@ public final class DateUtil {
         return format(dateStr, format);
     }
 
-    public static Date strDate(String str) {
-        return strDate(str, null);
+    /**
+     * to date
+     *
+     * @param dateStr date str
+     * @param format  format
+     * @return
+     */
+    public static Date toDate(String dateStr, String format) {
+        return strDate(dateStr, format);
     }
 
     /**
@@ -1907,7 +1918,7 @@ public final class DateUtil {
         try {
             return sdf.parse(dateStr);
         } catch (ParseException e) {
-            log.error("parseException", e);
+            log.error("fail to parse date exception", e);
             return null;
         }
     }
