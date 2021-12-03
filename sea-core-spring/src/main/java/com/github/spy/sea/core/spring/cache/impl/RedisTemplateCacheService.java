@@ -401,6 +401,23 @@ public class RedisTemplateCacheService implements CacheService {
     }
 
     @Override
+    public void deleteByWildcard(String pattern) {
+        deleteByWildcard(pattern, 50);
+    }
+
+    @Override
+    public void deleteByWildcard(String pattern, int count) {
+        count = count <= 0 ? 50 : count;
+        scan(pattern, count, bytes -> {
+            String key = new String(bytes);
+            if (StringUtil.isBlank(key)) {
+                return;
+            }
+            redisTemplate.delete(key);
+        });
+    }
+
+    @Override
     public void scan(String pattern, int count, Consumer<byte[]> consumer) {
         // check args
         Precondition.checkNotBlank(pattern, "pattern cannot be null");

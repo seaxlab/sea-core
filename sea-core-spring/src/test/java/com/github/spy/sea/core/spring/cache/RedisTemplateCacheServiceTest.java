@@ -71,18 +71,26 @@ public class RedisTemplateCacheServiceTest extends BaseSpringTest {
 
     @Test
     public void testAdd() throws Exception {
-        for (int i = 0; i < 10000; i++) {
-            redisTemplateCacheService.set("key" + i, "" + i);
+        for (int i = 0; i < 20; i++) {
+            redisTemplateCacheService.set("key:limit:a:" + i, "" + i);
         }
     }
 
     @Test
     public void testScan() throws Exception {
-        redisTemplateCacheService.scan("key*", 100, bytes -> {
+        log.info("begin");
+        redisTemplateCacheService.scan("key:limit:*", 100, bytes -> {
             String key = new String(bytes);
             log.info("key={}", key);
             redisTemplateCacheService.delete(key);
         });
+
+        log.info("end...");
+    }
+
+    @Test
+    public void testDeleteByWildcard() throws Exception {
+        redisTemplateCacheService.deleteByWildcard("key:limit:*");
     }
 
 

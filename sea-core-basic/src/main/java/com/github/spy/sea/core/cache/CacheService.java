@@ -318,6 +318,21 @@ public interface CacheService {
     Long deleteSafe(Collection keys);
 
     /**
+     * delete by wildcard
+     *
+     * @param pattern
+     */
+    void deleteByWildcard(String pattern);
+
+    /**
+     * delete by wildcard
+     *
+     * @param pattern
+     * @param count
+     */
+    void deleteByWildcard(String pattern, int count);
+
+    /**
      * 扫描匹配的key
      *
      * @param pattern  匹配字符, 例如key*
