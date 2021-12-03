@@ -191,7 +191,8 @@ public class RedisTemplateCacheService implements CacheService {
         List<T> data;
         if (content == null) {
             data = supplier.get();
-            if (data != null) {
+            // 重点：不为空时存储
+            if (ListUtil.isNotEmpty(data)) {
                 try {
                     redisTemplate.opsForValue()
                                  .set(key, JSONUtil.toStr(data), timeout, timeUnit);
