@@ -125,6 +125,34 @@ public class ListUtilTest extends BaseCoreTest {
     }
 
     @Test
+    public void testToMapBinaryOperator() throws Exception {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setId((long) i);
+            user.setName("n" + i);
+            user.setCreateTime(new Date());
+
+            users.add(user);
+        }
+        sleepSecond(1);
+        User user = new User();
+        user.setId((long) 0);
+        user.setName("n0" + 0);
+        user.setCreateTime(new Date());
+        users.add(user);
+
+        Map<Long, User> userMap = ListUtil.toMap(users, item -> item.getId(), (o1, o2) -> {
+            if (o1.getCreateTime().getTime() < o2.getCreateTime().getTime()) {
+                log.info("----");
+                return o2;
+            }
+            return o1;
+        });
+        log.info("{}", userMap);
+    }
+
+    @Test
     public void testToMap2Error() throws Exception {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 10; i++) {

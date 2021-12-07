@@ -345,6 +345,24 @@ public final class ListUtil {
     }
 
     /**
+     * to map, if have multi one, then execute binary operator.
+     *
+     * @param list
+     * @param keyMapper
+     * @param binaryOperator distinct which one
+     * @param <K>
+     * @param <R>
+     * @return
+     */
+    public static <K, R> Map<K, R> toMap(List<R> list, Function<? super R, ? extends K> keyMapper, BinaryOperator<R> binaryOperator) {
+        if (isEmpty(list)) {
+            return MapUtil.empty();
+        }
+        return list.stream()
+                   .collect(Collectors.toMap(keyMapper, Function.identity(), binaryOperator));
+    }
+
+    /**
      * to distinct map if have multi [unique key]
      *
      * @param list

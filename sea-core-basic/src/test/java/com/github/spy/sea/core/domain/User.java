@@ -2,6 +2,7 @@ package com.github.spy.sea.core.domain;
 
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +30,8 @@ public class User {
     private String remark;
 
     private String remark2 = "abc";
+
+    private Date createTime;
 
     public User() {
     }
