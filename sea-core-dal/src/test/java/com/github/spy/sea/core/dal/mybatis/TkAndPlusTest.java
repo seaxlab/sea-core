@@ -8,10 +8,11 @@ import com.github.spy.sea.core.test.AbstractCoreSpringTest;
 import com.github.spy.sea.core.util.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * module name
@@ -28,12 +29,12 @@ public class TkAndPlusTest extends AbstractCoreSpringTest {
     /**
      * tk
      */
-    @Autowired
+    @Resource
     private User1Mapper user1Mapper;
     /**
      * plus
      */
-    @Autowired
+    @Resource
     private User2Mapper user2Mapper;
 
     @Test

@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.dal.mybatis.tk;
 
 import lombok.Data;
+import tk.mybatis.mapper.annotation.Version;
 
 import javax.persistence.*;
 
@@ -39,4 +40,8 @@ public class User1 {
 
     @Column(name = "`create_time`")
     private String createTime;
+
+    @Version
+    @Column(name = "`version`")
+    private Integer version;
 }
