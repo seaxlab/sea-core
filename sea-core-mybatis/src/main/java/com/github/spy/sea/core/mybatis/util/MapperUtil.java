@@ -2,6 +2,8 @@ package com.github.spy.sea.core.mybatis.util;
 
 import com.github.pagehelper.PageHelper;
 import com.github.spy.sea.core.exception.ExceptionHandler;
+import com.github.spy.sea.core.exception.Precondition;
+import com.github.spy.sea.core.model.common.ModelConst;
 import com.github.spy.sea.core.util.ListUtil;
 import com.github.spy.sea.core.util.ReflectUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -221,6 +223,116 @@ public final class MapperUtil {
         ExampleUtil.setIsDeletedFlag(example);
 
         return mapper.updateByExample(record, example);
+    }
+
+    /**
+     * update single record by version (not include isDeletedFlag)
+     *
+     * @param mapper
+     * @param updateRecord
+     * @param id
+     * @param version
+     * @param <T>
+     * @return
+     */
+    public static <T> boolean updateByVersion(Mapper<T> mapper, T updateRecord, Long id, Integer version) {
+        return updateByVersion(mapper, updateRecord, id, version, false);
+    }
+
+    /**
+     * update single record by version
+     *
+     * @param mapper
+     * @param updateRecord
+     * @param id
+     * @param version
+     * @param <T>
+     * @return
+     */
+    public static <T> boolean updateByVersion(Mapper<T> mapper, T updateRecord, Long id, Integer version, boolean isDeletedFlag) {
+        Precondition.checkNotNull(mapper);
+        Precondition.checkNotNull(updateRecord);
+        Precondition.checkNotNull(id);
+        Precondition.checkNotNull(version);
+
+        Example example = new Example(updateRecord.getClass());
+        Example.Criteria criteria = example.createCriteria();
+        ExampleUtil.set(criteria, ModelConst.ID, id);
+        ExampleUtil.set(criteria, ModelConst.VERSION, version);
+        if (isDeletedFlag) {
+            ExampleUtil.setIsDeletedFlag(example);
+        }
+
+        int rowCount = mapper.updateByExampleSelective(updateRecord, example);
+        boolean sucFlag = rowCount > 0;
+        if (sucFlag) {
+            log.info("update {}[{},{}] by version, row count={}",
+                    updateRecord.getClass().getSimpleName(), id, version, rowCount);
+
+        } else {
+            log.warn("update {}[{},{}] by version, row count={}, failed.",
+                    updateRecord.getClass().getSimpleName(), id, version, rowCount);
+        }
+        return sucFlag;
+
+    }
+
+    /**
+     * update by version (not include isDeletedFlag)
+     *
+     * @param mapper
+     * @param updateRecord
+     * @param targetRecords
+     * @param <T>
+     * @return
+     */
+    public static <T> boolean updateByVersion(Mapper<T> mapper, T updateRecord, List<T> targetRecords) {
+        return updateByVersion(mapper, updateRecord, targetRecords, false);
+    }
+
+    /**
+     * update list by version
+     *
+     * @param mapper
+     * @param updateRecord
+     * @param targetRecords
+     * @param <T>
+     * @return
+     */
+    public static <T> boolean updateByVersion(Mapper<T> mapper, T updateRecord, List<T> targetRecords, boolean isDeletedFlag) {
+        Precondition.checkNotNull(mapper);
+        Precondition.checkNotNull(updateRecord);
+        Precondition.checkNotEmpty(targetRecords, "targetRecords不能为空");
+
+        // check first
+        for (T targetRecord : targetRecords) {
+            Object idObj = ReflectUtil.read(targetRecord, ModelConst.ID);
+            Precondition.checkNotNull(idObj, "id不能为空");
+
+            Object versionObj = ReflectUtil.read(targetRecord, ModelConst.VERSION);
+            Precondition.checkNotNull(versionObj, "version不能为空");
+
+            Example example = new Example(updateRecord.getClass());
+            Example.Criteria criteria = example.createCriteria();
+            ExampleUtil.set(criteria, ModelConst.ID, idObj);
+            ExampleUtil.set(criteria, ModelConst.VERSION, versionObj);
+            if (isDeletedFlag) {
+                ExampleUtil.setIsDeletedFlag(example);
+            }
+
+            int rowCount = mapper.updateByExampleSelective(updateRecord, example);
+            if (rowCount > 0) {
+                log.info("update {}[{},{}] by version, row count={}",
+                        updateRecord.getClass().getSimpleName(), idObj, versionObj, rowCount);
+
+            } else {
+                log.warn("fail to update {}[{},{}] by version, row count={}",
+                        updateRecord.getClass().getSimpleName(), idObj, versionObj, rowCount);
+                return false;
+            }
+        }
+
+        return true;
     }
 
 

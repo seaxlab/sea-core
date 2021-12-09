@@ -1,9 +1,11 @@
 package com.github.spy.sea.core.mybatis.domain;
 
 import lombok.Data;
+import tk.mybatis.mapper.annotation.Version;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * module name
@@ -15,6 +17,7 @@ import javax.persistence.Table;
 @Data
 @Table(name = "`user`")
 public class User {
+
     @Column(name = "`id`")
     private Long id;
 
@@ -26,4 +29,17 @@ public class User {
 
     @Column(name = "`address`")
     private String address;
+
+    @Column(name = "`create_time`")
+    private Date createTime;
+
+    @Column(name = "`update_time`")
+    private Date updateTime;
+
+    @Version
+    @Column(name = "`version`")
+    private Integer version;
+
+    @Column(name = "`is_deleted`")
+    private Boolean isDeleted;
 }

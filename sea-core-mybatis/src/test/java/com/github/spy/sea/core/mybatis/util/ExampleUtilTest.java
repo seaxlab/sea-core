@@ -2,10 +2,13 @@ package com.github.spy.sea.core.mybatis.util;
 
 import com.github.spy.sea.core.util.EqualUtil;
 import com.github.spy.sea.core.util.ReflectUtil;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,5 +61,26 @@ public class ExampleUtilTest {
 
     }
 
+    @Data
+    public static class User implements Serializable {
+
+        private static final long serialVersionUID = 1234567L;
+
+        private Long id;
+
+        private int int1;
+        private long long1;
+        private boolean boolean1;
+
+        private Integer intObj;
+        public Long longObj;
+        private Boolean booleanObj;
+
+        public String username;
+
+        private Date createTime;
+        private Integer version;
+
+    }
 
 }

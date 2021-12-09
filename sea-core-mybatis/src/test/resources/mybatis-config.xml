@@ -12,7 +12,7 @@
     <typeAliases>
     </typeAliases>
 
-    <environments default="dev">
+    <environments default="test2">
 
         <environment id="dev">
             <transactionManager type="JDBC"/>
@@ -34,6 +34,16 @@
             </dataSource>
         </environment>
 
+        <environment id="test2">
+            <transactionManager type="JDBC">
+            </transactionManager>
+            <dataSource type="UNPOOLED">
+                <property name="driver" value="org.h2.Driver"/>
+                <property name="url" value="jdbc:h2:mem:db"/>
+                <property name="username" value="sa"/>
+                <property name="password" value="sa"/>
+            </dataSource>
+        </environment>
     </environments>
 
     <mappers>

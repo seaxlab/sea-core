@@ -65,7 +65,6 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
-
         <!--  junit5 begin   -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

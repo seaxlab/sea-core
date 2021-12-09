@@ -3,6 +3,7 @@ package com.github.spy.sea.core.mybatis;
 import ch.vorburger.mariadb4j.DB;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
 import com.github.spy.sea.core.mybatis.dao.UserMapper;
+import com.github.spy.sea.core.mybatis.domain.User;
 import com.github.spy.sea.core.test.AbstractCoreTest;
 import com.github.spy.sea.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,8 @@ import org.h2.jdbcx.JdbcConnectionPool;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import tk.mybatis.mapper.entity.Config;
+import tk.mybatis.mapper.mapperhelper.EntityHelper;
 
 import javax.sql.DataSource;
 import java.io.Reader;
@@ -33,12 +36,9 @@ import java.util.ArrayList;
 @Slf4j
 public class BaseMybatisTest extends AbstractCoreTest {
 
-    @Test
-    public void run16() throws Exception {
-        log.info("{}", 1);
-    }
-
     private SqlSessionFactory sf;
+    private SqlSession session;
+    protected UserMapper userMapper;
 
 
     private void startMySQL() throws Exception {
@@ -64,14 +64,21 @@ public class BaseMybatisTest extends AbstractCoreTest {
         Reader reader = Resources.getResourceAsReader(resource);
 
         // 直接测试example时需要加上这行代码
-        //EntityHelper.initEntityNameMap(User.class, new Config());
+        EntityHelper.initEntityNameMap(User.class, new Config());
 
-        sf = new SqlSessionFactoryBuilder().build(reader, "dev"); //we're using the 'testing'
+        sf = new SqlSessionFactoryBuilder().build(reader, "dev");
+
+        //create user mapper
+        session = sf.openSession();
+        userMapper = session.getMapper(UserMapper.class);
     }
 
     @After
     public void tearDown() throws Exception {
         log.info("closing down myBatis tests");
+        if (session != null) {
+            session.close();
+        }
     }
 
     /**
@@ -81,7 +88,7 @@ public class BaseMybatisTest extends AbstractCoreTest {
         DataSource dataSource = JdbcConnectionPool.create("jdbc:h2:file:./testDB", "root", "root");
 
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
-        Environment environment = new Environment("development", transactionFactory, dataSource);
+        Environment environment = new Environment("test2", transactionFactory, dataSource);
         Configuration configuration = new Configuration(environment);
         configuration.addMapper(UserMapper.class);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
