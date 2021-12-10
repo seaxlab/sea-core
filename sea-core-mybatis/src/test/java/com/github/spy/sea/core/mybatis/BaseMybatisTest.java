@@ -3,7 +3,6 @@ package com.github.spy.sea.core.mybatis;
 import ch.vorburger.mariadb4j.DB;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
 import com.github.spy.sea.core.mybatis.dao.UserMapper;
-import com.github.spy.sea.core.mybatis.domain.User;
 import com.github.spy.sea.core.test.AbstractCoreTest;
 import com.github.spy.sea.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +17,11 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.h2.jdbcx.JdbcConnectionPool;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import tk.mybatis.mapper.entity.Config;
-import tk.mybatis.mapper.mapperhelper.EntityHelper;
+import tk.mybatis.mapper.mapperhelper.MapperHelper;
 
 import javax.sql.DataSource;
 import java.io.Reader;
-import java.util.ArrayList;
 
 /**
  * 模块
@@ -37,8 +34,44 @@ import java.util.ArrayList;
 public class BaseMybatisTest extends AbstractCoreTest {
 
     private SqlSessionFactory sf;
-    private SqlSession session;
-    protected UserMapper userMapper;
+
+    @Before
+    public void setUp() throws Exception {
+
+        startMySQL();
+
+        log.info("starting up myBatis tests");
+        String resource = "mybatis-config.xml";
+        Reader reader = Resources.getResourceAsReader(resource);
+
+        // 直接测试example时需要加上这行代码
+        //EntityHelper.initEntityNameMap(User.class, new Config());
+
+        sf = new SqlSessionFactoryBuilder().build(reader, "dev");
+
+        //create user mapper
+        SqlSession session = sf.openSession();
+        try {
+            //创建一个MapperHelper
+            MapperHelper mapperHelper = new MapperHelper();
+            //设置配置
+            mapperHelper.setConfig(new Config());
+            //配置完成后，执行下面的操作
+            mapperHelper.processConfiguration(session.getConfiguration());
+        } finally {
+            session.close();
+        }
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        log.info("closing down myBatis tests");
+    }
+
+
+    protected SqlSession getSqlSession() {
+        return sf.openSession();
+    }
 
 
     private void startMySQL() throws Exception {
@@ -51,40 +84,14 @@ public class BaseMybatisTest extends AbstractCoreTest {
 
         db.start();
         db.createDB("mybatis", "admin", "admin");
-//        db.source("mybatis.sql", "mybatis");
-    }
-
-    @Before
-    public void setUp() throws Exception {
-
-        startMySQL();
-
-        log.info("starting up myBatis tests");
-        String resource = "mybatis-config.xml";
-        Reader reader = Resources.getResourceAsReader(resource);
-
-        // 直接测试example时需要加上这行代码
-        EntityHelper.initEntityNameMap(User.class, new Config());
-
-        sf = new SqlSessionFactoryBuilder().build(reader, "dev");
-
-        //create user mapper
-        session = sf.openSession();
-        userMapper = session.getMapper(UserMapper.class);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        log.info("closing down myBatis tests");
-        if (session != null) {
-            session.close();
-        }
+        // 执行初始化脚本
+        db.source("mybatis.sql", "mybatis");
     }
 
     /**
      * start h2 db.
      */
-    protected void startH2() {
+    private void startH2() {
         DataSource dataSource = JdbcConnectionPool.create("jdbc:h2:file:./testDB", "root", "root");
 
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
@@ -100,30 +107,4 @@ public class BaseMybatisTest extends AbstractCoreTest {
         }
     }
 
-
-    @Test
-    public void queryAll() {
-
-        SqlSession session = sf.openSession();
-        try {
-            ArrayList users = (ArrayList) session.selectList("com.github.spy.sea.core.mybatis.domain.UserMappers.queryAll");
-            log.info("users={}", users);
-        } finally {
-            session.close();
-        }
-
-    }
-
-    @Test
-    public void queryById() {
-
-        SqlSession session = sf.openSession();
-        try {
-            UserMapper mapper = session.getMapper(UserMapper.class);
-            log.info("users={}", mapper.queryById(1L));
-        } finally {
-            session.close();
-        }
-
-    }
 }

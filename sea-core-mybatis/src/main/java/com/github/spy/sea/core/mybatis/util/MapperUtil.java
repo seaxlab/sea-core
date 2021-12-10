@@ -322,11 +322,10 @@ public final class MapperUtil {
 
             int rowCount = mapper.updateByExampleSelective(updateRecord, example);
             if (rowCount > 0) {
-                log.info("update {}[{},{}] by version, row count={}",
+                log.info("update {}[id={},version={}] by version, row count={}",
                         updateRecord.getClass().getSimpleName(), idObj, versionObj, rowCount);
-
             } else {
-                log.warn("fail to update {}[{},{}] by version, row count={}",
+                log.warn("fail to update {}[id={},version={}] by version, row count={}",
                         updateRecord.getClass().getSimpleName(), idObj, versionObj, rowCount);
                 return false;
             }

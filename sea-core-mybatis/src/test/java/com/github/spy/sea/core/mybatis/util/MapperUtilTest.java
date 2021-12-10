@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.mybatis.util;
 
-import com.github.spy.sea.core.mybatis.BaseTest;
+import com.github.spy.sea.core.mybatis.BaseMybatisTest;
 import com.github.spy.sea.core.mybatis.dao.UserMapper;
 import com.github.spy.sea.core.mybatis.domain.User;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import java.util.List;
  * @since 1.0
  */
 @Slf4j
-public class MapperUtilTest extends BaseTest {
+public class MapperUtilTest extends BaseMybatisTest {
 
     private SqlSession sqlSession;
     private UserMapper userMapper;
@@ -30,7 +30,6 @@ public class MapperUtilTest extends BaseTest {
     public void before() {
         sqlSession = getSqlSession();
         userMapper = sqlSession.getMapper(UserMapper.class);
-
     }
 
 

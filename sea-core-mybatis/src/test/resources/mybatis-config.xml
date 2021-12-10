@@ -17,27 +17,27 @@
         <environment id="dev">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="${db.driver}"/>
-                <property name="url" value="${db.url}"/>
-                <property name="username" value="${db.user}"/>
-                <property name="password" value="${db.pass}"/>
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+                <property name="username" value="admin"/>
+                <property name="password" value="admin"/>
             </dataSource>
         </environment>
 
         <environment id="test">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="${db.driver}"/>
-                <property name="url" value="${db.url}"/>
-                <property name="username" value="${db.user}"/>
-                <property name="password" value="${db.pass}"/>
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+                <property name="username" value="admin"/>
+                <property name="password" value="admin"/>
             </dataSource>
         </environment>
 
         <environment id="test2">
             <transactionManager type="JDBC">
             </transactionManager>
-            <dataSource type="UNPOOLED">
+            <dataSource type="POOLED">
                 <property name="driver" value="org.h2.Driver"/>
                 <property name="url" value="jdbc:h2:mem:db"/>
                 <property name="username" value="sa"/>

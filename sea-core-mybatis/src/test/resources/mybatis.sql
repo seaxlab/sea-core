@@ -1,3 +1,4 @@
+-- drop table user;
 create table user
 (
     id          int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,

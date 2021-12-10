@@ -23,7 +23,7 @@ import java.sql.Connection;
  * @since 1.0
  */
 @Slf4j
-public abstract class BaseTest {
+public abstract class BaseH2Test {
 
     private SqlSessionFactory sqlSessionFactory;
 
@@ -98,7 +98,7 @@ public abstract class BaseTest {
      * @return
      */
     protected Reader getConfigFileAsReader() throws IOException {
-        URL url = BaseTest.class.getClassLoader().getResource("mybatis-config.xml");
+        URL url = BaseH2Test.class.getClassLoader().getResource("mybatis-config.xml");
         return toReader(url);
     }
 
@@ -110,7 +110,7 @@ public abstract class BaseTest {
      * @return
      */
     protected Reader getSqlFileAsReader() throws IOException {
-        URL url = BaseTest.class.getClassLoader().getResource("mybatis.sql");
+        URL url = BaseH2Test.class.getClassLoader().getResource("mybatis.sql");
         return toReader(url);
     }
 
