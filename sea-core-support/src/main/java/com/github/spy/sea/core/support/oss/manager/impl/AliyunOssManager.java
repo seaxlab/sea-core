@@ -69,13 +69,11 @@ public class AliyunOssManager extends AbstractOssManager {
         return OssTypeEnum.ALI_YUN.getCode();
     }
 
-    @Override
-    public boolean checkBucketExist(String bucket) {
+    public boolean _checkBucketExist(String bucket) {
         return client.doesBucketExist(bucket);
     }
 
-    @Override
-    public BaseResult createBucket(String bucket) {
+    public BaseResult _createBucket(String bucket) {
         BaseResult result = BaseResult.fail();
         try {
             client.createBucket(bucket);
@@ -87,8 +85,7 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    @Override
-    public BaseResult deleteBucket(String bucket) {
+    public BaseResult _deleteBucket(String bucket) {
 
         BaseResult result = BaseResult.fail();
         try {
@@ -101,8 +98,7 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    @Override
-    public BaseResult<List<BucketVO>> queryBuckets() {
+    public BaseResult<List<BucketVO>> _queryBuckets() {
         BaseResult result = BaseResult.fail();
         try {
             List<Bucket> buckets = client.listBuckets();
@@ -124,13 +120,11 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    @Override
-    public boolean checkObjExist(String bucket, String key) {
+    public boolean _checkObjExist(String bucket, String key) {
         return client.doesObjectExist(bucket, key);
     }
 
-    @Override
-    public BaseResult<ObjectPutVO> uploadObj(String bucket, String key, String filePath) {
+    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
         BaseResult<ObjectPutVO> result = BaseResult.fail();
 
         try {
@@ -147,8 +141,7 @@ public class AliyunOssManager extends AbstractOssManager {
     }
 
 
-    @Override
-    public BaseResult<ObjectPutVO> uploadObj(String bucket, String key, File file) {
+    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
         Precondition.checkNotNull(bucket);
         Precondition.checkNotNull(key);
 
@@ -169,8 +162,7 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    @Override
-    public BaseResult<String> getObjSignedUrl(String bucket, String key, long expireSeconds) {
+    public BaseResult<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
         BaseResult<String> result = BaseResult.fail();
         try {
             Date now = new Date();
@@ -183,8 +175,7 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    @Override
-    public BaseResult<String> getObjSignedUrl(ObjectSignUrlDTO dto) {
+    public BaseResult<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
         BaseResult<String> result = BaseResult.fail();
         try {
             Date now = new Date();
@@ -198,12 +189,7 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    @Override
-    public BaseResult<Boolean> downloadObj(String bucket, String key, String newFilePath) {
-        Precondition.checkNotNull(bucket);
-        Precondition.checkNotNull(key);
-
-        log.info("down load obj from [{},{}] to [{}]", bucket, key, newFilePath);
+    public BaseResult<Boolean> _downloadObj(String bucket, String key, String newFilePath) {
         BaseResult<Boolean> result = BaseResult.fail();
 
         try {
@@ -231,11 +217,7 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    @Override
-    public BaseResult<Boolean> deleteObj(String bucket, String key) {
-        Precondition.checkNotNull(bucket);
-        Precondition.checkNotNull(key);
-
+    public BaseResult<Boolean> _deleteObj(String bucket, String key) {
         BaseResult<Boolean> result = BaseResult.fail();
         try {
             client.deleteObject(bucket, key);
@@ -247,8 +229,7 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    @Override
-    public BaseResult<Boolean> deleteObjs(String bucket, List<String> keys) {
+    public BaseResult<Boolean> _deleteObjs(String bucket, List<String> keys) {
         Precondition.checkNotNull(bucket);
 
         BaseResult<Boolean> result = BaseResult.fail();
@@ -265,9 +246,7 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    @Override
-    public BaseResult<List<ObjectVO>> queryObjs(ObjectQueryDTO dto) {
-        log.info("object query dto={}", dto);
+    public BaseResult<List<ObjectVO>> _queryObjs(ObjectQueryDTO dto) {
         Precondition.checkNotNull(dto.getBucket());
 
         BaseResult<List<ObjectVO>> result = BaseResult.fail();

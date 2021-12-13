@@ -9,7 +9,6 @@ import com.github.spy.sea.core.support.oss.manager.AbstractOssManager;
 import com.github.spy.sea.core.support.oss.vo.BucketVO;
 import com.github.spy.sea.core.support.oss.vo.ObjectPutVO;
 import com.github.spy.sea.core.util.ListUtil;
-import com.google.common.base.Preconditions;
 import io.minio.*;
 import io.minio.http.Method;
 import io.minio.messages.Bucket;
@@ -54,9 +53,7 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public boolean checkBucketExist(String bucket) {
-        Preconditions.checkNotNull(bucket, "bucket不能为空");
-
+    public boolean _checkBucketExist(String bucket) {
         BucketExistsArgs args = BucketExistsArgs.builder()
                                                 .bucket(bucket)
                                                 .build();
@@ -69,9 +66,7 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult createBucket(String bucket) {
-        Preconditions.checkNotNull(bucket, "bucket不能为空");
-
+    public BaseResult _createBucket(String bucket) {
         BaseResult result = BaseResult.fail();
         MakeBucketArgs args = MakeBucketArgs.builder()
                                             .bucket(bucket)
@@ -86,9 +81,7 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult deleteBucket(String bucket) {
-        Preconditions.checkNotNull(bucket, "bucket不能为空");
-
+    public BaseResult _deleteBucket(String bucket) {
         BaseResult result = BaseResult.fail();
         RemoveBucketArgs args = RemoveBucketArgs.builder()
                                                 .bucket(bucket)
@@ -104,7 +97,7 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<List<BucketVO>> queryBuckets() {
+    public BaseResult<List<BucketVO>> _queryBuckets() {
         BaseResult<List<BucketVO>> result = BaseResult.fail();
 
         try {
@@ -128,7 +121,7 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public boolean checkObjExist(String bucket, String key) {
+    public boolean _checkObjExist(String bucket, String key) {
 
         try {
             GetObjectArgs args = GetObjectArgs.builder()
@@ -145,11 +138,7 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<ObjectPutVO> uploadObj(String bucket, String key, String filePath) {
-        Preconditions.checkNotNull(bucket, "bucket不能为空");
-        Preconditions.checkNotNull(key, "key不能为空");
-        Preconditions.checkNotNull(filePath, "file不能为空");
-
+    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
         BaseResult<ObjectPutVO> result = BaseResult.fail();
         try {
             UploadObjectArgs args = UploadObjectArgs.builder()
@@ -171,7 +160,7 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<String> getObjSignedUrl(String bucket, String key, long expireSeconds) {
+    public BaseResult<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
         BaseResult<String> result = BaseResult.fail();
 
         GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
@@ -189,7 +178,7 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<String> getObjSignedUrl(ObjectSignUrlDTO dto) {
+    public BaseResult<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
         BaseResult<String> result = BaseResult.fail();
 
         GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
@@ -207,33 +196,8 @@ public class MinioOssManager extends AbstractOssManager {
         return result;
     }
 
-    private Method toMethod(HttpMethodEnum httpMethod) {
-        switch (httpMethod) {
-            case GET:
-                return Method.GET;
-            case POST:
-                return Method.POST;
-            case DELETE:
-                return Method.DELETE;
-            case PUT:
-                return Method.PUT;
-            case HEAD:
-                return Method.HEAD;
-            case OPTIONS:
-                log.warn(" options is not supported by minio, we will use GET instead.");
-                //重点：不支持的方法
-                return Method.GET;
-            default:
-                log.warn("input http method is null, so we will use GET instead.");
-                return Method.GET;
-        }
-    }
-
     @Override
-    public BaseResult<Boolean> downloadObj(String bucket, String key, String filePath) {
-        Preconditions.checkNotNull(bucket, "bucket不能为空");
-        Preconditions.checkNotNull(key, "key不能为空");
-
+    public BaseResult<Boolean> _downloadObj(String bucket, String key, String filePath) {
         BaseResult<Boolean> result = BaseResult.fail();
         try {
             GetObjectArgs args = GetObjectArgs.builder()
@@ -251,10 +215,7 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<Boolean> deleteObj(String bucket, String key) {
-        Preconditions.checkNotNull(bucket, "bucket不能为空");
-        Preconditions.checkNotNull(key, "key不能为空");
-
+    public BaseResult<Boolean> _deleteObj(String bucket, String key) {
         BaseResult<Boolean> result = BaseResult.fail();
         try {
             RemoveObjectArgs args = RemoveObjectArgs.builder()
@@ -271,10 +232,7 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<Boolean> deleteObjs(String bucket, List<String> keys) {
-        Preconditions.checkNotNull(bucket, "bucket不能为空");
-        Preconditions.checkNotNull(keys, "keys不能为空");
-
+    public BaseResult<Boolean> _deleteObjs(String bucket, List<String> keys) {
         BaseResult<Boolean> result = BaseResult.fail();
 
         try {
@@ -297,5 +255,28 @@ public class MinioOssManager extends AbstractOssManager {
             result.setErrorMessage(e.getMessage());
         }
         return result;
+    }
+
+    // --------------------private
+    private Method toMethod(HttpMethodEnum httpMethod) {
+        switch (httpMethod) {
+            case GET:
+                return Method.GET;
+            case POST:
+                return Method.POST;
+            case DELETE:
+                return Method.DELETE;
+            case PUT:
+                return Method.PUT;
+            case HEAD:
+                return Method.HEAD;
+            case OPTIONS:
+                log.warn(" options is not supported by minio, we will use GET instead.");
+                //重点：不支持的方法
+                return Method.GET;
+            default:
+                log.warn("input http method is null, so we will use GET instead.");
+                return Method.GET;
+        }
     }
 }
