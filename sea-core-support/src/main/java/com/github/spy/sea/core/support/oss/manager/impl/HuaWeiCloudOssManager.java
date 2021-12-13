@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 /**
  * module name
  * https://support.huaweicloud.com/sdk-java-devg-obs/obs_21_0404.html
+ * https://github.com/huaweicloud/huaweicloud-sdk-java-obs/tree/master/app/src/test/java/samples_java
  *
  * @author spy
  * @version 1.0 2021/12/13

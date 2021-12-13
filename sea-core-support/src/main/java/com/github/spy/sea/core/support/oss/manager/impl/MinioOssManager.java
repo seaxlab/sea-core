@@ -1,7 +1,9 @@
 package com.github.spy.sea.core.support.oss.manager.impl;
 
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.support.oss.dto.ObjectSignUrlDTO;
 import com.github.spy.sea.core.support.oss.dto.OssConfig;
+import com.github.spy.sea.core.support.oss.enums.HttpMethodEnum;
 import com.github.spy.sea.core.support.oss.enums.OssTypeEnum;
 import com.github.spy.sea.core.support.oss.manager.AbstractOssManager;
 import com.github.spy.sea.core.support.oss.vo.BucketVO;
@@ -9,12 +11,14 @@ import com.github.spy.sea.core.support.oss.vo.ObjectPutVO;
 import com.github.spy.sea.core.util.ListUtil;
 import com.google.common.base.Preconditions;
 import io.minio.*;
+import io.minio.http.Method;
 import io.minio.messages.Bucket;
 import io.minio.messages.DeleteObject;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -164,6 +168,65 @@ public class MinioOssManager extends AbstractOssManager {
             result.setErrorMessage(e.getMessage());
         }
         return result;
+    }
+
+    @Override
+    public BaseResult<String> getObjSignedUrl(String bucket, String key, long expireSeconds) {
+        BaseResult<String> result = BaseResult.fail();
+
+        GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
+                                                                  .bucket(bucket)
+                                                                  .object(key)
+                                                                  .expiry((int) expireSeconds, TimeUnit.SECONDS)
+                                                                  .build();
+        try {
+            result.value(client.getPresignedObjectUrl(args));
+        } catch (Exception e) {
+            log.error("fail to get obj signed url", e);
+            result.setErrorMessage("获取签名数据失败");
+        }
+        return result;
+    }
+
+    @Override
+    public BaseResult<String> getObjSignedUrl(ObjectSignUrlDTO dto) {
+        BaseResult<String> result = BaseResult.fail();
+
+        GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
+                                                                  .bucket(dto.getBucket())
+                                                                  .object(dto.getKey())
+                                                                  .expiry((int) dto.getExpireSeconds(), TimeUnit.SECONDS)
+                                                                  .method(toMethod(dto.getHttpMethod()))
+                                                                  .build();
+        try {
+            result.value(client.getPresignedObjectUrl(args));
+        } catch (Exception e) {
+            log.error("fail to get obj signed url", e);
+            result.setErrorMessage("获取签名数据失败");
+        }
+        return result;
+    }
+
+    private Method toMethod(HttpMethodEnum httpMethod) {
+        switch (httpMethod) {
+            case GET:
+                return Method.GET;
+            case POST:
+                return Method.POST;
+            case DELETE:
+                return Method.DELETE;
+            case PUT:
+                return Method.PUT;
+            case HEAD:
+                return Method.HEAD;
+            case OPTIONS:
+                log.warn(" options is not supported by minio, we will use GET instead.");
+                //重点：不支持的方法
+                return Method.GET;
+            default:
+                log.warn("input http method is null, so we will use GET instead.");
+                return Method.GET;
+        }
     }
 
     @Override
