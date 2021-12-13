@@ -1,7 +1,15 @@
 package com.github.spy.sea.core.support.oss.manager;
 
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.support.oss.dto.ObjectQueryDTO;
+import com.github.spy.sea.core.support.oss.dto.ObjectSignUrlDTO;
 import com.github.spy.sea.core.support.oss.dto.OssConfig;
+import com.github.spy.sea.core.support.oss.vo.BucketVO;
+import com.github.spy.sea.core.support.oss.vo.ObjectPutVO;
+import com.github.spy.sea.core.support.oss.vo.ObjectVO;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * module name
@@ -18,14 +26,21 @@ public interface OssManager {
      * @param config
      * @return
      */
-    boolean init(OssConfig config);
+    void init(OssConfig config);
 
     /**
      * destroy
      *
      * @return
      */
-    boolean destroy();
+    void destroy();
+
+    /**
+     * return current oss type
+     *
+     * @return
+     */
+    String getType();
 
     /**
      * 校验bucket是否存在
@@ -33,7 +48,7 @@ public interface OssManager {
      * @param bucket
      * @return
      */
-    boolean bucketExist(String bucket);
+    boolean checkBucketExist(String bucket);
 
     /**
      * 创建bucket
@@ -56,7 +71,16 @@ public interface OssManager {
      *
      * @return
      */
-    BaseResult queryBuckets();
+    BaseResult<List<BucketVO>> queryBuckets();
+
+    /**
+     * check obj exist
+     *
+     * @param bucket
+     * @param key
+     * @return
+     */
+    boolean checkObjExist(String bucket, String key);
 
     /**
      * 上传文件
@@ -66,16 +90,45 @@ public interface OssManager {
      * @param filePath
      * @return
      */
-    BaseResult<Boolean> uploadObj(String bucket, String key, String filePath);
+    BaseResult<ObjectPutVO> uploadObj(String bucket, String key, String filePath);
+
+    /**
+     * upload file
+     *
+     * @param bucket
+     * @param key
+     * @param file
+     * @return
+     */
+    BaseResult<ObjectPutVO> uploadObj(String bucket, String key, File file);
+
+    /**
+     * get obj signed url
+     *
+     * @param bucket
+     * @param key
+     * @param expireSeconds
+     * @return
+     */
+    BaseResult<String> getObjSignedUrl(String bucket, String key, long expireSeconds);
+
+    /**
+     * get obj signed url
+     *
+     * @param dto
+     * @return
+     */
+    BaseResult<String> getObjSignedUrl(ObjectSignUrlDTO dto);
 
     /**
      * 下载文件
      *
      * @param bucket
      * @param key
+     * @param filePath 文件路径
      * @return
      */
-    BaseResult<Boolean> downloadObj(String bucket, String key);
+    BaseResult<Boolean> downloadObj(String bucket, String key, String filePath);
 
     /**
      * 删除对象
@@ -93,5 +146,13 @@ public interface OssManager {
      * @param keys
      * @return
      */
-    BaseResult<Boolean> deleteObjs(String bucket, Iterable<String> keys);
+    BaseResult<Boolean> deleteObjs(String bucket, List<String> keys);
+
+    /**
+     * query objs
+     *
+     * @param dto
+     * @return
+     */
+    BaseResult<List<ObjectVO>> queryObjs(ObjectQueryDTO dto);
 }

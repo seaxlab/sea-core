@@ -22,6 +22,10 @@ public class OssConfig {
 
     private String secretKey;
 
+    private int socketTimeout;
+
+    private int connectionTimeout;
+
 
     // 非标准参数
     private Map<String, String> extra;

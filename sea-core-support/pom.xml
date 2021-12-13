@@ -48,6 +48,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.huaweicloud</groupId>
+            <artifactId>esdk-obs-java</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- OSS lib end-->
 
         <!--  junit5 begin   -->

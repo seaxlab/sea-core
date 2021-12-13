@@ -71,8 +71,12 @@
         <apache.commons.io.version>2.8.0</apache.commons.io.version>
 
         <google.zxing.version>3.4.0</google.zxing.version>
+
+        <!-- oss -->
         <aliyun.oss.sdk.version>3.5.0</aliyun.oss.sdk.version>
         <minio.version>8.2.1</minio.version>
+        <huaweicloud.obj.version>3.21.8</huaweicloud.obj.version>
+
         <javers.version>5.6.3</javers.version>
         <alibaba.rocketmq.version>3.4.9</alibaba.rocketmq.version>
         <alibaba.ttl.version>2.12.1</alibaba.ttl.version>
@@ -365,6 +369,14 @@
                 <artifactId>aviator</artifactId>
                 <version>${aviator.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.huaweicloud</groupId>
+                <artifactId>esdk-obs-java</artifactId>
+                <version>${huaweicloud.obj.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

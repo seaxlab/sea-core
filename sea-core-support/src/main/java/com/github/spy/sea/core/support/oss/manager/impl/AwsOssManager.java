@@ -6,20 +6,17 @@ import com.github.spy.sea.core.support.oss.manager.AbstractOssManager;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * qiniu oss manager
+ * module name
  *
  * @author spy
- * @version 1.0 2021/5/16
+ * @version 1.0 2021/12/13
  * @since 1.0
  */
 @Slf4j
-public class QiNiuOssManager extends AbstractOssManager {
-    //TODO
-
+public class AwsOssManager extends AbstractOssManager {
 
     @Override
     public void init(OssConfig config) {
-
     }
 
     @Override
@@ -28,6 +25,8 @@ public class QiNiuOssManager extends AbstractOssManager {
 
     @Override
     public String getType() {
-        return OssTypeEnum.QINIU_CLOUD.getCode();
+        return OssTypeEnum.AWS.getCode();
     }
+
+    //TODO
 }
