@@ -37,6 +37,10 @@ import java.util.stream.Collectors;
 
 /**
  * qiniu oss manager
+ * <p>
+ * <p></p>https://developer.qiniu.com/kodo/1239/java#5</p>
+ * <p>
+ * https://github.com/qiniu/java-sdk/blob/master/examples/BatchDemo.java
  *
  * @author spy
  * @version 1.0 2021/5/16
