@@ -18,13 +18,11 @@ public class TencentOssManager extends AbstractOssManager {
 
 
     @Override
-    public void init(OssConfig config) {
-        super.init(config);
+    public void _init(OssConfig config) {
     }
 
     @Override
-    public void destroy() {
-        super.destroy();
+    public void _destroy() {
     }
 
     @Override

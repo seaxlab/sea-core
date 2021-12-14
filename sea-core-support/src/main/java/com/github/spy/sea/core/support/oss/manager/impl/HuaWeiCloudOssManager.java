@@ -38,17 +38,12 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
     private ObsClient client;
 
     @Override
-    public void init(OssConfig config) {
-        log.info("try init huawei cloud obs client.");
+    public void _init(OssConfig config) {
         client = new ObsClient(config.getAccessKey(), config.getSecretKey(), config.getEndpoint());
-
-        log.info("init huawei cloud obs client successfully.");
     }
 
     @Override
-    public void destroy() {
-        log.info("destroy huawei cloud obs client.");
-
+    public void _destroy() {
         if (client != null) {
             try {
                 client.close();
@@ -111,6 +106,7 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
 
             List<ObsBucket> buckets = client.listBuckets(request);
             if (ListUtil.isEmpty(buckets)) {
+                log.warn("buckets is empty.");
                 result.value(ListUtil.empty());
                 return result;
             }
@@ -206,6 +202,7 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
         try {
             ObsObject obsObject = client.getObject(bucket, key);
             if (obsObject == null) {
+                log.warn("obj is not exist");
                 result.setErrorMessage("对象不存在");
                 return result;
             }

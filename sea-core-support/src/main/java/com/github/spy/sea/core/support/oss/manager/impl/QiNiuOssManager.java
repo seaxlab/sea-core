@@ -18,12 +18,12 @@ public class QiNiuOssManager extends AbstractOssManager {
 
 
     @Override
-    public void init(OssConfig config) {
+    public void _init(OssConfig config) {
 
     }
 
     @Override
-    public void destroy() {
+    public void _destroy() {
     }
 
     @Override

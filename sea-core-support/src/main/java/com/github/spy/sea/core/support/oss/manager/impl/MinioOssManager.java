@@ -33,8 +33,7 @@ public class MinioOssManager extends AbstractOssManager {
     private MinioClient client;
 
     @Override
-    public void init(OssConfig config) {
-        log.info("init minio oss, config={}", config);
+    public void _init(OssConfig config) {
         client = MinioClient.builder()
                             .endpoint(config.getEndpoint())
                             .credentials(config.getAccessKey(), config.getSecretKey())
@@ -42,8 +41,7 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public void destroy() {
-        log.info("destroy minio oss");
+    public void _destroy() {
         client = null;
     }
 

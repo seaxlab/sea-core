@@ -3,6 +3,7 @@ package com.github.spy.sea.core.support.oss.manager;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.support.oss.dto.ObjectQueryDTO;
 import com.github.spy.sea.core.support.oss.dto.ObjectSignUrlDTO;
+import com.github.spy.sea.core.support.oss.dto.ObjectUrlDTO;
 import com.github.spy.sea.core.support.oss.dto.OssConfig;
 import com.github.spy.sea.core.support.oss.vo.BucketVO;
 import com.github.spy.sea.core.support.oss.vo.ObjectPutVO;
@@ -101,6 +102,14 @@ public interface OssManager {
      * @return
      */
     BaseResult<ObjectPutVO> uploadObj(String bucket, String key, File file);
+
+    /**
+     * get object url.
+     *
+     * @param dto
+     * @return
+     */
+    BaseResult<String> getObjUrl(ObjectUrlDTO dto);
 
     /**
      * get obj signed url

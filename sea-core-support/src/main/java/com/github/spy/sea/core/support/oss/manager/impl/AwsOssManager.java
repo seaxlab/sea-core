@@ -16,11 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 public class AwsOssManager extends AbstractOssManager {
 
     @Override
-    public void init(OssConfig config) {
+    public void _init(OssConfig config) {
     }
 
     @Override
-    public void destroy() {
+    public void _destroy() {
     }
 
     @Override

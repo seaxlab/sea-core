@@ -4,12 +4,14 @@ import com.github.spy.sea.core.exception.Precondition;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.support.oss.dto.ObjectQueryDTO;
 import com.github.spy.sea.core.support.oss.dto.ObjectSignUrlDTO;
+import com.github.spy.sea.core.support.oss.dto.ObjectUrlDTO;
 import com.github.spy.sea.core.support.oss.dto.OssConfig;
 import com.github.spy.sea.core.support.oss.enums.OssTypeEnum;
 import com.github.spy.sea.core.support.oss.vo.BucketVO;
 import com.github.spy.sea.core.support.oss.vo.ObjectPutVO;
 import com.github.spy.sea.core.support.oss.vo.ObjectVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.List;
@@ -23,14 +25,26 @@ import java.util.List;
  */
 @Slf4j
 public abstract class AbstractOssManager implements OssManager {
+
+    protected OssConfig ossConfig;
+
     @Override
     public void init(OssConfig config) {
+        Precondition.checkNotNull(config);
+        Precondition.checkNotEmpty(config.getEndpoint(), "Endpoint cannot be empty");
+        Precondition.checkNotEmpty(config.getAccessKey(), "AccessKey cannot be empty");
+        Precondition.checkNotEmpty(config.getSecretKey(), "SecretKey cannot be empty");
+        log.info("init {} oss manager, config={}", getType(), config);
 
+        this.ossConfig = config;
+        _init(config);
+        log.info("init {} oss manager successfully", getType());
     }
 
     @Override
     public void destroy() {
-
+        log.info("destroy {} oss manager", getType());
+        _destroy();
     }
 
     @Override
@@ -47,13 +61,28 @@ public abstract class AbstractOssManager implements OssManager {
     @Override
     public BaseResult createBucket(String bucket) {
         Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
-        return _createBucket(bucket);
+        log.info("create bucket={}", bucket);
+
+        BaseResult result = _createBucket(bucket);
+
+        if (result.isOk()) {
+            log.info("create bucket successfully");
+        }
+
+        return result;
     }
 
     @Override
     public BaseResult deleteBucket(String bucket) {
         Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
-        return _deleteBucket(bucket);
+        log.info("try to delete bucket={}", bucket);
+
+        BaseResult result = _deleteBucket(bucket);
+        if (result.isOk()) {
+            log.info("delete bucket successfully");
+        }
+
+        return result;
     }
 
     @Override
@@ -74,8 +103,13 @@ public abstract class AbstractOssManager implements OssManager {
         Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
         Precondition.checkNotEmpty(key, "key cannot be empty");
         Precondition.checkNotEmpty(filePath, "filePath cannot be empty");
+        log.info("upload obj bucket={},key={},filePath={}", bucket, key, filePath);
 
-        return _uploadObj(bucket, key, filePath);
+        BaseResult result = _uploadObj(bucket, key, filePath);
+        if (result.isOk()) {
+            log.info("upload obj successfully");
+        }
+        return result;
     }
 
     @Override
@@ -83,8 +117,22 @@ public abstract class AbstractOssManager implements OssManager {
         Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
         Precondition.checkNotEmpty(key, "key cannot be empty");
         Precondition.checkNotNull(file, "file cannot be empty");
+        log.info("upload obj bucket={},key={} by file", bucket, key);
 
-        return _uploadObj(bucket, key, file);
+        BaseResult result = _uploadObj(bucket, key, file);
+        if (result.isOk()) {
+            log.info("upload obj successfully");
+        }
+        return result;
+    }
+
+    @Override
+    public BaseResult<String> getObjUrl(ObjectUrlDTO dto) {
+        Precondition.checkNotNull(dto);
+        Precondition.checkNotEmpty(dto.getBucket(), "bucket cannot be empty");
+        Precondition.checkNotEmpty(dto.getKey(), "key cannot be empty");
+
+        return _getObjUrl(dto);
     }
 
     @Override
@@ -115,7 +163,11 @@ public abstract class AbstractOssManager implements OssManager {
         Precondition.checkNotEmpty(key, "key cannot be empty");
         log.info("download obj bucket={},key={},filePath={}", bucket, key, filePath);
 
-        return _downloadObj(bucket, key, filePath);
+        BaseResult result = _downloadObj(bucket, key, filePath);
+        if (result.isOk()) {
+            log.info("download obj successfully");
+        }
+        return result;
     }
 
     @Override
@@ -124,16 +176,24 @@ public abstract class AbstractOssManager implements OssManager {
         Precondition.checkNotEmpty(key, "key cannot be empty");
         log.info("delete obj bucket={},key={}", bucket, key);
 
-        return _deleteObj(bucket, key);
+        BaseResult result = _deleteObj(bucket, key);
+        if (result.isOk()) {
+            log.info("delete obj successfully");
+        }
+        return result;
     }
 
     @Override
     public BaseResult<Boolean> deleteObjs(String bucket, List<String> keys) {
         Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
         Precondition.checkNotEmpty(keys, "keys cannot be empty");
-        log.info("delete obj bucket={},keys={}", bucket, keys);
+        log.info("delete objs bucket={},keys={}", bucket, keys);
 
-        return _deleteObjs(bucket, keys);
+        BaseResult result = _deleteObjs(bucket, keys);
+        if (result.isOk()) {
+            log.info("delete objs successfully");
+        }
+        return result;
     }
 
     @Override
@@ -145,6 +205,12 @@ public abstract class AbstractOssManager implements OssManager {
 
 
     // ------------- simple overwrite
+    public void _init(OssConfig config) {
+    }
+
+    public void _destroy() {
+    }
+
     public boolean _checkBucketExist(String bucket) {
         return false;
     }
@@ -171,6 +237,21 @@ public abstract class AbstractOssManager implements OssManager {
 
     public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
         return BaseResult.failMsg("不支持的操作");
+    }
+
+    public BaseResult<String> _getObjUrl(ObjectUrlDTO dto) {
+        BaseResult<String> result = BaseResult.fail();
+        String url = "";
+        if (dto.isCustomDomainFlag()) {
+            url = ossConfig.getEndpoint() + "/" + dto.getKey();
+        } else {
+            // default url format: http://bucket.xx.com/key
+            String bucketUrl = StringUtils.replace(ossConfig.getEndpoint(), "://", "://" + dto.getBucket() + ".");
+            url = bucketUrl + "/" + dto.getKey();
+        }
+
+        result.value(url);
+        return result;
     }
 
     public BaseResult<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {

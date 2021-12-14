@@ -23,7 +23,7 @@ public class BaseOssManagerTest extends BaseSupportTest {
     protected String ACCESS_KEY = "";
     protected String SECRET_KEY = "";
 
-    protected String BUCKET = "test";
+    protected String BUCKET = "test-b-001";
 
     protected OssManager ossManager;
 
@@ -35,7 +35,7 @@ public class BaseOssManagerTest extends BaseSupportTest {
         config.setAccessKey(ACCESS_KEY);
         config.setSecretKey(SECRET_KEY);
 
-        ossManager = OssManagerFactory.get(OssTypeEnum.HUAWEI_CLOUD);
+        ossManager = OssManagerFactory.get(OssTypeEnum.ALI_YUN);
         ossManager.init(config);
     }
 

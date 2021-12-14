@@ -45,15 +45,13 @@ public class AliyunOssManager extends AbstractOssManager {
     private OSSClient client;
 
     @Override
-    public void init(OssConfig config) {
-        log.info("init aliyun oss manager");
+    public void _init(OssConfig config) {
         CredentialsProvider credentialsProvider = new DefaultCredentialProvider(config.getAccessKey(), config.getSecretKey());
         client = new OSSClient(config.getEndpoint(), credentialsProvider, null);
     }
 
     @Override
-    public void destroy() {
-        log.info("destroy aliyun oss manager");
+    public void _destroy() {
         try {
             if (client != null) {
                 client.shutdown();
@@ -86,7 +84,6 @@ public class AliyunOssManager extends AbstractOssManager {
     }
 
     public BaseResult _deleteBucket(String bucket) {
-
         BaseResult result = BaseResult.fail();
         try {
             client.deleteBucket(bucket);
