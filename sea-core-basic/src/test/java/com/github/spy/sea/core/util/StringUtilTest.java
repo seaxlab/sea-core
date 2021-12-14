@@ -88,6 +88,7 @@ public class StringUtilTest extends BaseCoreTest {
     @Test
     public void testInsert() throws Exception {
         Assert.assertEquals("ab-cdef", StringUtil.insert("abcdef", 2, "-"));
+        Assert.assertEquals("http://a.www.baidu.com", StringUtil.insert("http://www.baidu.com", 7, "a."));
     }
 
     @Test
