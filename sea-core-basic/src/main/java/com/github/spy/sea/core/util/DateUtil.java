@@ -83,6 +83,7 @@ public final class DateUtil {
      */
     public static Date strDate(String dateStr, String format) {
         if (StringUtils.isEmpty(dateStr)) {
+            log.warn("date str is empty");
             return null;
         }
         if (StringUtils.isEmpty(format)) {
@@ -111,6 +112,7 @@ public final class DateUtil {
      */
     public static String dateStr(Date date, String format) {
         if (null == date) {
+            log.warn("date is null");
             return null;
         }
         if (StringUtils.isEmpty(format)) {
@@ -308,6 +310,7 @@ public final class DateUtil {
      */
     public static String toYMDHMS(Date date) {
         if (date == null) {
+            log.warn("date is null");
             return null;
         }
 
@@ -340,6 +343,7 @@ public final class DateUtil {
 
     public static String toYMD(Date date) {
         if (date == null) {
+            log.warn("date is null");
             return null;
         }
         SimpleDateFormat sdf = new SimpleDateFormat(DAY_FORMAT);
@@ -349,6 +353,7 @@ public final class DateUtil {
 
     public static String toIntYMD(Date date) {
         if (date == null) {
+            log.warn("date is null");
             return null;
         }
 
@@ -359,6 +364,7 @@ public final class DateUtil {
 
     public static String toYMDHMSNoPoint(Date date) {
         if (date == null) {
+            log.warn("date is null");
             return null;
         }
 
@@ -370,6 +376,7 @@ public final class DateUtil {
 
     public static String toHMS(Date date) {
         if (date == null) {
+            log.warn("date is null");
             return null;
         }
 
@@ -380,7 +387,8 @@ public final class DateUtil {
 
     public static String toIntHMS(Date date) {
         if (date == null) {
-            return null;
+            log.warn("date is null");
+            return "";
         }
 
         return format(date, TIME_FORMAT2);
@@ -388,7 +396,8 @@ public final class DateUtil {
 
     public static String toString(Date date, String format) {
         if (date == null) {
-            return null;
+            log.warn("date is null");
+            return "";
         }
 
         return format(date, format);
@@ -652,6 +661,7 @@ public final class DateUtil {
 
     public static Date parseToDateYMDHMS(String date, String time) {
         if (StringUtils.isBlank(date)) {
+            log.warn("date str is blank");
             return null;
         }
 
@@ -660,9 +670,11 @@ public final class DateUtil {
         time = StringUtils.trim(time);
 
         if (StringUtils.isEmpty(date)) {
+            log.warn("date is empty");
             return null;
         }
         if (StringUtils.isEmpty(time)) {
+            log.warn("time is empty");
             return null;
         }
 
@@ -796,6 +808,7 @@ public final class DateUtil {
      */
     public static Date parse(Instant instant) {
         if (instant == null) {
+            log.warn("instant is null");
             return null;
         }
 
@@ -808,6 +821,7 @@ public final class DateUtil {
      */
     public static Date parseToDate(String sDate) {
         if (StringUtils.isBlank(sDate)) {
+            log.warn("date str is blank");
             return null;
         }
         String sDateTemp = null;
@@ -820,6 +834,7 @@ public final class DateUtil {
                 sTime = sDate.split(" ")[1];
                 return parseToDate(sDateTemp, sTime);
             default:
+                log.warn("unhandled date str by space.");
                 return null;
 
         }
@@ -849,6 +864,7 @@ public final class DateUtil {
      */
     public static Date parseToDate(String sDate, String sTime) {
         if (StringUtils.isBlank(sDate)) {
+            log.warn("date str is blank.");
             return null;
         }
 
@@ -875,10 +891,12 @@ public final class DateUtil {
 
     public static Date parseToDate(String sDate, String sTime, String sDatePattern, String sTimePattern) {
         if (StringUtils.isBlank(sDate)) {
+            log.warn("date str is blank");
             return null;
         }
 
         if (StringUtils.isBlank(sTime)) {
+            log.warn("time str is empty");
             return null;
         }
 
