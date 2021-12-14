@@ -199,6 +199,10 @@ public abstract class AbstractOssManager implements OssManager {
     @Override
     public BaseResult<List<ObjectVO>> queryObjs(ObjectQueryDTO dto) {
         Precondition.checkNotEmpty(dto.getBucket(), "bucket cannot be empty");
+        if (dto.getMaxKeys() <= 0 || dto.getMaxKeys() >= 1000) {
+            log.warn("max keys[{}] is invalid", dto.getMaxKeys());
+            dto.setMaxKeys(100);
+        }
 
         return _queryObjs(dto);
     }
