@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.support.oss;
 
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.support.oss.enums.OssTypeEnum;
 import com.github.spy.sea.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
@@ -19,6 +20,7 @@ public class AliyunOssManagerTest extends BaseOssManagerTest {
 
     @Before
     public void before() {
+        OSS_TYPE = OssTypeEnum.ALI_YUN;
         ENDPOINT = "http://oss-cn-hangzhou.aliyuncs.com";
         ACCESS_KEY = "8PIhaKLfrSBFvK1f";
         SECRET_KEY = "uK1uKmOtX2HP91kpVWRixWEiCh933J";

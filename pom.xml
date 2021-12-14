@@ -76,7 +76,7 @@
         <aliyun.oss.sdk.version>3.5.0</aliyun.oss.sdk.version>
         <minio.version>8.2.1</minio.version>
         <huaweicloud.obj.version>3.21.8</huaweicloud.obj.version>
-
+        <qiniu.oss.version>[7.7.0, 7.7.99]</qiniu.oss.version>
         <javers.version>5.6.3</javers.version>
         <alibaba.rocketmq.version>3.4.9</alibaba.rocketmq.version>
         <alibaba.ttl.version>2.12.1</alibaba.ttl.version>
@@ -374,9 +374,13 @@
                 <groupId>com.huaweicloud</groupId>
                 <artifactId>esdk-obs-java</artifactId>
                 <version>${huaweicloud.obj.version}</version>
-                <scope>provided</scope>
             </dependency>
 
+            <dependency>
+                <groupId>com.qiniu</groupId>
+                <artifactId>qiniu-java-sdk</artifactId>
+                <version>${qiniu.oss.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

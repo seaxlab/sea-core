@@ -19,6 +19,7 @@ import org.junit.Before;
 @Slf4j
 public class BaseOssManagerTest extends BaseSupportTest {
 
+    protected OssTypeEnum OSS_TYPE;
     protected String ENDPOINT = "";
     protected String ACCESS_KEY = "";
     protected String SECRET_KEY = "";
@@ -35,7 +36,7 @@ public class BaseOssManagerTest extends BaseSupportTest {
         config.setAccessKey(ACCESS_KEY);
         config.setSecretKey(SECRET_KEY);
 
-        ossManager = OssManagerFactory.get(OssTypeEnum.ALI_YUN);
+        ossManager = OssManagerFactory.get(OSS_TYPE);
         ossManager.init(config);
     }
 
