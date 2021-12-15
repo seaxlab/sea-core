@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.example.controller;
 
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.spring.annotation.LogCost;
 import com.github.spy.sea.core.thread.util.CallableUtil;
 import com.github.spy.sea.core.thread.util.ThreadPoolUtil;
 import com.github.spy.sea.core.thread.util.ThreadUtil;
@@ -29,6 +30,13 @@ import java.util.concurrent.ThreadPoolExecutor;
 @RequestMapping("/api/test")
 public class TestController implements InitializingBean {
 
+    @LogCost
+    @GetMapping("/log")
+    public BaseResult log() {
+        log.info("----log");
+
+        return BaseResult.success();
+    }
 
     @GetMapping("/log/get")
     public BaseResult getTest() {
@@ -40,7 +48,7 @@ public class TestController implements InitializingBean {
             return "";
         });
         tpe.submit(callable);
-        ThreadUtil.sleepMinute(1);
+        ThreadUtil.sleepSecond(10);
 
         return BaseResult.success();
     }
