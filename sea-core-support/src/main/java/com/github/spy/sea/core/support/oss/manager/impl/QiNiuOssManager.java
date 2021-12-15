@@ -10,10 +10,7 @@ import com.github.spy.sea.core.support.oss.manager.AbstractOssManager;
 import com.github.spy.sea.core.support.oss.vo.BucketVO;
 import com.github.spy.sea.core.support.oss.vo.ObjectPutVO;
 import com.github.spy.sea.core.support.oss.vo.ObjectVO;
-import com.github.spy.sea.core.util.ArrayUtil;
-import com.github.spy.sea.core.util.EqualUtil;
-import com.github.spy.sea.core.util.IOUtil;
-import com.github.spy.sea.core.util.ListUtil;
+import com.github.spy.sea.core.util.*;
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Configuration;
@@ -132,7 +129,6 @@ public class QiNiuOssManager extends AbstractOssManager {
 
     @Override
     public boolean _checkObjExist(String bucket, String key) {
-
         BucketManager bucketManager = new BucketManager(auth, cfg);
         try {
             FileInfo fileInfo = bucketManager.stat(bucket, key);
@@ -180,6 +176,36 @@ public class QiNiuOssManager extends AbstractOssManager {
 
         return result;
     }
+
+    @Override
+    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
+        BaseResult<ObjectPutVO> result = BaseResult.fail();
+
+        try {
+            String filePath = PathUtil.getUserHome() + "/logs/" + IdUtil.shortUUID();
+            log.info("try to write temp file[{}]", filePath);
+            boolean flag = FileUtil.writeFileFromInputStream(inputStream, filePath);
+            if (!flag) {
+                log.error("fail to write file");
+                result.setErrorMessage("写入临时文件失败");
+                return result;
+            }
+
+            String upToken = auth.uploadToken(bucket);
+            UploadManager uploadManager = new UploadManager(cfg);
+            Response res = uploadManager.put(filePath, key, upToken);
+
+            ObjectPutVO vo = new ObjectPutVO();
+            vo.setKey(key);
+            result.value(vo);
+            FileUtil.deleteFiles(filePath);
+        } catch (Exception e) {
+            log.error("fail to put obj", e);
+        }
+
+        return result;
+    }
+
 
     @Override
     public BaseResult<String> _getObjUrl(ObjectUrlDTO dto) {

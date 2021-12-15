@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -120,6 +121,20 @@ public abstract class AbstractOssManager implements OssManager {
         log.info("upload obj bucket={},key={} by file", bucket, key);
 
         BaseResult result = _uploadObj(bucket, key, file);
+        if (result.isOk()) {
+            log.info("upload obj successfully");
+        }
+        return result;
+    }
+
+    @Override
+    public BaseResult<ObjectPutVO> uploadObj(String bucket, String key, InputStream inputStream) {
+        Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
+        Precondition.checkNotEmpty(key, "key cannot be empty");
+        Precondition.checkNotNull(inputStream, "inputStream cannot be empty");
+        log.info("upload obj bucket={},key={} by file", bucket, key);
+
+        BaseResult result = _uploadObj(bucket, key, inputStream);
         if (result.isOk()) {
             log.info("upload obj successfully");
         }
@@ -240,6 +255,10 @@ public abstract class AbstractOssManager implements OssManager {
     }
 
     public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
+        return BaseResult.failMsg("不支持的操作");
+    }
+
+    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
         return BaseResult.failMsg("不支持的操作");
     }
 

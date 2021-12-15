@@ -10,6 +10,7 @@ import com.github.spy.sea.core.support.oss.vo.ObjectPutVO;
 import com.github.spy.sea.core.support.oss.vo.ObjectVO;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -84,7 +85,7 @@ public interface OssManager {
     boolean checkObjExist(String bucket, String key);
 
     /**
-     * 上传文件
+     * upload obj by file path
      *
      * @param bucket
      * @param key
@@ -94,7 +95,7 @@ public interface OssManager {
     BaseResult<ObjectPutVO> uploadObj(String bucket, String key, String filePath);
 
     /**
-     * upload file
+     * upload obj by file
      *
      * @param bucket
      * @param key
@@ -102,6 +103,16 @@ public interface OssManager {
      * @return
      */
     BaseResult<ObjectPutVO> uploadObj(String bucket, String key, File file);
+
+    /**
+     * upload obj by stream
+     *
+     * @param bucket
+     * @param key
+     * @param inputStream
+     * @return
+     */
+    BaseResult<ObjectPutVO> uploadObj(String bucket, String key, InputStream inputStream);
 
     /**
      * get object url.

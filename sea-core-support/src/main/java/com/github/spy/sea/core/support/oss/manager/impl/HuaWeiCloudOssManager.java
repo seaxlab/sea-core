@@ -163,6 +163,27 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
         return result;
     }
 
+    @Override
+    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
+        BaseResult<ObjectPutVO> result = BaseResult.fail();
+
+        try {
+            PutObjectRequest request = new PutObjectRequest();
+            request.setBucketName(bucket);
+            request.setObjectKey(key);
+            request.setInput(inputStream);
+            client.putObject(request);
+
+            ObjectPutVO vo = new ObjectPutVO();
+            vo.setKey(key);
+            result.value(vo);
+        } catch (Exception e) {
+            log.error("fail to put obj", e);
+        }
+
+        return result;
+    }
+
 
     @Override
     public BaseResult<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {

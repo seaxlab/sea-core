@@ -139,13 +139,28 @@ public class AliyunOssManager extends AbstractOssManager {
 
 
     public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
-        Precondition.checkNotNull(bucket);
-        Precondition.checkNotNull(key);
-
         BaseResult<ObjectPutVO> result = BaseResult.fail();
 
         try {
             PutObjectRequest request = new PutObjectRequest(bucket, key, file);
+            client.putObject(request);
+
+            ObjectPutVO vo = new ObjectPutVO();
+            vo.setKey(key);
+            result.value(vo);
+        } catch (Exception e) {
+            log.error("fail to put obj", e);
+            result.setErrorMessage("上传文件失败");
+        }
+
+        return result;
+    }
+
+    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
+        BaseResult<ObjectPutVO> result = BaseResult.fail();
+
+        try {
+            PutObjectRequest request = new PutObjectRequest(bucket, key, inputStream);
             client.putObject(request);
 
             ObjectPutVO vo = new ObjectPutVO();
