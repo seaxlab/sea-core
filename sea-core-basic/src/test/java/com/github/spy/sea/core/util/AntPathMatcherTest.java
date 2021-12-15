@@ -1,6 +1,5 @@
 package com.github.spy.sea.core.util;
 
-import cn.hutool.core.lang.Assert;
 import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -15,10 +14,13 @@ import org.junit.Test;
 @Slf4j
 public class AntPathMatcherTest extends BaseCoreTest {
 
-    @Test
-    public void test16() throws Exception {
-        PathMatcher pathMatcher = new AntPathMatcher();
+    PathMatcher pathMatcher = new AntPathMatcher();
 
-        Assert.isTrue(pathMatcher.match("/api/**/ab", "/api/1/ab"));
+    @Test
+    public void testMatch() throws Exception {
+        log.info("{}", pathMatcher.match("/api/**/ab", "/api/1/2/ab"));
+        log.info("{}", pathMatcher.match("/api/*/ab", "/api/12/ab"));
+        log.info("{}", pathMatcher.match("/api/*/ab", "/api/12/34/ab"));
+        log.info("{}", pathMatcher.match("/abc", "/abc"));
     }
 }

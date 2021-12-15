@@ -28,4 +28,8 @@ public class CoreErrorConst {
     public static final String SYS_OPERATION_FREQUENTLY = "1010";
 
     public static final String SYS_REFLECT_OPERATION_ERR = "1011";
+
+    // 限流错误
+    public static final String SYS_RATE_LIMITER_ERR = "1012";
+    public static final String SYS_FORBIDDEN_ACCESS = "1013";
 }
