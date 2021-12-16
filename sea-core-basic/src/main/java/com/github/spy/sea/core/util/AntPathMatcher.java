@@ -538,13 +538,13 @@ public class AntPathMatcher implements PathMatcher {
      */
     @Override
     public String combine(String pattern1, String pattern2) {
-        if (!StringUtil.hasText(pattern1) && !StringUtil.hasText(pattern2)) {
+        if (StringUtil.isBlank(pattern1) && StringUtil.isBlank(pattern2)) {
             return "";
         }
-        if (!StringUtil.hasText(pattern1)) {
+        if (StringUtil.isBlank(pattern1)) {
             return pattern2;
         }
-        if (!StringUtil.hasText(pattern2)) {
+        if (StringUtil.isBlank(pattern2)) {
             return pattern1;
         }
 

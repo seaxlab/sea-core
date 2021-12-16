@@ -100,9 +100,15 @@ public final class StringUtil {
         return false;
     }
 
+    /**
+     * 空的标准：至少含有一个非空字符
+     *
+     * @param strs
+     * @return
+     */
     public static boolean isBlank(String... strs) {
         for (String str : strs) {
-            if (str == null || str.trim().isEmpty()) {
+            if (str == null || str.trim().isEmpty()) { // 这里不需要containsText判断，本质都是一样的
                 return true;
             }
         }
@@ -153,24 +159,6 @@ public final class StringUtil {
             }
         }
         return true;
-    }
-
-
-    /**
-     * Check whether the given {@code String} contains actual <em>text</em>.
-     * <p>More specifically, this method returns {@code true} if the
-     * {@code String} is not {@code null}, its length is greater than 0,
-     * and it contains at least one non-whitespace character.
-     *
-     * @param str the {@code String} to check (may be {@code null})
-     * @return {@code true} if the {@code String} is not {@code null}, its
-     * length is greater than 0, and it does not contain whitespace only
-     * @see #hasText(CharSequence)
-     * @see #hasLength(String)
-     * @see Character#isWhitespace
-     */
-    public static boolean hasText(String str) {
-        return (str != null && !str.isEmpty() && containsText(str));
     }
 
     private static boolean containsText(CharSequence str) {
