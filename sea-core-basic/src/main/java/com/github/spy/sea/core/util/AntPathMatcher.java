@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.util;
 
-import cn.hutool.core.lang.Assert;
 import com.alipay.common.tracer.core.utils.StringUtils;
+import com.github.spy.sea.core.exception.Precondition;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -97,7 +97,7 @@ public class AntPathMatcher implements PathMatcher {
      * @since 4.1
      */
     public AntPathMatcher(String pathSeparator) {
-        Assert.notNull(pathSeparator, "'pathSeparator' is required");
+        Precondition.checkNotNull(pathSeparator, "'pathSeparator' is required");
         this.pathSeparator = pathSeparator;
         this.pathSeparatorPatternCache = new PathSeparatorPatternCache(pathSeparator);
     }

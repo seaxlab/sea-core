@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.loader;
 
-import cn.hutool.core.lang.Assert;
+import com.github.spy.sea.core.exception.Precondition;
 import com.github.spy.sea.core.model.LinkedMultiValueMap;
 import com.github.spy.sea.core.model.MultiValueMap;
 import com.github.spy.sea.core.util.ClassUtil;
@@ -68,7 +68,7 @@ public class SeaFactoriesLoader {
      * @see #loadFactoryNames
      */
     public static <T> List<T> loadFactories(Class<T> factoryType, ClassLoader classLoader) {
-        Assert.notNull(factoryType, "'factoryType' must not be null");
+        Precondition.checkNotNull(factoryType, "'factoryType' must not be null");
         ClassLoader classLoaderToUse = classLoader;
         if (classLoaderToUse == null) {
             classLoaderToUse = SeaFactoriesLoader.class.getClassLoader();
