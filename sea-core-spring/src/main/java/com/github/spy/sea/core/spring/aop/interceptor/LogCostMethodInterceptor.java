@@ -34,7 +34,7 @@ public class LogCostMethodInterceptor implements MethodInterceptor {
             } else {
                 prefix = anno.remark();
             }
-            log.info("{} cost={}ms", prefix, System.currentTimeMillis() - start);
+            log.info("{}, cost={}ms", prefix, System.currentTimeMillis() - start);
         }
 
     }
