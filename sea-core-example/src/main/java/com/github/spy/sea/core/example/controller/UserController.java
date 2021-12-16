@@ -26,7 +26,7 @@ public class UserController {
     private UserService user1Service;
 
     @Autowired
-    @Qualifier("user1Service")
+    @Qualifier("user2Service")
     private UserService user2Service;
 
     @GetMapping("/1")
