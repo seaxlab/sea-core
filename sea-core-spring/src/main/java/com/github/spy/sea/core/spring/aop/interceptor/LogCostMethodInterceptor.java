@@ -5,6 +5,7 @@ import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 
 /**
  * module name
@@ -19,7 +20,11 @@ public class LogCostMethodInterceptor implements MethodInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
 
-        LogCost anno = invocation.getMethod().getAnnotation(LogCost.class);
+        //boolean hasFlag = AnnotatedElementUtils.hasAnnotation(invocation.getMethod(), LogCost.class);
+        //LogCost anno = invocation.getMethod().getAnnotation(LogCost.class);
+
+        LogCost anno = AnnotatedElementUtils.findMergedAnnotation(invocation.getMethod(), LogCost.class);
+
         if (anno == null) {
             return invocation.proceed();
         }

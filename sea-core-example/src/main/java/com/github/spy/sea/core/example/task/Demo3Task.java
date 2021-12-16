@@ -1,8 +1,6 @@
 package com.github.spy.sea.core.example.task;
 
-import com.github.spy.sea.core.thread.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,10 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class Demo3Task {
 
-    @Scheduled(cron = "*/10 * * * * *")
-    public void queryFailTask() {
-        log.info("query fail task...");
-        ThreadUtil.sleepSecond(15);
-    }
+    //@Scheduled(cron = "*/10 * * * * *")
+    //public void queryFailTask() {
+    //    log.info("query fail task...");
+    //    ThreadUtil.sleepSecond(15);
+    //}
 
 }

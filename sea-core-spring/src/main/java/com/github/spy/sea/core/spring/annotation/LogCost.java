@@ -3,7 +3,7 @@ package com.github.spy.sea.core.spring.annotation;
 import java.lang.annotation.*;
 
 /**
- * module name
+ * 记录耗时，支持接口和普通类
  *
  * @author spy
  * @version 1.0 2021/12/15
@@ -12,6 +12,7 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
+@Inherited
 public @interface LogCost {
 
     String remark() default "";

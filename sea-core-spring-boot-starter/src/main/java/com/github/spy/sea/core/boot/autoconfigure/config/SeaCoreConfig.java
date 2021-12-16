@@ -3,9 +3,11 @@ package com.github.spy.sea.core.boot.autoconfigure.config;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.github.spy.sea.core.spring.aop.advisor.DynamicPointcutAdvisor;
+import com.github.spy.sea.core.spring.aop.advisor.DefaultPointCutAdvisor;
+import com.github.spy.sea.core.spring.aop.advisor.LogCostPointCut;
 import com.github.spy.sea.core.spring.aop.interceptor.LogCostMethodInterceptor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.PointcutAdvisor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -73,13 +75,20 @@ public class SeaCoreConfig {
         return fastConverter;
     }
 
-    private static final String DEFAULT_EXPRESSION_LOG_COST = "@annotation(com.github.spy.sea.core.spring.annotation.LogCost)";
+    //private static final String DEFAULT_EXPRESSION_LOG_COST = "@annotation(com.github.spy.sea.core.spring.annotation.LogCost)";
 
     @Bean
     @ConditionalOnMissingBean
-    public DynamicPointcutAdvisor seaLogCostAdvisor() {
+    public PointcutAdvisor seaLogCostAdvisor() {
         log.info("init sea log cost advisor bean");
-        DynamicPointcutAdvisor advisor = new DynamicPointcutAdvisor(DEFAULT_EXPRESSION_LOG_COST);
+
+        //DynamicPointcutAdvisor advisor = new DynamicPointcutAdvisor(DEFAULT_EXPRESSION_LOG_COST);
+        //advisor.setAdviceBeanName("seaLogCostPointcutAdvisor");
+        //advisor.setAdvice(new LogCostMethodInterceptor());
+        //advisor.setOrder(Ordered.HIGHEST_PRECEDENCE);
+
+        DefaultPointCutAdvisor advisor = new DefaultPointCutAdvisor(new LogCostPointCut());
+
         advisor.setAdviceBeanName("seaLogCostPointcutAdvisor");
         advisor.setAdvice(new LogCostMethodInterceptor());
         advisor.setOrder(Ordered.HIGHEST_PRECEDENCE);
