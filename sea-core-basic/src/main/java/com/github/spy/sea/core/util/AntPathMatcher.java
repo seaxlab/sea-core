@@ -1,6 +1,5 @@
 package com.github.spy.sea.core.util;
 
-import com.alipay.common.tracer.core.utils.StringUtils;
 import com.github.spy.sea.core.exception.Precondition;
 
 import javax.annotation.Nullable;
@@ -539,13 +538,13 @@ public class AntPathMatcher implements PathMatcher {
      */
     @Override
     public String combine(String pattern1, String pattern2) {
-        if (!StringUtils.hasText(pattern1) && !StringUtils.hasText(pattern2)) {
+        if (!StringUtil.hasText(pattern1) && !StringUtil.hasText(pattern2)) {
             return "";
         }
-        if (!StringUtils.hasText(pattern1)) {
+        if (!StringUtil.hasText(pattern1)) {
             return pattern2;
         }
-        if (!StringUtils.hasText(pattern2)) {
+        if (!StringUtil.hasText(pattern2)) {
             return pattern1;
         }
 
