@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.http.util.ByteArrayBuffer;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -100,15 +101,45 @@ public final class FileUtil {
     /**
      * 获取文件输入流
      */
+    @Deprecated
     public static InputStream readFileToInputStream(String path) {
         InputStream inputStream = null;
         try {
-            File file = new File(path);
-            inputStream = new FileInputStream(file);
+            inputStream = new FileInputStream(path);
         } catch (IOException e) {
             log.error("io exception", e);
         }
         return inputStream;
+    }
+
+    /**
+     * 将本地文件转成流
+     *
+     * @param filePath
+     * @return
+     */
+    public static InputStream toInputStreamByFilePath(String filePath) {
+        try {
+            return new FileInputStream(filePath);
+        } catch (Exception e) {
+            log.error("convert to file input stream error", e);
+        }
+        return null;
+    }
+
+    /**
+     * 网络地址转流
+     *
+     * @param url
+     * @return
+     */
+    public static InputStream toInputStreamByUrl(String url) {
+        try {
+            return new URL(url).openStream();
+        } catch (Exception e) {
+            log.error("convert to input stream error", e);
+        }
+        return null;
     }
 
     /**

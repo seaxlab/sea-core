@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,6 +31,13 @@ public class FileUtilTest extends BaseCoreTest {
         String txt = FileUtil.readFormClasspath("util/users.json");
 
         log.info("txt={}", txt);
+    }
+
+    @Test
+    public void test36() throws Exception {
+        InputStream inputStream = FileUtil.toInputStreamByUrl("https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png");
+
+        log.info("input stream={}", inputStream);
     }
 
     @Test
