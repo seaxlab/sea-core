@@ -90,6 +90,7 @@ public final class ModelConst {
     public static final String IS_ENABLED = "isEnabled";
     public static final String IS_DELETED = "isDeleted";
     public static final String VERSION = "version";
+    public static final String MODEL_VERSION = "modelVersion"; /* db model version */
     public static final String TENANT_ID = "tenantId";
 
     /*----------这里兼容了几种常用的字段-----------------*/
