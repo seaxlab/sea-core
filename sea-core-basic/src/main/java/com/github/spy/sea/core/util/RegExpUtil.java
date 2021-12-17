@@ -132,6 +132,15 @@ public final class RegExpUtil {
      */
     public static final String REGEX_PICTURE = ".+(.JPEG|.jpeg|.JPG|.jpg|.GIF|.gif|.BMP|.bmp|.PNG|.png)$";
 
+    /**
+     * 中文
+     */
+    public static final String REGEX_CHINESE = "[\u4e00-\u9fa5]";
+
+    /**
+     * 中文+中文符号
+     */
+    public static final String REGEX_CHINESE2 = "[\u4E00-\u9FA5|\\！|\\，|\\。|\\（|\\）|\\《|\\》|\\“|\\”|\\？|\\：|\\；|\\【|\\】]";
 
     /**
      * 根据传入的正则表达式和字符串进行校验。<br/>
@@ -144,6 +153,23 @@ public final class RegExpUtil {
         Pattern pattern = Pattern.compile(patternStr);
         return pattern.matcher(text).matches();
     }
+
+    /**
+     * 检查text中是否包含指定的正则
+     *
+     * @param text
+     * @param patternStr
+     * @return
+     */
+    public static boolean find(String text, String patternStr) {
+        Pattern p = Pattern.compile(patternStr);
+        Matcher m = p.matcher(text);
+        if (m.find()) {
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * 判断是否是手机号

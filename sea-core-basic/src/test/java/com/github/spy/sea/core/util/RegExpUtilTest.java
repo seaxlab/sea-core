@@ -32,4 +32,11 @@ public class RegExpUtilTest extends BaseCoreTest {
     public void run32() throws Exception {
         println(RegExpUtil.is("Aa1-_.", RegExpUtil.normal_id_regexp));
     }
+
+    @Test
+    public void testChinese() throws Exception {
+        println(RegExpUtil.find("中文", RegExpUtil.REGEX_CHINESE));
+        println(RegExpUtil.find("12abc中文", RegExpUtil.REGEX_CHINESE));
+
+    }
 }
