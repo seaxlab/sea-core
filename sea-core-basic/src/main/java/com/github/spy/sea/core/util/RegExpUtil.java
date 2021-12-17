@@ -164,10 +164,7 @@ public final class RegExpUtil {
     public static boolean find(String text, String patternStr) {
         Pattern p = Pattern.compile(patternStr);
         Matcher m = p.matcher(text);
-        if (m.find()) {
-            return true;
-        }
-        return false;
+        return m.find();
     }
 
 
