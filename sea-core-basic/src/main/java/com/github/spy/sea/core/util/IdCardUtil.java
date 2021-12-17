@@ -31,37 +31,45 @@ public class IdCardUtil {
      * @return
      */
     public static BaseResult<IdCard> parse(String idNo) {
-        boolean isValid = isValid(idNo);
-        if (!isValid) {
-            BaseResult.failMsg("身份证不合法。");
+        BaseResult<IdCard> result = BaseResult.fail();
+
+        try {
+            boolean isValid = isValid(idNo);
+            if (!isValid) {
+                result.setErrorMessage("身份证不合法。");
+                return result;
+            }
+
+            IdCard idCard = new IdCard();
+
+            idCard.setMainlandFlag(idNo.length() == OLD_CARD_NUMBER_LENGTH || idNo.length() == NEW_CARD_NUMBER_LENGTH);
+            if (idCard.isMainlandFlag()) {
+                // 统一转成18位
+                idNo = checkLength(idNo);
+                idCard.setNativePlace(getNativePlace(idNo));
+
+                // 生日部分
+                Date birthday = getBirthdayDate(idNo);
+                idCard.setBirthday(birthday);
+                idCard.setBirthdayStr(getBirthdayStr(idNo));
+                idCard.setAge(Long.valueOf(BirthdayUtil.getAge(birthday)).intValue());
+                idCard.setMonthsOfAge(BirthdayUtil.getMonths(birthday));
+                idCard.setDaysOfAge(BirthdayUtil.getDays(birthday));
+
+                GenderEnum genderEnum = getGender(idNo);
+                idCard.setSex(genderEnum.getCode());
+                idCard.setSexLabel(genderEnum.getDesc());
+            }
+
+            idCard.setHkFlag(IdcardUtil.isValidHKCard(idNo));
+            idCard.setTwFlag(IdcardUtil.isValidTWCard(idNo));
+
+            result.value(idCard);
+        } catch (Exception e) {
+            log.error("fail to parse id card", e);
+            result.setErrorMessage("身份证解析异常");
         }
-
-        IdCard idCard = new IdCard();
-
-        idCard.setMainlandFlag(idNo.length() == OLD_CARD_NUMBER_LENGTH || idNo.length() == NEW_CARD_NUMBER_LENGTH);
-        if (idCard.isMainlandFlag()) {
-            // 统一转成18位
-            idNo = checkLength(idNo);
-            idCard.setNativePlace(getNativePlace(idNo));
-
-            // 生日部分
-            Date birthday = getBirthdayDate(idNo);
-            idCard.setBirthday(birthday);
-            idCard.setBirthdayStr(getBirthdayStr(idNo));
-            idCard.setAge(Long.valueOf(BirthdayUtil.getAge(birthday)).intValue());
-            idCard.setMonthsOfAge(BirthdayUtil.getMonths(birthday));
-            idCard.setDaysOfAge(BirthdayUtil.getDays(birthday));
-
-            GenderEnum genderEnum = getGender(idNo);
-            idCard.setSex(genderEnum.getCode());
-            idCard.setSexLabel(genderEnum.getDesc());
-        }
-
-        idCard.setHkFlag(IdcardUtil.isValidHKCard(idNo));
-
-        idCard.setTwFlag(IdcardUtil.isValidTWCard(idNo));
-
-        return BaseResult.success(idCard);
+        return result;
     }
 
 

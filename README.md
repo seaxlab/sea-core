@@ -23,6 +23,7 @@
 - 文件下载进度日志
 - 网速显示
 - sea-core-mybatis合并至sea-core-dal（统一数据访问层）中
+- 减少对hutool的依赖
 
 ### 2.3.0-SNAPSHOT
 
