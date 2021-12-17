@@ -50,7 +50,7 @@ public interface OssManager {
     boolean checkBucketExist(String bucket);
 
     /**
-     * 创建bucket
+     * 创建bucket，默认是私有的
      *
      * @param bucket
      * @return
