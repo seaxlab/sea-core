@@ -121,6 +121,17 @@ public interface OssManager {
     BaseResult<ObjectPutVO> uploadObj(String bucket, String key, InputStream inputStream);
 
     /**
+     * update obj
+     * <p>
+     * 私有桶中公开可读文件
+     * </p>
+     *
+     * @param dto
+     * @return
+     */
+    BaseResult<ObjectPutVO> uploadObj(ObjectUploadDTO dto);
+
+    /**
      * get object url.
      *
      * @param dto

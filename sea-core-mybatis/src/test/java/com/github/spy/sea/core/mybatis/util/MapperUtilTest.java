@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.mybatis.util;
 
+import com.github.spy.sea.core.model.PageInfo;
 import com.github.spy.sea.core.mybatis.BaseMybatisTest;
 import com.github.spy.sea.core.mybatis.dao.UserMapper;
 import com.github.spy.sea.core.mybatis.domain.User;
@@ -56,6 +57,15 @@ public class MapperUtilTest extends BaseMybatisTest {
         boolean sucFlag = MapperUtil.updateByVersion(userMapper, record, users);
         log.info("suc flag={}", sucFlag);
 
+    }
+
+    @Test
+    public void testToPage() throws Exception {
+        Example example = new Example(User.class);
+        PageInfo pageInfo = PageInfo.of(1, 2);
+        List<User> users = userMapper.selectByExampleAndRowBounds(example, MapperUtil.toPage(pageInfo));
+
+        log.info("users={}", users);
     }
 
     @After

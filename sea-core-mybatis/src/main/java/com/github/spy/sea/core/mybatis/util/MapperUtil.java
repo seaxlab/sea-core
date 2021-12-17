@@ -3,11 +3,14 @@ package com.github.spy.sea.core.mybatis.util;
 import com.github.pagehelper.PageHelper;
 import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.exception.Precondition;
+import com.github.spy.sea.core.model.PageInfo;
 import com.github.spy.sea.core.model.common.ModelConst;
 import com.github.spy.sea.core.util.ListUtil;
+import com.github.spy.sea.core.util.PageUtil;
 import com.github.spy.sea.core.util.ReflectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.binding.MapperProxy;
+import org.apache.ibatis.session.RowBounds;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 
@@ -445,4 +448,16 @@ public final class MapperUtil {
 
         return true;
     }
+
+    /**
+     * to page row bounds
+     *
+     * @param pageInfo
+     * @return
+     */
+    public static RowBounds toPage(PageInfo pageInfo) {
+        PageUtil.checkPageInfo(pageInfo);
+        return new RowBounds(pageInfo.getOffset(), pageInfo.getPageSize());
+    }
+
 }

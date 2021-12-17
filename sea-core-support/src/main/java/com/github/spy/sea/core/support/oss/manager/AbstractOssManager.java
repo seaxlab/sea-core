@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.support.oss.manager;
 
+import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.exception.Precondition;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.support.oss.dto.*;
@@ -156,6 +157,25 @@ public abstract class AbstractOssManager implements OssManager {
     }
 
     @Override
+    public BaseResult<ObjectPutVO> uploadObj(ObjectUploadDTO dto) {
+        Precondition.checkNotEmpty(dto.getBucket(), "bucket cannot be empty");
+        Precondition.checkNotEmpty(dto.getKey(), "key cannot be empty");
+        if (dto.getFile() == null && dto.getInputStream() == null) {
+            ExceptionHandler.publishMsg("file, inputStream不能同时为空");
+        }
+        if (dto.getAclEnum() == null) {
+            dto.setAclEnum(AclEnum.PRIVATE);
+        }
+        log.info("upload obj bucket={},key={} by file", dto.getBucket(), dto.getKey());
+
+        BaseResult result = _uploadObj(dto);
+        if (result.isOk()) {
+            log.info("upload obj successfully");
+        }
+        return result;
+    }
+
+    @Override
     public BaseResult<String> getObjUrl(ObjectUrlDTO dto) {
         Precondition.checkNotNull(dto);
         Precondition.checkNotEmpty(dto.getBucket(), "bucket cannot be empty");
@@ -277,6 +297,10 @@ public abstract class AbstractOssManager implements OssManager {
     }
 
     public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
+        return BaseResult.failMsg("不支持的操作");
+    }
+
+    public BaseResult<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
         return BaseResult.failMsg("不支持的操作");
     }
 

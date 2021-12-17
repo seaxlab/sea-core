@@ -7,10 +7,7 @@ import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.model.*;
 import com.github.spy.sea.core.exception.Precondition;
 import com.github.spy.sea.core.model.BaseResult;
-import com.github.spy.sea.core.support.oss.dto.BucketCreateDTO;
-import com.github.spy.sea.core.support.oss.dto.ObjectQueryDTO;
-import com.github.spy.sea.core.support.oss.dto.ObjectSignUrlDTO;
-import com.github.spy.sea.core.support.oss.dto.OssConfig;
+import com.github.spy.sea.core.support.oss.dto.*;
 import com.github.spy.sea.core.support.oss.enums.AclEnum;
 import com.github.spy.sea.core.support.oss.enums.HttpMethodEnum;
 import com.github.spy.sea.core.support.oss.enums.OssTypeEnum;
@@ -183,6 +180,34 @@ public class AliyunOssManager extends AbstractOssManager {
 
             ObjectPutVO vo = new ObjectPutVO();
             vo.setKey(key);
+            result.value(vo);
+        } catch (Exception e) {
+            log.error("fail to put obj", e);
+            result.setErrorMessage("上传文件失败");
+        }
+
+        return result;
+    }
+
+    @Override
+    public BaseResult<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
+        BaseResult<ObjectPutVO> result = BaseResult.fail();
+
+        try {
+            PutObjectRequest request = null;
+            if (dto.getFile() != null) {
+                request = new PutObjectRequest(dto.getBucket(), dto.getKey(), dto.getFile());
+            } else {
+                request = new PutObjectRequest(dto.getBucket(), dto.getKey(), dto.getInputStream());
+            }
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setObjectAcl(toACL(dto.getAclEnum()));
+            request.setMetadata(metadata);
+
+            client.putObject(request);
+
+            ObjectPutVO vo = new ObjectPutVO();
+            vo.setKey(dto.getKey());
             result.value(vo);
         } catch (Exception e) {
             log.error("fail to put obj", e);

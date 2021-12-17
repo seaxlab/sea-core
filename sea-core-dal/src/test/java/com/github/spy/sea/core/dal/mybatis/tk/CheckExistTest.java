@@ -33,5 +33,7 @@ public class CheckExistTest extends BaseSpringTest {
         user.setId(100L);
         exist = user1Mapper.checkExist(user);
         log.info("exist={}", exist);
+
+        //user1Mapper.selectByExampleAndRowBounds()
     }
 }

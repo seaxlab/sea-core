@@ -1,10 +1,7 @@
 package com.github.spy.sea.core.support.oss.manager.impl;
 
 import com.github.spy.sea.core.model.BaseResult;
-import com.github.spy.sea.core.support.oss.dto.BucketCreateDTO;
-import com.github.spy.sea.core.support.oss.dto.ObjectQueryDTO;
-import com.github.spy.sea.core.support.oss.dto.ObjectSignUrlDTO;
-import com.github.spy.sea.core.support.oss.dto.OssConfig;
+import com.github.spy.sea.core.support.oss.dto.*;
 import com.github.spy.sea.core.support.oss.enums.AclEnum;
 import com.github.spy.sea.core.support.oss.enums.OssTypeEnum;
 import com.github.spy.sea.core.support.oss.manager.AbstractOssManager;
@@ -194,6 +191,29 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
 
             ObjectPutVO vo = new ObjectPutVO();
             vo.setKey(key);
+            result.value(vo);
+        } catch (Exception e) {
+            log.error("fail to put obj", e);
+        }
+
+        return result;
+    }
+
+    @Override
+    public BaseResult<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
+        BaseResult<ObjectPutVO> result = BaseResult.fail();
+
+        try {
+            PutObjectRequest request = new PutObjectRequest();
+            request.setBucketName(dto.getBucket());
+            request.setObjectKey(dto.getKey());
+            request.setFile(dto.getFile());
+            request.setInput(dto.getInputStream());
+            request.setAcl(toACL(dto.getAclEnum()));
+            client.putObject(request);
+
+            ObjectPutVO vo = new ObjectPutVO();
+            vo.setKey(dto.getKey());
             result.value(vo);
         } catch (Exception e) {
             log.error("fail to put obj", e);

@@ -218,6 +218,14 @@ public class QiNiuOssManager extends AbstractOssManager {
         return result;
     }
 
+    @Override
+    public BaseResult<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
+        if (dto.getFile() != null) {
+            return _uploadObj(dto.getBucket(), dto.getKey(), dto.getFile());
+        } else {
+            return _uploadObj(dto.getBucket(), dto.getKey(), dto.getInputStream());
+        }
+    }
 
     @Override
     public BaseResult<String> _getObjUrl(ObjectUrlDTO dto) {
