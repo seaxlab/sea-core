@@ -2,10 +2,8 @@ package com.github.spy.sea.core.support.oss.manager;
 
 import com.github.spy.sea.core.exception.Precondition;
 import com.github.spy.sea.core.model.BaseResult;
-import com.github.spy.sea.core.support.oss.dto.ObjectQueryDTO;
-import com.github.spy.sea.core.support.oss.dto.ObjectSignUrlDTO;
-import com.github.spy.sea.core.support.oss.dto.ObjectUrlDTO;
-import com.github.spy.sea.core.support.oss.dto.OssConfig;
+import com.github.spy.sea.core.support.oss.dto.*;
+import com.github.spy.sea.core.support.oss.enums.AclEnum;
 import com.github.spy.sea.core.support.oss.enums.OssTypeEnum;
 import com.github.spy.sea.core.support.oss.vo.BucketVO;
 import com.github.spy.sea.core.support.oss.vo.ObjectPutVO;
@@ -65,6 +63,22 @@ public abstract class AbstractOssManager implements OssManager {
         log.info("create bucket={}", bucket);
 
         BaseResult result = _createBucket(bucket);
+
+        if (result.isOk()) {
+            log.info("create bucket successfully");
+        }
+
+        return result;
+    }
+
+    @Override
+    public BaseResult<Boolean> createBucket(BucketCreateDTO dto) {
+        Precondition.checkNotEmpty(dto.getName(), "bucket cannot be empty");
+        log.info("create bucket={}", dto.getName());
+        if (dto.getAclEnum() == null) {
+            dto.setAclEnum(AclEnum.PRIVATE);
+        }
+        BaseResult result = _createBucket(dto);
 
         if (result.isOk()) {
             log.info("create bucket successfully");
@@ -235,6 +249,10 @@ public abstract class AbstractOssManager implements OssManager {
     }
 
     public BaseResult _createBucket(String bucket) {
+        return BaseResult.failMsg("不支持的操作");
+    }
+
+    public BaseResult _createBucket(BucketCreateDTO dto) {
         return BaseResult.failMsg("不支持的操作");
     }
 

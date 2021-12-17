@@ -1,9 +1,11 @@
 package com.github.spy.sea.core.support.oss.manager.impl;
 
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.support.oss.dto.BucketCreateDTO;
 import com.github.spy.sea.core.support.oss.dto.ObjectQueryDTO;
 import com.github.spy.sea.core.support.oss.dto.ObjectSignUrlDTO;
 import com.github.spy.sea.core.support.oss.dto.OssConfig;
+import com.github.spy.sea.core.support.oss.enums.AclEnum;
 import com.github.spy.sea.core.support.oss.enums.OssTypeEnum;
 import com.github.spy.sea.core.support.oss.manager.AbstractOssManager;
 import com.github.spy.sea.core.support.oss.vo.BucketVO;
@@ -79,6 +81,22 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
         } catch (Exception e) {
             log.error("fail to create bucket", e);
             result.setErrorMessage("创建桶失败");
+        }
+        return result;
+    }
+
+    @Override
+    public BaseResult _createBucket(BucketCreateDTO dto) {
+        BaseResult<Boolean> result = BaseResult.fail();
+
+        try {
+            CreateBucketRequest request = new CreateBucketRequest();
+            request.setBucketName(dto.getName());
+            request.setAcl(toACL(dto.getAclEnum()));
+            client.createBucket(request);
+            result.value(true);
+        } catch (Exception e) {
+            log.error("fail to create bucket", e);
         }
         return result;
     }
@@ -335,5 +353,18 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
             default:
                 return HttpMethodEnum.GET;
         }
+    }
+
+    public AccessControlList toACL(AclEnum aclEnum) {
+        if (aclEnum == null) {
+            return AccessControlList.REST_CANNED_PRIVATE;
+        }
+        switch (aclEnum) {
+            case PUBLIC:
+                return AccessControlList.REST_CANNED_PUBLIC_READ;
+            case PRIVATE:
+                return AccessControlList.REST_CANNED_PRIVATE;
+        }
+        return AccessControlList.REST_CANNED_PRIVATE;
     }
 }

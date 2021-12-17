@@ -1,10 +1,7 @@
 package com.github.spy.sea.core.support.oss.manager;
 
 import com.github.spy.sea.core.model.BaseResult;
-import com.github.spy.sea.core.support.oss.dto.ObjectQueryDTO;
-import com.github.spy.sea.core.support.oss.dto.ObjectSignUrlDTO;
-import com.github.spy.sea.core.support.oss.dto.ObjectUrlDTO;
-import com.github.spy.sea.core.support.oss.dto.OssConfig;
+import com.github.spy.sea.core.support.oss.dto.*;
 import com.github.spy.sea.core.support.oss.vo.BucketVO;
 import com.github.spy.sea.core.support.oss.vo.ObjectPutVO;
 import com.github.spy.sea.core.support.oss.vo.ObjectVO;
@@ -59,6 +56,15 @@ public interface OssManager {
      * @return
      */
     BaseResult createBucket(String bucket);
+
+
+    /**
+     * create bucket
+     *
+     * @param dto
+     * @return
+     */
+    BaseResult<Boolean> createBucket(BucketCreateDTO dto);
 
     /**
      * 删除bucket

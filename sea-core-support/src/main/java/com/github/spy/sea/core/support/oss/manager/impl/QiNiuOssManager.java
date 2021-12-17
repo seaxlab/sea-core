@@ -1,10 +1,7 @@
 package com.github.spy.sea.core.support.oss.manager.impl;
 
 import com.github.spy.sea.core.model.BaseResult;
-import com.github.spy.sea.core.support.oss.dto.ObjectQueryDTO;
-import com.github.spy.sea.core.support.oss.dto.ObjectSignUrlDTO;
-import com.github.spy.sea.core.support.oss.dto.ObjectUrlDTO;
-import com.github.spy.sea.core.support.oss.dto.OssConfig;
+import com.github.spy.sea.core.support.oss.dto.*;
 import com.github.spy.sea.core.support.oss.enums.OssTypeEnum;
 import com.github.spy.sea.core.support.oss.manager.AbstractOssManager;
 import com.github.spy.sea.core.support.oss.vo.BucketVO;
@@ -90,6 +87,21 @@ public class QiNiuOssManager extends AbstractOssManager {
             log.error("fail to create get bucket info", e);
         }
         return result;
+    }
+
+    @Override
+    public BaseResult _createBucket(BucketCreateDTO dto) {
+        //TODO test
+        BaseResult result = BaseResult.fail();
+        BucketManager bucketManager = new BucketManager(auth, cfg);
+        try {
+            Response resp = bucketManager.createBucket(dto.getName(), DEFAULT_REGION);
+            result.value(true);
+        } catch (Exception e) {
+            log.error("fail to create get bucket info", e);
+        }
+        return result;
+
     }
 
     @Override

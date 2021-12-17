@@ -7,9 +7,11 @@ import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.model.*;
 import com.github.spy.sea.core.exception.Precondition;
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.support.oss.dto.BucketCreateDTO;
 import com.github.spy.sea.core.support.oss.dto.ObjectQueryDTO;
 import com.github.spy.sea.core.support.oss.dto.ObjectSignUrlDTO;
 import com.github.spy.sea.core.support.oss.dto.OssConfig;
+import com.github.spy.sea.core.support.oss.enums.AclEnum;
 import com.github.spy.sea.core.support.oss.enums.HttpMethodEnum;
 import com.github.spy.sea.core.support.oss.enums.OssTypeEnum;
 import com.github.spy.sea.core.support.oss.manager.AbstractOssManager;
@@ -75,6 +77,22 @@ public class AliyunOssManager extends AbstractOssManager {
         BaseResult result = BaseResult.fail();
         try {
             client.createBucket(bucket);
+            result.value(true);
+        } catch (Exception e) {
+            log.error("fail to create bucket", e);
+        }
+
+        return result;
+    }
+
+    @Override
+    public BaseResult _createBucket(BucketCreateDTO dto) {
+        BaseResult result = BaseResult.fail();
+        try {
+            CreateBucketRequest request = new CreateBucketRequest(dto.getName());
+            request.setCannedACL(toACL(dto.getAclEnum()));
+            client.createBucket(request);
+            result.value(true);
             result.value(true);
         } catch (Exception e) {
             log.error("fail to create bucket", e);
@@ -319,5 +337,18 @@ public class AliyunOssManager extends AbstractOssManager {
             default:
                 return HttpMethod.GET;
         }
+    }
+
+    public CannedAccessControlList toACL(AclEnum aclEnum) {
+        if (aclEnum == null) {
+            return CannedAccessControlList.Private;
+        }
+        switch (aclEnum) {
+            case PUBLIC:
+                return CannedAccessControlList.PublicRead;
+            case PRIVATE:
+                return CannedAccessControlList.Private;
+        }
+        return CannedAccessControlList.Private;
     }
 }
