@@ -1,7 +1,9 @@
 package com.github.spy.sea.core.spring.tx.util;
 
+import com.github.spy.sea.core.exception.Precondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -56,6 +58,19 @@ public final class TxUtil {
         TransactionStatus transStatus = transactionManager.getTransaction(transDefinition);
 
         return transStatus;
+    }
+
+    /**
+     * begin trans
+     *
+     * @param transactionManager
+     * @param txDefinition
+     * @return
+     */
+    public static TransactionStatus begin(DataSourceTransactionManager transactionManager, TransactionDefinition txDefinition) {
+        Precondition.checkNotNull(txDefinition, "transaction definition cannot be null.");
+
+        return transactionManager.getTransaction(txDefinition);
     }
 
     /**
