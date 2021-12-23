@@ -78,7 +78,7 @@ public class SeaCoreConfig {
     //private static final String DEFAULT_EXPRESSION_LOG_COST = "@annotation(com.github.spy.sea.core.spring.annotation.LogCost)";
 
     @Bean
-    @ConditionalOnMissingBean
+    //@ConditionalOnMissingBean
     public PointcutAdvisor seaLogCostAdvisor() {
         log.info("init sea log cost advisor bean");
 
