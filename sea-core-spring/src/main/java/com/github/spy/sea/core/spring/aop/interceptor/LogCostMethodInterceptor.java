@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.spring.aop.interceptor;
 
 import com.github.spy.sea.core.spring.annotation.LogCost;
+import com.github.spy.sea.core.spring.aop.config.AopGlobalConfig;
 import com.github.spy.sea.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -19,6 +20,10 @@ public class LogCostMethodInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+
+        if (!AopGlobalConfig.getLogCostFlag()) {
+            return invocation.proceed();
+        }
 
         //boolean hasFlag = AnnotatedElementUtils.hasAnnotation(invocation.getMethod(), LogCost.class);
         //LogCost anno = invocation.getMethod().getAnnotation(LogCost.class);
