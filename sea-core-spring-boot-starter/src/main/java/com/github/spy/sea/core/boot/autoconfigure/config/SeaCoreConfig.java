@@ -95,4 +95,6 @@ public class SeaCoreConfig {
         return advisor;
     }
 
+    //private static final String DEFAULT_EXPRESSION_PROFILER = "@annotation(com.github.spy.sea.core.component.perf.anno.Profiler)";
+
 }
