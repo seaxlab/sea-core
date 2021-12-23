@@ -114,10 +114,24 @@ public final class JSONUtil {
         });
     }
 
+    /**
+     * convert to JSONArray
+     *
+     * @param str
+     * @return
+     */
     public static JSONArray toJSONArray(String str) {
         return JSON.parseArray(str);
     }
 
+    /**
+     * convert to object list
+     *
+     * @param str   string content
+     * @param clazz generic class
+     * @param <T>
+     * @return
+     */
     public static <T> List<T> toList(String str, Class<T> clazz) {
         return JSON.parseArray(str, clazz);
     }
