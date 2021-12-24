@@ -64,7 +64,7 @@ public final class ScrewUtil {
     private static DataSource buildDataSource(DBModelCreateDTO dto) {
         String url = dto.getUrl();
         if (dto.getSshConfig() != null) {
-            BaseResult result = SshUtil.connect(dto.getSshConfig());
+            BaseResult result = SshUtil.setUpPortForwarding(dto.getSshConfig());
             if (result.isFail()) {
                 ExceptionHandler.publishMsg("fail to build ssh connection");
             }

@@ -13,7 +13,7 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
 /**
- * module name
+ * ssh util (jsch)
  *
  * @author spy
  * @version 1.0 2021/12/24
@@ -32,7 +32,7 @@ public final class SshUtil {
      * @param config
      * @return
      */
-    public static BaseResult<SshResp> connect(SshConfig config) {
+    public static BaseResult<SshResp> setUpPortForwarding(SshConfig config) {
         BaseResult<SshResp> result = BaseResult.fail();
 
         try {

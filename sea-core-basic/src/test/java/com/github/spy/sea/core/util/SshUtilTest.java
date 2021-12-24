@@ -31,7 +31,7 @@ public class SshUtilTest extends BaseCoreTest {
         cfg.setRemoteHost("192.168.60.21");
         cfg.setRemotePort(3306);
 
-        BaseResult<SshResp> result = SshUtil.connect(cfg);
+        BaseResult<SshResp> result = SshUtil.setUpPortForwarding(cfg);
         if (result.isOk()) {
             log.info("result assigned port={}", result.getData().getAssignedPort());
         } else {
