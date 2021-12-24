@@ -29,7 +29,33 @@ import java.util.Optional;
 @Slf4j
 public final class FileUtil {
 
+    /**
+     * The Unix separator character.
+     */
+    private static final char UNIX_SEPARATOR = '/';
+
+    /**
+     * The Windows separator character.
+     */
+    private static final char WINDOWS_SEPARATOR = '\\';
+
     private FileUtil() {
+    }
+
+    /**
+     * get file name
+     *
+     * @param path
+     * @return
+     */
+    public static String getName(final String path) {
+        if (path == null || path.isEmpty()) {
+            return path;
+        }
+        int index1 = path.lastIndexOf(UNIX_SEPARATOR);
+        int index2 = path.lastIndexOf(WINDOWS_SEPARATOR);
+        int index = Math.max(index1, index2);
+        return path.substring(index + 1);
     }
 
     /**

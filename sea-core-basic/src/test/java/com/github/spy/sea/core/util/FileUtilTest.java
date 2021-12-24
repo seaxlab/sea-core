@@ -27,7 +27,16 @@ import java.util.stream.Collectors;
 public class FileUtilTest extends BaseCoreTest {
 
     @Test
-    public void run17() throws Exception {
+    public void testGetName() throws Exception {
+        String filePath = "/path/a.txt";
+        log.info("name={}", FileUtil.getName(filePath));
+
+        filePath = "c:\\dir\\b.txt";
+        log.info("name={}", FileUtil.getName(filePath));
+    }
+
+    @Test
+    public void testReadFromClasspath() throws Exception {
         String txt = FileUtil.readFormClasspath("util/users.json");
 
         log.info("txt={}", txt);
