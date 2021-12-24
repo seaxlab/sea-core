@@ -11,10 +11,14 @@ import lombok.Data;
  */
 @Data
 public class SshConfig {
+
     private String sshHost;
     private int sshPort;
     private String sshUserName;
     private String sshPassword;
+
+    // private key, such as `.ssh/id_rsa`
+    private String privateKey;
 
     private int localPort;
 

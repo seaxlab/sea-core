@@ -36,13 +36,7 @@ public final class SshUtil {
         BaseResult<SshResp> result = BaseResult.fail();
 
         try {
-            JSch jsch = new JSch();
-            Session session = jsch.getSession(config.getSshUserName(), config.getSshHost(), config.getSshPort());
-            session.setPassword(config.getSshPassword());
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.setTimeout(DEFAULT_CONNECT_TIME_OUT);
-            log.info("Establishing Connection...");
-            session.connect();
+            Session session = buildSession(config);
 
             // here assigned port is equal local port
             int assignedPort = session.setPortForwardingL(config.getLocalPort(), config.getRemoteHost(), config.getRemotePort());
@@ -217,8 +211,14 @@ public final class SshUtil {
 
     private static Session buildSession(SshConfig config) throws JSchException {
         JSch jsch = new JSch();
+        if (StringUtil.isNotBlank(config.getPrivateKey())) {
+            jsch.addIdentity(config.getPrivateKey());
+        }
         Session session = jsch.getSession(config.getSshUserName(), config.getSshHost(), config.getSshPort());
-        session.setPassword(config.getSshPassword());
+
+        if (StringUtil.isNotBlank(config.getSshPassword())) {
+            session.setPassword(config.getSshPassword());
+        }
         session.setConfig("StrictHostKeyChecking", "no");
         session.setTimeout(DEFAULT_CONNECT_TIME_OUT);
         log.info("Establishing Connection...");
