@@ -1,8 +1,8 @@
 package com.github.spy.sea.core.dal.screw;
 
+import com.github.spy.sea.core.component.ssh.dto.SshConfig;
 import com.github.spy.sea.core.dal.screw.dto.DBModelCreateDTO;
 import com.github.spy.sea.core.dal.screw.util.ScrewUtil;
-import com.github.spy.sea.core.util.SshUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -67,7 +67,7 @@ public class YuantuTest extends ScrewTest {
 
     @Test
     public void testDumpQueue() throws Exception {
-        SshUtil.SshConfig cfg = new SshUtil.SshConfig();
+        SshConfig cfg = new SshConfig();
         cfg.setSshHost("10.64.208.130");
         cfg.setSshPort(2222);
         cfg.setSshUserName("root");

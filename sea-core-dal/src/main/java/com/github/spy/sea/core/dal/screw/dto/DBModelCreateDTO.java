@@ -2,7 +2,7 @@ package com.github.spy.sea.core.dal.screw.dto;
 
 import cn.smallbun.screw.core.engine.EngineFileType;
 import cn.smallbun.screw.core.process.ProcessConfig;
-import com.github.spy.sea.core.util.SshUtil;
+import com.github.spy.sea.core.component.ssh.dto.SshConfig;
 import lombok.Data;
 
 /**
@@ -33,5 +33,5 @@ public class DBModelCreateDTO {
 
     private String description;
 
-    private SshUtil.SshConfig sshConfig;
+    private SshConfig sshConfig;
 }

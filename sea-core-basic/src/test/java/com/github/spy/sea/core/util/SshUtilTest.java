@@ -1,6 +1,8 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.component.ssh.dto.SshConfig;
+import com.github.spy.sea.core.component.ssh.resp.SshResp;
 import com.github.spy.sea.core.model.BaseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -18,7 +20,7 @@ public class SshUtilTest extends BaseCoreTest {
     @Test
     public void testConnect() throws Exception {
 
-        SshUtil.SshConfig cfg = new SshUtil.SshConfig();
+        SshConfig cfg = new SshConfig();
         cfg.setSshHost("10.64.208.130");
         cfg.setSshPort(2222);
         cfg.setSshUserName("root");
@@ -29,11 +31,46 @@ public class SshUtilTest extends BaseCoreTest {
         cfg.setRemoteHost("192.168.60.21");
         cfg.setRemotePort(3306);
 
-        BaseResult<SshUtil.SshResp> result = SshUtil.connect(cfg);
+        BaseResult<SshResp> result = SshUtil.connect(cfg);
         if (result.isOk()) {
             log.info("result assigned port={}", result.getData().getAssignedPort());
         } else {
             log.info("fail result={}", result);
         }
     }
+
+    @Test
+    public void testExecuteCmd() throws Exception {
+        SshConfig cfg = new SshConfig();
+        cfg.setSshHost("10.64.208.130");
+        cfg.setSshPort(2222);
+        cfg.setSshUserName("root");
+        cfg.setSshPassword(getPassword("qd_jmzy_ssh_pwd"));
+        BaseResult<String> result = SshUtil.executeCmd(cfg, "pwd; ls -l");
+        log.info("result={}", result);
+    }
+
+    @Test
+    public void testUpload() throws Exception {
+        SshConfig cfg = new SshConfig();
+        cfg.setSshHost("10.64.208.130");
+        cfg.setSshPort(2222);
+        cfg.setSshUserName("root");
+        cfg.setSshPassword(getPassword("qd_jmzy_ssh_pwd"));
+        BaseResult result = SshUtil.upload(cfg, getUserHome() + "/test/gc/gc1.log", "/root");
+        log.info("result={}", result);
+    }
+
+    @Test
+    public void testDownload() throws Exception {
+        SshConfig cfg = new SshConfig();
+        cfg.setSshHost("10.64.208.130");
+        cfg.setSshPort(2222);
+        cfg.setSshUserName("root");
+        cfg.setSshPassword(getPassword("qd_jmzy_ssh_pwd"));
+        BaseResult result = SshUtil.download(cfg, "/root/gc1.log", getUserHome() + "/test/");
+        log.info("result={}", result);
+    }
+
+
 }
