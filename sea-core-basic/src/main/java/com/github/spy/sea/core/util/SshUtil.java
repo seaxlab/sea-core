@@ -16,6 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SshUtil {
 
+    /**
+     * connect remote host by local port forwarding and ssh.
+     *
+     * @param config
+     * @return
+     */
     public static BaseResult<SshResp> connect(SshConfig config) {
         BaseResult<SshResp> result = BaseResult.fail();
 
