@@ -2,6 +2,7 @@ package com.github.spy.sea.core.dal.screw;
 
 import com.github.spy.sea.core.dal.screw.dto.DBModelCreateDTO;
 import com.github.spy.sea.core.dal.screw.util.ScrewUtil;
+import com.github.spy.sea.core.util.SshUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -63,4 +64,28 @@ public class YuantuTest extends ScrewTest {
 
         ScrewUtil.dump(dto);
     }
+
+    @Test
+    public void testDumpQueue() throws Exception {
+        SshUtil.SshConfig cfg = new SshUtil.SshConfig();
+        cfg.setSshHost("10.64.208.130");
+        cfg.setSshPort(2222);
+        cfg.setSshUserName("root");
+        cfg.setSshPassword(getPassword("qd_jmzy_ssh_pwd"));
+
+        cfg.setLocalPort(7777);
+
+        cfg.setRemoteHost("192.168.60.21");
+        cfg.setRemotePort(3306);
+
+        DBModelCreateDTO dto = new DBModelCreateDTO();
+        dto.setUrl("jdbc:mysql://192.168.60.21:3306/qms?characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false");
+        dto.setUsername("qms");
+        dto.setPassword(getPassword("qd_jmzy_db_qms"));
+
+        dto.setOutPutFileName(getFileName("qms"));
+        dto.setSshConfig(cfg);
+        ScrewUtil.dump(dto);
+    }
+
 }

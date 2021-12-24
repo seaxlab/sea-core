@@ -7,8 +7,11 @@ import cn.smallbun.screw.core.engine.EngineTemplateType;
 import cn.smallbun.screw.core.execute.DocumentationExecute;
 import cn.smallbun.screw.core.process.ProcessConfig;
 import com.github.spy.sea.core.dal.screw.dto.DBModelCreateDTO;
+import com.github.spy.sea.core.exception.ExceptionHandler;
+import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.util.ObjectUtil;
 import com.github.spy.sea.core.util.PathUtil;
+import com.github.spy.sea.core.util.SshUtil;
 import com.github.spy.sea.core.util.StringUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -59,10 +62,20 @@ public final class ScrewUtil {
      * 创建数据源
      */
     private static DataSource buildDataSource(DBModelCreateDTO dto) {
+        String url = dto.getUrl();
+        if (dto.getSshConfig() != null) {
+            BaseResult<SshUtil.SshResp> result = SshUtil.connect(dto.getSshConfig());
+            if (result.isFail()) {
+                ExceptionHandler.publishMsg("fail to build ssh connection");
+            }
+            String endStr = dto.getUrl().substring(dto.getUrl().lastIndexOf("/"));
+            url = "jdbc:mysql://localhost:" + dto.getSshConfig().getLocalPort() + endStr;
+        }
+
         // 创建 HikariConfig 配置类
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName(StringUtil.defaultIfBlank(dto.getDriverClassName(), "com.mysql.jdbc.Driver"));
-        hikariConfig.setJdbcUrl(dto.getUrl());
+        hikariConfig.setJdbcUrl(url);
         hikariConfig.setUsername(dto.getUsername());
         hikariConfig.setPassword(dto.getPassword());
         hikariConfig.addDataSourceProperty("useInformationSchema", "true"); // 设置可以获取 tables remarks 信息

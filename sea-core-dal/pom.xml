@@ -120,7 +120,11 @@
         <!-- 数据库连接 -->
         <!--依赖HikariCP,mysql-connector-java-->
         <!-- screw end-->
-
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
