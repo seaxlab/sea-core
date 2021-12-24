@@ -4,11 +4,15 @@ import com.github.javafaker.Faker;
 import com.github.spy.sea.core.test.service.SequenceService;
 import com.github.spy.sea.core.test.service.impl.FileSequenceService;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.mockito.internal.util.io.IOUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,8 +30,33 @@ import java.util.concurrent.atomic.LongAdder;
 class AbstractCoreSuperTest {
     private Logger _log = LoggerFactory.getLogger(getClass());
 
-    protected void println(Object obj) {
 
+    /**
+     * get security info
+     *
+     * @param key
+     * @return
+     */
+    protected String getPassword(String key) {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(new File(System.getProperty("user.home") + "/sea", "sea.password.properties"));
+
+            Properties props = new Properties();
+            props.load(fileInputStream);
+
+            String value = props.getProperty(key, "");
+            _log.info("get properties {}={}", key, value);
+
+            IOUtil.close(fileInputStream);
+            return value;
+        } catch (Exception e) {
+            _log.error("fail to get password", e);
+        }
+
+        return "";
+    }
+
+    protected void println(Object obj) {
         _log.info("{}", obj);
     }
 

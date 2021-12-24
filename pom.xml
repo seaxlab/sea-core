@@ -94,6 +94,7 @@
         <aviator.version>5.2.7</aviator.version>
         <sea.dubbo.legacy.version>2.6.7</sea.dubbo.legacy.version>
         <sea.dubbo.version>2.7.8</sea.dubbo.version>
+        <jsch.version>0.1.55</jsch.version>
     </properties>
 
 
@@ -381,6 +382,14 @@
                 <artifactId>qiniu-java-sdk</artifactId>
                 <version>${qiniu.oss.version}</version>
             </dependency>
+
+            <!--for ssh-->
+            <dependency>
+                <groupId>com.jcraft</groupId>
+                <artifactId>jsch</artifactId>
+                <version>${jsch.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
