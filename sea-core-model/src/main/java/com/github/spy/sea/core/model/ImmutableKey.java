@@ -29,7 +29,7 @@ public class ImmutableKey {
     }
 
     /**
-     * 由元素静态组装方法
+     * 由元素组装方法组装成ImmutableKey
      *
      * @param members
      * @return
@@ -39,12 +39,12 @@ public class ImmutableKey {
     }
 
     /**
-     * 从字符串中组装成KEY
+     * 从字符串中解析成ImmutableKey
      *
      * @param keyStr
      * @return
      */
-    public static ImmutableKey from(String keyStr) {
+    public static ImmutableKey parse(String keyStr) {
         if (keyStr == null) {
             throw new IllegalArgumentException("args cannot be null");
         }
@@ -52,6 +52,32 @@ public class ImmutableKey {
         return of(keyStr.split(DEFAULT_SPLIT));
     }
 
+    /**
+     * 读取值
+     *
+     * @param index
+     * @param <T>
+     * @return
+     */
+    public <T> T get(int index) {
+        return (T) members[index];
+    }
+
+
+    //---------override
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ImmutableKey)) return false;
+        ImmutableKey that = (ImmutableKey) o;
+        return Arrays.equals(members, that.members);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(members);
+    }
 
     @Override
     public String toString() {

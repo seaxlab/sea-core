@@ -18,7 +18,17 @@ public class MutableKeyTest {
         ImmutableKey key = ImmutableKey.of("1", "2", "3");
         log.info("to string={}", key);
 
-        ImmutableKey key2 = ImmutableKey.from("1:2:3");
+        ImmutableKey key2 = ImmutableKey.parse("1:2:3");
         log.info("to string={}", key2);
     }
+
+    @Test
+    public void testEqual() throws Exception {
+        ImmutableKey key = ImmutableKey.of("1", "2", "3");
+        ImmutableKey key2 = ImmutableKey.of("1", "2", "3");
+
+        log.info("= {}", key == key2);
+        log.info("equal {}", key.equals(key2));
+    }
+
 }
