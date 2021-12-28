@@ -1,8 +1,8 @@
 package com.github.spy.sea.core.thread.util;
 
+import com.github.spy.sea.core.component.matcher.SimpleMatcher;
+import com.github.spy.sea.core.component.matcher.impl.DefaultSimpleMatcher;
 import com.github.spy.sea.core.exception.Precondition;
-import com.github.spy.sea.core.util.AntPathMatcher;
-import com.github.spy.sea.core.util.PathMatcher;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 
@@ -98,7 +98,7 @@ public final class ThreadUtil {
     /**
      * 判断当前JVM是否包含指定的线程
      *
-     * @param threadName
+     * @param threadName thread name or wildcard
      * @return
      */
     public static boolean has(String threadName) {
@@ -107,7 +107,7 @@ public final class ThreadUtil {
             return false;
         }
 
-        PathMatcher matcher = new AntPathMatcher();
+        SimpleMatcher matcher = new DefaultSimpleMatcher();
 
         ThreadMXBean threadMxBean = ManagementFactory.getThreadMXBean();
         for (ThreadInfo threadInfo : threadMxBean.getThreadInfo(threadMxBean.getAllThreadIds())) {
@@ -117,7 +117,7 @@ public final class ThreadUtil {
             if (threadInfo.getThreadName() == null) {
                 continue;
             }
-            if (matcher.match(threadName, threadInfo.getThreadName())) {
+            if (matcher.match(threadInfo.getThreadName(), threadName)) {
                 return true;
             }
         }
