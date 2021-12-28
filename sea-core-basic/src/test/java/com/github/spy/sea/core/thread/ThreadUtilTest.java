@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.thread;
 
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.jvm.manager.StackManager;
 import com.github.spy.sea.core.thread.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -41,5 +42,20 @@ public class ThreadUtilTest extends BaseCoreTest {
     @Test
     public void testSleep() throws Exception {
         ThreadUtil.sleep(30, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void testDump() throws Exception {
+        log.info("{}", StackManager.dump());
+        sleepMinute(1);
+    }
+
+
+    @Test
+    public void testHas() throws Exception {
+        log.info("check main thread, {}", ThreadUtil.has("main"));
+        log.info("check main thread, {}", ThreadUtil.has("main*"));
+        log.info("check main thread, {}", ThreadUtil.has("ma*"));
+        log.info("check main thread, {}", ThreadUtil.has("ma1*"));
     }
 }

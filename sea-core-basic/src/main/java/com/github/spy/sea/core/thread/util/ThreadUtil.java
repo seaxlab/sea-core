@@ -1,9 +1,14 @@
 package com.github.spy.sea.core.thread.util;
 
 import com.github.spy.sea.core.exception.Precondition;
+import com.github.spy.sea.core.util.AntPathMatcher;
+import com.github.spy.sea.core.util.PathMatcher;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
@@ -88,6 +93,36 @@ public final class ThreadUtil {
             log.error("fail to sleep", e);
         }
 
+    }
+
+    /**
+     * 判断当前JVM是否包含指定的线程
+     *
+     * @param threadName
+     * @return
+     */
+    public static boolean has(String threadName) {
+        if (threadName == null || threadName.isEmpty()) {
+            log.warn("thread name is empty");
+            return false;
+        }
+
+        PathMatcher matcher = new AntPathMatcher();
+
+        ThreadMXBean threadMxBean = ManagementFactory.getThreadMXBean();
+        for (ThreadInfo threadInfo : threadMxBean.getThreadInfo(threadMxBean.getAllThreadIds())) {
+            if (threadInfo == null) {
+                continue;
+            }
+            if (threadInfo.getThreadName() == null) {
+                continue;
+            }
+            if (matcher.match(threadName, threadInfo.getThreadName())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
