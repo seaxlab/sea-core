@@ -92,14 +92,20 @@ public final class RequestUtil {
      * @param request
      */
     public static void logSimple(ServerHttpRequest request) {
-        log.info("sea request log: [{},{}] id={},queryString={},userAgent={}",
+        log.info("sea request log: [{},{}] id={},queryString={},userAgent={},ip={}",
                 request.getMethodValue(), request.getPath(),
-                request.getId(), request.getQueryParams(), getUserAgent(request));
+                request.getId(), request.getQueryParams(), getUserAgent(request), getClientIpAddress(request));
     }
 
+    /**
+     * get user agent
+     *
+     * @param request
+     * @return
+     */
     public static String getUserAgent(ServerHttpRequest request) {
         if (request == null) {
-            return null;
+            return "";
         }
         return request.getHeaders().getFirst(HttpHeaders.USER_AGENT);
     }
@@ -161,14 +167,23 @@ public final class RequestUtil {
      * @return
      */
     public static String getClientIpAddress(ServerHttpRequest request) {
-        HttpHeaders httpHeaders = request.getHeaders();
-        for (String header : WebConst.IP_HEADER_CANDIDATES) {
-            String ip = httpHeaders.getFirst(header);
-            if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
-                return ip;
-            }
+        if (request != null) {
+            return "";
         }
-        return request.getRemoteAddress().getAddress().getHostAddress();
+        try {
+            HttpHeaders httpHeaders = request.getHeaders();
+            for (String header : WebConst.IP_HEADER_CANDIDATES) {
+                String ip = httpHeaders.getFirst(header);
+                if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+                    return ip;
+                }
+            }
+            return request.getRemoteAddress().getAddress().getHostAddress();
+        } catch (Exception e) {
+            log.error("fail to get client ip", e);
+        }
+
+        return "";
     }
 
 }

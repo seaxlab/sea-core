@@ -216,7 +216,9 @@ public class RequestUtil {
      */
     public static void logSimple(HttpServletRequest request) {
         //TODO if you have invokerAppVersion/invokerChannel/invokerDeviceType, you can add more.
-        log.info("sea request log: [{},{}] queryString={},userAgent={}", request.getMethod(), request.getRequestURI(), request.getQueryString(), getUserAgent(request));
+        log.info("sea request log: [{},{}] queryString={},userAgent={},ip={}",
+                request.getMethod(), request.getRequestURI(), request.getQueryString(),
+                getUserAgent(request), getClientIpAddress(request));
     }
 
     /**
@@ -258,8 +260,6 @@ public class RequestUtil {
     public static String getRequestLogId(HttpServletRequest request) {
 
         String requestId = request.getHeader(CoreConst.REQUEST_ID);
-
-
         if (StringUtil.isNotEmpty(requestId)) {
             return requestId;
         }
@@ -358,7 +358,7 @@ public class RequestUtil {
      */
     public static String getUserAgent(HttpServletRequest request) {
         if (request == null) {
-            return null;
+            return "";
         }
         return request.getHeader(HttpHeaderConst.USER_AGENT);
     }
@@ -410,13 +410,21 @@ public class RequestUtil {
      * @return
      */
     public static String getClientIpAddress(HttpServletRequest request) {
-        for (String header : WebConst.IP_HEADER_CANDIDATES) {
-            String ip = request.getHeader(header);
-            if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
-                return ip;
-            }
+        if (request == null) {
+            return "";
         }
-        return request.getRemoteAddr();
+        try {
+            for (String header : WebConst.IP_HEADER_CANDIDATES) {
+                String ip = request.getHeader(header);
+                if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+                    return ip;
+                }
+            }
+            return request.getRemoteAddr();
+        } catch (Exception e) {
+            log.error("fail to get client ip", e);
+        }
+        return "";
     }
 
 }
