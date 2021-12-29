@@ -13,17 +13,17 @@
 
 ### TODO
 
+- 减少对hutool的依赖
+- fastjson漏洞较多，减少fastjson的使用
 - 大写数字
 - tk select MAX/MIN
 - tree模块，丰富AVLTree等
 - 统一TreeNode
 - spring/springboot test需要进行归类
 - spring自定义注解扫描，类似@MapperScan
-- fastjson漏洞较多
 - 文件下载进度日志
 - 网速显示
 - sea-core-mybatis合并至sea-core-dal（统一数据访问层）中
-- 减少对hutool的依赖
 
 ### 2.3.0-SNAPSHOT
 
