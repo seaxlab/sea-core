@@ -329,10 +329,10 @@ public final class ExampleUtil {
      */
     public static void setRangeDateTime(final Example.Criteria criteria, String propertyName, Date beginDate, Date endDate) {
         if (beginDate != null) {
-            criteria.andGreaterThanOrEqualTo(propertyName, beginDate.getTime());
+            criteria.andGreaterThanOrEqualTo(propertyName, beginDate);
         }
         if (endDate != null) {
-            criteria.andLessThanOrEqualTo(propertyName, endDate.getTime());
+            criteria.andLessThanOrEqualTo(propertyName, endDate);
         }
     }
 
@@ -345,7 +345,7 @@ public final class ExampleUtil {
      */
     public static void setRangeDateTimeBegin(final Example.Criteria criteria, String propertyName, Date beginDate) {
         if (beginDate != null) {
-            criteria.andGreaterThanOrEqualTo(propertyName, beginDate.getTime());
+            criteria.andGreaterThanOrEqualTo(propertyName, beginDate);
         }
     }
 
@@ -358,7 +358,7 @@ public final class ExampleUtil {
      */
     public static void setRangeDateTimeEnd(final Example.Criteria criteria, String propertyName, Date endDate) {
         if (endDate != null) {
-            criteria.andLessThanOrEqualTo(propertyName, endDate.getTime());
+            criteria.andLessThanOrEqualTo(propertyName, endDate);
         }
     }
 
