@@ -256,7 +256,7 @@ public final class ExampleUtil {
 
     /**
      * 设置范围日期时间
-     * 请使用setRangeDate2
+     * <p>命名有歧义，请使用setRangeDate2</p>
      *
      * @param criteria     criteria
      * @param propertyName property name
@@ -276,6 +276,7 @@ public final class ExampleUtil {
 
     /**
      * 只设置开始时间
+     * <p>命名有歧义，请使用setRangeDateTimeBegin</p>
      *
      * @param criteria     criteria
      * @param propertyName property name
@@ -290,6 +291,7 @@ public final class ExampleUtil {
 
     /**
      * 只设置结束时间
+     * <p>命名有歧义，请使用setRangeDateTimeEnd</p>
      *
      * @param criteria     criteria
      * @param propertyName property name
