@@ -17,6 +17,20 @@ public final class IntegerUtil {
     private IntegerUtil() {
     }
 
+    public static Integer parse(Object obj) {
+        if (obj == null) {
+            return null;
+        }
+
+        try {
+            return Integer.parseInt(obj.toString());
+        } catch (Exception e) {
+            log.error("fail to parse long", e);
+        }
+
+        return null;
+    }
+
     /**
      * 如果value为空则返回默认值
      *

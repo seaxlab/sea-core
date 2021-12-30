@@ -500,4 +500,19 @@ public class ListUtilTest extends BaseCoreTest {
         ListUtil.addAllIfNecessary(all, part);
         log.info("all={}", all);
     }
+
+    @Test
+    public void testSortIntegerAsc() throws Exception {
+        List<Integer> data = ListUtil.newArrayList(10, 2, 20, 7, 3);
+        ListUtil.sortIntegerAsc(data);
+        log.info("{}", data);
+    }
+
+    @Test
+    public void testSortIntegerDesc() throws Exception {
+        List<Integer> data = ListUtil.newArrayList(10, 2, 20, 7, 3);
+        ListUtil.sortIntegerDesc(data);
+        log.info("{}", data);
+    }
+
 }

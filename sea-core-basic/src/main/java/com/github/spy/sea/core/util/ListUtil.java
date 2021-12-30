@@ -806,4 +806,33 @@ public final class ListUtil {
 
         return part;
     }
+
+    public static void sortIntegerAsc(List<Integer> data) {
+        if (data == null) {
+            return;
+        }
+        Collections.sort(data);
+    }
+
+    public static void sortIntegerDesc(List<Integer> data) {
+        if (data == null) {
+            return;
+        }
+        Collections.sort(data, (o1, o2) -> Integer.compare(o2, o1));
+    }
+
+    public static void sortLongAsc(List<Long> data) {
+        if (data == null) {
+            return;
+        }
+        Collections.sort(data);
+    }
+
+    public static void sortLongDesc(List<Long> data) {
+        if (data == null) {
+            return;
+        }
+        Collections.sort(data, (o1, o2) -> Long.compare(o2, o1));
+    }
+
 }

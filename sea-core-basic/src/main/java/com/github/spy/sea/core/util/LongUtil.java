@@ -17,6 +17,19 @@ public final class LongUtil {
     private LongUtil() {
     }
 
+    public static Long parse(Object obj) {
+        if (obj == null) {
+            return null;
+        }
+
+        try {
+            return Long.parseLong(obj.toString());
+        } catch (Exception e) {
+            log.error("fail to parse long", e);
+        }
+
+        return null;
+    }
 
     public static Long defaultIfNull(Long value, Long defaultValue) {
         Preconditions.checkNotNull(defaultValue, "default value can not be null");
