@@ -4,6 +4,7 @@ import com.google.common.collect.ObjectArrays;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -236,10 +237,51 @@ public final class ArrayUtil {
      * @param j     index of element.
      * @param <T>
      */
-    public static final <T> void swap(T[] array, int i, int j) {
+    public static <T> void swap(T[] array, int i, int j) {
         T t = array[i];
         array[i] = array[j];
         array[j] = t;
+    }
+
+    /**
+     * shadow copy
+     *
+     * @param array
+     * @param <T>
+     * @return
+     */
+    public static <T> T[] copy(T[] array) {
+        return Arrays.copyOf(array, array.length);
+    }
+
+    /**
+     * 包装 {@link System#arraycopy(Object, int, Object, int, int)}<br>
+     * 数组复制，缘数组和目标数组都是从位置0开始复制
+     *
+     * @param src    源数组
+     * @param dest   目标数组
+     * @param length 拷贝数组长度
+     * @return 目标数组
+     */
+    public static Object copy(Object src, Object dest, int length) {
+        System.arraycopy(src, 0, dest, 0, length);
+        return dest;
+    }
+
+    /**
+     * 包装 {@link System#arraycopy(Object, int, Object, int, int)}<br>
+     * 数组复制
+     *
+     * @param src     源数组
+     * @param srcPos  源数组开始位置
+     * @param dest    目标数组
+     * @param destPos 目标数组开始位置
+     * @param length  拷贝数组长度
+     * @return 目标数组
+     */
+    public static Object copy(Object src, int srcPos, Object dest, int destPos, int length) {
+        System.arraycopy(src, srcPos, dest, destPos, length);
+        return dest;
     }
 
 

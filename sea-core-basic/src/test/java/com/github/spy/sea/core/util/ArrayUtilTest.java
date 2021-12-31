@@ -1,6 +1,7 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
+import com.github.spy.sea.core.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
@@ -93,5 +94,27 @@ public class ArrayUtilTest extends BaseCoreTest {
         ArrayUtil.swap(arrays, 2, 0);
         Assert.assertEquals("c", arrays[0]);
         Assert.assertEquals("a", arrays[2]);
+    }
+
+    @Test
+    public void testCopy() throws Exception {
+        String[] arrays = new String[]{"a", "b", "c"};
+        String[] array2 = ArrayUtil.copy(arrays);
+
+        log.info("{}", array2);
+    }
+
+    @Test
+    public void testCopy2() throws Exception {
+        User user1 = new User();
+        user1.setId(1L);
+
+        User user2 = new User();
+        user2.setId(2L);
+
+        User[] arrays = new User[]{user1, user2};
+        User[] array2 = ArrayUtil.copy(arrays);
+
+        log.info("{}", array2);
     }
 }
