@@ -515,4 +515,15 @@ public class ListUtilTest extends BaseCoreTest {
         log.info("{}", data);
     }
 
+    @Test
+    public void testIntersection() throws Exception {
+        List<String> list1 = ListUtil.newArrayList("a", "b", "c");
+        List<String> list2 = ListUtil.newArrayList("a", "b", "b", "c");
+
+        log.info("{}", ListUtil.intersection(list1, list2));
+        log.info("{}", ListUtil.intersection(list2, list1));
+
+    }
+
+
 }

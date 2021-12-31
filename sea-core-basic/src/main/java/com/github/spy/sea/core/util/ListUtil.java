@@ -289,9 +289,7 @@ public final class ListUtil {
         if (isEmpty(list)) {
             return empty();
         }
-        return list.stream()
-                   .map(func)
-                   .collect(Collectors.toList());
+        return list.stream().map(func).collect(Collectors.toList());
     }
 
     /**
@@ -307,10 +305,7 @@ public final class ListUtil {
         if (isEmpty(list)) {
             return empty();
         }
-        return list.stream()
-                   .map(func)
-                   .distinct()
-                   .collect(Collectors.toList());
+        return list.stream().map(func).distinct().collect(Collectors.toList());
     }
 
 
@@ -340,8 +335,7 @@ public final class ListUtil {
         if (isEmpty(list)) {
             return MapUtil.empty();
         }
-        return list.stream()
-                   .collect(Collectors.toMap(keyMapper, Function.identity()));
+        return list.stream().collect(Collectors.toMap(keyMapper, Function.identity()));
     }
 
     /**
@@ -358,8 +352,7 @@ public final class ListUtil {
         if (isEmpty(list)) {
             return MapUtil.empty();
         }
-        return list.stream()
-                   .collect(Collectors.toMap(keyMapper, Function.identity(), binaryOperator));
+        return list.stream().collect(Collectors.toMap(keyMapper, Function.identity(), binaryOperator));
     }
 
     /**
@@ -375,8 +368,7 @@ public final class ListUtil {
         if (isEmpty(list)) {
             return MapUtil.empty();
         }
-        return list.stream()
-                   .collect(Collectors.toMap(keyMapper, Function.identity(), (o1, o2) -> o1));
+        return list.stream().collect(Collectors.toMap(keyMapper, Function.identity(), (o1, o2) -> o1));
     }
 
 
@@ -390,8 +382,7 @@ public final class ListUtil {
             stream = stream.filter(predicate);
         }
 
-        return stream
-                .collect(Collectors.toMap(keyMapper, Function.identity()));
+        return stream.collect(Collectors.toMap(keyMapper, Function.identity()));
     }
 
 
@@ -408,8 +399,7 @@ public final class ListUtil {
         if (isEmpty(list)) {
             return MapUtil.empty();
         }
-        return list.stream()
-                   .collect(Collectors.groupingBy(keyMapper));
+        return list.stream().collect(Collectors.groupingBy(keyMapper));
     }
 
     /**
@@ -425,16 +415,12 @@ public final class ListUtil {
      * @param <B>         map value type
      * @return
      */
-    public static <E, A, B> Map<A, List<B>> toMapList(List<E> list,
-                                                      Function<? super E, ? extends A> keyMapper,
-                                                      Function<? super E, ? extends B> valueMapper) {
+    public static <E, A, B> Map<A, List<B>> toMapList(List<E> list, Function<? super E, ? extends A> keyMapper, Function<? super E, ? extends B> valueMapper) {
         if (isEmpty(list)) {
             return MapUtil.empty();
         }
 
-        return list.stream()
-                   .collect(Collectors.groupingBy(keyMapper,
-                           Collectors.mapping(valueMapper, Collectors.toList())));
+        return list.stream().collect(Collectors.groupingBy(keyMapper, Collectors.mapping(valueMapper, Collectors.toList())));
     }
 
     /**
@@ -451,8 +437,7 @@ public final class ListUtil {
             return MapUtil.empty();
         }
 
-        return list.stream()
-                   .collect(Collectors.groupingBy(keyMapper, Collectors.counting()));
+        return list.stream().collect(Collectors.groupingBy(keyMapper, Collectors.counting()));
     }
 
     /**
@@ -468,26 +453,18 @@ public final class ListUtil {
      * @param <B>         map value type
      * @return
      */
-    public static <E, A, B> Map<A, List<B>> toMapFlatList(List<E> list,
-                                                          Function<? super E, ? extends A> keyMapper,
-                                                          Function<? super E, ? extends Stream<? extends B>> valueMapper) {
+    public static <E, A, B> Map<A, List<B>> toMapFlatList(List<E> list, Function<? super E, ? extends A> keyMapper, Function<? super E, ? extends Stream<? extends B>> valueMapper) {
         if (isEmpty(list)) {
             return MapUtil.empty();
         }
 
-        return list.stream()
-                   .collect(Collectors.groupingBy(keyMapper, flatMapping(valueMapper, Collectors.toList())));
+        return list.stream().collect(Collectors.groupingBy(keyMapper, flatMapping(valueMapper, Collectors.toList())));
     }
 
 
-    private static <T, U, A, R> Collector<T, ?, R> flatMapping(Function<? super T, ? extends Stream<? extends U>> mapper,
-                                                               Collector<? super U, A, R> downstream) {
+    private static <T, U, A, R> Collector<T, ?, R> flatMapping(Function<? super T, ? extends Stream<? extends U>> mapper, Collector<? super U, A, R> downstream) {
         BiConsumer<A, ? super U> downstreamAccumulator = downstream.accumulator();
-        return Collector.of(downstream.supplier(),
-                (r, t) -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u)),
-                downstream.combiner(),
-                downstream.finisher(),
-                downstream.characteristics().stream().toArray(Collector.Characteristics[]::new));
+        return Collector.of(downstream.supplier(), (r, t) -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u)), downstream.combiner(), downstream.finisher(), downstream.characteristics().stream().toArray(Collector.Characteristics[]::new));
     }
 
     /**
@@ -503,24 +480,21 @@ public final class ListUtil {
      * @param <B>         map value type
      * @return
      */
-    public static <E, A, B> Map<A, List<B>> toMapFlatList2(List<E> list,
-                                                           Function<? super E, ? extends A> keyMapper,
-                                                           Function<? super E, List<B>> valueMapper) {
+    public static <E, A, B> Map<A, List<B>> toMapFlatList2(List<E> list, Function<? super E, ? extends A> keyMapper, Function<? super E, List<B>> valueMapper) {
         if (isEmpty(list)) {
             return MapUtil.empty();
         }
 
-        return list.stream()
-                   .collect(Collectors.toMap(keyMapper, valueMapper, (old, newValue) -> {
-                       List<B> all = new ArrayList<>();
-                       if (old != null) {
-                           all.addAll(old);
-                       }
-                       if (newValue != null) {
-                           all.addAll(newValue);
-                       }
-                       return all;
-                   }));
+        return list.stream().collect(Collectors.toMap(keyMapper, valueMapper, (old, newValue) -> {
+            List<B> all = new ArrayList<>();
+            if (old != null) {
+                all.addAll(old);
+            }
+            if (newValue != null) {
+                all.addAll(newValue);
+            }
+            return all;
+        }));
     }
 
     /**
@@ -536,9 +510,7 @@ public final class ListUtil {
             return empty();
         }
 
-        return list.stream()
-                   .flatMap(Collection::stream)
-                   .collect(Collectors.toList());
+        return list.stream().flatMap(Collection::stream).collect(Collectors.toList());
     }
 
     /**
@@ -557,10 +529,7 @@ public final class ListUtil {
             return empty();
         }
 
-        return list.stream()
-                   .map(mapper)
-                   .flatMap(Collection::stream)
-                   .collect(Collectors.toList());
+        return list.stream().map(mapper).flatMap(Collection::stream).collect(Collectors.toList());
     }
 
 
@@ -645,10 +614,7 @@ public final class ListUtil {
         if (isEmpty(data)) {
             return empty();
         }
-        return data.stream()
-                   .filter(item -> StringUtil.isNotEmpty(item))
-                   .distinct()
-                   .collect(Collectors.toList());
+        return data.stream().filter(item -> StringUtil.isNotEmpty(item)).distinct().collect(Collectors.toList());
     }
 
     /**
@@ -833,6 +799,30 @@ public final class ListUtil {
             return;
         }
         Collections.sort(data, (o1, o2) -> Long.compare(o2, o1));
+    }
+
+
+    /**
+     * list intersection注意顺序
+     *
+     * @param list1
+     * @param list2
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> intersection(final List<? extends T> list1, final List<? extends T> list2) {
+        if (list1 == null || list2 == null) {
+            return new ArrayList<>();
+        }
+
+        List<T> list = new ArrayList<>();
+        for (T t : list1) {
+            if (list2.contains(t)) {
+                list.add(t);
+            }
+        }
+
+        return list;
     }
 
 }
