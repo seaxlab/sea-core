@@ -112,7 +112,7 @@ public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
         }
 
 
-        HttpClientUtil.postJSON(endpoint, request);
-        log.info("send ding ding msg end.");
+        String response = HttpClientUtil.postJSON(endpoint, request);
+        log.info("send ding ding msg end, response={}.", response);
     }
 }
