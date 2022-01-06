@@ -61,6 +61,28 @@ public class NotifyManagerTest extends AbstractCore5Test {
 
     }
 
+    @Test
+    public void testDingDingText() throws Exception {
+        String accessToken = "899cd89c736c068e112a1f00882ba8fcd6abc5f8e5459cf82d7544efde4102f2";
+        String url = MessageUtil.format(DingDingUtil.URL_SIMPLE, accessToken);
+
+        DingDingNotifyManager notifyManager = new DingDingNotifyManager();
+        notifyManager.setEndpoint(url);
+
+
+        DingDingNotifyDTO dto = new DingDingNotifyDTO();
+        dto.setContent("test报警");
+
+        List<String> mobiles = new ArrayList<>();
+        mobiles.add("17626672199");
+
+        DingDingNotifyDTO.At at = new DingDingNotifyDTO.At();
+
+        at.setAtMobiles(mobiles);
+        dto.setAt(at);
+
+        notifyManager.send(dto);
+    }
 
     @Test
     public void testDingDingMarkdown() throws Exception {
@@ -75,7 +97,6 @@ public class NotifyManagerTest extends AbstractCore5Test {
 
         String accessToken = "899cd89c736c068e112a1f00882ba8fcd6abc5f8e5459cf82d7544efde4102f2";
         String url = MessageUtil.format(DingDingUtil.URL_SIMPLE, accessToken);
-
 
         DingDingNotifyManager notifyManager = new DingDingNotifyManager();
         notifyManager.setEndpoint(url);
