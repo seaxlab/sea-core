@@ -35,6 +35,7 @@ public class DingDingRobotSendRequest implements Serializable {
      */
     private Text text;
 
+    private Markdown markdown;
 
     /**
      * @author top auto create
@@ -51,6 +52,13 @@ public class DingDingRobotSendRequest implements Serializable {
             this.content = content;
         }
     }
+
+    @Data
+    public static class Markdown {
+        private String title;
+        private String text;
+    }
+
 
     /**
      * @author top auto create

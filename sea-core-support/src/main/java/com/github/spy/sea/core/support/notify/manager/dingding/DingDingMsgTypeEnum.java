@@ -13,7 +13,10 @@ import lombok.Setter;
 public enum DingDingMsgTypeEnum {
 
 
-    TEXT("text");
+    TEXT("text"),
+    MARKDOWN("markdown"),
+
+    ;
 
     @Getter
     @Setter

@@ -3,6 +3,7 @@ package com.github.spy.sea.core.support.notify;
 import com.alibaba.fastjson.JSONObject;
 import com.github.spy.sea.core.message.util.MessageUtil;
 import com.github.spy.sea.core.support.notify.dto.DingDingNotifyDTO;
+import com.github.spy.sea.core.support.notify.manager.dingding.DingDingMsgTypeEnum;
 import com.github.spy.sea.core.support.notify.manager.impl.DingDingNotifyManager;
 import com.github.spy.sea.core.support.notify.util.DingDingUtil;
 import com.github.spy.sea.core.test.AbstractCore5Test;
@@ -23,7 +24,7 @@ import java.util.List;
 public class NotifyManagerTest extends AbstractCore5Test {
 
     @Test
-    public void run17() throws Exception {
+    public void testSign() throws Exception {
 
         //签名方式
         String accessToken = "96ad13be7b5e8fdd86f8b7c1c089b799127abf6e6c558458cce722187a0c4c1f";
@@ -57,6 +58,40 @@ public class NotifyManagerTest extends AbstractCore5Test {
 
         // {"at":{"atMobiles":["10086"],"isAtAll":true},"content":"111"}
         log.info("{}", JSONObject.toJSONString(dto));
+
+    }
+
+
+    @Test
+    public void testDingDingMarkdown() throws Exception {
+        StringBuilder sb = new StringBuilder();
+        sb.append("# test报警\n");
+        sb.append("## 二级标题\n");
+        sb.append("- [this is a link](http://www.baidu.com)\n");
+        sb.append("- traceId=123456\n");
+        sb.append("\n\n");
+        // TODO 重点这里需要加入
+        sb.append("@17626672199");
+
+        String accessToken = "899cd89c736c068e112a1f00882ba8fcd6abc5f8e5459cf82d7544efde4102f2";
+        String url = MessageUtil.format(DingDingUtil.URL_SIMPLE, accessToken);
+
+
+        DingDingNotifyManager notifyManager = new DingDingNotifyManager();
+        notifyManager.setEndpoint(url);
+
+
+        DingDingNotifyDTO dto = new DingDingNotifyDTO();
+        dto.setMsgTypeEnum(DingDingMsgTypeEnum.MARKDOWN);
+        dto.setTitle("test");
+        dto.setContent(sb.toString());
+
+        DingDingNotifyDTO.At at = new DingDingNotifyDTO.At();
+        at.addMobile("17626672199");
+        dto.setAt(at);
+
+        notifyManager.send(dto);
+
 
     }
 

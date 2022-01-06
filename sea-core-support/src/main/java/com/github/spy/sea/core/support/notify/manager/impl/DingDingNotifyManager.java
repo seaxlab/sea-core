@@ -71,12 +71,31 @@ public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
         log.debug("title={},msg={}", dto.getTitle(), dto.getContent());
         DingDingRobotSendRequest request = new DingDingRobotSendRequest();
 
-        request.setMsgtype(DingDingMsgTypeEnum.TEXT.getKey());
+        if (dto.getMsgTypeEnum() == null) {
+            dto.setMsgTypeEnum(DingDingMsgTypeEnum.TEXT);
+        }
+        request.setMsgtype(dto.getMsgTypeEnum().getKey());
 
-        DingDingRobotSendRequest.Text text = new DingDingRobotSendRequest.Text();
+        switch (dto.getMsgTypeEnum()) {
+            case TEXT:
+                DingDingRobotSendRequest.Text text = new DingDingRobotSendRequest.Text();
+                text.setContent(dto.getContent());
 
-        text.setContent(dto.getContent());
-        request.setText(text);
+                request.setText(text);
+                break;
+            case MARKDOWN:
+
+                DingDingRobotSendRequest.Markdown markdown = new DingDingRobotSendRequest.Markdown();
+                markdown.setTitle(dto.getTitle());
+                markdown.setText(dto.getContent());
+
+                request.setMarkdown(markdown);
+                break;
+            default:
+                log.warn("unsupported dingding msg type={}", dto.getMsgTypeEnum());
+                break;
+        }
+
 
         // check at
         if (dto.getAt() != null) {

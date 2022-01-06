@@ -1,8 +1,10 @@
 package com.github.spy.sea.core.support.notify.dto;
 
 import com.github.spy.sea.core.model.BaseRequestDTO;
+import com.github.spy.sea.core.support.notify.manager.dingding.DingDingMsgTypeEnum;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +18,8 @@ import java.util.List;
 public class DingDingNotifyDTO extends BaseNotifyDTO {
     // at one/all
     private At at;
+
+    private DingDingMsgTypeEnum msgTypeEnum;
 
     /**
      * at
@@ -42,6 +46,19 @@ public class DingDingNotifyDTO extends BaseNotifyDTO {
 
         public void setIsAtAll(boolean isAtAll) {
             this.isAtAll = isAtAll;
+        }
+
+
+        //extend
+        public void addMobile(String mobile) {
+            if (atMobiles == null) {
+                atMobiles = new ArrayList<>();
+            }
+            if (mobile == null || mobile.trim().isEmpty()) {
+                return;
+            }
+
+            atMobiles.add(mobile);
         }
     }
 }
