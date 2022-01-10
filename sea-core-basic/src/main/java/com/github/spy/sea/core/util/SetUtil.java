@@ -197,7 +197,7 @@ public final class SetUtil {
      * @return
      */
     public static <T> Set<T> intersection(Set<T> a, Set<T> b) {
-        return SetUtils.intersection(a, b);
+        return SetUtils.intersection(a, b).toSet();
     }
 
     /**
@@ -264,7 +264,7 @@ public final class SetUtil {
      * @return
      */
     public static <T> Set<T> difference(Set<T> a, Set<T> b) {
-        return SetUtils.difference(a, b);
+        return SetUtils.difference(a, b).toSet();
     }
 
     /**
@@ -307,7 +307,7 @@ public final class SetUtil {
      * @return
      */
     public static <T> Set<T> disjunction(Set<T> a, Set<T> b) {
-        return SetUtils.disjunction(a, b);
+        return SetUtils.disjunction(a, b).toSet();
     }
 
     /**
@@ -319,7 +319,7 @@ public final class SetUtil {
      * @return
      */
     public static <T> Set<T> union(Set<T> a, Set<T> b) {
-        return SetUtils.union(a, b);
+        return SetUtils.union(a, b).toSet();
     }
 
     /**

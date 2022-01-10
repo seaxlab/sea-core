@@ -22,6 +22,40 @@ public class SetUtilTest extends BaseCoreTest {
 
 
     @Test
+    public void testRemoveAll() throws Exception {
+        Set<String> all = new HashSet<>();
+        all.add("a");
+        all.add("b");
+        all.add("c");
+
+        Set<String> part = new HashSet<>();
+        part.add("b");
+
+        all.removeAll(part);
+
+        log.info("all={},part={}", all, part);
+    }
+
+    @Test
+    public void testRemoveAll2() throws Exception {
+        Set<String> all = new HashSet<>();
+        all.add("a");
+        all.add("b");
+        all.add("c");
+
+        Set<String> part = new HashSet<>();
+        part.add("b");
+
+        Set<String> common = SetUtil.intersection(all, part);
+
+        all.removeAll(common);
+
+        log.info("all={},common={}", all, common);
+
+    }
+
+
+    @Test
     public void testNewConcurrentHashSet() throws Exception {
         Set<String> cache = SetUtil.newConcurrentHashSet();
         // this is thread safe
