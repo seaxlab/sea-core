@@ -33,6 +33,15 @@ public class MapperUtilTest extends BaseMybatisTest {
         userMapper = sqlSession.getMapper(UserMapper.class);
     }
 
+    @Test
+    public void testUpdateBlankField() throws Exception {
+        User user = new User();
+        user.setId(1L);
+        user.setName("");
+        int rowCount = userMapper.updateByPrimaryKeySelective(user);
+        log.info("row count={}", rowCount);
+    }
+
 
     @Test
     public void testUpdateByVersion() throws Exception {

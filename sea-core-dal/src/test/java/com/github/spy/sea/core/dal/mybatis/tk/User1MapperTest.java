@@ -4,6 +4,7 @@ import com.github.spy.sea.core.dal.mybatis.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -36,5 +37,29 @@ public class User1MapperTest extends BaseSpringTest {
         int count = user1Mapper.updateByPrimaryKeySelective(user);
         Assert.assertTrue(count > 0);
     }
+
+    @Test
+    public void testUpdateBlankField() throws Exception {
+        User1 user = new User1();
+        user.setId(1L);
+        user.setName("");
+        user.setVersion(3);
+        int rowCount = user1Mapper.updateByPrimaryKeySelective(user);
+        log.info("row count={}", rowCount);
+    }
+
+    @Test
+    public void testUpdateBlankField2() throws Exception {
+        User1 user = new User1();
+        user.setName("");
+
+        Example example = new Example(User1.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("id", 1L);
+
+        int count = user1Mapper.updateByExampleSelective(user, example);
+        log.info("count={}", count);
+    }
+
 
 }
