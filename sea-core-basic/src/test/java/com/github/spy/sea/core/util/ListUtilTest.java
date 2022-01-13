@@ -28,6 +28,20 @@ public class ListUtilTest extends BaseCoreTest {
     }
 
     @Test
+    public void testToStrList() throws Exception {
+        String str = "1,,2,3,";
+        log.info("{}", ListUtil.toStrList(str));
+
+    }
+
+    @Test
+    public void testToIntList() throws Exception {
+        String str = "1,,2,3,";
+        log.info("{}", ListUtil.toIntList(str));
+    }
+
+
+    @Test
     public void testList() throws Exception {
         List<Integer> list = new ArrayList<>();
         list.add(1);

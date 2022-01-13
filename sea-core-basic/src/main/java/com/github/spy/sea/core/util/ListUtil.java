@@ -37,11 +37,7 @@ public final class ListUtil {
      * @return -
      */
     public static <T> boolean isEmpty(List<T> list) {
-        if (list == null || list.isEmpty()) {
-            return true;
-        }
-
-        return false;
+        return list == null || list.isEmpty();
     }
 
     /**
@@ -108,6 +104,7 @@ public final class ListUtil {
      * @param listStr -
      * @return -
      */
+    @Deprecated
     public static List<Integer> strToList(String listStr) {
         List<Integer> resultList = Lists.newArrayList();
 
@@ -125,14 +122,105 @@ public final class ListUtil {
             return resultList;
         }
 
-        for (String payType : list) {
+        for (String item : list) {
             try {
-                resultList.add(Integer.valueOf(payType.trim()));
+                resultList.add(Integer.valueOf(item.trim()));
             } catch (Exception e) {
                 log.error("转换错误", e);
             }
         }
         return resultList;
+    }
+
+    public static List<String> toStrList(String listStr) {
+        return toStrList(listStr, ",");
+    }
+
+    public static List<String> toStrList(String listStr, String split) {
+        List<String> resultList = Lists.newArrayList();
+
+        if (StringUtils.isEmpty(listStr)) {
+            return resultList;
+        }
+
+        String[] array = listStr.trim().split(split);
+        if ((null == array) || (array.length <= 0)) {
+            return resultList;
+        }
+
+        List<String> list = Arrays.asList(array);
+        if (isEmpty(list)) {
+            return resultList;
+        }
+        return list.stream().map(item -> item.trim()).collect(Collectors.toList());
+    }
+
+    public static List<Integer> toIntList(String listStr) {
+        return toIntList(listStr, ",");
+    }
+
+    public static List<Integer> toIntList(String listStr, String split) {
+        List<Integer> resultList = Lists.newArrayList();
+
+        if (StringUtils.isEmpty(listStr)) {
+            return resultList;
+        }
+
+        String[] array = listStr.trim().split(split);
+        if ((null == array) || (array.length <= 0)) {
+            return resultList;
+        }
+
+        List<String> list = Arrays.asList(array);
+        if (isEmpty(list)) {
+            return resultList;
+        }
+        return list.stream().map(item -> {
+            String value = item.trim();
+            if (value.isEmpty()) {
+                return null;
+            }
+            try {
+                return Integer.valueOf(value);
+            } catch (Exception e) {
+                log.error("fail to convert int", e);
+            }
+            return null;
+        }).collect(Collectors.toList());
+    }
+
+    public static List<Long> toLongList(String listStr) {
+        return toLongList(listStr, ",");
+    }
+
+    public static List<Long> toLongList(String listStr, String split) {
+        List<Long> resultList = Lists.newArrayList();
+
+        if (StringUtils.isEmpty(listStr)) {
+            return resultList;
+        }
+
+        String[] array = listStr.trim().split(split);
+        if ((null == array) || (array.length <= 0)) {
+            return resultList;
+        }
+
+        List<String> list = Arrays.asList(array);
+        if (isEmpty(list)) {
+            return resultList;
+        }
+        return list.stream().map(item -> {
+            String value = item.trim();
+            if (value.isEmpty()) {
+                return null;
+            }
+            try {
+                return Long.valueOf(value);
+            } catch (Exception e) {
+                log.error("fail to convert long", e);
+            }
+            return null;
+        }).collect(Collectors.toList());
     }
 
     /**
