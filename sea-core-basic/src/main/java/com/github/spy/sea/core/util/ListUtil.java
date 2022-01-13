@@ -310,11 +310,48 @@ public final class ListUtil {
 
 
     /**
+     * remove one element
+     * 如果有多个重复元素，只删除其中一个
+     *
+     * @param list
+     * @param element
+     * @param <T>
+     */
+    public static <T> void remove(List<T> list, T element) {
+        if (list == null) {
+            return;
+        }
+        list.remove(element);
+    }
+
+    public static <T> void remove(List<T> list, Collection<T> elements) {
+        if (list == null) {
+            return;
+        }
+        list.remove(elements);
+    }
+
+
+    /**
      * 删除元素
      *
      * @param list
      * @param predicate
      */
+    public static <T> void remove(List<T> list, Predicate<T> predicate) {
+        int size = list.size();
+        // from 1.8
+        list.removeIf(predicate);
+        log.info("before:{},after:{}", size, list.size());
+    }
+
+    /**
+     * 删除元素
+     *
+     * @param list
+     * @param predicate
+     */
+    @Deprecated
     public static <T> void delete(List<T> list, Predicate<T> predicate) {
         int size = list.size();
         // from 1.8

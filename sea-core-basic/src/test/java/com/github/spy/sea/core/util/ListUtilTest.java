@@ -21,7 +21,7 @@ import java.util.function.Predicate;
 public class ListUtilTest extends BaseCoreTest {
 
     @Test
-    public void run17() throws Exception {
+    public void testToList() throws Exception {
         String[] array = new String[]{"1", "s"};
 
         log.info("{}", ListUtil.toList(array));
@@ -54,8 +54,21 @@ public class ListUtilTest extends BaseCoreTest {
         log.info("{}", ListUtil.newArrayList(user1, user2));
     }
 
+
     @Test
-    public void run26() throws Exception {
+    public void testRemove1() throws Exception {
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+        list.add("b");
+        list.add("b");
+
+        ListUtil.remove(list, "b");
+        log.info("{}", list);
+    }
+
+    @Test
+    public void testRemove() throws Exception {
 
         // 不能使用 Arrays.asList();
         List<String> list = new ArrayList<>();
@@ -94,7 +107,7 @@ public class ListUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void testToList() throws Exception {
+    public void testAdd() throws Exception {
         List<String> list1 = new ArrayList<>();
         list1.add("a");
         list1.add("b");
