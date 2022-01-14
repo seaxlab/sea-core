@@ -167,8 +167,15 @@ public final class SetUtil {
      * @param set2
      * @return
      */
-    public static boolean isEqual(final Collection<?> set1, final Collection<?> set2) {
-        return SetUtils.isEqualSet(set1, set2);
+    public static boolean isEqual(final Set<?> set1, final Set<?> set2) {
+        if (set1 == set2) {
+            return true;
+        }
+        if (set1 == null || set2 == null || set1.size() != set2.size()) {
+            return false;
+        }
+
+        return set1.containsAll(set2);
     }
 
     /**

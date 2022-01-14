@@ -2,12 +2,11 @@ package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.SetUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * module name
@@ -82,5 +81,42 @@ public class EqualUtilTest extends BaseCoreTest {
         List<Long> left3 = new ArrayList<>();
         left3.add(5L);
         log.info("{}", EqualUtil.isAllNotIn(left3, right));
+    }
+
+    @Test
+    public void testIsEqualList() throws Exception {
+        List<String> c1 = new ArrayList<>();
+        c1.add("a");
+        c1.add("b");
+        c1.add("c");
+
+        List<String> c2 = new ArrayList<>();
+        c2.add("a");
+        c2.add("b");
+        c2.add("b");
+
+        log.info("{}", EqualUtil.isEq(c1, c2));
+
+        List<String> c3 = new ArrayList<>();
+        c3.add("a");
+        c3.add("b");
+        c3.add("c");
+
+        log.info("{}", EqualUtil.isEq(c1, c3));
+    }
+
+    @Test
+    public void testIsEqualSet() throws Exception {
+        Set<String> set1 = new HashSet<>();
+        set1.add("a");
+        set1.add("b");
+        set1.add("c");
+
+        Set<String> set2 = new HashSet<>();
+        set2.add("a");
+        set2.add("b");
+        log.info("{}", set1.containsAll(set2));
+        log.info("{}", SetUtils.difference(set1, set2).toSet());
+        log.info("{}", SetUtils.difference(set2, set1).toSet());
     }
 }

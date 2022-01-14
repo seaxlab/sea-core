@@ -2,7 +2,6 @@ package com.github.spy.sea.core.util;
 
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.SetUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -97,7 +96,14 @@ public final class EqualUtil {
      * @return boolean
      */
     public static boolean isEq(final Collection<?> set1, final Collection<?> set2) {
-        return SetUtils.isEqualSet(set1, set2);
+        if (set1 == set2) {
+            return true;
+        }
+        if (set1 == null || set2 == null || set1.size() != set2.size()) {
+            return false;
+        }
+
+        return set1.containsAll(set2) && set2.containsAll(set1);
     }
 
     private <T> boolean isEq(T a, T b, Class<T> clazz) {
