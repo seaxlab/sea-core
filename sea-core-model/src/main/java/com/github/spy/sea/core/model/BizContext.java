@@ -10,4 +10,8 @@ import java.util.HashMap;
  * @since 1.0
  */
 public class BizContext extends HashMap {
+
+    public static BizContext create() {
+        return new BizContext();
+    }
 }
