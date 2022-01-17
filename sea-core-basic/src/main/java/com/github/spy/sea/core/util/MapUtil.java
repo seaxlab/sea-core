@@ -740,6 +740,25 @@ public final class MapUtil {
     }
 
     /**
+     * build from properties
+     *
+     * @param properties
+     * @return
+     */
+    public static Map<String, String> from(final Properties properties) {
+        Map<String, String> map = new HashMap<>();
+        if (properties == null) {
+            return map;
+        }
+
+        for (Enumeration<?> e = properties.propertyNames(); e.hasMoreElements(); ) {
+            String key = (String) e.nextElement();
+            map.put(key, properties.getProperty(key));
+        }
+        return map;
+    }
+
+    /**
      * Creates a new HashMap using data copied from a ResourceBundle.
      *
      * @param resourceBundle the resource bundle to convert, may not be null
