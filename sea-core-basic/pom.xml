@@ -56,7 +56,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
 
         <!-- bzip2, gzip, pack200, lzma, xz, Snappy, traditional Unix Compress, DEFLATE, DEFLATE64,-->

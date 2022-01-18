@@ -1,8 +1,8 @@
 package com.github.spy.sea.core.math;
 
 import cn.hutool.core.math.Combination;
-import cn.hutool.core.util.ArrayUtil;
 import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.util.ArrayUtil;
 import com.github.spy.sea.core.util.SetUtil;
 import lombok.extern.slf4j.Slf4j;
 
