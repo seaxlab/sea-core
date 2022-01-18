@@ -51,6 +51,12 @@ public class CycleDetector<T> implements Serializable {
         return !verticesInCycles.isEmpty();
     }
 
+    /**
+     * 标记
+     *
+     * @param vertex 顶点
+     * @return
+     */
     private boolean mark(T vertex) {
         /*
          * return statements commented out for fail slow behavior detect all nodes in cycles instead of just the first one
@@ -75,6 +81,11 @@ public class CycleDetector<T> implements Serializable {
         return !localCycles.isEmpty();
     }
 
+    /**
+     * 先调用containsCycle，再调用此方法
+     *
+     * @return
+     */
     public List<T> getVerticesInCycles() {
         return verticesInCycles;
     }
