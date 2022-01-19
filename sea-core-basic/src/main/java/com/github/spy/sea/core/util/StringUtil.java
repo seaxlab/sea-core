@@ -15,9 +15,11 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
- * String 工具
+ * String Util
  *
  * @author spy
+ * @version 1.0
+ * @since 1.0
  */
 @Slf4j
 public final class StringUtil {
@@ -629,8 +631,7 @@ public final class StringUtil {
      * @see java.util.StringTokenizer
      * @see String#trim()
      */
-    public static String[] tokenizeToStringArray(@Nullable String str, String delimiters,
-                                                 boolean trimTokens, boolean ignoreEmptyTokens) {
+    public static String[] tokenizeToStringArray(@Nullable String str, String delimiters, boolean trimTokens, boolean ignoreEmptyTokens) {
 
         if (str == null) {
             return EMPTY_STRING_ARRAY;
