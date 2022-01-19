@@ -33,8 +33,7 @@ public class DirectedGraphTest extends BaseCoreTest {
 
         CycleDetector<String> detector = new CycleDetector<>(graph);
 
-        log.info("contains cycle={}", detector.containsCycle());
-        log.info("cycles={}", detector.getVerticesInCycles());
+        log.info("contains cycle={},cycles={}", detector.containsCycle(), detector.getVerticesInCycles());
     }
 
     @Test
@@ -52,8 +51,17 @@ public class DirectedGraphTest extends BaseCoreTest {
 
         CycleDetector<String> detector = new CycleDetector<>(graph);
 
-        log.info("contains cycle={}", detector.containsCycle());
-        log.info("cycles={}", detector.getVerticesInCycles());
+        log.info("contains cycle={},cycles={}", detector.containsCycle(), detector.getVerticesInCycles());
+    }
+
+    @Test
+    public void testCycle3() throws Exception {
+        DirectedGraph<String> graph = new DirectedGraph<>();
+
+        graph.addVector("c", "d");
+        CycleDetector<String> detector = new CycleDetector<>(graph);
+
+        log.info("contains cycle={},cycles={}", detector.containsCycle(), detector.getVerticesInCycles());
     }
 
 
