@@ -293,6 +293,25 @@ public final class FileUtil {
     }
 
     /**
+     * write content to file
+     *
+     * @param path    file path
+     * @param content content to write
+     * @return
+     */
+    public static boolean write(String path, String content) {
+        boolean result = true;
+        try {
+            Files.asCharSink(new File(path), Charsets.UTF_8)
+                 .write(content);
+        } catch (Exception e) {
+            result = false;
+            log.error("fail to write file", e);
+        }
+        return result;
+    }
+
+    /**
      * append content
      *
      * @param path    target file
