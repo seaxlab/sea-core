@@ -327,7 +327,6 @@ public final class ArrayUtil {
      * @param index  位置，大于长度追加，否则替换
      * @param value  新值
      * @return 新数组或原有数组
-     * @since 4.1.2
      */
     public static <T> T[] setOrAppend(T[] buffer, int index, T value) {
         if (index < buffer.length) {
@@ -345,7 +344,6 @@ public final class ArrayUtil {
      * @param index 位置，大于长度追加，否则替换
      * @param value 新值
      * @return 新数组或原有数组
-     * @since 4.1.2
      */
     public static Object setOrAppend(Object array, int index, Object value) {
         if (index < length(array)) {
@@ -366,7 +364,6 @@ public final class ArrayUtil {
      * @param index       插入位置，此位置为对应此位置元素之前的空档
      * @param newElements 新元素
      * @return 新数组
-     * @since 4.0.8
      */
     @SuppressWarnings("unchecked")
     public static <T> T[] insert(T[] buffer, int index, T... newElements) {
@@ -383,7 +380,6 @@ public final class ArrayUtil {
      * @param index       插入位置，此位置为对应此位置元素之前的空档
      * @param newElements 新元素
      * @return 新数组
-     * @since 4.0.8
      */
     @SuppressWarnings("unchecked")
     public static <T> Object insert(Object array, int index, T... newElements) {
@@ -426,7 +422,6 @@ public final class ArrayUtil {
      * @return 数组长度
      * @throws IllegalArgumentException 如果参数不为数组，抛出此异常
      * @see Array#getLength(Object)
-     * @since 3.0.8
      */
     public static int length(Object array) throws IllegalArgumentException {
         if (null == array) {
