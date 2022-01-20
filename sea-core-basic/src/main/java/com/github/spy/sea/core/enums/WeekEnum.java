@@ -53,6 +53,12 @@ public enum WeekEnum {
 
     private String desc;
 
+    private static final WeekEnum[] VALUES;
+
+    static {
+        VALUES = values();
+    }
+
     public int getType() {
         return type;
     }
@@ -67,7 +73,7 @@ public enum WeekEnum {
     }
 
     public static WeekEnum of(int week) {
-        for (WeekEnum item : values()) {
+        for (WeekEnum item : VALUES) {
             if (item.getType() == week) {
                 return item;
             }
@@ -77,9 +83,9 @@ public enum WeekEnum {
 
 
     public static String getDescByType(int type) {
-        for (WeekEnum result : WeekEnum.values()) {
-            if (result.getType() == type) {
-                return result.desc;
+        for (WeekEnum item : VALUES) {
+            if (item.getType() == type) {
+                return item.desc;
             }
         }
         return StringUtils.EMPTY;

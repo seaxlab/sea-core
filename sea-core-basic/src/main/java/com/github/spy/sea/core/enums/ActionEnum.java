@@ -42,6 +42,13 @@ public enum ActionEnum implements Serializable {
     private String key;
     private String desc;
 
+    private static final ActionEnum[] VALUES;
+
+    static {
+        VALUES = values();
+    }
+
+
     ActionEnum(String key, String desc) {
         this.key = key;
         this.desc = desc;
@@ -53,8 +60,7 @@ public enum ActionEnum implements Serializable {
             return UNKNOWN;
         }
 
-        ActionEnum[] values = ActionEnum.values();
-        for (ActionEnum item : values) {
+        for (ActionEnum item : VALUES) {
             if (item.getKey().equalsIgnoreCase(action)) {
                 return item;
             }

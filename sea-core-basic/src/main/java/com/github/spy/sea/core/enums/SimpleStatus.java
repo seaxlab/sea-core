@@ -21,6 +21,12 @@ public enum SimpleStatus implements IBaseEnum<Integer> {
 
     private String desc;
 
+    private static final SimpleStatus[] VALUES;
+
+    static {
+        VALUES = values();
+    }
+
     SimpleStatus(int code, String desc) {
         this.code = code;
         this.desc = desc;
@@ -38,7 +44,7 @@ public enum SimpleStatus implements IBaseEnum<Integer> {
             return UNKNOWN;
         }
 
-        for (SimpleStatus status : values()) {
+        for (SimpleStatus status : VALUES) {
             if (code.intValue() == status.getCode().intValue()) {
                 return status;
             }

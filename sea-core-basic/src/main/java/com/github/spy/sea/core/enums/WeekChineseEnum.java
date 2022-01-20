@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.enums;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -15,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
  * @version 1.0 2019-08-20
  * @since 1.0
  */
+@Slf4j
 public enum WeekChineseEnum {
     UNKNOWN(-1, "未知"),
     /**
@@ -50,6 +52,12 @@ public enum WeekChineseEnum {
 
     private String desc;
 
+    private static final WeekChineseEnum[] VALUES;
+
+    static {
+        VALUES = values();
+    }
+
     public int getType() {
         return type;
     }
@@ -64,21 +72,23 @@ public enum WeekChineseEnum {
     }
 
     public static WeekChineseEnum of(int week) {
-        for (WeekChineseEnum item : WeekChineseEnum.values()) {
+        for (WeekChineseEnum item : VALUES) {
             if (item.getType() == week) {
                 return item;
             }
         }
+        log.warn("unknown week={}", week);
         return UNKNOWN;
     }
 
     public static String getDescByType(int type) {
 
-        for (WeekChineseEnum item : values()) {
+        for (WeekChineseEnum item : VALUES) {
             if (item.getType() == type) {
                 return item.desc;
             }
         }
+        log.warn("unknown week={}", type);
         return StringUtils.EMPTY;
     }
 }
