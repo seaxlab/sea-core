@@ -336,9 +336,20 @@ public final class ListUtil {
      * @param <E>
      * @return
      */
+    public static <E> List<E> of(E... e) {
+        return newArrayList(e);
+    }
+
+    /**
+     * new array list
+     *
+     * @param e
+     * @param <E>
+     * @return
+     */
     public static <E> List<E> newArrayList(E... e) {
         if (e == null || e.length == 0) {
-            return empty();
+            return new ArrayList<>();
         }
         return Lists.newArrayList(e);
     }
