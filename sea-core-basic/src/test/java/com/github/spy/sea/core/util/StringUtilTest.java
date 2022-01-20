@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 模块
  *
@@ -100,4 +103,12 @@ public class StringUtilTest extends BaseCoreTest {
         Assert.assertEquals(StringUtil.addZeroLeft("1", 4), "0001");
     }
 
+    @Test
+    public void testToString() throws Exception {
+        List<String> data = new ArrayList<>();
+        data.add("a");
+        data.add("b");
+        data.add("c");
+        log.info("{}", StringUtil.toString(data));
+    }
 }

@@ -10,6 +10,7 @@ import org.slf4j.helpers.MessageFormatter;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -219,32 +220,6 @@ public final class StringUtil {
             }
         }
         return str;
-    }
-
-    /**
-     * 将set 集合转成 String
-     *
-     * @param set
-     * @return
-     */
-    @Deprecated // plz use SetUtil.toString, we will delete it in next version.
-    public static String setToString(Set set) {
-        if (null == set || set.isEmpty()) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        for (Object object : set) {
-            if (object instanceof String || object instanceof Long || object instanceof Integer) {
-                if (isNotEmpty(object.toString())) {
-                    sb.append(object).append(",");
-                }
-            }
-        }
-        if (sb.length() == 0) {
-            return "";
-        }
-        //sb.deleteCharAt()
-        return sb.substring(0, sb.length() - 1);
     }
 
     /**
@@ -653,6 +628,65 @@ public final class StringUtil {
         return toStringArray(tokens);
     }
 
+
+    public static <T> String toString(Iterable<T> iterable) {
+        return toString(iterable, null);
+    }
+
+    public static <T> String toString(Iterable<T> iterable, Function<T, String> func) {
+        return toString(iterable, func, ",");
+    }
+
+    public static <T> String toString(Iterable<T> iterable, Function<T, String> func, String split) {
+        if (iterable == null) {
+            return "";
+        }
+        if (split == null) {
+            split = ",";
+        }
+        StringBuilder builder = new StringBuilder();
+        for (T obj : iterable) {
+            builder.append(func != null ? func.apply(obj) : obj).append(split);
+        }
+        if (builder.length() > 1) {
+            builder.deleteCharAt(builder.length() - 1);
+        }
+        return builder.toString();
+    }
+
+    public static <T> String toString(T[] arrays) {
+        return toString(arrays, null);
+    }
+
+    public static <T> String toString(T[] arrays, Function<T, String> func) {
+        return toString(arrays, func, ",");
+    }
+
+    /**
+     * array to String
+     *
+     * @param arrays
+     * @param func
+     * @param split
+     * @param <T>
+     * @return
+     */
+    public static <T> String toString(T[] arrays, Function<T, String> func, String split) {
+        if (arrays == null) {
+            return "";
+        }
+        if (split == null) {
+            split = ",";
+        }
+        StringBuilder builder = new StringBuilder();
+        for (T obj : arrays) {
+            builder.append(func != null ? func.apply(obj) : obj).append(split);
+        }
+        if (builder.length() > 1) {
+            builder.deleteCharAt(builder.length() - 1);
+        }
+        return builder.toString();
+    }
 
     /**
      * Copy the given {@link Collection} into a {@code String} array.
