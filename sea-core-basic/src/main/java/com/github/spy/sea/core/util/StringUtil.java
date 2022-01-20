@@ -227,6 +227,7 @@ public final class StringUtil {
      * @param set
      * @return
      */
+    @Deprecated // plz use SetUtil.toString, we will delete it in next version.
     public static String setToString(Set set) {
         if (null == set || set.isEmpty()) {
             return "";
@@ -242,6 +243,7 @@ public final class StringUtil {
         if (sb.length() == 0) {
             return "";
         }
+        //sb.deleteCharAt()
         return sb.substring(0, sb.length() - 1);
     }
 
