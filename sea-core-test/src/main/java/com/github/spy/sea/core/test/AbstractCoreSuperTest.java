@@ -4,10 +4,10 @@ import com.github.javafaker.Faker;
 import com.github.spy.sea.core.test.service.SequenceService;
 import com.github.spy.sea.core.test.service.impl.FileSequenceService;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.mockito.internal.util.io.IOUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
@@ -47,7 +47,7 @@ class AbstractCoreSuperTest {
             String value = props.getProperty(key, "");
             _log.info("get properties {}={}", key, value);
 
-            IOUtil.close(fileInputStream);
+            _close(fileInputStream);
             return value;
         } catch (Exception e) {
             _log.error("fail to get password", e);
@@ -282,6 +282,16 @@ class AbstractCoreSuperTest {
         }
 
         return sequenceServiceAtomicRef.get();
+    }
+
+    private void _close(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (Exception e) {
+                //eat exception
+            }
+        }
     }
 
 }
