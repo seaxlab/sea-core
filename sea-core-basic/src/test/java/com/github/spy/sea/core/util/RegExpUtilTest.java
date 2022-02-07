@@ -38,5 +38,7 @@ public class RegExpUtilTest extends BaseCoreTest {
         println(RegExpUtil.find("中文", RegExpUtil.REGEX_CHINESE));
         println(RegExpUtil.find("12abc中文", RegExpUtil.REGEX_CHINESE));
 
+        println(RegExpUtil.find("國", RegExpUtil.REGEX_CHINESE)); // true
+        println(RegExpUtil.find("國", RegExpUtil.REGEX_CHINESE_COMPLEX)); // false, why false
     }
 }

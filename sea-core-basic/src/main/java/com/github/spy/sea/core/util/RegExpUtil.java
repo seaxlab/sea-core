@@ -133,7 +133,7 @@ public final class RegExpUtil {
     public static final String REGEX_PICTURE = ".+(.JPEG|.jpeg|.JPG|.jpg|.GIF|.gif|.BMP|.bmp|.PNG|.png)$";
 
     /**
-     * 中文
+     * 中文(常规)
      */
     public static final String REGEX_CHINESE = "[\u4e00-\u9fa5]";
 
@@ -141,6 +141,11 @@ public final class RegExpUtil {
      * 中文+中文符号
      */
     public static final String REGEX_CHINESE2 = "[\u4E00-\u9FA5|\\！|\\，|\\。|\\（|\\）|\\《|\\》|\\“|\\”|\\？|\\：|\\；|\\【|\\】]";
+
+    /**
+     * 汉字扩充（繁体字、不常见字）
+     */
+    public static final String REGEX_CHINESE_COMPLEX = "[\u3400-\u4db5]";
 
     /**
      * 根据传入的正则表达式和字符串进行校验。<br/>
