@@ -51,7 +51,7 @@ public class GroovyTest extends AbstractScriptTest {
         //每次生成一个engine实例
         ScriptEngine engine = factory.getEngineByName("groovy");
 
-        System.out.println(engine.toString());
+        log.info("{}", engine.toString());
 
         assert engine != null;
 
@@ -64,11 +64,11 @@ public class GroovyTest extends AbstractScriptTest {
         engine.eval("def sayHello(name,age){return 'Hello,I am ' + name + ',age' + age;}");
 
         Long time = (Long) ((Invocable) engine).invokeFunction("getTime", null);
-        System.out.println(time);
+        log.info("{}", time);
 
 
         String message = (String) ((Invocable) engine).invokeFunction("sayHello", "zhangsan", new Integer(12));
-        System.out.println(message);
+        log.info("{}", message);
 
     }
 

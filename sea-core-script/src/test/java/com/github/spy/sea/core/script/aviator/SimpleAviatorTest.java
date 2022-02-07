@@ -26,6 +26,6 @@ public class SimpleAviatorTest {
             put("d", -2);
         }};
         String expression = " (a > b) && (c > 0 || d > 0) ? a : b";
-        System.out.println(AviatorEvaluator.execute(expression, env));
+        log.info("{}", AviatorEvaluator.execute(expression, env));
     }
 }
