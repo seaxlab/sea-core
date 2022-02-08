@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public enum ReviewEnum implements IBaseEnum<Integer> {
     UNKNOWN(0, "未知"),
 
-    INIT(10, "初始化"),
+    INIT(10, "初始化"), // 一种不可见状态
     PENDING(20, "审批中"),
     APPROVED(30, "通过"),
     REJECTED(40, "拒绝"),
