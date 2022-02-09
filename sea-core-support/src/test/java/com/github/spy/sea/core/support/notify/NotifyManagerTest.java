@@ -38,7 +38,9 @@ public class NotifyManagerTest extends AbstractCore5Test {
 
         notifyManager.setEndpoint(url);
 
-        notifyManager.send("1");
+        DingDingNotifyDTO dto = new DingDingNotifyDTO();
+        dto.setContent("1");
+        notifyManager.send(dto);
     }
 
     @Test

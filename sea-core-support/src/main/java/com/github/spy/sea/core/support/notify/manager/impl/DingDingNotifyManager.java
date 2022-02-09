@@ -25,34 +25,6 @@ public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
     private String endpoint;
 
     @Override
-    public void send(String msg) {
-
-        try {
-            DingDingNotifyDTO dto = new DingDingNotifyDTO();
-            dto.setContent(msg);
-            send0(dto);
-        } catch (Exception e) {
-            log.error("send ding ding msg error", e);
-        }
-
-        log.info("send ding ding msg end.");
-    }
-
-    @Override
-    public void send(String title, String msg) {
-        try {
-            DingDingNotifyDTO dto = new DingDingNotifyDTO();
-            dto.setTitle(title);
-            dto.setContent(msg);
-            send0(dto);
-        } catch (Exception e) {
-            log.error("send ding ding msg error", e);
-        }
-
-        log.info("send ding ding msg end.");
-    }
-
-    @Override
     public BaseResult send(DingDingNotifyDTO dto) {
         BaseResult result = BaseResult.fail();
         try {

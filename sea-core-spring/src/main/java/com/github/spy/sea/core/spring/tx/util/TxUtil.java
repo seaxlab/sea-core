@@ -11,8 +11,6 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import java.util.function.Supplier;
-
 /**
  * tx util
  *
@@ -91,23 +89,6 @@ public final class TxUtil {
      */
     public static void rollback(DataSourceTransactionManager transactionManager, TransactionStatus transStatus) {
         transactionManager.rollback(transStatus);
-    }
-
-
-    /**
-     * 事务提交之后钩子，如需要其他阶段，则使用registerSynchronization
-     *
-     * @param supplier supplier
-     */
-    @Deprecated
-    public static void registerAfterCommit(Supplier<Void> supplier) {
-        log.info("register after commit");
-        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
-            public void afterCommit() {
-                log.info("tx after commit");
-                supplier.get();
-            }
-        });
     }
 
     public static void registerAfterCommit(Callback callback) {

@@ -1,12 +1,7 @@
 package com.github.spy.sea.core.util;
 
-import com.github.pagehelper.PageInfo;
 import com.github.spy.sea.core.model.BasePageQueryDTO;
-import com.github.spy.sea.core.model.BaseResult;
-import com.github.spy.sea.core.model.PageInfoData;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
 
 /**
  * 分页工具转换类
@@ -43,102 +38,6 @@ public final class PageUtil {
         return totalCount % pageSize == 0 ? totalCount / pageSize : (totalCount / pageSize + 1);
     }
 
-
-    /**
-     * 转换成带分页信息的result
-     *
-     * @param data 最终数据
-     * @return
-     */
-    public static BaseResult toPageInfoResult(List data) {
-        BaseResult result = BaseResult.success();
-
-        setPageInfo(data, result);
-
-        return result;
-    }
-
-    /**
-     * 转换成最终 BaseResult
-     *
-     * @param oldData 含pageInfo关系的数据
-     * @param newData 最终转换后的数据
-     * @return
-     */
-    public static BaseResult toPageInfoResult(List oldData, List newData) {
-        PageInfo pageInfo = new PageInfo(oldData);
-
-        return toPageInfoResult(newData, pageInfo.getTotal());
-    }
-
-
-    /**
-     * 直接转换成分页列表
-     *
-     * @param data
-     * @return
-     */
-    public static BaseResult toSimplePageInfoResult(List data) {
-        return toPageInfoResult(data, data == null ? 0 : data.size());
-    }
-
-    /**
-     * 转换成带分页信息的result
-     *
-     * @param data  最终数据
-     * @param total 记录数
-     * @return
-     */
-    public static BaseResult toPageInfoResult(List data, int total) {
-        return toPageInfoResult(data, Long.valueOf(total));
-    }
-
-    /**
-     * 转换成带分页信息的result
-     *
-     * @param data  最终数据
-     * @param total 记录数
-     * @return
-     */
-    public static BaseResult toPageInfoResult(List data, Long total) {
-        PageInfoData pageInfoData = new PageInfoData();
-
-        pageInfoData.setRows(data);
-        pageInfoData.setTotal(total);
-
-        BaseResult result = BaseResult.success();
-        result.setData(pageInfoData);
-        return result;
-    }
-
-    /**
-     * 直接将pageInfo转BaseResult
-     *
-     * @param pageInfo
-     * @return
-     */
-    public static BaseResult toPageInfoResult(PageInfo pageInfo) {
-
-        return toPageInfoResult(pageInfo.getList(), pageInfo.getTotal());
-    }
-
-
-    /**
-     * 设置分页信息
-     *
-     * @param data
-     * @param result
-     */
-    public static void setPageInfo(List data, BaseResult result) {
-        PageInfo page = new PageInfo(data);
-
-        PageInfoData pageInfoData = new PageInfoData();
-
-        pageInfoData.setRows(data);
-        pageInfoData.setTotal(page.getTotal());
-
-        result.setData(pageInfoData);
-    }
 
     /**
      * 校验分页信息

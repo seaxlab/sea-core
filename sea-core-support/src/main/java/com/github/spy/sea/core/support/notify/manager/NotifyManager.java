@@ -13,24 +13,6 @@ import com.github.spy.sea.core.support.notify.dto.BaseNotifyDTO;
 public interface NotifyManager<T extends BaseNotifyDTO> {
 
     /**
-     * send message
-     *
-     * @param msg
-     * @return
-     */
-    @Deprecated
-    void send(String msg);
-
-    /**
-     * send msg
-     *
-     * @param title
-     * @param msg
-     */
-    @Deprecated
-    void send(String title, String msg);
-
-    /**
      * 发送消息
      *
      * @param dto

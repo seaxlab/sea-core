@@ -97,41 +97,6 @@ public final class ListUtil {
         return list.get(list.size() - 1);
     }
 
-
-    /**
-     * 字符串数组转列表
-     *
-     * @param listStr -
-     * @return -
-     */
-    @Deprecated
-    public static List<Integer> strToList(String listStr) {
-        List<Integer> resultList = Lists.newArrayList();
-
-        if (StringUtils.isEmpty(listStr)) {
-            return resultList;
-        }
-
-        String[] array = listStr.replace(" ", "").split(",");
-        if ((null == array) || (array.length <= 0)) {
-            return resultList;
-        }
-
-        List<String> list = Arrays.asList(array);
-        if (isEmpty(list)) {
-            return resultList;
-        }
-
-        for (String item : list) {
-            try {
-                resultList.add(Integer.valueOf(item.trim()));
-            } catch (Exception e) {
-                log.error("转换错误", e);
-            }
-        }
-        return resultList;
-    }
-
     public static List<String> toStrList(String listStr) {
         return toStrList(listStr, ",");
     }

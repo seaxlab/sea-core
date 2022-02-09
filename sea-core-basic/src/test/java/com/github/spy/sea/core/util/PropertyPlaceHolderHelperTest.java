@@ -23,7 +23,7 @@ public class PropertyPlaceHolderHelperTest extends BaseCoreTest {
         Properties p = new Properties();
         p.setProperty("a", "1");
 
-        log.info("final value = {}", PropertyPlaceholderHelper.INSTANCE.replacePlaceholders("${a},${b:hao}", p));
+        log.info("final value = {}", PropertyPlaceholderHelper.INSTANCE.replace("${a},${b:hao}", p));
     }
 
     @Test

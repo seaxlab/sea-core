@@ -123,21 +123,6 @@ public final class FileUtil {
 //        return readFileToString(PathUtil.getPathFromClassPath(path));
     }
 
-
-    /**
-     * 获取文件输入流
-     */
-    @Deprecated
-    public static InputStream readFileToInputStream(String path) {
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(path);
-        } catch (IOException e) {
-            log.error("io exception", e);
-        }
-        return inputStream;
-    }
-
     /**
      * 将本地文件转成流
      *
@@ -172,7 +157,7 @@ public final class FileUtil {
      * 读取文件字节数组
      */
     public static byte[] readFileToBytes(String path) {
-        InputStream inputStream = readFileToInputStream(path);
+        InputStream inputStream = toInputStreamByFilePath(path);
         if (inputStream != null) {
             byte[] data = new byte[1024];
             ByteArrayBuffer buffer = new ByteArrayBuffer(1024);
@@ -343,7 +328,7 @@ public final class FileUtil {
         File srcFile = new File(src);
         if (srcFile.exists()) {
             if (srcFile.isFile()) {
-                writeFileFromInputStream(readFileToInputStream(src), dest);
+                writeFileFromInputStream(toInputStreamByFilePath(src), dest);
             } else {
                 File[] subFiles = srcFile.listFiles();
                 if (subFiles.length == 0) {

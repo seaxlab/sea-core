@@ -79,24 +79,6 @@ public enum PropertyPlaceholderHelper {
     }
 
     /**
-     * Replaces all placeholders of format {@code ${name}} with the corresponding property from the supplied {@link
-     * Properties}.
-     *
-     * @param value      the value containing the placeholders to be replaced
-     * @param properties the {@code Properties} to use for replacement
-     * @return the supplied value with placeholders replaced inline
-     */
-    @Deprecated
-    public String replacePlaceholders(String value, final Properties properties) {
-        return replacePlaceholders(value, new PlaceholderResolver() {
-            @Override
-            public String resolvePlaceholder(String placeholderName) {
-                return getConfigValue(placeholderName, properties);
-            }
-        });
-    }
-
-    /**
      * replace placeholder.
      *
      * @param value      the value containing the placeholders to be replaced
@@ -104,7 +86,7 @@ public enum PropertyPlaceholderHelper {
      * @return the supplied value with placeholders replaced inline
      */
     public String replace(String value, final Properties properties) {
-        return replacePlaceholders(value, placeholderName -> getConfigValue(placeholderName, properties));
+        return replace(value, placeholderName -> getConfigValue(placeholderName, properties));
     }
 
     /**
@@ -123,7 +105,7 @@ public enum PropertyPlaceholderHelper {
             });
         }
 
-        return replacePlaceholders(value, (placeholderName) -> getConfigValue(placeholderName, props));
+        return replace(value, (placeholderName) -> getConfigValue(placeholderName, props));
     }
 
 
@@ -146,7 +128,7 @@ public enum PropertyPlaceholderHelper {
      * @param placeholderResolver the {@code PlaceholderResolver} to use for replacement
      * @return the supplied value with placeholders replaced inline
      */
-    public String replacePlaceholders(String value, PlaceholderResolver placeholderResolver) {
+    public String replace(String value, PlaceholderResolver placeholderResolver) {
         return parseStringValue(value, placeholderResolver, new HashSet<String>());
     }
 

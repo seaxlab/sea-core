@@ -1,6 +1,5 @@
 package com.github.spy.sea.core.support.notify.manager.impl;
 
-import com.github.spy.sea.core.exception.UnsupportedOperationException;
 import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.support.notify.dto.MailNotifyDTO;
 import com.github.spy.sea.core.support.notify.dto.MailServerConfigDTO;
@@ -23,15 +22,6 @@ import java.util.Date;
  */
 @Slf4j
 public class MailNotifyManager implements NotifyManager<MailNotifyDTO> {
-    @Override
-    public void send(String msg) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void send(String title, String msg) {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public BaseResult send(MailNotifyDTO dto) {

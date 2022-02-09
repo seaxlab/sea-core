@@ -14,15 +14,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class DefaultNotifyManager implements NotifyManager {
-    @Override
-    public void send(String msg) {
-        log.warn("[default notify manager] msg={}", msg);
-    }
-
-    @Override
-    public void send(String title, String msg) {
-        log.warn("[default notify manager] title={},msg={}", title, msg);
-    }
 
     @Override
     public BaseResult send(BaseNotifyDTO dto) {

@@ -255,56 +255,6 @@ public final class ExampleUtil {
     }
 
     /**
-     * 设置范围日期时间
-     * <p>命名有歧义，请使用setRangeDate2</p>
-     *
-     * @param criteria     criteria
-     * @param propertyName property name
-     * @param beginDate    begin date
-     * @param endDate      end date
-     */
-    @Deprecated
-    public static void setRangeDate(final Example.Criteria criteria, String propertyName, Date beginDate, Date endDate) {
-        if (beginDate != null) {
-            criteria.andGreaterThanOrEqualTo(propertyName, beginDate);
-        }
-
-        if (endDate != null) {
-            criteria.andLessThanOrEqualTo(propertyName, endDate);
-        }
-    }
-
-    /**
-     * 只设置开始时间
-     * <p>命名有歧义，请使用setRangeDateTimeBegin</p>
-     *
-     * @param criteria     criteria
-     * @param propertyName property name
-     * @param beginDate    begin date
-     */
-    @Deprecated
-    public static void setDateBegin(final Example.Criteria criteria, String propertyName, Date beginDate) {
-        if (beginDate != null) {
-            criteria.andGreaterThanOrEqualTo(propertyName, beginDate);
-        }
-    }
-
-    /**
-     * 只设置结束时间
-     * <p>命名有歧义，请使用setRangeDateTimeEnd</p>
-     *
-     * @param criteria     criteria
-     * @param propertyName property name
-     * @param endDate      end date
-     */
-    @Deprecated
-    public static void setDateEnd(final Example.Criteria criteria, String propertyName, Date endDate) {
-        if (endDate != null) {
-            criteria.andLessThanOrEqualTo(propertyName, endDate);
-        }
-    }
-
-    /**
      * 设置开始结束日期范围 java.sql.Date
      *
      * @param criteria
@@ -312,7 +262,7 @@ public final class ExampleUtil {
      * @param beginDate
      * @param endDate
      */
-    public static void setRangeDate2(final Example.Criteria criteria, String propertyName, Date beginDate, Date endDate) {
+    public static void setRangeDate(final Example.Criteria criteria, String propertyName, Date beginDate, Date endDate) {
         if (beginDate != null) {
             criteria.andGreaterThanOrEqualTo(propertyName, new java.sql.Date(beginDate.getTime()));
         }
@@ -371,7 +321,7 @@ public final class ExampleUtil {
      * @param propertyName property name
      * @param beginDate    begin date
      */
-    public static void setDateBegin2(final Example.Criteria criteria, String propertyName, Date beginDate) {
+    public static void setDateBegin(final Example.Criteria criteria, String propertyName, Date beginDate) {
         if (beginDate != null) {
             criteria.andGreaterThanOrEqualTo(propertyName, new java.sql.Date(beginDate.getTime()));
         }
@@ -384,7 +334,7 @@ public final class ExampleUtil {
      * @param propertyName property name
      * @param endDate      end date
      */
-    public static void setDateEnd2(final Example.Criteria criteria, String propertyName, Date endDate) {
+    public static void setDateEnd(final Example.Criteria criteria, String propertyName, Date endDate) {
         if (endDate != null) {
             criteria.andLessThanOrEqualTo(propertyName, new java.sql.Date(endDate.getTime()));
         }
