@@ -1,7 +1,7 @@
-package com.github.spy.sea.core.web.extension;
+package com.github.spy.sea.core.web.extension.impl;
 
 import com.github.spy.sea.core.common.CoreConst;
-import com.github.spy.sea.core.extension.HttpHeaderParseExtension;
+import com.github.spy.sea.core.web.extension.HttpHeaderParseExtension;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;

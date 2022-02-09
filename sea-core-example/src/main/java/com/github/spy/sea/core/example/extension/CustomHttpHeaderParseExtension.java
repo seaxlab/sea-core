@@ -1,8 +1,8 @@
 package com.github.spy.sea.core.example.extension;
 
 import com.github.spy.sea.core.common.CoreConst;
-import com.github.spy.sea.core.extension.HttpHeaderParseExtension;
 import com.github.spy.sea.core.util.MapUtil;
+import com.github.spy.sea.core.web.extension.HttpHeaderParseExtension;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;

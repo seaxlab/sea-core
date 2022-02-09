@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.extension;
+package com.github.spy.sea.core.web.extension;
 
 import java.util.Map;
 
