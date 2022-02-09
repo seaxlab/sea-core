@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * @since 1.0
  */
 @Slf4j
-public class IpCheckUtil {
+public final class IpCheckUtil {
 
     // IP的正则
     private static Pattern pattern = Pattern
