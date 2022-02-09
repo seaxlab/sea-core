@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0
  */
 @Slf4j
-public class TimeUnitUtil {
+public final class TimeUnitUtil {
 
     /**
      * convert duration to ms

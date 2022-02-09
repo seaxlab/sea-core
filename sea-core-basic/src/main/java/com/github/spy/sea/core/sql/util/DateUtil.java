@@ -2,7 +2,6 @@ package com.github.spy.sea.core.sql.util;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Date;
 
 /**
  * module name
@@ -13,12 +12,18 @@ import java.util.Date;
  */
 @Slf4j
 public final class DateUtil {
-    //TODO 这里应该是sql.date
-    public static Date of(java.util.Date date) {
+
+    /**
+     * to sql date
+     *
+     * @param date
+     * @return
+     */
+    public static java.sql.Date of(java.util.Date date) {
         if (date == null) {
             return null;
         }
-        return new Date(date.getTime());
+        return new java.sql.Date(date.getTime());
     }
 
 }

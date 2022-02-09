@@ -16,7 +16,7 @@ import java.util.Map;
  * @since 1.0
  */
 @Slf4j
-public class DiffUtil {
+public final class DiffUtil {
 
     /**
      * object diff.

@@ -11,7 +11,7 @@ import org.slf4j.MDC;
  * @since 1.0
  */
 @Slf4j
-public class MDCUtil {
+public final class MDCUtil {
 
     private MDCUtil() {
     }
