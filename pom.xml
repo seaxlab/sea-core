@@ -52,7 +52,7 @@
         <maven.javadoc.skip>true</maven.javadoc.skip>
 
         <!--  三方类库  -->
-        <hutool.version>4.5.17</hutool.version>
+        <hutool.version>[5.7.0, 5.7.99]</hutool.version>
         <!-- groovy 2.5只后变成pom了-->
         <!-- <groovy.version>2.5.7</groovy.version>-->
 
@@ -234,6 +234,26 @@
                 <groupId>com.github.javafaker</groupId>
                 <artifactId>javafaker</artifactId>
                 <version>${javafaker.version}</version>
+            </dependency>
+
+
+            <!-- hutool begin -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-core</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-http</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!-- hutool end -->
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${org.mapstruct.version}</version>
             </dependency>
 
             <!-- JMH -->
