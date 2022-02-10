@@ -263,7 +263,7 @@ public final class MathUtil {
     /**
      * 判断整个数组是否连续
      *
-     * @param array
+     * @param array 升序数据
      * @return
      */
     public static boolean isContinuous(int[] array) {
@@ -272,6 +272,26 @@ public final class MathUtil {
             int start = array[i];
             int next = array[i + 1];
             if (start + 1 != next) {
+                flag = false;
+                break;
+            }
+        }
+
+        return flag;
+    }
+
+    /**
+     * 判断是否连续，
+     *
+     * @param array 倒序数组
+     * @return
+     */
+    public static boolean isContinuousDesc(int[] array) {
+        boolean flag = true;
+        for (int i = 0; i < array.length - 1; i++) {
+            int start = array[i];
+            int next = array[i + 1];
+            if (start - 1 != next) {
                 flag = false;
                 break;
             }
