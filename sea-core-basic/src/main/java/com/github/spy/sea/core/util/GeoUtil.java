@@ -27,13 +27,18 @@ public final class GeoUtil {
      * @return 返回距离
      */
     public static double getDistance(double lng1, double lat1, double lng2, double lat2) {
-        double radLat1 = radian(lat1);
-        double radLat2 = radian(lat2);
-        double a = radLat1 - radLat2;
-        double b = radian(lng1) - radian(lng2);
-        return (2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)
-                + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2))))
-                * EARTH_RADIUS;
+        long begin = System.currentTimeMillis();
+        try {
+            double radLat1 = radian(lat1);
+            double radLat2 = radian(lat2);
+            double a = radLat1 - radLat2;
+            double b = radian(lng1) - radian(lng2);
+            return (2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)
+                    + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2))))
+                    * EARTH_RADIUS;
+        } finally {
+            log.info("calc geo distance cost={}ms", System.currentTimeMillis() - begin);
+        }
     }
 
     private static double radian(double d) {
