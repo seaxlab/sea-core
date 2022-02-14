@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.service;
+package com.github.spy.sea.core.component.service;
 
 /**
  * 模块
