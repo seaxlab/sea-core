@@ -34,12 +34,15 @@ public final class WebServiceUtil {
      * @return
      */
     public static Client getClient(String uri) {
-        Client client = clientMap.get(uri);
-        if (client == null) {
-            client = dcf.createClient(uri);
-            clientMap.put(uri, client);
-        }
-        return client;
+        //Client client = clientMap.get(uri);
+        //if (client == null) {
+        //    client = dcf.createClient(uri);
+        //    clientMap.put(uri, client);
+        //}
+        //return client;
+
+        clientMap.computeIfAbsent(uri, key -> dcf.createClient(uri));
+        return clientMap.get(uri);
     }
 
     /**
@@ -87,9 +90,9 @@ public final class WebServiceUtil {
                 responseStringArray[i] = response[i].toString();
             }
             result.value(responseStringArray);
-            log.error("请求：request[{}],method={}，his result={}", flowId, method, Arrays.toString(response));
+            log.error("请求：request[{}],method={}, response={}", flowId, method, Arrays.toString(response));
         } catch (Exception e) {
-            log.error("请求异常:error[{}] method={}, request webService invoke error", flowId, method, e);
+            log.error("请求异常:error[{}] method={}, request webService error", flowId, method, e);
             result.setMsg(e.getMessage());
         }
         return result;
@@ -105,7 +108,7 @@ public final class WebServiceUtil {
     public static Result<String> post(String uri, String method, String requestParams) {
         Result<String> result = Result.fail();
         try {
-            Object[] response = postBase(uri, method, null, 0, requestParams);
+            Object[] response = postBase(uri, method, null, requestParams, 0);
             result.value(response[0].toString());
         } catch (Exception e) {
             log.error("请求webservice异常", e);
@@ -131,7 +134,7 @@ public final class WebServiceUtil {
             Client client = getClient(uri);
             Object[] response = client.invoke(method, paramMethod, requestParams);
             result.value(response[0].toString());
-            log.info("响应：{}，his result={}", method, response[0].toString());
+            log.info("响应：{}, response={}", method, response[0].toString());
         } catch (Exception e) {
             log.error("请求异常：method={}, client error={}", method, e);
             result.setMsg(e.getMessage());
@@ -157,7 +160,7 @@ public final class WebServiceUtil {
             Object[] response = client.invoke(method, params);
 
             result.value(response[0]);
-            log.error("请求：request[" + flowId + "]," + method + "，his result=" + ToStringBuilder.reflectionToString(response[0]));
+            log.error("请求：request={}, {}, response=", flowId, method, ToStringBuilder.reflectionToString(response[0]));
         } catch (Exception e) {
             log.error("request[{}], error={}", flowId, e);
             result.setMsg(e.getMessage());
@@ -201,7 +204,7 @@ public final class WebServiceUtil {
         Result<String> result = Result.fail();
 
         try {
-            Object[] response = postBase(url, method, namespace, 0, requestParams);
+            Object[] response = postBase(url, method, namespace, requestParams, 0);
             if (response == null) {
                 result.setMsg("返回数据为空");
                 return result;
@@ -228,7 +231,7 @@ public final class WebServiceUtil {
         Result<String> result = Result.fail();
 
         try {
-            Object[] response = postBase(url, method, namespace, 0, requestParams);
+            Object[] response = postBase(url, method, namespace, requestParams, 0);
             result.value(response[0].toString());
         } catch (Exception e) {
             log.error("fail to post for xml namespace", e);
@@ -244,11 +247,11 @@ public final class WebServiceUtil {
      * @param uri         请求地址
      * @param method      方法
      * @param nameSpace   命名空间
-     * @param resultIndex 结果下标
      * @param param       参数
+     * @param resultIndex 结果下标
      * @return
      */
-    public static Object[] postBase(String uri, String method, String nameSpace, Integer resultIndex, Object param) throws Exception {
+    public static Object[] postBase(String uri, String method, String nameSpace, Object param, Integer resultIndex) throws Exception {
 
         Object[] responseArray = null;
         //sofaTracer节点记录
@@ -258,7 +261,7 @@ public final class WebServiceUtil {
 
         //Stopwatch stopwatch = Stopwatch.createStarted();
         //Map<String, String> tags = new HashMap<>();
-        //tags.put("his-method", method);
+        //tags.put("external-method", method);
 
         try {
             Client client = getClient(uri);
@@ -266,12 +269,20 @@ public final class WebServiceUtil {
                 nameSpace = client.getEndpoint().getService().getName().getNamespaceURI();
             }
             QName qName = new QName(nameSpace, method);
-            //tracerSpan = simpleTracer.begin("HIS " + method);
-            //tracerSpan.setTag("his.url", uri);
+            //tracerSpan = simpleTracer.begin("external " + method);
+            //tracerSpan.setTag("external.url", uri);
             if (param instanceof Object[]) {
                 responseArray = client.invoke(qName, (Object[]) param);
             } else {
                 responseArray = client.invoke(qName, param);
+            }
+
+            if (resultIndex != null) {
+                log.info("webservice response, method: {} , result: {}", method,
+                        responseArray == null || responseArray[resultIndex] == null ? new Object[]{null} :
+                                JSONObject.toJSONString(responseArray[resultIndex]));
+            } else {
+                log.info("webservice response, method: {}, result: {}", method, responseArray == null ? new Object[]{null} : JSONObject.toJSONString(responseArray));
             }
 
         } catch (Exception e) {
