@@ -4,10 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import javax.xml.bind.*;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.namespace.QName;
 import java.io.File;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +26,130 @@ import java.util.List;
  */
 @Slf4j
 public final class XmlUtil {
+
+    /**
+     * object to xml string
+     *
+     * @param root
+     * @return
+     */
+    public static String toString(Object root) {
+        return toString(root, "UTF-8");
+    }
+
+    /**
+     * Java Object->Xml.
+     *
+     * @param root
+     * @param encoding
+     */
+    public static String toString(Object root, String encoding) {
+        try {
+            StringWriter writer = new StringWriter();
+            createMarshaller(root.getClass(), encoding).marshal(root, writer);
+            return writer.toString();
+        } catch (JAXBException e) {
+            log.error("fail to marshal", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Java Object->Xml, 特别支持对Root Element是Collection的情形.
+     */
+    @SuppressWarnings("unchecked")
+    public static String toString(Class<?> clazz, Collection<?> root, String rootName, String encoding) {
+        try {
+            CollectionWrapper wrapper = new CollectionWrapper();
+            wrapper.collection = root;
+
+            JAXBElement<CollectionWrapper> wrapperElement = new JAXBElement<>(new QName(rootName), CollectionWrapper.class, wrapper);
+
+            StringWriter writer = new StringWriter();
+            createMarshaller(clazz, encoding).marshal(wrapperElement, writer);
+            return writer.toString();
+        } catch (JAXBException e) {
+            log.error("fail to marshal", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Xml->Java Object.
+     */
+    public static <T> T parse(String xml, Class<T> clazz) {
+        try {
+            StringReader reader = new StringReader(xml);
+            return (T) createUnmarshaller(clazz).unmarshal(reader);
+        } catch (JAXBException e) {
+            log.error("fail to unmarshal", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Xml->Java Object, 支持大小写敏感或不敏感.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T parse(String xml, boolean caseSensitive, Class<T> clazz) {
+        try {
+            String fromXml = xml;
+            if (!caseSensitive)
+                fromXml = xml.toLowerCase();
+            StringReader reader = new StringReader(fromXml);
+            return (T) createUnmarshaller(clazz).unmarshal(reader);
+        } catch (JAXBException e) {
+            log.error("fail to unmarshal", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    /**
+     * 封装Root Element 是 Collection的情况.
+     */
+    public static class CollectionWrapper {
+        @SuppressWarnings("unchecked")
+        @XmlAnyElement
+        protected Collection collection;
+    }
+
+    /**
+     * 创建Marshaller, 设定encoding(可为Null).
+     */
+    private static Marshaller createMarshaller(Class clazz, String encoding) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(clazz);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE); // 格式化输出
+            marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.FALSE);// 是否省略xml头信息
+
+            if (encoding != null && !encoding.trim().isEmpty()) {
+                marshaller.setProperty(Marshaller.JAXB_ENCODING, encoding);
+            }
+
+            return marshaller;
+        } catch (JAXBException e) {
+            log.error("fail to create jaxb marshaller", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 创建UnMarshaller.
+     */
+    private static Unmarshaller createUnmarshaller(Class clazz) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(clazz);
+            return jaxbContext.createUnmarshaller();
+        } catch (JAXBException e) {
+            log.error("fail to create jaxb unmarshaller", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    //----- old
 
     // 1) DOM parser loads whole XML documents in memory while SAX only loads a small part of the XML file in memory.
     //2) DOM parser is faster than SAX because it accesses the whole XML document in memory.
