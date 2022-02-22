@@ -265,4 +265,12 @@ public class DateUtilTest extends BaseCoreTest {
         log.info("end={}", DateUtil.getEndOfMonth(new Date()));
     }
 
+    @Test
+    public void testBetweenHours() throws Exception {
+        Date start = DateUtil.of(2021, 1, 31, 1, 10, 30);
+        Date end = DateUtil.of(2021, 1, 31, 12, 10, 30);
+
+        log.info("hours list={}", DateUtil.betweenHours(start, end));
+    }
+
 }
