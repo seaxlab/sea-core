@@ -1,8 +1,16 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.exception.Precondition;
+import com.google.common.base.Charsets;
+import com.google.common.base.MoreObjects;
 import lombok.extern.slf4j.Slf4j;
+import org.dom4j.Attribute;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
 
 import javax.xml.bind.*;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -94,8 +102,7 @@ public final class XmlUtil {
     public static <T> T parse(String xml, boolean caseSensitive, Class<T> clazz) {
         try {
             String fromXml = xml;
-            if (!caseSensitive)
-                fromXml = xml.toLowerCase();
+            if (!caseSensitive) fromXml = xml.toLowerCase();
             StringReader reader = new StringReader(fromXml);
             return (T) createUnmarshaller(clazz).unmarshal(reader);
         } catch (JAXBException e) {
@@ -147,6 +154,208 @@ public final class XmlUtil {
             log.error("fail to create jaxb unmarshaller", e);
             throw new RuntimeException(e);
         }
+    }
+
+    // document
+
+    /**
+     * create xml document
+     *
+     * @return document
+     */
+    public static Document create() {
+        Document document = DocumentHelper.createDocument();
+        return document;
+    }
+
+    /**
+     * create one xml document，带有根节点
+     *
+     * @param rootNode root node name
+     * @return document
+     */
+    public static Document create(String rootNode) {
+        Document document = DocumentHelper.createDocument();
+        document.addElement(rootNode);
+        return document;
+    }
+
+    /**
+     * 增加一个节点,如果是根节点只能加一个
+     *
+     * @param doc      document
+     * @param nodeName 节点名称
+     * @param value    节点值
+     */
+    public static Element addElement(Document doc, String nodeName, String value) {
+        Precondition.checkNotBlank(nodeName, "xml节点名称不能为空");
+
+        Element node = doc.addElement(nodeName);
+        node.setText(MoreObjects.firstNonNull(value, ""));
+        return node;
+    }
+
+    /**
+     * 增加子节点
+     *
+     * @param element
+     * @param nodeName
+     * @param value
+     */
+    public static Element addElement(Element element, String nodeName, String value) {
+        Precondition.checkNotBlank(nodeName, "xml节点名称不能为空");
+
+        Element node = element.addElement(nodeName);
+        node.setText(MoreObjects.firstNonNull(value, ""));
+        return node;
+    }
+
+    /**
+     * 删除一个节点
+     *
+     * @param element
+     * @param nodeName
+     */
+    public static void removeElement(Element element, String nodeName) {
+        Element el = element.element(nodeName);
+        if (el != null) {
+            element.remove(el);
+        }
+    }
+
+    /**
+     * 删除节点列表
+     *
+     * @param element
+     * @param nodeName
+     */
+    public static void removeElements(Element element, String nodeName) {
+        List<Element> els = element.elements(nodeName);
+        if (els != null && !els.isEmpty()) {
+            els.forEach(item -> element.remove(item));
+        }
+    }
+
+    /**
+     * 获取节点值
+     *
+     * @param element 节点
+     * @return
+     */
+    public static String getElementValue(Element element) {
+        if (element == null) {
+            return "";
+        }
+        return element.getText();
+    }
+
+    /**
+     * 获取节点值
+     *
+     * @param element  父节点
+     * @param nodeName 节点名称
+     * @return
+     */
+    public static String getElementValue(Element element, String nodeName) {
+        Element node = element.element(nodeName);
+        if (node == null) {
+            return "";
+        }
+        return node.getText();
+    }
+
+    /**
+     * 添加属性
+     *
+     * @param element 节点
+     * @param key     属性key
+     * @param value   属性值
+     */
+    public static void addAttr(Element element, String key, String value) {
+        Precondition.checkNotBlank(key, "xml属性key不能为空");
+
+        element.addAttribute(key, MoreObjects.firstNonNull(value, ""));
+    }
+
+    /**
+     * 移除属性
+     *
+     * @param element 节点
+     * @param key     属性名称
+     */
+    public static void removeAttr(Element element, String key) {
+        Precondition.checkNotBlank(key, "xml属性key不能为空");
+
+        Attribute attr = element.attribute(key);
+        if (attr != null) {
+            element.remove(attr);
+        }
+    }
+
+    /**
+     * 获取属性值
+     *
+     * @param element
+     * @param key
+     * @return
+     */
+    public static String getAttrValue(Element element, String key) {
+        Precondition.checkNotBlank(key, "xml属性key不能为空");
+
+        return element.attributeValue(key);
+    }
+
+    /**
+     * 增加注释
+     *
+     * @param doc
+     * @param comment
+     */
+    public static void addComment(Document doc, String comment) {
+        doc.addComment(MoreObjects.firstNonNull(comment, ""));
+    }
+
+    /**
+     * 添加注释
+     *
+     * @param node
+     * @param comment
+     */
+    public static void addComment(Element node, String comment) {
+        node.addComment(MoreObjects.firstNonNull(comment, ""));
+    }
+
+    /**
+     * 格式化输出
+     *
+     * @param doc document
+     * @return string
+     */
+    public static String prettyPrint(Document doc) {
+        OutputFormat format = OutputFormat.createPrettyPrint();
+        format.setEncoding(Charsets.UTF_8.toString());
+        // format.setSuppressDeclaration(true); //这句话会压制xml文件的声明，如果为true，就不打印出声明语句
+        format.setIndent(true); // 设置缩进
+        format.setIndent("	"); // 空行方式缩进
+        format.setNewlines(true); // 设置换行
+
+        XMLWriter writer = null;
+        StringWriter stringWriter = new StringWriter();
+        try {
+            writer = new XMLWriter(stringWriter, format);
+            writer.write(doc);
+        } catch (Exception e) {
+            log.error("fail to write xml to string", e);
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (Exception e) {
+                    log.error("fail to close writer", e);
+                }
+            }
+        }
+        return stringWriter.toString();
     }
 
     //----- old
@@ -216,13 +425,7 @@ public final class XmlUtil {
 
             // check basic
             String text = root.getText();
-            if (EqualUtil.isEq(clazz.getName(), String.class.getName())
-                    || EqualUtil.isEq(clazz.getName(), Integer.class.getName())
-                    || EqualUtil.isEq(clazz.getName(), Long.class.getName())
-                    || EqualUtil.isEq(clazz.getName(), Double.class.getName())
-                    || EqualUtil.isEq(clazz.getName(), Float.class.getName())
-                    || EqualUtil.isEq(clazz.getName(), Byte.class.getName())
-                    || EqualUtil.isEq(clazz.getName(), Boolean.class.getName())) {
+            if (EqualUtil.isEq(clazz.getName(), String.class.getName()) || EqualUtil.isEq(clazz.getName(), Integer.class.getName()) || EqualUtil.isEq(clazz.getName(), Long.class.getName()) || EqualUtil.isEq(clazz.getName(), Double.class.getName()) || EqualUtil.isEq(clazz.getName(), Float.class.getName()) || EqualUtil.isEq(clazz.getName(), Byte.class.getName()) || EqualUtil.isEq(clazz.getName(), Boolean.class.getName())) {
                 // ignore node key.
                 if (text != null) {
                     //TODO 基础类型通过构造函数直接生成
@@ -241,9 +444,7 @@ public final class XmlUtil {
             for (int i = 0; i < fields.length; i++) {
                 Field field = fields[i];
                 fieldType = (field.getType() + "");
-                setMethod = obj.getClass().getMethod(
-                        "set" + fields[i].getName().substring(0, 1).toUpperCase()
-                                + fields[i].getName().substring(1), fields[i].getType());
+                setMethod = obj.getClass().getMethod("set" + fields[i].getName().substring(0, 1).toUpperCase() + fields[i].getName().substring(1), fields[i].getType());
                 if ("interface java.util.List".equals(fieldType)) {
                     fieldGenericType = fields[i].getGenericType() + "";
                     String[] sp1 = fieldGenericType.split("<");

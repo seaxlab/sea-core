@@ -3,6 +3,7 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.BaseCoreTest;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.dom4j.Document;
 import org.dom4j.Element;
 import org.junit.Test;
 
@@ -53,7 +54,18 @@ public class XmlUtilTest extends BaseCoreTest {
 
         Employee employee = XmlUtil.parse(xml, Employee.class);
         log.info("{}", employee);
+    }
 
+
+    @Test
+    public void testCreateDoc() throws Exception {
+        Document doc = XmlUtil.create("root");
+        Element rootNode = doc.getRootElement();
+        XmlUtil.addElement(rootNode, "name", "java");
+        XmlUtil.addComment(rootNode, "this is comment");
+
+        //log.info("xml is={}", doc.asXML());
+        log.info("xml is={}", XmlUtil.prettyPrint(doc));
     }
 
 
