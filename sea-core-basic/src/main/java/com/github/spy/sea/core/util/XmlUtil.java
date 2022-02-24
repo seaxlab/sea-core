@@ -16,6 +16,7 @@ import javax.xml.bind.*;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.namespace.QName;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
@@ -356,6 +357,53 @@ public final class XmlUtil {
             }
         }
         return stringWriter.toString();
+    }
+
+
+    /**
+     * 读取xml文件
+     *
+     * @param filePath xml 文件路径
+     * @return document
+     */
+    public static Document read(String filePath) {
+        SAXReader reader = new SAXReader();
+        Document document = null;
+        try {
+            document = reader.read(new File(filePath));
+        } catch (Exception e) {
+            log.error("fail to read xml file, ex={}, file path={}", e, filePath);
+        }
+
+        return document;
+    }
+
+    /**
+     * 将xml document 文件写入文件
+     *
+     * @param doc      xml document
+     * @param filePath file path
+     * @return boolean
+     */
+    public static boolean write(Document doc, String filePath) {
+        boolean flag = false;
+        try {
+            // 打印配置
+            OutputFormat format = OutputFormat.createPrettyPrint();
+            format.setEncoding(Charsets.UTF_8.toString());
+            format.setIndent(true);
+            format.setIndent("	");
+            format.setNewlines(true);
+
+            XMLWriter writer = new XMLWriter(new FileWriter(filePath), format);
+            writer.write(doc);
+            writer.close();
+            flag = true;
+        } catch (Exception e) {
+            log.error("fail to write xml to file, ex={}, file path={}", e, filePath);
+        }
+
+        return flag;
     }
 
     //----- old
