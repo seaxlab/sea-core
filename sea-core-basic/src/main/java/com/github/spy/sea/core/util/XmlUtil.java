@@ -1,7 +1,6 @@
 package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.exception.Precondition;
-import com.google.common.base.Charsets;
 import com.google.common.base.MoreObjects;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Attribute;
@@ -333,12 +332,9 @@ public final class XmlUtil {
      * @return string
      */
     public static String prettyPrint(Document doc) {
+        // 这里设置缩进， 新行等属性
         OutputFormat format = OutputFormat.createPrettyPrint();
-        format.setEncoding(Charsets.UTF_8.toString());
-        // format.setSuppressDeclaration(true); //这句话会压制xml文件的声明，如果为true，就不打印出声明语句
-        format.setIndent(true); // 设置缩进
-        format.setIndent("	"); // 空行方式缩进
-        format.setNewlines(true); // 设置换行
+        //format.setEncoding(Charsets.UTF_8.toString());
 
         XMLWriter writer = null;
         StringWriter stringWriter = new StringWriter();
@@ -390,10 +386,7 @@ public final class XmlUtil {
         try {
             // 打印配置
             OutputFormat format = OutputFormat.createPrettyPrint();
-            format.setEncoding(Charsets.UTF_8.toString());
-            format.setIndent(true);
-            format.setIndent("	");
-            format.setNewlines(true);
+            //format.setEncoding(Charsets.UTF_8.toString());
 
             XMLWriter writer = new XMLWriter(new FileWriter(filePath), format);
             writer.write(doc);
