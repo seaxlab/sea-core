@@ -10,14 +10,15 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import javax.xml.bind.*;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.namespace.QName;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.StringReader;
-import java.io.StringWriter;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -357,6 +358,24 @@ public final class XmlUtil {
 
 
     /**
+     * 是否是合法的xml 字符串
+     *
+     * @param xmlStr
+     * @return
+     */
+    public static boolean isValid(String xmlStr) {
+        boolean flag;
+        try {
+            SAXParserFactory.newInstance().newSAXParser().getXMLReader().parse(new InputSource(new StringReader(xmlStr)));
+            flag = true;
+        } catch (IOException | ParserConfigurationException | SAXException e) {
+            flag = false;
+            log.error("is not valid xml string", e);
+        }
+        return flag;
+    }
+
+    /**
      * 读取xml文件
      *
      * @param filePath xml 文件路径
@@ -373,6 +392,25 @@ public final class XmlUtil {
 
         return document;
     }
+
+    /**
+     * 读取xml字符串到Document
+     *
+     * @param xmlStr xml字符串
+     * @return document
+     */
+    public static Document readStr(String xmlStr) {
+        SAXReader reader = new SAXReader();
+        Document document = null;
+        try {
+            document = reader.read(new StringReader(xmlStr));
+        } catch (Exception e) {
+            log.error("fail to read xml string", e);
+        }
+
+        return document;
+    }
+
 
     /**
      * 将xml document 文件写入文件
