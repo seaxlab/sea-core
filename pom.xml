@@ -17,13 +17,10 @@
     <description>sea-core library</description>
 
     <modules>
-        <module>sea-core-all</module>
-        <module>sea-core-all-simple</module>
         <module>sea-core-model</module>
         <module>sea-core-basic</module>
         <module>sea-core-web</module>
         <module>sea-core-dal</module>
-        <module>sea-core-mybatis</module>
         <module>sea-core-test</module>
         <module>sea-core-cache</module>
         <module>sea-core-spring-boot-starter</module>

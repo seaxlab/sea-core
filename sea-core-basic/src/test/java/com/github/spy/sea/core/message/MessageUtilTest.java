@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.message;
 
 import com.github.spy.sea.core.BaseCoreTest;
-import com.github.spy.sea.core.message.util.MessageUtil;
+import com.github.spy.sea.core.util.MessageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;

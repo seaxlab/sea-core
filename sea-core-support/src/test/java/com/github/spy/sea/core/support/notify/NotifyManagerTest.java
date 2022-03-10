@@ -1,12 +1,12 @@
 package com.github.spy.sea.core.support.notify;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.spy.sea.core.message.util.MessageUtil;
 import com.github.spy.sea.core.support.notify.dto.DingDingNotifyDTO;
 import com.github.spy.sea.core.support.notify.manager.dingding.DingDingMsgTypeEnum;
 import com.github.spy.sea.core.support.notify.manager.impl.DingDingNotifyManager;
 import com.github.spy.sea.core.support.notify.util.DingDingUtil;
 import com.github.spy.sea.core.test.AbstractCore5Test;
+import com.github.spy.sea.core.util.MessageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 

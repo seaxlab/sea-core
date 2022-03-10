@@ -3,7 +3,7 @@ package com.github.spy.sea.core.thread.util;
 import com.alipay.common.tracer.core.async.SofaTracerCallable;
 import com.alipay.common.tracer.core.context.trace.SofaTraceContext;
 import com.alipay.common.tracer.core.holder.SofaTraceContextHolder;
-import com.github.spy.sea.sofa.tracer.plugins.simple.SimpleTracer;
+import com.github.spy.sea.core.component.tracer.sofa.simple.SimpleTracer;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.Callable;

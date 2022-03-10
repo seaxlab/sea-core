@@ -1,8 +1,8 @@
 package com.github.spy.sea.core.dal.influx;
 
 import com.github.spy.sea.core.dal.BaseCoreDalTest;
-import com.github.spy.sea.core.message.util.MessageUtil;
 import com.github.spy.sea.core.util.DateUtil;
+import com.github.spy.sea.core.util.MessageUtil;
 import com.influxdb.client.InfluxDBClient;
 import com.influxdb.client.InfluxDBClientFactory;
 import com.influxdb.client.WriteApi;

@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.http;
 
 import com.github.spy.sea.core.http.simple.HttpClientUtil;
-import com.github.spy.sea.core.message.util.MessageUtil;
+import com.github.spy.sea.core.util.MessageUtil;
 import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

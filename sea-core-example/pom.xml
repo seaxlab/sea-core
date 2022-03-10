@@ -72,11 +72,11 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.spy.sea</groupId>
-            <artifactId>sofa-tracer-simple-plugin</artifactId>
-            <version>[1.0.0,1.0.99]</version>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.spy.sea</groupId>-->
+        <!--            <artifactId>sofa-tracer-simple-plugin</artifactId>-->
+        <!--            <version>[1.0.0,1.0.99]</version>-->
+        <!--        </dependency>-->
 
     </dependencies>
 

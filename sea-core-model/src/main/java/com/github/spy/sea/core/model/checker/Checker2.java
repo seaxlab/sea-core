@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.model.checker;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 
 /**
  * simple checker
@@ -19,7 +19,7 @@ public interface Checker2<Input1, Input2, R> {
      * @param input2 input
      * @return
      */
-    BaseResult<R> check(Input1 input1, Input2 input2);
+    Result<R> check(Input1 input1, Input2 input2);
 
     /**
      * 多个checker时的执行顺序

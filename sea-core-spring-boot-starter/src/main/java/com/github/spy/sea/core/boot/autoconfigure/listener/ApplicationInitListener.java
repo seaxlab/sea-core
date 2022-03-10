@@ -1,8 +1,8 @@
 package com.github.spy.sea.core.boot.autoconfigure.listener;
 
+import com.github.spy.sea.core.boot.autoconfigure.ApplicationInitBean;
 import com.github.spy.sea.core.common.CoreConst;
 import com.github.spy.sea.core.config.ConfigurationFactory;
-import com.github.spy.sea.core.intf.ApplicationInitBean;
 import com.github.spy.sea.core.loader.EnhancedServiceLoader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;

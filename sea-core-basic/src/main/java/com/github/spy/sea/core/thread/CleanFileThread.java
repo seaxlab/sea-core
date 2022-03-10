@@ -1,8 +1,8 @@
 package com.github.spy.sea.core.thread;
 
-import com.github.spy.sea.core.lock.impl.FileLock;
-import com.github.spy.sea.core.message.util.MessageUtil;
+import com.github.spy.sea.core.component.lock.impl.FileLock;
 import com.github.spy.sea.core.util.ListUtil;
+import com.github.spy.sea.core.util.MessageUtil;
 import com.github.spy.sea.core.util.StringUtil;
 import com.github.spy.sea.core.util.TimeUnitUtil;
 import com.google.common.base.Preconditions;

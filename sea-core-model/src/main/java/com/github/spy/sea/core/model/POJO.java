@@ -9,5 +9,6 @@ import java.io.Serializable;
  * @version 1.0 2020/9/11
  * @since 1.0
  */
+@Deprecated
 public class POJO implements Serializable {
 }

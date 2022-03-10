@@ -1,6 +1,5 @@
 package com.github.spy.sea.core.util;
 
-import com.github.spy.sea.core.message.util.MessageUtil;
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.RateLimiter;
 import lombok.extern.slf4j.Slf4j;

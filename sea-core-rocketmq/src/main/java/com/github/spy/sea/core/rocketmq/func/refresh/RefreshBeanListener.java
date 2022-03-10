@@ -5,7 +5,7 @@ import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import com.alibaba.rocketmq.common.message.MessageExt;
-import com.github.spy.sea.core.intf.RefreshBean;
+import com.github.spy.sea.core.rocketmq.RefreshBean;
 import com.github.spy.sea.core.spring.context.SpringContextHolder;
 import com.github.spy.sea.core.util.ClassUtil;
 import com.github.spy.sea.core.util.StringUtil;

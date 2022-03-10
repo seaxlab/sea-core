@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.lock;
 
 import com.github.spy.sea.core.BaseCoreTest;
-import com.github.spy.sea.core.lock.impl.FileLock;
+import com.github.spy.sea.core.component.lock.impl.FileLock;
 import com.github.spy.sea.core.util.FileUtil;
 import com.github.spy.sea.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
