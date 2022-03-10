@@ -9,7 +9,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * service thread
- * 注意:继承此类时需要设置daemon=true/false
+ * <p>
+ * 注意:继承此类时需要手动设置daemon=true/false
+ * </p>
  *
  * @author spy
  * @version 1.0 2021/4/22
