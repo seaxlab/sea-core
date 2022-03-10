@@ -1,8 +1,8 @@
 package com.github.spy.sea.core.dal.mybatis.tk2.mybatis;
 
+import com.github.spy.sea.core.dal.mybatis.tk.util.ExampleUtil;
 import com.github.spy.sea.core.dal.mybatis.tk2.BaseMybatisTest;
 import com.github.spy.sea.core.dal.mybatis.tk2.domain.User;
-import com.github.spy.sea.core.dal.mybatis.tk2.util.ExampleUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;

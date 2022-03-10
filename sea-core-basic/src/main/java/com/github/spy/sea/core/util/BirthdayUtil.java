@@ -164,11 +164,23 @@ public final class BirthdayUtil {
         return now - birthYear;
     }
 
+    /**
+     * 获取星座
+     *
+     * @param birthDay 出生日期
+     * @return
+     */
     public static String getConstellation(String birthDay) {
         int date = Integer.parseInt(birthDay.substring(4));
         return getConstellation(date);
     }
 
+    /**
+     * 获取星座
+     *
+     * @param date
+     * @return
+     */
     public static String getConstellation(int date) {
         for (int i = 0; i < constellationDays.length; i++) {
             if (date >= constellationDays[i][0] && date <= constellationDays[i][1]) {
@@ -178,15 +190,34 @@ public final class BirthdayUtil {
         return constellations[9];
     }
 
+    /**
+     * 获取星座
+     *
+     * @param month 月份
+     * @param day   天
+     * @return
+     */
     public static String getConstellation(int month, int day) {
         int date = month * 100 + day;
         return getConstellation(date);
     }
 
+    /**
+     * 获取年份生肖，如：龙
+     *
+     * @param birthDay 出生日期
+     * @return 生肖
+     */
     public static String getAnimalOfTheYear(String birthDay) {
         return getAnimalOfTheYear(Integer.parseInt(birthDay.substring(0, 4)));
     }
 
+    /**
+     * 获取年份生肖，如：龙
+     *
+     * @param year 年份
+     * @return 生肖
+     */
     public static String getAnimalOfTheYear(int year) {
         int base = 1984;
         int step = (year - base) % 12;

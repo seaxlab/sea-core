@@ -2,6 +2,7 @@ package com.github.spy.sea.core.dal.mybatis.tk2;
 
 import ch.vorburger.mariadb4j.DB;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
+import com.github.spy.sea.core.dal.mybatis.tk2.dao.UserMapper;
 import com.github.spy.sea.core.test.AbstractCoreTest;
 import com.github.spy.sea.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
