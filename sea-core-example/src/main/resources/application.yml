@@ -17,3 +17,5 @@ sea:
   env: pro
 
   schedule-thread-context-base-package: execution(public * com.abc..*.*(..))
+  fastjson:
+    enable: false

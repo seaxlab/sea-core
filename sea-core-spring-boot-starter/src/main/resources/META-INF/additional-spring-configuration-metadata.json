@@ -53,8 +53,8 @@
       "name": "sea.fastjson.enable",
       "type": "java.lang.Boolean",
       "sourceType": "com.github.spy.sea.core.boot.autoconfigure.SeaProperties",
-      "defaultValue": true,
-      "description": "是否启用FastJSON作为消息处理."
+      "defaultValue": false,
+      "description": "是否启用FastJSON作为消息处理,默认false."
     },
     {
       "name": "sea.fastjson.writeNullValue",

@@ -66,7 +66,7 @@ public class SeaProperties {
 
     @Data
     public static class Fastjson {
-        private Boolean enable;
+        private Boolean enable = false;
         //输出空值
         private Boolean writeNullValue;
     }
