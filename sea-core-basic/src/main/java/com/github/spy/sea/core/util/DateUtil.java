@@ -97,7 +97,7 @@ public final class DateUtil {
      *
      * @param dateStr date str
      * @param format  format
-     * @return
+     * @return date
      */
     public static Date toDate(String dateStr, String format) {
         return strDate(dateStr, format);
@@ -135,8 +135,8 @@ public final class DateUtil {
     /**
      * 重新生成一个对象
      *
-     * @param date
-     * @return
+     * @param date date
+     * @return date
      */
     public static Date clone(Date date) {
         return dateNew(date);
@@ -146,8 +146,8 @@ public final class DateUtil {
     /**
      * 时间戳转换为字符串
      *
-     * @param time
-     * @return
+     * @param time timestamp
+     * @return string
      */
     public static String timestampStr(Timestamp time) {
         Date date = new Date(time.getTime());
@@ -157,8 +157,8 @@ public final class DateUtil {
     /**
      * 字符串转时间戳 "yyyy-MM-dd HH:mm:ss"
      *
-     * @param str
-     * @return
+     * @param str timestamp str
+     * @return timestamp
      */
     public static Timestamp strTimestamp(String str) {
         Date date = strDate(str, DEFAULT_FORMAT);
@@ -168,9 +168,9 @@ public final class DateUtil {
     /**
      * 获取两个日期之间相差天数,包含两个日期当天
      *
-     * @param beginDate
-     * @param endDate
-     * @return
+     * @param beginDate 开始日期
+     * @param endDate   结束日期
+     * @return long
      */
     public static long dateDifDays(Date beginDate, Date endDate) {
         Calendar calendar1 = Calendar.getInstance();
@@ -194,8 +194,8 @@ public final class DateUtil {
     /**
      * 获取下一天
      *
-     * @param date
-     * @return
+     * @param date 指定日期
+     * @return date
      */
     public static Date getNextDate(Date date) {
         return getDate(date, 1);
@@ -205,7 +205,7 @@ public final class DateUtil {
     /**
      * 获取当前交易日，<font color="red">时间部分为00:00:00</font>
      *
-     * @return
+     * @return date
      */
     public static Date getBillDate() {
         return truncate(nowDate());
@@ -215,8 +215,8 @@ public final class DateUtil {
      * 将制定日期转换成交易日，
      * <font color="red">时间部分为00:00:00</font>
      *
-     * @param date
-     * @return
+     * @param date 指定日期
+     * @return date
      */
     public static Date getBillDate(Date date) {
         return truncate(date);
@@ -226,8 +226,8 @@ public final class DateUtil {
      * 获取下一天，
      * <font color="red">时间部分为00:00:00</font>
      *
-     * @param date
-     * @return
+     * @param date 指定日期
+     * @return date
      */
     public static Date getNextBillDate(Date date) {
         return truncate(getDate(date, 1));
@@ -237,7 +237,7 @@ public final class DateUtil {
      * 获取当前时间的下一天，
      * <font color="red">时间部分为00:00:00</font>
      *
-     * @return
+     * @return date
      */
     public static Date getNextBillDate() {
         return truncate(getNextBillDate(nowDate()));
@@ -246,8 +246,8 @@ public final class DateUtil {
     /**
      * 获取前一天
      *
-     * @param date
-     * @return
+     * @param date 指定日期
+     * @return date
      */
     public static Date getPreDate(Date date) {
         return getDate(date, -1);
@@ -257,8 +257,8 @@ public final class DateUtil {
      * 获取前一天，
      * <font color="red">时间部分为00:00:00</font>
      *
-     * @param date
-     * @return
+     * @param date 指定日期
+     * @return date
      */
     public static Date getPreBillDate(Date date) {
         return truncate(getDate(date, -1));
@@ -268,7 +268,7 @@ public final class DateUtil {
      * 获取当前时间的前一天，
      * <font color="red">时间部分为00:00:00</font>
      *
-     * @return
+     * @return date
      */
     public static Date getPreBillDate() {
         return getPreBillDate(nowDate());
@@ -278,9 +278,9 @@ public final class DateUtil {
     /**
      * 获取指定日期的n天的日期
      *
-     * @param date
-     * @param n
-     * @return
+     * @param date 指定日期
+     * @param n    n天
+     * @return date
      */
     public static Date getDate(Date date, int n) {
         Calendar calendar = new GregorianCalendar();
@@ -293,6 +293,12 @@ public final class DateUtil {
         return DateUtil.strDate(DateUtil.dateStr(new Date(), DEFAULT_DATE_FORMAT), DEFAULT_DATE_FORMAT);
     }
 
+    /**
+     * 格式化成 yyyy-MM-dd HH:mm
+     *
+     * @param date 指定日期
+     * @return string
+     */
     public static String toYMDHM(Date date) {
         if (date == null) {
             return "";
@@ -305,8 +311,8 @@ public final class DateUtil {
      * 格式化到秒 <br />
      * 如果为null,则返回null
      *
-     * @param date
-     * @return
+     * @param date 指定日期
+     * @return string
      */
     public static String toYMDHMS(Date date) {
         if (date == null) {
@@ -322,7 +328,7 @@ public final class DateUtil {
      * 格式化到日 <br />
      * 如果为null,则返回null
      *
-     * @return
+     * @return string
      */
     public static String nowStr() {
         SimpleDateFormat sdf = new SimpleDateFormat(DEFAULT_FORMAT);
@@ -333,7 +339,7 @@ public final class DateUtil {
     /**
      * 今日日期
      *
-     * @return
+     * @return string
      */
     public static String todayStr() {
         SimpleDateFormat sdf = new SimpleDateFormat(DAY_FORMAT);
@@ -341,6 +347,12 @@ public final class DateUtil {
         return sdf.format(new Date());
     }
 
+    /**
+     * 格式化
+     *
+     * @param date 指定日期
+     * @return string
+     */
     public static String toYMD(Date date) {
         if (date == null) {
             log.warn("date is null");
@@ -351,6 +363,12 @@ public final class DateUtil {
         return sdf.format(date);
     }
 
+    /**
+     * 格式化
+     *
+     * @param date 指定日期
+     * @return string
+     */
     public static String toIntYMD(Date date) {
         if (date == null) {
             log.warn("date is null");
@@ -362,6 +380,12 @@ public final class DateUtil {
         return sdf.format(date);
     }
 
+    /**
+     * 格式化
+     *
+     * @param date 指定日期
+     * @return string
+     */
     public static String toYMDHMSNoPoint(Date date) {
         if (date == null) {
             log.warn("date is null");
@@ -374,6 +398,12 @@ public final class DateUtil {
     }
 
 
+    /**
+     * 格式化
+     *
+     * @param date 指定日期
+     * @return string
+     */
     public static String toHMS(Date date) {
         if (date == null) {
             log.warn("date is null");
@@ -385,6 +415,12 @@ public final class DateUtil {
         return sdf.format(date);
     }
 
+    /**
+     * 格式化
+     *
+     * @param date 指定日期
+     * @return string
+     */
     public static String toIntHMS(Date date) {
         if (date == null) {
             log.warn("date is null");
@@ -394,6 +430,13 @@ public final class DateUtil {
         return format(date, TIME_FORMAT2);
     }
 
+    /**
+     * to string 格式化
+     *
+     * @param date   指定日期
+     * @param format 格式
+     * @return string
+     */
     public static String toString(Date date, String format) {
         if (date == null) {
             log.warn("date is null");
@@ -406,9 +449,9 @@ public final class DateUtil {
     /**
      * 计算 month个月后的时间
      *
-     * @param date
-     * @param delta
-     * @return
+     * @param date  指定日期
+     * @param delta 年变量
+     * @return 新日期
      */
     public static Date addYear(Date date, int delta) {
         Calendar calendar = Calendar.getInstance();
@@ -420,9 +463,9 @@ public final class DateUtil {
     /**
      * 计算 month个月后的时间
      *
-     * @param date
-     * @param month
-     * @return
+     * @param date  指定日期
+     * @param month 月数
+     * @return 新日期
      */
     public static Date addMonth(Date date, int month) {
         Calendar calendar = Calendar.getInstance();
@@ -434,9 +477,9 @@ public final class DateUtil {
     /**
      * 计算 day 天后的时间
      *
-     * @param date
-     * @param day
-     * @return
+     * @param date 指定日期
+     * @param day  天数量
+     * @return 新日期
      */
     public static Date addDay(Date date, int day) {
         Calendar calendar = Calendar.getInstance();
@@ -448,9 +491,9 @@ public final class DateUtil {
     /**
      * 计算hour小时后的时间
      *
-     * @param date
-     * @param hour
-     * @return
+     * @param date 指定日期
+     * @param hour 小时数
+     * @return 新日期
      */
     public static Date addHour(Date date, int hour) {
         Calendar calendar = Calendar.getInstance();
@@ -462,9 +505,9 @@ public final class DateUtil {
     /**
      * 计算minute分钟后的时间
      *
-     * @param date
-     * @param minute
-     * @return
+     * @param date   指定日期
+     * @param minute 分钟数
+     * @return 新日期
      */
     public static Date addMinute(Date date, int minute) {
         Calendar calendar = Calendar.getInstance();
@@ -476,9 +519,9 @@ public final class DateUtil {
     /**
      * 添加增加second之后的时间
      *
-     * @param date
-     * @param second
-     * @return
+     * @param date   指定日期
+     * @param second 秒数
+     * @return 新日期
      */
     public static Date addSecond(Date date, int second) {
         Calendar calendar = Calendar.getInstance();
@@ -709,9 +752,9 @@ public final class DateUtil {
      * 截取日期
      * 2021-04-12 12:12:12-- HOUR --> 2021-04-12 12:00:00
      *
-     * @param date
+     * @param date  指定日期
      * @param field Calendar.xxx DATE/HOUR/SECOND
-     * @return
+     * @return date
      */
     public static Date truncate(Date date, int field) {
         return DateUtils.truncate(date, field);
@@ -725,9 +768,9 @@ public final class DateUtil {
     /**
      * 是否是相同的日期,yyyy-MM-dd，不包含时间
      *
-     * @param date1
-     * @param date2
-     * @return
+     * @param date1 日期1
+     * @param date2 日期2
+     * @return boolean
      */
     public static boolean isSameDay(Date date1, Date date2) {
         if (date1 == null || date2 == null) {
@@ -739,9 +782,9 @@ public final class DateUtil {
     /**
      * 是否是相同的日时间
      *
-     * @param date1
-     * @param date2
-     * @return
+     * @param date1 日期1
+     * @param date2 日期2
+     * @return boolean
      */
     public static boolean isSameDayTime(Date date1, Date date2) {
         if (date1 == null || date2 == null) {
@@ -803,8 +846,8 @@ public final class DateUtil {
     /**
      * 转换成日期
      *
-     * @param instant
-     * @return
+     * @param instant instant
+     * @return 新日期
      */
     public static Date parse(Instant instant) {
         if (instant == null) {
@@ -816,8 +859,10 @@ public final class DateUtil {
     }
 
     /**
+     * 转成日期
+     *
      * @param sDate 格式 yyyy-MM-dd
-     * @return
+     * @return 日期
      */
     public static Date parseToDate(String sDate) {
         if (StringUtils.isBlank(sDate)) {
@@ -843,9 +888,9 @@ public final class DateUtil {
     /**
      * merge date and time to datetime.
      *
-     * @param date
-     * @param time
-     * @return
+     * @param date 指定日期
+     * @param time 指定时间
+     * @return 日期
      */
     public static Date parseToDate(Date date, Date time) {
         Preconditions.checkNotNull(date, "date cannot be null.");
@@ -860,7 +905,7 @@ public final class DateUtil {
     /**
      * @param sDate 格式 yyyy-MM-dd
      * @param sTime 格式 HH:mm:ss
-     * @return
+     * @return 日期
      */
     public static Date parseToDate(String sDate, String sTime) {
         if (StringUtils.isBlank(sDate)) {
@@ -889,6 +934,15 @@ public final class DateUtil {
         return strDate(strDate, "yyyy-MM-dd HH:mm:ss");
     }
 
+    /**
+     * 解析成日期
+     *
+     * @param sDate        日期
+     * @param sTime        时间
+     * @param sDatePattern 日期格式
+     * @param sTimePattern 时间格式
+     * @return date
+     */
     public static Date parseToDate(String sDate, String sTime, String sDatePattern, String sTimePattern) {
         if (StringUtils.isBlank(sDate)) {
             log.warn("date str is blank");
@@ -907,6 +961,9 @@ public final class DateUtil {
 
     /**
      * get offset day from today, clear the hour, min, sec, millsec
+     *
+     * @param offSet 偏移量
+     * @return date
      */
     public static Date getTodayOffSet(int offSet) {
 
@@ -922,11 +979,23 @@ public final class DateUtil {
         return cal.getTime();
     }
 
+    /**
+     * 字符串转日期
+     *
+     * @param date 日期字符串
+     * @return 日期
+     */
     public static Date string2Date(String date) {
         Preconditions.checkArgument(date != null && !"".equals(date.trim()), "date不能为空");
         return strDate(date, DAY_FORMAT);
     }
 
+    /**
+     * 格式化日期
+     *
+     * @param date 指定日期
+     * @return string
+     */
     public static String formatDate2YMD(Date date) {
         return dateStr(date, DAY_FORMAT);
     }
@@ -937,7 +1006,7 @@ public final class DateUtil {
      * @param beginDate 开始
      * @param endDate   结束
      * @param timeUnit  单位
-     * @return
+     * @return long
      */
     public static Long diffSimple(Date beginDate, Date endDate, ChronoUnit timeUnit) {
         Preconditions.checkNotNull(beginDate, "beginDate不能为空");
@@ -995,7 +1064,7 @@ public final class DateUtil {
      * @param beginDate 开始
      * @param endDate   结束
      * @param timeUnit  单位
-     * @return
+     * @return long
      */
     public static Long diff(Date beginDate, Date endDate, TimeUnit timeUnit) {
         Preconditions.checkNotNull(beginDate, "beginDate不能为空");
@@ -1021,10 +1090,10 @@ public final class DateUtil {
     /**
      * 凌晨
      *
-     * @param date
-     * @return
-     * @flag 0 返回yyyy-MM-dd 00:00:00日期<br>
-     * 1 返回yyyy-MM-dd 23:59:59日期
+     * @param date 日期
+     * @param flag 0 返回yyyy-MM-dd 00:00:00日期<br>
+     *             1 返回yyyy-MM-dd 23:59:59日期
+     * @return 日期
      */
     public static Date weeHours(Date date, int flag) {
         Calendar cal = Calendar.getInstance();
@@ -1049,9 +1118,9 @@ public final class DateUtil {
     /**
      * start和end之间的日期，包含start和end
      *
-     * @param start
-     * @param end
-     * @return
+     * @param start 开始日期
+     * @param end   结束日期
+     * @return List date
      */
     public static List<Date> betweenDayList(Date start, Date end) {
         if (start.after(end)) {
@@ -1087,9 +1156,9 @@ public final class DateUtil {
      * end :2017/03/04 13:00:00
      * 返回的list为03/02、03/03、03/04
      *
-     * @param start
-     * @param end
-     * @return
+     * @param start 开始日期时间
+     * @param end   结束日期时间
+     * @return list string
      */
     public static List<String> betweenDays(Date start, Date end) {
         if (start.after(end)) return Lists.newArrayList();
@@ -1120,13 +1189,15 @@ public final class DateUtil {
     /**
      * 指定日期范围的天数
      *
-     * @param start
-     * @param end
-     * @param dateFormat
-     * @return
+     * @param start      开始日期
+     * @param end        结束日期
+     * @param dateFormat 日期格式
+     * @return list string
      */
     public static List<String> betweenDays(Date start, Date end, String dateFormat) {
-        if (start.after(end)) return Lists.newArrayList();
+        if (start.after(end)) {
+            return Lists.newArrayList();
+        }
 
         List<String> days = Lists.newArrayList();
 
@@ -1137,15 +1208,13 @@ public final class DateUtil {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        //        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
-//        days.add(simpleDateFormat.format(start));
-        days.add(dateStr(start, dateFormat));
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        days.add(sdf.format(start));
 
         while (true) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             if (calendar.getTime().compareTo(end) == -1 || calendar.getTime().compareTo(end) == 0) {
-//                days.add(simpleDateFormat.format(calendar.getTime()));
-                days.add(dateStr(calendar.getTime(), dateFormat));
+                days.add(sdf.format(calendar.getTime()));
             } else {
                 break;
             }
@@ -1158,15 +1227,15 @@ public final class DateUtil {
     /**
      * 比较时间必须在N天之前
      *
-     * @param beginDate
-     * @param endDate
-     * @param N
-     * @return
+     * @param beginDate 开始日期
+     * @param endDate   结束日期
+     * @param n         天之前
+     * @return boolean
      */
-    public static boolean compareDay(Date beginDate, Date endDate, Integer N) {
+    public static boolean compareDay(Date beginDate, Date endDate, Integer n) {
         //获取N天前的时间
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, -N);
+        cal.add(Calendar.DAY_OF_MONTH, -n);
         Date date = cal.getTime();
         //获取N天前的23:59:59
         Date beforeTwoDay = DateUtil.weeHours(date, 1);
@@ -1211,7 +1280,7 @@ public final class DateUtil {
      *
      * @param value    需要转换为日期的字符串
      * @param patterns 日期pattern数组
-     * @return
+     * @return date
      */
     public static Date tryStr2Date(String value, String[] patterns) {
         if (patterns == null || patterns.length == 0) {
@@ -1224,7 +1293,7 @@ public final class DateUtil {
                     d = DateUtil.str2Date(value, p);
                     break;
                 } catch (Exception e) {
-                    continue;
+                    log.error("fail to convert to date");
                 }
             }
         }
@@ -1245,18 +1314,29 @@ public final class DateUtil {
     /**
      * start和end之间的时数，包含start和end
      * 例如：
+     * 2022-1-2 10:10:00 - 2022-1-2 13:00:00
+     * <li>2022-1-2 10</li>
+     * <li>2022-1-2 11</li>
+     * <li>2022-1-2 12</li>
+     * <li>2022-1-2 13</li>
      *
-     * @param start
-     * @param end
-     * @return
+     * @param start 开始日期
+     * @param end   结束日期
+     * @return list string
      */
-    public static List<String> betweenHous(Date start, Date end) {
-        if (start.after(end)) return Lists.newArrayList();
+    public static List<String> betweenHours(Date start, Date end) {
+        if (start == null || end == null) {
+            log.warn("start or end is null");
+            return Lists.newArrayList();
+        }
 
-        List<String> returnBetweentDaysList = Lists.newArrayList();
+        if (start.after(end)) {
+            return Lists.newArrayList();
+        }
 
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH");
-        String formatStr = "yyyy-MM-dd HH";
+        List<String> hours = Lists.newArrayList();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH");
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(start);
@@ -1264,27 +1344,27 @@ public final class DateUtil {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        returnBetweentDaysList.add(DateUtil.dateStr(start, formatStr));
+        hours.add(sdf.format(start));
 
         while (true) {
             calendar.add(Calendar.HOUR_OF_DAY, 1);
             if (calendar.getTime().compareTo(end) == -1 || calendar.getTime().compareTo(end) == 0) {
-                returnBetweentDaysList.add(DateUtil.dateStr(calendar.getTime(), formatStr));
+                hours.add(sdf.format(calendar.getTime()));
             } else {
                 break;
             }
         }
 
-        return returnBetweentDaysList;
+        return hours;
     }
 
     /**
      * 获取周
      * 例如：2017-09-11 返回 周一
      *
-     * @param dateStr
-     * @param format
-     * @return
+     * @param dateStr 日期字符串
+     * @param format  格式
+     * @return 日期字符串
      */
     public static String getWeek(String dateStr, String format) {
         if (format == null) {
@@ -1304,8 +1384,8 @@ public final class DateUtil {
     /**
      * 获取指定日期的星期
      *
-     * @param date
-     * @return
+     * @param date 日期
+     * @return int
      */
     public static int getWeek(Date date) {
         Calendar cal = Calendar.getInstance();
@@ -1323,6 +1403,10 @@ public final class DateUtil {
 
     /**
      * 获取当前月的第一天
+     *
+     * @param year  年
+     * @param month 月
+     * @return date
      */
     public static Date getFirstDay(String year, String month) {
         Calendar cal = Calendar.getInstance();
@@ -1335,6 +1419,10 @@ public final class DateUtil {
 
     /**
      * 获取当前月的最后一天
+     *
+     * @param year  年
+     * @param month 月
+     * @return date
      */
     public static Date getLastDay(String year, String month) {
         Calendar cal = Calendar.getInstance();
@@ -1350,11 +1438,14 @@ public final class DateUtil {
 
     /**
      * 获取日历上显示的  第一天
+     *
+     * @param beginDate 日期
+     * @return date
      */
     public static Date getCalendarFirstDay(Date beginDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(beginDate);
-        while (calendar.get(Calendar.DAY_OF_WEEK) != 2) {
+        while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
             calendar.add(Calendar.DAY_OF_MONTH, -1);
         }
 
@@ -1363,11 +1454,13 @@ public final class DateUtil {
 
     /**
      * 获取日历上显示的最后一天
+     *
+     * @param endDate 日期
      */
     public static Date getCalendarEndDay(Date endDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(endDate);
-        while (calendar.get(Calendar.DAY_OF_WEEK) != 1) {
+        while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
         return calendar.getTime();
@@ -1393,18 +1486,12 @@ public final class DateUtil {
      *
      * @param dateStr date str
      * @param format  yyyy-MM-dd,  yyyyMMdd
-     * @return
+     * @return boolean
      */
     public static boolean isValidDate(String dateStr, String format) {
         if (StringUtils.isEmpty(format) || StringUtils.isEmpty(dateStr)) {
             return false;
         }
-//        try {
-//            Date date = strDate(str, format);
-//            return str.equals(dateStr(date, format));
-//        } catch (Exception e) {
-//            return false;
-//        }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         // 严格模式
         sdf.setLenient(false);
@@ -1412,7 +1499,7 @@ public final class DateUtil {
             sdf.parse(dateStr);
             return true;
         } catch (ParseException e) {
-            log.error("parseException", e);
+            log.error("parse date exception", e);
         }
 
         return false;
@@ -1423,7 +1510,7 @@ public final class DateUtil {
      *
      * @param dateList date str list
      * @param format   date time format
-     * @return
+     * @return boolean
      */
     public static boolean isValidDate(List<String> dateList, String format) {
         if (StringUtil.isEmpty(format) || ListUtil.isEmpty(dateList)) {
@@ -1435,9 +1522,7 @@ public final class DateUtil {
         sdf.setLenient(false);
 
         boolean valid = true;
-        for (int i = 0; i < dateList.size(); i++) {
-            String date = dateList.get(i);
-
+        for (String date : dateList) {
             try {
                 sdf.parse(date);
                 valid = true;
@@ -1464,7 +1549,7 @@ public final class DateUtil {
     /**
      * 返回当前日期
      *
-     * @return
+     * @return date
      */
     public static Date nowDate() {
         return new Date();
@@ -1473,7 +1558,7 @@ public final class DateUtil {
     /**
      * 获取年份
      *
-     * @return
+     * @return Integer
      */
     public static Integer thisYear() {
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -1483,8 +1568,8 @@ public final class DateUtil {
     /**
      * 获取一天的开始时间 yyyy-MM-dd 00:00:00
      *
-     * @param date
-     * @return
+     * @param date 日期
+     * @return date
      */
     public static Date getDayStartTime(Date date) {
         String str = dateStr(date, DAY_FORMAT) + " 00:00:00";
@@ -1494,8 +1579,8 @@ public final class DateUtil {
     /**
      * 获取一天的结束时间 yyyy-MM-dd 23:59:59
      *
-     * @param date
-     * @return
+     * @param date 日期
+     * @return date
      */
     public static Date getDayEndTime(Date date) {
         String str = dateStr(date, DAY_FORMAT) + " 23:59:59";
@@ -1607,9 +1692,9 @@ public final class DateUtil {
     /**
      * 判断当前日期时间是否在指定范围内
      *
-     * @param beginDate
-     * @param endDate
-     * @return
+     * @param beginDate 开始日期
+     * @param endDate   结束日期
+     * @return boolean
      */
     public static boolean nowIsInRange(Date beginDate, Date endDate) {
         return isInRange(nowDate(), beginDate, endDate);
@@ -1625,7 +1710,7 @@ public final class DateUtil {
      * @param targetDate 目标日期
      * @param beginDate  开始日期
      * @param endDate    结束日期
-     * @return
+     * @return boolean
      */
     public static boolean isInRange(Date targetDate, Date beginDate, Date endDate) {
         if (targetDate == null || beginDate == null || endDate == null) {
@@ -1647,7 +1732,7 @@ public final class DateUtil {
      * @param beginDate  开始日期
      * @param endDate    结束日期
      * @param rangeMode  边界值 ()、(]、[)、[]
-     * @return
+     * @return boolean
      * @see RangeModeEnum
      */
     public static boolean isInRange(Date targetDate, Date beginDate, Date endDate, RangeModeEnum rangeMode) {
@@ -1680,7 +1765,7 @@ public final class DateUtil {
      * @param targetEndDate   目标结束日期
      * @param totalBeginDate  总的开始日期
      * @param totalEndDate    总的结束日期 （大）
-     * @return
+     * @return boolean
      */
     public static boolean isInRange(Date targetBeginDate, Date targetEndDate, Date totalBeginDate, Date totalEndDate) {
         if (targetBeginDate == null || targetEndDate == null || totalBeginDate == null || totalEndDate == null) {
@@ -1698,11 +1783,11 @@ public final class DateUtil {
     /**
      * 判断MMdd是否在指定的时间范围内
      *
-     * @param targetDate
-     * @param beginDate
-     * @param endDate
-     * @param rangeMode
-     * @return
+     * @param targetDate 目标日期
+     * @param beginDate  开始日期
+     * @param endDate    结束日期
+     * @param rangeMode  比较模式
+     * @return boolean
      */
     public static boolean isMonthAndDayInRange(Date targetDate, Date beginDate, Date endDate, RangeModeEnum rangeMode) {
         if (targetDate == null || beginDate == null || endDate == null) {
@@ -1732,11 +1817,11 @@ public final class DateUtil {
     /**
      * 判断是否有交集
      *
-     * @param targetBeginDate
-     * @param targetEndDate
-     * @param totalBeginDate
-     * @param totalEndDate
-     * @return
+     * @param targetBeginDate 目标日期-开始
+     * @param targetEndDate   目标日期-结束
+     * @param totalBeginDate  总日期-开始
+     * @param totalEndDate    总日期-结束
+     * @return boolean
      */
     public static boolean hasIntersection(Date targetBeginDate, Date targetEndDate, Date totalBeginDate, Date totalEndDate) {
         if (targetBeginDate == null || targetEndDate == null || totalBeginDate == null || totalEndDate == null) {
@@ -1753,7 +1838,7 @@ public final class DateUtil {
     /**
      * 获取当前时间所在月的开始日期和结束日期
      *
-     * @return
+     * @return date[]
      */
     public static Date[] getBeginAndEndOfMonth() {
         return getBeginAndEndOfMonth(0);
@@ -1763,7 +1848,7 @@ public final class DateUtil {
      * 获取当前时间所在月的开始日期和结束日期
      *
      * @param offset 偏移量  0本月，-1上月，-2上上月，1下月，2下下月；依次类推
-     * @return
+     * @return date[]
      */
     public static Date[] getBeginAndEndOfMonth(int offset) {
         return getBeginAndEndOfMonth(new Date(), offset);
@@ -1774,7 +1859,7 @@ public final class DateUtil {
      *
      * @param date   指定日期
      * @param offset 偏移量  0本月，-1上月，-2上上月，1下月，2下下月；依次类推
-     * @return
+     * @return date[]
      */
     public static Date[] getBeginAndEndOfMonth(Date date, int offset) {
         DateTime dateTime;
@@ -1817,7 +1902,7 @@ public final class DateUtil {
     /**
      * 获取当前时间所在周的开始日期和结束日期
      *
-     * @return
+     * @return date[]
      */
     public static Date[] getBeginAndEndOfWeek() {
         return getBeginAndEndOfWeek(0);
@@ -1836,9 +1921,9 @@ public final class DateUtil {
     /**
      * 获取指定时间的，周开始日期和结束日期
      *
-     * @param date
+     * @param date       日期
      * @param weekOffset 0本周，-1上周，-2上上周，1下周，2下下周；依次类推
-     * @return
+     * @return date[]
      */
     public static Date[] getBeginAndEndOfWeek(Date date, int weekOffset) {
         DateTime dateTime;
@@ -1859,7 +1944,7 @@ public final class DateUtil {
     /**
      * 当天的开始时间 如2020-09-11 00:00:00
      *
-     * @return
+     * @return date
      */
     public static Date getBeginDateTimeOfDay() {
         DateTime dateTime = new DateTime();
@@ -1870,7 +1955,7 @@ public final class DateUtil {
     /**
      * 当天的开始时间 如2020-09-11 23:59:59.999
      *
-     * @return
+     * @return date
      */
     public static Date getEndDateTimeOfDay() {
         DateTime dateTime = new DateTime();
@@ -1907,8 +1992,8 @@ public final class DateUtil {
     /**
      * 指定日期的开始和结束日期
      *
-     * @param date
-     * @return
+     * @param date 指定日期
+     * @return date[]
      */
     public static Date[] getBeginAndEndDateTimeOfDay(Date date) {
         DateTime begin = new DateTime(date.getTime());

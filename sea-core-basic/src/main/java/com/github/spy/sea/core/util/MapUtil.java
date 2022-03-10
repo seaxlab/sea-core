@@ -27,7 +27,7 @@ public final class MapUtil {
     /**
      * empty map
      *
-     * @return
+     * @return map
      */
     public static Map empty() {
         return Collections.emptyMap();
@@ -39,16 +39,15 @@ public final class MapUtil {
      * a=1&b=2 --> {a:1,b:2}
      * </code>
      *
-     * @param paramStr
-     * @return
+     * @param paramStr 字符串，例如 a=1&b=2
+     * @return map
      */
     public static Map<String, String> parse(String paramStr) {
         Map<String, String> map = new HashMap<>();
 
         String[] values = paramStr.split("&");
 
-        for (int i = 0; i < values.length; i++) {
-            String value = values[i];
+        for (String value : values) {
             String[] kv = value.split("=");
             if (kv.length == 1) {
                 map.put(kv[0], "");
@@ -62,9 +61,9 @@ public final class MapUtil {
     /**
      * value 不为空则put
      *
-     * @param map
-     * @param key
-     * @param value
+     * @param map   map
+     * @param key   key
+     * @param value value
      */
     public static void put(Map map, Object key, Object value) {
         if (value == null) {
@@ -84,10 +83,10 @@ public final class MapUtil {
     /**
      * put value
      *
-     * @param map
-     * @param key
-     * @param value
-     * @param defaultValue
+     * @param map          map
+     * @param key          key
+     * @param value        value
+     * @param defaultValue default value
      */
     public static void put(Map map, Object key, Object value, Object defaultValue) {
         if (value == null) {
@@ -103,10 +102,10 @@ public final class MapUtil {
      * change to fastJSON
      * <note> depends on GSON</note>
      *
-     * @param original
-     * @param <K>
-     * @param <V>
-     * @return
+     * @param original map
+     * @param <K>      key type
+     * @param <V>      value type
+     * @return new map after clone.
      */
     public static <K, V> Map<K, V> clone(Map<K, V> original) {
         Gson gson = new Gson();
@@ -118,11 +117,11 @@ public final class MapUtil {
     /**
      * convert list to map
      *
-     * @param list
-     * @param keyMapper
-     * @param <R>
-     * @param <K>
-     * @return
+     * @param list      list
+     * @param keyMapper key mapper function
+     * @param <R>       value type
+     * @param <K>       key type
+     * @return new map
      */
     public static <K, R> Map<K, R> toMap(List<R> list, Function<? super R, ? extends K> keyMapper) {
         return ListUtil.toMap(list, keyMapper);
@@ -131,11 +130,11 @@ public final class MapUtil {
     /**
      * convert list to Map[K ,List[R]]
      *
-     * @param list
-     * @param keyMapper
-     * @param <K>
-     * @param <R>
-     * @return
+     * @param list      list
+     * @param keyMapper key mapper function
+     * @param <K>       key type
+     * @param <R>       value type
+     * @return new map
      */
     public static <K, R> Map<K, List<R>> toMapList(List<R> list, Function<? super R, ? extends K> keyMapper) {
         return ListUtil.toMapList(list, keyMapper);
@@ -144,11 +143,11 @@ public final class MapUtil {
     /**
      * convert list to map [keymapper, item count]
      *
-     * @param list
-     * @param keyMapper
-     * @param <E>
-     * @param <A>
-     * @return
+     * @param list      list
+     * @param keyMapper key mapper function
+     * @param <E>       entity type
+     * @param <A>       key type
+     * @return new map
      */
     public static <E, A> Map<A, Long> toMapCount(List<E> list, Function<? super E, ? extends A> keyMapper) {
         return ListUtil.toMapCount(list, keyMapper);

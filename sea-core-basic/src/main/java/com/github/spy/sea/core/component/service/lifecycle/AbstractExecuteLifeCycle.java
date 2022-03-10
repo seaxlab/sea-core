@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.service.lifecycle;
+package com.github.spy.sea.core.component.service.lifecycle;
 
 import com.github.spy.sea.core.model.BaseResult;
 

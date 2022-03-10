@@ -42,6 +42,62 @@ public class YuantuTest extends ScrewTest {
     }
 
     @Test
+    public void testDumpUser() throws Exception {
+        DBModelCreateDTO dto = new DBModelCreateDTO();
+        dto.setUrl("jdbc:mysql://10.122.2.78:6033/yuantu_user?characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false");
+        dto.setUsername("yuantu_user");
+        dto.setPassword(getPassword("qd_uat_user"));
+        dto.setOutPutFileName(getFileName("usercenter"));
+
+        ScrewUtil.dump(dto);
+    }
+
+    @Test
+    public void testDumpVirtual() throws Exception {
+        DBModelCreateDTO dto = new DBModelCreateDTO();
+        dto.setUrl("jdbc:mysql://10.122.2.78:6033/virtual?characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false");
+        dto.setUsername("virtual");
+        dto.setPassword(getPassword("qd_uat_virtual"));
+        dto.setOutPutFileName(getFileName("virtual"));
+
+        ScrewUtil.dump(dto);
+    }
+
+    @Test
+    public void testDumpPlan() throws Exception {
+        DBModelCreateDTO dto = new DBModelCreateDTO();
+        dto.setUrl("jdbc:mysql://10.122.2.78:6033/plancenter?characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false");
+        dto.setUsername("plancenter");
+        dto.setPassword(getPassword("qd_uat_plancenter"));
+        dto.setOutPutFileName(getFileName("plancenter"));
+
+        ScrewUtil.dump(dto);
+    }
+
+
+    @Test
+    public void testDumpMedicalShop() throws Exception {
+        DBModelCreateDTO dto = new DBModelCreateDTO();
+        dto.setUrl("jdbc:mysql://rdsj56325f0xdcn346hn.mysql.rds.aliyuncs.com:3306/uat_medicalshop?characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false");
+        dto.setUsername("uat_medicalshop");
+        dto.setPassword(getPassword("qd_uat_medical_shop"));
+        dto.setOutPutFileName(getFileName("medical-shop"));
+
+        ScrewUtil.dump(dto);
+    }
+
+    @Test
+    public void testDumpHospitalAdmission() throws Exception {
+        DBModelCreateDTO dto = new DBModelCreateDTO();
+        dto.setUrl("jdbc:mysql://10.32.10.221:3306/hospital_admission_uat?characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false");
+        dto.setUsername("ho_admission_uat");
+        dto.setPassword(getPassword("qd_uat_ho_admission"));
+        dto.setOutPutFileName(getFileName("hospital-admission"));
+
+        ScrewUtil.dump(dto);
+    }
+
+    @Test
     public void testDumpAolsee() throws Exception {
         DBModelCreateDTO dto = new DBModelCreateDTO();
         dto.setUrl("jdbc:mysql://rdsj56325f0xdcn346hn.mysql.rds.aliyuncs.com/aolsee?characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false");

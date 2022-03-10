@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.service.lifecycle;
+package com.github.spy.sea.core.component.service.lifecycle;
 
 /**
  * 模块
