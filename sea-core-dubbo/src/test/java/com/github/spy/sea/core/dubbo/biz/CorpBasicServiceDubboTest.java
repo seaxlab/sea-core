@@ -2,7 +2,7 @@ package com.github.spy.sea.core.dubbo.biz;
 
 import com.github.spy.sea.core.dubbo.BaseDubboTest;
 import com.github.spy.sea.core.dubbo.util.DubboUtil;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class CorpBasicServiceDubboTest extends BaseDubboTest {
         dto.setParameterArgs(parameterArgs);
 
 
-        BaseResult result = DubboUtil.invoke(dto);
+        Result result = DubboUtil.invoke(dto);
 
         log.info("ret data={}", result.getData());
     }
@@ -47,7 +47,7 @@ public class CorpBasicServiceDubboTest extends BaseDubboTest {
         dto.setParameterTypes(parameterTypes);
         dto.setParameterArgs(parameterArgs);
 
-        BaseResult result = DubboUtil.invoke(dto);
+        Result result = DubboUtil.invoke(dto);
 
         log.info("ret data={}", result.getData());
     }
@@ -65,7 +65,7 @@ public class CorpBasicServiceDubboTest extends BaseDubboTest {
         dto.setParameterTypes(parameterTypes);
         dto.setParameterArgs(parameterArgs);
 
-        BaseResult result = DubboUtil.invoke(dto);
+        Result result = DubboUtil.invoke(dto);
 
         log.info("ret data={}", result.getData());
     }
@@ -83,7 +83,7 @@ public class CorpBasicServiceDubboTest extends BaseDubboTest {
         dto.setParameterTypes(parameterTypes);
         dto.setParameterArgs(parameterArgs);
 
-        BaseResult result = DubboUtil.invoke(dto);
+        Result result = DubboUtil.invoke(dto);
 
         log.info("ret data={}", result.getData());
 
@@ -103,7 +103,7 @@ public class CorpBasicServiceDubboTest extends BaseDubboTest {
         dto.setParameterTypes(parameterTypes);
         dto.setParameterArgs(parameterArgs);
 
-        BaseResult result = DubboUtil.invoke(dto);
+        Result result = DubboUtil.invoke(dto);
 
         log.info("ret data={}", result.getData());
 

@@ -4,7 +4,7 @@ import com.github.spy.sea.core.annotation.Beta;
 import com.github.spy.sea.core.dubbo.common.dto.AppConfig;
 import com.github.spy.sea.core.dubbo.common.dto.DubboGenericInvokeDTO;
 import com.github.spy.sea.core.dubbo.util.DubboUtil;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
@@ -28,7 +28,7 @@ public class DubboRemoteManager {
         this.appConfig = appConfig;
     }
 
-    public BaseResult invoke(DubboGenericInvokeDTO dto) {
+    public Result invoke(DubboGenericInvokeDTO dto) {
         if (appConfig == null) {
             throw new IllegalArgumentException("app config cannot be null.");
         }

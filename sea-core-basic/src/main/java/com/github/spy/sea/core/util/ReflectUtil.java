@@ -2,7 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.exception.ExceptionHandler;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.google.common.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -231,13 +231,13 @@ public final class ReflectUtil {
      * @param args
      * @return
      */
-    public static BaseResult<Object> invokeMethod(Object target, Method method, Object... args) {
-        BaseResult result = BaseResult.fail();
+    public static Result<Object> invokeMethod(Object target, Method method, Object... args) {
+        Result result = Result.fail();
         try {
             result.value(method.invoke(target, args));
         } catch (Exception ex) {
             log.error("fail to invoke method.", ex);
-            result.setErrorMessage(ex.getMessage());
+            result.setMsg(ex.getMessage());
         }
         return result;
     }
@@ -284,13 +284,13 @@ public final class ReflectUtil {
      * @param method
      * @return
      */
-    public static BaseResult<Object> invokeMethodSafe(Object object, String method) {
-        BaseResult<Object> result = BaseResult.fail();
+    public static Result<Object> invokeMethodSafe(Object object, String method) {
+        Result<Object> result = Result.fail();
         try {
             result.value(MethodUtils.invokeMethod(object, method));
         } catch (Exception e) {
             log.error("invoke method error", e);
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
         return result;
     }
@@ -303,13 +303,13 @@ public final class ReflectUtil {
      * @param args
      * @return
      */
-    public static BaseResult<Object> invokeMethodSafe(Object object, String method, Object... args) {
-        BaseResult<Object> result = BaseResult.fail();
+    public static Result<Object> invokeMethodSafe(Object object, String method, Object... args) {
+        Result<Object> result = Result.fail();
         try {
             result.value(MethodUtils.invokeMethod(object, method, args));
         } catch (Exception e) {
             log.error("invoke method error", e);
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
         return result;
     }
@@ -322,14 +322,14 @@ public final class ReflectUtil {
      * @param method
      * @return
      */
-    public static BaseResult<Object> invokeMethodSafe(Object object, boolean forceAccess, String method) {
-        BaseResult<Object> result = BaseResult.fail();
+    public static Result<Object> invokeMethodSafe(Object object, boolean forceAccess, String method) {
+        Result<Object> result = Result.fail();
 
         try {
             result.value(MethodUtils.invokeMethod(object, forceAccess, method));
         } catch (Exception e) {
             log.error("invoke method error", e);
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
         return null;
     }
@@ -343,14 +343,14 @@ public final class ReflectUtil {
      * @param args
      * @return
      */
-    public static BaseResult<Object> invokeMethodSafe(Object object, boolean forceAccess, String method, Object... args) {
-        BaseResult<Object> result = BaseResult.fail();
+    public static Result<Object> invokeMethodSafe(Object object, boolean forceAccess, String method, Object... args) {
+        Result<Object> result = Result.fail();
 
         try {
             result.value(MethodUtils.invokeMethod(object, forceAccess, method, args));
         } catch (Exception e) {
             log.error("invoke method error", e);
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
         return null;
     }
@@ -362,7 +362,7 @@ public final class ReflectUtil {
      * @param method ''
      * @return
      */
-    public static BaseResult<Object> invokeStaticMethod(final Class<?> clazz, String method) {
+    public static Result<Object> invokeStaticMethod(final Class<?> clazz, String method) {
         return invokeStaticMethod(clazz, method, null);
     }
 
@@ -374,13 +374,13 @@ public final class ReflectUtil {
      * @param args
      * @return
      */
-    public static BaseResult<Object> invokeStaticMethod(final Class<?> clazz, String method, Object... args) {
-        BaseResult<Object> result = BaseResult.fail();
+    public static Result<Object> invokeStaticMethod(final Class<?> clazz, String method, Object... args) {
+        Result<Object> result = Result.fail();
         try {
             result.value(MethodUtils.invokeStaticMethod(clazz, method, args));
         } catch (Exception e) {
             log.error("fail to invoke static method", e);
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
         return result;
     }

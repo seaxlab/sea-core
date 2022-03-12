@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.support.oss;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.support.oss.enums.OssTypeEnum;
 import com.github.spy.sea.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class AliyunOssManagerTest extends BaseOssManagerTest {
 
     @Test
     public void testUploadObj() {
-        BaseResult ret = ossManager.uploadObj(BUCKET, "abcdef", PathUtil.getUserHome() + "/test/gc1.log");
+        Result ret = ossManager.uploadObj(BUCKET, "abcdef", PathUtil.getUserHome() + "/test/gc1.log");
         log.info("ret={}", ret);
     }
 

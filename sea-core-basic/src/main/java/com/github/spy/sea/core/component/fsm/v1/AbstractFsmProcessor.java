@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.component.fsm.v1;
 
 import com.github.spy.sea.core.exception.BaseAppException;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
@@ -21,8 +21,8 @@ public abstract class AbstractFsmProcessor<T> implements FsmProcessor<T>, FsmAct
     private CheckerExecutor checkerExecutor;
 
     @Override
-    public final BaseResult<T> action(FsmContext context) throws BaseAppException {
-        BaseResult<T> result = null;
+    public final Result<T> action(FsmContext context) throws BaseAppException {
+        Result<T> result = null;
 
         Checkable checkable = this.getCheckable(context);
 

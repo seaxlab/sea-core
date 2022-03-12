@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.component.fsm.v1;
 
 import com.github.spy.sea.core.component.fsm.v1.impl.DefaultCheckable;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -24,13 +24,13 @@ public class FsmProcessorAdapter extends AbstractFsmProcessor {
     }
 
     @Override
-    public BaseResult action(FsmContext context, String nextState) {
-        return BaseResult.success();
+    public Result action(FsmContext context, String nextState) {
+        return Result.success();
     }
 
     @Override
-    public BaseResult save(FsmContext context, String nextState) {
-        return BaseResult.success();
+    public Result save(FsmContext context, String nextState) {
+        return Result.success();
     }
 
     @Override

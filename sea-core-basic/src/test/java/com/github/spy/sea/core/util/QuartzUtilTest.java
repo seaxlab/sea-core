@@ -2,7 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.domain.MyJob;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -46,7 +46,7 @@ public class QuartzUtilTest extends BaseCoreTest {
     public void run42() throws Exception {
         QuartzUtil.addJob(JOB_NAME, JOB_GROUP_NAME, TRIGGER_NAME, TRIGGER_GROUP_NAME, MyJob.class, "0/1 * * * * ?");
 
-        BaseResult result = QuartzUtil.queryAllJobs();
+        Result result = QuartzUtil.queryAllJobs();
         log.info("result={}", result);
     }
 
@@ -62,7 +62,7 @@ public class QuartzUtilTest extends BaseCoreTest {
 
     @Test
     public void run58() throws Exception {
-        BaseResult ret = QuartzUtil.removeJob(JOB_NAME, TRIGGER_NAME);
+        Result ret = QuartzUtil.removeJob(JOB_NAME, TRIGGER_NAME);
         log.info("ret={}", ret);
     }
 

@@ -2,7 +2,7 @@ package com.github.spy.sea.core.web.filter;
 
 import com.github.spy.sea.core.annotation.Beta;
 import com.github.spy.sea.core.common.CoreErrorConst;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.util.EqualUtil;
 import com.github.spy.sea.core.util.ListUtil;
 import com.github.spy.sea.core.web.util.RequestUtil;
@@ -45,9 +45,9 @@ public abstract class AbstractBlackListFilter implements Filter {
             String ip = RequestUtil.getClientIpAddress(req);
             if (EqualUtil.isIn(ip, ips)) {
                 log.warn("ip[{}] is forbidden access", ip);
-                BaseResult result = BaseResult.fail();
-                result.setErrorCode(CoreErrorConst.SYS_FORBIDDEN_ACCESS);
-                result.setErrorMsg("ip[{}] is forbidden access", ip);
+                Result result = Result.fail();
+                result.setCode(CoreErrorConst.SYS_FORBIDDEN_ACCESS);
+                result.setMsgF("ip[{}] is forbidden access", ip);
                 ResponseUtil.toJSON(resp, result);
                 return;
             }
@@ -57,9 +57,9 @@ public abstract class AbstractBlackListFilter implements Filter {
             String userAgent = RequestUtil.getUserAgent(req);
             if (EqualUtil.isIn(userAgent, userAgents)) {
                 log.warn("userAgent[{}] is forbidden access", userAgent);
-                BaseResult result = BaseResult.fail();
-                result.setErrorCode(CoreErrorConst.SYS_FORBIDDEN_ACCESS);
-                result.setErrorMessage("user-agent is forbidden access");
+                Result result = Result.fail();
+                result.setCode(CoreErrorConst.SYS_FORBIDDEN_ACCESS);
+                result.setMsg("user-agent is forbidden access");
                 ResponseUtil.toJSON(resp, result);
                 return;
             }

@@ -2,7 +2,7 @@ package com.github.spy.sea.core.dubbo;
 
 import com.github.spy.sea.core.dubbo.common.dto.DubboGenericInvokeDTO;
 import com.github.spy.sea.core.dubbo.util.DubboUtil;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class SimpleDubboTest extends BaseDubboTest {
         dto.setParameterArgs(parameterArgs);
 
 
-        BaseResult result = DubboUtil.invoke(dto);
+        Result result = DubboUtil.invoke(dto);
 
         log.info("ret data={}", result.getData());
     }
@@ -42,7 +42,7 @@ public class SimpleDubboTest extends BaseDubboTest {
         String method = "queryQRCode";
         String version = "1.0.0.yibin_uat";
 
-        BaseResult result = DubboUtil.invoke(registryAddress, interfaceName, method, version, "1231", "123123");
+        Result result = DubboUtil.invoke(registryAddress, interfaceName, method, version, "1231", "123123");
 
         log.info("ret data={}", result.getData());
     }
@@ -65,7 +65,7 @@ public class SimpleDubboTest extends BaseDubboTest {
         dto.setParameterArgs(parameterArgs);
 
 
-        BaseResult result = DubboUtil.invoke(dto);
+        Result result = DubboUtil.invoke(dto);
 
         log.info("ret data={}", result.getData());
     }
@@ -93,7 +93,7 @@ public class SimpleDubboTest extends BaseDubboTest {
         dto.setParameterTypes(parameterTypes);
         dto.setParameterArgs(parameterArgs);
 
-        BaseResult result = DubboUtil.invoke(dto);
+        Result result = DubboUtil.invoke(dto);
 
         log.info("ret data={}", result.getData());
     }

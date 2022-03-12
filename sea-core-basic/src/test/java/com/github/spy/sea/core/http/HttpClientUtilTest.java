@@ -3,7 +3,7 @@ package com.github.spy.sea.core.http;
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.http.dto.HttpUploadDTO;
 import com.github.spy.sea.core.http.simple.HttpClientUtil;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class HttpClientUtilTest extends BaseCoreTest {
 
     @Test
     public void run27() throws Exception {
-        BaseResult ret = HttpClientUtil.postJSONSafe("http://127.0.0.1:1988/v1/push", str);
+        Result ret = HttpClientUtil.postJSONSafe("http://127.0.0.1:1988/v1/push", str);
 
         log.info("ret={}", ret);
     }
@@ -62,7 +62,7 @@ public class HttpClientUtilTest extends BaseCoreTest {
 
         uploadDTO.setFileFieldMap(fileMap);
 
-        BaseResult result = HttpClientUtil.upload(uploadDTO);
+        Result result = HttpClientUtil.upload(uploadDTO);
         log.info("result={}", result);
     }
 

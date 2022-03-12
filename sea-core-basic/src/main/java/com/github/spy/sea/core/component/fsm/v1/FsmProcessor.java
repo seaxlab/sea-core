@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.component.fsm.v1;
 
 import com.github.spy.sea.core.exception.BaseAppException;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 
 /**
  * 状态机处理器接口
@@ -15,5 +15,5 @@ public interface FsmProcessor<T> {
     /**
      * 执行状态迁移的入口
      */
-    BaseResult<T> action(FsmContext context) throws BaseAppException;
+    Result<T> action(FsmContext context) throws BaseAppException;
 }

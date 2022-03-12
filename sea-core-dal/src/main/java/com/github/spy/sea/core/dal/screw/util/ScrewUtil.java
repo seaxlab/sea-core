@@ -8,7 +8,7 @@ import cn.smallbun.screw.core.execute.DocumentationExecute;
 import cn.smallbun.screw.core.process.ProcessConfig;
 import com.github.spy.sea.core.dal.screw.dto.DBModelCreateDTO;
 import com.github.spy.sea.core.exception.ExceptionHandler;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.util.ObjectUtil;
 import com.github.spy.sea.core.util.PathUtil;
 import com.github.spy.sea.core.util.SshUtil;
@@ -64,7 +64,7 @@ public final class ScrewUtil {
     private static DataSource buildDataSource(DBModelCreateDTO dto) {
         String url = dto.getUrl();
         if (dto.getSshConfig() != null) {
-            BaseResult result = SshUtil.setUpPortForwarding(dto.getSshConfig());
+            Result result = SshUtil.setUpPortForwarding(dto.getSshConfig());
             if (result.isFail()) {
                 ExceptionHandler.publishMsg("fail to build ssh connection");
             }

@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.component.ssh.manager;
 
 import com.github.spy.sea.core.component.ssh.dto.SshConfig;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 
 /**
  * module name
@@ -18,13 +18,13 @@ public interface SshManager {
 
     //TODO create port forwarding??
 
-    BaseResult<String> executeCmd(String cmd);
+    Result<String> executeCmd(String cmd);
 
-    BaseResult<Boolean> rename(String oldPath, String newPath);
+    Result<Boolean> rename(String oldPath, String newPath);
 
-    BaseResult<Boolean> upload(String localFilePath, String remoteDir);
+    Result<Boolean> upload(String localFilePath, String remoteDir);
 
-    BaseResult<Boolean> download(String remoteFilePath, String localDir);
+    Result<Boolean> download(String remoteFilePath, String localDir);
 
     void destroy();
 }

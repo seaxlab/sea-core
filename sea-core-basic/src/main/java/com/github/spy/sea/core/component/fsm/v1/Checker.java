@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.component.fsm.v1;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 
 /**
  * 校验器
@@ -17,7 +17,7 @@ public interface Checker<T> {
      * @param context
      * @return
      */
-    BaseResult<T> check(FsmContext context);
+    Result<T> check(FsmContext context);
 
     /**
      * 多个checker时的执行顺序

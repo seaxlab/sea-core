@@ -3,7 +3,7 @@ package com.github.spy.sea.core.component.ssh.manager.impl;
 import com.github.spy.sea.core.component.ssh.dto.SshConfig;
 import com.github.spy.sea.core.component.ssh.manager.SshManager;
 import com.github.spy.sea.core.loader.LoadLevel;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -28,22 +28,22 @@ public class DefaultSshManager implements SshManager {
     }
 
     @Override
-    public BaseResult<String> executeCmd(String cmd) {
+    public Result<String> executeCmd(String cmd) {
         return null;
     }
 
     @Override
-    public BaseResult<Boolean> rename(String oldPath, String newPath) {
+    public Result<Boolean> rename(String oldPath, String newPath) {
         return null;
     }
 
     @Override
-    public BaseResult<Boolean> upload(String localFilePath, String remoteDir) {
+    public Result<Boolean> upload(String localFilePath, String remoteDir) {
         return null;
     }
 
     @Override
-    public BaseResult<Boolean> download(String remoteFilePath, String localDir) {
+    public Result<Boolean> download(String remoteFilePath, String localDir) {
         return null;
     }
 

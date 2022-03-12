@@ -48,33 +48,33 @@ public class EncryptRequestDTO implements Serializable {
     private String sign;
 
 
-    public BaseResult isValid() {
-        BaseResult result = BaseResult.fail();
+    public Result isValid() {
+        Result result = Result.fail();
 
         if (isEmpty(appId)) {
-            result.setErrorMessage("appId不能为空");
+            result.setMsg("appId不能为空");
             return result;
         }
 
         if (isEmpty(bizContent)) {
-            result.setErrorMessage("bizContent不能为空");
+            result.setMsg("bizContent不能为空");
             return result;
         }
 
 
         if (isEmpty(version)) {
-            result.setErrorMessage("version不能为空");
+            result.setMsg("version不能为空");
             return result;
         }
 
 
         if (isEmpty(timestamp)) {
-            result.setErrorMessage("timestamp不能为空");
+            result.setMsg("timestamp不能为空");
             return result;
         }
 
         if (isEmpty(sign)) {
-            result.setErrorMessage("sign不能为空");
+            result.setMsg("sign不能为空");
             return result;
         }
 

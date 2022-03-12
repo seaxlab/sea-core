@@ -6,7 +6,7 @@ import com.github.spy.sea.core.common.CoreConst;
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.enums.ErrorTypeEnum;
 import com.github.spy.sea.core.exception.BaseAppException;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.ConversionNotSupportedException;
@@ -57,7 +57,7 @@ public abstract class AbstractGlobalExceptionHandler {
 
     @ExceptionHandler(value = BaseAppException.class)
     @ResponseBody
-    public ResponseEntity<BaseResult> handleBaseAppException(BaseAppException e) {
+    public ResponseEntity<Result> handleBaseAppException(BaseAppException e) {
         log.error("Biz service Exception", e);
 
         return new ResponseEntity<>(buildResult(String.valueOf(e.getCode()), ErrorTypeEnum.BIZ.getCode(),
@@ -66,21 +66,21 @@ public abstract class AbstractGlobalExceptionHandler {
 
     @ExceptionHandler(value = IllegalArgumentException.class)
     @ResponseBody
-    public ResponseEntity<BaseResult> handleIllegalArgumentException(IllegalArgumentException e) {
+    public ResponseEntity<Result> handleIllegalArgumentException(IllegalArgumentException e) {
         log.error("Biz service Exception", e);
 
-        return new ResponseEntity<BaseResult>(buildResult(String.valueOf(-1), ErrorTypeEnum.BIZ.getCode(),
+        return new ResponseEntity<Result>(buildResult(String.valueOf(-1), ErrorTypeEnum.BIZ.getCode(),
                 e.getMessage(), null), HttpStatus.OK);
     }
 
-    private BaseResult buildResult(String errorCode, String errorType, String defaultErrorMsg, Object data) {
-        BaseResult result = BaseResult.fail(errorCode);
+    private Result buildResult(String errorCode, String errorType, String defaultErrorMsg, Object data) {
+        Result result = Result.fail(errorCode);
 
-        result.setErrorCode(errorCode);
+        result.setCode(errorCode);
 //        result.setErrorType(errorType);
-        result.setErrorMessage(getErrorMessage(errorCode, defaultErrorMsg));
+        result.setMsg(getErrorMessage(errorCode, defaultErrorMsg));
 
-        log.error("errorCode={},errorMessage={}", result.getErrorCode(), result.getErrorMessage());
+        log.error("errorCode={},errorMessage={}", result.getCode(), result.getMsg());
 
         printHttpHeader(request);
 
@@ -116,7 +116,7 @@ public abstract class AbstractGlobalExceptionHandler {
             ServletRequestBindingException.class,
             BindException.class})
     @ResponseBody
-    public ResponseEntity<BaseResult> handleExceptions(HttpServletRequest request, Exception e) {
+    public ResponseEntity<Result> handleExceptions(HttpServletRequest request, Exception e) {
 
         log.error("handle Exceptions", e);
 
@@ -141,9 +141,9 @@ public abstract class AbstractGlobalExceptionHandler {
         }
 
 
-        BaseResult result = buildBaseResult(request, CoreErrorConst.SYS_INVALID_REQUEST, msg,
+        Result result = buildBaseResult(request, CoreErrorConst.SYS_INVALID_REQUEST, msg,
                 ErrorTypeEnum.APPLICATION.getCode(), getMessage(e));
-        result.setErrorField(errorField);
+        //result.setErrorField(errorField);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -155,7 +155,7 @@ public abstract class AbstractGlobalExceptionHandler {
             NoHandlerFoundException.class,
             Exception.class})
     @ResponseBody
-    public ResponseEntity<BaseResult> handleException(HttpServletRequest request, Exception e) {
+    public ResponseEntity<Result> handleException(HttpServletRequest request, Exception e) {
         log.error("Unexpected exceptions!!!", e);
 
         String errorMsg = null;
@@ -172,15 +172,15 @@ public abstract class AbstractGlobalExceptionHandler {
                 ErrorTypeEnum.APPLICATION.getCode(), getMessage(e)), HttpStatus.OK);
     }
 
-    private BaseResult buildBaseResult(HttpServletRequest request,
-                                       String errorCode,
-                                       String errorMsg,
-                                       String errorType,
-                                       String errorMsgForLog) {
+    private Result buildBaseResult(HttpServletRequest request,
+                                   String errorCode,
+                                   String errorMsg,
+                                   String errorType,
+                                   String errorMsgForLog) {
         printHttpHeader(request);
 
         // 返回给前端的结果
-        BaseResult result = getBaseResult(errorCode, errorMsg, errorType);
+        Result result = getBaseResult(errorCode, errorMsg, errorType);
 
         // 如果是开发环境则把异常抛出去
 
@@ -188,12 +188,12 @@ public abstract class AbstractGlobalExceptionHandler {
         return result;
     }
 
-    protected BaseResult getBaseResult(String errorCode, String errorMsg, String errorType) {
-        BaseResult result = new BaseResult();
+    protected Result getBaseResult(String errorCode, String errorMsg, String errorType) {
+        Result result = new Result();
         result.setSuccess(false);
-        result.setErrorCode(errorCode);
+        result.setCode(errorCode);
 //        result.setErrorType(errorType);
-        result.setErrorMessage(getErrorMessage(errorCode, errorMsg));
+        result.setMsg(getErrorMessage(errorCode, errorMsg));
 //        result.setRequestId(MDC.get(CoreErrorConst.MDC_REQ_ID));
 
         try {
@@ -207,7 +207,7 @@ public abstract class AbstractGlobalExceptionHandler {
         } catch (Exception e) {
 
         }
-        log.error("errorCode={},errorMessage={}", result.getErrorCode(), result.getErrorMessage());
+        log.error("errorCode={},errorMessage={}", result.getCode(), result.getMsg());
 
         return result;
     }

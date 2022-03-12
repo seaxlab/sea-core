@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.support.notify.manager.impl;
 
 import com.github.spy.sea.core.http.simple.HttpClientUtil;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.support.notify.dto.DingDingNotifyDTO;
 import com.github.spy.sea.core.support.notify.dto.DingDingRobotSendRequest;
 import com.github.spy.sea.core.support.notify.manager.NotifyManager;
@@ -25,14 +25,14 @@ public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
     private String endpoint;
 
     @Override
-    public BaseResult send(DingDingNotifyDTO dto) {
-        BaseResult result = BaseResult.fail();
+    public Result send(DingDingNotifyDTO dto) {
+        Result result = Result.fail();
         try {
             send0(dto);
             result.setSuccess(true);
         } catch (Exception e) {
             log.error("send ding ding msg error", e);
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
 
         return result;

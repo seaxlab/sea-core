@@ -13,16 +13,16 @@ import org.junit.Test;
  * @since 1.0
  */
 @Slf4j
-public class BaseResultTest extends BaseCoreTest {
+public class ResultTest extends BaseCoreTest {
 
     @Test
     public void testFieldOrder() throws Exception {
-        BaseResult ret = BaseResult.success("abc");
+        Result ret = Result.success("abc");
         log.info("{}", JSONUtil.toStr(ret));
     }
 
     @Test
     public void testNullInstanceOf() throws Exception {
-        log.info("{}", null instanceof BaseResult);
+        log.info("{}", null instanceof Result);
     }
 }

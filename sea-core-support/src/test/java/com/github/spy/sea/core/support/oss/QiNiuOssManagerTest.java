@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.support.oss;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.support.oss.dto.ObjectUrlDTO;
 import com.github.spy.sea.core.support.oss.enums.OssTypeEnum;
 import com.github.spy.sea.core.util.PathUtil;
@@ -46,7 +46,7 @@ public class QiNiuOssManagerTest extends BaseOssManagerTest {
 
     @Test
     public void testUploadObj() {
-        BaseResult ret = ossManager.uploadObj(BUCKET, "abcdef", PathUtil.getUserHome() + "/test/gc1.log");
+        Result ret = ossManager.uploadObj(BUCKET, "abcdef", PathUtil.getUserHome() + "/test/gc1.log");
         log.info("ret={}", ret);
     }
 
@@ -56,13 +56,13 @@ public class QiNiuOssManagerTest extends BaseOssManagerTest {
         dto.setBucket(BUCKET);
         dto.setKey("abcdef");
         dto.setCustomDomainFlag(true);
-        BaseResult<String> ret = ossManager.getObjUrl(dto);
+        Result<String> ret = ossManager.getObjUrl(dto);
         log.info("url={}", ret.getData());
     }
 
     @Test
     public void testGetObjSignedUrl() throws Exception {
-        BaseResult<String> ret = ossManager.getObjSignedUrl("spy-private-bucket", "gc1.log", 100);
+        Result<String> ret = ossManager.getObjSignedUrl("spy-private-bucket", "gc1.log", 100);
         log.info("url={}", ret.getData());
 
     }

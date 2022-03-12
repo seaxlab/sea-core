@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.support.oss.manager.impl;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.support.oss.dto.*;
 import com.github.spy.sea.core.support.oss.enums.AclEnum;
 import com.github.spy.sea.core.support.oss.enums.OssTypeEnum;
@@ -69,22 +69,22 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<Boolean> _createBucket(String bucket) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result<Boolean> _createBucket(String bucket) {
+        Result<Boolean> result = Result.fail();
 
         try {
             client.createBucket(bucket);
             result.value(true);
         } catch (Exception e) {
             log.error("fail to create bucket", e);
-            result.setErrorMessage("创建桶失败");
+            result.setMsg("创建桶失败");
         }
         return result;
     }
 
     @Override
-    public BaseResult _createBucket(BucketCreateDTO dto) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result _createBucket(BucketCreateDTO dto) {
+        Result<Boolean> result = Result.fail();
 
         try {
             CreateBucketRequest request = new CreateBucketRequest();
@@ -99,22 +99,22 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult _deleteBucket(String bucket) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result _deleteBucket(String bucket) {
+        Result<Boolean> result = Result.fail();
 
         try {
             client.deleteBucket(bucket);
             result.value(true);
         } catch (Exception e) {
             log.error("fail to create bucket", e);
-            result.setErrorMessage("删除桶失败");
+            result.setMsg("删除桶失败");
         }
         return result;
     }
 
     @Override
-    public BaseResult<List<BucketVO>> _queryBuckets() {
-        BaseResult result = BaseResult.fail();
+    public Result<List<BucketVO>> _queryBuckets() {
+        Result result = Result.fail();
         try {
             ListBucketsRequest request = new ListBucketsRequest();
             request.setBucketType(BucketTypeEnum.OBJECT);
@@ -145,8 +145,8 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
-        BaseResult<ObjectPutVO> result = BaseResult.fail();
+    public Result<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
+        Result<ObjectPutVO> result = Result.fail();
 
         try {
             return uploadObj(bucket, key, new File(filePath));
@@ -158,8 +158,8 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
-        BaseResult<ObjectPutVO> result = BaseResult.fail();
+    public Result<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
+        Result<ObjectPutVO> result = Result.fail();
 
         try {
             PutObjectRequest request = new PutObjectRequest();
@@ -179,8 +179,8 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
-        BaseResult<ObjectPutVO> result = BaseResult.fail();
+    public Result<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
+        Result<ObjectPutVO> result = Result.fail();
 
         try {
             PutObjectRequest request = new PutObjectRequest();
@@ -200,8 +200,8 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
-        BaseResult<ObjectPutVO> result = BaseResult.fail();
+    public Result<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
+        Result<ObjectPutVO> result = Result.fail();
 
         try {
             PutObjectRequest request = new PutObjectRequest();
@@ -224,8 +224,8 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
 
 
     @Override
-    public BaseResult<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
-        BaseResult<String> result = BaseResult.fail();
+    public Result<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
+        Result<String> result = Result.fail();
         try {
             TemporarySignatureRequest request = new TemporarySignatureRequest(HttpMethodEnum.GET, expireSeconds);
             request.setBucketName(bucket);
@@ -240,8 +240,8 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
-        BaseResult<String> result = BaseResult.fail();
+    public Result<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
+        Result<String> result = Result.fail();
         try {
             TemporarySignatureRequest request = new TemporarySignatureRequest(toHttpMethodEnum(dto.getHttpMethod()), dto.getExpireSeconds());
             request.setBucketName(dto.getBucket());
@@ -255,14 +255,14 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<Boolean> _downloadObj(String bucket, String key, String filePath) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result<Boolean> _downloadObj(String bucket, String key, String filePath) {
+        Result<Boolean> result = Result.fail();
 
         try {
             ObsObject obsObject = client.getObject(bucket, key);
             if (obsObject == null) {
                 log.warn("obj is not exist");
-                result.setErrorMessage("对象不存在");
+                result.setMsg("对象不存在");
                 return result;
             }
 
@@ -284,21 +284,21 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<Boolean> _deleteObj(String bucket, String key) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result<Boolean> _deleteObj(String bucket, String key) {
+        Result<Boolean> result = Result.fail();
         try {
             client.deleteObject(bucket, key);
             result.value(true);
         } catch (Exception e) {
             log.error("fail to delete obj", e);
-            result.setErrorMessage("删除对象失败");
+            result.setMsg("删除对象失败");
         }
         return result;
     }
 
     @Override
-    public BaseResult<Boolean> _deleteObjs(String bucket, List<String> keys) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result<Boolean> _deleteObjs(String bucket, List<String> keys) {
+        Result<Boolean> result = Result.fail();
 
         try {
             DeleteObjectsRequest request = new DeleteObjectsRequest();
@@ -314,8 +314,8 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<List<ObjectVO>> _queryObjs(ObjectQueryDTO dto) {
-        BaseResult<List<ObjectVO>> result = BaseResult.fail();
+    public Result<List<ObjectVO>> _queryObjs(ObjectQueryDTO dto) {
+        Result<List<ObjectVO>> result = Result.fail();
         ListObjectsRequest request = new ListObjectsRequest(dto.getBucket());
         request.setMaxKeys(dto.getMaxKeys());
         request.setPrefix(dto.getPrefix());
@@ -347,7 +347,7 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
             result.value(vos);
         } catch (Exception e) {
             log.error("fail to query objs from oss", e);
-            result.setErrorMessage("查询对象列表失败");
+            result.setMsg("查询对象列表失败");
         }
 
 

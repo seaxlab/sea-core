@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.component.fsm.v1.order;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 
 /**
  * module name
@@ -11,5 +11,5 @@ import com.github.spy.sea.core.model.BaseResult;
  */
 public interface OrderFsmEngine {
 
-    BaseResult sendEvent(OrderCreateEvent orderCreateEvent);
+    Result sendEvent(OrderCreateEvent orderCreateEvent);
 }

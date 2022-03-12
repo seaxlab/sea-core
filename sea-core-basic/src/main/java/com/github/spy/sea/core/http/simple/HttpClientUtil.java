@@ -5,7 +5,7 @@ import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.http.common.HttpHeaderConst;
 import com.github.spy.sea.core.http.dto.HttpUploadDTO;
 import com.github.spy.sea.core.http.vo.HttpUploadVO;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.util.JSONUtil;
 import com.github.spy.sea.core.util.StringUtil;
 import org.apache.http.*;
@@ -270,8 +270,8 @@ public class HttpClientUtil {
      * @param obj
      * @return
      */
-    public static BaseResult postJSONSafe(String url, Object obj) {
-        BaseResult result = BaseResult.fail();
+    public static Result postJSONSafe(String url, Object obj) {
+        Result result = Result.fail();
 
         try {
             String response = postJSON(url, obj);
@@ -279,22 +279,22 @@ public class HttpClientUtil {
             result.setSuccess(true);
         } catch (Exception e) {
             log.error("http exception", e);
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
 
         return result;
     }
 
 
-    public static BaseResult getSafe(final String url, Map<String, Object> param) {
-        BaseResult result = BaseResult.fail();
+    public static Result getSafe(final String url, Map<String, Object> param) {
+        Result result = Result.fail();
 
         try {
             String content = get(url, param);
             result.setData(content);
             result.setSuccess(true);
         } catch (Exception e) {
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
 
         return result;
@@ -323,15 +323,15 @@ public class HttpClientUtil {
         return get(finalUrl);
     }
 
-    public static BaseResult getSafe(final String url) {
-        BaseResult result = BaseResult.fail();
+    public static Result getSafe(final String url) {
+        Result result = Result.fail();
 
         try {
             String content = get(url);
             result.setData(content);
             result.setSuccess(true);
         } catch (Exception e) {
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
 
         return result;
@@ -402,8 +402,8 @@ public class HttpClientUtil {
      * @param dto
      * @return
      */
-    public static BaseResult<HttpUploadVO> upload(HttpUploadDTO dto) {
-        BaseResult<HttpUploadVO> result = BaseResult.fail();
+    public static Result<HttpUploadVO> upload(HttpUploadDTO dto) {
+        Result<HttpUploadVO> result = Result.fail();
 
         //Creating the MultipartEntityBuilder
         MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
@@ -462,7 +462,7 @@ public class HttpClientUtil {
             uploadVO.setContent(respStr);
             result.value(uploadVO);
         } catch (Exception e) {
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
 
         return result;

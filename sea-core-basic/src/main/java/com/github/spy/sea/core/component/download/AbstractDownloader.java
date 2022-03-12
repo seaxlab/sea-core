@@ -5,7 +5,7 @@ import com.github.spy.sea.core.component.download.model.DownloaderVO;
 import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.http.common.HttpHeaderConst;
 import com.github.spy.sea.core.http.simple.HttpClientUtil;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.util.BooleanUtil;
 import com.github.spy.sea.core.util.FileUtil;
 import com.github.spy.sea.core.util.StringUtil;
@@ -30,9 +30,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public abstract class AbstractDownloader<A extends DownloaderDTO> implements Downloader {
     @Override
-    public BaseResult<DownloaderVO> execute(DownloaderDTO dto) {
+    public Result<DownloaderVO> execute(DownloaderDTO dto) {
         log.info("download dto={}", dto);
-        BaseResult<DownloaderVO> result = BaseResult.fail();
+        Result<DownloaderVO> result = Result.fail();
         Stopwatch stopwatch = Stopwatch.createStarted();
 
         String fileUrl = parseUrl(dto.getRemoteFileUrl());
@@ -59,7 +59,7 @@ public abstract class AbstractDownloader<A extends DownloaderDTO> implements Dow
             result.setData(vo);
         } catch (Exception e) {
             log.error("download exception.", e);
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         } finally {
             log.info("download file completely.");
         }

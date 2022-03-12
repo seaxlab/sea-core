@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.support.oss.manager.impl;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.support.oss.dto.BucketCreateDTO;
 import com.github.spy.sea.core.support.oss.dto.ObjectSignUrlDTO;
 import com.github.spy.sea.core.support.oss.dto.OssConfig;
@@ -82,8 +82,8 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult _createBucket(String bucket) {
-        BaseResult result = BaseResult.fail();
+    public Result _createBucket(String bucket) {
+        Result result = Result.fail();
         MakeBucketArgs args = MakeBucketArgs.builder()
                                             .bucket(bucket)
                                             .build();
@@ -97,8 +97,8 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult _createBucket(BucketCreateDTO dto) {
-        BaseResult result = BaseResult.fail();
+    public Result _createBucket(BucketCreateDTO dto) {
+        Result result = Result.fail();
         MakeBucketArgs args = MakeBucketArgs.builder()
                                             .bucket(dto.getName())
                                             .build();
@@ -124,8 +124,8 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult _deleteBucket(String bucket) {
-        BaseResult result = BaseResult.fail();
+    public Result _deleteBucket(String bucket) {
+        Result result = Result.fail();
         RemoveBucketArgs args = RemoveBucketArgs.builder()
                                                 .bucket(bucket)
                                                 .build();
@@ -140,8 +140,8 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<List<BucketVO>> _queryBuckets() {
-        BaseResult<List<BucketVO>> result = BaseResult.fail();
+    public Result<List<BucketVO>> _queryBuckets() {
+        Result<List<BucketVO>> result = Result.fail();
 
         try {
             List<Bucket> buckets = client.listBuckets();
@@ -181,8 +181,8 @@ public class MinioOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
-        BaseResult<ObjectPutVO> result = BaseResult.fail();
+    public Result<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
+        Result<ObjectPutVO> result = Result.fail();
         try {
             UploadObjectArgs args = UploadObjectArgs.builder()
                                                     .bucket(bucket)
@@ -197,14 +197,14 @@ public class MinioOssManager extends AbstractOssManager {
             result.value(vo);
         } catch (Exception e) {
             log.error("fail to upload obj", e);
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
         return result;
     }
 
     @Override
-    public BaseResult<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
-        BaseResult<String> result = BaseResult.fail();
+    public Result<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
+        Result<String> result = Result.fail();
 
         GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
                                                                   .bucket(bucket)
@@ -215,14 +215,14 @@ public class MinioOssManager extends AbstractOssManager {
             result.value(client.getPresignedObjectUrl(args));
         } catch (Exception e) {
             log.error("fail to get obj signed url", e);
-            result.setErrorMessage("获取签名数据失败");
+            result.setMsg("获取签名数据失败");
         }
         return result;
     }
 
     @Override
-    public BaseResult<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
-        BaseResult<String> result = BaseResult.fail();
+    public Result<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
+        Result<String> result = Result.fail();
 
         GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
                                                                   .bucket(dto.getBucket())
@@ -234,14 +234,14 @@ public class MinioOssManager extends AbstractOssManager {
             result.value(client.getPresignedObjectUrl(args));
         } catch (Exception e) {
             log.error("fail to get obj signed url", e);
-            result.setErrorMessage("获取签名数据失败");
+            result.setMsg("获取签名数据失败");
         }
         return result;
     }
 
     @Override
-    public BaseResult<Boolean> _downloadObj(String bucket, String key, String filePath) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result<Boolean> _downloadObj(String bucket, String key, String filePath) {
+        Result<Boolean> result = Result.fail();
         try {
             GetObjectArgs args = GetObjectArgs.builder()
                                               .bucket(bucket)
@@ -252,14 +252,14 @@ public class MinioOssManager extends AbstractOssManager {
             result.value(true);
         } catch (Exception e) {
             log.error("fail to download obj", e);
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
         return result;
     }
 
     @Override
-    public BaseResult<Boolean> _deleteObj(String bucket, String key) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result<Boolean> _deleteObj(String bucket, String key) {
+        Result<Boolean> result = Result.fail();
         try {
             RemoveObjectArgs args = RemoveObjectArgs.builder()
                                                     .bucket(bucket)
@@ -269,21 +269,21 @@ public class MinioOssManager extends AbstractOssManager {
             result.setData(true);
         } catch (Exception e) {
             log.error("fail to delete obj", e);
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
         return result;
     }
 
     @Override
-    public BaseResult<Boolean> _deleteObjs(String bucket, List<String> keys) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result<Boolean> _deleteObjs(String bucket, List<String> keys) {
+        Result<Boolean> result = Result.fail();
 
         try {
             List<DeleteObject> list = new ArrayList<>();
             keys.forEach(key -> list.add(new DeleteObject(key)));
 
             if (list.isEmpty()) {
-                result.setErrorMessage("keys is empty.");
+                result.setMsg("keys is empty.");
                 return result;
             }
 
@@ -295,7 +295,7 @@ public class MinioOssManager extends AbstractOssManager {
             result.setData(true);
         } catch (Exception e) {
             log.error("fail to delete objs", e);
-            result.setErrorMessage(e.getMessage());
+            result.setMsg(e.getMessage());
         }
         return result;
     }

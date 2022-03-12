@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.model.service;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 
 /**
  * one biz service
@@ -19,5 +19,5 @@ public interface OneBizService3<Context, Input1, Input2, R> {
      * @param input2 input2
      * @return R
      */
-    BaseResult<R> execute(Context ctx, Input1 input1, Input2 input2);
+    Result<R> execute(Context ctx, Input1 input1, Input2 input2);
 }

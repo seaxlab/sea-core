@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.component.fsm.v1;
 
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 
 /**
  * module name
@@ -29,12 +29,12 @@ public interface FsmActionStep<T> {
     /**
      * 状态动作方法，主要状态迁移逻辑
      */
-    BaseResult<T> action(FsmContext context, String nextState);
+    Result<T> action(FsmContext context, String nextState);
 
     /**
      * 状态数据持久化
      */
-    BaseResult<T> save(FsmContext context, String nextState);
+    Result<T> save(FsmContext context, String nextState);
 
     /**
      * 状态迁移成功，持久化后执行的后续处理

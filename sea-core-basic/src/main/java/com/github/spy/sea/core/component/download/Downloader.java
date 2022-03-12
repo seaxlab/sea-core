@@ -2,7 +2,7 @@ package com.github.spy.sea.core.component.download;
 
 import com.github.spy.sea.core.component.download.model.DownloaderDTO;
 import com.github.spy.sea.core.component.download.model.DownloaderVO;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 
 /**
  * module name
@@ -19,5 +19,5 @@ public interface Downloader<A extends DownloaderDTO> {
      * @param dto
      * @return
      */
-    BaseResult<DownloaderVO> execute(A dto);
+    Result<DownloaderVO> execute(A dto);
 }

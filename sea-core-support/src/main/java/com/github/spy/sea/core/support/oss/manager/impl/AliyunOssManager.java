@@ -6,7 +6,7 @@ import com.aliyun.oss.common.auth.CredentialsProvider;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.model.*;
 import com.github.spy.sea.core.exception.Precondition;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.support.oss.dto.*;
 import com.github.spy.sea.core.support.oss.enums.AclEnum;
 import com.github.spy.sea.core.support.oss.enums.HttpMethodEnum;
@@ -70,8 +70,8 @@ public class AliyunOssManager extends AbstractOssManager {
         return client.doesBucketExist(bucket);
     }
 
-    public BaseResult _createBucket(String bucket) {
-        BaseResult result = BaseResult.fail();
+    public Result _createBucket(String bucket) {
+        Result result = Result.fail();
         try {
             client.createBucket(bucket);
             result.value(true);
@@ -83,8 +83,8 @@ public class AliyunOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult _createBucket(BucketCreateDTO dto) {
-        BaseResult result = BaseResult.fail();
+    public Result _createBucket(BucketCreateDTO dto) {
+        Result result = Result.fail();
         try {
             CreateBucketRequest request = new CreateBucketRequest(dto.getName());
             request.setCannedACL(toACL(dto.getAclEnum()));
@@ -98,8 +98,8 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    public BaseResult _deleteBucket(String bucket) {
-        BaseResult result = BaseResult.fail();
+    public Result _deleteBucket(String bucket) {
+        Result result = Result.fail();
         try {
             client.deleteBucket(bucket);
             result.value(true);
@@ -110,8 +110,8 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    public BaseResult<List<BucketVO>> _queryBuckets() {
-        BaseResult result = BaseResult.fail();
+    public Result<List<BucketVO>> _queryBuckets() {
+        Result result = Result.fail();
         try {
             List<Bucket> buckets = client.listBuckets();
             if (ListUtil.isEmpty(buckets)) {
@@ -136,8 +136,8 @@ public class AliyunOssManager extends AbstractOssManager {
         return client.doesObjectExist(bucket, key);
     }
 
-    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
-        BaseResult<ObjectPutVO> result = BaseResult.fail();
+    public Result<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
+        Result<ObjectPutVO> result = Result.fail();
 
         try {
             InputStream inputStream = new FileInputStream(filePath);
@@ -153,8 +153,8 @@ public class AliyunOssManager extends AbstractOssManager {
     }
 
 
-    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
-        BaseResult<ObjectPutVO> result = BaseResult.fail();
+    public Result<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
+        Result<ObjectPutVO> result = Result.fail();
 
         try {
             PutObjectRequest request = new PutObjectRequest(bucket, key, file);
@@ -165,14 +165,14 @@ public class AliyunOssManager extends AbstractOssManager {
             result.value(vo);
         } catch (Exception e) {
             log.error("fail to put obj", e);
-            result.setErrorMessage("上传文件失败");
+            result.setMsg("上传文件失败");
         }
 
         return result;
     }
 
-    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
-        BaseResult<ObjectPutVO> result = BaseResult.fail();
+    public Result<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
+        Result<ObjectPutVO> result = Result.fail();
 
         try {
             PutObjectRequest request = new PutObjectRequest(bucket, key, inputStream);
@@ -183,15 +183,15 @@ public class AliyunOssManager extends AbstractOssManager {
             result.value(vo);
         } catch (Exception e) {
             log.error("fail to put obj", e);
-            result.setErrorMessage("上传文件失败");
+            result.setMsg("上传文件失败");
         }
 
         return result;
     }
 
     @Override
-    public BaseResult<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
-        BaseResult<ObjectPutVO> result = BaseResult.fail();
+    public Result<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
+        Result<ObjectPutVO> result = Result.fail();
 
         try {
             PutObjectRequest request = null;
@@ -211,14 +211,14 @@ public class AliyunOssManager extends AbstractOssManager {
             result.value(vo);
         } catch (Exception e) {
             log.error("fail to put obj", e);
-            result.setErrorMessage("上传文件失败");
+            result.setMsg("上传文件失败");
         }
 
         return result;
     }
 
-    public BaseResult<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
-        BaseResult<String> result = BaseResult.fail();
+    public Result<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
+        Result<String> result = Result.fail();
         try {
             Date now = new Date();
             Date expireDate = DateUtils.addSeconds(now, (int) expireSeconds);
@@ -230,8 +230,8 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    public BaseResult<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
-        BaseResult<String> result = BaseResult.fail();
+    public Result<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
+        Result<String> result = Result.fail();
         try {
             Date now = new Date();
             Date expireDate = DateUtils.addSeconds(now, (int) dto.getExpireSeconds());
@@ -244,13 +244,13 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    public BaseResult<Boolean> _downloadObj(String bucket, String key, String newFilePath) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result<Boolean> _downloadObj(String bucket, String key, String newFilePath) {
+        Result<Boolean> result = Result.fail();
 
         try {
             OSSObject object = client.getObject(bucket, key);
             if (object == null) {
-                result.setErrorMessage("对象不存在");
+                result.setMsg("对象不存在");
                 return result;
             }
 
@@ -266,28 +266,28 @@ public class AliyunOssManager extends AbstractOssManager {
             result.value(true);
         } catch (Exception e) {
             log.error("fail to download object from oss", e);
-            result.setErrorMessage("下载文件失败");
+            result.setMsg("下载文件失败");
         }
 
         return result;
     }
 
-    public BaseResult<Boolean> _deleteObj(String bucket, String key) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result<Boolean> _deleteObj(String bucket, String key) {
+        Result<Boolean> result = Result.fail();
         try {
             client.deleteObject(bucket, key);
             result.value(true);
         } catch (Exception e) {
             log.error("fail to delete obj", e);
-            result.setErrorMessage("删除对象失败");
+            result.setMsg("删除对象失败");
         }
         return result;
     }
 
-    public BaseResult<Boolean> _deleteObjs(String bucket, List<String> keys) {
+    public Result<Boolean> _deleteObjs(String bucket, List<String> keys) {
         Precondition.checkNotNull(bucket);
 
-        BaseResult<Boolean> result = BaseResult.fail();
+        Result<Boolean> result = Result.fail();
 
         try {
             DeleteObjectsRequest request = new DeleteObjectsRequest(bucket);
@@ -301,10 +301,10 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
     }
 
-    public BaseResult<List<ObjectVO>> _queryObjs(ObjectQueryDTO dto) {
+    public Result<List<ObjectVO>> _queryObjs(ObjectQueryDTO dto) {
         Precondition.checkNotNull(dto.getBucket());
 
-        BaseResult<List<ObjectVO>> result = BaseResult.fail();
+        Result<List<ObjectVO>> result = Result.fail();
         ListObjectsRequest request = new ListObjectsRequest(dto.getBucket());
         request.setMaxKeys(dto.getMaxKeys());
         request.setPrefix(dto.getPrefix());
@@ -336,7 +336,7 @@ public class AliyunOssManager extends AbstractOssManager {
             result.value(vos);
         } catch (Exception e) {
             log.error("fail to query objs from oss", e);
-            result.setErrorMessage("查询对象列表失败");
+            result.setMsg("查询对象列表失败");
         }
 
 

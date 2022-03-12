@@ -2,7 +2,7 @@ package com.github.spy.sea.core.util;
 
 import com.github.spy.sea.core.component.ssh.dto.SshConfig;
 import com.github.spy.sea.core.component.ssh.resp.SshResp;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.google.common.base.Charsets;
 import com.jcraft.jsch.*;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +32,8 @@ public final class SshUtil {
      * @param config
      * @return
      */
-    public static BaseResult<SshResp> setUpPortForwarding(SshConfig config) {
-        BaseResult<SshResp> result = BaseResult.fail();
+    public static Result<SshResp> setUpPortForwarding(SshConfig config) {
+        Result<SshResp> result = Result.fail();
 
         try {
             Session session = buildSession(config);
@@ -48,7 +48,7 @@ public final class SshUtil {
             result.value(resp);
         } catch (Exception e) {
             log.error("fail to connect remote ssh", e);
-            result.setErrorMessage("fail to build local port forwarding ssh");
+            result.setMsg("fail to build local port forwarding ssh");
         }
 
         return result;
@@ -62,8 +62,8 @@ public final class SshUtil {
      * @param command
      * @return
      */
-    public static BaseResult<String> executeCmd(SshConfig config, String command) {
-        BaseResult<String> result = BaseResult.fail();
+    public static Result<String> executeCmd(SshConfig config, String command) {
+        Result<String> result = Result.fail();
 
         Session session = null;
         ChannelExec channel = null;
@@ -95,12 +95,12 @@ public final class SshUtil {
                 } else {
                     String msg = IOUtils.toString(errIs, Charsets.UTF_8);
                     log.warn("fail to exit status={}, msg={}", channel.getExitStatus(), msg);
-                    result.setErrorMessage(msg);
+                    result.setMsg(msg);
                 }
             }
         } catch (Exception e) {
             log.error("fail to connect remote ssh", e);
-            result.setErrorMessage("fail to build local port forwarding ssh");
+            result.setMsg("fail to build local port forwarding ssh");
         } finally {
             close(channel);
             close(session);
@@ -116,8 +116,8 @@ public final class SshUtil {
      * @param newPath
      * @return
      */
-    public static BaseResult<Boolean> rename(SshConfig config, String oldPath, String newPath) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public static Result<Boolean> rename(SshConfig config, String oldPath, String newPath) {
+        Result<Boolean> result = Result.fail();
         Session session = null;
         ChannelSftp channel = null;
 
@@ -132,7 +132,7 @@ public final class SshUtil {
             result.value(true);
         } catch (Exception e) {
             log.error("fail to connect remote ssh", e);
-            result.setErrorMessage("fail to build local port forwarding ssh");
+            result.setMsg("fail to build local port forwarding ssh");
         } finally {
             close(channel);
             close(session);
@@ -148,8 +148,8 @@ public final class SshUtil {
      * @param remoteDir
      * @return
      */
-    public static BaseResult<Boolean> upload(SshConfig config, String localFilePath, String remoteDir) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public static Result<Boolean> upload(SshConfig config, String localFilePath, String remoteDir) {
+        Result<Boolean> result = Result.fail();
 
         Session session = null;
         ChannelSftp channel = null;
@@ -165,7 +165,7 @@ public final class SshUtil {
             result.value(true);
         } catch (Exception e) {
             log.error("fail to connect remote ssh", e);
-            result.setErrorMessage("fail to build local port forwarding ssh");
+            result.setMsg("fail to build local port forwarding ssh");
         } finally {
             close(channel);
             close(session);
@@ -181,8 +181,8 @@ public final class SshUtil {
      * @param localDir
      * @return
      */
-    public static BaseResult<Boolean> download(SshConfig config, String remoteFilePath, String localDir) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public static Result<Boolean> download(SshConfig config, String remoteFilePath, String localDir) {
+        Result<Boolean> result = Result.fail();
 
         Session session = null;
         ChannelSftp channel = null;
@@ -198,7 +198,7 @@ public final class SshUtil {
             result.value(true);
         } catch (Exception e) {
             log.error("fail to connect remote ssh", e);
-            result.setErrorMessage("fail to build local port forwarding ssh");
+            result.setMsg("fail to build local port forwarding ssh");
         } finally {
             close(channel);
             close(session);

@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.model.service;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 
 /**
  * 反向操作，可补偿的
@@ -11,5 +11,5 @@ import com.github.spy.sea.core.model.BaseResult;
  */
 public interface CompensableService<Input, R> {
 
-    BaseResult<R> compensate(Input input);
+    Result<R> compensate(Input input);
 }

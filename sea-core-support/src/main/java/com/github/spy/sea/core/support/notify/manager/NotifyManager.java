@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.support.notify.manager;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.support.notify.dto.BaseNotifyDTO;
 
 /**
@@ -18,5 +18,5 @@ public interface NotifyManager<T extends BaseNotifyDTO> {
      * @param dto
      * @return
      */
-    BaseResult send(T dto);
+    Result send(T dto);
 }

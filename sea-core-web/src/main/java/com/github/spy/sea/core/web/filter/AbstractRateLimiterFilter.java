@@ -2,7 +2,7 @@ package com.github.spy.sea.core.web.filter;
 
 import com.github.spy.sea.core.annotation.Beta;
 import com.github.spy.sea.core.common.CoreErrorConst;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.util.AntPathMatcher;
 import com.github.spy.sea.core.util.PathMatcher;
 import com.github.spy.sea.core.web.model.RateLimiterConfig;
@@ -66,9 +66,9 @@ public abstract class AbstractRateLimiterFilter implements Filter {
                     return;
                 } else {
                     log.warn("not get rate limiter token, so end request, url={}", url);
-                    BaseResult result = BaseResult.fail();
-                    result.setErrorCode(CoreErrorConst.SYS_RATE_LIMITER_ERR);
-                    result.setErrorMessage("触发限流");
+                    Result result = Result.fail();
+                    result.setCode(CoreErrorConst.SYS_RATE_LIMITER_ERR);
+                    result.setMsg("触发限流");
                     ResponseUtil.toJSON(resp, result);
                     return;
                 }

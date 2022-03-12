@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.jvm.manager;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.util.ClassUtil;
 import com.github.spy.sea.core.util.ReflectUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +41,8 @@ public final class HeapDumpManager {
      * @param live
      * @return
      */
-    public BaseResult heapDump(Boolean live) {
-        BaseResult result = BaseResult.fail();
+    public Result heapDump(Boolean live) {
+        Result result = Result.fail();
 
         try {
             if (this.lock.tryLock(this.timeout, TimeUnit.SECONDS)) {
@@ -57,12 +57,12 @@ public final class HeapDumpManager {
             Thread.currentThread().interrupt();
         } catch (IOException ex) {
             log.error("io exception", ex);
-            result.setErrorMessage("internal server error");
+            result.setMsg("internal server error");
         } catch (HeapDumperUnavailableException ex) {
             log.error("unavailable exception", ex);
-            result.setErrorMessage("service unavailable");
+            result.setMsg("service unavailable");
         }
-        result.setErrorMessage("too many request.");
+        result.setMsg("too many request.");
         return result;
     }
 

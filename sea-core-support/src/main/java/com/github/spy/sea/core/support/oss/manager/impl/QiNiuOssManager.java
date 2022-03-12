@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.support.oss.manager.impl;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.support.oss.dto.*;
 import com.github.spy.sea.core.support.oss.enums.OssTypeEnum;
 import com.github.spy.sea.core.support.oss.manager.AbstractOssManager;
@@ -77,8 +77,8 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult _createBucket(String bucket) {
-        BaseResult result = BaseResult.fail();
+    public Result _createBucket(String bucket) {
+        Result result = Result.fail();
         BucketManager bucketManager = new BucketManager(auth, cfg);
         try {
             Response resp = bucketManager.createBucket(bucket, DEFAULT_REGION);
@@ -90,9 +90,9 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult _createBucket(BucketCreateDTO dto) {
+    public Result _createBucket(BucketCreateDTO dto) {
         //TODO test
-        BaseResult result = BaseResult.fail();
+        Result result = Result.fail();
         BucketManager bucketManager = new BucketManager(auth, cfg);
         try {
             Response resp = bucketManager.createBucket(dto.getName(), DEFAULT_REGION);
@@ -105,8 +105,8 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult _deleteBucket(String bucket) {
-        BaseResult result = BaseResult.fail();
+    public Result _deleteBucket(String bucket) {
+        Result result = Result.fail();
         //BucketManager bucketManager = new BucketManager(auth, cfg);
         try {
             //TODO
@@ -118,8 +118,8 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<List<BucketVO>> _queryBuckets() {
-        BaseResult<List<BucketVO>> result = BaseResult.fail();
+    public Result<List<BucketVO>> _queryBuckets() {
+        Result<List<BucketVO>> result = Result.fail();
         BucketManager bucketManager = new BucketManager(auth, cfg);
         try {
             String[] buckets = bucketManager.buckets();
@@ -152,8 +152,8 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
-        BaseResult<ObjectPutVO> result = BaseResult.fail();
+    public Result<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
+        Result<ObjectPutVO> result = Result.fail();
 
         try {
             String upToken = auth.uploadToken(bucket);
@@ -171,8 +171,8 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
-        BaseResult<ObjectPutVO> result = BaseResult.fail();
+    public Result<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
+        Result<ObjectPutVO> result = Result.fail();
 
         try {
             String upToken = auth.uploadToken(bucket);
@@ -190,8 +190,8 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
-        BaseResult<ObjectPutVO> result = BaseResult.fail();
+    public Result<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
+        Result<ObjectPutVO> result = Result.fail();
 
         try {
             String filePath = PathUtil.getUserHome() + "/logs/" + IdUtil.shortUUID();
@@ -199,7 +199,7 @@ public class QiNiuOssManager extends AbstractOssManager {
             boolean flag = FileUtil.writeFileFromInputStream(inputStream, filePath);
             if (!flag) {
                 log.error("fail to write file");
-                result.setErrorMessage("写入临时文件失败");
+                result.setMsg("写入临时文件失败");
                 return result;
             }
 
@@ -219,7 +219,7 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
+    public Result<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
         if (dto.getFile() != null) {
             return _uploadObj(dto.getBucket(), dto.getKey(), dto.getFile());
         } else {
@@ -228,13 +228,13 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<String> _getObjUrl(ObjectUrlDTO dto) {
+    public Result<String> _getObjUrl(ObjectUrlDTO dto) {
         return super._getObjUrl(dto);
     }
 
     @Override
-    public BaseResult<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
-        BaseResult<String> result = BaseResult.fail();
+    public Result<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
+        Result<String> result = Result.fail();
 
         try {
             ObjectUrlDTO urlDTO = new ObjectUrlDTO();
@@ -251,8 +251,8 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
-        BaseResult<String> result = BaseResult.fail();
+    public Result<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
+        Result<String> result = Result.fail();
 
         try {
             ObjectUrlDTO urlDTO = new ObjectUrlDTO();
@@ -269,8 +269,8 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<Boolean> _downloadObj(String bucket, String key, String filePath) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result<Boolean> _downloadObj(String bucket, String key, String filePath) {
+        Result<Boolean> result = Result.fail();
 
         ObjectUrlDTO urlDTO = new ObjectUrlDTO();
         urlDTO.setBucket(bucket);
@@ -305,8 +305,8 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<Boolean> _deleteObj(String bucket, String key) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result<Boolean> _deleteObj(String bucket, String key) {
+        Result<Boolean> result = Result.fail();
 
         BucketManager bucketManager = new BucketManager(auth, cfg);
         try {
@@ -320,8 +320,8 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<Boolean> _deleteObjs(String bucket, List<String> keys) {
-        BaseResult<Boolean> result = BaseResult.fail();
+    public Result<Boolean> _deleteObjs(String bucket, List<String> keys) {
+        Result<Boolean> result = Result.fail();
 
         BucketManager bucketManager = new BucketManager(auth, cfg);
         try {
@@ -340,8 +340,8 @@ public class QiNiuOssManager extends AbstractOssManager {
     }
 
     @Override
-    public BaseResult<List<ObjectVO>> _queryObjs(ObjectQueryDTO dto) {
-        BaseResult<List<ObjectVO>> result = BaseResult.fail();
+    public Result<List<ObjectVO>> _queryObjs(ObjectQueryDTO dto) {
+        Result<List<ObjectVO>> result = Result.fail();
         BucketManager bucketManager = new BucketManager(auth, cfg);
 
         try {

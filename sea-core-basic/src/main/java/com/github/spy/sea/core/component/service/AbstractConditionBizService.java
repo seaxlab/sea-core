@@ -3,7 +3,7 @@ package com.github.spy.sea.core.component.service;
 import com.github.spy.sea.core.component.service.lifecycle.AbstractDestroyLifeCycle;
 import com.github.spy.sea.core.component.service.lifecycle.AbstractExecuteLifeCycle;
 import com.github.spy.sea.core.component.service.lifecycle.AbstractValidateLifeCycle;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -23,21 +23,21 @@ public abstract class AbstractConditionBizService<Void>
      *
      * @return
      */
-    abstract <T> BaseResult<T> doService();
+    abstract <T> Result<T> doService();
 
     /**
      * @return
      */
-    abstract BaseResult success();
+    abstract Result success();
 
     /**
      * @return
      */
-    abstract BaseResult failure();
+    abstract Result failure();
 
 
     @Override
-    public BaseResult<Void> execute() {
+    public Result<Void> execute() {
 
 
         return null;

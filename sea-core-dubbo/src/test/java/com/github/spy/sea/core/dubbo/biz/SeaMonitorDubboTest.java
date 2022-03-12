@@ -2,7 +2,7 @@ package com.github.spy.sea.core.dubbo.biz;
 
 import com.github.spy.sea.core.dubbo.BaseDubboTest;
 import com.github.spy.sea.core.dubbo.util.DubboUtil;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.rpc.service.EchoService;
 import org.junit.Test;
@@ -39,7 +39,7 @@ public class SeaMonitorDubboTest extends BaseDubboTest {
         for (int i = 0; i < 30; i++) {
             executors.submit(() -> {
                 log.info("invoke====");
-                BaseResult result = DubboUtil.invoke(dto);
+                Result result = DubboUtil.invoke(dto);
                 log.info("ret data={}", result.getData());
             });
         }
@@ -56,7 +56,7 @@ public class SeaMonitorDubboTest extends BaseDubboTest {
 
         for (int i = 0; i < 10; i++) {
             log.info("invoke====");
-            BaseResult result = DubboUtil.invoke(dto);
+            Result result = DubboUtil.invoke(dto);
             log.info("ret data={}", result.getData());
         }
     }
@@ -69,7 +69,7 @@ public class SeaMonitorDubboTest extends BaseDubboTest {
         dto.setMethod("getUserName");
 
         log.info("invoke====");
-        BaseResult result = DubboUtil.invoke(dto);
+        Result result = DubboUtil.invoke(dto);
         log.info("ret data={}", result.getData());
     }
 
@@ -81,13 +81,13 @@ public class SeaMonitorDubboTest extends BaseDubboTest {
         dto.setMethod("$echo");
 
         log.info("invoke====");
-        BaseResult result = DubboUtil.invoke(dto);
+        Result result = DubboUtil.invoke(dto);
         log.info("ret data={}", result.getData());
     }
 
 //    @Test
 //    public void echoTest() throws Exception {
-//        BaseResult result = DubboUtil.echo("zookeeper://10.122.2.203:2181");
+//        Result result = DubboUtil.echo("zookeeper://10.122.2.203:2181");
 //        log.info("ret data={}", result.getData());
 //    }
 

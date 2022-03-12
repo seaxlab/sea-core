@@ -2,7 +2,7 @@ package com.github.spy.sea.core.web.filter;
 
 import com.github.spy.sea.core.annotation.Beta;
 import com.github.spy.sea.core.common.CoreErrorConst;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.util.EqualUtil;
 import com.github.spy.sea.core.util.ListUtil;
 import com.github.spy.sea.core.web.util.RequestUtil;
@@ -64,9 +64,9 @@ public abstract class AbstractWhiteListFilter implements Filter {
         }
 
         log.warn("client[ip={}, client={}] is forbidden access", ip, userAgent);
-        BaseResult result = BaseResult.fail();
-        result.setErrorCode(CoreErrorConst.SYS_FORBIDDEN_ACCESS);
-        result.setErrorMsg("client is forbidden access, plz contact administrator.");
+        Result result = Result.fail();
+        result.setCode(CoreErrorConst.SYS_FORBIDDEN_ACCESS);
+        result.setMsg("client is forbidden access, plz contact administrator.");
         ResponseUtil.toJSON(resp, result);
     }
 

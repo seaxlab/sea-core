@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.support.notify.manager.impl;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.support.notify.dto.MailNotifyDTO;
 import com.github.spy.sea.core.support.notify.dto.MailServerConfigDTO;
 import com.github.spy.sea.core.support.notify.manager.NotifyManager;
@@ -24,8 +24,8 @@ import java.util.Date;
 public class MailNotifyManager implements NotifyManager<MailNotifyDTO> {
 
     @Override
-    public BaseResult send(MailNotifyDTO dto) {
-        BaseResult result = BaseResult.fail();
+    public Result send(MailNotifyDTO dto) {
+        Result result = Result.fail();
 
         MailServerConfigDTO mailConfig = dto.getMailServerConfigDTO();
 
@@ -86,7 +86,7 @@ public class MailNotifyManager implements NotifyManager<MailNotifyDTO> {
         } catch (Exception e) {
             log.error("fail to send mail", e);
             result.setSuccess(false);
-            result.setErrorMessage(ExceptionUtil.getStackTrace(e));
+            result.setMsg(ExceptionUtil.getStackTrace(e));
         } finally {
             log.info("send mail end. ret={}", result);
         }

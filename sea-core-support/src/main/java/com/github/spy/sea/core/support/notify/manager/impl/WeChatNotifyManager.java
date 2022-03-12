@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.support.notify.manager.impl;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.support.notify.dto.WeChatNotifyDTO;
 import com.github.spy.sea.core.support.notify.manager.NotifyManager;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class WeChatNotifyManager implements NotifyManager<WeChatNotifyDTO> {
 
     @Override
-    public BaseResult send(WeChatNotifyDTO dto) {
+    public Result send(WeChatNotifyDTO dto) {
         return null;
     }
 }

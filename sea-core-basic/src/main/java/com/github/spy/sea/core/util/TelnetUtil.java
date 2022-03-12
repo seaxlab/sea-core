@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.util;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.telnet.TelnetClient;
 
@@ -92,11 +92,11 @@ public final class TelnetUtil {
     /**
      * check the connection is available.
      *
-     * @return BaseResult<StatusEnum>
+     * @return Result<StatusEnum>
      */
-    public BaseResult<StatusEnum> connectTest() {
+    public Result<StatusEnum> connectTest() {
         log.info("check [{}:{}]available", this.hostname, this.port);
-        BaseResult result = BaseResult.fail();
+        Result result = Result.fail();
         StatusEnum status;
         try {
             client.connect(this.hostname, this.port);

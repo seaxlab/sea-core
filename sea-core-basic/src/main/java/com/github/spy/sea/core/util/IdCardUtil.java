@@ -2,9 +2,9 @@ package com.github.spy.sea.core.util;
 
 import cn.hutool.core.util.IdcardUtil;
 import com.github.spy.sea.core.enums.GenderEnum;
-import com.github.spy.sea.core.model.BaseResult;
 import com.github.spy.sea.core.model.IdCard;
 import com.github.spy.sea.core.model.NativePlace;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.SimpleDateFormat;
@@ -30,13 +30,13 @@ public class IdCardUtil {
      * @param idNo 身份证号 ，15/18
      * @return
      */
-    public static BaseResult<IdCard> parse(String idNo) {
-        BaseResult<IdCard> result = BaseResult.fail();
+    public static Result<IdCard> parse(String idNo) {
+        Result<IdCard> result = Result.fail();
 
         try {
             boolean isValid = isValid(idNo);
             if (!isValid) {
-                result.setErrorMessage("身份证不合法。");
+                result.setMsg("身份证不合法。");
                 return result;
             }
 
@@ -67,7 +67,7 @@ public class IdCardUtil {
             result.value(idCard);
         } catch (Exception e) {
             log.error("fail to parse id card", e);
-            result.setErrorMessage("身份证解析异常");
+            result.setMsg("身份证解析异常");
         }
         return result;
     }

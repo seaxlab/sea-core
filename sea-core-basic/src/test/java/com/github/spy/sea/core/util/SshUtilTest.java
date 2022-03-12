@@ -3,7 +3,7 @@ package com.github.spy.sea.core.util;
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.component.ssh.dto.SshConfig;
 import com.github.spy.sea.core.component.ssh.resp.SshResp;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class SshUtilTest extends BaseCoreTest {
         cfg.setRemoteHost("192.168.60.21");
         cfg.setRemotePort(3306);
 
-        BaseResult<SshResp> result = SshUtil.setUpPortForwarding(cfg);
+        Result<SshResp> result = SshUtil.setUpPortForwarding(cfg);
         if (result.isOk()) {
             log.info("result assigned port={}", result.getData().getAssignedPort());
         } else {
@@ -46,7 +46,7 @@ public class SshUtilTest extends BaseCoreTest {
         cfg.setSshPort(2222);
         cfg.setSshUserName("root");
         cfg.setSshPassword(getPassword("qd_jmzy_ssh_pwd"));
-        BaseResult<String> result = SshUtil.executeCmd(cfg, "pwd; ls -l");
+        Result<String> result = SshUtil.executeCmd(cfg, "pwd; ls -l");
         log.info("result={}", result);
     }
 
@@ -57,7 +57,7 @@ public class SshUtilTest extends BaseCoreTest {
         cfg.setSshPort(2222);
         cfg.setSshUserName("root");
         cfg.setSshPassword(getPassword("qd_jmzy_ssh_pwd"));
-        BaseResult result = SshUtil.upload(cfg, getUserHome() + "/test/gc/gc1.log", "/root");
+        Result result = SshUtil.upload(cfg, getUserHome() + "/test/gc/gc1.log", "/root");
         log.info("result={}", result);
     }
 
@@ -68,7 +68,7 @@ public class SshUtilTest extends BaseCoreTest {
         cfg.setSshPort(2222);
         cfg.setSshUserName("root");
         cfg.setSshPassword(getPassword("qd_jmzy_ssh_pwd"));
-        BaseResult result = SshUtil.download(cfg, "/root/gc1.log", getUserHome() + "/test/");
+        Result result = SshUtil.download(cfg, "/root/gc1.log", getUserHome() + "/test/");
         log.info("result={}", result);
     }
 

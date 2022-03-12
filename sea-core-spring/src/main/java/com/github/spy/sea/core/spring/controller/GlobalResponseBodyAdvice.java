@@ -1,10 +1,7 @@
 package com.github.spy.sea.core.spring.controller;
 
-import com.github.spy.sea.core.common.CoreConst;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.MDC;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
@@ -30,15 +27,15 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
 
-        if (body instanceof BaseResult) {
+        if (body instanceof Result) {
 
-            BaseResult result = (BaseResult) body;
+            Result result = (Result) body;
 
 
-            String requestId = MDC.get(CoreConst.MDC_REQ_ID);
-            if (StringUtils.isEmpty(result.getRequestId())) {
-                result.setRequestId(requestId);
-            }
+            //String requestId = MDC.get(CoreConst.MDC_REQ_ID);
+            //if (StringUtils.isEmpty(result.getRequestId())) {
+            //    result.setRequestId(requestId);
+            //}
 
 //            if (StringUtils.isEmpty(result.getTraceId())) {
 //                result.setTraceId(TraceUtil.getTraceId());

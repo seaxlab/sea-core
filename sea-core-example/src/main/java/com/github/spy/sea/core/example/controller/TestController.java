@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.example.controller;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.spring.annotation.LogCost;
 import com.github.spy.sea.core.thread.util.CallableUtil;
 import com.github.spy.sea.core.thread.util.ThreadPoolUtil;
@@ -32,14 +32,14 @@ public class TestController implements InitializingBean {
 
     @LogCost
     @GetMapping("/log")
-    public BaseResult log() {
+    public Result log() {
         log.info("----log");
 
-        return BaseResult.success();
+        return Result.success();
     }
 
     @GetMapping("/log/get")
-    public BaseResult getTest() {
+    public Result getTest() {
         ThreadPoolExecutor tpe = ThreadPoolUtil.createTemp("sea-test", 4, 4);
 
         log.info("-----");
@@ -50,21 +50,21 @@ public class TestController implements InitializingBean {
         tpe.submit(callable);
         ThreadUtil.sleepSecond(10);
 
-        return BaseResult.success();
+        return Result.success();
     }
 
     @PostMapping("/log/post")
-    public BaseResult postTest(HttpServletRequest request) {
+    public Result postTest(HttpServletRequest request) {
 
-        return BaseResult.success();
+        return Result.success();
     }
 
     @PostMapping("/log/post_json")
-    public BaseResult postJSONTest(HttpServletRequest request) {
+    public Result postJSONTest(HttpServletRequest request) {
 
 
         log.info("my request body={}", RequestUtil.getRequestBody(request));
-        return BaseResult.success();
+        return Result.success();
     }
 
     @Value("sea.list")

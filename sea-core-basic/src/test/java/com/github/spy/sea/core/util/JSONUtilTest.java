@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.github.spy.sea.core.BaseCoreTest;
 import com.github.spy.sea.core.domain.User;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -52,10 +52,10 @@ public class JSONUtilTest extends BaseCoreTest {
         user.setId(1L);
         user.setName("smith");
 
-        BaseResult<User> userResult = BaseResult.success(user);
+        Result<User> userResult = Result.success(user);
         String text = JSONUtil.toStr(userResult);
 
-        BaseResult<User> result = JSONUtil.toResult(text, User.class);
+        Result<User> result = JSONUtil.toResult(text, User.class);
         log.info("result={}", result);
     }
 
@@ -69,10 +69,10 @@ public class JSONUtilTest extends BaseCoreTest {
             users.add(user);
         }
 
-        BaseResult<List<User>> userResult = BaseResult.success(users);
+        Result<List<User>> userResult = Result.success(users);
         String text = JSONUtil.toStr(userResult);
 
-        BaseResult<List<User>> result = JSONUtil.toResultList(text, User.class);
+        Result<List<User>> result = JSONUtil.toResultList(text, User.class);
         log.info("result={}", result);
 
     }

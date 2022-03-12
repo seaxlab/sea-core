@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.example.controller;
 
 import com.github.spy.sea.core.example.service.UserService;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,18 +30,18 @@ public class UserController {
     private UserService user2Service;
 
     @GetMapping("/1")
-    public BaseResult queryUser1() {
-        return BaseResult.success(user1Service.queryName());
+    public Result queryUser1() {
+        return Result.success(user1Service.queryName());
     }
 
     @GetMapping("/2")
-    public BaseResult queryUser2() {
-        return BaseResult.success(user2Service.queryName());
+    public Result queryUser2() {
+        return Result.success(user2Service.queryName());
     }
 
     @GetMapping("/3")
-    public BaseResult queryUser3() {
-        return BaseResult.success(user1Service.queryName2());
+    public Result queryUser3() {
+        return Result.success(user1Service.queryName2());
     }
 
 }

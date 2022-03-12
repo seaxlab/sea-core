@@ -92,7 +92,7 @@ public class Result<T> implements Serializable {
     /**
      * 直接返回true
      *
-     * @return BaseResult
+     * @return Result
      */
     public static Result success() {
         return new Result(true, null);

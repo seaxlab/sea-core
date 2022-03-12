@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.component.service.lifecycle;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 
 /**
  * 模块
@@ -16,13 +16,13 @@ public interface AbstractValidateLifeCycle {
      *
      * @return
      */
-    BaseResult check();
+    Result check();
 
     /**
      * validate resource
      *
      * @return
      */
-    BaseResult validate();
+    Result validate();
 
 }

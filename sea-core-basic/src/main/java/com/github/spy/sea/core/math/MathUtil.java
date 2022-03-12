@@ -1,7 +1,7 @@
 package com.github.spy.sea.core.math;
 
 import cn.hutool.core.math.Combination;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.util.ArrayUtil;
 import com.github.spy.sea.core.util.SetUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -240,10 +240,10 @@ public final class MathUtil {
      * @param count
      * @return
      */
-    public static BaseResult<Integer> findContinuousIndex(int[] array, int count) {
-        BaseResult<Integer> result = BaseResult.fail();
+    public static Result<Integer> findContinuousIndex(int[] array, int count) {
+        Result<Integer> result = Result.fail();
         if (array.length < count) {
-            result.setErrorMessage("数据太少");
+            result.setMsg("数据太少");
             return result;
         }
 

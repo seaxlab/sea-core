@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.component.service.lifecycle;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 
 /**
  * 模块
@@ -18,5 +18,5 @@ public interface AbstractExecuteLifeCycle<T> {
      * @param <T>
      * @return
      */
-    <T> BaseResult<T> execute();
+    <T> Result<T> execute();
 }

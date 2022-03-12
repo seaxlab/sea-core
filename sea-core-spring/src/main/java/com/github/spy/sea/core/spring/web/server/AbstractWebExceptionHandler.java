@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.spring.web.server;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.spring.web.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -38,7 +38,7 @@ public abstract class AbstractWebExceptionHandler implements WebExceptionHandler
 //            }
 //        }
 
-        BaseResult result = BaseResult.failMsg("service error, please contact administrator.");
+        Result result = Result.failMsg("service error, please contact administrator.");
 
         return ResponseUtil.toJSON(resp, result);
     }

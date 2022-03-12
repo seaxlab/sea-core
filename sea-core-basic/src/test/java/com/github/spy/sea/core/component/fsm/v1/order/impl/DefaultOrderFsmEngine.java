@@ -2,7 +2,7 @@ package com.github.spy.sea.core.component.fsm.v1.order.impl;
 
 import com.github.spy.sea.core.component.fsm.v1.order.OrderCreateEvent;
 import com.github.spy.sea.core.component.fsm.v1.order.OrderFsmEngine;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DefaultOrderFsmEngine implements OrderFsmEngine {
 
     @Override
-    public BaseResult sendEvent(OrderCreateEvent orderCreateEvent) {
+    public Result sendEvent(OrderCreateEvent orderCreateEvent) {
 //        FsmOrder fsmOrder = null;
 //        if (orderStateEvent.newCreate()) {
 //            fsmOrder = this.fsmOrderService.getFsmOrder(orderStateEvent.getOrderId());

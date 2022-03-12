@@ -3,7 +3,7 @@ package com.github.spy.sea.core.dubbo.util;
 import com.github.spy.sea.core.dubbo.common.commonn.Const;
 import com.github.spy.sea.core.dubbo.common.dto.BeanConfig;
 import com.github.spy.sea.core.dubbo.common.dto.DubboGenericInvokeDTO;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.util.*;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public final class DubboUtil {
 //     * @param registryAddress
 //     * @return
 //     */
-//    public static BaseResult echo(String registryAddress) {
+//    public static Result echo(String registryAddress) {
 //        return invoke(registryAddress, EchoService.class.getName(), "$invoke", null);
 //    }
 
@@ -50,7 +50,7 @@ public final class DubboUtil {
      * @param version
      * @return
      */
-    public static BaseResult invoke(String registryAddress, String interfaceName, String method, String version) {
+    public static Result invoke(String registryAddress, String interfaceName, String method, String version) {
         DubboGenericInvokeDTO dto = new DubboGenericInvokeDTO();
         dto.setRegistryAddress(registryAddress);
         dto.setInterfaceName(interfaceName);
@@ -71,7 +71,7 @@ public final class DubboUtil {
      * @param arg             第一个字符串参数
      * @return
      */
-    public static BaseResult invoke(String registryAddress, String interfaceName, String method, String version, String arg) {
+    public static Result invoke(String registryAddress, String interfaceName, String method, String version, String arg) {
         DubboGenericInvokeDTO dto = new DubboGenericInvokeDTO();
         dto.setRegistryAddress(registryAddress);
         dto.setInterfaceName(interfaceName);
@@ -93,8 +93,8 @@ public final class DubboUtil {
      * @param arg2            第二个字符串参数
      * @return
      */
-    public static BaseResult invoke(String registryAddress, String interfaceName, String method, String version,
-                                    String arg1, String arg2) {
+    public static Result invoke(String registryAddress, String interfaceName, String method, String version,
+                                String arg1, String arg2) {
         DubboGenericInvokeDTO dto = new DubboGenericInvokeDTO();
         dto.setRegistryAddress(registryAddress);
         dto.setInterfaceName(interfaceName);
@@ -116,7 +116,7 @@ public final class DubboUtil {
      * @param args
      * @return
      */
-    public static BaseResult invoke(String registryAddress, String interfaceName, String method, String version, Object... args) {
+    public static Result invoke(String registryAddress, String interfaceName, String method, String version, Object... args) {
         DubboGenericInvokeDTO dto = new DubboGenericInvokeDTO();
         dto.setRegistryAddress(registryAddress);
         dto.setInterfaceName(interfaceName);
@@ -148,7 +148,7 @@ public final class DubboUtil {
      * @param args
      * @return
      */
-    public static BaseResult invokeHost(String url, String interfaceName, String method, String version, Object... args) {
+    public static Result invokeHost(String url, String interfaceName, String method, String version, Object... args) {
         DubboGenericInvokeDTO dto = new DubboGenericInvokeDTO();
         dto.setUrl(url);
         dto.setInterfaceName(interfaceName);
@@ -175,9 +175,9 @@ public final class DubboUtil {
      * @param dto
      * @return
      */
-    public static BaseResult invoke(DubboGenericInvokeDTO dto) {
+    public static Result invoke(DubboGenericInvokeDTO dto) {
         log.info("invoke dubbo method, dto={}", dto);
-        BaseResult result = BaseResult.fail();
+        Result result = Result.fail();
 
         Preconditions.checkNotNull(dto, "参数对象不能为空");
         Preconditions.checkNotNull(dto.getInterfaceName(), "interface 不能为空");
@@ -195,7 +195,7 @@ public final class DubboUtil {
         }
 
         if (!EqualUtil.isEq(dto.getParameterTypes().length, dto.getParameterArgs().length)) {
-            result.setErrorMessage("参数类型个数和参数类型值个数不相等.");
+            result.setMsg("参数类型个数和参数类型值个数不相等.");
             return result;
         }
 
@@ -254,7 +254,7 @@ public final class DubboUtil {
             result.value(ret);
         } catch (Exception e) {
             log.error("fail to invoke dubbo generic service", e);
-            result.setErrorMessage(ExceptionUtil.getMessage(e));
+            result.setMsg(ExceptionUtil.getMessage(e));
         }
         return result;
     }

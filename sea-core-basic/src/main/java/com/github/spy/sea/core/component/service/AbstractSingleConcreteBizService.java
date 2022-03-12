@@ -3,7 +3,7 @@ package com.github.spy.sea.core.component.service;
 import com.github.spy.sea.core.component.service.lifecycle.AbstractDestroyLifeCycle;
 import com.github.spy.sea.core.component.service.lifecycle.AbstractExecuteLifeCycle;
 import com.github.spy.sea.core.component.service.lifecycle.AbstractValidateLifeCycle;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,15 +23,15 @@ public abstract class AbstractSingleConcreteBizService<T>
      *
      * @return
      */
-    abstract <T> BaseResult<T> doService();
+    abstract <T> Result<T> doService();
 
 
     @Override
-    public BaseResult<T> execute() {
-        BaseResult<T> ret;
+    public Result<T> execute() {
+        Result<T> ret;
         try {
             log.info("do service check");
-            BaseResult checkResult = check();
+            Result checkResult = check();
             Preconditions.checkNotNull(checkResult, "check result cannot null");
             if (!checkResult.getSuccess()) {
                 log.warn("check result is false. [{}]", checkResult);
@@ -41,7 +41,7 @@ public abstract class AbstractSingleConcreteBizService<T>
 
 
             log.info("do service validate");
-            BaseResult validateResult = validate();
+            Result validateResult = validate();
 
             Preconditions.checkNotNull(checkResult, "validate result cannot null");
 

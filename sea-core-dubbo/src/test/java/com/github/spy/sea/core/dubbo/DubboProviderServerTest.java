@@ -4,7 +4,7 @@ import com.github.spy.sea.core.dubbo.common.dto.BeanConfig;
 import com.github.spy.sea.core.dubbo.facade.ProductFacadeService;
 import com.github.spy.sea.core.dubbo.facade.UserFacadeService;
 import com.github.spy.sea.core.dubbo.util.DubboUtil;
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -89,7 +89,7 @@ public class DubboProviderServerTest extends BaseDubboTest {
     @Test
     public void dubbo2Test() throws Exception {
         for (int i = 0; i < 1000; i++) {
-            BaseResult ret = DubboUtil.invoke("zookeeper://10.122.2.203:2181",
+            Result ret = DubboUtil.invoke("zookeeper://10.122.2.203:2181",
                     "com.github.spy.sea.core.dubbo.facade.UserFacadeService",
                     "getName", "1.0.0", "abc");
             log.info("user name={}", ret.getData());

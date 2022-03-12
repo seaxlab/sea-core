@@ -2,7 +2,6 @@ package com.github.spy.sea.core.dubbo.filter;
 
 import com.github.spy.sea.core.common.CoreErrorConst;
 import com.github.spy.sea.core.exception.BaseAppException;
-import com.github.spy.sea.core.model.BaseResult;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.rpc.*;
@@ -34,45 +33,45 @@ public class BaseAppExceptionFilter implements Filter {
             if (result.hasException()) {
                 log.error("result has exception");
 
-                BaseResult<Boolean> bizResult = BaseResult.fail();
+                com.github.spy.sea.core.model.Result<Boolean> bizResult = com.github.spy.sea.core.model.Result.fail();
 
 
                 if (result.getException() instanceof BaseAppException) {
                     BaseAppException exception = (BaseAppException) result.getException();
 
-                    bizResult.setErrorCode(exception.getCode());
-                    bizResult.setErrorMessage(exception.getDesc());
+                    bizResult.setCode(exception.getCode());
+                    bizResult.setMsg(exception.getDesc());
 
                 } else {
-                    bizResult.setErrorCode(CoreErrorConst.RPC_INVOKE_ERR);
+                    bizResult.setCode(CoreErrorConst.RPC_INVOKE_ERR);
                 }
 
-                if (Strings.isNullOrEmpty(bizResult.getErrorMessage())) {
-                    bizResult.setErrorMessage(getResMsg(bizResult.getErrorCode()));
+                if (Strings.isNullOrEmpty(bizResult.getMsg())) {
+                    bizResult.setMsg(getResMsg(bizResult.getCode()));
                 }
 
                 return new AppResponse(bizResult);
             } else {
 
                 // 没有异常部分，同时检测success=false字段
-                if (result.getValue() instanceof BaseResult) {
+                if (result.getValue() instanceof com.github.spy.sea.core.model.Result) {
 
-                    BaseResult<Boolean> bizResult = (BaseResult) result.getValue();
+                    com.github.spy.sea.core.model.Result<Boolean> bizResult = (com.github.spy.sea.core.model.Result) result.getValue();
 
-                    if ((!bizResult.getSuccess()) && Strings.isNullOrEmpty(bizResult.getErrorMessage())) {
+                    if ((!bizResult.getSuccess()) && Strings.isNullOrEmpty(bizResult.getMsg())) {
                         log.error("success=false and msg is null");
-                        bizResult.setErrorMessage(getResMsg(bizResult.getErrorCode()));
+                        bizResult.setMsg(getResMsg(bizResult.getCode()));
                     }
                 }
             }
             return result;
         } catch (Exception e) {
             log.error("rpc error", e);
-            BaseResult<Boolean> result = new BaseResult<>();
+            com.github.spy.sea.core.model.Result<Boolean> result = new com.github.spy.sea.core.model.Result<>();
             result.setSuccess(false);
             result.setData(false);
-            result.setErrorCode(CoreErrorConst.RPC_INVOKE_ERR);
-            result.setErrorMessage(getResMsg(CoreErrorConst.RPC_INVOKE_ERR));
+            result.setCode(CoreErrorConst.RPC_INVOKE_ERR);
+            result.setMsg(getResMsg(CoreErrorConst.RPC_INVOKE_ERR));
 
             return new AppResponse(result);
         }

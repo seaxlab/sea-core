@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.support.oss.manager;
 
-import com.github.spy.sea.core.model.BaseResult;
+import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.support.oss.dto.*;
 import com.github.spy.sea.core.support.oss.vo.BucketVO;
 import com.github.spy.sea.core.support.oss.vo.ObjectPutVO;
@@ -55,7 +55,7 @@ public interface OssManager {
      * @param bucket
      * @return
      */
-    BaseResult createBucket(String bucket);
+    Result createBucket(String bucket);
 
 
     /**
@@ -64,7 +64,7 @@ public interface OssManager {
      * @param dto
      * @return
      */
-    BaseResult<Boolean> createBucket(BucketCreateDTO dto);
+    Result<Boolean> createBucket(BucketCreateDTO dto);
 
     /**
      * 删除bucket
@@ -72,14 +72,14 @@ public interface OssManager {
      * @param bucket
      * @return
      */
-    BaseResult deleteBucket(String bucket);
+    Result deleteBucket(String bucket);
 
     /**
      * 查询所有bucket
      *
      * @return
      */
-    BaseResult<List<BucketVO>> queryBuckets();
+    Result<List<BucketVO>> queryBuckets();
 
     /**
      * check obj exist
@@ -98,7 +98,7 @@ public interface OssManager {
      * @param filePath
      * @return
      */
-    BaseResult<ObjectPutVO> uploadObj(String bucket, String key, String filePath);
+    Result<ObjectPutVO> uploadObj(String bucket, String key, String filePath);
 
     /**
      * upload obj by file
@@ -108,7 +108,7 @@ public interface OssManager {
      * @param file
      * @return
      */
-    BaseResult<ObjectPutVO> uploadObj(String bucket, String key, File file);
+    Result<ObjectPutVO> uploadObj(String bucket, String key, File file);
 
     /**
      * upload obj by stream
@@ -118,7 +118,7 @@ public interface OssManager {
      * @param inputStream
      * @return
      */
-    BaseResult<ObjectPutVO> uploadObj(String bucket, String key, InputStream inputStream);
+    Result<ObjectPutVO> uploadObj(String bucket, String key, InputStream inputStream);
 
     /**
      * update obj
@@ -129,7 +129,7 @@ public interface OssManager {
      * @param dto
      * @return
      */
-    BaseResult<ObjectPutVO> uploadObj(ObjectUploadDTO dto);
+    Result<ObjectPutVO> uploadObj(ObjectUploadDTO dto);
 
     /**
      * get object url.
@@ -137,7 +137,7 @@ public interface OssManager {
      * @param dto
      * @return
      */
-    BaseResult<String> getObjUrl(ObjectUrlDTO dto);
+    Result<String> getObjUrl(ObjectUrlDTO dto);
 
     /**
      * get obj signed url
@@ -147,7 +147,7 @@ public interface OssManager {
      * @param expireSeconds
      * @return
      */
-    BaseResult<String> getObjSignedUrl(String bucket, String key, long expireSeconds);
+    Result<String> getObjSignedUrl(String bucket, String key, long expireSeconds);
 
     /**
      * get obj signed url
@@ -155,7 +155,7 @@ public interface OssManager {
      * @param dto
      * @return
      */
-    BaseResult<String> getObjSignedUrl(ObjectSignUrlDTO dto);
+    Result<String> getObjSignedUrl(ObjectSignUrlDTO dto);
 
     /**
      * 下载文件
@@ -165,7 +165,7 @@ public interface OssManager {
      * @param filePath 文件路径
      * @return
      */
-    BaseResult<Boolean> downloadObj(String bucket, String key, String filePath);
+    Result<Boolean> downloadObj(String bucket, String key, String filePath);
 
     /**
      * 删除对象
@@ -174,7 +174,7 @@ public interface OssManager {
      * @param key
      * @return
      */
-    BaseResult<Boolean> deleteObj(String bucket, String key);
+    Result<Boolean> deleteObj(String bucket, String key);
 
     /**
      * 批量删除对象
@@ -183,7 +183,7 @@ public interface OssManager {
      * @param keys
      * @return
      */
-    BaseResult<Boolean> deleteObjs(String bucket, List<String> keys);
+    Result<Boolean> deleteObjs(String bucket, List<String> keys);
 
     /**
      * query objs
@@ -191,5 +191,5 @@ public interface OssManager {
      * @param dto
      * @return
      */
-    BaseResult<List<ObjectVO>> queryObjs(ObjectQueryDTO dto);
+    Result<List<ObjectVO>> queryObjs(ObjectQueryDTO dto);
 }
