@@ -185,11 +185,6 @@
         </dependency>
         <!--  junit5 end -->
 
-        <dependency>
-            <groupId>ru.yandex.clickhouse</groupId>
-            <artifactId>clickhouse-jdbc</artifactId>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
 </project>
