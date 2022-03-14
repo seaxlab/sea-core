@@ -56,6 +56,10 @@ public final class ModelConst {
     public static final String BIZ_TYPE_CODE = "bizTypeCode";
     public static final String BIZ_SUB_TYPE_CODE = "bizSubTypeCode";
 
+    // task
+    public static final String TASK_CODE = "taskCode";
+    public static final String TASK_NAME = "taskName";
+
     // 业务键
     public static final String BIZ_KEY = "bizKey";
     // 业务单号
