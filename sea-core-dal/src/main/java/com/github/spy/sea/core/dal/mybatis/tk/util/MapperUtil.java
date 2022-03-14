@@ -5,8 +5,8 @@ import com.github.spy.sea.core.exception.ExceptionHandler;
 import com.github.spy.sea.core.exception.Precondition;
 import com.github.spy.sea.core.model.PageInfo;
 import com.github.spy.sea.core.model.common.ModelConst;
+import com.github.spy.sea.core.model.util.PageUtil;
 import com.github.spy.sea.core.util.ListUtil;
-import com.github.spy.sea.core.util.PageUtil;
 import com.github.spy.sea.core.util.ReflectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.binding.MapperProxy;
@@ -456,7 +456,7 @@ public final class MapperUtil {
      * @return
      */
     public static RowBounds toPage(PageInfo pageInfo) {
-        PageUtil.checkPageInfo(pageInfo);
+        PageUtil.check(pageInfo);
         return new RowBounds(pageInfo.getOffset(), pageInfo.getPageSize());
     }
 
