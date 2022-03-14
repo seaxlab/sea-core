@@ -11,7 +11,7 @@ import java.util.List;
  * and a=1 and c=2 or d=1
  * </p>
  * <p>
- * 不支持复杂条件：a=1 or (a=1 and b=1)
+ * 支持复杂条件：a=1 or (a=1 and b=1)
  * </p>
  *
  * @author spy
@@ -19,15 +19,18 @@ import java.util.List;
  * @since 1.0
  */
 @Data
-public class BaseComplexQueryDTO implements Serializable {
+public class BaseQueryConditionDTO implements Serializable {
 
-    private List<ConditionDTO> conditions;
+    private List<ConditionDTO> queryConditions;
 
 
     @Data
     public static class ConditionDTO {
         // and/or
         private String mode;
+        // 左右括号
+        private Boolean bracketLeftFlag = false;
+        private Boolean bracketRightFlag = false;
         // 条件key
         private String key;
         // 操作符 =<>in等等
