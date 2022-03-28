@@ -28,42 +28,42 @@ public final class ExceptionHandler {
     /**
      * 抛出异常
      *
-     * @param errorCode
-     * @return
+     * @param code
+     * @return BaseAppException
      * @throws BaseAppException
      */
-    public static BaseAppException publish(String errorCode) throws BaseAppException {
-        return publish(errorCode, null, null);
+    public static BaseAppException publish(String code) throws BaseAppException {
+        return publish(code, null, null);
     }
 
-    public static BaseAppException publish(String errorCode, String msg) throws BaseAppException {
-        return publish(errorCode, msg, null);
+    public static BaseAppException publish(String code, String msg) throws BaseAppException {
+        return publish(code, msg, null);
     }
 
     /**
      * 兼容已有系统
      *
-     * @param errorCode
-     * @return
+     * @param code
+     * @return BaseAppException
      * @throws BaseAppException
      */
-    public static BaseAppException publishOld(String errorCode) throws BaseAppException {
-        errorCode = StringUtil.isEmpty(errorCode) ? OLD_CODE : (OLD_CODE + errorCode);
-        return publish(errorCode, null, null);
+    public static BaseAppException publishOld(String code) throws BaseAppException {
+        code = StringUtil.isEmpty(code) ? OLD_CODE : (OLD_CODE + code);
+        return publish(code, null, null);
     }
 
-    public static BaseAppException publishOld(String errorCode, String msg) throws BaseAppException {
-        errorCode = StringUtil.isEmpty(errorCode) ? OLD_CODE : (OLD_CODE + errorCode);
-        return publish(errorCode, msg, null);
+    public static BaseAppException publishOld(String code, String msg) throws BaseAppException {
+        code = StringUtil.isEmpty(code) ? OLD_CODE : (OLD_CODE + code);
+        return publish(code, msg, null);
     }
 
-    public static BaseAppException publishOld(Long errorCode) throws BaseAppException {
-        String newErrorCode = errorCode == null ? OLD_CODE : (OLD_CODE + errorCode.toString());
+    public static BaseAppException publishOld(Long code) throws BaseAppException {
+        String newErrorCode = code == null ? OLD_CODE : (OLD_CODE + code.toString());
         return publish(newErrorCode, null, null);
     }
 
-    public static BaseAppException publishOld(Long errorCode, String msg) throws BaseAppException {
-        String newErrorCode = errorCode == null ? OLD_CODE : (OLD_CODE + errorCode.toString());
+    public static BaseAppException publishOld(Long code, String msg) throws BaseAppException {
+        String newErrorCode = code == null ? OLD_CODE : (OLD_CODE + code.toString());
         return publish(newErrorCode, msg, null);
     }
 
@@ -83,13 +83,13 @@ public final class ExceptionHandler {
     /**
      * 抛出异常
      *
-     * @param errorCode String 错误码
-     * @param msg       String 消息
-     * @param t         Throwable
+     * @param code 错误码
+     * @param msg  消息
+     * @param t    Throwable
      * @return BaseAppException
      * @throws BaseAppException
      */
-    public static BaseAppException publish(String errorCode, String msg, Throwable t) throws BaseAppException {
+    public static BaseAppException publish(String code, String msg, Throwable t) throws BaseAppException {
 
         BaseAppException baseAppException;
         if (t instanceof BaseAppException) {
@@ -100,10 +100,10 @@ public final class ExceptionHandler {
             if (cause instanceof BaseAppException) {
                 baseAppException = (BaseAppException) cause;
             } else {
-                baseAppException = new BaseAppException(errorCode, msg);
+                baseAppException = new BaseAppException(code, msg);
             }
         } else {
-            baseAppException = new BaseAppException(errorCode, msg);
+            baseAppException = new BaseAppException(code, msg);
         }
 
         throw baseAppException;

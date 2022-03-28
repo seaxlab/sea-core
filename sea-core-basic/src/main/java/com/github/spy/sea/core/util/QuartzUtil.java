@@ -226,14 +226,14 @@ public class QuartzUtil {
     }
 
     /**
-     * modify job time
+     * 修改一个任务的触发时间
      *
      * @param jobName
      * @param jobGroupName
      * @param triggerName      触发器名
      * @param triggerGroupName 触发器组名
      * @param cron             时间设置，参考quartz说明文档
-     * @Description: 修改一个任务的触发时间
+     * @return result
      */
     public static Result modifyJobTime(String jobName, String jobGroupName,
                                        String triggerName, String triggerGroupName, String cron) {
