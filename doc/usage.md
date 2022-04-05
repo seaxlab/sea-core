@@ -11,7 +11,7 @@
 <dependencies>
     <dependency>
         <groupId>com.github.spy.sea</groupId>
-        <artifactId>sea-core-all</artifactId>
+        <artifactId>sea-core-basic</artifactId>
         <version>${sea.core.version}</version>
     </dependency>
 </dependencies>
