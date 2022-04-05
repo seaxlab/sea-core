@@ -13,36 +13,45 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Slf4j
 public final class DesensitizeUtil {
-    /**
-     * 银行卡后四位
-     *
-     * @param bankAcco
-     * @return
-     */
-    public static String parseBankAcco(String bankAcco) {
-        if (Strings.isNullOrEmpty(bankAcco)) {
-            log.warn("卡号转换异常");
-            return "";
-        }
-
-        if (bankAcco.length() <= 4) {
-            return bankAcco;
-        }
-
-        return bankAcco.substring(bankAcco.length() - 4);
-    }
-
 
     /**
-     * 手机号脱敏
+     * 手机号脱敏,
+     * 格式：前3位****后4位
      *
      * @param mobile
      * @return
      */
-    public static String parseMobile(String mobile) {
+    public static String mobile(String mobile) {
         if (Strings.isNullOrEmpty(mobile)) return "";
         return mobile.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
     }
+
+    /**
+     * [手机号码] 前三位，后四位，其他隐藏<例子:138******1234>
+     *
+     * @param num
+     * @return
+     */
+    public static String mobile2(String num) {
+        if (StringUtils.isBlank(num)) {
+            return "";
+        }
+        return StringUtils.left(num, 3).concat(StringUtils.removeStart(StringUtils.leftPad(StringUtils.right(num, 4), StringUtils.length(num), "*"), "***"));
+    }
+
+    /**
+     * [固定电话] 后四位，其他隐藏<例子：****1234>
+     *
+     * @param num
+     * @return
+     */
+    public static String fixedPhone(String num) {
+        if (StringUtils.isBlank(num)) {
+            return "";
+        }
+        return StringUtils.leftPad(StringUtils.right(num, 4), StringUtils.length(num), "*");
+    }
+
 
     /**
      * [中文姓名] 只显示第一个汉字，其他隐藏为2个星号<例子：李**>
@@ -86,31 +95,6 @@ public final class DesensitizeUtil {
         return StringUtils.leftPad(num, StringUtils.length(id), "*");
     }
 
-    /**
-     * [固定电话] 后四位，其他隐藏<例子：****1234>
-     *
-     * @param num
-     * @return
-     */
-    public static String fixedPhone(String num) {
-        if (StringUtils.isBlank(num)) {
-            return "";
-        }
-        return StringUtils.leftPad(StringUtils.right(num, 4), StringUtils.length(num), "*");
-    }
-
-    /**
-     * [手机号码] 前三位，后四位，其他隐藏<例子:138******1234>
-     *
-     * @param num
-     * @return
-     */
-    public static String mobilePhone(String num) {
-        if (StringUtils.isBlank(num)) {
-            return "";
-        }
-        return StringUtils.left(num, 3).concat(StringUtils.removeStart(StringUtils.leftPad(StringUtils.right(num, 4), StringUtils.length(num), "*"), "***"));
-    }
 
     /**
      * [地址] 只显示到地区，不显示详细地址；我们要对个人信息增强保护<例子：北京市海淀区****>
@@ -155,6 +139,25 @@ public final class DesensitizeUtil {
             return "";
         }
         return StringUtils.left(cardNum, 6).concat(StringUtils.removeStart(StringUtils.leftPad(StringUtils.right(cardNum, 4), StringUtils.length(cardNum), "*"), "******"));
+    }
+
+    /**
+     * 获取银行卡后四位
+     *
+     * @param bankCard 原卡号
+     * @return
+     */
+    public static String bankCard4(String bankCard) {
+        if (Strings.isNullOrEmpty(bankCard)) {
+            log.warn("卡号转换异常");
+            return "";
+        }
+
+        if (bankCard.length() <= 4) {
+            return bankCard;
+        }
+
+        return bankCard.substring(bankCard.length() - 4);
     }
 
     /**

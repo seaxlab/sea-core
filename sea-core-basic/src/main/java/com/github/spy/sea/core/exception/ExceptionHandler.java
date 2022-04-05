@@ -58,13 +58,13 @@ public final class ExceptionHandler {
     }
 
     public static BaseAppException publishOld(Long code) throws BaseAppException {
-        String newErrorCode = code == null ? OLD_CODE : (OLD_CODE + code.toString());
-        return publish(newErrorCode, null, null);
+        String newCode = code == null ? OLD_CODE : (OLD_CODE + code.toString());
+        return publish(newCode, null, null);
     }
 
     public static BaseAppException publishOld(Long code, String msg) throws BaseAppException {
-        String newErrorCode = code == null ? OLD_CODE : (OLD_CODE + code.toString());
-        return publish(newErrorCode, msg, null);
+        String newCode = code == null ? OLD_CODE : (OLD_CODE + code.toString());
+        return publish(newCode, msg, null);
     }
 
     public static BaseAppException publishMsgOld(String msg) throws BaseAppException {
