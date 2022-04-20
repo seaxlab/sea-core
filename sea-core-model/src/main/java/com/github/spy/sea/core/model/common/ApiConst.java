@@ -1,0 +1,21 @@
+package com.github.spy.sea.core.model.common;
+
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * module name
+ *
+ * @author spy
+ * @version 1.0 2022/4/20
+ * @since 1.0
+ */
+@Slf4j
+public class ApiConst {
+
+    // 公开API
+    public static final String OPEN = "/api/open";
+
+    // 内部API
+    public static final String INNER = "/api/inner";
+
+}
