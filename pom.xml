@@ -26,14 +26,9 @@
         <module>sea-core-spring-boot-starter</module>
         <module>sea-core-spring</module>
         <module>sea-core-security</module>
-        <module>sea-core-script</module>
-        <module>sea-core-dubbo-common</module>
-        <module>sea-core-dubbo-legacy</module>
-        <module>sea-core-dubbo</module>
         <module>sea-core-springcloud</module>
         <module>sea-core-support</module>
         <module>sea-core-example</module>
-        <module>sea-core-rocketmq</module>
     </modules>
 
 
