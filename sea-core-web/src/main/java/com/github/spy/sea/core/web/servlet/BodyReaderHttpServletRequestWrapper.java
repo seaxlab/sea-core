@@ -11,7 +11,15 @@ import java.io.*;
 import java.nio.charset.Charset;
 
 /**
- * 复制 HttpServletRequest 的输入流，不然拿出 body 参数后验签后，到 Controller 时，接收参数会为null
+ * 复制 HttpServletRequest 的输入流，不然拿出 body 参数后验签后，到 Controller 时，接收参数会为null<br/>
+ * 注意需在Filter中使用，spring mvc interceptor中使用无效<br/><br/>
+ * <pre>
+ * HttpServletRequest request = (HttpServletRequest) req;
+ * HttpServletRequest wrapperRequest = new BodyReaderHttpServletRequestWrapper(request);
+ * //这里wrapperRequest，对request body中数据读取
+ * // 交给下一个filter，可以重复读取request body流内容
+ * chain.doFilter(wrapperRequest, response);
+ * </pre>
  *
  * @author spy
  * @version 1.0 2022/4/28
