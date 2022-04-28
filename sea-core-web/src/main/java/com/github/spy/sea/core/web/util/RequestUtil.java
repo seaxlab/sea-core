@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.web.util;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.spy.sea.core.common.CoreConst;
 import com.github.spy.sea.core.http.common.HttpHeaderConst;
 import com.github.spy.sea.core.util.IOUtil;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -271,6 +273,30 @@ public class RequestUtil {
         }
 
         return RandomUtil.shortUUID();
+    }
+
+    /**
+     * 读取request body 转换成Map
+     *
+     * @param request http servlet request
+     * @return map
+     */
+    public static Map<String, String> getRequestBodyAsMap(final HttpServletRequest request) {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+            String str = "";
+            StringBuilder strBuilder = new StringBuilder();
+            //一行一行的读取body体里面的内容；
+            while ((str = reader.readLine()) != null) {
+                strBuilder.append(str);
+            }
+
+            //转化成json对象
+            return JSONObject.parseObject(strBuilder.toString(), Map.class);
+        } catch (Exception e) {
+            log.error("fail to request body.", e);
+        }
+        return new HashMap<>();
     }
 
     /**
