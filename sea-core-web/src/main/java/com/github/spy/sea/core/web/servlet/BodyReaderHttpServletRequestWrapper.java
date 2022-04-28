@@ -90,7 +90,7 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
                 sb.append(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("io exception", e);
         }
         return sb.toString();
     }
