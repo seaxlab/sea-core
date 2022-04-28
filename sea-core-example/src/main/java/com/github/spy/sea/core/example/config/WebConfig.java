@@ -1,7 +1,9 @@
 package com.github.spy.sea.core.example.config;
 
+import com.github.spy.sea.core.example.filter.SignAuthFilter;
 import com.github.spy.sea.core.web.servlet.WebApplicationListener;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,6 +17,18 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 public class WebConfig {
+
+    @Bean
+    public FilterRegistrationBean registerMyFilter() {
+        FilterRegistrationBean<SignAuthFilter> bean = new FilterRegistrationBean<>();
+        bean.setOrder(1);
+        bean.setFilter(new SignAuthFilter());
+        // 匹配"/hello/"下面的所有url
+        bean.addUrlPatterns("/api/sign/*");
+        return bean;
+    }
+
+
 //    @Bean
 //    public FilterRegistrationBean seaGlobalFilter() {
 //        FilterRegistrationBean registration = new FilterRegistrationBean();

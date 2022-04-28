@@ -41,6 +41,33 @@ public final class RandomUtil {
     }
 
     /**
+     * 默认一次性字符串长度
+     */
+    private static final int DEFAULT_NONCE_COUNT = 16;
+
+    /**
+     * 一次性字符串长度16位
+     *
+     * @return 16位
+     */
+    public static String nonceStr() {
+        return nonceStr(DEFAULT_NONCE_COUNT);
+    }
+
+    /**
+     * 一次性字符串长度N位
+     *
+     * @param count 长度
+     * @return
+     */
+    public static String nonceStr(int count) {
+        if (count <= 0) {
+            count = DEFAULT_NONCE_COUNT;
+        }
+        return RandomStringUtils.random(count, true, true);
+    }
+
+    /**
      * numeric
      *
      * @param count -

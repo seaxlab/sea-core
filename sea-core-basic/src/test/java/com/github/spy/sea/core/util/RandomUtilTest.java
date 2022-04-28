@@ -15,6 +15,12 @@ import org.junit.Test;
 public class RandomUtilTest extends BaseCoreTest {
 
     @Test
+    public void testNonceStr() throws Exception {
+        log.info("{}", RandomUtil.nonceStr());
+        log.info("{}", RandomUtil.nonceStr(4));
+    }
+
+    @Test
     public void testOneOf() throws Exception {
 
         for (int i = 0; i < 20; i++) {
