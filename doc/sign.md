@@ -1,5 +1,24 @@
 # 签名模块
 
+- [微信签名](https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=4_3)
+- [支付签名](https://opendocs.alipay.com/common/02khjm)
+- [银联签名](https://open.unionpay.com/tjweb/api/interface?apiSvcId=488&id=321)
+
+## 支付宝签名
+
+- 请求报文
+
+````
+timestamp=2019-01-01 08:09:33&method=alipay.trade.create
+&app_id=20135234674&sign_type=RSA2&biz_content={"total_amount":"10.08", "buyer_id":"2088123456781234", "discount_amount":""}
+````
+
+- 参数
+  ![](./img/alipay-sign-param.png)
+
+- 签名步骤
+  ![](./img/alipay-sign-param-2.png)
+
 ## GET 示例
 
 ````
