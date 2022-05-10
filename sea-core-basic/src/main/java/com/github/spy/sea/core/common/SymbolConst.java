@@ -29,6 +29,9 @@ public class SymbolConst {
     public static final String BRACKET_END = "]";
     public static final String COLON = ":";
 
+    public static final String PIPE = "|";
+
+
     private SymbolConst() {
     }
 }
