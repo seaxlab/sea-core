@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.springcloud.feign;
+package com.github.spy.sea.core.springcloud.feign.mock;
 
 import com.github.spy.sea.core.springcloud.feign.config.FeignMockProperties;
 import org.springframework.beans.factory.BeanFactory;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties(FeignMockProperties.class)
-public class FeignBeanPostProcessorConfiguration {
+public class MockFeignBeanPostProcessorConfiguration {
 
     @Bean
     public MockFeignObjectWrapper mockFeignObjectWrapper(BeanFactory beanFactory, FeignMockProperties apiMockProperties) {
@@ -16,8 +16,8 @@ public class FeignBeanPostProcessorConfiguration {
     }
 
     @Bean
-    public FeignContextBeanPostProcessor feignContextBeanPostProcessor(BeanFactory beanFactory) {
-        return new FeignContextBeanPostProcessor(beanFactory);
+    public MockFeignContextBeanPostProcessor feignContextBeanPostProcessor(BeanFactory beanFactory) {
+        return new MockFeignContextBeanPostProcessor(beanFactory);
     }
 
 }

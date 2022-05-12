@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.springcloud.feign;
+package com.github.spy.sea.core.springcloud.feign.mock;
 
 
 import org.springframework.beans.BeansException;
@@ -6,18 +6,17 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.cloud.openfeign.FeignContext;
 
-public class FeignContextBeanPostProcessor implements BeanPostProcessor {
+public class MockFeignContextBeanPostProcessor implements BeanPostProcessor {
 
     private final BeanFactory beanFactory;
     private MockFeignObjectWrapper traceFeignObjectWrapper;
 
-    FeignContextBeanPostProcessor(BeanFactory beanFactory) {
+    MockFeignContextBeanPostProcessor(BeanFactory beanFactory) {
         this.beanFactory = beanFactory;
     }
 
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName)
-            throws BeansException {
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof FeignContext && !(bean instanceof MockFeignContext)) {
             return new MockFeignContext(getTraceFeignObjectWrapper(), (FeignContext) bean);
         }
@@ -25,8 +24,7 @@ public class FeignContextBeanPostProcessor implements BeanPostProcessor {
     }
 
     @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName)
-            throws BeansException {
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
 

@@ -18,12 +18,12 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0
  */
 @Slf4j
-public class SeaFeignRequestInterceptor implements RequestInterceptor {
+public class FeignRequestInterceptor implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate template) {
 
-        // 带{id}的原始url
+        //TODO 带{id}的原始url
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
         HttpServletRequest request = requestAttributes.getRequest();

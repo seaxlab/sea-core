@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.springcloud.feign;
+package com.github.spy.sea.core.springcloud.feign.mock;
 
 import com.github.spy.sea.core.common.SymbolConst;
 import com.github.spy.sea.core.springcloud.common.Const;

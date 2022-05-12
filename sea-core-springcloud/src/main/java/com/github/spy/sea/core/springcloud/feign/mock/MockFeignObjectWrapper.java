@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.springcloud.feign;
+package com.github.spy.sea.core.springcloud.feign.mock;
 
 
 import com.github.spy.sea.core.springcloud.feign.config.FeignMockProperties;
@@ -16,7 +16,7 @@ public class MockFeignObjectWrapper {
 
     private FeignMockProperties apiMockProperties;
 
-    MockFeignObjectWrapper(BeanFactory beanFactory, FeignMockProperties apiMockProperties) {
+    public MockFeignObjectWrapper(BeanFactory beanFactory, FeignMockProperties apiMockProperties) {
         this.beanFactory = beanFactory;
         this.apiMockProperties = apiMockProperties;
     }

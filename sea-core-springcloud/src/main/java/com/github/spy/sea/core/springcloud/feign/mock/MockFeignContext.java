@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.springcloud.feign;
+package com.github.spy.sea.core.springcloud.feign.mock;
 
 
 import org.springframework.cloud.openfeign.FeignContext;
@@ -12,8 +12,7 @@ public class MockFeignContext extends FeignContext {
 
     private final FeignContext delegate;
 
-    MockFeignContext(MockFeignObjectWrapper mockFeignObjectWrapper,
-                     FeignContext delegate) {
+    public MockFeignContext(MockFeignObjectWrapper mockFeignObjectWrapper, FeignContext delegate) {
         this.mockFeignObjectWrapper = mockFeignObjectWrapper;
         this.delegate = delegate;
     }
