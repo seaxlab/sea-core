@@ -36,6 +36,10 @@ public class ApplicationInitListener implements ApplicationContextAware, Applica
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
+        //log.info(" spring ctx init.");
+        //if (event.getApplicationContext().getParent() != null) {
+        //    return;
+        //}
         String env = ctx.getEnvironment().getProperty("sea.env", "pro");
         log.info("sea.env={}", env);
 
@@ -46,6 +50,9 @@ public class ApplicationInitListener implements ApplicationContextAware, Applica
         log.info("=======================================");
 
         log.info("Power by Sea Framework. Design by SPY.");
+
+        //String port = ctx.getEnvironment().getProperty("server.port", "111");
+        //log.info("port={}", port);
 
         doStatic();
 
