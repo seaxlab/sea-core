@@ -4,12 +4,15 @@
     <parent>
         <artifactId>sea-core</artifactId>
         <groupId>com.github.spy.sea</groupId>
-        <version>2.4.0-SNAPSHOT</version>
+        <version>2.5.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sea-core-spring</artifactId>
 
+    <properties>
+        <reactor.netty.version>0.9.16.RELEASE</reactor.netty.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -109,5 +112,25 @@
         </dependency>
 
     </dependencies>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!--            <dependency>-->
+            <!--                <groupId>io.projectreactor.netty</groupId>-->
+            <!--                <artifactId>reactor-netty</artifactId>-->
+            <!--                <version>${reactor.netty.version}</version>-->
+            <!--            </dependency>-->
+
+        </dependencies>
+    </dependencyManagement>
 
 </project>

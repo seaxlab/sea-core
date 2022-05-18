@@ -1,9 +1,9 @@
 package com.github.spy.sea.core.example.service;
 
 import com.github.spy.sea.core.boot.autoconfigure.SeaProperties;
-import com.github.spy.sea.core.example.AbstractSpringTest;
+import com.github.spy.sea.core.example.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @since 1.0
  */
 @Slf4j
-public class SeaPropertiesTest extends AbstractSpringTest {
+public class SeaPropertiesTest extends BaseSpringTest {
 
     @Autowired
     SeaProperties seaProperties;

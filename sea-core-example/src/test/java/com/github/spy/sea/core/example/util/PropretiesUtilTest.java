@@ -2,7 +2,7 @@ package com.github.spy.sea.core.example.util;
 
 import com.github.spy.sea.core.util.PropertiesUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Properties;
 

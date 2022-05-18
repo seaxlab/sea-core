@@ -11,15 +11,16 @@ import feign.Request;
 import feign.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.netflix.ribbon.SpringClientFactory;
-import org.springframework.cloud.openfeign.ribbon.CachingSpringLoadBalancerFactory;
-import org.springframework.cloud.openfeign.ribbon.LoadBalancerFeignClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerProperties;
+import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
+import org.springframework.cloud.openfeign.loadbalancer.FeignBlockingLoadBalancerClient;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 
 @Slf4j
-public class MockLoadBalancerFeignClient extends LoadBalancerFeignClient {
+public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient {
 
     @Value("${spring.application.name:unknown}")
     private String appName;
@@ -27,8 +28,10 @@ public class MockLoadBalancerFeignClient extends LoadBalancerFeignClient {
 
     private FeignMockProperties apiMockProperties;
 
-    public MockLoadBalancerFeignClient(Client delegate, CachingSpringLoadBalancerFactory lbClientFactory, SpringClientFactory clientFactory, FeignMockProperties apiMockProperties) {
-        super(delegate, lbClientFactory, clientFactory);
+    public MockLoadBalancerFeignClient(Client delegate, LoadBalancerClient loadBalancerClient,
+                                       LoadBalancerProperties properties,
+                                       LoadBalancerClientFactory clientFactory, FeignMockProperties apiMockProperties) {
+        super(delegate, loadBalancerClient, properties, clientFactory);
         this.apiMockProperties = apiMockProperties;
     }
 

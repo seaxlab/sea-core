@@ -1,8 +1,8 @@
 package com.github.spy.sea.core.example.service;
 
-import com.github.spy.sea.core.example.AbstractSpringTest;
+import com.github.spy.sea.core.example.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * module name
@@ -12,7 +12,7 @@ import org.junit.Test;
  * @since 1.0
  */
 @Slf4j
-public class MyService extends AbstractSpringTest {
+public class MyService extends BaseSpringTest {
 
     @Test
     public void run17() throws Exception {

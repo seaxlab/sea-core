@@ -17,7 +17,6 @@ import static org.springframework.core.annotation.AnnotationAttributes.fromMap;
 import static org.springframework.core.annotation.AnnotationUtils.findAnnotation;
 import static org.springframework.core.annotation.AnnotationUtils.getDefaultValue;
 import static org.springframework.util.ClassUtils.resolveClassName;
-import static org.springframework.util.CollectionUtils.arrayToList;
 import static org.springframework.util.CollectionUtils.isEmpty;
 import static org.springframework.util.ObjectUtils.nullSafeEquals;
 import static org.springframework.util.ReflectionUtils.findMethod;
@@ -80,75 +79,51 @@ public class AnnotationUtil {
         Map<ElementType, List<A>> annotationsMap = new LinkedHashMap<ElementType, List<A>>();
 
         Target target = annotationClass.getAnnotation(Target.class);
-
         ElementType[] elementTypes = target.value();
 
 
         for (ElementType elementType : elementTypes) {
-
             List<A> annotationsList = new LinkedList<A>();
 
             switch (elementType) {
 
                 case PARAMETER:
-
                     Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-
                     for (Annotation[] annotations : parameterAnnotations) {
-
                         for (Annotation annotation : annotations) {
-
                             if (annotationClass.equals(annotation.annotationType())) {
-
                                 annotationsList.add((A) annotation);
-
                             }
-
                         }
-
                     }
 
                     break;
 
                 case METHOD:
-
                     A annotation = findAnnotation(method, annotationClass);
-
                     if (annotation != null) {
-
                         annotationsList.add(annotation);
-
                     }
 
                     break;
 
                 case TYPE:
-
                     Class<?> beanType = method.getDeclaringClass();
-
                     A annotation2 = findAnnotation(beanType, annotationClass);
-
                     if (annotation2 != null) {
-
                         annotationsList.add(annotation2);
-
                     }
 
                     break;
-
             }
 
             if (!annotationsList.isEmpty()) {
-
                 annotationsMap.put(elementType, annotationsList);
-
             }
-
 
         }
 
         return Collections.unmodifiableMap(annotationsMap);
-
     }
 
     /**
@@ -192,9 +167,9 @@ public class AnnotationUtil {
     public static Map<String, Object> getAttributes(Map<String, Object> annotationAttributes,
                                                     PropertyResolver propertyResolver, String... ignoreAttributeNames) {
 
-        Set<String> ignoreAttributeNamesSet = new HashSet<String>(arrayToList(ignoreAttributeNames));
+        Set<String> ignoreAttributeNamesSet = new HashSet<>(Arrays.asList(ignoreAttributeNames));
 
-        Map<String, Object> actualAttributes = new LinkedHashMap<String, Object>();
+        Map<String, Object> actualAttributes = new LinkedHashMap<>();
 
         for (Map.Entry<String, Object> annotationAttribute : annotationAttributes.entrySet()) {
 

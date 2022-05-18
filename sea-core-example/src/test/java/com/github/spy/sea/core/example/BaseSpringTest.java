@@ -1,9 +1,9 @@
 package com.github.spy.sea.core.example;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * module name
@@ -14,6 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @Slf4j
 @SpringBootTest
-@RunWith(SpringRunner.class)
-public abstract class AbstractSpringTest {
+@ExtendWith(SpringExtension.class)
+public abstract class BaseSpringTest {
 }
