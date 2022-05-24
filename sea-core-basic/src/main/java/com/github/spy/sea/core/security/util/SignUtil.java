@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * 模块
+ * sign util for parameter
  *
  * @author spy
  * @version 1.0 2019-07-22
