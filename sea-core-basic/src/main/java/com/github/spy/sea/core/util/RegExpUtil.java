@@ -317,6 +317,30 @@ public final class RegExpUtil {
     }
 
     /**
+     * get value in bracket
+     *
+     * <pre>
+     * "a(abcd)", "a" --> abcd
+     * </pre>
+     *
+     * @param str
+     * @param prefix
+     * @return
+     */
+    public static String getByBracket(String str, String prefix) {
+        if (str == null) {
+            log.warn("str is null");
+            return str;
+        }
+        if (prefix == null) {
+            log.warn("prefix is null");
+            return str;
+        }
+        return str.trim().replaceAll("^" + prefix + "\\((.+)\\)$", "$1").trim();
+    }
+
+
+    /**
      * replace multi space with one space.
      *
      * @param str

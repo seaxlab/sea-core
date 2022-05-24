@@ -41,4 +41,15 @@ public class RegExpUtilTest extends BaseCoreTest {
         println(RegExpUtil.find("國", RegExpUtil.REGEX_CHINESE)); // true
         println(RegExpUtil.find("國", RegExpUtil.REGEX_CHINESE_COMPLEX)); // false, why false
     }
+
+    @Test
+    public void testGetByBracket1() throws Exception {
+        println(RegExpUtil.getByBracket("a(abcd)d(aa)"));
+
+    }
+
+    @Test
+    public void testGetByBracket2() throws Exception {
+        println(RegExpUtil.getByBracket("a(abcd)", "a"));
+    }
 }
