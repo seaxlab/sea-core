@@ -23,21 +23,21 @@ public class DESUtil {
     /**
      * encrypt
      *
+     * @param content   内容
      * @param secretKey 重点：必须是8位
-     * @param str
      * @return
      */
-    public static String encrypt(String secretKey, String str) {
+    public static String encrypt(String content, String secretKey) {
         try {
             byte[] keyBytes = secretKey.getBytes();
-            byte[] content = str.getBytes();
+            byte[] text = content.getBytes();
             DESKeySpec keySpec = new DESKeySpec(keyBytes);
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
             SecretKey key = keyFactory.generateSecret(keySpec);
 
             Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(keySpec.getKey()));
-            byte[] result = cipher.doFinal(content);
+            byte[] result = cipher.doFinal(text);
             return byteToHexString(result);
         } catch (Exception e) {
             log.error("fail to encrypt by DES", e);
@@ -48,21 +48,21 @@ public class DESUtil {
     /**
      * decrypt
      *
-     * @param secretKey
-     * @param str
+     * @param content   待解密内容
+     * @param secretKey 秘钥
      * @return
      */
-    public static String decrypt(String secretKey, String str) {
+    public static String decrypt(String content, String secretKey) {
         try {
             byte[] keyBytes = secretKey.getBytes();
-            byte[] content = hexToByteArray(str);
+            byte[] text = hexToByteArray(content);
             DESKeySpec keySpec = new DESKeySpec(keyBytes);
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
             SecretKey key = keyFactory.generateSecret(keySpec);
 
             Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(keyBytes));
-            byte[] result = cipher.doFinal(content);
+            byte[] result = cipher.doFinal(text);
             return new String(result);
         } catch (Exception e) {
             log.error("fail to decrypt by DES", e);
