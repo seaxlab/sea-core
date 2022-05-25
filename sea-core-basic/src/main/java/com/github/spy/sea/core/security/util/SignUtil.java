@@ -37,6 +37,7 @@ public class SignUtil {
         Map treeMap = new TreeMap();
         for (Map.Entry<String, String> entry : map.entrySet()) {
             if ("sign_type".equals(entry.getKey())
+                    || "signType".equals(entry.getKey())
                     || "sign".equals(entry.getKey())
                     || StringUtils.isEmpty(entry.getValue())) {
                 continue;
