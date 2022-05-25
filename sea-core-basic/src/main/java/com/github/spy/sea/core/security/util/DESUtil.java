@@ -18,7 +18,30 @@ import javax.crypto.spec.IvParameterSpec;
 @Slf4j
 public class DESUtil {
 
+    private static final String DEFAULT_KEY = "65ac7z96";
+
     //DES_CBC_Encrypt
+
+    /**
+     * 使用默认key加密
+     *
+     * @param content
+     * @return
+     */
+    public static String encrypt(String content) {
+        return encrypt(content, DEFAULT_KEY);
+    }
+
+    /**
+     * 使用默认key解密
+     *
+     * @param content
+     * @return
+     */
+    public static String decrypt(String content) {
+        return decrypt(content, DEFAULT_KEY);
+    }
+
 
     /**
      * encrypt
