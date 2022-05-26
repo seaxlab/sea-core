@@ -9,7 +9,11 @@ import org.slf4j.helpers.MessageFormatter;
 import java.io.Serializable;
 
 /**
- * 返回值模型
+ * Result model
+ * <pre>
+ *     <p>if use jackson</p>
+ *      {@literal @}JsonPropertyOrder({"success", "traceId", "code", "msg", "data", "extra"})
+ * </pre>
  *
  * @author spy
  * @version 1.0 2022/01/20
