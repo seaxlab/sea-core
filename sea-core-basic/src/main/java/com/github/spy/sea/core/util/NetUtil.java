@@ -1,9 +1,8 @@
 package com.github.spy.sea.core.util;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.spy.sea.core.exception.Precondition;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +22,7 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public final class NetUtil {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NetUtil.class);
+
     private static final String LOCALHOST = "127.0.0.1";
 
     private static final String ANY_HOST = "0.0.0.0";
@@ -143,7 +142,7 @@ public final class NetUtil {
                 return localAddress;
             }
         } catch (Throwable e) {
-            LOGGER.warn("Failed to retrieving ip address, " + e.getMessage(), e);
+            log.warn("Failed to retrieving ip address, " + e.getMessage(), e);
         }
         try {
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
@@ -160,19 +159,19 @@ public final class NetUtil {
                                         return address;
                                     }
                                 } catch (Throwable e) {
-                                    LOGGER.warn("Failed to retrieving ip address, " + e.getMessage(), e);
+                                    log.warn("Failed to retrieving ip address, " + e.getMessage(), e);
                                 }
                             }
                         }
                     } catch (Throwable e) {
-                        LOGGER.warn("Failed to retrieving ip address, " + e.getMessage(), e);
+                        log.warn("Failed to retrieving ip address, " + e.getMessage(), e);
                     }
                 }
             }
         } catch (Throwable e) {
-            LOGGER.warn("Failed to retrieving ip address, " + e.getMessage(), e);
+            log.warn("Failed to retrieving ip address, " + e.getMessage(), e);
         }
-        LOGGER.error("Could not get local host ip address, will use 127.0.0.1 instead.");
+        log.error("Could not get local host ip address, will use 127.0.0.1 instead.");
         return localAddress;
     }
 
@@ -299,6 +298,22 @@ public final class NetUtil {
         return false;
     }
 
+    /**
+     * check target ip is in range by IPV6 format.
+     *
+     * @param targetIP target ip
+     * @param startIP  start ip
+     * @param endIP    end ip
+     * @return
+     */
+    public static boolean isInRangeByIPV6(String targetIP, String startIP, String endIP) {
+        Precondition.checkNotBlank(targetIP, "targetIP cannot be empty.");
+        Precondition.checkNotBlank(startIP, "startIP cannot be empty.");
+        Precondition.checkNotBlank(endIP, "endIP cannot be empty.");
+
+        return targetIP.compareTo(startIP) >= 0 && targetIP.compareTo(endIP) <= 0;
+    }
+
     // apache common-validator
 //    private static boolean ipCheck(byte[] ip) {
 //        if (ip.length != 4) {
@@ -385,6 +400,11 @@ public final class NetUtil {
     private static final int MAX_PORT = 65535;
     private static BitSet USED_PORT = new BitSet(65536);
 
+    /**
+     * get one random port.
+     *
+     * @return
+     */
     public static int getRandomPort() {
         return RND_PORT_START + ThreadLocalRandom.current().nextInt(RND_PORT_RANGE);
     }
