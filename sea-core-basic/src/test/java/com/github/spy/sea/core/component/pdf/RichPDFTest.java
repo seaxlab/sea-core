@@ -3,6 +3,7 @@ package com.github.spy.sea.core.component.pdf;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,13 +20,15 @@ import java.util.List;
 @Slf4j
 public class RichPDFTest {
 
-    public static final String PATH_LOGO = "c:/superman-logo.png";
+    private String PATH_LOGO = "c:/superman-logo.png";
 
-    public static final String PATH_PDF = "c:/test.pdf";
+    private String PATH_PDF = "c:/test.pdf";
 
 
-    public static void main(String[] args) throws Exception {
+    @Test
+    public void test32() throws Exception {
         imageWaterMark(createPDF(), PATH_LOGO);
+
     }
 
 
@@ -35,7 +38,7 @@ public class RichPDFTest {
      * @return
      * @throws Exception
      */
-    public static String createPDF() throws Exception {
+    public String createPDF() throws Exception {
 
         //输出路径
         String outPath = PATH_PDF;
