@@ -24,6 +24,16 @@ import java.util.*;
  * Utility class for working with Strings that have placeholder values in them. A placeholder takes the form {@code
  * ${name}}. Using {@code PropertyPlaceholderHelper} these placeholders can be substituted for user-supplied values. <p>
  * Values for substitution can be supplied using a {@link Properties} instance or using a {@link PlaceholderResolver}.
+ *
+ * <pre>
+ *     commons-text lib
+ * String userHome = StringSubstitutor.replaceSystemProperties("${user.home}");
+ * log.debug(userHome);
+ * // 默认值
+ * String str = " this is ${undefined.number:-1234567890}";
+ * String ret = StringSubstitutor.replace(str, Maps.newHashMap());
+ * log.debug("{}", ret);
+ * </pre>
  */
 public enum PropertyPlaceholderHelper {
 
