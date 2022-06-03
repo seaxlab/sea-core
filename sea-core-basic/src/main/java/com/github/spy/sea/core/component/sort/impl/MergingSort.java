@@ -3,8 +3,6 @@ package com.github.spy.sea.core.component.sort.impl;
 import com.github.spy.sea.core.component.sort.Sort;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
-
 /**
  * 归并排序
  *
@@ -22,8 +20,6 @@ public class MergingSort implements Sort {
     @Override
     public void sort(int[] array) {
         sort(array, 0, array.length - 1);
-        for (int i = 0; i < array.length; i++)
-            System.out.println(array[i]);
     }
 
     private void sort(int[] data, int left, int right) {
@@ -69,6 +65,6 @@ public class MergingSort implements Sort {
         while (tmp <= right) {
             data[tmp] = tmpArr[tmp++];
         }
-        System.out.println(Arrays.toString(data));
+        //System.out.println(Arrays.toString(data));
     }
 }
