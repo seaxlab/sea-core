@@ -13,7 +13,6 @@
 
 ### TODO
 
-- 减少对hutool的依赖
 - fastjson漏洞较多，减少fastjson的使用
 - 大写数字
 - tk select MAX/MIN
@@ -23,6 +22,10 @@
 - spring自定义注解扫描，类似@MapperScan
 - 文件下载进度日志
 - 网速显示
+
+### 2.5.0-SNAPSHOT
+
+- 减少对hutool的依赖
 - sea-core-mybatis合并至sea-core-dal（统一数据访问层）中
 
 ### 2.3.0-SNAPSHOT
