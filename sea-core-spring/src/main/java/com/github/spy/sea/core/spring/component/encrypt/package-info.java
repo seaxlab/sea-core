@@ -5,4 +5,4 @@
  * @version 1.0 2022/5/24
  * @since 1.0
  */
-package com.github.spy.sea.core.spring.encrypt;
+package com.github.spy.sea.core.spring.component.encrypt;

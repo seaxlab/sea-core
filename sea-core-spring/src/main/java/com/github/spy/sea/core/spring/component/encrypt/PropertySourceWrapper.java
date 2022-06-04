@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.spring.encrypt;
+package com.github.spy.sea.core.spring.component.encrypt;
 
 import com.github.spy.sea.core.security.util.AESUtil;
 import lombok.extern.slf4j.Slf4j;
