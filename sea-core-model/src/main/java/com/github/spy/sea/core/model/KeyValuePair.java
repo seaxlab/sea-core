@@ -16,6 +16,14 @@ public class KeyValuePair<K, V> implements Serializable {
     private K key;
     private V value;
 
+    public KeyValuePair() {
+
+    }
+
+    public KeyValuePair(K k, V v) {
+        this.key = key;
+        this.value = v;
+    }
 
     public static <K, V> KeyValuePair<K, V> of(K k, V v) {
         KeyValuePair<K, V> kv = new KeyValuePair<>();
