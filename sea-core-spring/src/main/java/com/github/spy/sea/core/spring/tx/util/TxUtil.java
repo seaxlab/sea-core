@@ -8,7 +8,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronization;
-import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
@@ -91,9 +90,15 @@ public final class TxUtil {
         transactionManager.rollback(transStatus);
     }
 
+
+    /**
+     * execute after tx commit
+     *
+     * @param callback call back function
+     */
     public static void registerAfterCommit(Callback callback) {
         log.info("register after commit");
-        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
             public void afterCommit() {
                 log.info("tx after commit");
                 callback.execute();
