@@ -21,13 +21,21 @@ public final class PathUtil {
     private PathUtil() {
     }
 
+    /**
+     * get default temp dir.
+     *
+     * @return
+     */
+    public static String getDefaultTempDir() {
+        return System.getProperty("java.io.tmpdir");
+    }
 
     /**
      * get user home of user who run current process
      *
      * @return
      */
-    public static final String getUserHome() {
+    public static String getUserHome() {
         Configuration cfg = ConfigurationFactory.getInstance();
         String userHome = cfg.getString("user.home", "");
         if (StringUtil.isEmpty(userHome)) {
@@ -42,7 +50,7 @@ public final class PathUtil {
      *
      * @return
      */
-    public static final String getSeaHome() {
+    public static String getSeaHome() {
         return join(getUserHome(), "sea");
     }
 

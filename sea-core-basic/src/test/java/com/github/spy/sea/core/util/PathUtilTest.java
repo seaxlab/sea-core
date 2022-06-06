@@ -16,6 +16,14 @@ import org.junit.Test;
 public class PathUtilTest extends BaseCoreTest {
 
     @Test
+    public void test19() throws Exception {
+        //io.tmpdir=/var/folders/zf/h34bgq7n195gly0fxb3p3j180000gn/T/
+        log.info("io.tmpdir={}.", PathUtil.getDefaultTempDir());
+        log.info("io.tmpdir={}.", PathUtil.getDefaultTempDir());
+    }
+
+
+    @Test
     public void run17() throws Exception {
 
         Assert.assertEquals(PathUtil.join("/Users/smith", "//file.txt"), "/Users/smith/file.txt");
