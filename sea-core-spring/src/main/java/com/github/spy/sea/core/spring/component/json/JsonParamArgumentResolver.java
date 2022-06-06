@@ -117,7 +117,7 @@ public class JsonParamArgumentResolver implements HandlerMethodArgumentResolver 
 
         if (simpleValueType
                 && defaultValue != null
-                && (arg == null || (parameterType == String.class && StringUtils.isEmpty((String) arg)))) {//TODO confirm
+                && (arg == null || (parameterType == String.class && StringUtils.isEmpty((String) arg)))) {
             arg = defaultValue;
         }
 
@@ -150,7 +150,7 @@ public class JsonParamArgumentResolver implements HandlerMethodArgumentResolver 
                 // hibernate-validation
                 validateIfApplicable(binder, parameter);
 
-                // 自定义校验 //TODO
+                // 自定义校验  //请求参数DTO实现此接口，进行简单校验
                 if (arg instanceof BeanValidator) {
                     ((BeanValidator) arg).validate();
                 }

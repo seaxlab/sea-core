@@ -5,13 +5,17 @@ import com.github.spy.sea.core.spring.component.json.JsonParamFieldConvertor;
 import java.lang.annotation.*;
 
 /**
- * module name
+ * 将RequestBody中参数绑定到多个入参
+ *
+ * <p>
+ * 示例：com.github.spy.sea.core.example.config.MvcConfig
+ * </p>
  *
  * @author spy
  * @version 1.0 2022/5/28
  * @since 1.0
  */
-@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface JsonParam {
@@ -31,7 +35,8 @@ public @interface JsonParam {
     boolean root() default true;
 
     /**
-     * 参数映射路径
+     * 参数映射路径，用.分隔
+     * 例如 role.code
      *
      * @return
      */

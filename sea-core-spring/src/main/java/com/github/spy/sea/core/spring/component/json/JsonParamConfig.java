@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 
 /**
- * module name
+ * Json param config
  *
  * @author spy
  * @version 1.0 2022/5/28
@@ -40,7 +40,7 @@ public class JsonParamConfig {
             handleFieldName = classAnnotation.handleFieldName();
         }
 
-        JsonParam methodAnnotation = parameter.getDeclaringClass().getAnnotation(JsonParam.class);
+        JsonParam methodAnnotation = parameter.getMethodAnnotation(JsonParam.class);
         if (methodAnnotation != null) {
             path = joinPath(methodAnnotation.path(), methodAnnotation.root(), path);
             enable = methodAnnotation.enable();
@@ -50,7 +50,7 @@ public class JsonParamConfig {
             handleFieldName = methodAnnotation.handleFieldName();
         }
         boolean flag = true;
-        JsonParam parameterAnnotation = parameter.getDeclaringClass().getAnnotation(JsonParam.class);
+        JsonParam parameterAnnotation = parameter.getParameterAnnotation(JsonParam.class);
         if (parameterAnnotation != null) {
             enable = parameterAnnotation.enable();
             xss = parameterAnnotation.xss();

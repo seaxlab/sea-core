@@ -94,8 +94,8 @@ public class PathUtil {
                     throw new RuntimeException("cannot parse field " + s + ". Path:" + path, e);
                 }
             }
-            if (!field.matches("[a-zA-Z0-1_$]+")) {
-                throw new RuntimeException("Field name format is incorrect " + field + ". Path" + path);
+            if (!field.matches("[a-zA-Z0-9_$]+")) {
+                throw new RuntimeException("Field name format is incorrect " + field + ". Path:" + path);
             }
             fieldBlocks.add(new FieldBlock(field, arrayIndex));
         }

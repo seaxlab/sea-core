@@ -1,7 +1,8 @@
 package com.github.spy.sea.core.spring.component.json;
 
 /**
- * module name
+ * Bean(DTO/Request) validator
+ * //TODO 改个名字
  *
  * @author spy
  * @version 1.0 2022/6/4
