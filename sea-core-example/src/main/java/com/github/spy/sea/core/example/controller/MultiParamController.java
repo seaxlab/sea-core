@@ -6,6 +6,7 @@ import com.github.spy.sea.core.example.controller.dto.Param3DTO;
 import com.github.spy.sea.core.model.Result;
 import com.github.spy.sea.core.spring.component.json.annotation.JsonParam;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +32,7 @@ public class MultiParamController {
      * @return
      */
     @PostMapping("/multi")
-    public Result test(@JsonParam Param1DTO dto1, @JsonParam Param2DTO dto2, @JsonParam(path = "dto3") Param3DTO dto3) {
+    public Result test(@JsonParam @Validated Param1DTO dto1, @JsonParam Param2DTO dto2, @JsonParam(path = "dto3") Param3DTO dto3) {
 
         log.info("dto1={}", dto1);
         log.info("dto2={}", dto2);

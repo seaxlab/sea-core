@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Data
 public class Param1DTO {
+    //@NotEmpty  hibernate的正常校验
     private String code;
     private List<String> roles;
 }
