@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * module name
+ * Json request filter
  *
  * @author spy
  * @version 1.0 2022/5/28

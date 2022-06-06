@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * module name
+ * Path util
  *
  * @author spy
  * @version 1.0 2022/5/28
@@ -74,6 +74,7 @@ public class PathUtil {
         return o;
     }
 
+    // ------- private ------
 
     private static List<FieldBlock> compile(String path) {
         List<FieldBlock> fieldBlocks = new ArrayList<>();

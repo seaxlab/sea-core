@@ -20,7 +20,7 @@ import java.util.Enumeration;
 import java.util.Map;
 
 /**
- * module name
+ * Json request wrapper
  *
  * @author spy
  * @version 1.0 2022/5/28
