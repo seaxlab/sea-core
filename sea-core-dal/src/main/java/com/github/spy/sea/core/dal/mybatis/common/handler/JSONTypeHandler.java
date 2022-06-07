@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.dal.mybatis.tk.handler;
+package com.github.spy.sea.core.dal.mybatis.common.handler;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;

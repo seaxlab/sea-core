@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.dal.mybatis.tk.handler;
+package com.github.spy.sea.core.dal.mybatis.common.handler;
 
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
@@ -7,7 +7,7 @@ import org.apache.ibatis.type.MappedTypes;
 import java.util.Set;
 
 /**
- * module name
+ * string set json
  *
  * @author spy
  * @version 1.0 2021/8/4

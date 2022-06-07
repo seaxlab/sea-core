@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.dal.mybatis.tk.handler;
+package com.github.spy.sea.core.dal.mybatis.common.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;

@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.dal.mybatis.tk2.handler;
 
-import com.github.spy.sea.core.dal.mybatis.tk.handler.JSONTypeHandler;
+import com.github.spy.sea.core.dal.mybatis.common.handler.JSONTypeHandler;
 import com.github.spy.sea.core.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.TypeHandler;
