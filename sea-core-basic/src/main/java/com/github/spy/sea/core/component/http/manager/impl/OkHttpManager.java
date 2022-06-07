@@ -1,6 +1,6 @@
 package com.github.spy.sea.core.component.http.manager.impl;
 
-import com.github.spy.sea.core.component.http.manager.AbstractHttpManager;
+import com.github.spy.sea.core.component.http.manager.BaseHttpManager;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -11,6 +11,6 @@ import lombok.extern.slf4j.Slf4j;
  * @since 1.0
  */
 @Slf4j
-public class OkHttpManager extends AbstractHttpManager {
+public class OkHttpManager extends BaseHttpManager {
     //TODO
 }
