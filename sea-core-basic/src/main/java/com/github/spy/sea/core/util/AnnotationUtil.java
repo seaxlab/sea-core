@@ -1,12 +1,10 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.lang.annotation.MergedAnnotation;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,6 +22,34 @@ public final class AnnotationUtil {
 
     private static final String ANNOTATIONS = "annotations";
     public static final String ANNOTATION_DATA = "annotationData";
+
+
+    /**
+     * get merged Annotation.
+     *
+     * @param element        class/method/field
+     * @param annotationType any annotation type
+     * @param <A>
+     * @return
+     */
+    public static <A extends Annotation> A getMergedAnnotation(AnnotatedElement element, final Class<A> annotationType) {
+        MergedAnnotation mergedAnnotation = MergedAnnotation.from(element);
+        return mergedAnnotation.getAnnotation(annotationType);
+    }
+
+    /**
+     * has merged annotation
+     *
+     * @param element        class/method/field
+     * @param annotationType any annotation type
+     * @param <A>
+     * @return
+     */
+    public static <A extends Annotation> boolean hasMergedAnnotation(AnnotatedElement element, final Class<A> annotationType) {
+        MergedAnnotation mergedAnnotation = MergedAnnotation.from(element);
+        return mergedAnnotation.hasAnnotation(annotationType);
+    }
+
 
     /**
      * Get the values of this annotation's members.
@@ -64,8 +90,7 @@ public final class AnnotationUtil {
             }
             return result;
         } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new IllegalStateException("Unexpected error invoking annotation member method " +
-                    currentMethod.getName() + "() on annotation: " + annotation, e);
+            throw new IllegalStateException("Unexpected error invoking annotation member method " + currentMethod.getName() + "() on annotation: " + annotation, e);
         }
     }
 
@@ -76,14 +101,12 @@ public final class AnnotationUtil {
      * @param annotationToAlter
      * @param annotationValue
      */
-    public static void change(Class clazzToLookFor, Class<? extends Annotation> annotationToAlter,
-                              Annotation annotationValue) {
+    public static void change(Class clazzToLookFor, Class<? extends Annotation> annotationToAlter, Annotation annotationValue) {
         if (isJDK7OrLower()) {
             try {
                 Field annotations = Class.class.getDeclaredField(ANNOTATIONS);
                 annotations.setAccessible(true);
-                Map<Class<? extends Annotation>, Annotation> map =
-                        (Map<Class<? extends Annotation>, Annotation>) annotations.get(clazzToLookFor);
+                Map<Class<? extends Annotation>, Annotation> map = (Map<Class<? extends Annotation>, Annotation>) annotations.get(clazzToLookFor);
                 map.put(annotationToAlter, annotationValue);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -100,8 +123,7 @@ public final class AnnotationUtil {
                 //We now look for the map called "annotations" within AnnotationData object.
                 Field annotations = annotationData.getClass().getDeclaredField(ANNOTATIONS);
                 annotations.setAccessible(true);
-                Map<Class<? extends Annotation>, Annotation> map =
-                        (Map<Class<? extends Annotation>, Annotation>) annotations.get(annotationData);
+                Map<Class<? extends Annotation>, Annotation> map = (Map<Class<? extends Annotation>, Annotation>) annotations.get(annotationData);
                 map.put(annotationToAlter, annotationValue);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -130,8 +152,7 @@ public final class AnnotationUtil {
      * @return
      * @throws ClassNotFoundException
      */
-    public static <T extends Annotation> Annotation findClassAnnotation(String className, Class<T> annotationClass)
-            throws ClassNotFoundException {
+    public static <T extends Annotation> Annotation findClassAnnotation(String className, Class<T> annotationClass) throws ClassNotFoundException {
         //反射使用类加载器加载类
         Class type = Class.forName(className);
         return findClassAnnotation(type, annotationClass);
@@ -166,8 +187,7 @@ public final class AnnotationUtil {
      * @return
      * @throws ClassNotFoundException
      */
-    public static <T extends Annotation> Annotation[] findMethodAnnotation(String className, Class<T> annotationClass)
-            throws ClassNotFoundException {
+    public static <T extends Annotation> Annotation[] findMethodAnnotation(String className, Class<T> annotationClass) throws ClassNotFoundException {
         Class type = Class.forName(className);
         return findMethodAnnotationByExist(type, annotationClass);
     }
@@ -206,8 +226,7 @@ public final class AnnotationUtil {
      * @return
      * @throws ClassNotFoundException
      */
-    public static <T, U extends Annotation> U[] findMethodAnnotationByIsInstance(Class<T> type,
-                                                                                 Class<U> annotationClass) {
+    public static <T, U extends Annotation> U[] findMethodAnnotationByIsInstance(Class<T> type, Class<U> annotationClass) {
         Method[] method = type.getMethods();
         List<U> lists = new ArrayList<>();
         for (int i = 0; i < method.length; i++) {
