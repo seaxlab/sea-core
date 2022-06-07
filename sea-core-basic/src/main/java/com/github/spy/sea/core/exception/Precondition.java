@@ -26,72 +26,97 @@ public final class Precondition {
         }
     }
 
-    public static <T> void checkNotNull(T reference, String errorMsg) {
+    public static <T> void checkNotNull(T reference, String msg) {
         if (reference == null) {
-            ExceptionHandler.publishMsg(errorMsg);
+            ExceptionHandler.publishMsg(msg);
         }
     }
 
-    public static void checkNotEmpty(String value, String errorMsg) {
+    public static void checkNotEmpty(String value, String msg) {
         if (StringUtil.isEmpty(value)) {
-            ExceptionHandler.publishMsg(errorMsg);
+            ExceptionHandler.publishMsg(msg);
         }
     }
 
-    public static void checkNotEmpty(String value, String errorCode, String errorMsg) {
+    public static void checkNotEmpty(String value, String code, String msg) {
         if (StringUtil.isEmpty(value)) {
-            ExceptionHandler.publish(errorCode, errorMsg);
+            ExceptionHandler.publish(code, msg);
         }
     }
 
-    public static void checkNotEmpty(Collection collection, String errorMsg) {
+    public static void checkNotEmpty(Collection collection, String msg) {
         if (collection == null || collection.isEmpty()) {
-            ExceptionHandler.publishMsg(errorMsg);
+            ExceptionHandler.publishMsg(msg);
         }
     }
 
-    public static void checkNotEmpty(Collection collection, String errorCode, String errorMsg) {
+    public static void checkNotEmpty(Collection collection, String code, String msg) {
         if (collection == null || collection.isEmpty()) {
-            ExceptionHandler.publish(errorCode, errorMsg);
+            ExceptionHandler.publish(code, msg);
         }
     }
 
-    public static void checkNotEmpty(Map data, String errorMsg) {
+    public static void checkNotEmpty(Map data, String msg) {
         if (data == null || data.isEmpty()) {
-            ExceptionHandler.publish(errorMsg);
+            ExceptionHandler.publish(msg);
         }
     }
 
-    public static void checkNotEmpty(Map data, String errorCode, String errorMsg) {
+    public static void checkNotEmpty(Map data, String code, String msg) {
         if (data == null || data.isEmpty()) {
-            ExceptionHandler.publish(errorCode, errorMsg);
+            ExceptionHandler.publish(code, msg);
         }
     }
 
 
-    public static void checkNotBlank(String value, String errorMsg) {
+    public static void checkNotBlank(String value, String msg) {
         if (StringUtil.isBlank(value)) {
-            ExceptionHandler.publishMsg(errorMsg);
+            ExceptionHandler.publishMsg(msg);
         }
     }
 
-    public static void checkNotBlank(String value, String errorCode, String errorMsg) {
+    public static void checkNotBlank(String value, String code, String msg) {
         if (StringUtil.isBlank(value)) {
-            ExceptionHandler.publish(errorCode, errorMsg);
+            ExceptionHandler.publish(code, msg);
         }
     }
 
-    public static void checkState(boolean expression, String errorMsg) {
+    public static void checkState(boolean expression, String msg) {
         if (!expression) {
-            ExceptionHandler.publishMsg(errorMsg);
+            ExceptionHandler.publishMsg(msg);
         }
     }
 
-    public static void checkState(boolean expression, String errorCode, String errorMsg) {
+    public static void checkState(boolean expression, String code, String msg) {
         if (!expression) {
-            ExceptionHandler.publish(errorCode, errorMsg);
+            ExceptionHandler.publish(code, msg);
         }
     }
+
+    /**
+     * check stats is true.
+     *
+     * @param flag flag
+     * @param msg  msg
+     */
+    public static void checkTrue(boolean flag, String msg) {
+        if (!flag) {
+            ExceptionHandler.publishMsg(msg);
+        }
+    }
+
+    /**
+     * check stats is false
+     *
+     * @param flag flag
+     * @param msg  msg
+     */
+    public static void checkFalse(boolean flag, String msg) {
+        if (!flag) {
+            ExceptionHandler.publishMsg(msg);
+        }
+    }
+
 
     /**
      * 检查每个元素是否不为空
