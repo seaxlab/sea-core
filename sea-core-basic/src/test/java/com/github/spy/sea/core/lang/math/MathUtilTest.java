@@ -1,4 +1,4 @@
-package com.github.spy.sea.core.math;
+package com.github.spy.sea.core.lang.math;
 
 import cn.hutool.core.math.Combination;
 import com.github.spy.sea.core.BaseCoreTest;
