@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.util;
 
+import com.github.spy.sea.core.enums.DateFormatEnum;
 import com.github.spy.sea.core.enums.RangeModeEnum;
 import com.github.spy.sea.core.enums.WeekEnum;
 import com.github.spy.sea.core.exception.ExceptionHandler;
@@ -1309,6 +1310,39 @@ public final class DateUtil {
      */
     public static Date str2Date(String dateStr, String pattern) {
         return strDate(dateStr, pattern);
+    }
+
+
+    /**
+     * build simple date format.
+     *
+     * @param dateFormatEnum
+     * @return
+     */
+    public static SimpleDateFormat getSdf(DateFormatEnum dateFormatEnum) {
+        if (dateFormatEnum == null) {
+            dateFormatEnum = DateFormatEnum.yyyy_MM_dd_HH_mm_ss;
+        }
+
+        return new SimpleDateFormat(dateFormatEnum.getValue());
+    }
+
+    /**
+     * date str to java date
+     *
+     * @param dateStr
+     * @param dateFormatEnum
+     * @return
+     */
+    public static Date toDate(String dateStr, DateFormatEnum dateFormatEnum) {
+        if (StringUtils.isEmpty(dateStr)) {
+            log.warn("date str is empty");
+            return null;
+        }
+        if (dateFormatEnum == null) {
+            dateFormatEnum = DateFormatEnum.yyyy_MM_dd_HH_mm_ss;
+        }
+        return format(dateStr, dateFormatEnum.getValue());
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.github.spy.sea.core.thread;
 
+import com.github.spy.sea.core.enums.DateFormatEnum;
 import com.github.spy.sea.core.exception.Precondition;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,6 +15,20 @@ import java.text.SimpleDateFormat;
  */
 @Slf4j
 public class DateTimeContext {
+
+
+    /**
+     * get simple date format.
+     *
+     * @param dateFormatEnum
+     * @return
+     */
+    public static SimpleDateFormat get(DateFormatEnum dateFormatEnum) {
+        if (dateFormatEnum == null) {
+            dateFormatEnum = DateFormatEnum.yyyy_MM_dd_HH_mm_ss;
+        }
+        return get(dateFormatEnum.getValue());
+    }
 
     public static SimpleDateFormat get(String format) {
         String key = getKey(format);
