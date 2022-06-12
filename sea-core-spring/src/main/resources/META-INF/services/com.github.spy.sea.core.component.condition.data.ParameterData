@@ -1,9 +1,0 @@
-com.github.spy.sea.core.spring.sample.condition.data.CookieParameterData
-com.github.spy.sea.core.spring.sample.condition.data.DomainParameterData
-com.github.spy.sea.core.spring.sample.condition.data.HeaderParameterData
-com.github.spy.sea.core.spring.sample.condition.data.HostParameterData
-com.github.spy.sea.core.spring.sample.condition.data.IpParameterData
-com.github.spy.sea.core.spring.sample.condition.data.PostParameterData
-com.github.spy.sea.core.spring.sample.condition.data.QueryParameterData
-com.github.spy.sea.core.spring.sample.condition.data.RequestMethodParameterData
-com.github.spy.sea.core.spring.sample.condition.data.URIParameterData

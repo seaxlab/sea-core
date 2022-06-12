@@ -10,7 +10,7 @@
 
 <dependencies>
     <dependency>
-        <groupId>com.github.spy.sea</groupId>
+        <groupId>com.github.seaxlab</groupId>
         <artifactId>sea-core-basic</artifactId>
         <version>${sea.core.version}</version>
     </dependency>
@@ -28,7 +28,7 @@
 
 <dependencies>
     <dependency>
-        <groupId>com.github.spy.sea</groupId>
+        <groupId>com.github.seaxlab</groupId>
         <artifactId>sea-core-spring-boot-starter</artifactId>
         <version>${sea.core.version}</version>
     </dependency>

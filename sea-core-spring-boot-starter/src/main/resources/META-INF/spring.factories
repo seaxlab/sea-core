@@ -1,11 +1,11 @@
 #
 # Application Listeners
 org.springframework.context.ApplicationListener=\
-com.github.spy.sea.core.boot.autoconfigure.listener.ApplicationInitListener
+com.github.seaxlab.core.boot.autoconfigure.listener.ApplicationInitListener
 #
 # auto configuration.
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.github.spy.sea.core.boot.autoconfigure.SeaCoreAutoConfigure,\
-com.github.spy.sea.core.boot.autoconfigure.SeaCoreWebAutoConfiguration,\
-com.github.spy.sea.core.boot.autoconfigure.SeaCoreWebFluxAutoConfiguration,\
-com.github.spy.sea.core.boot.autoconfigure.SeaCoreExtensionAutoConfiguration
+com.github.seaxlab.core.boot.autoconfigure.SeaCoreAutoConfigure,\
+com.github.seaxlab.core.boot.autoconfigure.SeaCoreWebAutoConfiguration,\
+com.github.seaxlab.core.boot.autoconfigure.SeaCoreWebFluxAutoConfiguration,\
+com.github.seaxlab.core.boot.autoconfigure.SeaCoreExtensionAutoConfiguration

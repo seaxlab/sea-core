@@ -28,7 +28,7 @@
 
     <!-- MyBatis Mapper Scan Config  -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.github.spy.sea.core.dal.mybatis.plus"/>
+        <property name="basePackage" value="com.github.seaxlab.core.dal.mybatis.plus"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory2"/>
     </bean>
 </beans>

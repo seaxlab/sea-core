@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>sea-core</artifactId>
-        <groupId>com.github.spy.sea</groupId>
+        <groupId>com.github.seaxlab</groupId>
         <version>2.6.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -13,12 +13,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.spy.sea</groupId>
+            <groupId>com.github.seaxlab</groupId>
             <artifactId>sea-core-basic</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.github.spy.sea</groupId>
+            <groupId>com.github.seaxlab</groupId>
             <artifactId>sea-core-test</artifactId>
             <scope>test</scope>
         </dependency>

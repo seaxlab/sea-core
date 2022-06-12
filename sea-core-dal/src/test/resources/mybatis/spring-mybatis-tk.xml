@@ -20,14 +20,14 @@
         <property name="mapperLocations" value="classpath:mybatis/tk/*.xml"/>
         <property name="plugins">
             <array>
-                <bean class="com.github.spy.sea.core.dal.mybatis.common.interceptor.HintInterceptor"/>
+                <bean class="com.github.seaxlab.core.dal.mybatis.common.interceptor.HintInterceptor"/>
             </array>
         </property>
     </bean>
 
     <!-- MyBatis Mapper Scan Config  -->
     <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.github.spy.sea.core.dal.mybatis.tk"/>
+        <property name="basePackage" value="com.github.seaxlab.core.dal.mybatis.tk"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory1"/>
     </bean>
 </beans>

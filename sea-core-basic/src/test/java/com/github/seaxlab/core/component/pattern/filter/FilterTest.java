@@ -1,0 +1,58 @@
+package com.github.seaxlab.core.component.pattern.filter;
+
+import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.pattern.filter.Filter;
+import com.github.seaxlab.core.pattern.filter.FilterChain;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * module name
+ *
+ * @author spy
+ * @version 1.0 2021/1/7
+ * @since 1.0
+ */
+@Slf4j
+public class FilterTest extends BaseCoreTest {
+
+    @Test
+    public void run17() throws Exception {
+        List<Filter> filters = new ArrayList<>();
+        Filter filter = (request, filterChain) -> {
+            log.info("filter1 begin={}", request);
+
+            String newRequest = request + ".1";
+            String ret = (String) filterChain.doFilter(newRequest);
+
+            log.info("filter1 end");
+
+            return ret;
+        };
+        filters.add(filter);
+
+        Filter<String, String> filter2 = (Filter) (request, filterChain) -> {
+            log.info("filter2 begin={}", request);
+            String newRequest = request + ".2";
+            String ret = (String) filterChain.doFilter(newRequest);
+            log.info("filter2 end");
+            return ret;
+
+        };
+        filters.add(filter2);
+
+        FilterChain<String, String> filterChain = new FilterChain<>(filters, request -> {
+            log.info("final request={}", request);
+            String newRequest = request + ".final";
+
+            return "" + newRequest;
+        });
+
+        String ret = filterChain.doFilter("abc");
+
+        log.info("ret={}", ret);
+    }
+}
