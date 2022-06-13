@@ -10,7 +10,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -86,7 +86,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public ServletInputStream getInputStream() throws IOException {
         InputStream in = super.getInputStream();
-        InputStreamReader reader = new InputStreamReader(in, Charset.forName("UTF-8"));
+        InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
         BufferedReader buffer = new BufferedReader(reader);
         String line = buffer.readLine();
         // read bytes to buffer reader.

@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.enums;
 
+import com.github.seaxlab.core.common.MsgConst;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,7 +41,7 @@ public enum SimpleStatus implements IBaseEnum<Integer> {
      */
     public static SimpleStatus of(Integer code) {
         if (code == null) {
-            log.warn("code is null");
+            log.warn(MsgConst.CODE_IS_NULL);
             return UNKNOWN;
         }
 
@@ -61,7 +62,7 @@ public enum SimpleStatus implements IBaseEnum<Integer> {
      */
     public static boolean isEnabled(Integer code) {
         if (code == null) {
-            log.warn("code is null");
+            log.warn(MsgConst.CODE_IS_NULL);
             return false;
         }
 
@@ -77,7 +78,7 @@ public enum SimpleStatus implements IBaseEnum<Integer> {
      */
     public static boolean isDisabled(Integer code) {
         if (code == null) {
-            log.warn("code is null");
+            log.warn(MsgConst.CODE_IS_NULL);
             return false;
         }
         return DISABLED.code.intValue() == code.intValue();

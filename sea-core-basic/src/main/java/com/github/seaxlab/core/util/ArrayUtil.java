@@ -35,6 +35,11 @@ public final class ArrayUtil {
     private static final byte[] EMPTY_BYTE_ARRAY = {};
 
     /**
+     * empty char array
+     */
+    private static final char[] EMPTY_CHAR_ARRAY = {};
+
+    /**
      * empty class array
      */
     public static final Class[] EMPTY_CLASS_ARRAY = {};
@@ -64,6 +69,9 @@ public final class ArrayUtil {
         return EMPTY_BYTE_ARRAY;
     }
 
+    public static char[] emptyChar() {
+        return EMPTY_CHAR_ARRAY;
+    }
 
     /**
      * check array is empty

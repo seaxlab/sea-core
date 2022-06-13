@@ -28,10 +28,11 @@ public enum OsTypeEnum {
     OpenVMS("OpenVMS"),
     Others("Others");
 
-    private OsTypeEnum(String desc) {
+    OsTypeEnum(String desc) {
         this.description = desc;
     }
 
+    @Override
     public String toString() {
         return description;
     }

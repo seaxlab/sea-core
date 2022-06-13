@@ -3,7 +3,7 @@ package com.github.seaxlab.core.enums;
 import com.github.seaxlab.core.util.EqualUtil;
 
 /**
- * module name
+ * env enum
  *
  * @author spy
  * @version 1.0 2021/1/25
@@ -21,6 +21,12 @@ public enum EnvEnum implements IBaseEnum<String> {
     ;
     private String code;
     private String desc;
+
+    private static final EnvEnum[] VALUES;
+
+    static {
+        VALUES = values();
+    }
 
     EnvEnum(String code, String desc) {
         this.code = code;
@@ -44,7 +50,7 @@ public enum EnvEnum implements IBaseEnum<String> {
      * @return
      */
     public static EnvEnum of(String code) {
-        for (EnvEnum item : values()) {
+        for (EnvEnum item : VALUES) {
             if (EqualUtil.isEq(item.getCode(), code, false)) {
                 return item;
             }

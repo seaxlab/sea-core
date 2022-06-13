@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * module name
+ * param util.
  *
  * @author spy
  * @version 1.0 2021/12/27
@@ -15,6 +15,8 @@ import java.util.Map;
 @Slf4j
 public final class ParamUtil {
 
+    private ParamUtil() {
+    }
 
     /**
      * generate param str
@@ -33,7 +35,7 @@ public final class ParamUtil {
 
         StringBuilder strBuilder = new StringBuilder();
 
-        Iterator it = map.entrySet().iterator();
+        Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
         while (it.hasNext()) {
             Object key = it.next();
             strBuilder.append(key + "=" + map.get(key) + "&");

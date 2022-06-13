@@ -21,30 +21,24 @@ public enum GenderEnum implements IBaseEnum<Integer> {
     private Integer code;
     private String desc;
 
+    private static final GenderEnum[] VALUES;
+
+    static {
+        VALUES = values();
+    }
+
     GenderEnum(int code, String desc) {
         this.code = code;
         this.desc = desc;
     }
 
     public static GenderEnum of(Integer code) {
-        return get(code);
-    }
-
-    /**
-     * plz use [of] method.
-     *
-     * @param code code
-     * @return gender enum
-     */
-    @Deprecated
-    public static GenderEnum get(Integer code) {
         if (code == null) {
             log.warn("code is null");
             return UNKNOWN;
         }
 
-        GenderEnum[] values = values();
-        for (GenderEnum genderEnum : values) {
+        for (GenderEnum genderEnum : VALUES) {
             if (genderEnum.getCode().intValue() == code.intValue()) {
                 return genderEnum;
             }
@@ -53,8 +47,8 @@ public enum GenderEnum implements IBaseEnum<Integer> {
         return UNKNOWN;
     }
 
-    public static String getLabel(Integer code) {
-        GenderEnum genderEnum = get(code);
-        return genderEnum == null ? "" : genderEnum.getDesc();
+    public static String getDesc(Integer code) {
+        GenderEnum genderEnum = of(code);
+        return genderEnum == UNKNOWN ? "" : genderEnum.getDesc();
     }
 }

@@ -15,6 +15,9 @@ import java.util.Date;
 @Slf4j
 public final class TimeUtil {
 
+    private TimeUtil() {
+    }
+
     public static Time of(Date date) {
         if (date == null) {
             return null;

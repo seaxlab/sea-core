@@ -131,14 +131,7 @@ public class CoreConst {
     public static final int DEFAULT_PAGE_SIZE = 200;
 
     /**
-     * 程序当前运行模式
-     * 请使用KEY_SEA_ENV
-     */
-    @Deprecated
-    public static final String KEY_SEA_DEV_MODE = "sea.dev.mode";
-
-    /**
-     * 当前程序运行模式
+     * 当前程序运行模式, 不要使用sea.dev.mode,太长了
      */
     public static final String KEY_SEA_ENV = "sea.env";
 
@@ -169,22 +162,22 @@ public class CoreConst {
     /**
      * you should config [com.github.seaxlab.core.web.servlet.WebApplicationListener] in web application.
      */
-    public static String WEB_ROOT = "";
+    public static String WEB_ROOT = ""; // NOSONAR
 
     /**
      * 1KB
      */
-    public static long ONE_KB = 1024;
+    public static final long ONE_KB = 1024;
 
     /**
      * 1MB
      */
-    public static long ONE_MB = ONE_KB * 1024;
+    public static final long ONE_MB = ONE_KB * 1024;
 
     /**
      * 1GB
      */
-    public static long ONE_GB = ONE_MB * 1024;
+    public static final long ONE_GB = ONE_MB * 1024;
 
     /**
      * 默认 mock key
@@ -271,6 +264,6 @@ public class CoreConst {
         logo.append("  \\___ \\ / _ \\/ _` | | |    / _ \\| '__/ _ \\\n");
         logo.append("  ____) |  __/ (_| | | |___| (_) | | |  __/\n");
         logo.append(" |_____/ \\___|\\__,_|  \\_____\\___/|_|  \\___|   Power by SPY.\n");
-        System.out.println(logo.toString());
+        System.out.println(logo); // NOSONAR
     }
 }

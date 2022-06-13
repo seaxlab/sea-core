@@ -29,7 +29,7 @@ public final class MapUtil {
      *
      * @return map
      */
-    public static Map empty() {
+    public static <K, V> Map<K, V> empty() {
         return Collections.emptyMap();
     }
 
@@ -65,7 +65,7 @@ public final class MapUtil {
      * @param key   key
      * @param value value
      */
-    public static void put(Map map, Object key, Object value) {
+    public static void put(Map<Object, Object> map, Object key, Object value) {
         if (value == null) {
             return;
         }
@@ -88,7 +88,7 @@ public final class MapUtil {
      * @param value        value
      * @param defaultValue default value
      */
-    public static void put(Map map, Object key, Object value, Object defaultValue) {
+    public static void put(Map<Object, Object> map, Object key, Object value, Object defaultValue) {
         if (value == null) {
             map.put(key, defaultValue);
         } else {
@@ -178,7 +178,7 @@ public final class MapUtil {
     }
 
 
-    public static Object getObject(final Map map, final Object key) {
+    public static Object getObject(final Map<Object, Object> map, final Object key) {
         return MapUtils.getObject(map, key);
     }
 
@@ -918,9 +918,7 @@ public final class MapUtil {
     public static String toString(Map<String, String> map, String separator) {
         if (isNotEmpty(map) && StringUtil.isNotEmpty(separator)) {
             StringBuilder sb = new StringBuilder();
-            map.entrySet().forEach(item -> {
-                sb.append(item.getKey()).append("=").append(item.getValue()).append(separator);
-            });
+            map.entrySet().forEach(item -> sb.append(item.getKey()).append("=").append(item.getValue()).append(separator));
             String content = sb.toString();
             if (content.length() <= 1) {
                 return content;

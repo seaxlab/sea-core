@@ -191,7 +191,7 @@ public class CleanFileThread {
 
         @Override
         public void init() {
-
+            // no op
         }
 
         @Override
@@ -200,7 +200,7 @@ public class CleanFileThread {
                 try {
                     Thread.sleep(TimeUnitUtil.toMills(delay, delayTimeUnit));
                 } catch (Exception e) {
-
+                    log.error("fail to sleep");
                 }
             }
             boolean hasLockFlag = fileLock.tryLock();
@@ -217,13 +217,13 @@ public class CleanFileThread {
             try {
                 Thread.sleep(TimeUnitUtil.toMills(period, periodTimeUnit));
             } catch (Exception e) {
-
+                log.error("fail to sleep");
             }
         }
 
         @Override
         public void destroy() {
-
+            // no op
         }
     }
 
@@ -263,7 +263,7 @@ public class CleanFileThread {
             if ((nowMs - createMs) > maxMs) {
                 boolean delFlag = false;
                 try {
-                    delFlag = itemFile.delete();
+                    delFlag = Files.deleteIfExists(itemFile.toPath());
                 } catch (Exception e) {
                     delFlag = false;
                     log.error("fail to delete file", e);

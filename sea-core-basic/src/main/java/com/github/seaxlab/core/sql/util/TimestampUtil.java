@@ -15,6 +15,10 @@ import java.util.Date;
 @Slf4j
 public final class TimestampUtil {
 
+    private TimestampUtil() {
+    }
+
+
     public static Timestamp of(Date date) {
         if (date == null) {
             return null;

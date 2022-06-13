@@ -13,28 +13,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ConfigurationFactory {
 
+    private static class InstanceHolder {
+        public static final Configuration INSTANCE = buildConfiguration();
 
-    private static volatile Configuration CONFIG_INSTANCE;
+        private static Configuration buildConfiguration() {
+            //重要： 此时配置文件还未加载
+            return EnhancedServiceLoader.load(Configuration.class, "typesafe");
+        }
+    }
 
     private ConfigurationFactory() {
     }
 
     public static Configuration getInstance() {
-        if (CONFIG_INSTANCE == null) {
-            synchronized (ConfigurationFactory.class) {
-                if (CONFIG_INSTANCE == null) {
-                    CONFIG_INSTANCE = buildConfiguration();
-                }
-            }
-        }
-
-        return CONFIG_INSTANCE;
-    }
-
-    private static Configuration buildConfiguration() {
-
-        //TODO 此时配置文件还未加载
-        return EnhancedServiceLoader.load(Configuration.class, "typesafe");
+        return InstanceHolder.INSTANCE;
     }
 
 

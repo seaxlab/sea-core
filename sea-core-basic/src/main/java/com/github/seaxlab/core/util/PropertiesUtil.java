@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,9 +75,9 @@ public final class PropertiesUtil {
     public static Map<String, String> loadForMap(String path) {
         Map<String, String> map = new HashMap<>();
         Properties pros = load(path);
-        Enumeration en = pros.propertyNames();
+        Enumeration<String> en = (Enumeration<String>) pros.propertyNames();
         while (en.hasMoreElements()) {
-            String key = (String) en.nextElement();
+            String key = en.nextElement();
             map.put(key, pros.getProperty(key));
         }
         return map;
@@ -128,18 +128,12 @@ public final class PropertiesUtil {
     public static boolean write(Properties properties, String fileName, String comment) {
         boolean successFlag = true;
 
-        FileOutputStream out = null;
-        OutputStreamWriter writer = null;
-        try {
-            out = new FileOutputStream(fileName);
-            writer = new OutputStreamWriter(out, Charset.forName("UTF-8"));
+        try (FileOutputStream out = new FileOutputStream(fileName);
+             OutputStreamWriter writer = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
             properties.store(writer, comment);
         } catch (IOException e) {
             successFlag = false;
             log.error("io exception", e);
-        } finally {
-            IOUtil.close(writer);
-            IOUtil.close(out);
         }
 
         return successFlag;

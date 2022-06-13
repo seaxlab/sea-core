@@ -22,6 +22,14 @@ import java.util.List;
 public class JSONUtilTest extends BaseCoreTest {
 
     @Test
+    public void testIsValid() throws Exception {
+        log.info("{}", JSONUtil.isValid("a"));
+        log.info("{}", JSONUtil.isValid("{\"a\":1}"));
+        log.info("{}", JSONUtil.isValid("[]"));
+        log.info("{}", JSONUtil.isValid("["));
+    }
+
+    @Test
     public void run17() throws Exception {
         User user = new User();
         user.setId(1L);

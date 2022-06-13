@@ -10,7 +10,7 @@ package com.github.seaxlab.core.common;
 public class SymbolConst {
 
     public static final String SPACE = " ";
-    public static final String TAB = "	";
+    public static final String TAB = "	"; // NOSONAR
     public static final String DOT = ".";
     public static final String DOUBLE_DOT = "..";
     public static final String SLASH = "/";

@@ -70,9 +70,7 @@ public class DefaultConfiguration implements Configuration {
 
     @Override
     public boolean putStringIfAbsent(String key, String content) {
-        if (!cache.containsKey(key)) {
-            cache.put(key, content);
-        }
+        cache.computeIfAbsent(key, k -> content);
 
         return false;
     }

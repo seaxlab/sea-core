@@ -137,7 +137,8 @@ public final class ObjectUtil {
                             method.invoke(object, arg);
                         }
                     }
-                } catch (Throwable ignored) {
+                } catch (Exception e) {
+                    log.error("fail to copy properties to object ");
                 }
             }
         }
@@ -153,11 +154,9 @@ public final class ObjectUtil {
 
         try {
             String remark = ReflectUtil.readAsString(obj, field);
-            if (StringUtil.isNotBlank(remark)) {
-                if (remark.length() > maxLength) {
-                    String newRemark = StringUtil.left(remark, maxLength);
-                    ReflectUtil.write(obj, field, newRemark);
-                }
+            if (StringUtil.isNotBlank(remark) && remark.length() > maxLength) {
+                String newRemark = StringUtil.left(remark, maxLength);
+                ReflectUtil.write(obj, field, newRemark);
             }
         } catch (Exception e) {
             log.error("fail to truncate remark.", e);

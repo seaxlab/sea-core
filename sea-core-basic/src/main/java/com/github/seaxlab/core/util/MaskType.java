@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.regex.Pattern;
 
 /**
@@ -9,6 +11,7 @@ import java.util.regex.Pattern;
  * @version 1.0
  * @since 1.0
  */
+@Slf4j
 public enum MaskType {
     /**
      * 默认的掩码类型
@@ -169,6 +172,9 @@ public enum MaskType {
                     return MOBILE.internalMask(str);
                 case 18:
                     return ID_CARD.internalMask(str);
+                default:
+                    log.warn("unhandled length, str={}", str);
+                    break;
             }
             return DEFAULT.internalMask(str);
         }
@@ -215,11 +221,8 @@ public enum MaskType {
      * @return 掩码后的字节数组
      */
     public final char[] maskToChars(String str) {
-        if (str == null) {
-            return null;
-        }
-        if (str.length() == 0) {
-            return MaskUtil.EMPTY_CHARS;
+        if (str == null || str.isEmpty()) {
+            return ArrayUtil.emptyChar();
         }
         return internalMask(str);
     }

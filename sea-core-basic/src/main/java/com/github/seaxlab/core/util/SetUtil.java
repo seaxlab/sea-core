@@ -30,7 +30,7 @@ public final class SetUtil {
      *
      * @return
      */
-    public static Set empty() {
+    public static <T> Set<T> empty() {
         return Collections.emptySet();
     }
 
@@ -40,7 +40,7 @@ public final class SetUtil {
      * @param set
      * @return
      */
-    public static boolean isEmpty(Set set) {
+    public static <T> boolean isEmpty(Set<T> set) {
         return set == null || set.isEmpty();
     }
 
@@ -50,7 +50,7 @@ public final class SetUtil {
      * @param set
      * @return
      */
-    public static boolean isNotEmpty(Set set) {
+    public static <T> boolean isNotEmpty(Set<T> set) {
         return set != null && !set.isEmpty();
     }
 
@@ -73,7 +73,7 @@ public final class SetUtil {
      * @param list
      * @return
      */
-    public static Set toSet(List list) {
+    public static <T> Set<T> toSet(List<T> list) {
         return new HashSet(list);
     }
 
@@ -112,7 +112,7 @@ public final class SetUtil {
      * @param arrays
      * @return
      */
-    public static Set toSet(Object[] arrays) {
+    public static <T> Set<T> toSet(Object[] arrays) {
         return new HashSet(Arrays.asList(arrays));
     }
 
@@ -122,7 +122,7 @@ public final class SetUtil {
      * @param set data
      * @return string
      */
-    public static String toString(Set set) {
+    public static <T> String toString(Set<T> set) {
         return toString(set, SymbolConst.COMMA);
     }
 

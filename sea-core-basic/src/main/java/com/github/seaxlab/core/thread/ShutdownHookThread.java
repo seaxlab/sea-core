@@ -38,7 +38,7 @@ public class ShutdownHookThread extends Thread {
     @Override
     public void run() {
         synchronized (this) {
-            log.info("shutdown hook was invoked, " + this.shutdownTimes.incrementAndGet() + " times.");
+            log.info("shutdown hook was invoked, {} times.", this.shutdownTimes.incrementAndGet());
             if (!this.hasShutdown) {
                 this.hasShutdown = true;
                 long beginTime = System.currentTimeMillis();
@@ -48,7 +48,7 @@ public class ShutdownHookThread extends Thread {
                     log.error("shutdown hook callback invoked failure.", e);
                 }
                 long consumingTimeTotal = System.currentTimeMillis() - beginTime;
-                log.info("shutdown hook done, consuming time total(ms): " + consumingTimeTotal);
+                log.info("shutdown hook done, consuming time total(ms): {}", consumingTimeTotal);
             }
         }
     }

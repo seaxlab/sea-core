@@ -2,6 +2,7 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.config.Configuration;
 import com.github.seaxlab.core.config.ConfigurationFactory;
+import com.github.seaxlab.core.exception.BaseAppException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 
@@ -39,7 +40,7 @@ public final class PathUtil {
         Configuration cfg = ConfigurationFactory.getInstance();
         String userHome = cfg.getString("user.home", "");
         if (StringUtil.isEmpty(userHome)) {
-            throw new RuntimeException("user.home is empty");
+            throw new BaseAppException("user.home is empty");
         }
         return userHome;
     }

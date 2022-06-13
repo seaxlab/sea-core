@@ -2,6 +2,7 @@ package com.github.seaxlab.core.mock;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONValidator;
 import com.github.seaxlab.core.common.CoreConst;
 import com.github.seaxlab.core.thread.ThreadContext;
 import com.github.seaxlab.core.util.EqualUtil;
@@ -131,8 +132,8 @@ public class MockContext {
         key = processKey(key);
         String value = getRaw();
         if (StringUtil.isNotEmpty(value)) {
-            if (JSON.isValidObject(value)) {
-                JSONObject jsonObj = JSONObject.parseObject(value);
+            if (JSONValidator.from(value).getType() == JSONValidator.Type.Object) {
+                JSONObject jsonObj = JSON.parseObject(value);
                 return (T) jsonObj.getOrDefault(key, defaultValue);
             } else {
                 log.warn("mock data is not valida json object.");

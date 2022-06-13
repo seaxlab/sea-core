@@ -56,7 +56,7 @@ public final class MaskUtil {
 
     public static char[] maskToChars(String str, int before, int after) {
         if (str == null) {
-            return null;
+            return ArrayUtil.emptyChar();
         }
         char[] chs = str.toCharArray();
         if (chs.length == 0 || chs.length <= before + after) {
@@ -68,7 +68,7 @@ public final class MaskUtil {
 
     public static char[] maskToChars(String str, int before, int after, int maskCount) {
         if (str == null) {
-            return null;
+            return ArrayUtil.emptyChar();
         }
         if (maskCount <= 0) {
             return maskToChars(str, before, after);

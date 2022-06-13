@@ -143,7 +143,8 @@ public class ThreadContext {
     public static final Map<String, Object> getContext() {
         Map<String, Object> ctx = CTX_HOLDER.get();
         if (ctx == null) {
-            return null;
+            init();
+            return CTX_HOLDER.get();
         }
         return ctx;
     }

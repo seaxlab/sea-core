@@ -9,6 +9,9 @@ package com.github.seaxlab.core.common;
  */
 public class CoreErrorConst {
 
+    private CoreErrorConst() {
+    }
+
     public static final String DB_ERR = "1001";
 
     public static final String RPC_INVOKE_ERR = "1002";

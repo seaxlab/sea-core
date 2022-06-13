@@ -22,6 +22,9 @@ import java.util.function.BiConsumer;
 @Slf4j
 public final class ThreadUtil {
 
+    private ThreadUtil() {
+    }
+
     /**
      * async exec
      *
@@ -111,10 +114,7 @@ public final class ThreadUtil {
 
         ThreadMXBean threadMxBean = ManagementFactory.getThreadMXBean();
         for (ThreadInfo threadInfo : threadMxBean.getThreadInfo(threadMxBean.getAllThreadIds())) {
-            if (threadInfo == null) {
-                continue;
-            }
-            if (threadInfo.getThreadName() == null) {
+            if (threadInfo == null || threadInfo.getThreadName() == null) {
                 continue;
             }
             if (matcher.match(threadInfo.getThreadName(), threadName)) {

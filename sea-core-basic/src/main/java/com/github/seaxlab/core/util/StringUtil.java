@@ -202,23 +202,23 @@ public final class StringUtil {
     /**
      * 字符串左侧补零
      *
-     * @param obj       obj
-     * @param strLength str length
+     * @param obj         obj
+     * @param totalLength new str total length
      * @return string
      */
-    public static String addZeroLeft(Object obj, int strLength) {
+    public static String addZeroLeft(Object obj, int totalLength) {
         String str = obj == null ? "" : obj.toString();
         int strLen = str.length();
-        if (strLen < strLength) {
-            while (strLen < strLength) {
-                // 左补0
-                // sb.append(str).append("0");//右补0
-                str = "0" + str
-                // sb.append(str).append("0");//右补0
-                ;
-                strLen = str.length();
+        if (strLen < totalLength) {
+            StringBuilder sb = new StringBuilder();
+            while (strLen < totalLength) {
+                sb.append("0");
+                strLen++;
             }
+            sb.append(str);
+            return sb.toString();
         }
+
         return str;
     }
 

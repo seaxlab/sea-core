@@ -21,13 +21,16 @@ import java.util.stream.Stream;
 @Slf4j
 public final class ListUtil {
 
+    private ListUtil() {
+    }
+
     /**
      * empty list
      *
      * @return -
      */
-    public static List empty() {
-        return Collections.EMPTY_LIST;
+    public static <T> List<T> empty() {
+        return Collections.emptyList();
     }
 
     /**
@@ -47,11 +50,7 @@ public final class ListUtil {
      * @return -
      */
     public static <T> boolean isNotEmpty(List<T> list) {
-        if (list == null || list.isEmpty()) {
-            return false;
-        }
-
-        return true;
+        return list != null && !list.isEmpty();
     }
 
     /**
@@ -624,7 +623,7 @@ public final class ListUtil {
      * @param <T>
      * @return
      */
-    public static <E, R, T> List<R> toFlatList(List<E> list, Function<? super E, List<? extends R>> mapper) {
+    public static <E, R> List<R> toFlatList(List<E> list, Function<? super E, List<? extends R>> mapper) {
 
         if (isEmpty(list)) {
             return empty();
@@ -648,10 +647,8 @@ public final class ListUtil {
 
         T el = list.get(0);
 
-        if (el != null) {
-            if (ClassUtil.isSimpleType(el.getClass())) {
-                return toString(list, item -> String.valueOf(item), SymbolConst.COMMA);
-            }
+        if (el != null && ClassUtil.isSimpleType(el.getClass())) {
+            return toString(list, item -> String.valueOf(item), SymbolConst.COMMA);
         }
         log.warn("first element is null, so no execute toString function.");
         return StringUtil.EMPTY;
@@ -765,8 +762,8 @@ public final class ListUtil {
         Precondition.checkNotEmpty(list2, "list2不能为空");
 
         List<E> tmp = list2;
-        list2 = list1;
-        list1 = tmp;
+        list2 = list1; // NOSONAR
+        list1 = tmp; // NOSONAR
     }
 
     /**

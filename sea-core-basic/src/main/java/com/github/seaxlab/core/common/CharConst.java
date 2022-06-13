@@ -10,7 +10,7 @@ package com.github.seaxlab.core.common;
 public class CharConst {
 
     public static final char SPACE = ' ';
-    public static final char TAB = '	';
+    public static final char TAB = '	'; // NOSONAR
     public static final char DOT = '.';
     public static final char SLASH = '/';
     public static final char BACKSLASH = '\\';
@@ -43,7 +43,7 @@ public class CharConst {
     public static final char PLUS = '+';
     public static final char QUESTION_MARK = '?';
     public static final char EXCLAMATION_MARK = '!';
-    public static final char EQUALS = '=';
+    public static final char EQUALS = '='; // NOSONAR
     public static final char AMPERSAND = '&';
     public static final char ASTERISK = '*';
     public static final char STAR = ASTERISK;

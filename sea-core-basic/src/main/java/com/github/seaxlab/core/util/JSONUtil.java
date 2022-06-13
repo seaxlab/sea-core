@@ -1,9 +1,6 @@
 package com.github.seaxlab.core.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.*;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.seaxlab.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +28,7 @@ public final class JSONUtil {
      * @return boolean
      */
     public static boolean isValid(String str) {
-        return JSON.isValid(str);
+        return JSONValidator.from(str).validate();
     }
 
     /**
@@ -41,7 +38,7 @@ public final class JSONUtil {
      * @return boolean
      */
     public static boolean isValidObject(String str) {
-        return JSON.isValidObject(str);
+        return JSONValidator.from(str).getType() == JSONValidator.Type.Object;
     }
 
     /**
@@ -51,7 +48,7 @@ public final class JSONUtil {
      * @return boolean
      */
     public static boolean isValidArray(String str) {
-        return JSON.isValidArray(str);
+        return JSONValidator.from(str).getType() == JSONValidator.Type.Array;
     }
 
     /**
