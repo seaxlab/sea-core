@@ -2,6 +2,7 @@ package com.github.seaxlab.core.dal.mybatis.plus.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.seaxlab.core.common.CoreConst;
+import com.github.seaxlab.core.model.common.ModelConst;
 import com.github.seaxlab.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +19,9 @@ import java.util.Date;
 @Slf4j
 public final class WrapperUtil {
 
+    private WrapperUtil() {
+    }
+
     /**
      * set equal or in
      *
@@ -25,7 +29,7 @@ public final class WrapperUtil {
      * @param propertyName
      * @param value
      */
-    public static void set(final QueryWrapper wrapper, String propertyName, Object value) {
+    public static <T> void set(final QueryWrapper<T> wrapper, String propertyName, Object value) {
         if (value == null) {
             return;
         }
@@ -34,7 +38,7 @@ public final class WrapperUtil {
                 wrapper.eq(propertyName, value);
             }
         } else if (value instanceof Collection) {
-            Collection data = (Collection) value;
+            Collection data = (Collection) value; // NOSONAR
             if (data.isEmpty()) {
                 log.warn("collection [value] is empty.");
             } else {
@@ -52,7 +56,7 @@ public final class WrapperUtil {
      * @param propertyName
      * @param value
      */
-    public static void setNot(final QueryWrapper wrapper, String propertyName, Object value) {
+    public static <T> void setNot(final QueryWrapper<T> wrapper, String propertyName, Object value) {
         if (value == null) {
             return;
         }
@@ -61,7 +65,7 @@ public final class WrapperUtil {
                 wrapper.ne(propertyName, value);
             }
         } else if (value instanceof Collection) {
-            Collection data = (Collection) value;
+            Collection data = (Collection) value; // NOSONAR
             if (data.isEmpty()) {
                 log.warn("collection [value] is empty.");
             } else {
@@ -80,7 +84,7 @@ public final class WrapperUtil {
      * @param beginDate
      * @param endDate
      */
-    public static void setRangeDate(final QueryWrapper wrapper, String propertyName, Date beginDate, Date endDate) {
+    public static <T> void setRangeDate(final QueryWrapper<T> wrapper, String propertyName, Date beginDate, Date endDate) {
         if (beginDate != null) {
             wrapper.ge(propertyName, new java.sql.Date(beginDate.getTime()));
         }
@@ -97,7 +101,7 @@ public final class WrapperUtil {
      * @param beginDate
      * @param endDate
      */
-    public static void setRangeDateTime(final QueryWrapper wrapper, String propertyName, Date beginDate, Date endDate) {
+    public static <T> void setRangeDateTime(final QueryWrapper<T> wrapper, String propertyName, Date beginDate, Date endDate) {
         if (beginDate != null) {
             wrapper.ge(propertyName, beginDate);
         }
@@ -113,9 +117,9 @@ public final class WrapperUtil {
      *
      * @param wrapper wrapper
      */
-    public static void setStatusAndIsDeletedFlag(final QueryWrapper wrapper) {
+    public static <T> void setStatusAndIsDeletedFlag(final QueryWrapper<T> wrapper) {
         wrapper.eq("status", CoreConst.YES);
-        wrapper.eq("isDeleted", CoreConst.NO);
+        wrapper.eq(ModelConst.IS_DELETED, CoreConst.NO);
 
     }
 
@@ -124,7 +128,7 @@ public final class WrapperUtil {
      *
      * @param wrapper wrapper
      */
-    public static void setStatusFlag(final QueryWrapper wrapper) {
+    public static <T> void setStatusFlag(final QueryWrapper<T> wrapper) {
         wrapper.eq("status", CoreConst.YES);
     }
 
@@ -133,8 +137,8 @@ public final class WrapperUtil {
      *
      * @param wrapper wrapper
      */
-    public static void setIsDeletedFlag(final QueryWrapper wrapper) {
-        wrapper.eq("isDeleted", CoreConst.NO);
+    public static <T> void setIsDeletedFlag(final QueryWrapper<T> wrapper) {
+        wrapper.eq(ModelConst.IS_DELETED, CoreConst.NO);
     }
 
     /**
@@ -142,7 +146,7 @@ public final class WrapperUtil {
      *
      * @param wrapper wrapper
      */
-    public static void setIsEnabled(final QueryWrapper wrapper) {
+    public static <T> void setIsEnabled(final QueryWrapper<T> wrapper) {
         wrapper.eq("isEnabled", CoreConst.YES);
     }
 
@@ -151,9 +155,9 @@ public final class WrapperUtil {
      *
      * @param wrapper wrapper
      */
-    public static void setIsEnabledAndIsDeletedFlag(final QueryWrapper wrapper) {
+    public static <T> void setIsEnabledAndIsDeletedFlag(final QueryWrapper<T> wrapper) {
         wrapper.eq("isEnabled", CoreConst.YES);
-        wrapper.eq("isDeleted", CoreConst.NO);
+        wrapper.eq(ModelConst.IS_DELETED, CoreConst.NO);
     }
 
 }

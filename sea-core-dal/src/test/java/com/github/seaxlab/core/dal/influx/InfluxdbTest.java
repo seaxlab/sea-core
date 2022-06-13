@@ -103,10 +103,10 @@ public class InfluxdbTest extends BaseCoreDalTest {
 
         List<ItemVO> items = new ArrayList<>();
         list.stream().forEach(item -> {
-            item.getRecords().forEach(record -> {
+            item.getRecords().forEach(entity -> {
                 ItemVO vo = new ItemVO();
-                vo.setMetric(record.getMeasurement());
-                vo.setValue((Double) (record.getValue()));
+                vo.setMetric(entity.getMeasurement());
+                vo.setValue((Double) (entity.getValue()));
                 items.add(vo);
             });
         });
@@ -202,10 +202,10 @@ public class InfluxdbTest extends BaseCoreDalTest {
         List<FluxTable> list = influxDBClient.getQueryApi().query(flux.sum().toString());
 
         list.stream().forEach(item -> {
-            item.getRecords().forEach(record -> {
-                Map<String, Object> map = record.getValues();
+            item.getRecords().forEach(entity -> {
+                Map<String, Object> map = entity.getValues();
                 log.info("map={}", map);
-//                log.info("measurement={},value={}", record.getMeasurement(), record.getValue());
+//                log.info("measurement={},value={}", entity.getMeasurement(), entity.getValue());
             });
         });
     }

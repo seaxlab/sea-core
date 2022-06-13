@@ -59,12 +59,12 @@ public class MapperUtilTest extends BaseMybatisTest {
         user.setVersion(1);
         users.add(user);
 
-        User record = new User();
-        record.setName("---");
+        User entity = new User();
+        entity.setName("---");
 
         Example example = new Example(User.class);
 
-        boolean sucFlag = MapperUtil.updateByVersion(userMapper, record, users);
+        boolean sucFlag = MapperUtil.updateByVersion(userMapper, entity, users);
         log.info("suc flag={}", sucFlag);
 
     }

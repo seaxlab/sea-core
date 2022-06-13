@@ -22,17 +22,17 @@ public class SelectLatestOneTest extends BaseSpringTest {
 
     @Test
     public void testSelectLatestOne() throws Exception {
-        User1 record = new User1();
-        record.setAge(12);
-        User1 user = user1Mapper.selectLatestOne(record, "id");
+        User1 entity = new User1();
+        entity.setAge(12);
+        User1 user = user1Mapper.selectLatestOne(entity, "id");
         log.info("user={}", user);
     }
 
     @Test
     public void testSelectLatestOne2() throws Exception {
-        User1 record = new User1();
-        record.setAge(12);
-        User1 user = user1Mapper.selectLatestOne(record, "createTime");
+        User1 entity = new User1();
+        entity.setAge(12);
+        User1 user = user1Mapper.selectLatestOne(entity, "createTime");
         log.info("user={}", user);
     }
 

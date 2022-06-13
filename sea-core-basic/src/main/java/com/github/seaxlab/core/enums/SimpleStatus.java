@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * module name
+ * simple status
  *
  * @author spy
  * @version 1.0 2021/5/8

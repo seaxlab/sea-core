@@ -28,6 +28,9 @@ import java.util.List;
 @Slf4j
 public final class MapperUtil {
 
+    private MapperUtil() {
+    }
+
     private static final int DEFAULT_DELETE_PAGE_SIZE = 500;
 
     /**
@@ -59,7 +62,7 @@ public final class MapperUtil {
      * @param mapper
      * @param code
      */
-    public static void checkCode(Class<?> clazz, Mapper mapper, String code) {
+    public static <T> void checkCode(Class<?> clazz, Mapper<T> mapper, String code) {
         Example example = new Example(clazz);
         ExampleUtil.setValue(example, "code", code);
         ExampleUtil.setIsDeletedFlag(example);
@@ -101,11 +104,11 @@ public final class MapperUtil {
         ExampleUtil.setValue(example, "id", id);
         ExampleUtil.setIsDeletedFlag(example);
 
-        T record = mapper.selectOneByExample(example);
-        if (record == null) {
+        T entity = mapper.selectOneByExample(example);
+        if (entity == null) {
             ExceptionHandler.publishMsg("记录不存在");
         }
-        return record;
+        return entity;
     }
 
     /**
@@ -120,7 +123,7 @@ public final class MapperUtil {
     public static <T> T baseQueryByCode(Mapper<T> mapper, String code) {
 
         if (mapper instanceof MapperProxy) {
-            MapperProxy proxy = (MapperProxy) mapper;
+            MapperProxy<T> proxy = (MapperProxy) mapper;
         }
         Class<?> clazz = ReflectUtil.getSingleGenericClass(mapper);
 
@@ -158,78 +161,78 @@ public final class MapperUtil {
         ExampleUtil.setValue(example, key, value);
         ExampleUtil.setIsDeletedFlag(example);
 
-        T record = mapper.selectOneByExample(example);
-        if (record == null) {
+        T entity = mapper.selectOneByExample(example);
+        if (entity == null) {
             ExceptionHandler.publishMsg("记录不存在");
         }
-        return record;
+        return entity;
     }
 
 
     /**
      * basic update selective field by code.
      *
-     * @param record
+     * @param entity
      * @param mapper
      * @param code
      * @param <T>
      * @return
      */
-    public static <T> int baseUpdateSelectiveByCode(T record, Mapper<T> mapper, String code) {
-        return baseUpdateSelective(record, mapper, "code", code);
+    public static <T> int baseUpdateSelectiveByCode(T entity, Mapper<T> mapper, String code) {
+        return baseUpdateSelective(entity, mapper, "code", code);
     }
 
     /**
      * base update selective for common.
      *
-     * @param record
+     * @param entity
      * @param mapper
      * @param key
      * @param value
      * @param <T>
      * @return
      */
-    public static <T> int baseUpdateSelective(T record, Mapper<T> mapper, String key, String value) {
-        Example example = new Example(record.getClass());
+    public static <T> int baseUpdateSelective(T entity, Mapper<T> mapper, String key, String value) {
+        Example example = new Example(entity.getClass());
         ExampleUtil.setValue(example, key, value);
         ExampleUtil.setIsDeletedFlag(example);
 
-        return mapper.updateByExampleSelective(record, example);
+        return mapper.updateByExampleSelective(entity, example);
     }
 
     /**
      * basic update all field by code.
      *
-     * @param record
+     * @param entity
      * @param mapper
      * @param code
      * @param <T>
      * @return
      */
-    public static <T> int baseUpdateByCode(T record, Mapper<T> mapper, String code) {
-        return baseUpdate(record, mapper, "code", code);
+    public static <T> int baseUpdateByCode(T entity, Mapper<T> mapper, String code) {
+        return baseUpdate(entity, mapper, "code", code);
     }
 
     /**
      * basic update all field for common.
      *
-     * @param record
+     * @param entity
      * @param mapper
      * @param key
      * @param value
      * @param <T>
      * @return
      */
-    public static <T> int baseUpdate(T record, Mapper<T> mapper, String key, String value) {
-        Example example = new Example(record.getClass());
+    public static <T> int baseUpdate(T entity, Mapper<T> mapper, String key, String value) {
+        Example example = new Example(entity.getClass());
         ExampleUtil.setValue(example, key, value);
         ExampleUtil.setIsDeletedFlag(example);
 
-        return mapper.updateByExample(record, example);
+        return mapper.updateByExample(entity, example);
     }
 
     /**
-     * update single record by version (not include isDeletedFlag)
+     * update single entity by version (not include isDeletedFlag)
      *
      * @param mapper
      * @param updateRecord
@@ -243,7 +246,7 @@ public final class MapperUtil {
     }
 
     /**
-     * update single record by version
+     * update single entity by version
      *
      * @param mapper
      * @param updateRecord
@@ -342,29 +345,29 @@ public final class MapperUtil {
      * <p>this just sugar.</p>
      * the same to baseUpdateSelectiveByCode
      *
-     * @param record
+     * @param entity
      * @param mapper
      * @param code
      * @param <T>
      * @return
      */
-    public static <T> int baseDeleteByCode(T record, Mapper<T> mapper, String code) {
-        return baseUpdateSelectiveByCode(record, mapper, code);
+    public static <T> int baseDeleteByCode(T entity, Mapper<T> mapper, String code) {
+        return baseUpdateSelectiveByCode(entity, mapper, code);
     }
 
     /**
      * <p>this just sugar.</p>
      * the same to baseUpdateSelective.
      *
-     * @param record
+     * @param entity
      * @param mapper
      * @param key
      * @param value
      * @param <T>
      * @return
      */
-    public static <T> int baseDelete(T record, Mapper<T> mapper, String key, String value) {
-        return baseUpdateSelective(record, mapper, key, value);
+    public static <T> int baseDelete(T entity, Mapper<T> mapper, String key, String value) {
+        return baseUpdateSelective(entity, mapper, key, value);
     }
 
     /**
@@ -396,7 +399,7 @@ public final class MapperUtil {
             return false;
         }
         int count = mapper.selectCountByExample(example);
-        log.info("to be delete {} record count={}", clazz.getSimpleName(), count);
+        log.info("to be delete {} entity count={}", clazz.getSimpleName(), count);
 
         if (count <= 0) {
             return true;
@@ -418,7 +421,6 @@ public final class MapperUtil {
             List<T> records = mapper.selectByExample(example);
             if (ListUtil.isEmpty(records)) {
                 log.info("{} records is empty, so end.", clazz.getSimpleName());
-                hasNext = false;
                 break;
             }
             if (records.size() < pageSize) {
@@ -427,8 +429,8 @@ public final class MapperUtil {
             }
             List<Long> ids = new ArrayList<>();
 
-            for (T record : records) {
-                Long id = ReflectUtil.readAsLong(record, "id");
+            for (T entity : records) {
+                Long id = ReflectUtil.readAsLong(entity, "id");
                 if (id == null) {
                     continue;
                 }

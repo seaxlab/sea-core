@@ -20,6 +20,9 @@ import java.util.Map;
 @Slf4j
 public final class AnnotationUtil {
 
+    private AnnotationUtil() {
+    }
+
     private static final String ANNOTATIONS = "annotations";
     public static final String ANNOTATION_DATA = "annotationData";
 
@@ -101,7 +104,7 @@ public final class AnnotationUtil {
      * @param annotationToAlter
      * @param annotationValue
      */
-    public static void change(Class clazzToLookFor, Class<? extends Annotation> annotationToAlter, Annotation annotationValue) {
+    public static void change(Class<?> clazzToLookFor, Class<? extends Annotation> annotationToAlter, Annotation annotationValue) {
         if (isJDK7OrLower()) {
             try {
                 Field annotations = Class.class.getDeclaredField(ANNOTATIONS);
@@ -154,7 +157,7 @@ public final class AnnotationUtil {
      */
     public static <T extends Annotation> Annotation findClassAnnotation(String className, Class<T> annotationClass) throws ClassNotFoundException {
         //反射使用类加载器加载类
-        Class type = Class.forName(className);
+        Class<?> type = Class.forName(className);
         return findClassAnnotation(type, annotationClass);
     }
 
@@ -188,7 +191,7 @@ public final class AnnotationUtil {
      * @throws ClassNotFoundException
      */
     public static <T extends Annotation> Annotation[] findMethodAnnotation(String className, Class<T> annotationClass) throws ClassNotFoundException {
-        Class type = Class.forName(className);
+        Class<?> type = Class.forName(className);
         return findMethodAnnotationByExist(type, annotationClass);
     }
 
