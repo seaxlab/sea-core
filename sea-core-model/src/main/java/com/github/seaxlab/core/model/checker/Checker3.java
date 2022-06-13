@@ -9,7 +9,7 @@ import com.github.seaxlab.core.model.Result;
  * @version 1.0 2021/5/14
  * @since 1.0
  */
-public interface Checker3<Input1, Input2, Input3, R> {
+public interface Checker3<I1, I2, I3, R> {
 
 
     /**
@@ -20,7 +20,7 @@ public interface Checker3<Input1, Input2, Input3, R> {
      * @param input3 input
      * @return
      */
-    Result<R> check(Input1 input1, Input2 input2, Input3 input3);
+    Result<R> check(I1 input1, I2 input2, I3 input3);
 
     /**
      * 多个checker时的执行顺序

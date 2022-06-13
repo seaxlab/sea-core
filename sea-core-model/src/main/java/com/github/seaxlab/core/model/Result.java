@@ -98,12 +98,12 @@ public class Result<T> implements Serializable {
      *
      * @return Result
      */
-    public static Result success() {
-        return new Result(true, null);
+    public static <T> Result<T> success() {
+        return new Result<>(true, null);
     }
 
     public static <T> Result<T> success(T data) {
-        return new Result<T>(true, null, data);
+        return new Result<>(true, null, data);
     }
 
     /**
@@ -112,8 +112,8 @@ public class Result<T> implements Serializable {
      * @param msg msg
      * @return base result
      */
-    public static Result successMsg(String msg) {
-        return new Result(true, msg);
+    public static <T> Result<T> successMsg(String msg) {
+        return new Result<>(true, msg);
     }
 
     /**
@@ -123,24 +123,28 @@ public class Result<T> implements Serializable {
      * @param msg  msg
      * @return base result
      */
-    public static Result successMsg(String code, String msg) {
-        return new Result(true, code, msg);
+    public static <T> Result<T> successMsg(String code, String msg) {
+        Result<T> result = new Result<>();
+        result.setSuccess(true);
+        result.setCode(code);
+        result.setMsg(msg);
+        return result;
     }
 
-    public static Result fail() {
+    public static <T> Result<T> fail() {
         return fail(null);
     }
 
-    public static Result fail(String code) {
+    public static <T> Result<T> fail(String code) {
         return fail(code, null);
     }
 
-    public static Result failMsg(String msg) {
+    public static <T> Result<T> failMsg(String msg) {
         return fail(null, msg);
     }
 
-    public static Result fail(String code, String msg) {
-        Result result = new Result();
+    public static <T> Result<T> fail(String code, String msg) {
+        Result<T> result = new Result<>();
 
         result.setSuccess(false);
         result.setCode(code);
@@ -185,7 +189,7 @@ public class Result<T> implements Serializable {
         return true;
     }
 
-    public void from(Result otherResult) {
+    public void from(Result<T> otherResult) {
         if (otherResult == null) {
             return;
         }

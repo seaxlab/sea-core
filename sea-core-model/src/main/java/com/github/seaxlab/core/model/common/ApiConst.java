@@ -12,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ApiConst {
 
+    private ApiConst() {
+    }
+
     // 公开API
     public static final String OPEN = "/api/open";
 

@@ -4,7 +4,7 @@ import com.github.seaxlab.core.model.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * module name
+ * Page util
  *
  * @author spy
  * @version 1.0 2022/2/8
@@ -57,12 +57,12 @@ public final class PageUtil {
 
         if (pageInfo.getPageMaxSize() == null) {
             if (pageInfo.getPageSize() > MAX_PAGE_SIZE) {
-                log.warn("pageSize[{}] > default[{}], so sent to {}", pageInfo.getPageNum(), MAX_PAGE_SIZE, MAX_PAGE_SIZE);
+                log.warn("pageSize[{}] > default[{}], so set to {}", pageInfo.getPageNum(), MAX_PAGE_SIZE, MAX_PAGE_SIZE);
                 pageInfo.setPageSize(MAX_PAGE_SIZE);
             }
         } else {
             if (pageInfo.getPageSize() > pageInfo.getPageMaxSize()) {
-                log.warn("pageSize[{}] > pageMaxSize[{}], so sent to {}", pageInfo.getPageSize(), pageInfo.getPageMaxSize(), pageInfo.getPageMaxSize());
+                log.warn("pageSize[{}] > pageMaxSize[{}], so set to {}", pageInfo.getPageSize(), pageInfo.getPageMaxSize(), pageInfo.getPageMaxSize());
                 pageInfo.setPageSize(pageInfo.getPageMaxSize());
             }
         }
