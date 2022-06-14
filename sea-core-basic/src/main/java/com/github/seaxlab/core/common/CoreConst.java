@@ -133,7 +133,7 @@ public class CoreConst {
     /**
      * 当前程序运行模式, 不要使用sea.dev.mode,太长了
      */
-    public static final String KEY_SEA_ENV = "sea.env";
+    public static final String SEA_ENV = "sea.env";
 
 
     /**
@@ -236,9 +236,6 @@ public class CoreConst {
     public static final long LOCK_TIME_10_MINUTE = 10 * LOCK_TIME_1_MINUTE;
     public static final long LOCK_TIME_30_MINUTE = 30 * LOCK_TIME_1_MINUTE;
     public static final long LOCK_TIME_1_HOUR = 60 * LOCK_TIME_1_MINUTE;
-
-    // 锁号失败文案
-    public static final String LOCK_FAIL_COMMON_DESC = "操作进行中，请稍后尝试。";
 
     /**
      * 业务单元使用线程池的默认最大线程池

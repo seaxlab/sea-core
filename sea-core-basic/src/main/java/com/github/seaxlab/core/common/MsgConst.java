@@ -16,4 +16,8 @@ public class MsgConst {
     }
 
     public static final String CODE_IS_NULL = "code is null.";
+
+    // 锁号失败文案
+    public static final String LOCK_FAIL_COMMON_DESC = "操作进行中，请稍后尝试。";
+
 }

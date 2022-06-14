@@ -2,6 +2,7 @@ package com.github.seaxlab.core.enums;
 
 import com.github.seaxlab.core.util.EqualUtil;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Date type enum.
@@ -10,7 +11,9 @@ import lombok.Getter;
  * @version 1.0 2020/4/2
  * @since 1.0
  */
+@Slf4j
 public enum DataTypeEnum {
+    UNKNOWN("UNKNOWN"),
 
     BOOLEAN("BOOLEAN"),
     NUMBER("NUMBER"),
@@ -24,20 +27,28 @@ public enum DataTypeEnum {
     @Getter
     private String key;
 
+    private static final DataTypeEnum[] VALUES;
+
+    static {
+        VALUES = values();
+    }
+
     DataTypeEnum(String key) {
         this.key = key;
     }
 
     public static DataTypeEnum of(String str) {
-        DataTypeEnum[] values = values();
-
-        for (int i = 0; i < values.length; i++) {
-            DataTypeEnum item = values[i];
+        if (str == null || str.isEmpty()) {
+            log.warn("str is empty, plz check.");
+            return UNKNOWN;
+        }
+        for (DataTypeEnum item : VALUES) {
             if (EqualUtil.isEq(item.getKey(), str, false)) {
                 return item;
             }
         }
+        log.warn("unhandled value={}", str);
 
-        return null;
+        return UNKNOWN;
     }
 }

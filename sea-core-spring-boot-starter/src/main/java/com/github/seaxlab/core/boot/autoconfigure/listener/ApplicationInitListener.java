@@ -43,7 +43,7 @@ public class ApplicationInitListener implements ApplicationContextAware, Applica
         String env = ctx.getEnvironment().getProperty("sea.env", "pro");
         log.info("sea.env={}", env);
 
-        ConfigurationFactory.getInstance().putString(CoreConst.KEY_SEA_ENV, env);
+        ConfigurationFactory.getInstance().putString(CoreConst.SEA_ENV, env);
 
         log.info("=======================================");
         log.info("=         Application Ready           =");

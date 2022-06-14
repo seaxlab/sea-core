@@ -14,21 +14,21 @@ public interface IBaseEnum2<T> extends Serializable {
     /**
      * 标准编码
      *
-     * @return
+     * @return T
      */
     T getCode();
 
     /**
      * 对外名称
      *
-     * @return
+     * @return string
      */
     String getName();
 
     /**
      * 描述
      *
-     * @return
+     * @return string
      */
     String getDesc();
 }

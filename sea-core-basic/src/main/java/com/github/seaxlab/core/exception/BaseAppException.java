@@ -15,11 +15,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class BaseAppException extends RuntimeException {
 
-    private String code;
+    private String code; // NOSONAR
 
-    private String desc;
+    private String desc; // NOSONAR
 
-    private String type;
+    private String type; // NOSONAR
 
 // 可扩展参数
 

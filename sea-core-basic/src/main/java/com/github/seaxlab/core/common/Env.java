@@ -35,7 +35,7 @@ public class Env implements Serializable {
      * @param env
      */
     public static void set(String env) {
-        ConfigurationFactory.getInstance().putString(CoreConst.KEY_SEA_ENV, env);
+        ConfigurationFactory.getInstance().putString(CoreConst.SEA_ENV, env);
     }
 
     /**
@@ -44,7 +44,7 @@ public class Env implements Serializable {
      * @return
      */
     public static String get() {
-        return ConfigurationFactory.getInstance().getString(CoreConst.KEY_SEA_ENV, PRO);
+        return ConfigurationFactory.getInstance().getString(CoreConst.SEA_ENV, PRO);
     }
 
     /**
@@ -53,7 +53,7 @@ public class Env implements Serializable {
      * @return
      */
     public static boolean isLocalMode() {
-        return EqualUtil.isEq(LOCAL, ConfigurationFactory.getInstance().getString(CoreConst.KEY_SEA_ENV, PRO), false);
+        return EqualUtil.isEq(LOCAL, ConfigurationFactory.getInstance().getString(CoreConst.SEA_ENV, PRO), false);
     }
 
     /**
@@ -62,7 +62,7 @@ public class Env implements Serializable {
      * @return boolean
      */
     public static boolean isPreMode() {
-        return EqualUtil.isEq(PRE, ConfigurationFactory.getInstance().getString(CoreConst.KEY_SEA_ENV, PRO), false);
+        return EqualUtil.isEq(PRE, ConfigurationFactory.getInstance().getString(CoreConst.SEA_ENV, PRO), false);
     }
 
     /**
@@ -71,7 +71,7 @@ public class Env implements Serializable {
      * @return
      */
     public static boolean isProMode() {
-        return EqualUtil.isEq(PRO, ConfigurationFactory.getInstance().getString(CoreConst.KEY_SEA_ENV, PRO), false);
+        return EqualUtil.isEq(PRO, ConfigurationFactory.getInstance().getString(CoreConst.SEA_ENV, PRO), false);
     }
 
     /**

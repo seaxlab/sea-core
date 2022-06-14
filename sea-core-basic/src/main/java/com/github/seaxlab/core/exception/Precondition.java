@@ -44,25 +44,25 @@ public final class Precondition {
         }
     }
 
-    public static void checkNotEmpty(Collection collection, String msg) {
+    public static <T> void checkNotEmpty(Collection<T> collection, String msg) {
         if (collection == null || collection.isEmpty()) {
             ExceptionHandler.publishMsg(msg);
         }
     }
 
-    public static void checkNotEmpty(Collection collection, String code, String msg) {
+    public static <T> void checkNotEmpty(Collection<T> collection, String code, String msg) {
         if (collection == null || collection.isEmpty()) {
             ExceptionHandler.publish(code, msg);
         }
     }
 
-    public static void checkNotEmpty(Map data, String msg) {
+    public static <K, V> void checkNotEmpty(Map<K, V> data, String msg) {
         if (data == null || data.isEmpty()) {
             ExceptionHandler.publish(msg);
         }
     }
 
-    public static void checkNotEmpty(Map data, String code, String msg) {
+    public static <K, V> void checkNotEmpty(Map<K, V> data, String code, String msg) {
         if (data == null || data.isEmpty()) {
             ExceptionHandler.publish(code, msg);
         }
