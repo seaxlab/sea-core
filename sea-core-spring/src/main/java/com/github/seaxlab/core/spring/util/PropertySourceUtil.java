@@ -126,7 +126,7 @@ public class PropertySourceUtil {
                 ((EnumerablePropertySource) propertySource).getPropertyNames() : null;
 
         if (propertyNames == null) {
-            propertyNames = ArrayUtil.EMPTY_STRING_ARRAY;
+            propertyNames = ArrayUtil.emptyStr();
         }
 
         return propertyNames;

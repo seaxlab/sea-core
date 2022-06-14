@@ -22,12 +22,12 @@ public final class ArrayUtil {
      * empty Object Array
      * or {}
      */
-    public static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
+    private static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
     /**
      * empty string array
      * or {}
      */
-    public static final String[] EMPTY_STRING_ARRAY = new String[0];
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
     /**
      * empty byte array
@@ -42,7 +42,7 @@ public final class ArrayUtil {
     /**
      * empty class array
      */
-    public static final Class[] EMPTY_CLASS_ARRAY = {};
+    private static final Class[] EMPTY_CLASS_ARRAY = {};
 
     private ArrayUtil() {
     }
@@ -71,6 +71,10 @@ public final class ArrayUtil {
 
     public static char[] emptyChar() {
         return EMPTY_CHAR_ARRAY;
+    }
+
+    public static Class[] emptyClass() {
+        return EMPTY_CLASS_ARRAY;
     }
 
     /**

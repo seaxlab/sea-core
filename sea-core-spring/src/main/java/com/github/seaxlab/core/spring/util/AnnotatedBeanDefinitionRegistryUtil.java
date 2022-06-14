@@ -100,7 +100,7 @@ public abstract class AnnotatedBeanDefinitionRegistryUtil {
             logger.debug(registry.getClass().getSimpleName() + " will register annotated classes : " + asList(annotatedClasses) + " .");
         }
 
-        reader.register(classesToRegister.toArray(ArrayUtil.EMPTY_CLASS_ARRAY));
+        reader.register(classesToRegister.toArray(ArrayUtil.emptyClass()));
 
     }
 
