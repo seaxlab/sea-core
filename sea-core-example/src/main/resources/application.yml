@@ -9,11 +9,14 @@ spring:
 #  main:
 #    lazy-initialization: true
 logging:
-  file: ${spring.application.name}
-  path: ${user.home}/logs/${spring.application.name}
+  file:
+    name: ${spring.application.name}
+    path: ${user.home}/logs/${spring.application.name}
 
 sea:
   host: localhost
   env: pro
-
   schedule-thread-context-base-package: execution(public * com.abc..*.*(..))
+  fastjson:
+    enable: false
+  test: SEA_DES()

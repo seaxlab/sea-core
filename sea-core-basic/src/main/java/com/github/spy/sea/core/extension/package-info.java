@@ -1,8 +1,0 @@
-/**
- * http相关扩展放这里不太合适
- *
- * @author spy
- * @version 1.0 2020/5/21
- * @since 1.0
- */
-package com.github.spy.sea.core.extension;

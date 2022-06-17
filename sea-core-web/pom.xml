@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>sea-core</artifactId>
-        <groupId>com.github.spy.sea</groupId>
-        <version>2.3.0-SNAPSHOT</version>
+        <groupId>com.github.seaxlab</groupId>
+        <version>2.6.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,12 +14,12 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.github.spy.sea</groupId>
+            <groupId>com.github.seaxlab</groupId>
             <artifactId>sea-core-basic</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.github.spy.sea</groupId>
+            <groupId>com.github.seaxlab</groupId>
             <artifactId>sea-core-test</artifactId>
             <scope>test</scope>
         </dependency>
@@ -61,4 +61,25 @@
         </dependency>
 
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

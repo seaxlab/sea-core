@@ -4,7 +4,7 @@
 
 ````
 
-com.github.spy.sea.core.spring
+com.github.seaxlab.core.spring
 ├── annotation
 ├── aop
 ├── context

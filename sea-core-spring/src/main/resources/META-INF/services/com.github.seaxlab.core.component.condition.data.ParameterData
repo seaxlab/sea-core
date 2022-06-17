@@ -1,0 +1,9 @@
+com.github.seaxlab.core.spring.sample.condition.data.CookieParameterData
+com.github.seaxlab.core.spring.sample.condition.data.DomainParameterData
+com.github.seaxlab.core.spring.sample.condition.data.HeaderParameterData
+com.github.seaxlab.core.spring.sample.condition.data.HostParameterData
+com.github.seaxlab.core.spring.sample.condition.data.IpParameterData
+com.github.seaxlab.core.spring.sample.condition.data.PostParameterData
+com.github.seaxlab.core.spring.sample.condition.data.QueryParameterData
+com.github.seaxlab.core.spring.sample.condition.data.RequestMethodParameterData
+com.github.seaxlab.core.spring.sample.condition.data.URIParameterData

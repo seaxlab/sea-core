@@ -1,4 +1,0 @@
-seaBaseAppExceptionFilter=com.github.spy.sea.core.dubbo.legacy.filter.BaseAppExceptionFilter
-seaRequestLogFilter=com.github.spy.sea.core.dubbo.legacy.filter.RequestLogFilter
-seaMDCFilter=com.github.spy.sea.core.dubbo.legacy.filter.MDCFilter
-seaGlobalFilter=com.github.spy.sea.core.dubbo.legacy.filter.SeaGlobalFilter
