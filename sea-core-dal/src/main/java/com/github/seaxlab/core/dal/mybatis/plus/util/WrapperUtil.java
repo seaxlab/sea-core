@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 
 /**
- * module name
+ * wrapper util
  *
  * @author spy
  * @version 1.0 2021/11/29
@@ -142,12 +142,42 @@ public final class WrapperUtil {
     }
 
     /**
+     * set del_flag=0
+     *
+     * @param wrapper
+     * @param <T>
+     */
+    public static <T> void setDelFlag(final QueryWrapper<T> wrapper) {
+        wrapper.eq(ModelConst.DEL_FLAG, CoreConst.NO);
+    }
+
+    /**
      * set isEnabled=1
      *
      * @param wrapper wrapper
      */
     public static <T> void setIsEnabled(final QueryWrapper<T> wrapper) {
-        wrapper.eq("isEnabled", CoreConst.YES);
+        wrapper.eq(ModelConst.IS_ENABLED, CoreConst.YES);
+    }
+
+    /**
+     * set enable_flag=1
+     *
+     * @param wrapper
+     * @param <T>
+     */
+    public static <T> void setEnableFlag(final QueryWrapper<T> wrapper) {
+        wrapper.eq(ModelConst.ENABLE_FLAG, CoreConst.YES);
+    }
+
+    /**
+     * set stop flag = 0
+     *
+     * @param wrapper
+     * @param <T>
+     */
+    public static <T> void setStopFlag(final QueryWrapper<T> wrapper) {
+        wrapper.eq(ModelConst.STOP_FLAG, CoreConst.NO);
     }
 
     /**

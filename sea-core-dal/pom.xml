@@ -26,6 +26,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
