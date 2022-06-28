@@ -91,8 +91,15 @@ public final class ModelConst {
     public static final String REMARK = "remark";
     public static final String DESCRIPTION = "description";
 
+    public static final String USE_FLAG = "useFlag";
+    public static final String STOP_FLAG = "stopFlag";
+
     public static final String IS_ENABLED = "isEnabled";
+    public static final String ENABLE_FLAG = "enableFlag";
+
     public static final String IS_DELETED = "isDeleted";
+    public static final String DEL_FLAG = "delFlag";
+
     public static final String VERSION = "version";
     public static final String MODEL_VERSION = "modelVersion"; /* db model version */
     public static final String TENANT_ID = "tenantId";
