@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 /**
- * module name
+ * druid util
  *
  * @author spy
  * @version 1.0 2021/4/27
