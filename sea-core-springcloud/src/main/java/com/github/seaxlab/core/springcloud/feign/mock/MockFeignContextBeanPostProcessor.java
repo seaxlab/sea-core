@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.FeignContext;
 public class MockFeignContextBeanPostProcessor implements BeanPostProcessor {
 
     private final BeanFactory beanFactory;
-    private MockFeignObjectWrapper traceFeignObjectWrapper;
+    private MockFeignObjectWrapper mockFeignObjectWrapper;
 
     MockFeignContextBeanPostProcessor(BeanFactory beanFactory) {
         this.beanFactory = beanFactory;
@@ -18,7 +18,7 @@ public class MockFeignContextBeanPostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof FeignContext && !(bean instanceof MockFeignContext)) {
-            return new MockFeignContext(getTraceFeignObjectWrapper(), (FeignContext) bean);
+            return new MockFeignContext(getMockFeignObjectWrapper(), (FeignContext) bean);
         }
         return bean;
     }
@@ -28,10 +28,10 @@ public class MockFeignContextBeanPostProcessor implements BeanPostProcessor {
         return bean;
     }
 
-    private MockFeignObjectWrapper getTraceFeignObjectWrapper() {
-        if (this.traceFeignObjectWrapper == null) {
-            this.traceFeignObjectWrapper = this.beanFactory.getBean(MockFeignObjectWrapper.class);
+    private MockFeignObjectWrapper getMockFeignObjectWrapper() {
+        if (this.mockFeignObjectWrapper == null) {
+            this.mockFeignObjectWrapper = this.beanFactory.getBean(MockFeignObjectWrapper.class);
         }
-        return this.traceFeignObjectWrapper;
+        return this.mockFeignObjectWrapper;
     }
 }
