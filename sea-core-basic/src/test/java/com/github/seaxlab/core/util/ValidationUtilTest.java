@@ -26,7 +26,7 @@ public class ValidationUtilTest extends BaseCoreTest {
         BookDTO bookDTO = new BookDTO();
         bookDTO.setId(1L);
 
-        Set<ConstraintViolation<BookDTO>> violations = ValidationUtil.getValidator().validate(bookDTO);
+        Set<ConstraintViolation<BookDTO>> violations = ValidationUtil.validate(bookDTO);
         if (violations.size() > 0) {
             log.error("has error,{}", violations);
         }
