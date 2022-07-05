@@ -43,6 +43,15 @@ public final class StringUtil {
     }
 
     /**
+     * just return empty string
+     *
+     * @return
+     */
+    public static String empty() {
+        return EMPTY;
+    }
+
+    /**
      * check is 'null', 不区分大小写
      *
      * @param value str

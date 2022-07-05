@@ -198,12 +198,26 @@ public final class FileUtil {
     }
 
     /**
+     * 返回行数组
+     *
+     * @param path 文件路径
+     * @return 行数组
+     */
+    public static String[] readFileByLines2(String path) {
+        String content = readFileByLines(path);
+        return content.split("\r\n");
+    }
+
+    /**
      * 以行为单位读取文件，常用于读面向行的格式化文件
+     *
+     * @param path 文件路径
+     * @return file content
      */
     public static String readFileByLines(String path) {
         File file = new File(path);
         if (!file.exists() || file.isDirectory()) {
-            return null;
+            return StringUtil.empty();
         }
         StringBuffer buffer = new StringBuffer();
         FileReader fileReader = null;
@@ -268,8 +282,7 @@ public final class FileUtil {
     public static boolean writeFile(String path, String content) {
         boolean result = true;
         try {
-            Files.asCharSink(new File(path), Charsets.UTF_8)
-                 .write(content);
+            Files.asCharSink(new File(path), Charsets.UTF_8).write(content);
         } catch (Exception e) {
             result = false;
             log.error("fail to write file", e);
@@ -287,8 +300,7 @@ public final class FileUtil {
     public static boolean write(String path, String content) {
         boolean result = true;
         try {
-            Files.asCharSink(new File(path), Charsets.UTF_8)
-                 .write(content);
+            Files.asCharSink(new File(path), Charsets.UTF_8).write(content);
         } catch (Exception e) {
             result = false;
             log.error("fail to write file", e);
@@ -308,8 +320,7 @@ public final class FileUtil {
         try {
             // jdk 原生方式
             //Files.write(Paths.get("myfile.txt"), "the text".getBytes(), StandardOpenOption.APPEND);
-            Files.asCharSink(new File(path), Charsets.UTF_8, FileWriteMode.APPEND)
-                 .write(content);
+            Files.asCharSink(new File(path), Charsets.UTF_8, FileWriteMode.APPEND).write(content);
         } catch (Exception e) {
             result = false;
             log.error("fail to file append", e);
@@ -569,8 +580,7 @@ public final class FileUtil {
      * @param overwrite      overwrite exist file.
      * @return
      */
-    public static List<File> splitByFileCount(File sourceFile, File targetDir, String targetFileName,
-                                              int fileCount, boolean overwrite) {
+    public static List<File> splitByFileCount(File sourceFile, File targetDir, String targetFileName, int fileCount, boolean overwrite) {
         if (sourceFile == null) {
             throw new IllegalArgumentException("source file is null.");
         }
@@ -645,8 +655,7 @@ public final class FileUtil {
      * @param overwrite      overwrite exist file.
      * @return
      */
-    public static List<File> splitByFileSize(File sourceFile, File targetDir, String targetFileName,
-                                             final long eachFileSize, boolean overwrite) {
+    public static List<File> splitByFileSize(File sourceFile, File targetDir, String targetFileName, final long eachFileSize, boolean overwrite) {
         if (sourceFile == null) {
             throw new IllegalArgumentException("source file is null.");
         }
@@ -710,8 +719,7 @@ public final class FileUtil {
      * @param overwrite   overwrite file if target file exist.
      * @return
      */
-    public static boolean merge(List<File> sourceFiles, File targetFile, boolean overwrite)
-            throws IOException {
+    public static boolean merge(List<File> sourceFiles, File targetFile, boolean overwrite) throws IOException {
         if (ListUtil.isEmpty(sourceFiles)) {
             throw new IllegalArgumentException("source files is empty.");
         }
