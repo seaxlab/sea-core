@@ -40,6 +40,16 @@ public final class ModelConst {
 
     public static final String INVOICE_NO = "invoiceNo";
 
+    // 账户相关, customer(租户)-> user(用户) -> account(账户)
+    public static final String CUSTOMER_NO = "customerNo";
+    public static final String USER_NO = "userNo";
+    public static final String ACCOUNT_NO = "accountNo";
+
+    public static final String CUSTOMER_ID = "customerId";
+    public static final String USER_ID = "userId";
+    public static final String ACCOUNT_ID = "accountId";
+
+
     public static final String CODE = "code";
     public static final String INNER_CODE = "innerCode";
     public static final String STANDARD_CODE = "standardCode";
@@ -93,6 +103,8 @@ public final class ModelConst {
 
     public static final String USE_FLAG = "useFlag";
     public static final String STOP_FLAG = "stopFlag";
+    public static final String ACTIVE_FLAG = "activeFlag";
+    public static final String SYNC_FLAG = "syncFlag";
 
     public static final String IS_ENABLED = "isEnabled";
     public static final String ENABLE_FLAG = "enableFlag";
