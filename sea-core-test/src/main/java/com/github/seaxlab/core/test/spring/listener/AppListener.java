@@ -1,11 +1,11 @@
 package com.github.seaxlab.core.test.spring.listener;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 
 /**
  * module name
@@ -16,14 +16,17 @@ import javax.annotation.PostConstruct;
  */
 @Slf4j
 @Component
-public class AppListener implements ApplicationListener<ContextRefreshedEvent> {
+public class AppListener implements ApplicationListener<ContextRefreshedEvent>, InitializingBean {
 
     public void onApplicationEvent(ContextRefreshedEvent event) {
         log.info("refreshed event.");
     }
 
-    @PostConstruct
     public void init() {
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
         log.info("-----");
     }
 }
