@@ -1,8 +1,6 @@
 package com.github.seaxlab.core.util;
 
 import lombok.extern.slf4j.Slf4j;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,6 +8,7 @@ import java.awt.color.ColorSpace;
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.io.*;
+import java.util.Base64;
 
 /**
  * 图片处理工具类：<br>
@@ -51,8 +50,9 @@ public class ImageUtil {
             return null;
         }
         // 对字节数组Base64编码
-        BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encode(data);// 返回Base64编码过的字节数组字符串
+        //BASE64Encoder encoder = new BASE64Encoder();
+        Base64.Encoder encoder = Base64.getEncoder();
+        return encoder.encodeToString(data);// 返回Base64编码过的字节数组字符串
     }
 
     /**
@@ -65,10 +65,12 @@ public class ImageUtil {
     public static boolean base64Decode(String imgStr, String imgFilePath) {
         if (imgStr == null) // 图像数据为空
             return false;
-        BASE64Decoder decoder = new BASE64Decoder();
+        //BASE64Decoder decoder = new BASE64Decoder();
+        Base64.Decoder decoder = Base64.getDecoder();
         try {
             // Base64解码
-            byte[] bytes = decoder.decodeBuffer(imgStr);
+            //byte[] bytes = decoder.decodeBuffer(imgStr);
+            byte[] bytes = decoder.decode(imgStr);
             for (int i = 0; i < bytes.length; ++i) {
                 if (bytes[i] < 0) {// 调整异常数据
                     bytes[i] += 256;
@@ -96,10 +98,11 @@ public class ImageUtil {
         if (imgStr == null) { // 图像数据为空
             return null;
         }
-        BASE64Decoder decoder = new BASE64Decoder();
+        //BASE64Decoder decoder = new BASE64Decoder();
+        Base64.Decoder decoder = Base64.getDecoder();
         try {
             // Base64解码
-            byte[] bytes = decoder.decodeBuffer(imgStr);
+            byte[] bytes = decoder.decode(imgStr);
             for (int i = 0; i < bytes.length; ++i) {
                 if (bytes[i] < 0) {// 调整异常数据
                     bytes[i] += 256;

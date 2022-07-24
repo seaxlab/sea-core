@@ -6,12 +6,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 /**
  * MFQueueBlock
@@ -36,8 +33,7 @@ public class MFQueueBlock {
     private ByteBuffer byteBuffer;
     private MappedByteBuffer mappedBlock;
 
-    public MFQueueBlock(String blockFilePath, MFQueueIndex index, RandomAccessFile blockFile, FileChannel fileChannel,
-                        ByteBuffer byteBuffer, MappedByteBuffer mappedBlock) {
+    public MFQueueBlock(String blockFilePath, MFQueueIndex index, RandomAccessFile blockFile, FileChannel fileChannel, ByteBuffer byteBuffer, MappedByteBuffer mappedBlock) {
         this.blockFilePath = blockFilePath;
         this.index = index;
         this.blockFile = blockFile;
@@ -65,8 +61,7 @@ public class MFQueueBlock {
     }
 
     public MFQueueBlock duplicate() {
-        return new MFQueueBlock(this.blockFilePath, this.index, this.blockFile, this.fileChannel,
-                this.byteBuffer.duplicate(), this.mappedBlock);
+        return new MFQueueBlock(this.blockFilePath, this.index, this.blockFile, this.fileChannel, this.byteBuffer.duplicate(), this.mappedBlock);
     }
 
     public String getBlockFilePath() {
@@ -153,20 +148,18 @@ public class MFQueueBlock {
                 return;
             }
             sync();
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
-
-                public Object run() {
-                    try {
-                        Method getCleanerMethod = mappedBlock.getClass().getMethod("cleaner");
-                        getCleanerMethod.setAccessible(true);
-                        sun.misc.Cleaner cleaner = (sun.misc.Cleaner) getCleanerMethod.invoke(mappedBlock);
-                        cleaner.clean();
-                    } catch (Exception e) {
-                        LOGGER.error("close fqueue block file failed", e);
-                    }
-                    return null;
-                }
-            });
+            //TODO not support jdk 11
+            //AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+            //    try {
+            //        Method getCleanerMethod = mappedBlock.getClass().getMethod("cleaner");
+            //        getCleanerMethod.setAccessible(true);
+            //        sun.misc.Cleaner cleaner = (sun.misc.Cleaner) getCleanerMethod.invoke(mappedBlock);
+            //        cleaner.clean();
+            //    } catch (Exception e) {
+            //        LOGGER.error("close fqueue block file failed", e);
+            //    }
+            //    return null;
+            //});
             mappedBlock = null;
             byteBuffer = null;
             fileChannel.close();

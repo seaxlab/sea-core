@@ -6,11 +6,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.lang.reflect.Method;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 /**
  * MFQueueIndex
@@ -188,20 +185,18 @@ public class MFQueueIndex {
                 return;
             }
             sync();
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
-
-                public Object run() {
-                    try {
-                        Method getCleanerMethod = writeIndex.getClass().getMethod("cleaner");
-                        getCleanerMethod.setAccessible(true);
-                        sun.misc.Cleaner cleaner = (sun.misc.Cleaner) getCleanerMethod.invoke(writeIndex);
-                        cleaner.clean();
-                    } catch (Exception e) {
-                        LOGGER.error("close fqueue index file failed", e);
-                    }
-                    return null;
-                }
-            });
+            //TODO not support jdk 11
+            //AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+            //    try {
+            //        Method getCleanerMethod = writeIndex.getClass().getMethod("cleaner");
+            //        getCleanerMethod.setAccessible(true);
+            //        sun.misc.Cleaner cleaner = (sun.misc.Cleaner) getCleanerMethod.invoke(writeIndex);
+            //        cleaner.clean();
+            //    } catch (Exception e) {
+            //        LOGGER.error("close fqueue index file failed", e);
+            //    }
+            //    return null;
+            //});
             writeIndex = null;
             readIndex = null;
             fileChannel.close();

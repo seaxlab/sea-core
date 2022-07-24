@@ -2,12 +2,12 @@ package com.github.seaxlab.core.spring.extension;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Map;
 
 /**
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component("seaCoreExtensionBootstrap")
-public class ExtensionBootstrap implements ApplicationContextAware {
+public class ExtensionBootstrap implements ApplicationContextAware, InitializingBean {
 
     @Autowired
     private ExtensionRegister extensionRegister;
@@ -26,22 +26,20 @@ public class ExtensionBootstrap implements ApplicationContextAware {
     private ApplicationContext applicationContext;
 
 
-    @PostConstruct
-    public void init() {
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
         log.info("init sea core spring extension begin.");
 //        ApplicationContext applicationContext = SpringContextHolder.getApplicationContext();
         Map<String, Object> extensionBeans = applicationContext.getBeansWithAnnotation(Extension.class);
 
         log.info("spring extension size={}", extensionBeans.size());
 
-        extensionBeans.values().forEach(
-                extension -> extensionRegister.doRegistration((IExtensionPoint) extension)
-        );
+        extensionBeans.values().forEach(extension -> extensionRegister.doRegistration((IExtensionPoint) extension));
         log.info("init sea core spring extension end.");
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
     }
 }

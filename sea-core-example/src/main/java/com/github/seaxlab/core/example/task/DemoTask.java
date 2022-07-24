@@ -1,9 +1,8 @@
 package com.github.seaxlab.core.example.task;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 /**
  * module name
@@ -14,7 +13,7 @@ import javax.annotation.PostConstruct;
  */
 @Slf4j
 @Component
-public class DemoTask {
+public class DemoTask implements InitializingBean {
 
     //@Scheduled(cron = "*/10 * * * * *")
     //public void queryFailTask() {
@@ -22,9 +21,8 @@ public class DemoTask {
     //    ThreadUtil.sleepSecond(25);
     //}
 
-    @PostConstruct
-    public void init() {
+    @Override
+    public void afterPropertiesSet() throws Exception {
         log.info("abc");
     }
-
 }

@@ -2,11 +2,11 @@
 package com.github.seaxlab.core.concurrent;
 
 import com.github.seaxlab.core.thread.NamedThreadFactory;
+import com.github.seaxlab.core.util.UnsafeUtil;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Field;
 import java.util.Objects;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -119,7 +119,7 @@ public class ActorSystem {
 
         static {
             try {
-                statusOffset = Unsafe.instance.objectFieldOffset(Actor.class.getDeclaredField("status"));
+                statusOffset = UnsafeUtil.getUnsafe().objectFieldOffset(Actor.class.getDeclaredField("status"));
             } catch (Throwable t) {
                 throw new ExceptionInInitializerError(t);
             }
@@ -223,11 +223,11 @@ public class ActorSystem {
         }
 
         final int currentStatus() {
-            return Unsafe.instance.getIntVolatile(this, statusOffset);
+            return UnsafeUtil.getUnsafe().getIntVolatile(this, statusOffset);
         }
 
         private boolean updateStatus(int oldStatus, int newStatus) {
-            return Unsafe.instance.compareAndSwapInt(this, statusOffset, oldStatus, newStatus);
+            return UnsafeUtil.getUnsafe().compareAndSwapInt(this, statusOffset, oldStatus, newStatus);
         }
 
         @Override
@@ -273,8 +273,8 @@ public class ActorSystem {
 
         static {
             try {
-                enqOffset = Unsafe.instance.objectFieldOffset(BoundedNodeQueue.class.getDeclaredField("_enqDoNotCallMeDirectly"));
-                deqOffset = Unsafe.instance.objectFieldOffset(BoundedNodeQueue.class.getDeclaredField("_deqDoNotCallMeDirectly"));
+                enqOffset = UnsafeUtil.getUnsafe().objectFieldOffset(BoundedNodeQueue.class.getDeclaredField("_enqDoNotCallMeDirectly"));
+                deqOffset = UnsafeUtil.getUnsafe().objectFieldOffset(BoundedNodeQueue.class.getDeclaredField("_deqDoNotCallMeDirectly"));
             } catch (Throwable t) {
                 throw new ExceptionInInitializerError(t);
             }
@@ -296,28 +296,28 @@ public class ActorSystem {
 
         @SuppressWarnings("unchecked")
         private Node<T> getEnq() {
-            return (Node<T>) Unsafe.instance.getObjectVolatile(this, enqOffset);
+            return (Node<T>) UnsafeUtil.getUnsafe().getObjectVolatile(this, enqOffset);
         }
 
         private void setEnq(Node<T> n) {
-            Unsafe.instance.putObjectVolatile(this, enqOffset, n);
+            UnsafeUtil.getUnsafe().putObjectVolatile(this, enqOffset, n);
         }
 
         private boolean casEnq(Node<T> old, Node<T> nju) {
-            return Unsafe.instance.compareAndSwapObject(this, enqOffset, old, nju);
+            return UnsafeUtil.getUnsafe().compareAndSwapObject(this, enqOffset, old, nju);
         }
 
         @SuppressWarnings("unchecked")
         private Node<T> getDeq() {
-            return (Node<T>) Unsafe.instance.getObjectVolatile(this, deqOffset);
+            return (Node<T>) UnsafeUtil.getUnsafe().getObjectVolatile(this, deqOffset);
         }
 
         private void setDeq(Node<T> n) {
-            Unsafe.instance.putObjectVolatile(this, deqOffset, n);
+            UnsafeUtil.getUnsafe().putObjectVolatile(this, deqOffset, n);
         }
 
         private boolean casDeq(Node<T> old, Node<T> nju) {
-            return Unsafe.instance.compareAndSwapObject(this, deqOffset, old, nju);
+            return UnsafeUtil.getUnsafe().compareAndSwapObject(this, deqOffset, old, nju);
         }
 
         public final int count() {
@@ -411,7 +411,7 @@ public class ActorSystem {
 
             static {
                 try {
-                    nextOffset = Unsafe.instance.objectFieldOffset(Node.class.getDeclaredField("_nextDoNotCallMeDirectly"));
+                    nextOffset = UnsafeUtil.getUnsafe().objectFieldOffset(Node.class.getDeclaredField("_nextDoNotCallMeDirectly"));
                 } catch (Throwable t) {
                     throw new ExceptionInInitializerError(t);
                 }
@@ -424,32 +424,11 @@ public class ActorSystem {
 
             @SuppressWarnings("unchecked")
             public final Node<T> next() {
-                return (Node<T>) Unsafe.instance.getObjectVolatile(this, nextOffset);
+                return (Node<T>) UnsafeUtil.getUnsafe().getObjectVolatile(this, nextOffset);
             }
 
             protected final void setNext(final Node<T> newNext) {
-                Unsafe.instance.putOrderedObject(this, nextOffset, newNext);
-            }
-        }
-    }
-
-    static class Unsafe {
-        public final static sun.misc.Unsafe instance;
-
-        static {
-            try {
-                sun.misc.Unsafe found = null;
-                for (Field field : sun.misc.Unsafe.class.getDeclaredFields()) {
-                    if (field.getType() == sun.misc.Unsafe.class) {
-                        field.setAccessible(true);
-                        found = (sun.misc.Unsafe) field.get(null);
-                        break;
-                    }
-                }
-                if (found == null) throw new IllegalStateException("Can't find instance of sun.misc.Unsafe");
-                else instance = found;
-            } catch (Throwable t) {
-                throw new ExceptionInInitializerError(t);
+                UnsafeUtil.getUnsafe().putOrderedObject(this, nextOffset, newNext);
             }
         }
     }

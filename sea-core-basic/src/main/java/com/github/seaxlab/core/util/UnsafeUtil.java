@@ -18,7 +18,7 @@ public final class UnsafeUtil {
     private UnsafeUtil() {
     }
 
-    protected static Unsafe u;
+    private static final Unsafe u;
 
     public static Unsafe getUnsafe() {
         return u;

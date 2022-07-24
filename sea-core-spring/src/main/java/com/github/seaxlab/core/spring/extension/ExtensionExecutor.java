@@ -3,9 +3,8 @@ package com.github.seaxlab.core.spring.extension;
 import com.github.seaxlab.core.common.CoreErrorConst;
 import com.github.seaxlab.core.exception.BaseAppException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * ExtensionExecutor
@@ -16,7 +15,7 @@ import javax.annotation.Resource;
 @Component("seaCoreExtensionExecutor")
 public class ExtensionExecutor extends AbstractComponentExecutor {
 
-    @Resource
+    @Autowired
     private ExtensionRepository extensionRepository;
 
     @Override

@@ -2,9 +2,8 @@ package com.github.seaxlab.core.spring.extension;
 
 import com.github.seaxlab.core.common.CoreErrorConst;
 import com.github.seaxlab.core.exception.BaseAppException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * ExtensionRegister
@@ -14,7 +13,7 @@ import javax.annotation.Resource;
 @Component("seaCoreExtensionRegister")
 public class ExtensionRegister {
 
-    @Resource
+    @Autowired
     private ExtensionRepository extensionRepository;
 
 

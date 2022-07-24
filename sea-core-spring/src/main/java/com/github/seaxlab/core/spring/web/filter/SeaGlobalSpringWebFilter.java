@@ -11,6 +11,7 @@ import com.github.seaxlab.core.web.extension.HttpCookieParseExtension;
 import com.github.seaxlab.core.web.extension.HttpHeaderParseExtension;
 import com.github.seaxlab.core.web.extension.HttpRequestParseExtension;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -19,7 +20,6 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,18 +32,11 @@ import java.util.Map;
  * @since 1.0
  */
 @Slf4j
-public class SeaGlobalSpringWebFilter implements WebFilter, Ordered {
+public class SeaGlobalSpringWebFilter implements WebFilter, Ordered, InitializingBean {
 
     private static Map<String, String> httpHeaderMap;
     private static Map<String, String> httpCookieMap;
     private static Map<String, String> httpRequestMap;
-
-    @PostConstruct
-    public void init() {
-        initHttpHeaderParse();
-        initHttpCookieParse();
-        initHttpRequestParse();
-    }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
@@ -207,5 +200,12 @@ public class SeaGlobalSpringWebFilter implements WebFilter, Ordered {
     @Override
     public int getOrder() {
         return 1000;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        initHttpHeaderParse();
+        initHttpCookieParse();
+        initHttpRequestParse();
     }
 }
