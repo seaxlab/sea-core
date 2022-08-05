@@ -106,29 +106,43 @@ public final class ModelConst {
     public static final String ACTIVE_FLAG = "activeFlag";
     public static final String SYNC_FLAG = "syncFlag";
 
+    // 启停标识
     public static final String IS_ENABLED = "isEnabled";
     public static final String ENABLE_FLAG = "enableFlag";
 
+    // 删除标识
     public static final String IS_DELETED = "isDeleted";
     public static final String DEL_FLAG = "delFlag";
+    public static final String DELETED = "deleted";
 
+    // 版本号
     public static final String VERSION = "version";
     public static final String MODEL_VERSION = "modelVersion"; /* db model version */
+    //租户
     public static final String TENANT_ID = "tenantId";
 
     /*----------这里兼容了几种常用的字段-----------------*/
+    // 创建人
     public static final String CREATOR = "creator";
     public static final String CREATE_USER_ID = "createUserId";
     public static final String CREATE_USER_NAME = "createUserName";
     public static final String CREATE_USER = "createUser";
+
+    // 创建时间
     public static final String CREATE_TIME = "createTime";
+    public static final String CREATED_BY = "createdBy";
     public static final String GMT_CREATE = "gmtCreate";
 
+    // 修改人
     public static final String EDITOR = "editor";
     public static final String UPDATE_USER_ID = "updateUserId";
     public static final String UPDATE_USER_NAME = "updateUserName";
     public static final String UPDATE_USER = "updateUser";
+    public static final String UPDATED_BY = "updatedBy";
+
+    // 修改时间
     public static final String UPDATE_TIME = "updateTime";
+    public static final String UPDATED_AT = "updatedAt";
     public static final String GMT_MODIFY = "gmtModify";
 
     public static final String TRADING_DAY = "tradingDay";
