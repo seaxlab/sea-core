@@ -46,7 +46,7 @@ public class RedisTemplateTest extends BaseSpringTest {
         final RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName("10.122.2.110");
         redisStandaloneConfiguration.setPort(6379);
-        redisStandaloneConfiguration.setPassword("yuantu123");
+        redisStandaloneConfiguration.setPassword("");
         redisStandaloneConfiguration.setDatabase(0);
 
         LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory(redisStandaloneConfiguration);

@@ -110,7 +110,7 @@ public class NotifyManagerTest extends AbstractCore5Test {
                 "\n" +
                 "\n" +
                 "- traceId=96a10926-1f41-46bc-b630-618a20456d41\n" +
-                "- [请求链路](http://jaeger.yuantutech.com/trace/96a10926-1f41-46bc-b630-618a20456d41)\n" +
+                "- [请求链路](http://jaeger.xxx.com/trace/96a10926-1f41-46bc-b630-618a20456d41)\n" +
                 "- 备注：228\n" +
                 "\n" +
                 "Power By Sea Monitor Framework\n" +

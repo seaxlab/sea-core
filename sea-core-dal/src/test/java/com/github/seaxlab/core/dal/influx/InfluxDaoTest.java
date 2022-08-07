@@ -32,7 +32,7 @@ public class InfluxDaoTest extends BaseCoreDalTest {
     public void before() throws Exception {
         String url = "http://n9e001:8086";
         String token = "4p9kw-uyD_wcYnGSoieGBdvZCbp63hkEZ5qapvRvtToWdXK1AYuDxlP7gSXaT4EQ887F1OGuNPdUgxwVEpH-tQ==";
-        String org = "yuantu";
+        String org = "";
         bucket = "sea-stat2";
         influxDao = new DefaultInfluxDao(url, token, org);
     }

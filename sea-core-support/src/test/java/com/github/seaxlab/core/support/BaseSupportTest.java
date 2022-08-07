@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.support;
 
+import com.github.seaxlab.core.test.AbstractCoreTest;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -10,5 +11,5 @@ import lombok.extern.slf4j.Slf4j;
  * @since 1.0
  */
 @Slf4j
-public class BaseSupportTest {
+public class BaseSupportTest extends AbstractCoreTest {
 }

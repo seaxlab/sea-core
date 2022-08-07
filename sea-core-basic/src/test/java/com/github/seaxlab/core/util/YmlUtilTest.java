@@ -62,7 +62,7 @@ public class YmlUtilTest extends BaseCoreTest {
 
     @Test
     public void test67() throws Exception {
-        String path = getUserHome() + "/spy/gitlab/yuantu/arch/sea-core/sea-core-basic/src/test/resources/yaml/test.yaml";
+        String path = getUserHome() + "/spy/gitlab/sea/sea-core/sea-core-basic/src/test/resources/yaml/test.yaml";
 
         Yaml yaml = new Yaml();
         Object obj = yaml.load(new FileInputStream(path));
@@ -81,7 +81,7 @@ public class YmlUtilTest extends BaseCoreTest {
     @Test
     public void testDumpAppend() throws Exception {
 
-        String path = getUserHome() + "/spy/gitlab/yuantu/arch/sea-core/sea-core-basic/src/test/resources/yaml/test.yaml";
+        String path = getUserHome() + "/spy/gitlab/sea/sea-core/sea-core-basic/src/test/resources/yaml/test.yaml";
 
         Map<String, String> data = new HashMap<>();
         data.put("key", "--");
