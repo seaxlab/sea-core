@@ -20,8 +20,4 @@
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-
-    <import resource="spring-mybatis-plus.xml"/>
-    <import resource="spring-mybatis-tk.xml"/>
-
 </beans>

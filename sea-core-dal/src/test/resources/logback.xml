@@ -11,6 +11,7 @@
 
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.springboot.sample" level="TRACE"/>
+    <logger name="com.zaxxer.hikari" level="INFO"/>
     <logger name="org.mybatis" level="INFO"/>
     <logger name="java.sql" level="INFO"/>
     <logger name="druid.sql" level="DEBUG"/>
