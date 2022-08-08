@@ -55,26 +55,26 @@ public final class WrapperUtil {
      * set equal or in
      *
      * @param wrapper
-     * @param func
+     * @param column
      * @param value
      */
-    public static <T> void set(final LambdaQueryWrapper<T> wrapper, SFunction func, Object value) {
+    public static <T> void set(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> column, Object value) {
         if (value == null) {
             return;
         }
         if (value instanceof String) {
             if (StringUtil.isNotEmpty(value)) {
-                wrapper.eq(func, value);
+                wrapper.eq(column, value);
             }
         } else if (value instanceof Collection) {
             Collection data = (Collection) value; // NOSONAR
             if (data.isEmpty()) {
                 log.warn("collection [value] is empty.");
             } else {
-                wrapper.in(func, data);
+                wrapper.in(column, data);
             }
         } else {
-            wrapper.eq(func, value);
+            wrapper.eq(column, value);
         }
     }
 
@@ -112,7 +112,7 @@ public final class WrapperUtil {
      * @param func
      * @param value
      */
-    public static <T> void setNot(final LambdaQueryWrapper<T> wrapper, SFunction func, Object value) {
+    public static <T> void setNot(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Object value) {
         if (value == null) {
             return;
         }
@@ -158,7 +158,7 @@ public final class WrapperUtil {
      * @param beginDate
      * @param endDate
      */
-    public static <T> void setRangeDate(final LambdaQueryWrapper<T> wrapper, SFunction func, Date beginDate, Date endDate) {
+    public static <T> void setRangeDate(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Date beginDate, Date endDate) {
         if (beginDate != null) {
             wrapper.ge(func, new java.sql.Date(beginDate.getTime()));
         }
@@ -193,7 +193,7 @@ public final class WrapperUtil {
      * @param beginDate
      * @param endDate
      */
-    public static <T> void setRangeDateTime(final LambdaQueryWrapper<T> wrapper, SFunction func, Date beginDate, Date endDate) {
+    public static <T> void setRangeDateTime(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Date beginDate, Date endDate) {
         if (beginDate != null) {
             wrapper.ge(func, beginDate);
         }
