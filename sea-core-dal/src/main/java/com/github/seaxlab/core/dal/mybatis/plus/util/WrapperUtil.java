@@ -132,6 +132,68 @@ public final class WrapperUtil {
         }
     }
 
+    /**
+     * 模糊匹配%xxx%
+     *
+     * @param wrapper
+     * @param func
+     * @param value
+     * @param <T>
+     */
+    public static <T> void setLike(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Object value) {
+        if (value == null) {
+            return;
+        }
+        if (value instanceof String) {
+            if (StringUtil.isNotEmpty(value)) {
+                wrapper.like(func, value);
+            }
+        } else {
+            wrapper.like(func, value);
+        }
+    }
+
+    /**
+     * 左匹配%xxx
+     *
+     * @param wrapper
+     * @param func
+     * @param value
+     * @param <T>
+     */
+    public static <T> void setLikeLeft(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Object value) {
+        if (value == null) {
+            return;
+        }
+        if (value instanceof String) {
+            if (StringUtil.isNotEmpty(value)) {
+                wrapper.likeLeft(func, value);
+            }
+        } else {
+            wrapper.likeLeft(func, value);
+        }
+    }
+
+    /**
+     * 右匹配xxx%
+     *
+     * @param wrapper
+     * @param func
+     * @param value
+     * @param <T>
+     */
+    public static <T> void setLikeRight(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Object value) {
+        if (value == null) {
+            return;
+        }
+        if (value instanceof String) {
+            if (StringUtil.isNotEmpty(value)) {
+                wrapper.likeRight(func, value);
+            }
+        } else {
+            wrapper.likeRight(func, value);
+        }
+    }
 
     /**
      * 只比较日期
