@@ -23,6 +23,20 @@ public final class EqualUtil {
     /**
      * check equal.
      *
+     * @param value1
+     * @param value2
+     * @return
+     */
+    public static boolean isEq(final Boolean value1, final Boolean value2) {
+        if (Objects.nonNull(value1) && Objects.nonNull(value2)) {
+            return value1.booleanValue() == value2.booleanValue();
+        }
+        return false;
+    }
+
+    /**
+     * check equal.
+     *
      * @param value1 Byte
      * @param value2 Byte
      * @return boolean
@@ -218,6 +232,17 @@ public final class EqualUtil {
 
 
     //---不等操作
+
+    /**
+     * is not equal check.
+     *
+     * @param value1
+     * @param value2
+     * @return
+     */
+    public static boolean isNotEq(Boolean value1, Boolean value2) {
+        return !isEq(value1, value2);
+    }
 
     /**
      * is not equal check.

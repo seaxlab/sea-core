@@ -5,12 +5,9 @@ import java.io.Serializable;
 /**
  * BO
  *
- * <p>禁止使用BO</p>
- *
  * @author spy
- * @version 1.0 11/17/20
+ * @version 1.0 11/17/2020
  * @since 1.0
  */
-@Deprecated// 禁止使用BO
 public class BO implements Serializable {
 }
