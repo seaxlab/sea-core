@@ -1,6 +1,8 @@
 package com.github.seaxlab.core.dal.mybatis.plus.util;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.github.seaxlab.core.common.CoreConst;
 import com.github.seaxlab.core.model.common.ModelConst;
 import com.github.seaxlab.core.util.StringUtil;
@@ -50,6 +52,33 @@ public final class WrapperUtil {
     }
 
     /**
+     * set equal or in
+     *
+     * @param wrapper
+     * @param func
+     * @param value
+     */
+    public static <T> void set(final LambdaQueryWrapper<T> wrapper, SFunction func, Object value) {
+        if (value == null) {
+            return;
+        }
+        if (value instanceof String) {
+            if (StringUtil.isNotEmpty(value)) {
+                wrapper.eq(func, value);
+            }
+        } else if (value instanceof Collection) {
+            Collection data = (Collection) value; // NOSONAR
+            if (data.isEmpty()) {
+                log.warn("collection [value] is empty.");
+            } else {
+                wrapper.in(func, data);
+            }
+        } else {
+            wrapper.eq(func, value);
+        }
+    }
+
+    /**
      * set not equal or in
      *
      * @param wrapper
@@ -77,6 +106,34 @@ public final class WrapperUtil {
     }
 
     /**
+     * set not equal or in
+     *
+     * @param wrapper
+     * @param func
+     * @param value
+     */
+    public static <T> void setNot(final LambdaQueryWrapper<T> wrapper, SFunction func, Object value) {
+        if (value == null) {
+            return;
+        }
+        if (value instanceof String) {
+            if (StringUtil.isNotEmpty(value)) {
+                wrapper.ne(func, value);
+            }
+        } else if (value instanceof Collection) {
+            Collection data = (Collection) value; // NOSONAR
+            if (data.isEmpty()) {
+                log.warn("collection [value] is empty.");
+            } else {
+                wrapper.notIn(func, data);
+            }
+        } else {
+            wrapper.ne(func, value);
+        }
+    }
+
+
+    /**
      * 只比较日期
      *
      * @param wrapper
@@ -90,6 +147,23 @@ public final class WrapperUtil {
         }
         if (endDate != null) {
             wrapper.le(propertyName, new java.sql.Date(endDate.getTime()));
+        }
+    }
+
+    /**
+     * 只比较日期
+     *
+     * @param wrapper
+     * @param func
+     * @param beginDate
+     * @param endDate
+     */
+    public static <T> void setRangeDate(final LambdaQueryWrapper<T> wrapper, SFunction func, Date beginDate, Date endDate) {
+        if (beginDate != null) {
+            wrapper.ge(func, new java.sql.Date(beginDate.getTime()));
+        }
+        if (endDate != null) {
+            wrapper.le(func, new java.sql.Date(endDate.getTime()));
         }
     }
 
@@ -110,6 +184,23 @@ public final class WrapperUtil {
         }
     }
 
+
+    /**
+     * 比较日期时间
+     *
+     * @param wrapper
+     * @param func
+     * @param beginDate
+     * @param endDate
+     */
+    public static <T> void setRangeDateTime(final LambdaQueryWrapper<T> wrapper, SFunction func, Date beginDate, Date endDate) {
+        if (beginDate != null) {
+            wrapper.ge(func, beginDate);
+        }
+        if (endDate != null) {
+            wrapper.le(func, endDate);
+        }
+    }
 
     /**
      * 同时设置status,isDeleted
