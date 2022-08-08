@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.support.oss;
 
+import com.github.seaxlab.core.support.BaseSupportTest;
 import com.github.seaxlab.core.support.oss.manager.impl.AliyunFileUploadManager;
 import com.github.seaxlab.core.util.IdUtil;
 import com.github.seaxlab.core.util.PathUtil;
@@ -15,7 +16,7 @@ import org.junit.jupiter.api.Test;
  * @since 1.0
  */
 @Slf4j
-public class FileUploadManagerTest {
+public class FileUploadManagerTest extends BaseSupportTest {
 
     private AliyunFileUploadManager fileUploadManager;
 
@@ -25,8 +26,8 @@ public class FileUploadManagerTest {
     @BeforeEach
     public void before() {
 
-        String accessKeyId = "8PIhaKLfrSBFvK1f";
-        String accessKeySecret = "uK1uKmOtX2HP91kpVWRixWEiCh933J";
+        String accessKeyId = getPassword("oss_yt_access_key_id");
+        String accessKeySecret = getPassword("oss_yt_access_key_secret");
         String endpoint = "oss-cn-hangzhou.aliyuncs.com";
 
         fileUploadManager = new AliyunFileUploadManager();
@@ -34,7 +35,7 @@ public class FileUploadManagerTest {
         fileUploadManager.setAccessKeyId(accessKeyId);
         fileUploadManager.setAccessKeySecret(accessKeySecret);
 
-        bucketDefault = "yuantu-hz-img";
+        bucketDefault = getPassword("oss_yt_bucket_default");
 //        bucketDefault = "test";
     }
 
@@ -46,7 +47,7 @@ public class FileUploadManagerTest {
         String fileUrl = fileUploadManager.uploadByFilePath(userHome + "/test/test.png", bucketDefault, filename);
         log.info("fileUrl={}", fileUrl);
 
-        //https://yuantu-hz-img.oss-cn-hangzhou.aliyuncs.com/2fc1b6419c75412ab0d1b494fd2d0fd3.png
+        //https://${bucket}.oss-cn-hangzhou.aliyuncs.com/2fc1b6419c75412ab0d1b494fd2d0fd3.png
 
     }
 

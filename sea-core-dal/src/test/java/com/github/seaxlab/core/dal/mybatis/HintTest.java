@@ -6,9 +6,10 @@ import com.github.seaxlab.core.dal.mybatis.tk.User1Mapper;
 import com.github.seaxlab.core.test.AbstractCoreSpringTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
+
+import javax.annotation.Resource;
 
 /**
  * module name
@@ -25,7 +26,7 @@ public class HintTest extends AbstractCoreSpringTest {
     /**
      * tk
      */
-    @Autowired
+    @Resource
     private User1Mapper user1Mapper;
 
     @Test

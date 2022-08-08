@@ -22,7 +22,11 @@ import javax.annotation.Resource;
  * @since 1.0
  */
 @Slf4j
-@ContextConfiguration("classpath:mybatis/spring.xml")
+@ContextConfiguration({
+        "classpath:mybatis/spring.xml",
+        "classpath:mybatis/spring-mybatis-plus.xml",
+        "classpath:mybatis/spring-mybatis-tk.xml",
+})
 @Rollback(false)
 public class TkAndPlusTest extends AbstractCoreSpringTest {
 

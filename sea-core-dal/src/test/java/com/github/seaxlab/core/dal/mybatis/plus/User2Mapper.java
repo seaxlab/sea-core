@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.dal.mybatis.plus;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.github.seaxlab.core.dal.mybatis.plus.mapper.EnhanceBaseMapper;
 
 /**
  * module name
@@ -9,6 +9,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @version 1.0 2021/2/11
  * @since 1.0
  */
-public interface User2Mapper extends BaseMapper<User2> {
+public interface User2Mapper extends EnhanceBaseMapper<User2> {
     Integer selectMaxAge();
 }

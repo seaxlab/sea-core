@@ -40,7 +40,7 @@ public class InfluxdbTest extends BaseCoreDalTest {
     public void before() {
         String url = "http://n9e001:8086";
         char[] token = "4p9kw-uyD_wcYnGSoieGBdvZCbp63hkEZ5qapvRvtToWdXK1AYuDxlP7gSXaT4EQ887F1OGuNPdUgxwVEpH-tQ==".toCharArray();
-        org = "yuantu";
+        org = "yt";
         bucket = "sea-stat2";
         influxDBClient = InfluxDBClientFactory.create(url, token, org);
     }

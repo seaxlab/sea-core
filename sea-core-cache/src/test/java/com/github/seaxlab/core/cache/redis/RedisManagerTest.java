@@ -36,10 +36,6 @@ public class RedisManagerTest extends BaseTest {
 //        redisServer.start();
 
         redisManager = new RedisManager();
-
-//        redisManager.setHost("10.122.2.110");
-//        redisManager.setPassword("yuantu123");
-
         redisManager.setHost("localhost");
 //        redisManager.setHost("mylab");
 

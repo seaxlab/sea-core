@@ -31,7 +31,7 @@ public class JedisTest extends BaseTest {
 
         String host = "10.122.2.110";
         int port = 6379;
-        String password = "yuantu123";
+        String password = "";
         int database = 8;
 
         pool = new JedisPool(config, host, port, 30_000, password, database);

@@ -28,8 +28,8 @@ public class RedissonTest extends BaseTest {
 
         Config config = new Config();
         config.useSingleServer()
-              .setAddress("redis://10.122.50.64:6379")
-              .setPassword("yuantu123");
+              .setAddress("redis://mylab:6379")
+              .setPassword("");
 
         client = Redisson.create(config);
     }

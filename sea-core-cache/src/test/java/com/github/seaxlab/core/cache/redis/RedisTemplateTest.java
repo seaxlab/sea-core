@@ -23,10 +23,10 @@ public class RedisTemplateTest extends BaseTest {
     @Before
     public void before() throws Exception {
         RedisStandaloneConfiguration cfg = new RedisStandaloneConfiguration();
-        cfg.setHostName("10.122.2.110");
+        cfg.setHostName("mylab");
         cfg.setPort(6379);
         cfg.setDatabase(8);
-        cfg.setPassword("yuantu123");
+        cfg.setPassword("");
 
         LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory(cfg);
         connectionFactory.afterPropertiesSet();
