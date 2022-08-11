@@ -21,4 +21,10 @@ public class ApiConst {
     // 内部API
     public static final String INNER = "/api/inner";
 
+    // for console
+    public static final String CONSOLE = "/api/console";
+
+    // for app
+    public static final String APP = "/api/app";
+
 }
