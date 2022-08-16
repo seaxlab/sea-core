@@ -38,11 +38,15 @@ public class LogCostMethodInterceptor implements MethodInterceptor {
         try {
             return invocation.proceed();
         } finally {
-            String prefix;
-            if (StringUtil.isBlank(anno.remark())) {
-                prefix = invocation.getMethod().getDeclaringClass().getSimpleName() + "." + invocation.getMethod().getName();
-            } else {
-                prefix = anno.remark();
+            String prefix = "";
+            try {
+                if (StringUtil.isBlank(anno.remark())) {
+                    prefix = invocation.getMethod().getDeclaringClass().getSimpleName() + "." + invocation.getMethod().getName();
+                } else {
+                    prefix = anno.remark();
+                }
+            } catch (Exception e) {
+                log.error("fail to get class and method name info", e);
             }
             log.info("{}, cost={}ms", prefix, System.currentTimeMillis() - start);
         }
