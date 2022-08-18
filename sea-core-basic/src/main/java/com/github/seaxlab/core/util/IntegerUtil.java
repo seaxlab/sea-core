@@ -25,7 +25,7 @@ public final class IntegerUtil {
         try {
             return Integer.parseInt(obj.toString());
         } catch (Exception e) {
-            log.error("fail to parse long", e);
+            log.error("fail to parse obj to integer", e);
         }
 
         return null;

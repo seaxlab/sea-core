@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.TreeSet;
 
 /**
- * module name
+ * number util
  *
  * @author spy
  * @version 1.0 2019-08-14

@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 import java.util.Properties;
 
 /**
- * 模块
+ * object util
  *
  * @author spy
  * @version 1.0 2019-06-14
