@@ -20,8 +20,8 @@ import java.util.Date;
  * @since 1.0
  */
 @Slf4j
-@MappedTypes({String.class})
-@MappedJdbcTypes(JdbcType.VARCHAR)
+@MappedTypes({Date.class})
+@MappedJdbcTypes(JdbcType.BIGINT)
 public class LongAndDate2TypeHandler extends BaseTypeHandler<Date> {
 
     @Override

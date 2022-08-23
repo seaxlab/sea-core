@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.dal.mybatis.common.handler;
+package com.github.seaxlab.core.dal.mybatis.plus.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;

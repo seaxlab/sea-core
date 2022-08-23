@@ -128,9 +128,9 @@ public final class ModelConst {
     public static final String CREATE_USER_NAME = "createUserName";
     public static final String CREATE_USER = "createUser";
 
-    // 创建时间
     public static final String CREATE_TIME = "createTime";
-    public static final String CREATED_BY = "createdBy";
+    public static final String CREATED_BY = "createdBy"; // BIGINT
+    public static final String CREATED_USER_NAME = "createdUserName";
     public static final String GMT_CREATE = "gmtCreate";
 
     // 修改人
@@ -138,9 +138,9 @@ public final class ModelConst {
     public static final String UPDATE_USER_ID = "updateUserId";
     public static final String UPDATE_USER_NAME = "updateUserName";
     public static final String UPDATE_USER = "updateUser";
-    public static final String UPDATED_BY = "updatedBy";
 
-    // 修改时间
+    public static final String UPDATED_BY = "updatedBy"; // BIGINT
+    public static final String UPDATED_USER_NAME = "updatedUserName";
     public static final String UPDATE_TIME = "updateTime";
     public static final String UPDATED_AT = "updatedAt";
     public static final String GMT_MODIFY = "gmtModify";

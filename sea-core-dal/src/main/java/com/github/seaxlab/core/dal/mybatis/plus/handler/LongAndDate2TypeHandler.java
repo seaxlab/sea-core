@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.dal.mybatis.common.handler;
+package com.github.seaxlab.core.dal.mybatis.plus.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;
@@ -22,7 +22,7 @@ import java.util.Date;
 @Slf4j
 @MappedTypes({Date.class})
 @MappedJdbcTypes(JdbcType.BIGINT)
-public class LongAndDateTypeHandler extends BaseTypeHandler<Date> {
+public class LongAndDate2TypeHandler extends BaseTypeHandler<Date> {
 
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, Date date, JdbcType jdbcType) throws SQLException {
@@ -32,19 +32,32 @@ public class LongAndDateTypeHandler extends BaseTypeHandler<Date> {
     @Override
     public Date getNullableResult(ResultSet rs, String columnName) throws SQLException {
         Long value = rs.getLong(columnName);
-        return value == null ? null : new Date(value);
+        if (value == null || value <= 0) {
+            // value=-1 or 0, no meaning.
+            return null;
+        }
+
+        return new Date(value);
     }
 
     @Override
     public Date getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
         Long value = rs.getLong(columnIndex);
-        return value == null ? null : new Date(value);
+        if (value == null || value <= 0) {
+            return null;
+        }
+
+        return new Date(value);
     }
 
     @Override
     public Date getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         Long value = cs.getLong(columnIndex);
-        return value == null ? null : new Date(value);
+        if (value == null || value <= 0) {
+            return null;
+        }
+
+        return new Date(value);
     }
 
 }
