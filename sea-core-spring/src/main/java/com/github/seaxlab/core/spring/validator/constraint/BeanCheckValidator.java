@@ -9,7 +9,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * module name
+ * bean check validator.
  *
  * @author spy
  * @version 1.0 2022/8/24
@@ -21,8 +21,8 @@ public class BeanCheckValidator implements ConstraintValidator<BeanCheck, Object
     private String beanName;
 
     @Override
-    public void initialize(BeanCheck constraintAnnotation) {
-        this.beanName = constraintAnnotation.value();
+    public void initialize(BeanCheck annotation) {
+        this.beanName = annotation.value();
     }
 
     @Override

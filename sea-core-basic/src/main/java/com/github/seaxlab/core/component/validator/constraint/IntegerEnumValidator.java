@@ -20,8 +20,8 @@ public class IntegerEnumValidator implements ConstraintValidator<IntegerEnum, In
     private int[] values;
 
     @Override
-    public void initialize(IntegerEnum enumValue) {
-        this.values = enumValue.values();
+    public void initialize(IntegerEnum annotation) {
+        this.values = annotation.values();
     }
 
     @Override

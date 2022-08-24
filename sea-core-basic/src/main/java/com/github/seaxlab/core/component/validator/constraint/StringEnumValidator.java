@@ -20,8 +20,8 @@ public class StringEnumValidator implements ConstraintValidator<StringEnum, Stri
     private String[] values;
 
     @Override
-    public void initialize(StringEnum enumValue) {
-        this.values = enumValue.values();
+    public void initialize(StringEnum annotation) {
+        this.values = annotation.values();
     }
 
     @Override
