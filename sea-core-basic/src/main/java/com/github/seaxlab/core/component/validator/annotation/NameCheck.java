@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.component.validator.annotation;
 
-import com.github.seaxlab.core.component.validator.constraint.StringEnumValidator;
+import com.github.seaxlab.core.component.validator.constraint.NameValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -16,7 +16,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = StringEnumValidator.class)
+@Constraint(validatedBy = NameValidator.class)
 public @interface NameCheck {
 
     String message() default "名称不合法";

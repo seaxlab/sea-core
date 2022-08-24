@@ -1,13 +1,13 @@
 package com.github.seaxlab.core.component.validator.annotation;
 
-import com.github.seaxlab.core.component.validator.constraint.StringEnumValidator;
+import com.github.seaxlab.core.component.validator.constraint.CodeValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
 /**
- * module name
+ * name check
  *
  * @author spy
  * @version 1.0 2022/8/24
@@ -16,14 +16,12 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = StringEnumValidator.class)
-public @interface StringEnum {
+@Constraint(validatedBy = CodeValidator.class)
+public @interface CodeCheck {
 
-    String message() default "参数必须为指定的值!";
+    String message() default "编码不合法";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    String[] values() default {};
 }
