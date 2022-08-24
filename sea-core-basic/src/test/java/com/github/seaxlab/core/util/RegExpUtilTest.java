@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.enums.RegExpEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -22,24 +23,24 @@ public class RegExpUtilTest extends BaseCoreTest {
     @Test
     public void run23() throws Exception {
         //不含加号
-        println(RegExpUtil.is("a_", RegExpUtil.letter_number_underline_regexp)); //true
-        println(RegExpUtil.is("a-", RegExpUtil.letter_number_underline_regexp)); //false
-        println(RegExpUtil.is("a.", RegExpUtil.letter_number_underline_regexp)); //false
-        println(RegExpUtil.is("a+", RegExpUtil.letter_number_underline_regexp)); //false
+        println(RegExpUtil.is("a_", RegExpEnum.LETTER_AND_NUMBER_AND_UNDER_LINE)); //true
+        println(RegExpUtil.is("a-", RegExpEnum.LETTER_AND_NUMBER_AND_UNDER_LINE)); //false
+        println(RegExpUtil.is("a.", RegExpEnum.LETTER_AND_NUMBER_AND_UNDER_LINE)); //false
+        println(RegExpUtil.is("a+", RegExpEnum.LETTER_AND_NUMBER_AND_UNDER_LINE)); //false
     }
 
     @Test
     public void run32() throws Exception {
-        println(RegExpUtil.is("Aa1-_.", RegExpUtil.normal_id_regexp));
+        println(RegExpUtil.is("Aa1-_.", RegExpEnum.ID));
     }
 
     @Test
     public void testChinese() throws Exception {
-        println(RegExpUtil.find("中文", RegExpUtil.REGEX_CHINESE));
-        println(RegExpUtil.find("12abc中文", RegExpUtil.REGEX_CHINESE));
+        println(RegExpUtil.find("中文", RegExpEnum.CHINESE));
+        println(RegExpUtil.find("12abc中文", RegExpEnum.CHINESE));
 
-        println(RegExpUtil.find("國", RegExpUtil.REGEX_CHINESE)); // true
-        println(RegExpUtil.find("國", RegExpUtil.REGEX_CHINESE_COMPLEX)); // false, why false
+        println(RegExpUtil.find("國", RegExpEnum.CHINESE)); // true
+        println(RegExpUtil.find("國", RegExpEnum.CHINESE_AND_EXTEND)); // false, why false
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.util;
 
+import com.github.seaxlab.core.enums.RegExpEnum;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -16,136 +17,18 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public final class RegExpUtil {
-    /**
-     * 匹配非负整数（正整数 + 0)
-     */
-    public static final String non_negative_integers_regexp = "^\\d+$";
 
     /**
-     * 匹配不包括零的非负整数（正整数 > 0)
+     * check by RegExpEnum
+     *
+     * @param text
+     * @param regExpEnum
+     * @return
      */
-    public static final String non_zero_negative_integers_regexp = "^[1-9]+\\d*$";
-
-    /**
-     * 匹配非正整数（负整数 + 0）
-     */
-    public static final String non_positive_integers_regexp = "^((-\\d+)|(0+))$";
-
-    /**
-     * 匹配负整数
-     */
-    public static final String negative_integers_regexp = "^-[0-9]*[1-9][0-9]*$";
-
-    /**
-     * 匹配整数
-     */
-    public static final String integer_regexp = "^-?\\d+$";
-
-    /**
-     * 匹配非负浮点数（正浮点数 + 0）
-     */
-    public static final String non_negative_rational_numbers_regexp = "^\\d+(\\.\\d+)?$";
-
-    /**
-     * 匹配正浮点数
-     */
-    public static final String positive_rational_numbers_regexp = "^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$";
-
-    /**
-     * 匹配非正浮点数（负浮点数 + 0）
-     */
-    public static final String non_positive_rational_numbers_regexp = "^((-\\d+(\\.\\d+)?)|(0+(\\.0+)?))$";
-
-    /**
-     * 匹配负浮点数
-     */
-    public static final String negative_rational_numbers_regexp = "^(-(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*)))$";
-
-    /**
-     * 匹配浮点数
-     */
-    public static final String rational_numbers_regexp = "^(-?\\d+)(\\.\\d+)?$";
-
-    /**
-     * 匹配由26个英文字母组成的字符串
-     */
-    public static final String letter_regexp = "^[A-Za-z]+$";
-
-    /**
-     * 匹配由26个英文字母的大写组成的字符串
-     */
-    public static final String upward_letter_regexp = "^[A-Z]+$";
-
-    /**
-     * 匹配由26个英文字母的小写组成的字符串
-     */
-    public static final String lower_letter_regexp = "^[a-z]+$";
-
-    /**
-     * 匹配由数字和26个英文字母组成的字符串
-     */
-    public static final String letter_number_regexp = "^[A-Za-z0-9]+$";
-
-    /**
-     * 匹配由数字、26个英文字母或者下划线组成的字符串
-     */
-    public static final String letter_number_underline_regexp = "^\\w+$";
-
-    /**
-     * 数字、字母、中划线、下划线、点号
-     */
-    public static final String normal_id_regexp = "^[A-Za-z0-9\\-\\_\\.]+$";
-
-    /**
-     * 正则表达式：验证手机号
-     */
-    public static final String REGEX_MOBILE = "^((13[0-9])|(14[0-9])|(15[^4,\\D])|(16[0-9])|(17[0-9])|(19[0-9])|(18[0-9]))\\d{8}$";
-
-
-    /**
-     * 正则表达式：验证邮箱
-     */
-    public static final String REGEX_EMAIL = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-
-    /**
-     * 正则表达式：验证用户名
-     */
-    public static final String REGEX_USERNAME = "^[a-zA-Z0-9]{8,16}$";
-
-    /**
-     * 正则表达式：验证密码
-     */
-    public static final String REGEX_PASSWORD = "^[a-zA-Z0-9~!@#$%^&*()_+|<>,.?/:;'\\[\\]{}]{6,16}$";
-
-    /**
-     * 正则表达式:验证日期
-     */
-    public static final String REGEX_DATE = "^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$";
-
-    /**
-     * 正则表达式:车牌号
-     */
-    public static final String REGEX_CAR_NUMBER = "([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼]{1}(([A-HJ-Z]{1}[A-HJ-NP-Z0-9]{5})|([A-HJ-Z]{1}(([DF]{1}[A-HJ-NP-Z0-9]{1}[0-9]{4})|([0-9]{5}[DF]{1})))|([A-HJ-Z]{1}[A-D0-9]{1}[0-9]{3}警)))|([0-9]{6}使)|((([沪粤川云桂鄂陕蒙藏黑辽渝]{1}A)|鲁B|闽D|蒙E|蒙H)[0-9]{4}领)|(WJ[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼·•]{1}[0-9]{4}[TDSHBXJ0-9]{1})|([VKHBSLJNGCE]{1}[A-DJ-PR-TVY]{1}[0-9]{5})";
-
-    /**
-     * 正则表达式:图片
-     */
-    public static final String REGEX_PICTURE = ".+(.JPEG|.jpeg|.JPG|.jpg|.GIF|.gif|.BMP|.bmp|.PNG|.png)$";
-
-    /**
-     * 中文(常规)
-     */
-    public static final String REGEX_CHINESE = "[\u4e00-\u9fa5]";
-
-    /**
-     * 中文+中文符号
-     */
-    public static final String REGEX_CHINESE2 = "[\u4E00-\u9FA5|\\！|\\，|\\。|\\（|\\）|\\《|\\》|\\“|\\”|\\？|\\：|\\；|\\【|\\】]";
-
-    /**
-     * 汉字扩充（繁体字、不常见字）
-     */
-    public static final String REGEX_CHINESE_COMPLEX = "[\u3400-\u4db5]";
+    public static boolean is(String text, RegExpEnum regExpEnum) {
+        Pattern pattern = Pattern.compile(regExpEnum.getExpression());
+        return pattern.matcher(text).matches();
+    }
 
     /**
      * 根据传入的正则表达式和字符串进行校验。<br/>
@@ -159,6 +42,18 @@ public final class RegExpUtil {
         return pattern.matcher(text).matches();
     }
 
+
+    /**
+     * check text contains or not.
+     *
+     * @param text
+     * @param regExpEnum
+     * @return
+     */
+    public static boolean find(String text, RegExpEnum regExpEnum) {
+        return find(text, regExpEnum.getExpression());
+    }
+    
     /**
      * 检查text中是否包含指定的正则
      *
@@ -180,7 +75,7 @@ public final class RegExpUtil {
      * @return
      */
     public static boolean isMobile(String mobile) {
-        return is(mobile, REGEX_MOBILE);
+        return is(mobile, RegExpEnum.MOBILE);
     }
 
     /**
@@ -190,7 +85,7 @@ public final class RegExpUtil {
      * @return
      */
     public static boolean isImg(String fileName) {
-        return is(fileName, REGEX_PICTURE);
+        return is(fileName, RegExpEnum.PICTURE.getExpression());
     }
 
     /**
@@ -200,7 +95,7 @@ public final class RegExpUtil {
      * @return
      */
     public static boolean isCarNumber(String carNumber) {
-        return is(carNumber, REGEX_CAR_NUMBER);
+        return is(carNumber, RegExpEnum.CAR_NUMBER.getExpression());
     }
 
     /**
@@ -210,7 +105,7 @@ public final class RegExpUtil {
      * @return
      */
     public static boolean isLegalUserName(String userName) {
-        return is(userName, REGEX_USERNAME);
+        return is(userName, RegExpEnum.USER_NAME);
     }
 
     /**
@@ -220,7 +115,7 @@ public final class RegExpUtil {
      * @return
      */
     public static boolean isLegalPassword(String password) {
-        return is(password, REGEX_PASSWORD);
+        return is(password, RegExpEnum.PASSWORD);
     }
 
     /**
