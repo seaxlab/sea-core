@@ -14,8 +14,8 @@ import java.io.Serializable;
 @Data
 public class BaseRequestDTO implements Serializable {
 
-    /**
-     * 请求日志Id，便于请求链路追踪
-     */
-    private String requestId;
+//    /**
+//     * 请求日志Id，便于请求链路追踪
+//     */
+//    private String requestId;
 }
