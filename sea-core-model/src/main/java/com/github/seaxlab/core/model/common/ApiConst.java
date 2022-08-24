@@ -3,7 +3,7 @@ package com.github.seaxlab.core.model.common;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * module name
+ * Api prefix const
  *
  * @author spy
  * @version 1.0 2022/4/20
@@ -26,5 +26,8 @@ public class ApiConst {
 
     // for app
     public static final String APP = "/api/app";
+
+    // for test
+    public static final String TEST = "/api/test";
 
 }
