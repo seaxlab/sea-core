@@ -2,6 +2,7 @@
 package com.github.seaxlab.core.concurrent;
 
 import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.lang.concurrent.WaitNotifyObject;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.concurrent;
+package com.github.seaxlab.core.lang.concurrent;
 
 
 /**

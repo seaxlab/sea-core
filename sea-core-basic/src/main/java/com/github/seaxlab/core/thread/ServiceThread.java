@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.thread;
 
-import com.github.seaxlab.core.concurrent.CountDownLatch2;
+import com.github.seaxlab.core.lang.concurrent.CountDownLatch2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
