@@ -5,7 +5,7 @@ import com.github.seaxlab.core.serialize.support.DefaultSerializeProcessor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 模块
+ * serialize util.
  *
  * @author spy
  * @version 1.0 2019-07-18
@@ -21,16 +21,13 @@ public final class SerializeUtil {
     private SerializeUtil() {
     }
 
-    public static byte[] serialize(Object object) {
-        SerializeProcessor processor = new DefaultSerializeProcessor();
+    private static final SerializeProcessor processor = new DefaultSerializeProcessor();
 
+    public static byte[] serialize(Object object) {
         return processor.serialize(object);
     }
 
-    public static Object unserialize(byte[] bytes) {
-
-        SerializeProcessor processor = new DefaultSerializeProcessor();
-
+    public static Object deserialize(byte[] bytes) {
         return processor.deserialize(bytes, Object.class);
     }
 

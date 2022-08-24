@@ -150,7 +150,7 @@ public class RedisManager {
                 return null;
             }
 
-            return SerializeUtil.unserialize(value);
+            return SerializeUtil.deserialize(value);
         } finally {
             if (jedis != null) {
                 jedis.close();
