@@ -1,8 +1,6 @@
-
-package com.github.seaxlab.core.concurrent;
+package com.github.seaxlab.core.lang.concurrent;
 
 import com.github.seaxlab.core.BaseCoreTest;
-import com.github.seaxlab.core.lang.concurrent.WaitNotifyObject;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,7 +27,7 @@ public class WaitNotifyObjectTest extends BaseCoreTest {
             log.info("thread run end.");
             // 顺序执行，.join等待thread执行结束
         }
-        Assert.assertEquals(0, waitNotifyObject.waitingThreadTable.size());
+        Assert.assertEquals(0, waitNotifyObject.getWaitingSize());
     }
 
 }
