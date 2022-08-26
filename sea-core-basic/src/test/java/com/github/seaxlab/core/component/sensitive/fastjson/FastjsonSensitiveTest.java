@@ -1,12 +1,21 @@
-package com.github.seaxlab.core.sensitive.jackson;
+package com.github.seaxlab.core.component.sensitive.fastjson;
 
-import com.github.seaxlab.core.component.sensitive.util.JsonMapper;
+import com.alibaba.fastjson.JSON;
+import com.github.seaxlab.core.component.sensitive.fastjson.core.SensitiveSerializeValueFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-@Slf4j
-public class JacksonSensitiveTest {
+import java.lang.reflect.Field;
 
+/**
+ * module name
+ *
+ * @author spy
+ * @version 1.0 2022/6/6
+ * @since 1.0
+ */
+@Slf4j
+public class FastjsonSensitiveTest {
     @Test
     public void test() {
         UserEntity userEntity = UserEntity.builder()
@@ -28,7 +37,14 @@ public class JacksonSensitiveTest {
                                           .bankCardCustomizePattern("6212262502009182455")
                                           .bankCardLength("6212262502009182455")
                                           .build();
-        log.info(JsonMapper.nonNullMapper().toJson(userEntity));
+        log.info(JSON.toJSONString(userEntity, new SensitiveSerializeValueFilter()));
     }
 
+    @Test
+    public void test42() throws Exception {
+        Field field = UserEntity.class.getDeclaredField("addressPattern");
+        field.setAccessible(true);
+
+        log.info("{}", field.getAnnotations());
+    }
 }

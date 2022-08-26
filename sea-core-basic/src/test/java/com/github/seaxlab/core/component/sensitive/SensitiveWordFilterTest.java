@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.sensitive;
+package com.github.seaxlab.core.component.sensitive;
 
 import com.github.seaxlab.core.component.sensitive.util.SensitiveWordFilter;
 import lombok.SneakyThrows;
