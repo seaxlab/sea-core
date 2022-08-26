@@ -27,6 +27,9 @@ public class ApiConst {
     // for app
     public static final String APP = "/api/app";
 
+    // for rpc
+    public static final String RPC = "/api/rpc";
+
     // for test
     public static final String TEST = "/api/test";
 
