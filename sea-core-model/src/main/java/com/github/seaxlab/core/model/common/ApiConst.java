@@ -33,4 +33,6 @@ public class ApiConst {
     // for test
     public static final String TEST = "/api/test";
 
+    // for pc?
+
 }
