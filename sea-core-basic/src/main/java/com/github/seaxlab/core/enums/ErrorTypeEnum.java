@@ -1,28 +1,24 @@
 package com.github.seaxlab.core.enums;
 
 import lombok.Getter;
-import lombok.Setter;
 
 /**
- * 模块名
+ * error type enum
  *
  * @author spy
  * @version 1.0 2019/3/15
  * @since 1.0
  */
-public enum ErrorTypeEnum {
+@Getter
+public enum ErrorTypeEnum implements IBaseEnum<String> {
 
     SYSTEM("SYS", "系统"),
     APPLICATION("Application", "应用"),
     BIZ("BIZ", "业务"),
     VALIDATOR("VALIDATOR", "参数校验");
 
-    @Getter
-    @Setter
-    String code;
-    @Getter
-    @Setter
-    String desc;
+    private String code;
+    private String desc;
 
     ErrorTypeEnum(String code, String desc) {
         this.code = code;
