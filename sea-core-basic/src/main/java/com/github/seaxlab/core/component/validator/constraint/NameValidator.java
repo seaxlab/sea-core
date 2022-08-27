@@ -1,6 +1,8 @@
 package com.github.seaxlab.core.component.validator.constraint;
 
 import com.github.seaxlab.core.component.validator.annotation.NameCheck;
+import com.github.seaxlab.core.enums.RegExpEnum;
+import com.github.seaxlab.core.util.RegExpUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.ConstraintValidator;
@@ -29,7 +31,6 @@ public class NameValidator implements ConstraintValidator<NameCheck, String> {
             return true;
         }
 
-        //TODO
-        return false;
+        return RegExpUtil.is(value.trim(), RegExpEnum.NAME);
     }
 }

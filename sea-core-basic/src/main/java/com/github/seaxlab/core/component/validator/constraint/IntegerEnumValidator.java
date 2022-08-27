@@ -17,11 +17,11 @@ import javax.validation.ConstraintValidatorContext;
 @Slf4j
 public class IntegerEnumValidator implements ConstraintValidator<IntegerEnum, Integer> {
 
-    private int[] values;
+    private IntegerEnum annotation;
 
     @Override
     public void initialize(IntegerEnum annotation) {
-        this.values = annotation.values();
+        this.annotation = annotation;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class IntegerEnumValidator implements ConstraintValidator<IntegerEnum, In
             return true;
         }
 
-        for (int item : values) {
+        for (int item : annotation.values()) {
             if (EqualUtil.isEq(item, value)) {
                 return true;
             }

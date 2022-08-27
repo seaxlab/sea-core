@@ -9,6 +9,10 @@ import java.lang.annotation.*;
 /**
  * name check
  *
+ * <p>
+ * 中文+字母+数字+中划线+下划线
+ * </p>
+ *
  * @author spy
  * @version 1.0 2022/8/24
  * @since 1.0

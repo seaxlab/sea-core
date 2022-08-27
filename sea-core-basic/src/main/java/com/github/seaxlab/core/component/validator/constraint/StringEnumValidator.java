@@ -17,11 +17,11 @@ import javax.validation.ConstraintValidatorContext;
 @Slf4j
 public class StringEnumValidator implements ConstraintValidator<StringEnum, String> {
 
-    private String[] values;
+    private StringEnum annotation;
 
     @Override
     public void initialize(StringEnum annotation) {
-        this.values = annotation.values();
+        this.annotation = annotation;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class StringEnumValidator implements ConstraintValidator<StringEnum, Stri
             return true;
         }
 
-        for (String item : values) {
+        for (String item : annotation.values()) {
             if (EqualUtil.isEq(item, value.trim())) {
                 return true;
             }
