@@ -11,6 +11,7 @@ import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReadWriteLock;
 
 /**
  * module name
@@ -28,10 +29,24 @@ public class RedissonTest extends BaseTest {
 
         Config config = new Config();
         config.useSingleServer()
-              .setAddress("redis://mylab:6379")
-              .setPassword("");
+                .setAddress("redis://redis:6379");
 
         client = Redisson.create(config);
+    }
+
+    @Test
+    public void testReadWriteLock() throws Exception {
+        runInMultiThread(() -> {
+            ReadWriteLock innerLock = client.getReadWriteLock("lock1");
+            log.info("inner lock begin ");
+            innerLock.writeLock().lock();
+            log.info("inner lock biz ");
+            sleepSecond(10);
+            innerLock.writeLock().unlock();
+            log.info("inner lock end ");
+
+        });
+
     }
 
     @Test

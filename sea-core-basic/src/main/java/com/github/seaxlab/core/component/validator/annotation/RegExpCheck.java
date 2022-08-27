@@ -1,13 +1,14 @@
 package com.github.seaxlab.core.component.validator.annotation;
 
-import com.github.seaxlab.core.component.validator.constraint.NameValidator;
+import com.github.seaxlab.core.component.validator.constraint.RegExpValidator;
+import com.github.seaxlab.core.enums.RegExpEnum;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
 /**
- * name check
+ * reg exp check
  *
  * @author spy
  * @version 1.0 2022/8/24
@@ -16,14 +17,19 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = NameValidator.class)
-public @interface NameCheck {
+@Constraint(validatedBy = RegExpValidator.class)
+public @interface RegExpCheck {
 
-    String message() default "名称不合法";
+    String message() default "字段值格式错误";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-
+    /**
+     * 正则枚举
+     *
+     * @return
+     */
+    RegExpEnum value();
 }

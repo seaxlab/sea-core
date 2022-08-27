@@ -10,7 +10,7 @@ import lombok.Getter;
  * @since 1.0
  */
 @Getter
-public enum RegExpEnum {
+public enum RegExpEnum implements IBaseRegExpEnum<String> {
     //
     //@formatter:off
     ID("^[A-Za-z0-9\\-\\_\\.]+$", "字母+数字+中划线+下划线+点号"),
@@ -52,7 +52,7 @@ public enum RegExpEnum {
     FLOAT_NEGATIVE("^(-(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*)))$", "负浮点数"),
     FLOAT_NEGATIVE_AND_ZERO("^((-\\d+(\\.\\d+)?)|(0+(\\.0+)?))$", "非正浮点数（负浮点数 + 0）"),
     //
-    NONE("", "");
+    NONE("", "none");
 
     private String expression;
     private String desc;

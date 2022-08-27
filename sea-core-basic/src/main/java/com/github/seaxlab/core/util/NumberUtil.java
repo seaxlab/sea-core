@@ -74,6 +74,20 @@ public final class NumberUtil {
         return true;
     }
 
+    public static boolean isNotPositive(Long value) {
+        if (value == null || value.longValue() <= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isNotPositive(Integer value) {
+        if (value == null || value.intValue() <= 0) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * 判断是否是负数
      *
@@ -98,6 +112,32 @@ public final class NumberUtil {
             return false;
         }
         return true;
+    }
+
+    /**
+     * check number is not negative
+     *
+     * @param value
+     * @return
+     */
+    public static boolean isNotNegative(Long value) {
+        if (value == null || value.longValue() >= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * check number is not negative
+     *
+     * @param value
+     * @return
+     */
+    public static boolean isNotNegative(Integer value) {
+        if (value == null || value.intValue() >= 0) {
+            return true;
+        }
+        return false;
     }
 
 

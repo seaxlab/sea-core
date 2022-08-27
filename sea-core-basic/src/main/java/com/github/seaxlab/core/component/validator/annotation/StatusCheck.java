@@ -7,7 +7,7 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 /**
- * name check
+ * status check
  *
  * @author spy
  * @version 1.0 2022/8/24
@@ -17,13 +17,11 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Constraint(validatedBy = NameValidator.class)
-public @interface NameCheck {
+public @interface StatusCheck {
 
-    String message() default "名称不合法";
+    String message() default "状态编码不合法";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-
 }
