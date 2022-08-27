@@ -1,6 +1,8 @@
 package com.github.seaxlab.core.enums;
 
 import com.github.seaxlab.core.util.EqualUtil;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * network enum.
@@ -9,12 +11,12 @@ import com.github.seaxlab.core.util.EqualUtil;
  * @version 1.0 2021/1/21
  * @since 1.0
  */
+@Getter
+@Slf4j
 public enum NetworkEnum implements IBaseEnum<String> {
     UNKNOWN("unknown", "未知"),
 
-    INTRANET("intranet", "内网"),
-    EXTRANET("extranet", "专网"),
-    INTERNET("internet", "互联网");
+    INTRANET("intranet", "内网"), EXTRANET("extranet", "专网"), INTERNET("internet", "互联网");
 
     private String code;
     private String desc;
@@ -24,14 +26,10 @@ public enum NetworkEnum implements IBaseEnum<String> {
         this.desc = desc;
     }
 
-    @Override
-    public String getCode() {
-        return this.code;
-    }
+    private static final NetworkEnum[] VALUES;
 
-    @Override
-    public String getDesc() {
-        return this.desc;
+    static {
+        VALUES = values();
     }
 
     /**
@@ -42,13 +40,15 @@ public enum NetworkEnum implements IBaseEnum<String> {
      */
     public static NetworkEnum of(String code) {
         if (code == null || code.trim().isEmpty()) {
+            log.warn("code is empty, plz check.");
             return UNKNOWN;
         }
-        for (NetworkEnum item : values()) {
+        for (NetworkEnum item : VALUES) {
             if (EqualUtil.isEq(item.getCode(), code, false)) {
                 return item;
             }
         }
+        log.warn("unknown code={}", code);
         return UNKNOWN;
     }
 

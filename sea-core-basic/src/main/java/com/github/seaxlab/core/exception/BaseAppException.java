@@ -21,7 +21,7 @@ public class BaseAppException extends RuntimeException {
 
     private String type; // NOSONAR
 
-// 可扩展参数
+    // 可扩展参数
 
     public BaseAppException() {
         super();
