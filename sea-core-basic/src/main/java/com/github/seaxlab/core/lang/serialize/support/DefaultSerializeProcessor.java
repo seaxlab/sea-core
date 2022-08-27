@@ -1,8 +1,8 @@
-package com.github.seaxlab.core.serialize.support;
+package com.github.seaxlab.core.lang.serialize.support;
 
-import com.github.seaxlab.core.serialize.SerializeProcessor;
-import com.github.seaxlab.core.serialize.exception.DeserializeException;
-import com.github.seaxlab.core.serialize.exception.SerializeException;
+import com.github.seaxlab.core.lang.serialize.SerializeProcessor;
+import com.github.seaxlab.core.lang.serialize.exception.DeserializeException;
+import com.github.seaxlab.core.lang.serialize.exception.SerializeException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;

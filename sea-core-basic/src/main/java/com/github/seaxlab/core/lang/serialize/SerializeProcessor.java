@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.serialize;
+package com.github.seaxlab.core.lang.serialize;
 
 /**
  * 序列化接口

@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.util;
 
-import com.github.seaxlab.core.serialize.SerializeProcessor;
-import com.github.seaxlab.core.serialize.support.DefaultSerializeProcessor;
+import com.github.seaxlab.core.lang.serialize.SerializeProcessor;
+import com.github.seaxlab.core.lang.serialize.support.DefaultSerializeProcessor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
