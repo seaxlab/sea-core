@@ -12,10 +12,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Slf4j
 public class WaitNotifyObject {
 
-    protected final ConcurrentHashMap<Long/* thread id */, AtomicBoolean/* notified */> waitingThreadTable =
+    private final ConcurrentHashMap<Long/* thread id */, AtomicBoolean/* notified */> waitingThreadTable =
             new ConcurrentHashMap<Long, AtomicBoolean>(16);
 
-    protected AtomicBoolean hasNotified = new AtomicBoolean(false);
+    private AtomicBoolean hasNotified = new AtomicBoolean(false);
 
     public void wakeup() {
         boolean needNotify = hasNotified.compareAndSet(false, true);
@@ -92,5 +92,9 @@ public class WaitNotifyObject {
         synchronized (this) {
             this.waitingThreadTable.remove(currentThreadId);
         }
+    }
+
+    public int getWaitingSize() {
+        return this.waitingThreadTable.size();
     }
 }

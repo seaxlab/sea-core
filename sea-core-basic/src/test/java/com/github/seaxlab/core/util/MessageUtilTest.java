@@ -1,7 +1,6 @@
-package com.github.seaxlab.core.message;
+package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
-import com.github.seaxlab.core.util.MessageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
