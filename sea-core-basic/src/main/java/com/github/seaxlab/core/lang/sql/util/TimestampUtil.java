@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.sql.util;
+package com.github.seaxlab.core.lang.sql.util;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,7 +1,7 @@
-package com.github.seaxlab.core.sql;
+package com.github.seaxlab.core.lang.sql;
 
 import com.github.seaxlab.core.BaseCoreTest;
-import com.github.seaxlab.core.sql.util.TimeUtil;
+import com.github.seaxlab.core.lang.sql.util.TimeUtil;
 import com.github.seaxlab.core.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
