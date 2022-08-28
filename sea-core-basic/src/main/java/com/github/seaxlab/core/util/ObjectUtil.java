@@ -41,6 +41,26 @@ public final class ObjectUtil {
     }
 
     /**
+     * check is null
+     *
+     * @param obj object
+     * @return boolean
+     */
+    public static boolean isNull(Object obj) {
+        return obj == null;
+    }
+
+    /**
+     * check object is not null
+     *
+     * @param obj object
+     * @return boolean
+     */
+    public static boolean isNotNull(Object obj) {
+        return obj != null;
+    }
+
+    /**
      * 全部为空
      *
      * @param objects
