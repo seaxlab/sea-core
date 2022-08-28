@@ -25,6 +25,28 @@ public final class ExceptionHandler {
      */
     public static final String OLD_CODE = "OLD_";
 
+
+    /**
+     * publish BaseAppException from IErrorException
+     *
+     * @param exception IErrorException
+     * @return
+     */
+    public static BaseAppException publish(IErrorException exception) {
+        throw new BaseAppException(exception);
+    }
+
+    /**
+     * publish BaseAppException from IErrorException
+     *
+     * @param exception IErrorException
+     * @param args      arguments
+     * @return
+     */
+    public static BaseAppException publish(IErrorException exception, Object... args) {
+        throw new BaseAppException(exception, args);
+    }
+
     /**
      * 抛出异常
      *
