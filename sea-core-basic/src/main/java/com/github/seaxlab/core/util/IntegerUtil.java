@@ -48,6 +48,29 @@ public final class IntegerUtil {
     }
 
     /**
+     * 如果value为空，则返回默认值
+     *
+     * @param value
+     * @param defaultValue
+     * @return
+     */
+    public static Integer defaultIfNull(String value, Integer defaultValue) {
+        if (value == null || value.trim().isEmpty()) {
+            log.warn("value is empty.");
+            return defaultValue;
+        }
+
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            log.error("fail to parse value to integer", e);
+        }
+
+        return defaultValue;
+    }
+
+
+    /**
      * 非0数字
      *
      * @param value
