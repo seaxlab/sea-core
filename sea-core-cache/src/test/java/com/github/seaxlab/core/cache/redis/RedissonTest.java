@@ -50,6 +50,15 @@ public class RedissonTest extends BaseTest {
     }
 
     @Test
+    public void testTry() throws Exception {
+        RLock lock = client.getLock("lock1");
+        // key会自动续期（leaseTime=-1会自动续期）
+        lock.tryLock();
+        sleepSecond(50);
+        lock.unlock();
+    }
+
+    @Test
     public void testLock() throws Exception {
         RLock lock = client.getLock("lock1");
         boolean flag = lock.tryLock(0, TimeUnit.SECONDS);
