@@ -4,7 +4,6 @@ package com.github.seaxlab.core.web.controller;
 import com.alipay.common.tracer.core.holder.SofaTraceContextHolder;
 import com.github.seaxlab.core.common.CoreConst;
 import com.github.seaxlab.core.common.CoreErrorConst;
-import com.github.seaxlab.core.enums.ErrorTypeEnum;
 import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.model.Result;
 import com.google.common.base.Strings;
@@ -60,8 +59,7 @@ public abstract class AbstractGlobalExceptionHandler {
     public ResponseEntity<Result> handleBaseAppException(BaseAppException e) {
         log.error("Biz service Exception", e);
 
-        return new ResponseEntity<>(buildResult(String.valueOf(e.getCode()), ErrorTypeEnum.BIZ.getCode(),
-                e.getDesc(), null), HttpStatus.OK);
+        return new ResponseEntity<>(buildResult(String.valueOf(e.getCode()), e.getDesc(), null), HttpStatus.OK);
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
@@ -69,15 +67,13 @@ public abstract class AbstractGlobalExceptionHandler {
     public ResponseEntity<Result> handleIllegalArgumentException(IllegalArgumentException e) {
         log.error("Biz service Exception", e);
 
-        return new ResponseEntity<Result>(buildResult(String.valueOf(-1), ErrorTypeEnum.BIZ.getCode(),
-                e.getMessage(), null), HttpStatus.OK);
+        return new ResponseEntity<Result>(buildResult(String.valueOf(-1), e.getMessage(), null), HttpStatus.OK);
     }
 
-    private Result buildResult(String errorCode, String errorType, String defaultErrorMsg, Object data) {
+    private Result buildResult(String errorCode, String defaultErrorMsg, Object data) {
         Result result = Result.fail(errorCode);
 
         result.setCode(errorCode);
-//        result.setErrorType(errorType);
         result.setMsg(getErrorMessage(errorCode, defaultErrorMsg));
 
         log.error("errorCode={},errorMessage={}", result.getCode(), result.getMsg());
@@ -89,40 +85,27 @@ public abstract class AbstractGlobalExceptionHandler {
 
     @ExceptionHandler(value = HttpMediaTypeNotAcceptableException.class)
     @ResponseBody
-    public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpServletRequest request,
-                                                                       HttpMediaTypeNotAcceptableException be) {
+    public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpServletRequest request, HttpMediaTypeNotAcceptableException be) {
         log.error("handle HttpMediaTypeNotAcceptableException", be);
 
-        return new ResponseEntity<>(buildBaseResult(request, CoreErrorConst.SYS_EXCEPTION, be.getMessage(),
-                ErrorTypeEnum.SYSTEM.getCode(), getMessage(be)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+        return new ResponseEntity<>(buildBaseResult(request, CoreErrorConst.SYS_EXCEPTION, be.getMessage(), getMessage(be)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
     @ResponseBody
-    public ResponseEntity<?> handleHttpRequestMethodNotSupportedException(HttpServletRequest request,
-                                                                          HttpRequestMethodNotSupportedException be) {
+    public ResponseEntity<?> handleHttpRequestMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException be) {
         log.error("handle HttpRequestMethodNotSupportedException", be);
 
-        return new ResponseEntity<>(buildBaseResult(request, CoreErrorConst.SYS_EXCEPTION, be.getMessage(),
-                ErrorTypeEnum.SYSTEM.getCode(), getMessage(be)), HttpStatus.METHOD_NOT_ALLOWED);
+        return new ResponseEntity<>(buildBaseResult(request, CoreErrorConst.SYS_EXCEPTION, be.getMessage(), getMessage(be)), HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-    @ExceptionHandler(value = {
-            HttpMessageNotReadableException.class,
-            MethodArgumentNotValidException.class,
-            MissingServletRequestParameterException.class,
-            MissingServletRequestPartException.class,
-            TypeMismatchException.class,
-            ServletRequestBindingException.class,
-            BindException.class})
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class, MethodArgumentNotValidException.class, MissingServletRequestParameterException.class, MissingServletRequestPartException.class, TypeMismatchException.class, ServletRequestBindingException.class, BindException.class})
     @ResponseBody
     public ResponseEntity<Result> handleExceptions(HttpServletRequest request, Exception e) {
 
         log.error("handle Exceptions", e);
 
         String msg = e.getMessage();
-
-        String errorField = null;
 
         if (e instanceof BindException) {
             BindException bindException = (BindException) e;
@@ -131,29 +114,21 @@ public abstract class AbstractGlobalExceptionHandler {
                 if (!CollectionUtils.isEmpty(fieldErrors)) {
                     FieldError first = fieldErrors.get(0);
                     msg = first.getDefaultMessage();
-                    errorField = first.getField();
+                    log.error("field error [{}]", first.getField());
                 }
             }
         } else if (e instanceof MissingServletRequestParameterException) {
             MissingServletRequestParameterException pe = (MissingServletRequestParameterException) e;
-
             msg = "缺少参数" + pe.getParameterName();
         }
 
 
-        Result result = buildBaseResult(request, CoreErrorConst.SYS_INVALID_REQUEST, msg,
-                ErrorTypeEnum.APPLICATION.getCode(), getMessage(e));
-        //result.setErrorField(errorField);
+        Result result = buildBaseResult(request, CoreErrorConst.SYS_INVALID_REQUEST, msg, getMessage(e));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @ExceptionHandler(value = {
-            ConversionNotSupportedException.class,
-            HttpMessageNotWritableException.class,
-            MultipartException.class,
-            NoHandlerFoundException.class,
-            Exception.class})
+    @ExceptionHandler(value = {ConversionNotSupportedException.class, HttpMessageNotWritableException.class, MultipartException.class, NoHandlerFoundException.class, Exception.class})
     @ResponseBody
     public ResponseEntity<Result> handleException(HttpServletRequest request, Exception e) {
         log.error("Unexpected exceptions!!!", e);
@@ -168,19 +143,14 @@ public abstract class AbstractGlobalExceptionHandler {
             errorCode = CoreErrorConst.SYS_RES_NOT_EXIST;
         }
 
-        return new ResponseEntity<>(buildBaseResult(request, errorCode, errorMsg,
-                ErrorTypeEnum.APPLICATION.getCode(), getMessage(e)), HttpStatus.OK);
+        return new ResponseEntity<>(buildBaseResult(request, errorCode, errorMsg, getMessage(e)), HttpStatus.OK);
     }
 
-    private Result buildBaseResult(HttpServletRequest request,
-                                   String errorCode,
-                                   String errorMsg,
-                                   String errorType,
-                                   String errorMsgForLog) {
+    private Result buildBaseResult(HttpServletRequest request, String errorCode, String errorMsg, String errorMsgForLog) {
         printHttpHeader(request);
 
         // 返回给前端的结果
-        Result result = getBaseResult(errorCode, errorMsg, errorType);
+        Result result = getBaseResult(errorCode, errorMsg);
 
         // 如果是开发环境则把异常抛出去
 
@@ -188,20 +158,15 @@ public abstract class AbstractGlobalExceptionHandler {
         return result;
     }
 
-    protected Result getBaseResult(String errorCode, String errorMsg, String errorType) {
+    protected Result getBaseResult(String errorCode, String errorMsg) {
         Result result = new Result();
         result.setSuccess(false);
         result.setCode(errorCode);
-//        result.setErrorType(errorType);
         result.setMsg(getErrorMessage(errorCode, errorMsg));
-//        result.setRequestId(MDC.get(CoreErrorConst.MDC_REQ_ID));
 
         try {
             if (CoreConst.HAS_SOFA_TRACER) {
-                String traceId = SofaTraceContextHolder.getSofaTraceContext()
-                                                       .getCurrentSpan()
-                                                       .getSofaTracerSpanContext()
-                                                       .getTraceId();
+                String traceId = SofaTraceContextHolder.getSofaTraceContext().getCurrentSpan().getSofaTracerSpanContext().getTraceId();
                 result.setTraceId(traceId);
             }
         } catch (Exception e) {

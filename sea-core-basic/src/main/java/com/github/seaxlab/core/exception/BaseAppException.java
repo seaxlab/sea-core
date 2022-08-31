@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.exception;
 
-import com.github.seaxlab.core.enums.ErrorTypeEnum;
 import com.github.seaxlab.core.util.MessageUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,8 +19,6 @@ public class BaseAppException extends RuntimeException {
 
     private String desc; // NOSONAR
 
-    private String type; // NOSONAR
-
     // 可扩展参数
 
     public BaseAppException() {
@@ -32,19 +29,14 @@ public class BaseAppException extends RuntimeException {
         super(throwable);
     }
 
-    public BaseAppException(String code) {
-        this(code, null, ErrorTypeEnum.APPLICATION.getCode());
+    public BaseAppException(String desc) {
+        this("", desc);
     }
 
     public BaseAppException(String code, String desc) {
-        this(code, desc, ErrorTypeEnum.APPLICATION.getCode());
-    }
-
-    public BaseAppException(String code, String desc, String type) {
-        super((code != null && !code.isEmpty()) ? (code + ":" + desc) : desc);
+        super((code != null) ? (code + (desc == null ? "" : (":" + desc))) : desc);
         this.code = code;
         this.desc = desc;
-        this.type = type;
     }
 
     public BaseAppException(IErrorException exception) {

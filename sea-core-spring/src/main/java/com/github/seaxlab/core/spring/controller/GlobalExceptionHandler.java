@@ -2,7 +2,6 @@ package com.github.seaxlab.core.spring.controller;
 
 
 import com.github.seaxlab.core.common.CoreErrorConst;
-import com.github.seaxlab.core.enums.ErrorTypeEnum;
 import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.model.FootPrintDTO;
 import com.github.seaxlab.core.model.Result;
@@ -59,8 +58,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Result> handleBaseAppException(BaseAppException e) {
         log.error("Biz service Exception", e);
 
-        return new ResponseEntity<Result>(buildResult(String.valueOf(e.getCode()), ErrorTypeEnum.BIZ.getCode(),
-                e.getDesc(), null), HttpStatus.OK);
+        return new ResponseEntity<Result>(buildResult(String.valueOf(e.getCode()), e.getDesc(), null), HttpStatus.OK);
     }
 
 
@@ -69,15 +67,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Result> handleIllegalArgumentException(IllegalArgumentException e) {
         log.error("Biz service Exception", e);
 
-        return new ResponseEntity<>(buildResult(String.valueOf(-1), ErrorTypeEnum.BIZ.getCode(),
-                e.getMessage(), null), HttpStatus.OK);
+        return new ResponseEntity<>(buildResult(String.valueOf(-1), e.getMessage(), null), HttpStatus.OK);
     }
 
-    private Result buildResult(String errorCode, String errorType, String defaultErrorMsg, Object data) {
+    private Result buildResult(String errorCode, String defaultErrorMsg, Object data) {
         Result result = Result.fail(errorCode);
 
         result.setCode(errorCode);
-//        result.setErrorType(errorType);
         result.setMsg(getErrorMessage(errorCode, defaultErrorMsg));
 
         log.error("errorCode={},errorMessage={}", result.getCode(), result.getMsg());
@@ -89,32 +85,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = HttpMediaTypeNotAcceptableException.class)
     @ResponseBody
-    public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpServletRequest request,
-                                                                       HttpMediaTypeNotAcceptableException be) {
+    public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpServletRequest request, HttpMediaTypeNotAcceptableException be) {
         log.error("handle HttpMediaTypeNotAcceptableException", be);
 
-        return new ResponseEntity<>(buildResult(request, CoreErrorConst.SYS_EXCEPTION, be.getMessage(),
-                ErrorTypeEnum.SYSTEM.getCode(), getMessage(be)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+        return new ResponseEntity<>(buildResult(request, CoreErrorConst.SYS_EXCEPTION, be.getMessage(), getMessage(be)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
     @ResponseBody
-    public ResponseEntity<?> handleHttpRequestMethodNotSupportedException(HttpServletRequest request,
-                                                                          HttpRequestMethodNotSupportedException be) {
+    public ResponseEntity<?> handleHttpRequestMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException be) {
         log.error("handle HttpRequestMethodNotSupportedException", be);
 
-        return new ResponseEntity<>(buildResult(request, CoreErrorConst.SYS_EXCEPTION, be.getMessage(),
-                ErrorTypeEnum.SYSTEM.getCode(), getMessage(be)), HttpStatus.METHOD_NOT_ALLOWED);
+        return new ResponseEntity<>(buildResult(request, CoreErrorConst.SYS_EXCEPTION, be.getMessage(), getMessage(be)), HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-    @ExceptionHandler(value = {
-            HttpMessageNotReadableException.class,
-            MethodArgumentNotValidException.class,
-            MissingServletRequestParameterException.class,
-            MissingServletRequestPartException.class,
-            TypeMismatchException.class,
-            ServletRequestBindingException.class,
-            BindException.class})
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class, MethodArgumentNotValidException.class, MissingServletRequestParameterException.class, MissingServletRequestPartException.class, TypeMismatchException.class, ServletRequestBindingException.class, BindException.class})
     @ResponseBody
     public ResponseEntity<Result> handleExceptions(HttpServletRequest request, Exception e) {
 
@@ -141,17 +126,12 @@ public class GlobalExceptionHandler {
         }
 
 
-        Result result = buildResult(request, CoreErrorConst.SYS_INVALID_REQUEST, msg,
-                ErrorTypeEnum.APPLICATION.getCode(), getMessage(e));
-        //result.setErrorField(errorField);
+        Result result = buildResult(request, CoreErrorConst.SYS_INVALID_REQUEST, msg, getMessage(e));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @ExceptionHandler(value = {
-            ConversionNotSupportedException.class,
-            HttpMessageNotWritableException.class,
-            MultipartException.class,
+    @ExceptionHandler(value = {ConversionNotSupportedException.class, HttpMessageNotWritableException.class, MultipartException.class,
 //            NoHandlerFoundException.class,
             Exception.class})
     @ResponseBody
@@ -168,31 +148,25 @@ public class GlobalExceptionHandler {
 //            errorCode = CoreErrorConst.SYS_RES_NOT_EXIST;
 //        }
 
-        return new ResponseEntity<>(buildResult(request, errorCode, errorMsg,
-                ErrorTypeEnum.APPLICATION.getCode(), getMessage(e)), HttpStatus.OK);
+        return new ResponseEntity<>(buildResult(request, errorCode, errorMsg, getMessage(e)), HttpStatus.OK);
     }
 
 
-    private Result buildResult(HttpServletRequest request,
-                               String errorCode,
-                               String errorMsg,
-                               String errorType,
-                               String errorMsgForLog) {
+    private Result buildResult(HttpServletRequest request, String errorCode, String errorMsg, String errorMsgForLog) {
         printHttpHeader(request);
 
         // 返回给前端的结果
-        Result result = getResult(errorCode, errorMsg, errorType);
+        Result result = getResult(errorCode, errorMsg);
 
         // 如果是开发环境则把异常抛出去
 
         return result;
     }
 
-    private Result getResult(String errorCode, String errorMsg, String errorType) {
+    private Result getResult(String errorCode, String errorMsg) {
         Result result = new Result();
         result.setSuccess(false);
         result.setCode(errorCode);
-//        result.setErrorType(errorType);
         result.setMsg(getErrorMessage(errorCode, errorMsg));
         //result.setRequestId(MDC.get(CoreConst.MDC_REQ_ID));
 
@@ -223,7 +197,7 @@ public class GlobalExceptionHandler {
             exception.printStackTrace(new PrintWriter(buffer, true));
             message = buffer.toString();
         } catch (Exception inner) {
-            log.error("get exception error",inner);
+            log.error("get exception error", inner);
         }
 
         return message;
