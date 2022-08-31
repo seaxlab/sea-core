@@ -1,9 +1,12 @@
 package com.github.seaxlab.core.util;
 
+import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ClassUtils;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URL;
@@ -24,6 +27,29 @@ public final class ClassUtil {
     private ClassUtil() {
     }
 
+    /**
+     * <p>
+     * 根据指定的 class ， 实例化一个对象，根据构造参数来实例化
+     * </p>
+     * <p>
+     * 在 java9 及其之后的版本 Class.newInstance() 方法已被废弃
+     * </p>
+     *
+     * @param clazz 需要实例化的对象
+     * @param <T>   类型，由输入类型决定
+     * @return 返回新的实例
+     */
+    public static <T> T newInstance(Class<T> clazz) {
+        try {
+            Constructor<T> constructor = clazz.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            return constructor.newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+            ExceptionHandler.publishMsg("class new instance error.");
+        }
+        return null;
+    }
 
     /**
      * 包含包路径的名称，如“java.lang.String”
