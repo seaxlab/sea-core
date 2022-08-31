@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.config;
 
+import com.github.seaxlab.core.config.enums.ConfigTypeEnum;
 import com.github.seaxlab.core.loader.EnhancedServiceLoader;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +19,7 @@ public class ConfigurationFactory {
 
         private static Configuration buildConfiguration() {
             //重要： 此时配置文件还未加载
-            return EnhancedServiceLoader.load(Configuration.class, "typesafe");
+            return EnhancedServiceLoader.load(Configuration.class, ConfigTypeEnum.TYPESAFE.getCode());
         }
     }
 
