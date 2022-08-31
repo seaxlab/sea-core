@@ -38,12 +38,26 @@ public class PageInfo implements Serializable {
 
     private String groupBy;
 
+    /**
+     * 是否进行count总数统计
+     */
+    private boolean countFlag;
+
     public static PageInfo of(int pageNum, int pageSize) {
         PageInfo pageInfo = new PageInfo();
         pageInfo.setPageNum(pageNum);
         pageInfo.setPageSize(pageSize);
         return pageInfo;
     }
+
+    public static PageInfo of(int pageNum, int pageSize, boolean countFlag) {
+        PageInfo pageInfo = new PageInfo();
+        pageInfo.setPageNum(pageNum);
+        pageInfo.setPageSize(pageSize);
+        pageInfo.setCountFlag(countFlag);
+        return pageInfo;
+    }
+
 
     public Integer getPageNum() {
         if (pageNum < 1) {
