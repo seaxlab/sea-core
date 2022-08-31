@@ -104,10 +104,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Result> handleExceptions(HttpServletRequest request, Exception e) {
 
         log.error("handle Exceptions", e);
-
         String msg = e.getMessage();
-
-        String errorField = null;
 
         if (e instanceof BindException) {
             BindException bindException = (BindException) e;
@@ -116,7 +113,7 @@ public class GlobalExceptionHandler {
                 if (!CollectionUtils.isEmpty(fieldErrors)) {
                     FieldError first = fieldErrors.get(0);
                     msg = first.getDefaultMessage();
-                    errorField = first.getField();
+                    log.error("field error[{}]", first.getField());
                 }
             }
         } else if (e instanceof MissingServletRequestParameterException) {
@@ -168,13 +165,7 @@ public class GlobalExceptionHandler {
         result.setSuccess(false);
         result.setCode(errorCode);
         result.setMsg(getErrorMessage(errorCode, errorMsg));
-        //result.setRequestId(MDC.get(CoreConst.MDC_REQ_ID));
-
-//        String traceId = SofaTraceContextHolder.getSofaTraceContext()
-//                                               .getCurrentSpan()
-//                                               .getSofaTracerSpanContext()
-//                                               .getTraceId();
-//        result.setTraceId(traceId);
+//        result.setTraceId(TracerUtil.getTraceId());
 
         log.error("errorCode={},errorMessage={}", result.getCode(), result.getMsg());
 

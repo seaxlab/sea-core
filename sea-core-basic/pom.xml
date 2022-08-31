@@ -145,6 +145,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.skywalking</groupId>
+            <artifactId>apm-toolkit-trace</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!--        <dependency>-->
         <!--            <groupId>com.github.seaxlab</groupId>-->
         <!--            <artifactId>sofa-tracer-simple-plugin</artifactId>-->

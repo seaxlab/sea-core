@@ -83,6 +83,10 @@ public class CoreConst {
      */
     public static final Integer STATUS_NO = 0;
 
+    /**
+     * tracer provider
+     */
+    public static final String TRACER_PROVIDER = "sea.tracer.provider";
 
     /**
      * 请求Id
