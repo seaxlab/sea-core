@@ -41,7 +41,7 @@ public class PageInfo implements Serializable {
     /**
      * 是否进行count总数统计
      */
-    private boolean countFlag;
+    private boolean countFlag = true;
 
     public static PageInfo of(int pageNum, int pageSize) {
         PageInfo pageInfo = new PageInfo();
