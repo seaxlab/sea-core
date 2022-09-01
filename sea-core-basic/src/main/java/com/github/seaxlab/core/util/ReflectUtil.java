@@ -151,7 +151,7 @@ public final class ReflectUtil {
             Field field = FieldUtils.getField(target.getClass(), fieldName, true);
 
             if (field == null) {
-                log.warn("{} has no field {}", target.getClass().getName(), fieldName);
+                log.warn("{} has no field {}", ClassUtil.getClassName(target.getClass()), fieldName);
                 return;
             }
 
