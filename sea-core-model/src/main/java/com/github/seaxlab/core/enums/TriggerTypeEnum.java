@@ -13,16 +13,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Getter
 public enum TriggerTypeEnum implements IBaseEnum<Integer> {
-    UNKNOWN(0, "unknown"), //
-    MANUAL(1, "手动"), //
-    AUTO(2, "自动"),//
+    UNKNOWN(0, "unknown", "unknown"), //
+    MANUAL(1, "manual", "手动"), //
+    AUTO(2, "auto", "自动"),//
     ;
 
     private Integer code;
+    private String key;
     private String desc;
 
-    TriggerTypeEnum(Integer code, String desc) {
+    TriggerTypeEnum(Integer code, String key, String desc) {
         this.code = code;
+        this.key = key;
         this.desc = desc;
     }
 
