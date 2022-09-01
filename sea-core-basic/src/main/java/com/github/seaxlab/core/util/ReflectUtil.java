@@ -151,7 +151,7 @@ public final class ReflectUtil {
             Field field = FieldUtils.getField(target.getClass(), fieldName, true);
 
             if (field == null) {
-                log.warn("对象{}的{}属性不存在", target, fieldName);
+                log.warn("{} has no field {}", target.getClass().getName(), fieldName);
                 return;
             }
 
