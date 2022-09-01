@@ -74,6 +74,16 @@ public class CoreConst {
     public static final Boolean NO = Boolean.FALSE;
 
     /**
+     * true str
+     */
+    public static final String TRUE_STR = "true";
+
+    /**
+     * false str
+     */
+    public static final String FALSE_STR = "false";
+
+    /**
      * status=1
      */
     public static final Integer STATUS_YES = 1;

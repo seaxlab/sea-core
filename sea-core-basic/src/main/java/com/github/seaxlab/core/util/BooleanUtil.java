@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.util;
 
+import com.github.seaxlab.core.common.CoreConst;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -13,6 +14,16 @@ import lombok.extern.slf4j.Slf4j;
 public final class BooleanUtil {
 
     private BooleanUtil() {
+    }
+
+    /**
+     * check is true or false
+     *
+     * @param flag
+     * @return
+     */
+    public static boolean isTrueOrFalseStr(String flag) {
+        return flag != null && (flag.trim().equalsIgnoreCase(CoreConst.TRUE_STR) || flag.trim().equalsIgnoreCase(CoreConst.FALSE_STR));
     }
 
     /**
@@ -33,7 +44,7 @@ public final class BooleanUtil {
      * @return
      */
     public static boolean isTrue(String flag) {
-        return flag != null && flag.trim().equalsIgnoreCase("true");
+        return flag != null && flag.trim().equalsIgnoreCase(CoreConst.TRUE_STR);
     }
 
 
@@ -54,7 +65,7 @@ public final class BooleanUtil {
      * @return
      */
     public static boolean isFalse(String flag) {
-        return flag != null && !flag.trim().equalsIgnoreCase("false");
+        return flag != null && !flag.trim().equalsIgnoreCase(CoreConst.FALSE_STR);
     }
 
     /**
