@@ -16,14 +16,32 @@ public final class PageUtil {
     /**
      * 默认前端加载时分页数量大小
      */
-    public static final int DEFAULT_PAGE_SIZE = 10;
+    private static final int DEFAULT_PAGE_SIZE = 10;
 
     /**
      * 循环加载时分页数量大小
      */
-    public static final int DEFAULT_LOOP_PAGE_SIZE = 200;
+    private static final int DEFAULT_LOOP_PAGE_SIZE = 200;
 
     private PageUtil() {
+    }
+    
+    /**
+     * get default page size
+     *
+     * @return
+     */
+    public static int getDefaultPageSize() {
+        return DEFAULT_PAGE_SIZE;
+    }
+
+    /**
+     * get loop page size
+     *
+     * @return
+     */
+    public static int getLoopPageSize() {
+        return DEFAULT_LOOP_PAGE_SIZE;
     }
 
     /**
