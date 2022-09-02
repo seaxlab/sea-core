@@ -35,6 +35,8 @@ public enum ErrorMessageEnum implements IErrorEnum {
     SYS_FORBIDDEN_ACCESS("", "禁止访问"),//
     SYS_FORBIDDEN_ACCESS_F("", "禁止访问[{}]"),//
     SYS_FORBIDDEN_ACCESS_AGENT("", "该Agent禁止访问"),//
+    EXTENSION_NOT_EXIST("", ""),
+    EXTENSION_NOT_EXIST_F("", "[{},{}]"),
 
     //TODO move core error const here!
     ;

@@ -1,10 +1,10 @@
 package com.github.seaxlab.core.web.controller;
 
 
-import com.alipay.common.tracer.core.holder.SofaTraceContextHolder;
-import com.github.seaxlab.core.common.CoreConst;
-import com.github.seaxlab.core.common.CoreErrorConst;
+import com.github.seaxlab.core.component.tracer.util.TracerUtil;
+import com.github.seaxlab.core.enums.IErrorEnum;
 import com.github.seaxlab.core.exception.BaseAppException;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.model.Result;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
@@ -88,7 +88,7 @@ public abstract class AbstractGlobalExceptionHandler {
     public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpServletRequest request, HttpMediaTypeNotAcceptableException be) {
         log.error("handle HttpMediaTypeNotAcceptableException", be);
 
-        return new ResponseEntity<>(buildBaseResult(request, CoreErrorConst.SYS_EXCEPTION, be.getMessage(), getMessage(be)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+        return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
@@ -96,7 +96,7 @@ public abstract class AbstractGlobalExceptionHandler {
     public ResponseEntity<?> handleHttpRequestMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException be) {
         log.error("handle HttpRequestMethodNotSupportedException", be);
 
-        return new ResponseEntity<>(buildBaseResult(request, CoreErrorConst.SYS_EXCEPTION, be.getMessage(), getMessage(be)), HttpStatus.METHOD_NOT_ALLOWED);
+        return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)), HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler(value = {HttpMessageNotReadableException.class, MethodArgumentNotValidException.class, MissingServletRequestParameterException.class, MissingServletRequestPartException.class, TypeMismatchException.class, ServletRequestBindingException.class, BindException.class})
@@ -123,7 +123,7 @@ public abstract class AbstractGlobalExceptionHandler {
         }
 
 
-        Result result = buildBaseResult(request, CoreErrorConst.SYS_INVALID_REQUEST, msg, getMessage(e));
+        Result result = buildResult(request, ErrorMessageEnum.SYS_INVALID_REQUEST, getMessage(e));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -133,20 +133,19 @@ public abstract class AbstractGlobalExceptionHandler {
     public ResponseEntity<Result> handleException(HttpServletRequest request, Exception e) {
         log.error("Unexpected exceptions!!!", e);
 
-        String message = null;
-        String code = CoreErrorConst.SYS_EXCEPTION;
+        //String message = null;
+        //String code = "";
+        //
+        //if (e instanceof MultipartException) {
+        //    message = "文件大小不能大于50M";
+        //}
+        //if (e instanceof NoHandlerFoundException) {
+        //}
 
-        if (e instanceof MultipartException) {
-            message = "文件大小不能大于50M";
-        }
-        if (e instanceof NoHandlerFoundException) {
-            code = CoreErrorConst.SYS_RES_NOT_EXIST;
-        }
-
-        return new ResponseEntity<>(buildBaseResult(request, code, message, getMessage(e)), HttpStatus.OK);
+        return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(e)), HttpStatus.OK);
     }
 
-    private Result buildBaseResult(HttpServletRequest request, String code, String message, String errorMsgForLog) {
+    private Result buildResult(HttpServletRequest request, String code, String message, String errorMsgForLog) {
         printHttpHeader(request);
 
         // 返回给前端的结果
@@ -158,6 +157,17 @@ public abstract class AbstractGlobalExceptionHandler {
         return result;
     }
 
+    private Result buildResult(HttpServletRequest request, IErrorEnum errorException, String errorMsgForLog) {
+        printHttpHeader(request);
+
+        // 返回给前端的结果
+        Result result = getResult(errorException);
+
+        // 如果是开发环境则把异常抛出去
+
+        return result;
+    }
+
     protected Result getBaseResult(String code, String message) {
         Result result = new Result();
         result.setSuccess(false);
@@ -165,13 +175,22 @@ public abstract class AbstractGlobalExceptionHandler {
         result.setMsg(getErrorMessage(code, message));
 
         try {
-            if (CoreConst.HAS_SOFA_TRACER) {
-                String traceId = SofaTraceContextHolder.getSofaTraceContext().getCurrentSpan().getSofaTracerSpanContext().getTraceId();
-                result.setTraceId(traceId);
-            }
+            result.setTraceId(TracerUtil.getTraceId());
         } catch (Exception e) {
 
         }
+        log.error("code={},message={}", result.getCode(), result.getMsg());
+
+        return result;
+    }
+
+    private Result getResult(IErrorEnum errorException) {
+        Result result = new Result();
+        result.setSuccess(false);
+        result.setCode(errorException.getCode());
+        result.setMsg(errorException.getMessage());
+//        result.setTraceId(TracerUtil.getTraceId());
+
         log.error("code={},message={}", result.getCode(), result.getMsg());
 
         return result;

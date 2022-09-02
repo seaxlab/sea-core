@@ -15,8 +15,6 @@ public class CoreErrorConst {
 
     public static final String SYS_EXCEPTION = "1007";
 
-    public static final String SYS_INVALID_REQUEST = "1008";
-
     public static final String SYS_RES_NOT_EXIST = "1009";
 
 

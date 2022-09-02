@@ -1,9 +1,9 @@
 package com.github.seaxlab.core.spring.controller;
 
 
-import com.github.seaxlab.core.common.CoreErrorConst;
 import com.github.seaxlab.core.enums.IErrorEnum;
 import com.github.seaxlab.core.exception.BaseAppException;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.model.FootPrintDTO;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.web.util.RequestUtil;
@@ -89,7 +89,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpServletRequest request, HttpMediaTypeNotAcceptableException be) {
         log.error("handle HttpMediaTypeNotAcceptableException", be);
 
-        return new ResponseEntity<>(buildResult(request, CoreErrorConst.SYS_EXCEPTION, be.getMessage(), getMessage(be)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+        return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
@@ -97,7 +97,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleHttpRequestMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException be) {
         log.error("handle HttpRequestMethodNotSupportedException", be);
 
-        return new ResponseEntity<>(buildResult(request, CoreErrorConst.SYS_EXCEPTION, be.getMessage(), getMessage(be)), HttpStatus.METHOD_NOT_ALLOWED);
+        return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)), HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler(value = {HttpMessageNotReadableException.class, MethodArgumentNotValidException.class, MissingServletRequestParameterException.class, MissingServletRequestPartException.class, TypeMismatchException.class, ServletRequestBindingException.class, BindException.class})
@@ -124,7 +124,7 @@ public class GlobalExceptionHandler {
         }
 
 
-        Result result = buildResult(request, CoreErrorConst.SYS_INVALID_REQUEST, msg, getMessage(e));
+        Result result = buildResult(request, ErrorMessageEnum.SYS_INVALID_REQUEST, getMessage(e));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -136,9 +136,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Result> handleException(HttpServletRequest request, Exception e) {
         log.error("Unexpected exceptions!!!", e);
 
-        String message = null;
-        String code = CoreErrorConst.SYS_EXCEPTION;
-
 //        if (e instanceof MultipartException) {
 //            message = "文件大小不能大于50M";
 //        }
@@ -146,7 +143,7 @@ public class GlobalExceptionHandler {
 //            code = CoreErrorConst.SYS_RES_NOT_EXIST;
 //        }
 
-        return new ResponseEntity<>(buildResult(request, code, message, getMessage(e)), HttpStatus.OK);
+        return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(e)), HttpStatus.OK);
     }
 
 

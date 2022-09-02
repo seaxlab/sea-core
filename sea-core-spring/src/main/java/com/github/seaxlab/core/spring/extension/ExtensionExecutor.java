@@ -2,6 +2,7 @@ package com.github.seaxlab.core.spring.extension;
 
 import com.github.seaxlab.core.common.CoreErrorConst;
 import com.github.seaxlab.core.exception.BaseAppException;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -61,7 +62,8 @@ public class ExtensionExecutor extends AbstractComponentExecutor {
             return extension;
         }
 
-        throw new BaseAppException(CoreErrorConst.SYS_EXCEPTION, "Can not find extension with ExtensionPoint: " + targetClz + " BizScenario:" + bizScenario.getUniqueIdentity());
+        //throw new BaseAppException(ErrorMessageEnum.EXTENSION_NOT_EXIST, "Can not find extension with ExtensionPoint: " + targetClz + " BizScenario:" + bizScenario.getUniqueIdentity());
+        throw new BaseAppException(ErrorMessageEnum.EXTENSION_NOT_EXIST, targetClz, bizScenario.getUniqueIdentity());
     }
 
     /**
@@ -95,8 +97,7 @@ public class ExtensionExecutor extends AbstractComponentExecutor {
     }
 
     private <Ext> Ext locate(String name, String uniqueIdentity) {
-        final Ext ext = (Ext) extensionRepository.getExtensionRepo().
-                                                 get(new ExtensionCoordinate(name, uniqueIdentity));
+        final Ext ext = (Ext) extensionRepository.getExtensionRepo().get(new ExtensionCoordinate(name, uniqueIdentity));
         if (ext != null) {
             log.info("active extension uniqueIdentity={}", uniqueIdentity);
         }
