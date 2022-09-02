@@ -69,6 +69,7 @@ public class Result<T> implements Serializable {
 
     public Result(boolean success, String msg, T data) {
         this.success = success;
+        this.code = "";
         this.msg = msg;
         this.data = data;
     }
@@ -80,9 +81,9 @@ public class Result<T> implements Serializable {
      */
     public void value(T data) {
         this.success = true;
-        this.data = data;
-        this.msg = "";
         this.code = "";
+        this.msg = "";
+        this.data = data;
     }
 
     /**
