@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.cache.redis;
+package com.github.seaxlab.core.cache.redis.redisson;
 
 import com.github.seaxlab.core.cache.BaseTest;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +71,32 @@ public class RedissonTest extends BaseTest {
         try {
             log.info("do biz");
             sleepSecond(3);
+        } finally {
+            lock.unlock();
+        }
+        log.info("biz end.");
+    }
+
+    @Test
+    public void testRelease() throws Exception {
+        String lockKey = "lock1";
+        RLock lock = client.getLock(lockKey);
+        boolean flag = lock.tryLock();
+
+        if (!flag) {
+            log.warn("fail to get all lock");
+            return;
+        }
+
+        RLock lock2 = client.getLock(lockKey);
+        boolean flag2 = lock2.tryLock();
+
+
+        try {
+            log.info("do biz");
+            sleepSecond(3);
+
+            lock2.unlock();
         } finally {
             lock.unlock();
         }
