@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.web.filter;
 
 import com.github.seaxlab.core.annotation.Beta;
-import com.github.seaxlab.core.common.CoreErrorConst;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.EqualUtil;
 import com.github.seaxlab.core.util.ListUtil;
@@ -45,9 +45,7 @@ public abstract class AbstractBlackListFilter implements Filter {
             String ip = RequestUtil.getClientIpAddress(req);
             if (EqualUtil.isIn(ip, ips)) {
                 log.warn("ip[{}] is forbidden access", ip);
-                Result result = Result.fail();
-                result.setCode(CoreErrorConst.SYS_FORBIDDEN_ACCESS);
-                result.setMsgF("ip[{}] is forbidden access", ip);
+                Result result = Result.failF(ErrorMessageEnum.SYS_FORBIDDEN_ACCESS_F, ip);
                 ResponseUtil.toJSON(resp, result);
                 return;
             }
@@ -57,9 +55,7 @@ public abstract class AbstractBlackListFilter implements Filter {
             String userAgent = RequestUtil.getUserAgent(req);
             if (EqualUtil.isIn(userAgent, userAgents)) {
                 log.warn("userAgent[{}] is forbidden access", userAgent);
-                Result result = Result.fail();
-                result.setCode(CoreErrorConst.SYS_FORBIDDEN_ACCESS);
-                result.setMsg("user-agent is forbidden access");
+                Result result = Result.fail(ErrorMessageEnum.SYS_FORBIDDEN_ACCESS_AGENT);
                 ResponseUtil.toJSON(resp, result);
                 return;
             }

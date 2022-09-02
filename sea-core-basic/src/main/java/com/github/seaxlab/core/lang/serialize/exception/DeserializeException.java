@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.lang.serialize.exception;
 
-import com.github.seaxlab.core.common.CoreErrorConst;
 import com.github.seaxlab.core.exception.BaseAppException;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -15,6 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 public class DeserializeException extends BaseAppException {
 
     public DeserializeException() {
-        super(CoreErrorConst.UNSERIAL_ERR, "反序列化异常");
+        super(ErrorMessageEnum.UNSERIAL_ERR);
     }
 }

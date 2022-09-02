@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.web.filter;
 
 import com.github.seaxlab.core.annotation.Beta;
-import com.github.seaxlab.core.common.CoreErrorConst;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.EqualUtil;
 import com.github.seaxlab.core.util.ListUtil;
@@ -64,9 +64,7 @@ public abstract class AbstractWhiteListFilter implements Filter {
         }
 
         log.warn("client[ip={}, client={}] is forbidden access", ip, userAgent);
-        Result result = Result.fail();
-        result.setCode(CoreErrorConst.SYS_FORBIDDEN_ACCESS);
-        result.setMsg("client is forbidden access, plz contact administrator.");
+        Result result = Result.fail(ErrorMessageEnum.SYS_FORBIDDEN_ACCESS);
         ResponseUtil.toJSON(resp, result);
     }
 

@@ -2,6 +2,7 @@ package com.github.seaxlab.core.spring.controller;
 
 
 import com.github.seaxlab.core.common.CoreErrorConst;
+import com.github.seaxlab.core.enums.IErrorEnum;
 import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.model.FootPrintDTO;
 import com.github.seaxlab.core.model.Result;
@@ -70,13 +71,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(buildResult(String.valueOf(-1), e.getMessage(), null), HttpStatus.OK);
     }
 
-    private Result buildResult(String errorCode, String defaultErrorMsg, Object data) {
-        Result result = Result.fail(errorCode);
+    private Result buildResult(String code, String defaultErrorMsg, Object data) {
+        Result result = Result.fail(code);
 
-        result.setCode(errorCode);
-        result.setMsg(getErrorMessage(errorCode, defaultErrorMsg));
+        result.setCode(code);
+        result.setMsg(getErrorMessage(code, defaultErrorMsg));
 
-        log.error("errorCode={},errorMessage={}", result.getCode(), result.getMsg());
+        log.error("code={},message={}", result.getCode(), result.getMsg());
 
         printHttpHeader(request);
 
@@ -135,39 +136,62 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Result> handleException(HttpServletRequest request, Exception e) {
         log.error("Unexpected exceptions!!!", e);
 
-        String errorMsg = null;
-        String errorCode = CoreErrorConst.SYS_EXCEPTION;
+        String message = null;
+        String code = CoreErrorConst.SYS_EXCEPTION;
 
 //        if (e instanceof MultipartException) {
-//            errorMsg = "文件大小不能大于50M";
+//            message = "文件大小不能大于50M";
 //        }
 //        if (e instanceof NoHandlerFoundException) {
-//            errorCode = CoreErrorConst.SYS_RES_NOT_EXIST;
+//            code = CoreErrorConst.SYS_RES_NOT_EXIST;
 //        }
 
-        return new ResponseEntity<>(buildResult(request, errorCode, errorMsg, getMessage(e)), HttpStatus.OK);
+        return new ResponseEntity<>(buildResult(request, code, message, getMessage(e)), HttpStatus.OK);
     }
 
 
-    private Result buildResult(HttpServletRequest request, String errorCode, String errorMsg, String errorMsgForLog) {
+    private Result buildResult(HttpServletRequest request, String code, String message, String errorMsgForLog) {
         printHttpHeader(request);
 
         // 返回给前端的结果
-        Result result = getResult(errorCode, errorMsg);
+        Result result = getResult(code, message);
 
         // 如果是开发环境则把异常抛出去
 
         return result;
     }
 
-    private Result getResult(String errorCode, String errorMsg) {
+    private Result buildResult(HttpServletRequest request, IErrorEnum errorException, String errorMsgForLog) {
+        printHttpHeader(request);
+
+        // 返回给前端的结果
+        Result result = getResult(errorException);
+
+        // 如果是开发环境则把异常抛出去
+
+        return result;
+    }
+
+    private Result getResult(String code, String message) {
         Result result = new Result();
         result.setSuccess(false);
-        result.setCode(errorCode);
-        result.setMsg(getErrorMessage(errorCode, errorMsg));
+        result.setCode(code);
+        result.setMsg(getErrorMessage(code, message));
 //        result.setTraceId(TracerUtil.getTraceId());
 
-        log.error("errorCode={},errorMessage={}", result.getCode(), result.getMsg());
+        log.error("code={},message={}", result.getCode(), result.getMsg());
+
+        return result;
+    }
+
+    private Result getResult(IErrorEnum errorException) {
+        Result result = new Result();
+        result.setSuccess(false);
+        result.setCode(errorException.getCode());
+        result.setMsg(errorException.getMessage());
+//        result.setTraceId(TracerUtil.getTraceId());
+
+        log.error("code={},message={}", result.getCode(), result.getMsg());
 
         return result;
     }
@@ -194,10 +218,10 @@ public class GlobalExceptionHandler {
         return message;
     }
 
-    private String getErrorMessage(String errorCode, String errorMessage) {
-        String desc = errorMessage;
-        if (Strings.isNullOrEmpty(errorMessage)) {
-            desc = messageSource.getMessage(errorCode, null, errorCode, Locale.CHINESE);
+    private String getErrorMessage(String code, String message) {
+        String desc = message;
+        if (Strings.isNullOrEmpty(message)) {
+            desc = messageSource.getMessage(code, null, code, Locale.CHINESE);
         }
         return desc;
     }

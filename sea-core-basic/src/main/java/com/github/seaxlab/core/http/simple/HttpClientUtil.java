@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.http.simple;
 
-import com.github.seaxlab.core.common.CoreErrorConst;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.http.common.HttpHeaderConst;
 import com.github.seaxlab.core.http.dto.HttpUploadDTO;
@@ -104,19 +104,13 @@ public class HttpClientUtil {
                 };
                 ctx.init(null, new TrustManager[]{tm}, null);
                 SSLConnectionSocketFactory ssf = new SSLConnectionSocketFactory(ctx, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-                Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
-                        .register("http", PlainConnectionSocketFactory.getSocketFactory())
-                        .register("https", ssf)
-                        .build();
+                Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create().register("http", PlainConnectionSocketFactory.getSocketFactory()).register("https", ssf).build();
                 //manager
                 connectionManager = new PoolingHttpClientConnectionManager(registry);
                 connectionManager.setMaxTotal(managerMaxTotal);
                 //socketConfig
                 SocketConfig socketConfig = SocketConfig.custom().setSoTimeout(socketTimeOut).build();
-                httpClient = HttpClients.custom()
-                                        .setConnectionManager(connectionManager)
-                                        .setDefaultSocketConfig(socketConfig)
-                                        .build();
+                httpClient = HttpClients.custom().setConnectionManager(connectionManager).setDefaultSocketConfig(socketConfig).build();
             } catch (Exception ex) {
                 log.error("httpClient——初始化——报错，错误信息", ex);
             }
@@ -165,17 +159,14 @@ public class HttpClientUtil {
                 httpPost.setEntity(entity);
             }
             //requestConfig
-            RequestConfig requestConfig = RequestConfig.custom()
-                                                       .setConnectionRequestTimeout(connectionRequestTimeout)
-                                                       .setConnectTimeout(connectionTimeout)
-                                                       .build();
+            RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout).setConnectTimeout(connectionTimeout).build();
             httpPost.setConfig(requestConfig);
             try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
                 result = getRespEntityStr(response);
             }
         } catch (Exception e) {
             log.error("http exception", e);
-            ExceptionHandler.publish(CoreErrorConst.HTTP_ERR, "http请求异常");
+            ExceptionHandler.publish(ErrorMessageEnum.HTTP_ERROR);
         }
         return result;
     }
@@ -247,10 +238,7 @@ public class HttpClientUtil {
             httpPost.setEntity(entity);
         }
         //requestConfig
-        RequestConfig requestConfig = RequestConfig.custom()
-                                                   .setConnectionRequestTimeout(connectionRequestTimeout)
-                                                   .setConnectTimeout(connectionTimeout)
-                                                   .build();
+        RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout).setConnectTimeout(connectionTimeout).build();
         httpPost.setConfig(requestConfig);
 
         String result = null;
@@ -258,7 +246,7 @@ public class HttpClientUtil {
             result = getRespEntityStr(response);
         } catch (Exception e) {
             log.error("http exception", e);
-            ExceptionHandler.publish(CoreErrorConst.HTTP_ERR, "http请求异常");
+            ExceptionHandler.publish(ErrorMessageEnum.HTTP_ERROR);
         }
         return result;
     }
@@ -348,10 +336,7 @@ public class HttpClientUtil {
         log.info("http get method, url=[{}]", url);
         init();
 
-        RequestConfig requestConfig = RequestConfig.custom()
-                                                   .setConnectionRequestTimeout(connectionRequestTimeout)
-                                                   .setConnectTimeout(connectionTimeout)
-                                                   .build();
+        RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout).setConnectTimeout(connectionTimeout).build();
 
         HttpGet request = new HttpGet(url);
         request.setConfig(requestConfig);
@@ -363,7 +348,7 @@ public class HttpClientUtil {
             result = getRespEntityStr(response);
         } catch (Exception e) {
             log.error("http exception", e);
-            ExceptionHandler.publish(CoreErrorConst.HTTP_ERR, "http请求异常");
+            ExceptionHandler.publish(ErrorMessageEnum.HTTP_ERROR);
         }
 
         return result;

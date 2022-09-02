@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.exception;
 
+import com.github.seaxlab.core.enums.IErrorEnum;
 import com.github.seaxlab.core.util.StringUtil;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
@@ -32,7 +33,7 @@ public final class ExceptionHandler {
      * @param exception IErrorException
      * @return
      */
-    public static BaseAppException publish(IErrorException exception) {
+    public static BaseAppException publish(IErrorEnum exception) {
         throw new BaseAppException(exception);
     }
 
@@ -43,7 +44,7 @@ public final class ExceptionHandler {
      * @param args      arguments
      * @return
      */
-    public static BaseAppException publish(IErrorException exception, Object... args) {
+    public static BaseAppException publish(IErrorEnum exception, Object... args) {
         throw new BaseAppException(exception, args);
     }
 

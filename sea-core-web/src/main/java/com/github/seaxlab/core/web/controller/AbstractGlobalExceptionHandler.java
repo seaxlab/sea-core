@@ -70,13 +70,13 @@ public abstract class AbstractGlobalExceptionHandler {
         return new ResponseEntity<Result>(buildResult(String.valueOf(-1), e.getMessage(), null), HttpStatus.OK);
     }
 
-    private Result buildResult(String errorCode, String defaultErrorMsg, Object data) {
-        Result result = Result.fail(errorCode);
+    private Result buildResult(String code, String defaultErrorMsg, Object data) {
+        Result result = Result.fail(code);
 
-        result.setCode(errorCode);
-        result.setMsg(getErrorMessage(errorCode, defaultErrorMsg));
+        result.setCode(code);
+        result.setMsg(getErrorMessage(code, defaultErrorMsg));
 
-        log.error("errorCode={},errorMessage={}", result.getCode(), result.getMsg());
+        log.error("code={},message={}", result.getCode(), result.getMsg());
 
         printHttpHeader(request);
 
@@ -134,23 +134,23 @@ public abstract class AbstractGlobalExceptionHandler {
         log.error("Unexpected exceptions!!!", e);
 
         String errorMsg = null;
-        String errorCode = CoreErrorConst.SYS_EXCEPTION;
+        String code = CoreErrorConst.SYS_EXCEPTION;
 
         if (e instanceof MultipartException) {
             errorMsg = "文件大小不能大于50M";
         }
         if (e instanceof NoHandlerFoundException) {
-            errorCode = CoreErrorConst.SYS_RES_NOT_EXIST;
+            code = CoreErrorConst.SYS_RES_NOT_EXIST;
         }
 
-        return new ResponseEntity<>(buildBaseResult(request, errorCode, errorMsg, getMessage(e)), HttpStatus.OK);
+        return new ResponseEntity<>(buildBaseResult(request, code, errorMsg, getMessage(e)), HttpStatus.OK);
     }
 
-    private Result buildBaseResult(HttpServletRequest request, String errorCode, String errorMsg, String errorMsgForLog) {
+    private Result buildBaseResult(HttpServletRequest request, String code, String errorMsg, String errorMsgForLog) {
         printHttpHeader(request);
 
         // 返回给前端的结果
-        Result result = getBaseResult(errorCode, errorMsg);
+        Result result = getBaseResult(code, errorMsg);
 
         // 如果是开发环境则把异常抛出去
 
@@ -158,11 +158,11 @@ public abstract class AbstractGlobalExceptionHandler {
         return result;
     }
 
-    protected Result getBaseResult(String errorCode, String errorMsg) {
+    protected Result getBaseResult(String code, String errorMsg) {
         Result result = new Result();
         result.setSuccess(false);
-        result.setCode(errorCode);
-        result.setMsg(getErrorMessage(errorCode, errorMsg));
+        result.setCode(code);
+        result.setMsg(getErrorMessage(code, errorMsg));
 
         try {
             if (CoreConst.HAS_SOFA_TRACER) {
@@ -172,7 +172,7 @@ public abstract class AbstractGlobalExceptionHandler {
         } catch (Exception e) {
 
         }
-        log.error("errorCode={},errorMessage={}", result.getCode(), result.getMsg());
+        log.error("code={},message={}", result.getCode(), result.getMsg());
 
         return result;
     }
@@ -199,10 +199,10 @@ public abstract class AbstractGlobalExceptionHandler {
         return message;
     }
 
-    protected String getErrorMessage(String errorCode, String errorMessage) {
-        String desc = errorMessage;
-        if (Strings.isNullOrEmpty(errorMessage)) {
-            desc = messageSource.getMessage(errorCode, null, errorCode, Locale.CHINESE);
+    protected String getErrorMessage(String code, String message) {
+        String desc = message;
+        if (Strings.isNullOrEmpty(message)) {
+            desc = messageSource.getMessage(code, null, code, Locale.CHINESE);
         }
         return desc;
     }

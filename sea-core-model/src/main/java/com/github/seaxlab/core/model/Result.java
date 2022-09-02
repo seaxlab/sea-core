@@ -3,6 +3,7 @@ package com.github.seaxlab.core.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.annotation.JSONType;
+import com.github.seaxlab.core.enums.IErrorEnum;
 import lombok.Data;
 import org.slf4j.helpers.MessageFormatter;
 
@@ -132,7 +133,7 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> fail() {
-        return fail(null);
+        return fail("", "");
     }
 
     public static <T> Result<T> fail(String code) {
@@ -149,6 +150,22 @@ public class Result<T> implements Serializable {
         result.setSuccess(false);
         result.setCode(code);
         result.setMsg(msg);
+        return result;
+    }
+
+    public static <T> Result<T> fail(IErrorEnum errorEnum) {
+        Result<T> result = new Result<>();
+        result.setSuccess(false);
+        result.setCode(errorEnum.getCode());
+        result.setMsg(errorEnum.getMessage());
+        return result;
+    }
+
+    public static <T> Result<T> failF(IErrorEnum errorEnum, Object... args) {
+        Result<T> result = new Result<>();
+        result.setSuccess(false);
+        result.setCode(errorEnum.getCode());
+        result.setMsg(MessageFormatter.arrayFormat(errorEnum.getMessage(), args).getMessage());
         return result;
     }
 

@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.exception;
+package com.github.seaxlab.core.enums;
 
 /**
  * error exception
@@ -7,7 +7,7 @@ package com.github.seaxlab.core.exception;
  * @version 1.0 2021/8/28
  * @since 1.0
  */
-public interface IErrorException {
+public interface IErrorEnum {
 
     /**
      * error code

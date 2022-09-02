@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.web.filter;
 
 import com.github.seaxlab.core.annotation.Beta;
-import com.github.seaxlab.core.common.CoreErrorConst;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.AntPathMatcher;
 import com.github.seaxlab.core.util.PathMatcher;
@@ -66,9 +66,7 @@ public abstract class AbstractRateLimiterFilter implements Filter {
                     return;
                 } else {
                     log.warn("not get rate limiter token, so end request, url={}", url);
-                    Result result = Result.fail();
-                    result.setCode(CoreErrorConst.SYS_RATE_LIMITER_ERR);
-                    result.setMsg("触发限流");
+                    Result result = Result.fail(ErrorMessageEnum.SYS_RATE_LIMITER_ERR);
                     ResponseUtil.toJSON(resp, result);
                     return;
                 }

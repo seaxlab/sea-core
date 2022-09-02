@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.exception;
 
-import com.github.seaxlab.core.common.CoreErrorConst;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -15,12 +14,12 @@ public class UnsupportedOperationException extends BaseAppException {
 
 
     public UnsupportedOperationException() {
-        super(CoreErrorConst.UNSUPPORT_OPERATION, "不支持的操作");
+        super(ErrorMessageEnum.UNSUPPORT_OPERATION);
     }
 
 
     public UnsupportedOperationException(String message) {
-        super(CoreErrorConst.UNSUPPORT_OPERATION, message);
+        super(ErrorMessageEnum.UNSUPPORT_OPERATION, message);
     }
 
 
