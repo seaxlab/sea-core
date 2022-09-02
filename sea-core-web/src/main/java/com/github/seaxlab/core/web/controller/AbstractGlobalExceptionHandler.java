@@ -133,24 +133,24 @@ public abstract class AbstractGlobalExceptionHandler {
     public ResponseEntity<Result> handleException(HttpServletRequest request, Exception e) {
         log.error("Unexpected exceptions!!!", e);
 
-        String errorMsg = null;
+        String message = null;
         String code = CoreErrorConst.SYS_EXCEPTION;
 
         if (e instanceof MultipartException) {
-            errorMsg = "文件大小不能大于50M";
+            message = "文件大小不能大于50M";
         }
         if (e instanceof NoHandlerFoundException) {
             code = CoreErrorConst.SYS_RES_NOT_EXIST;
         }
 
-        return new ResponseEntity<>(buildBaseResult(request, code, errorMsg, getMessage(e)), HttpStatus.OK);
+        return new ResponseEntity<>(buildBaseResult(request, code, message, getMessage(e)), HttpStatus.OK);
     }
 
-    private Result buildBaseResult(HttpServletRequest request, String code, String errorMsg, String errorMsgForLog) {
+    private Result buildBaseResult(HttpServletRequest request, String code, String message, String errorMsgForLog) {
         printHttpHeader(request);
 
         // 返回给前端的结果
-        Result result = getBaseResult(code, errorMsg);
+        Result result = getBaseResult(code, message);
 
         // 如果是开发环境则把异常抛出去
 
@@ -158,11 +158,11 @@ public abstract class AbstractGlobalExceptionHandler {
         return result;
     }
 
-    protected Result getBaseResult(String code, String errorMsg) {
+    protected Result getBaseResult(String code, String message) {
         Result result = new Result();
         result.setSuccess(false);
         result.setCode(code);
-        result.setMsg(getErrorMessage(code, errorMsg));
+        result.setMsg(getErrorMessage(code, message));
 
         try {
             if (CoreConst.HAS_SOFA_TRACER) {
