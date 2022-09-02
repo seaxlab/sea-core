@@ -13,20 +13,22 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Getter
-public enum SimpleStatus implements IBaseEnum<Integer> {
-    UNKNOWN(-1, "未知"), ENABLED(1, "启用"), DISABLED(0, "禁用");
+public enum EnabledFlagEnum implements IBaseEnum<Integer> {
+    UNKNOWN(-1, "未知"), //
+    ENABLED(1, "启用"),  //
+    DISABLED(0, "禁用");
 
     private Integer code;
 
     private String desc;
 
-    private static final SimpleStatus[] VALUES;
+    private static final EnabledFlagEnum[] VALUES;
 
     static {
         VALUES = values();
     }
 
-    SimpleStatus(int code, String desc) {
+    EnabledFlagEnum(int code, String desc) {
         this.code = code;
         this.desc = desc;
     }
@@ -37,13 +39,13 @@ public enum SimpleStatus implements IBaseEnum<Integer> {
      * @param code
      * @return
      */
-    public static SimpleStatus of(Integer code) {
+    public static EnabledFlagEnum of(Integer code) {
         if (code == null) {
             log.warn(ErrorMessageEnum.CODE_IS_NULL.getMessage());
             return UNKNOWN;
         }
 
-        for (SimpleStatus status : VALUES) {
+        for (EnabledFlagEnum status : VALUES) {
             if (code.intValue() == status.getCode().intValue()) {
                 return status;
             }

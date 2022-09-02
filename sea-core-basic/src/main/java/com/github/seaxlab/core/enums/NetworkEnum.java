@@ -16,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 public enum NetworkEnum implements IBaseEnum<String> {
     UNKNOWN("unknown", "未知"),
 
-    INTRANET("intranet", "内网"), EXTRANET("extranet", "专网"), INTERNET("internet", "互联网");
+    INTRANET("intranet", "内网"), //
+    EXTRANET("extranet", "专网"), //
+    INTERNET("internet", "互联网");
 
     private String code;
     private String desc;
