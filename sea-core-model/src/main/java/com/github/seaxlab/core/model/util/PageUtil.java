@@ -13,6 +13,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class PageUtil {
 
+    /**
+     * 默认前端加载时分页数量大小
+     */
+    public static final int DEFAULT_PAGE_SIZE = 10;
+
+    /**
+     * 循环加载时分页数量大小
+     */
+    public static final int DEFAULT_LOOP_PAGE_SIZE = 200;
+
     private PageUtil() {
     }
 
