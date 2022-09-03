@@ -190,7 +190,7 @@ public final class ReflectUtil {
             return Introspector.decapitalize(getter);
         } catch (ReflectiveOperationException e) {
             log.error("reflective operation exception", e);
-            ExceptionHandler.publish(ErrorMessageEnum.SYS_REFLECT_OPERATION_ERR);
+            ExceptionHandler.publish(ErrorMessageEnum.SYS_REFLECT_OPERATION_ERROR);
         }
         return null;
     }
@@ -254,7 +254,7 @@ public final class ReflectUtil {
             return MethodUtils.invokeMethod(object, method);
         } catch (Exception e) {
             log.error("invoke method error", e);
-            ExceptionHandler.publish(ErrorMessageEnum.SYS_REFLECT_OPERATION_ERR);
+            ExceptionHandler.publish(ErrorMessageEnum.SYS_REFLECT_OPERATION_ERROR);
         }
         return null;
     }
@@ -272,7 +272,7 @@ public final class ReflectUtil {
             return MethodUtils.invokeMethod(object, forceAccess, method);
         } catch (Exception e) {
             log.error("invoke method error", e);
-            ExceptionHandler.publish(ErrorMessageEnum.SYS_REFLECT_OPERATION_ERR);
+            ExceptionHandler.publish(ErrorMessageEnum.SYS_REFLECT_OPERATION_ERROR);
         }
         return null;
     }

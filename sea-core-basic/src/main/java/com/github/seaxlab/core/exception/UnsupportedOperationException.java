@@ -14,12 +14,12 @@ public class UnsupportedOperationException extends BaseAppException {
 
 
     public UnsupportedOperationException() {
-        super(ErrorMessageEnum.UNSUPPORT_OPERATION);
+        super(ErrorMessageEnum.UNSUPPORTED_OPERATION);
     }
 
 
     public UnsupportedOperationException(String message) {
-        super(ErrorMessageEnum.UNSUPPORT_OPERATION, message);
+        super(ErrorMessageEnum.UNSUPPORTED_OPERATION, message);
     }
 
 

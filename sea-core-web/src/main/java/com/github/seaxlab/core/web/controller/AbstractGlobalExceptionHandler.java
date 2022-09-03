@@ -123,7 +123,7 @@ public abstract class AbstractGlobalExceptionHandler {
         }
 
 
-        Result result = buildResult(request, ErrorMessageEnum.SYS_INVALID_REQUEST, getMessage(e));
+        Result result = buildResult(request, ErrorMessageEnum.SYS_PARAM_INVALID, getMessage(e));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

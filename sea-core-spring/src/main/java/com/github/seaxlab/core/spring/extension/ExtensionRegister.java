@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.spring.extension;
 
-import com.github.seaxlab.core.common.CoreErrorConst;
 import com.github.seaxlab.core.exception.BaseAppException;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,7 @@ public class ExtensionRegister {
         ExtensionCoordinate extensionCoordinate = new ExtensionCoordinate(calculateExtensionPoint(extensionClz), bizScenario.getUniqueIdentity());
         IExtensionPoint preVal = extensionRepository.getExtensionRepo().put(extensionCoordinate, extensionObject);
         if (preVal != null) {
-            throw new BaseAppException(CoreErrorConst.SYS_EXCEPTION, "Duplicate registration is not allowed for :" + extensionCoordinate);
+            throw new BaseAppException(ErrorMessageEnum.EXTENSION_DUPLICATE_REGISTER_F, extensionCoordinate);
         }
 
     }
@@ -36,13 +36,13 @@ public class ExtensionRegister {
     private String calculateExtensionPoint(Class<?> targetClz) {
         Class[] interfaces = targetClz.getInterfaces();
         if (interfaces == null || interfaces.length == 0)
-            throw new BaseAppException(CoreErrorConst.SYS_EXCEPTION, "Please assign a extension point interface for " + targetClz);
+            throw new BaseAppException(ErrorMessageEnum.EXTENSION_NEED_POINT_INTERFACE_F, targetClz);
         for (Class intf : interfaces) {
             String extensionPoint = intf.getSimpleName();
             if (extensionPoint.contains(ExtensionConstant.EXTENSION_EXTPT_NAMING))
                 return intf.getName();
         }
-        throw new BaseAppException(CoreErrorConst.SYS_EXCEPTION, "Your name of ExtensionPoint for " + targetClz + " is not valid, must be end of " + ExtensionConstant.EXTENSION_EXTPT_NAMING);
+        throw new BaseAppException(ErrorMessageEnum.EXTENSION_END_NAME_NOT_VALID_F, targetClz, ExtensionConstant.EXTENSION_EXTPT_NAMING);
     }
 
 }

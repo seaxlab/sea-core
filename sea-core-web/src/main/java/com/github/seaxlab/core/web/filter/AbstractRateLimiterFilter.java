@@ -66,7 +66,7 @@ public abstract class AbstractRateLimiterFilter implements Filter {
                     return;
                 } else {
                     log.warn("not get rate limiter token, so end request, url={}", url);
-                    Result result = Result.fail(ErrorMessageEnum.SYS_RATE_LIMITER_ERR);
+                    Result result = Result.fail(ErrorMessageEnum.SYS_RATE_LIMITER_ERROR);
                     ResponseUtil.toJSON(resp, result);
                     return;
                 }

@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.spring.extension;
 
-import com.github.seaxlab.core.common.CoreErrorConst;
 import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -106,7 +105,7 @@ public class ExtensionExecutor extends AbstractComponentExecutor {
 
     private void checkNull(BizScenario bizScenario) {
         if (bizScenario == null) {
-            throw new BaseAppException(CoreErrorConst.SYS_EXCEPTION, "BizScenario can not be null for extension");
+            throw new BaseAppException(ErrorMessageEnum.EXTENSION_BIZ_SCENARIO_NOT_EXIST);
         }
     }
 
