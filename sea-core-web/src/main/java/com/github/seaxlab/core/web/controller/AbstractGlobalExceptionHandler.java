@@ -59,7 +59,7 @@ public abstract class AbstractGlobalExceptionHandler {
     public ResponseEntity<Result> handleBaseAppException(BaseAppException e) {
         log.error("Biz service Exception", e);
 
-        return new ResponseEntity<>(buildResult(String.valueOf(e.getCode()), e.getDesc(), null), HttpStatus.OK);
+        return new ResponseEntity<>(buildResult(e.getCode(), e.getDesc(), null), HttpStatus.OK);
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)

@@ -59,7 +59,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Result> handleBaseAppException(BaseAppException e) {
         log.error("Biz service Exception", e);
 
-        return new ResponseEntity<Result>(buildResult(String.valueOf(e.getCode()), e.getDesc(), null), HttpStatus.OK);
+        return new ResponseEntity<Result>(buildResult(e.getCode(), e.getDesc(), null), HttpStatus.OK);
     }
 
 
