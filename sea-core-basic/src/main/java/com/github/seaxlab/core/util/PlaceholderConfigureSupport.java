@@ -18,7 +18,7 @@
 
 package com.github.seaxlab.core.util;
 
-public class PlaceholderConfigurerSupport {
+public class PlaceholderConfigureSupport {
 
     /**
      * Default placeholder prefix: {@value}

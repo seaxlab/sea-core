@@ -23,13 +23,13 @@ public class PropertyPlaceHolderHelperTest extends BaseCoreTest {
         Properties p = new Properties();
         p.setProperty("a", "1");
 
-        log.info("final value = {}", PropertyPlaceholderHelper.INSTANCE.replace("${a},${b:hao}", p));
+        log.info("final value = {}", PlaceholderUtil.INSTANCE.replace("${a},${b:hao}", p));
     }
 
     @Test
     public void testReplace() throws Exception {
         Map<String, String> param = new HashMap<>();
         param.put("a", "1");
-        log.info("final value = {}", PropertyPlaceholderHelper.INSTANCE.replace("${a},${b:hao}", param));
+        log.info("final value = {}", PlaceholderUtil.INSTANCE.replace("${a},${b:hao}", param));
     }
 }

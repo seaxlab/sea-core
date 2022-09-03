@@ -5,6 +5,7 @@ import org.slf4j.helpers.MessageFormatter;
 
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * message format util.
@@ -55,12 +56,23 @@ public final class MessageUtil {
     /**
      * 支持${xx}替换
      *
-     * @param messagePattern
-     * @param params
+     * @param messagePattern message pattern
+     * @param params         params
      * @return
      */
     public static String replace(String messagePattern, Map<String, String> params) {
-        return PropertyPlaceholderHelper.INSTANCE.replace(messagePattern, params);
+        return PlaceholderUtil.INSTANCE.replace(messagePattern, params);
+    }
+
+    /**
+     * ${xxx}替换
+     *
+     * @param messagePattern message pattern
+     * @param properties     properties
+     * @return
+     */
+    public static String replace(String messagePattern, Properties properties) {
+        return PlaceholderUtil.INSTANCE.replace(messagePattern, properties);
     }
 
 

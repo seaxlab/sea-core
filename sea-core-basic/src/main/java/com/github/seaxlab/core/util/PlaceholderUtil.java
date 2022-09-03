@@ -35,12 +35,12 @@ import java.util.*;
  * log.debug("{}", ret);
  * </pre>
  */
-public enum PropertyPlaceholderHelper {
+public enum PlaceholderUtil {
 
     INSTANCE(
-            PlaceholderConfigurerSupport.DEFAULT_PLACEHOLDER_PREFIX,
-            PlaceholderConfigurerSupport.DEFAULT_PLACEHOLDER_SUFFIX,
-            PlaceholderConfigurerSupport.DEFAULT_VALUE_SEPARATOR,
+            PlaceholderConfigureSupport.DEFAULT_PLACEHOLDER_PREFIX,
+            PlaceholderConfigureSupport.DEFAULT_PLACEHOLDER_SUFFIX,
+            PlaceholderConfigureSupport.DEFAULT_VALUE_SEPARATOR,
             true
     );
 
@@ -64,8 +64,8 @@ public enum PropertyPlaceholderHelper {
      * @param ignoreUnresolvablePlaceholders indicates whether unresolvable placeholders should be ignored ({@code
      *                                       true}) or cause an exception ({@code false})
      */
-    PropertyPlaceholderHelper(String placeholderPrefix, String placeholderSuffix, String valueSeparator,
-                              boolean ignoreUnresolvablePlaceholders) {
+    PlaceholderUtil(String placeholderPrefix, String placeholderSuffix, String valueSeparator,
+                    boolean ignoreUnresolvablePlaceholders) {
         if (StringUtil.isEmpty(placeholderPrefix) || StringUtil.isEmpty(placeholderSuffix)) {
             throw new UnsupportedOperationException("'placeholderPrefix or placeholderSuffix' must not be null");
         }
