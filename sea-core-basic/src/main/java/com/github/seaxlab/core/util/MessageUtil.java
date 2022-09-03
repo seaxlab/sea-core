@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.helpers.MessageFormatter;
 
 import java.text.MessageFormat;
+import java.util.Map;
 
 /**
  * message format util.
@@ -37,9 +38,7 @@ public final class MessageUtil {
         if (StringUtil.isEmpty(str)) {
             return str2;
         }
-        return new StringBuilder(str).append(splitChar)
-                                     .append(str2)
-                                     .toString();
+        return new StringBuilder(str).append(splitChar).append(str2).toString();
     }
 
     /**
@@ -52,5 +51,17 @@ public final class MessageUtil {
     public static String formatByIndex(String messagePattern, Object... args) {
         return MessageFormat.format(messagePattern, args);
     }
+
+    /**
+     * 支持${xx}替换
+     *
+     * @param messagePattern
+     * @param params
+     * @return
+     */
+    public static String replace(String messagePattern, Map<String, String> params) {
+        return PropertyPlaceholderHelper.INSTANCE.replace(messagePattern, params);
+    }
+
 
 }
