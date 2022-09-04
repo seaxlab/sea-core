@@ -86,7 +86,7 @@ public final class JacksonUtil {
      * @return
      * @throws Exception
      */
-    public static Map beanToMap(Object obj) {
+    public static Map<String, Object> beanToMap(Object obj) {
         try {
             return objectMapper.readValue(objectToString(obj), Map.class);
         } catch (Exception e) {
