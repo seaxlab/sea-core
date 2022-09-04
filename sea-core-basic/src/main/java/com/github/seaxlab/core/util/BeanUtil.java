@@ -1,11 +1,12 @@
 package com.github.seaxlab.core.util;
 
+import com.github.seaxlab.core.component.json.jackson.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.cglib.beans.BeanMap;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static java.util.stream.Collectors.toList;
 
@@ -68,7 +69,8 @@ public final class BeanUtil {
      */
     @SuppressWarnings("unchecked")
     public static Map<String, Object> beanToMap(Object bean) {
-        return null == bean ? null : BeanMap.create(bean);
+        //return null == bean ? null : BeanMap.create(bean);
+        return Objects.isNull(bean) ? null : JacksonUtil.beanToMap(bean);
     }
 
     /**
@@ -79,9 +81,11 @@ public final class BeanUtil {
      * @return 返回 bean 对象
      */
     public static <T> T mapToBean(Map<String, ?> map, Class<T> clazz) {
-        T bean = ClassUtil.newInstance(clazz);
-        BeanMap.create(bean).putAll(map);
-        return bean;
+        //T bean = ClassUtil.newInstance(clazz);
+        //BeanMap.create(bean).putAll(map);
+        //return bean;
+
+        return JacksonUtil.mapToBean(map, clazz);
     }
 
     /**
