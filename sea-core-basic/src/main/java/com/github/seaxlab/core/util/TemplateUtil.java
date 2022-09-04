@@ -39,8 +39,8 @@ public final class TemplateUtil {
         while (matcher.find()) {
             try {
                 String key = matcher.group();
-                String keyclone = key.substring(1, key.length() - 1).trim();
-                Object value = param.get(keyclone);
+                String keyClone = key.substring(1, key.length() - 1).trim();
+                Object value = param.get(keyClone);
                 if (value != null) {
                     targetString = targetString.replace(key, value.toString());
                 }
