@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.util;
 
-import com.github.seaxlab.core.model.NativePlace;
+import com.github.seaxlab.core.model.component.person.NativePlace;
 import lombok.extern.slf4j.Slf4j;
 
 /**

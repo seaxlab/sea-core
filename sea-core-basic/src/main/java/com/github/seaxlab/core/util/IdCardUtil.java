@@ -2,9 +2,9 @@ package com.github.seaxlab.core.util;
 
 import cn.hutool.core.util.IdcardUtil;
 import com.github.seaxlab.core.enums.GenderEnum;
-import com.github.seaxlab.core.model.IdCard;
-import com.github.seaxlab.core.model.NativePlace;
 import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.model.component.person.IdCard;
+import com.github.seaxlab.core.model.component.person.NativePlace;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.SimpleDateFormat;
