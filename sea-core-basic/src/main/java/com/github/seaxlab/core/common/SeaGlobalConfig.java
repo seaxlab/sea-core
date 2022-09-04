@@ -15,6 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SeaGlobalConfig {
 
+    private SeaGlobalConfig() {
+    }
+
     // set
     public static void setTraceProvider(TracerProviderEnum provider) {
         ConfigurationFactory.getInstance().putString(ConfigKeyEnum.TRACE_PROVIDER.getCode(), provider.getCode());
