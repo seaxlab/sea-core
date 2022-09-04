@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.model.event;
+package com.github.seaxlab.core.model.layer.event;
 
 import lombok.Data;
 
