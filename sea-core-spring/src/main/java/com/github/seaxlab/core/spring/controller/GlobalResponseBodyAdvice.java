@@ -31,12 +31,6 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice {
 
             Result result = (Result) body;
 
-
-            //String requestId = MDC.get(CoreConst.MDC_REQ_ID);
-            //if (StringUtils.isEmpty(result.getRequestId())) {
-            //    result.setRequestId(requestId);
-            //}
-
 //            if (StringUtils.isEmpty(result.getTraceId())) {
 //                result.setTraceId(TraceUtil.getTraceId());
 //            }

@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.service;
 
-import com.github.seaxlab.core.model.DTO;
 import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.model.layer.dto.DTO;
 import com.github.seaxlab.core.model.service.CompensableService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

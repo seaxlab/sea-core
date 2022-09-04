@@ -7,7 +7,7 @@ import com.github.seaxlab.core.cache.CacheExceptionHandler;
 import com.github.seaxlab.core.cache.CacheService;
 import com.github.seaxlab.core.enums.CacheOpEnum;
 import com.github.seaxlab.core.exception.Precondition;
-import com.github.seaxlab.core.model.EntityKey;
+import com.github.seaxlab.core.model.layer.po.EntityKey;
 import com.github.seaxlab.core.util.EqualUtil;
 import com.github.seaxlab.core.util.JSONUtil;
 import com.github.seaxlab.core.util.ListUtil;

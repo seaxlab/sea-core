@@ -1,13 +1,14 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.model.Result;
-import com.github.seaxlab.core.model.SysJobVO;
 import com.google.common.base.Preconditions;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.matchers.GroupMatcher;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -66,10 +67,8 @@ public class QuartzUtil {
      * @param dataMap     额外参数
      * @return
      */
-    public static Result addJob(String jobName, String triggerName, Class jobClass,
-                                String cron, Map<String, Object> dataMap) {
-        return addJob(getScheduler(), jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME,
-                jobClass, cron, dataMap);
+    public static Result addJob(String jobName, String triggerName, Class jobClass, String cron, Map<String, Object> dataMap) {
+        return addJob(getScheduler(), jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, jobClass, cron, dataMap);
     }
 
     /**
@@ -83,8 +82,7 @@ public class QuartzUtil {
      * @param cron             时间设置，参考quartz说明文档
      * @return Result
      */
-    public static Result addJob(String jobName, String jobGroupName,
-                                String triggerName, String triggerGroupName, Class jobClass, String cron) {
+    public static Result addJob(String jobName, String jobGroupName, String triggerName, String triggerGroupName, Class jobClass, String cron) {
         Result result = Result.fail();
 
         try {
@@ -124,8 +122,7 @@ public class QuartzUtil {
      * @param cron
      * @return
      */
-    public static Result addJob(Scheduler scheduler, String jobName, String jobGroupName,
-                                String triggerName, String triggerGroupName, Class jobClass, String cron) {
+    public static Result addJob(Scheduler scheduler, String jobName, String jobGroupName, String triggerName, String triggerGroupName, Class jobClass, String cron) {
         return addJob(scheduler, jobName, jobGroupName, triggerName, triggerGroupName, jobClass, cron, null);
     }
 
@@ -142,11 +139,8 @@ public class QuartzUtil {
      * @param dataMap          额外数据
      * @return
      */
-    public static Result addJob(Scheduler scheduler, String jobName, String jobGroupName,
-                                String triggerName, String triggerGroupName, Class jobClass, String cron,
-                                Map<String, Object> dataMap) {
-        log.info("[add job] jobName={},jobGroupName={},triggerName={},triggerGroupName={}",
-                jobName, jobGroupName, triggerName, triggerGroupName);
+    public static Result addJob(Scheduler scheduler, String jobName, String jobGroupName, String triggerName, String triggerGroupName, Class jobClass, String cron, Map<String, Object> dataMap) {
+        log.info("[add job] jobName={},jobGroupName={},triggerName={},triggerGroupName={}", jobName, jobGroupName, triggerName, triggerGroupName);
 
         Preconditions.checkNotNull(scheduler, "scheduler cannot be null");
 
@@ -235,8 +229,7 @@ public class QuartzUtil {
      * @param cron             时间设置，参考quartz说明文档
      * @return result
      */
-    public static Result modifyJobTime(String jobName, String jobGroupName,
-                                       String triggerName, String triggerGroupName, String cron) {
+    public static Result modifyJobTime(String jobName, String jobGroupName, String triggerName, String triggerGroupName, String cron) {
 
         Result result = Result.fail();
         try {
@@ -273,8 +266,7 @@ public class QuartzUtil {
      * @param cron
      * @return
      */
-    public static Result modifyJobTime(Scheduler scheduler, String jobName, String jobGroupName,
-                                       String triggerName, String triggerGroupName, String cron) {
+    public static Result modifyJobTime(Scheduler scheduler, String jobName, String jobGroupName, String triggerName, String triggerGroupName, String cron) {
         Preconditions.checkNotNull(scheduler, "scheduler cannot be null");
 
         Result result = Result.fail();
@@ -339,8 +331,7 @@ public class QuartzUtil {
      * @param triggerName
      * @param triggerGroupName
      */
-    public static Result removeJob(String jobName, String jobGroupName,
-                                   String triggerName, String triggerGroupName) {
+    public static Result removeJob(String jobName, String jobGroupName, String triggerName, String triggerGroupName) {
 
         Result result = Result.fail();
 
@@ -376,13 +367,10 @@ public class QuartzUtil {
      * @param triggerGroupName
      * @return
      */
-    public static Result removeJob(Scheduler scheduler,
-                                   String jobName, String jobGroupName,
-                                   String triggerName, String triggerGroupName) {
+    public static Result removeJob(Scheduler scheduler, String jobName, String jobGroupName, String triggerName, String triggerGroupName) {
         Preconditions.checkNotNull(scheduler, "scheduler cannot be null");
 
-        log.info("[remove job] jobName={},jobGroupName={},triggerName={},triggerGroupName={}",
-                jobName, jobGroupName, triggerName, triggerGroupName);
+        log.info("[remove job] jobName={},jobGroupName={},triggerName={},triggerGroupName={}", jobName, jobGroupName, triggerName, triggerGroupName);
         Result result = Result.fail();
 
         try {
@@ -467,13 +455,13 @@ public class QuartzUtil {
 
             GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
             Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
-            List<SysJobVO> jobList = new ArrayList<>();
+            List<SysJob> jobList = new ArrayList<>();
 
 
             for (JobKey jobKey : jobKeys) {
                 List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
                 for (Trigger trigger : triggers) {
-                    SysJobVO job = new SysJobVO();
+                    SysJob job = new SysJob();
                     job.setJobName(jobKey.getName());
                     job.setJobGroup(jobKey.getGroup());
                     job.setDesc("触发器:" + trigger.getKey());
@@ -642,7 +630,23 @@ public class QuartzUtil {
         }
     }
 
+    // static class
+    @Data
+    public static class SysJob implements Serializable {
 
+        private String jobName;
+
+        private String jobGroup;
+
+        private String desc;
+
+        private String status;
+
+        private String cronExpression;
+
+    }
+
+    // -----------------------private--------------------------
     private static Scheduler getScheduler() {
         return createScheduler();
     }

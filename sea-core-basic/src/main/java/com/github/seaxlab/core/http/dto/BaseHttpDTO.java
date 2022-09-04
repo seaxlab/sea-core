@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.http.dto;
 
-import com.github.seaxlab.core.model.BaseRequestDTO;
+import com.github.seaxlab.core.model.layer.dto.BaseRequestDTO;
 import lombok.Data;
 
 /**

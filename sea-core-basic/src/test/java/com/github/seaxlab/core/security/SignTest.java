@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.security;
 
-import com.github.seaxlab.core.model.EncryptRequestDTO;
-import com.github.seaxlab.core.model.EncryptResult;
+import com.github.seaxlab.core.model.layer.encrypt.EncryptRequestDTO;
+import com.github.seaxlab.core.model.layer.encrypt.EncryptResult;
 import com.github.seaxlab.core.security.util.AESUtil;
 import com.github.seaxlab.core.security.util.SignUtil;
 import com.github.seaxlab.core.util.JSONUtil;

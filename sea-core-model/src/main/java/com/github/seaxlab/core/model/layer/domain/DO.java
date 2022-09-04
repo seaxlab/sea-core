@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.model;
+package com.github.seaxlab.core.model.layer.domain;
 
 import java.io.Serializable;
 

@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.model.datetime;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.github.seaxlab.core.model.DTO;
+import com.github.seaxlab.core.model.layer.dto.DTO;
 import lombok.Data;
 
 import java.util.Date;

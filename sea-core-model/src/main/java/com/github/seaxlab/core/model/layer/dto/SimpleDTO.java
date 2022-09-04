@@ -1,9 +1,6 @@
-package com.github.seaxlab.core.model;
+package com.github.seaxlab.core.model.layer.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Simple dto
@@ -13,9 +10,6 @@ import lombok.NoArgsConstructor;
  * @since 1.0
  */
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class SimpleDTO extends DTO {
 
     private Long id;

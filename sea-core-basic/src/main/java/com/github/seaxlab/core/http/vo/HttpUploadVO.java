@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.http.vo;
 
-import com.github.seaxlab.core.model.BaseResponseVO;
+import com.github.seaxlab.core.model.layer.vo.BaseResponseVO;
 import lombok.Data;
 
 /**

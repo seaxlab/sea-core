@@ -1,5 +1,6 @@
-package com.github.seaxlab.core.model;
+package com.github.seaxlab.core.model.layer.encrypt;
 
+import com.github.seaxlab.core.model.Result;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

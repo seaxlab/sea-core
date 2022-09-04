@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.model;
+package com.github.seaxlab.core.model.layer.cmd;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @since 1.0
  */
 @Data
-public class BaseCmd implements Serializable {
+public class Cmd implements Serializable {
 
     //private String requestId;
 }

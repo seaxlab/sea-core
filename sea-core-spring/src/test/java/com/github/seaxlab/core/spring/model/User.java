@@ -2,7 +2,7 @@ package com.github.seaxlab.core.spring.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.seaxlab.core.model.EntityKey;
+import com.github.seaxlab.core.model.layer.po.EntityKey;
 import lombok.Data;
 
 /**

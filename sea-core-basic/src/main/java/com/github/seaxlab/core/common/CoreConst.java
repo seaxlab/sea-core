@@ -103,11 +103,6 @@ public class CoreConst {
      */
     public static final String TRACE_ID = "traceId";
 
-    /**
-     * MDC req.id
-     */
-    public static final String MDC_REQ_ID = "req.id";
-
 
     /**
      * default charset name

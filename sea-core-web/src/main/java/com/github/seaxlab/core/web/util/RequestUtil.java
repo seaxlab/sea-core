@@ -267,7 +267,6 @@ public class RequestUtil {
         }
 
         requestId = request.getParameter(CoreConst.REQUEST_ID);
-
         if (StringUtil.isNotEmpty(requestId)) {
             return requestId;
         }
