@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.annotation;
+package com.github.seaxlab.core.model.annotation;
 
 import java.lang.annotation.*;
 

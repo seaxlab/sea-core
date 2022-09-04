@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.annotation;
+package com.github.seaxlab.core.model.annotation;
 
 import java.lang.annotation.*;
 
@@ -11,6 +11,6 @@ import java.lang.annotation.*;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD})
-public @interface Beta {
+@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
+public @interface Inner {
 }

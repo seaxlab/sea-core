@@ -1,8 +1,8 @@
 package com.github.seaxlab.core.web.filter;
 
-import com.github.seaxlab.core.annotation.Beta;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.model.annotation.Beta;
 import com.github.seaxlab.core.util.EqualUtil;
 import com.github.seaxlab.core.util.ListUtil;
 import com.github.seaxlab.core.web.util.RequestUtil;

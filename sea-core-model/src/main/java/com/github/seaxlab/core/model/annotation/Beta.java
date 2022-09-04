@@ -1,18 +1,16 @@
-package com.github.seaxlab.core.annotation;
+package com.github.seaxlab.core.model.annotation;
 
 import java.lang.annotation.*;
 
 /**
- * 文档注释
+ * 实验中的特性或方法
  *
  * @author spy
- * @version 1.0 2022/9/1
+ * @version 1.0 2020/10/30
  * @since 1.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
-public @interface Doc {
-
-    String value() default "";
+public @interface Beta {
 }

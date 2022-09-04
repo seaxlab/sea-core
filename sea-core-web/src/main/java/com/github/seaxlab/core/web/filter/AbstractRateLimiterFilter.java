@@ -1,8 +1,8 @@
 package com.github.seaxlab.core.web.filter;
 
-import com.github.seaxlab.core.annotation.Beta;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.model.annotation.Beta;
 import com.github.seaxlab.core.util.AntPathMatcher;
 import com.github.seaxlab.core.util.PathMatcher;
 import com.github.seaxlab.core.web.model.RateLimiterConfig;

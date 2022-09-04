@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.example.servlet;
 
-import com.github.seaxlab.core.annotation.Beta;
+import com.github.seaxlab.core.model.annotation.Beta;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletContainerInitializer;

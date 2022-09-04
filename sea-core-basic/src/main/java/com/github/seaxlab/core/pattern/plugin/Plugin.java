@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.pattern.plugin;
 
-import com.github.seaxlab.core.annotation.Beta;
+import com.github.seaxlab.core.model.annotation.Beta;
 
 /**
  * module name

@@ -1,8 +1,8 @@
 package com.github.seaxlab.core.component.scan;
 
 import com.github.seaxlab.core.BaseCoreTest;
-import com.github.seaxlab.core.annotation.Beta;
 import com.github.seaxlab.core.component.scan.impl.DefaultClassScan;
+import com.github.seaxlab.core.model.annotation.Beta;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
