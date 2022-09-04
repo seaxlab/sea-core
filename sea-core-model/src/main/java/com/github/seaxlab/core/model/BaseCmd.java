@@ -14,5 +14,5 @@ import java.io.Serializable;
 @Data
 public class BaseCmd implements Serializable {
 
-    private String requestId;
+    //private String requestId;
 }
