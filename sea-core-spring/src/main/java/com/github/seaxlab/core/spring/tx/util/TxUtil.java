@@ -38,6 +38,16 @@ public final class TxUtil {
      * @return
      */
     public static TransactionStatus begin(DataSourceTransactionManager transactionManager) {
+        return begin(transactionManager, DefaultTransactionDefinition.PROPAGATION_REQUIRED);
+    }
+
+    /**
+     * begin new trans
+     *
+     * @param transactionManager
+     * @return
+     */
+    public static TransactionStatus beginNew(DataSourceTransactionManager transactionManager) {
         return begin(transactionManager, DefaultTransactionDefinition.PROPAGATION_REQUIRES_NEW);
     }
 
