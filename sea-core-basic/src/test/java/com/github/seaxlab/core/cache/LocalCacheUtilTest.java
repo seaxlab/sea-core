@@ -45,18 +45,15 @@ public class LocalCacheUtilTest extends BaseCoreTest {
 
     }
 
-    private LoadingCache<String, Optional<String>> loadingCache = CacheBuilder.newBuilder()
-                                                                              .expireAfterWrite(10, TimeUnit.MINUTES)
-                                                                              .maximumSize(1000)
-                                                                              .build(new CacheLoader<String, Optional<String>>() {
-                                                                                  @Override
-                                                                                  public Optional<String> load(String key) throws Exception {
-                                                                                      log.info("load from db, key={}", key);
+    private LoadingCache<String, Optional<String>> loadingCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).maximumSize(1000).build(new CacheLoader<String, Optional<String>>() {
+        @Override
+        public Optional<String> load(String key) throws Exception {
+            log.info("load from db, key={}", key);
 
-                                                                                      //重点：here cannot return null;
-                                                                                      return Optional.ofNullable("");
-                                                                                  }
-                                                                              });
+            //重点：here cannot return null;
+            return Optional.ofNullable("");
+        }
+    });
 
     @Test
     public void testLoadingCacheNull() throws Exception {
@@ -65,6 +62,18 @@ public class LocalCacheUtilTest extends BaseCoreTest {
             Optional optional = loadingCache.getUnchecked(key);
             log.info("value={}", optional.get());
         });
+    }
+
+    @Test
+    public void test71() throws Exception {
+        Cache<String, String> cache = CacheBuilder.newBuilder() //
+                .expireAfterWrite(10, TimeUnit.MINUTES) //
+                .maximumSize(1000).build(); //
+        String value = cache.get("1", () -> {
+            return null; // error
+        });
+        log.info("value={}", value);
+
     }
 
 }
