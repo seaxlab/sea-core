@@ -3,7 +3,7 @@ package com.github.seaxlab.core.model.layer.share;
 import java.io.Serializable;
 
 /**
- * value object
+ * value object for common object.
  *
  * @author spy
  * @version 1.0 2021/6/27

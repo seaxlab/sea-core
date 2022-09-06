@@ -3,7 +3,7 @@ package com.github.seaxlab.core.model.layer.vo;
 import java.io.Serializable;
 
 /**
- * View Object
+ * View Object for terminal
  *
  * @author spy
  * @version 1.0 2020/9/11

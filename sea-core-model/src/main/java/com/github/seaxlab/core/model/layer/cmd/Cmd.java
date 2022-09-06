@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * external param, for example: addUserCmd/OrderPlaceCmd
+ * external param, for example: userAddCmd/OrderPlaceCmd
  *
  * @author spy
  * @version 1.0 2021/7/24

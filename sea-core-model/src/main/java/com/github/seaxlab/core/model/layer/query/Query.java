@@ -3,7 +3,7 @@ package com.github.seaxlab.core.model.layer.query;
 import java.io.Serializable;
 
 /**
- * module name
+ * query for DAO layer
  *
  * @author spy
  * @version 1.0 2022/9/4
