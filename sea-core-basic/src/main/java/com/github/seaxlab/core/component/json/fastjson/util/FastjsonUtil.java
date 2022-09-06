@@ -36,6 +36,16 @@ public class FastjsonUtil {
     }
 
     /**
+     * to json string
+     *
+     * @param obj
+     * @return
+     */
+    public static String toString(Object obj) {
+        return JSON.toJSONString(obj);
+    }
+
+    /**
      * 将Map转成指定的Bean
      *
      * @param map

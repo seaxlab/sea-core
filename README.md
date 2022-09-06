@@ -13,6 +13,7 @@
 
 ### TODO
 
+- json统一抽象,`component/json/unified`
 - fastjson漏洞较多，减少fastjson的使用
 - 大写数字
 - tk select MAX/MIN

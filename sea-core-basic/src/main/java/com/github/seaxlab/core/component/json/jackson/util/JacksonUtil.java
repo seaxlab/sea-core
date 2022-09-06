@@ -63,6 +63,21 @@ public final class JacksonUtil {
     }
 
     /**
+     * to json string
+     *
+     * @param obj
+     * @return
+     */
+    public static String toString(Object obj) {
+        try {
+            return objectMapper.writeValueAsString(obj);
+        } catch (Exception e) {
+            log.error("fail to convert object to string", e);
+        }
+        return "";
+    }
+
+    /**
      * 将Map转成指定的Bean
      *
      * @param map
