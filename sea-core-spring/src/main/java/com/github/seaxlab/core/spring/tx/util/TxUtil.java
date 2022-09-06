@@ -87,6 +87,10 @@ public final class TxUtil {
      * @param transStatus        tx status
      */
     public static void commit(DataSourceTransactionManager transactionManager, TransactionStatus transStatus) {
+        if (transStatus == null) {
+            log.warn("transaction status is null, so skip.");
+            return;
+        }
         transactionManager.commit(transStatus);
     }
 
@@ -97,6 +101,10 @@ public final class TxUtil {
      * @param transStatus        tx status.
      */
     public static void rollback(DataSourceTransactionManager transactionManager, TransactionStatus transStatus) {
+        if (transStatus == null) {
+            log.warn("transaction status is null, so skip.");
+            return;
+        }
         transactionManager.rollback(transStatus);
     }
 
