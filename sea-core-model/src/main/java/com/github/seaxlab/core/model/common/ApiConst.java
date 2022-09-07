@@ -35,4 +35,9 @@ public class ApiConst {
 
     // for pc?
 
+    public static final String FEIGN_SERVICE = "Feign服务";
+    public static final String DUBBO_SERVICE = "Dubbo服务";
+    public static final String CONSOLE_SERVICE = "管理后台服务";
+    public static final String APP_SERVICE = "APP接口服务";
+    public static final String TEST_SERVICE = "Test服务";
 }
