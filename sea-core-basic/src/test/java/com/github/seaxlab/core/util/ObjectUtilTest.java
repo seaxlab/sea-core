@@ -5,6 +5,7 @@ import com.github.seaxlab.core.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 /**
@@ -21,6 +22,17 @@ public class ObjectUtilTest extends BaseCoreTest {
     public void testDefaultIfNull() throws Exception {
         Boolean flag = null;
         log.info("flag={}", ObjectUtil.defaultIfNull(flag, Boolean.TRUE));
+    }
+
+    @Test
+    public void testIsAllEmpty() throws Exception {
+        log.info("flag={}", ObjectUtil.isAllEmpty("", null, Arrays.asList(1, 2)));
+        log.info("flag={}", ObjectUtil.isAllEmpty("", null, Arrays.asList()));
+        String[] strs = {};
+        log.info("flag={}", ObjectUtil.isAllEmpty("", null, strs));
+
+        String[] strs2 = {"1"};
+        log.info("flag={}", ObjectUtil.isAllEmpty("", null, strs2));
     }
 
     @Test

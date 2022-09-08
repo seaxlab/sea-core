@@ -3,7 +3,9 @@ package com.github.seaxlab.core.util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.Properties;
 
 /**
@@ -91,6 +93,38 @@ public final class ObjectUtil {
         // 全部为空
         return false;
     }
+
+    /**
+     * check all objects are empty.
+     * 支持字符串、对象、集合混合检测
+     *
+     * @param objects
+     * @return
+     */
+    public static boolean isAllEmpty(Object... objects) {
+        for (Object obj : objects) {
+            if (obj == null) {
+                continue;
+            }
+            if (obj instanceof String) {
+                String value = (String) obj;
+                if (StringUtil.isNotEmpty(value)) {
+                    return false;
+                }
+            } else if (obj instanceof Collection) {
+                Collection collection = (Collection) obj;
+                if (!collection.isEmpty()) {
+                    return false;
+                }
+            } else if (ArrayUtil.isArray(obj)) {
+                if (Array.getLength(obj) > 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 
     public static <T extends Comparable<? super T>> T min(final T... values) {
         return ObjectUtils.min(values);
