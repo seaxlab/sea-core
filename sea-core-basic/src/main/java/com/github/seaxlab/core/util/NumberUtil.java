@@ -23,6 +23,8 @@ public final class NumberUtil {
 
     private static final String ZERO = "0";
 
+    private static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
+
     private NumberUtil() {
     }
 
@@ -182,6 +184,31 @@ public final class NumberUtil {
 
 
     /**
+     * 百分比 xx%
+     *
+     * @param value
+     * @return
+     */
+    public static BigDecimal toPercent(BigDecimal value) {
+        if (value == null) {
+            return BigDecimal.ZERO;
+        }
+        return value.multiply(ONE_HUNDRED);
+    }
+
+    /**
+     * 百分比 xx%
+     *
+     * @param value
+     * @return
+     */
+    public static String toPercentStr(BigDecimal value) {
+        //new BigDecimal("100.000").stripTrailingZeros().toString() //1E+2,科学计数法
+        return toString(toPercent(value));
+    }
+
+
+    /**
      * BigDecimal 转long
      *
      * @param value
@@ -200,12 +227,29 @@ public final class NumberUtil {
      * @param value
      * @return
      */
-    public static String toStr(Long value) {
+    public static String toString(Long value) {
         if (value == null) {
             return "0";
         }
         return value.toString();
     }
+
+    /**
+     * big decimal to string
+     *
+     * @param value
+     * @return
+     */
+    public static String toString(BigDecimal value) {
+        if (value == null) {
+            return "0";
+        }
+        // new BigDecimal().toString() // 会含有无效0
+        //new BigDecimal("100.000").stripTrailingZeros().toString() //1E+2,科学计数法
+        // .stripTrailingZeros().toPlainString() // 去除末尾的0
+        return value.stripTrailingZeros().toPlainString();
+    }
+
 
     /**
      * int数值字符串累加
@@ -719,7 +763,7 @@ public final class NumberUtil {
 
 
     /**
-     * 百分比
+     * 百分比(x.xx)
      *
      * @param part
      * @param total
@@ -730,7 +774,7 @@ public final class NumberUtil {
     }
 
     /**
-     * 百分比
+     * 百分比(x.xx)
      *
      * @param part
      * @param total
@@ -742,7 +786,7 @@ public final class NumberUtil {
     }
 
     /**
-     * 百分比, toString or doubleValue()
+     * 百分比(x.xx), toString or doubleValue()
      *
      * @param part
      * @param total
