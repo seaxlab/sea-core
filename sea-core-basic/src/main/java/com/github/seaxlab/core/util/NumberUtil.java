@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.util;
 
+import com.github.seaxlab.core.common.SymbolConst;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
@@ -197,14 +198,23 @@ public final class NumberUtil {
     }
 
     /**
-     * 百分比 xx%
+     * 百分比（xx%,不含百分号）
      *
      * @param value
      * @return
      */
     public static String toPercentStr(BigDecimal value) {
-        //new BigDecimal("100.000").stripTrailingZeros().toString() //1E+2,科学计数法
         return toString(toPercent(value));
+    }
+
+    /**
+     * 百分比（xx%,含百分号）
+     *
+     * @param value
+     * @return
+     */
+    public static String toPercentStr2(BigDecimal value) {
+        return toString(toPercent(value)) + SymbolConst.PERCENT;
     }
 
 

@@ -30,6 +30,7 @@ public class SymbolConst {
     public static final String COLON = ":";
 
     public static final String PIPE = "|";
+    public static final String PERCENT = "%";
 
 
     private SymbolConst() {
