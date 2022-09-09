@@ -235,7 +235,7 @@ public class IdCardUtil {
             String month = idNo.substring(10, 12);
             String day = idNo.substring(12, 14);
 
-            return DateUtil.strDate(year + month + day, DateUtil.DAY_FORMAT2);
+            return DateUtil.toDate(year + month + day, DateUtil.DAY_FORMAT2);
         } catch (Exception e) {
             log.error("fail to parse idNo={}", idNo, e);
         }

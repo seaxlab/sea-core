@@ -99,7 +99,7 @@ public final class LogUtil {
     private static String getLogFileNameInModule(String module) {
         String logPath = PathUtil.join(PathUtil.getUserHome(), "logs", "sea", module);
         FileUtil.ensureDir(logPath);
-        String nowStr = DateUtil.dateStr(new Date(), DateUtil.DATETIME_FORMAT_HUMAN);
+        String nowStr = DateUtil.toString(new Date(), DateUtil.DATETIME_FORMAT_HUMAN);
         // basePath + "/" + datetime + "_" + pid + "_jstack.log"
         return MessageUtil.format("{}/{}_{}_{}.log", logPath, nowStr, JvmUtil.getPID(), module);
     }

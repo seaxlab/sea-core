@@ -5,9 +5,6 @@ import com.github.seaxlab.core.enums.RangeModeEnum;
 import com.github.seaxlab.core.enums.WeekEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
@@ -70,57 +67,42 @@ public final class DateUtil {
     private DateUtil() {
     }
 
-    public static Date strDate(String str) {
-        return strDate(str, null);
+    /**
+     * 日期转字符串
+     *
+     * @param date   指定日期
+     * @param format 格式
+     * @return string
+     */
+    public static String toString(Date date, String format) {
+        if (date == null) {
+            log.warn("date is null");
+            return "";
+        }
+
+        if (StringUtil.isEmpty(format)) {
+            format = DEFAULT_FORMAT;
+        }
+        return format(date, format);
     }
 
     /**
-     * <字符串转换成日期>
+     * 字符串转换成日期
      * <如果转换格式为空，则利用默认格式进行转换操作>
      *
      * @param dateStr 字符串
      * @param format  日期格式
      * @return 日期
      */
-    public static Date strDate(String dateStr, String format) {
-        if (StringUtils.isEmpty(dateStr)) {
+    public static Date toDate(String dateStr, String format) {
+        if (StringUtil.isEmpty(dateStr)) {
             log.warn("date str is empty");
             return null;
         }
-        if (StringUtils.isEmpty(format)) {
+        if (StringUtil.isEmpty(format)) {
             format = DEFAULT_FORMAT;
         }
         return format(dateStr, format);
-    }
-
-    /**
-     * to date
-     *
-     * @param dateStr date str
-     * @param format  format
-     * @return date
-     */
-    public static Date toDate(String dateStr, String format) {
-        return strDate(dateStr, format);
-    }
-
-    /**
-     * 日期转字符串
-     *
-     * @param date   日期
-     * @param format 日期格式
-     * @return 字符串
-     */
-    public static String dateStr(Date date, String format) {
-        if (null == date) {
-            log.warn("date is null");
-            return null;
-        }
-        if (StringUtils.isEmpty(format)) {
-            format = DEFAULT_FORMAT;
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(date);
     }
 
     /**
@@ -152,7 +134,7 @@ public final class DateUtil {
      */
     public static String timestampStr(Timestamp time) {
         Date date = new Date(time.getTime());
-        return dateStr(date, DEFAULT_FORMAT);
+        return toString(date, DEFAULT_FORMAT);
     }
 
     /**
@@ -162,7 +144,7 @@ public final class DateUtil {
      * @return timestamp
      */
     public static Timestamp strTimestamp(String str) {
-        Date date = strDate(str, DEFAULT_FORMAT);
+        Date date = toDate(str, DEFAULT_FORMAT);
         return new Timestamp(date.getTime());
     }
 
@@ -291,7 +273,7 @@ public final class DateUtil {
     }
 
     public static Date getCurrentDateWithOutTimeStamp() {
-        return DateUtil.strDate(DateUtil.dateStr(new Date(), DEFAULT_DATE_FORMAT), DEFAULT_DATE_FORMAT);
+        return DateUtil.toDate(DateUtil.toString(new Date(), DEFAULT_DATE_FORMAT), DEFAULT_DATE_FORMAT);
     }
 
     /**
@@ -429,22 +411,6 @@ public final class DateUtil {
         }
 
         return format(date, TIME_FORMAT2);
-    }
-
-    /**
-     * to string 格式化
-     *
-     * @param date   指定日期
-     * @param format 格式
-     * @return string
-     */
-    public static String toString(Date date, String format) {
-        if (date == null) {
-            log.warn("date is null");
-            return "";
-        }
-
-        return format(date, format);
     }
 
     /**
@@ -704,20 +670,20 @@ public final class DateUtil {
 
 
     public static Date parseToDateYMDHMS(String date, String time) {
-        if (StringUtils.isBlank(date)) {
+        if (StringUtil.isBlank(date)) {
             log.warn("date str is blank");
             return null;
         }
 
         String sformat;
-        date = StringUtils.trim(date);
-        time = StringUtils.trim(time);
+        date = StringUtil.trim(date);
+        time = StringUtil.trim(time);
 
-        if (StringUtils.isEmpty(date)) {
+        if (StringUtil.isEmpty(date)) {
             log.warn("date is empty");
             return null;
         }
-        if (StringUtils.isEmpty(time)) {
+        if (StringUtil.isEmpty(time)) {
             log.warn("time is empty");
             return null;
         }
@@ -745,7 +711,6 @@ public final class DateUtil {
      * @param date 日期
      */
     public static Date truncate(Date date) {
-
         return DateUtils.truncate(date, Calendar.DATE);
     }
 
@@ -866,7 +831,7 @@ public final class DateUtil {
      * @return 日期
      */
     public static Date parseToDate(String sDate) {
-        if (StringUtils.isBlank(sDate)) {
+        if (StringUtil.isBlank(sDate)) {
             log.warn("date str is blank");
             return null;
         }
@@ -894,11 +859,11 @@ public final class DateUtil {
      * @return 日期
      */
     public static Date parseToDate(Date date, Date time) {
-        Preconditions.checkNotNull(date, "date cannot be null.");
-        Preconditions.checkNotNull(time, "time cannot be null.");
+        Precondition.checkNotNull(date, "date cannot be null.");
+        Precondition.checkNotNull(time, "time cannot be null.");
 
-        String dateStr = dateStr(date, DAY_FORMAT);
-        String timeStr = dateStr(time, TIME_FORMAT);
+        String dateStr = toString(date, DAY_FORMAT);
+        String timeStr = toString(time, TIME_FORMAT);
 
         return parseToDate(dateStr, timeStr);
     }
@@ -909,12 +874,12 @@ public final class DateUtil {
      * @return 日期
      */
     public static Date parseToDate(String sDate, String sTime) {
-        if (StringUtils.isBlank(sDate)) {
+        if (StringUtil.isBlank(sDate)) {
             log.warn("date str is blank.");
             return null;
         }
 
-        if (StringUtils.isBlank(sTime)) {
+        if (StringUtil.isBlank(sTime)) {
             sTime = "00:00:00";
         } else {
             if (sTime.lastIndexOf(":") == sTime.length() - 1) {
@@ -932,7 +897,7 @@ public final class DateUtil {
         }
 
         String strDate = sDate.trim() + " " + sTime.trim();
-        return strDate(strDate, "yyyy-MM-dd HH:mm:ss");
+        return toDate(strDate, "yyyy-MM-dd HH:mm:ss");
     }
 
     /**
@@ -945,18 +910,18 @@ public final class DateUtil {
      * @return date
      */
     public static Date parseToDate(String sDate, String sTime, String sDatePattern, String sTimePattern) {
-        if (StringUtils.isBlank(sDate)) {
+        if (StringUtil.isBlank(sDate)) {
             log.warn("date str is blank");
             return null;
         }
 
-        if (StringUtils.isBlank(sTime)) {
+        if (StringUtil.isBlank(sTime)) {
             log.warn("time str is empty");
             return null;
         }
 
         String strDate = sDate.trim() + " " + sTime.trim();
-        return strDate(strDate, sDatePattern + " " + sTimePattern);
+        return toDate(strDate, sDatePattern + " " + sTimePattern);
     }
 
 
@@ -987,8 +952,8 @@ public final class DateUtil {
      * @return 日期
      */
     public static Date string2Date(String date) {
-        Preconditions.checkArgument(date != null && !"".equals(date.trim()), "date不能为空");
-        return strDate(date, DAY_FORMAT);
+        Precondition.checkNotEmpty(date, "date不能为空");
+        return toDate(date, DAY_FORMAT);
     }
 
     /**
@@ -998,7 +963,7 @@ public final class DateUtil {
      * @return string
      */
     public static String formatDate2YMD(Date date) {
-        return dateStr(date, DAY_FORMAT);
+        return toString(date, DAY_FORMAT);
     }
 
     /**
@@ -1010,9 +975,9 @@ public final class DateUtil {
      * @return long
      */
     public static Long diffSimple(Date beginDate, Date endDate, ChronoUnit timeUnit) {
-        Preconditions.checkNotNull(beginDate, "beginDate不能为空");
-        Preconditions.checkNotNull(endDate, "endDate不能为空");
-        Preconditions.checkNotNull(timeUnit, "timeUnit不能为空");
+        Precondition.checkNotNull(beginDate, "beginDate不能为空");
+        Precondition.checkNotNull(endDate, "endDate不能为空");
+        Precondition.checkNotNull(timeUnit, "timeUnit不能为空");
 
         switch (timeUnit) {
             case SECONDS: {
@@ -1026,12 +991,8 @@ public final class DateUtil {
                 return ChronoUnit.MINUTES.between(l1, l2);
             }
             case HOURS: {
-                LocalDateTime l1 = beginDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
-                                            .withMinute(0)
-                                            .withSecond(0);
-                LocalDateTime l2 = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
-                                          .withMinute(0)
-                                          .withSecond(0);
+                LocalDateTime l1 = beginDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withMinute(0).withSecond(0);
+                LocalDateTime l2 = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withMinute(0).withSecond(0);
                 return ChronoUnit.HOURS.between(l1, l2);
             }
             case DAYS: {
@@ -1040,10 +1001,8 @@ public final class DateUtil {
                 return ChronoUnit.DAYS.between(l1, l2);
             }
             case MONTHS: {
-                java.time.LocalDate l1 = beginDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                                                  .withDayOfMonth(1);
-                java.time.LocalDate l2 = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                                                .withDayOfMonth(1);
+                java.time.LocalDate l1 = beginDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().withDayOfMonth(1);
+                java.time.LocalDate l2 = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().withDayOfMonth(1);
                 return ChronoUnit.MONTHS.between(l1, l2);
             }
             case YEARS: {
@@ -1068,9 +1027,9 @@ public final class DateUtil {
      * @return long
      */
     public static Long diff(Date beginDate, Date endDate, TimeUnit timeUnit) {
-        Preconditions.checkNotNull(beginDate, "beginDate不能为空");
-        Preconditions.checkNotNull(endDate, "endDate不能为空");
-        Preconditions.checkNotNull(timeUnit, "timeUnit不能为空");
+        Precondition.checkNotNull(beginDate, "beginDate不能为空");
+        Precondition.checkNotNull(endDate, "endDate不能为空");
+        Precondition.checkNotNull(timeUnit, "timeUnit不能为空");
 
         long time = endDate.getTime() - beginDate.getTime();
         switch (timeUnit) {
@@ -1125,7 +1084,7 @@ public final class DateUtil {
      */
     public static List<Date> betweenDayList(Date start, Date end) {
         if (start.after(end)) {
-            return Lists.newArrayList();
+            return new ArrayList();
         }
         List<Date> days = new ArrayList<>();
 
@@ -1162,9 +1121,11 @@ public final class DateUtil {
      * @return list string
      */
     public static List<String> betweenDays(Date start, Date end) {
-        if (start.after(end)) return Lists.newArrayList();
+        if (start.after(end)) {
+            return new ArrayList();
+        }
 
-        List<String> days = Lists.newArrayList();
+        List<String> days = new ArrayList();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(start);
@@ -1197,10 +1158,10 @@ public final class DateUtil {
      */
     public static List<String> betweenDays(Date start, Date end, String dateFormat) {
         if (start.after(end)) {
-            return Lists.newArrayList();
+            return new ArrayList();
         }
 
-        List<String> days = Lists.newArrayList();
+        List<String> days = new ArrayList();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(start);
@@ -1288,7 +1249,7 @@ public final class DateUtil {
             throw new IllegalArgumentException("patterns 不能为空");
         }
         Date d = null;
-        if (StringUtils.isNotEmpty(value)) {
+        if (StringUtil.isNotEmpty(value)) {
             for (String p : patterns) {
                 try {
                     d = DateUtil.str2Date(value, p);
@@ -1309,7 +1270,7 @@ public final class DateUtil {
      * @return 日期
      */
     public static Date str2Date(String dateStr, String pattern) {
-        return strDate(dateStr, pattern);
+        return toDate(dateStr, pattern);
     }
 
 
@@ -1335,7 +1296,7 @@ public final class DateUtil {
      * @return
      */
     public static Date toDate(String dateStr, DateFormatEnum dateFormatEnum) {
-        if (StringUtils.isEmpty(dateStr)) {
+        if (StringUtil.isEmpty(dateStr)) {
             log.warn("date str is empty");
             return null;
         }
@@ -1361,14 +1322,14 @@ public final class DateUtil {
     public static List<String> betweenHours(Date start, Date end) {
         if (start == null || end == null) {
             log.warn("start or end is null");
-            return Lists.newArrayList();
+            return new ArrayList();
         }
 
         if (start.after(end)) {
-            return Lists.newArrayList();
+            return new ArrayList();
         }
 
-        List<String> hours = Lists.newArrayList();
+        List<String> hours = new ArrayList();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH");
 
@@ -1405,7 +1366,7 @@ public final class DateUtil {
             format = DEFAULT_DATE_FORMAT;
         }
 
-        Date date = strDate(dateStr, format);
+        Date date = toDate(dateStr, format);
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -1523,7 +1484,7 @@ public final class DateUtil {
      * @return boolean
      */
     public static boolean isValidDate(String dateStr, String format) {
-        if (StringUtils.isEmpty(format) || StringUtils.isEmpty(dateStr)) {
+        if (StringUtil.isEmpty(format) || StringUtil.isEmpty(dateStr)) {
             return false;
         }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -1574,7 +1535,7 @@ public final class DateUtil {
 
 
     public static String now(String format) {
-        if (StringUtils.isEmpty(format)) {
+        if (StringUtil.isEmpty(format)) {
             format = DEFAULT_FORMAT;
         }
         return format(nowDate(), format);
@@ -1606,8 +1567,8 @@ public final class DateUtil {
      * @return date
      */
     public static Date getDayStartTime(Date date) {
-        String str = dateStr(date, DAY_FORMAT) + " 00:00:00";
-        return strDate(str, DEFAULT_FORMAT);
+        String str = toString(date, DAY_FORMAT) + " 00:00:00";
+        return toDate(str, DEFAULT_FORMAT);
     }
 
     /**
@@ -1617,8 +1578,8 @@ public final class DateUtil {
      * @return date
      */
     public static Date getDayEndTime(Date date) {
-        String str = dateStr(date, DAY_FORMAT) + " 23:59:59";
-        return strDate(str, DEFAULT_FORMAT);
+        String str = toString(date, DAY_FORMAT) + " 23:59:59";
+        return toDate(str, DEFAULT_FORMAT);
     }
 
 
@@ -1908,10 +1869,7 @@ public final class DateUtil {
 
 
         org.joda.time.LocalDateTime localDateTime = new org.joda.time.LocalDateTime(dateTime.plusMonths(offset));
-        Date endDate = localDateTime.dayOfMonth()
-                                    .withMaximumValue()
-                                    .withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999)
-                                    .toDate();
+        Date endDate = localDateTime.dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999).toDate();
         return new Date[]{beginDate, endDate};
     }
 
@@ -1926,10 +1884,7 @@ public final class DateUtil {
         Precondition.checkNotNull(date, "date不能为空");
 
         org.joda.time.LocalDateTime localDateTime = new org.joda.time.LocalDateTime(date.getTime());
-        return localDateTime.dayOfMonth()
-                            .withMaximumValue()
-                            .withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999)
-                            .toDate();
+        return localDateTime.dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999).toDate();
     }
 
 
@@ -2055,7 +2010,7 @@ public final class DateUtil {
         try {
             return sdf.parse(dateStr);
         } catch (ParseException e) {
-            log.error("fail to parse date exception", e);
+            log.error("parse date exception", e);
             return null;
         }
     }

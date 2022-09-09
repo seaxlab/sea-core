@@ -18,7 +18,7 @@ public class BirthdayUtilTest extends BaseCoreTest {
 
     @Test
     public void test17() throws Exception {
-        Date birthday = DateUtil.strDate("19881201", "yyyyMMdd");
+        Date birthday = DateUtil.toDate("19881201", "yyyyMMdd");
         log.info("age={}", BirthdayUtil.getAge(birthday));
         log.info("months={}", BirthdayUtil.getMonths(birthday));
         log.info("days={}", BirthdayUtil.getDays(birthday));

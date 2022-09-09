@@ -84,7 +84,7 @@ public final class JvmUtil {
     public static void dumpStack() {
         String logPath = PathUtil.join(PathUtil.getUserHome(), "logs", "sea", "jstack");
         FileUtil.ensureDir(logPath);
-        dumpStack(logPath + "/" + DateUtil.dateStr(new Date(), DateUtil.DATETIME_FORMAT_HUMAN) + "_" + getPID() + "_jstack.log");
+        dumpStack(logPath + "/" + DateUtil.toString(new Date(), DateUtil.DATETIME_FORMAT_HUMAN) + "_" + getPID() + "_jstack.log");
     }
 
     /**
@@ -128,7 +128,7 @@ public final class JvmUtil {
     public static void dumpHeap() {
         String logPath = PathUtil.join(PathUtil.getSeaHome(), "heap");
         FileUtil.ensureDir(logPath);
-        String filePath = logPath + "/" + DateUtil.dateStr(new Date(), DateUtil.DATETIME_FORMAT_HUMAN) + "_" + getPID() + "_heap.hprof";
+        String filePath = logPath + "/" + DateUtil.toString(new Date(), DateUtil.DATETIME_FORMAT_HUMAN) + "_" + getPID() + "_heap.hprof";
         dumpHeap(filePath, true);
     }
 

@@ -66,6 +66,16 @@ public final class StringUtil {
     }
 
     /**
+     * trim
+     *
+     * @param str
+     * @return
+     */
+    public static String trim(String str) {
+        return str == null ? null : str.trim();
+    }
+
+    /**
      * 字符串是否为空
      *
      * @param params objs
