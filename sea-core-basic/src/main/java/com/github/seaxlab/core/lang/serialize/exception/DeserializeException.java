@@ -15,6 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 public class DeserializeException extends BaseAppException {
 
     public DeserializeException() {
-        super(ErrorMessageEnum.UNSERIAL_ERROR);
+        super(ErrorMessageEnum.DESERIAL_ERROR);
     }
 }

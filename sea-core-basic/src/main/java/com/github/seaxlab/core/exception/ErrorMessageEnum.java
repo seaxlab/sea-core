@@ -25,7 +25,7 @@ public enum ErrorMessageEnum implements IErrorEnum {
     RPC_INVOKE_ERROR("sea_rpc_invoke_error", "远程调用异常"), //
     HTTP_ERROR("sea_http_error", "HTTP调用异常"),//
     SERIAL_ERROR("sea_serial_error", "序列化异常"),//
-    UNSERIAL_ERROR("sea_unserial_error", "反序列化异常"),//
+    DESERIAL_ERROR("sea_deserial_error", "反序列化异常"),//
     UNSUPPORTED_OPERATION("sea_unsupported_operation", "不支持的操作"),//
     //
     SYS_EXCEPTION("sea_sys_exception", "系统异常"),//
