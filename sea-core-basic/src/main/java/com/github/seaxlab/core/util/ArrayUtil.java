@@ -435,7 +435,7 @@ public final class ArrayUtil {
      * @throws IllegalArgumentException 如果参数不为数组，抛出此异常
      * @see Array#getLength(Object)
      */
-    public static int length(Object array) throws IllegalArgumentException {
+    public static int length(Object array) {
         if (null == array) {
             return 0;
         }

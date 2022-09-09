@@ -152,9 +152,9 @@ public class NumberUtilTest extends BaseCoreTest {
 
     @Test
     public void testToPercent() throws Exception {
-        log.info("{}", NumberUtil.toPercentStr(BigDecimal.valueOf(0.123)));
-        log.info("{}", NumberUtil.toPercentStr(BigDecimal.valueOf(3.14526)));
-        log.info("{}", NumberUtil.toPercentStr2(BigDecimal.valueOf(3.14526)));
+        Assert.assertEquals("12.3", NumberUtil.toPercentStr(BigDecimal.valueOf(0.123)));
+        Assert.assertEquals("314.526", NumberUtil.toPercentStr(BigDecimal.valueOf(3.14526)));
+        Assert.assertEquals("314.526%", NumberUtil.toPercentStr2(BigDecimal.valueOf(3.14526)));
     }
 
     @Test

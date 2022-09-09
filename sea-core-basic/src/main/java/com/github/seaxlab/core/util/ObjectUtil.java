@@ -3,7 +3,6 @@ package com.github.seaxlab.core.util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Properties;
@@ -117,7 +116,7 @@ public final class ObjectUtil {
                     return false;
                 }
             } else if (ArrayUtil.isArray(obj)) {
-                if (Array.getLength(obj) > 0) {
+                if (ArrayUtil.length(obj) > 0) {
                     return false;
                 }
             }
