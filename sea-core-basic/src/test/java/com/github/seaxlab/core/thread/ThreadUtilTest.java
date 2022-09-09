@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.thread;
 
 import com.github.seaxlab.core.BaseCoreTest;
-import com.github.seaxlab.core.jvm.manager.StackManager;
+import com.github.seaxlab.core.lang.jvm.manager.StackManager;
 import com.github.seaxlab.core.thread.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

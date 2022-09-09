@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.util;
 
-import com.github.seaxlab.core.jvm.manager.StackManager;
+import com.github.seaxlab.core.lang.jvm.manager.StackManager;
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.RateLimiter;
 import com.sun.management.HotSpotDiagnosticMXBean;

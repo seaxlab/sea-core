@@ -1,0 +1,20 @@
+package com.github.seaxlab.core.http.dto.response;
+
+import com.github.seaxlab.core.model.layer.vo.BaseResponseVO;
+import lombok.Data;
+
+/**
+ * module name
+ *
+ * @author spy
+ * @version 1.0 2021/3/29
+ * @since 1.0
+ */
+@Data
+public class HttpUploadRespDTO extends BaseResponseVO {
+
+    /**
+     * 服务端响应内容（目前），具体内容，由调用方来反序列化成对象
+     */
+    private String content;
+}

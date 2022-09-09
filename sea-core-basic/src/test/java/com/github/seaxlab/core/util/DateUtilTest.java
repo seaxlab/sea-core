@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -15,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -271,6 +273,15 @@ public class DateUtilTest extends BaseCoreTest {
         Date end = DateUtil.of(2021, 1, 31, 12, 10, 30);
 
         log.info("hours list={}", DateUtil.betweenHours(start, end));
+    }
+
+    @Test
+    public void testLastDay() throws Exception {
+
+        String year = new SimpleDateFormat("yy", Locale.CHINESE).format(new Date());
+        log.info("{}", year);
+        year = new SimpleDateFormat("yy").format(new Date());
+        log.info("{}", year);
     }
 
 }

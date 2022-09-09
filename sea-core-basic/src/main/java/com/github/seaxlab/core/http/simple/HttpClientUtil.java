@@ -4,7 +4,7 @@ import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.http.common.HttpHeaderConst;
 import com.github.seaxlab.core.http.dto.HttpUploadDTO;
-import com.github.seaxlab.core.http.vo.HttpUploadVO;
+import com.github.seaxlab.core.http.dto.response.HttpUploadRespDTO;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.JSONUtil;
 import com.github.seaxlab.core.util.StringUtil;
@@ -387,8 +387,8 @@ public class HttpClientUtil {
      * @param dto
      * @return
      */
-    public static Result<HttpUploadVO> upload(HttpUploadDTO dto) {
-        Result<HttpUploadVO> result = Result.fail();
+    public static Result<HttpUploadRespDTO> upload(HttpUploadDTO dto) {
+        Result<HttpUploadRespDTO> result = Result.fail();
 
         //Creating the MultipartEntityBuilder
         MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
@@ -443,9 +443,9 @@ public class HttpClientUtil {
 
             String respStr = getRespEntityStr(response);
             //
-            HttpUploadVO uploadVO = new HttpUploadVO();
-            uploadVO.setContent(respStr);
-            result.value(uploadVO);
+            HttpUploadRespDTO respDTO = new HttpUploadRespDTO();
+            respDTO.setContent(respStr);
+            result.value(respDTO);
         } catch (Exception e) {
             result.setMsg(e.getMessage());
         }

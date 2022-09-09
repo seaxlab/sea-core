@@ -23,6 +23,16 @@ public enum DateFormatEnum {
     yyyyMMdd("yyyyMMdd"),
     yyyyMM("yyyyMM"),
 
+    // year short
+    yy_MM_dd_HH_mm_ss("yy-MM-dd HH:mm:ss"),
+    yyMMddHHmmss("yyMMddHHmmss"),
+    yyMMddHHmmssSSS("yyMMddHHmmssSSS"),
+    yyMMdd_HHmmss("yyMMdd_HHmmss"),
+    yy_MM_dd_HH_mm("yy-MM-dd HH:mm"),
+    yy_MM_dd("yy-MM-dd"),
+    yyMMdd("yyMMdd"),
+    yyMM("yyMM"),
+
     //
     MMdd("MMdd"),
     MM_dd("MM-dd"),
@@ -34,6 +44,12 @@ public enum DateFormatEnum {
     yyyy_MM_dd_HH_CN("yyyy年MM月dd日HH时"),
     yyyy_MM_dd_HH_mm_CN("yyyy年MM月dd日HH时mm分"),
     yyyy_MM_dd_HH_mm_ss_CN("yyyy年MM月dd日HH时mm分ss秒"),
+
+    // 中文short
+    yy_MM_dd_CN("yy年MM月dd日"),
+    yy_MM_dd_HH_CN("yy年MM月dd日HH时"),
+    yy_MM_dd_HH_mm_CN("yy年MM月dd日HH时mm分"),
+    yy_MM_dd_HH_mm_ss_CN("yy年MM月dd日HH时mm分ss秒"),
 
     //
     // time
