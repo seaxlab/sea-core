@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * module name
+ * 条码
  *
  * @author spy
  * @version 1.0 2021/2/26
