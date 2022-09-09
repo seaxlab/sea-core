@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.http.dto.response;
 
-import com.github.seaxlab.core.model.layer.vo.BaseResponseVO;
 import lombok.Data;
 
 /**
@@ -11,7 +10,7 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
-public class HttpUploadRespDTO extends BaseResponseVO {
+public class HttpUploadRespDTO {
 
     /**
      * 服务端响应内容（目前），具体内容，由调用方来反序列化成对象
