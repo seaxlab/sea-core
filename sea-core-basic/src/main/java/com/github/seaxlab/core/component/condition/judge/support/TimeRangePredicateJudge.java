@@ -3,8 +3,8 @@ package com.github.seaxlab.core.component.condition.judge.support;
 import com.github.seaxlab.core.component.condition.dto.ConditionData;
 import com.github.seaxlab.core.component.condition.judge.AbstractPredicateJudge;
 import com.github.seaxlab.core.component.condition.judge.PredicateJudge;
+import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.loader.LoadLevel;
-import com.github.seaxlab.core.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.SimpleDateFormat;
@@ -21,7 +21,7 @@ public class TimeRangePredicateJudge extends AbstractPredicateJudge implements P
     public Boolean judge(final ConditionData conditionData, final String realData) {
         String[] arrays = parseArray2(conditionData.getParamValue());
 
-        SimpleDateFormat sdf = new SimpleDateFormat(DateUtil.TIME_FORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(DateFormatEnum.HH_mm_ss.getValue());
 
         try {
             Date input = sdf.parse(realData);

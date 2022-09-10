@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.enums.RangeModeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -31,8 +32,8 @@ public class TimeUtilTest extends BaseCoreTest {
 
     @Test
     public void testCompareDateTime() throws Exception {
-        Date date1 = DateUtil.toDate("2021-04-01 13:01:50", DateUtil.DEFAULT_FORMAT);
-        Date date2 = DateUtil.toDate("2021-03-01 14:01:50", DateUtil.DEFAULT_FORMAT);
+        Date date1 = DateUtil.toDate("2021-04-01 13:01:50", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        Date date2 = DateUtil.toDate("2021-03-01 14:01:50", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
 
         Assert.assertEquals(TimeUtil.compare(date1, date2), -1);
     }
@@ -41,22 +42,22 @@ public class TimeUtilTest extends BaseCoreTest {
     @Test
     public void testNowIsInRange() throws Exception {
 
-        Assert.assertTrue(TimeUtil.nowIsInRange("11:16", "12:00", TimeUtil.FORMAT_HHmm));
-        Assert.assertFalse(TimeUtil.nowIsInRange("11:30", "12:00", TimeUtil.FORMAT_HHmm));
+        Assert.assertTrue(TimeUtil.nowIsInRange("11:16", "12:00", DateFormatEnum.HH_mm.getValue()));
+        Assert.assertFalse(TimeUtil.nowIsInRange("11:30", "12:00", DateFormatEnum.HH_mm.getValue()));
     }
 
     @Test
     public void testIsInRange() throws Exception {
-        boolean is = TimeUtil.isInRange("11:0", "11:00", "23:00", TimeUtil.FORMAT_HHmm, RangeModeEnum.CLOSE_CLOSE);
+        boolean is = TimeUtil.isInRange("11:0", "11:00", "23:00", DateFormatEnum.HH_mm.getValue(), RangeModeEnum.CLOSE_CLOSE);
         log.info("{}", is);
-        SimpleDateFormat format = new SimpleDateFormat(TimeUtil.FORMAT_HHmm);
+        SimpleDateFormat format = new SimpleDateFormat(DateFormatEnum.HH_mm.getValue());
         log.info("{}", format.parse("23:00"));
         log.info("{}", format.parse("00:00"));
     }
 
     @Test
     public void testAdd() throws Exception {
-        String newTimeStr = TimeUtil.add("12:10", TimeUtil.FORMAT_HHmm, 20, TimeUnit.MINUTES);
+        String newTimeStr = TimeUtil.add("12:10", DateFormatEnum.HH_mm.getValue(), 20, TimeUnit.MINUTES);
         log.info("newTimeStr={}", newTimeStr);
 
 

@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.util;
 
+import com.github.seaxlab.core.enums.DateFormatEnum;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.SimpleDateFormat;
@@ -62,7 +63,7 @@ public final class BirthdayUtil {
             return 0;
         }
 
-        String birthdayStr2 = DateUtil.toString(birthday, DateUtil.DAY_FORMAT);
+        String birthdayStr2 = DateUtil.toString(birthday, DateFormatEnum.yyyy_MM_dd.getValue());
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String now = df.format(new Date());
@@ -84,7 +85,7 @@ public final class BirthdayUtil {
             return 0;
         }
 
-        String birthdayStr2 = DateUtil.toString(birthday, DateUtil.DAY_FORMAT);
+        String birthdayStr2 = DateUtil.toString(birthday, DateFormatEnum.yyyy_MM_dd.getValue());
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String now = df.format(new Date());
@@ -102,21 +103,14 @@ public final class BirthdayUtil {
      */
     public final static String getChinaDate(int day) {
         String a = "";
-        if (day == 10)
-            return "初十";
-        if (day == 20)
-            return "二十";
-        if (day == 30)
-            return "三十";
+        if (day == 10) return "初十";
+        if (day == 20) return "二十";
+        if (day == 30) return "三十";
         int two = (int) ((day) / 10);
-        if (two == 0)
-            a = "初";
-        if (two == 1)
-            a = "十";
-        if (two == 2)
-            a = "廿";
-        if (two == 3)
-            a = "三";
+        if (two == 0) a = "初";
+        if (two == 1) a = "十";
+        if (two == 2) a = "廿";
+        if (two == 3) a = "三";
         int one = (int) (day % 10);
         switch (one) {
             case 1:

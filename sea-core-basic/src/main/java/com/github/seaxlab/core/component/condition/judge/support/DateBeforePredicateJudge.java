@@ -2,8 +2,8 @@ package com.github.seaxlab.core.component.condition.judge.support;
 
 import com.github.seaxlab.core.component.condition.dto.ConditionData;
 import com.github.seaxlab.core.component.condition.judge.PredicateJudge;
+import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.loader.LoadLevel;
-import com.github.seaxlab.core.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.SimpleDateFormat;
@@ -18,7 +18,7 @@ public class DateBeforePredicateJudge implements PredicateJudge {
 
     @Override
     public Boolean judge(final ConditionData conditionData, final String realData) {
-        SimpleDateFormat sdf = new SimpleDateFormat(DateUtil.DAY_FORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(DateFormatEnum.yyyy_MM_dd.getValue());
 
         try {
             Date input = sdf.parse(realData);

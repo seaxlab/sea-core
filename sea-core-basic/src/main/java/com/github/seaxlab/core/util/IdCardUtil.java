@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.util;
 
 import cn.hutool.core.util.IdcardUtil;
+import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.enums.GenderEnum;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.model.component.person.IdCard;
@@ -235,7 +236,7 @@ public class IdCardUtil {
             String month = idNo.substring(10, 12);
             String day = idNo.substring(12, 14);
 
-            return DateUtil.toDate(year + month + day, DateUtil.DAY_FORMAT2);
+            return DateUtil.toDate(year + month + day, DateFormatEnum.yyyyMMdd.getValue());
         } catch (Exception e) {
             log.error("fail to parse idNo={}", idNo, e);
         }

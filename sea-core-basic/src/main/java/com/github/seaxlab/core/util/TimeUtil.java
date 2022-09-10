@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.util;
 
+import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.enums.RangeModeEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.model.Tuple2;
@@ -29,8 +30,8 @@ import static java.util.concurrent.TimeUnit.*;
 @Slf4j
 public final class TimeUtil {
 
-    public static final String FORMAT_HHmmSS = "HH:mm:ss";
-    public static final String FORMAT_HHmm = "HH:mm";
+    //public static final String FORMAT_HHmmSS = "HH:mm:ss";
+    //public static final String FORMAT_HHmm = "HH:mm";
 
     private TimeUtil() {
     }
@@ -90,7 +91,7 @@ public final class TimeUtil {
      * @return
      */
     public static Date format(String timeStr) {
-        return format(timeStr, FORMAT_HHmm);
+        return format(timeStr, DateFormatEnum.HH_mm.getValue());
     }
 
     /**
@@ -119,7 +120,7 @@ public final class TimeUtil {
      * @return
      */
     public static boolean nowIsInRange(String beginTime, String endTime) {
-        return nowIsInRange(beginTime, endTime, FORMAT_HHmm);
+        return nowIsInRange(beginTime, endTime, DateFormatEnum.HH_mm.getValue());
     }
 
     /**
@@ -132,7 +133,7 @@ public final class TimeUtil {
      */
     public static boolean nowIsInRange(String beginTime, String endTime, String timeFormatStr) {
         if (StringUtil.isEmpty(timeFormatStr)) {
-            timeFormatStr = FORMAT_HHmm;
+            timeFormatStr = DateFormatEnum.HH_mm.getValue();
         }
         try {
             // now
@@ -145,7 +146,7 @@ public final class TimeUtil {
             int second = calendar.get(Calendar.SECOND);
 
             String now;
-            if (EqualUtil.isEq(timeFormatStr, FORMAT_HHmmSS)) {
+            if (EqualUtil.isEq(timeFormatStr, DateFormatEnum.HH_mm_ss.getValue())) {
                 now = hour + ":" + minute + ":" + second;
             } else {
                 now = hour + ":" + minute;
@@ -209,7 +210,7 @@ public final class TimeUtil {
 //        }
 
         if (StringUtil.isEmpty(timeFormatStr)) {
-            timeFormatStr = FORMAT_HHmm;
+            timeFormatStr = DateFormatEnum.HH_mm.getValue();
         }
 
         SimpleDateFormat format = new SimpleDateFormat(timeFormatStr);
@@ -291,7 +292,7 @@ public final class TimeUtil {
      * @return
      */
     public static int compare(String time1, String time2) {
-        return compare(time1, time2, FORMAT_HHmm);
+        return compare(time1, time2, DateFormatEnum.HH_mm.getValue());
     }
 
     /**

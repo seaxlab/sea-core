@@ -34,34 +34,6 @@ public final class DateUtil {
 
     private static final Logger log = LoggerFactory.getLogger(DateUtil.class);
 
-
-    /**
-     * 默认日期格式
-     */
-    public static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    public static final String DAY_FORMAT = "yyyy-MM-dd";
-    public static final String DAY_FORMAT2 = "yyyyMMdd";
-    public static final String FORMAT_YYYYMM = "yyyyMM";
-    public static final String DAY_MMDD = "MMdd";
-    public static final String DAY_MM_DD = "MM-dd";
-    public static final String DATETIME_FORMAT = "yyyyMMddHHmmss";
-
-    public static final String DATETIME_FORMAT2 = "yyyyMMddHHmmssSSS";
-    public static final String DATETIME_FORMAT_HUMAN = "yyyyMMdd_HHmmss";
-    public static final String DATETIME_YMHM = "yyyy-MM-dd HH:mm";
-
-    public static final String OUTPUT_FORMAT = "yyyy年MM月dd日";
-
-    public static final String TIME_FORMAT = "HH:mm:ss";
-    public static final String TIME_FORMAT2 = "HHmmss";
-    public static final String TIME_HHMM = "HH:mm";
-
-    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
-
-    public static final String FORMAT_YMD_HMS = "yyyy年MM月dd日HH时mm分ss秒";
-
-
     /**
      * <默认构造函数>
      */
@@ -83,6 +55,7 @@ public final class DateUtil {
         return new SimpleDateFormat(dateFormatEnum.getValue());
     }
 
+    //------------------------------toDate begin ------------------------
 
     /**
      * 创建日期
@@ -173,10 +146,101 @@ public final class DateUtil {
         Precondition.checkNotEmpty(dateStr, "date str cannot be empty");
 
         if (StringUtil.isEmpty(format)) {
-            format = DEFAULT_FORMAT;
+            format = DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue();
         }
         return format(dateStr, format);
     }
+
+
+    /**
+     * merge date and time to datetime.
+     *
+     * @param date 指定日期
+     * @param time 指定时间
+     * @return 日期
+     */
+    public static Date toDateByDateAndTime(Date date, Date time) {
+        Precondition.checkNotNull(date, "date cannot be null.");
+        Precondition.checkNotNull(time, "time cannot be null.");
+
+        String dateStr = toString(date, DateFormatEnum.yyyy_MM_dd.getValue());
+        String timeStr = toString(time, DateFormatEnum.HH_mm_ss.getValue());
+
+        return toDateByDateAndTimeStr(dateStr, timeStr);
+    }
+
+    /**
+     * @param date 格式 yyyy-MM-dd
+     * @param time 格式 HH:mm:ss
+     * @return 日期
+     */
+    public static Date toDateByDateAndTimeStr(String date, String time) {
+        Precondition.checkNotNull(date, "date cannot be null.");
+
+        if (StringUtil.isBlank(time)) {
+            time = "00:00:00";
+        } else {
+            if (time.lastIndexOf(":") == time.length() - 1) {
+                time = time.substring(0, time.length() - 1);
+            }
+            switch (time.split(":").length) {
+                case 1:
+                    time = time + ":00:00";
+                    break;
+                case 2:
+                    time = time + ":00";
+                    break;
+            }
+        }
+
+        String strDate = date.trim() + " " + time.trim();
+        return toDate(strDate, DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+    }
+
+    /**
+     * 解析成日期
+     *
+     * @param dateStr     日期
+     * @param timeStr     时间
+     * @param datePattern 日期格式
+     * @param timePattern 时间格式
+     * @return date
+     */
+    public static Date toDateByDateAndTimeStr(String dateStr, String timeStr, String datePattern, String timePattern) {
+        Precondition.checkNotEmpty(dateStr, "date str cannot be empty");
+        Precondition.checkNotEmpty(timeStr, "time str cannot be empty");
+
+        String strDate = dateStr.trim() + " " + timeStr.trim();
+        return toDate(strDate, datePattern + " " + timePattern);
+    }
+
+
+    /**
+     * 尝试把一个String按照指定的多个pattern进行转换,转换成功返回结果,失败返回null,如果值为空直接返回null
+     *
+     * @param dateStr  需要转换为日期的字符串
+     * @param patterns 日期pattern数组
+     * @return date
+     */
+    public static Date toDateByMatch(String dateStr, String[] patterns) {
+        Precondition.checkNotEmpty(dateStr, "date str cannot be empty.");
+        Precondition.checkStrElementNotBlank(patterns, "patterns 不能为空");
+
+        Date date = null;
+        if (StringUtil.isNotEmpty(dateStr)) {
+            for (String p : patterns) {
+                try {
+                    date = toDate(dateStr, p);
+                    break;
+                } catch (Exception e) {
+                    log.error("fail to convert to date");
+                }
+            }
+        }
+        return date;
+    }
+    //--------------------------------toDate End--------------------
+
 
     /**
      * 字符串转时间戳 "yyyy-MM-dd HH:mm:ss"
@@ -185,33 +249,12 @@ public final class DateUtil {
      * @return timestamp
      */
     public static Timestamp toTimestamp(String str) {
-        Date date = toDate(str, DEFAULT_FORMAT);
+        Date date = toDate(str, DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
         return new Timestamp(date.getTime());
     }
 
 
-    /**
-     * 今日日期
-     *
-     * @return string
-     */
-    public static String todayStr() {
-        SimpleDateFormat sdf = new SimpleDateFormat(DAY_FORMAT);
-
-        return sdf.format(new Date());
-    }
-
-
-    /**
-     * 时间戳转换为字符串
-     *
-     * @param time timestamp
-     * @return string
-     */
-    public static String toString(Timestamp time) {
-        Date date = new Date(time.getTime());
-        return toString(date, DEFAULT_FORMAT);
-    }
+    //--------------------------------toString Begin--------------------
 
     /**
      * 将日期转成字符串
@@ -238,112 +281,23 @@ public final class DateUtil {
         Precondition.checkNotNull(date);
 
         if (StringUtil.isEmpty(format)) {
-            format = DEFAULT_FORMAT;
+            format = DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue();
         }
         return format(date, format);
     }
 
-
     /**
-     * merge date and time to datetime.
+     * 时间戳转换为字符串
      *
-     * @param date 指定日期
-     * @param time 指定时间
-     * @return 日期
+     * @param time timestamp
+     * @return string
      */
-    public static Date parseToDate(Date date, Date time) {
-        Precondition.checkNotNull(date, "date cannot be null.");
-        Precondition.checkNotNull(time, "time cannot be null.");
-
-        String dateStr = toString(date, DAY_FORMAT);
-        String timeStr = toString(time, TIME_FORMAT);
-
-        return parseToDate(dateStr, timeStr);
+    public static String toString(Timestamp time) {
+        Date date = new Date(time.getTime());
+        return toString(date, DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
     }
 
-    /**
-     * @param sDate 格式 yyyy-MM-dd
-     * @param sTime 格式 HH:mm:ss
-     * @return 日期
-     */
-    public static Date parseToDate(String sDate, String sTime) {
-        if (StringUtil.isBlank(sDate)) {
-            log.warn("date str is blank.");
-            return null;
-        }
-
-        if (StringUtil.isBlank(sTime)) {
-            sTime = "00:00:00";
-        } else {
-            if (sTime.lastIndexOf(":") == sTime.length() - 1) {
-                sTime = sTime.substring(0, sTime.length() - 1);
-            }
-            switch (sTime.split(":").length) {
-                case 1:
-                    sTime = sTime + ":00:00";
-                    break;
-                case 2:
-                    sTime = sTime + ":00";
-                    break;
-            }
-
-        }
-
-        String strDate = sDate.trim() + " " + sTime.trim();
-        return toDate(strDate, "yyyy-MM-dd HH:mm:ss");
-    }
-
-    /**
-     * 解析成日期
-     *
-     * @param sDate        日期
-     * @param sTime        时间
-     * @param sDatePattern 日期格式
-     * @param sTimePattern 时间格式
-     * @return date
-     */
-    public static Date parseToDate(String sDate, String sTime, String sDatePattern, String sTimePattern) {
-        if (StringUtil.isBlank(sDate)) {
-            log.warn("date str is blank");
-            return null;
-        }
-
-        if (StringUtil.isBlank(sTime)) {
-            log.warn("time str is empty");
-            return null;
-        }
-
-        String strDate = sDate.trim() + " " + sTime.trim();
-        return toDate(strDate, sDatePattern + " " + sTimePattern);
-    }
-
-
-    /**
-     * 尝试把一个String按照指定的多个pattern进行转换,转换成功返回结果,失败返回null,如果值为空直接返回null
-     *
-     * @param value    需要转换为日期的字符串
-     * @param patterns 日期pattern数组
-     * @return date
-     */
-    public static Date tryToDate(String value, String[] patterns) {
-        if (patterns == null || patterns.length == 0) {
-            throw new IllegalArgumentException("patterns 不能为空");
-        }
-        Date date = null;
-        if (StringUtil.isNotEmpty(value)) {
-            for (String p : patterns) {
-                try {
-                    date = toDate(value, p);
-                    break;
-                } catch (Exception e) {
-                    log.error("fail to convert to date");
-                }
-            }
-        }
-        return date;
-    }
-
-    //--------------------------------toString and toDate End--------------------
+    //--------------------------------toString End--------------------
 
     /**
      * 重新生成一个对象
@@ -746,17 +700,17 @@ public final class DateUtil {
         }
 
         if (date.contains(":")) {
-            sformat = DEFAULT_FORMAT;
+            sformat = DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue();
         } else if (date.contains("-")) {
-            sformat = DAY_FORMAT;
+            sformat = DateFormatEnum.yyyy_MM_dd.getValue();
         } else {
-            sformat = DAY_FORMAT2;
+            sformat = DateFormatEnum.yyyyMMdd.getValue();
         }
 
         if (time.contains(":")) {
-            sformat = sformat + " " + TIME_FORMAT;
+            sformat = sformat + " " + DateFormatEnum.HH_mm_ss.getValue();
         } else {
-            sformat = sformat + " " + TIME_FORMAT2;
+            sformat = sformat + " " + DateFormatEnum.HH_mm.getValue();
         }
 
         return format(date + " " + time, sformat);
@@ -934,7 +888,7 @@ public final class DateUtil {
      * @return list string
      */
     public static List<String> betweenDays(Date start, Date end) {
-        return betweenDays(start, end, DEFAULT_DATE_FORMAT);
+        return betweenDays(start, end, DateFormatEnum.yyyy_MM_dd.getValue());
     }
 
     /**
@@ -1080,7 +1034,7 @@ public final class DateUtil {
      */
     public static String getWeek(String dateStr, String format) {
         if (format == null) {
-            format = DEFAULT_DATE_FORMAT;
+            format = DateFormatEnum.yyyy_MM_dd.getValue();
         }
 
         Date date = toDate(dateStr, format);
@@ -1466,7 +1420,7 @@ public final class DateUtil {
             return false;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat(DAY_MMDD);
+        SimpleDateFormat sdf = new SimpleDateFormat(DateFormatEnum.MMdd.getValue());
         int targetMonth = Integer.parseInt(sdf.format(targetDate));
         int beginMonth = Integer.parseInt(sdf.format(beginDate));
         int endMonth = Integer.parseInt(sdf.format(endDate));

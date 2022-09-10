@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.util;
 
+import com.github.seaxlab.core.enums.DateFormatEnum;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
@@ -29,7 +30,7 @@ public final class IdUtil {
      * @return
      */
     public static String getYYYYMMDD() {
-        return DateUtil.toString(new Date(), DateUtil.DAY_FORMAT2);
+        return DateUtil.toString(new Date(), DateFormatEnum.yyyyMMdd.getValue());
     }
 
     public static String getYYYYMMDDHHMM() {
@@ -42,7 +43,7 @@ public final class IdUtil {
      * @return yyyyMMddHHmmss
      */
     public static String getYYYYMMDDHHMMSS() {
-        return DateUtil.toString(new Date(), DateUtil.DATETIME_FORMAT);
+        return DateUtil.toString(new Date(), DateFormatEnum.yyyyMMddHHmmss);
     }
 
     /**
@@ -51,7 +52,7 @@ public final class IdUtil {
      * @return yyyyMMddHHmmssSSS
      */
     public static String getYYYYMMDDHHMMSSSSS() {
-        return DateUtil.toString(new Date(), DateUtil.DATETIME_FORMAT2);
+        return DateUtil.toString(new Date(), DateFormatEnum.yyyyMMddHHmmssSSS);
     }
 
 

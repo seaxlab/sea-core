@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.util;
 
+import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.lang.jvm.manager.StackManager;
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.RateLimiter;
@@ -84,7 +85,7 @@ public final class JvmUtil {
     public static void dumpStack() {
         String logPath = PathUtil.join(PathUtil.getUserHome(), "logs", "sea", "jstack");
         FileUtil.ensureDir(logPath);
-        dumpStack(logPath + "/" + DateUtil.toString(new Date(), DateUtil.DATETIME_FORMAT_HUMAN) + "_" + getPID() + "_jstack.log");
+        dumpStack(logPath + "/" + DateUtil.toString(new Date(), DateFormatEnum.yyyyMMdd_HHmmss) + "_" + getPID() + "_jstack.log");
     }
 
     /**
@@ -128,7 +129,7 @@ public final class JvmUtil {
     public static void dumpHeap() {
         String logPath = PathUtil.join(PathUtil.getSeaHome(), "heap");
         FileUtil.ensureDir(logPath);
-        String filePath = logPath + "/" + DateUtil.toString(new Date(), DateUtil.DATETIME_FORMAT_HUMAN) + "_" + getPID() + "_heap.hprof";
+        String filePath = logPath + "/" + DateUtil.toString(new Date(), DateFormatEnum.yyyyMMdd_HHmmss) + "_" + getPID() + "_heap.hprof";
         dumpHeap(filePath, true);
     }
 

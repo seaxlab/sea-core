@@ -92,15 +92,15 @@ public class DateUtilTest extends BaseCoreTest {
 
     @Test
     public void testBetweenDays() throws Exception {
-        Date start = DateUtil.toDate("2021-04-01", DateUtil.DAY_FORMAT);
-        Date end = DateUtil.toDate("2021-06-02", DateUtil.DAY_FORMAT);
+        Date start = DateUtil.toDate("2021-04-01", DateFormatEnum.yyyy_MM_dd.getValue());
+        Date end = DateUtil.toDate("2021-06-02", DateFormatEnum.yyyy_MM_dd.getValue());
         log.info("days={}", DateUtil.betweenDayList(start, end));
     }
 
     @Test
     public void testDiffSimple() throws Exception {
-        Date start = DateUtil.toDate("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date end = DateUtil.toDate("2021-04-02 13:01:00", DateUtil.DEFAULT_FORMAT);
+        Date start = DateUtil.toDate("2021-04-01 12:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        Date end = DateUtil.toDate("2021-04-02 13:01:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
 
         log.info("minutes={}", DateUtil.diffSimple(start, end, ChronoUnit.MINUTES));
         log.info("days={}", DateUtil.diffSimple(start, end, ChronoUnit.DAYS));
@@ -108,28 +108,28 @@ public class DateUtilTest extends BaseCoreTest {
 
     @Test
     public void testDiff() throws Exception {
-        Date start = DateUtil.toDate("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date end = DateUtil.toDate("2021-04-02 10:01:00", DateUtil.DEFAULT_FORMAT);
+        Date start = DateUtil.toDate("2021-04-01 12:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        Date end = DateUtil.toDate("2021-04-02 10:01:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
         log.info("minutes={}", DateUtil.diff(start, end, TimeUnit.MINUTES));
         log.info("days={}", DateUtil.diff(start, end, TimeUnit.DAYS));
     }
 
     @Test
     public void testParseToDate() throws Exception {
-        Date start = DateUtil.toDate("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date end = DateUtil.toDate("2021-04-02 10:01:01", DateUtil.DEFAULT_FORMAT);
+        Date start = DateUtil.toDate("2021-04-01 12:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        Date end = DateUtil.toDate("2021-04-02 10:01:01", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
 
-        log.info("{}", DateUtil.toString(DateUtil.parseToDate(start, end), DateUtil.DEFAULT_FORMAT));
+        log.info("{}", DateUtil.toString(DateUtil.toDateByDateAndTime(start, end), DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue()));
     }
 
     @Test
     public void testIsMonthAndDayInRange() throws Exception {
-        Date start = DateUtil.toDate("2021-05-01 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date end = DateUtil.toDate("2021-12-10 10:01:01", DateUtil.DEFAULT_FORMAT);
+        Date start = DateUtil.toDate("2021-05-01 12:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        Date end = DateUtil.toDate("2021-12-10 10:01:01", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
 
-        Date target = DateUtil.toDate("2021-04-03 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date target2 = DateUtil.toDate("2021-08-03 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date target3 = DateUtil.toDate("2021-12-13 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date target = DateUtil.toDate("2021-04-03 12:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        Date target2 = DateUtil.toDate("2021-08-03 12:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        Date target3 = DateUtil.toDate("2021-12-13 12:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
 
         log.info("{}", DateUtil.isMonthAndDayInRange(target, start, end, RangeModeEnum.CLOSE_CLOSE));
         log.info("{}", DateUtil.isMonthAndDayInRange(target2, start, end, RangeModeEnum.CLOSE_CLOSE));
@@ -139,24 +139,24 @@ public class DateUtilTest extends BaseCoreTest {
 
     @Test
     public void testHasIntersection2() throws Exception {
-        Date totalStart = DateUtil.toDate("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
-        Date totalEnd = DateUtil.toDate("2021-04-01 09:00:00", DateUtil.DEFAULT_FORMAT);
+        Date totalStart = DateUtil.toDate("2021-04-01 08:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        Date totalEnd = DateUtil.toDate("2021-04-01 09:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
 
         Date start, end;
-        start = DateUtil.toDate("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
-        end = DateUtil.toDate("2021-04-01 08:30:00", DateUtil.DEFAULT_FORMAT);
+        start = DateUtil.toDate("2021-04-01 08:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        end = DateUtil.toDate("2021-04-01 08:30:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
         log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
 
     }
 
     @Test
     public void testHasIntersection3() throws Exception {
-        Date totalStart = DateUtil.toDate("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
-        Date totalEnd = DateUtil.toDate("2021-04-01 09:00:00", DateUtil.DEFAULT_FORMAT);
+        Date totalStart = DateUtil.toDate("2021-04-01 08:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        Date totalEnd = DateUtil.toDate("2021-04-01 09:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
 
         Date start, end;
-        start = DateUtil.toDate("2021-04-01 07:00:00", DateUtil.DEFAULT_FORMAT);
-        end = DateUtil.toDate("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
+        start = DateUtil.toDate("2021-04-01 07:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        end = DateUtil.toDate("2021-04-01 08:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
         log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
 
     }
@@ -165,26 +165,26 @@ public class DateUtilTest extends BaseCoreTest {
     @Test
     public void testHasIntersection() throws Exception {
 
-        Date totalStart = DateUtil.toDate("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date totalEnd = DateUtil.toDate("2021-04-01 13:01:00", DateUtil.DEFAULT_FORMAT);
+        Date totalStart = DateUtil.toDate("2021-04-01 12:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        Date totalEnd = DateUtil.toDate("2021-04-01 13:01:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
 
         Date start, end;
-        start = DateUtil.toDate("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
-        end = DateUtil.toDate("2021-04-01 14:01:01", DateUtil.DEFAULT_FORMAT);
+        start = DateUtil.toDate("2021-04-01 12:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        end = DateUtil.toDate("2021-04-01 14:01:01", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
         log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
 
 
-        start = DateUtil.toDate("2021-04-01 13:01:00", DateUtil.DEFAULT_FORMAT);
-        end = DateUtil.toDate("2021-04-01 14:01:01", DateUtil.DEFAULT_FORMAT);
+        start = DateUtil.toDate("2021-04-01 13:01:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        end = DateUtil.toDate("2021-04-01 14:01:01", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
         log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
 
 
-        start = DateUtil.toDate("2021-04-01 08:01:00", DateUtil.DEFAULT_FORMAT);
-        end = DateUtil.toDate("2021-04-01 12:00:01", DateUtil.DEFAULT_FORMAT);
+        start = DateUtil.toDate("2021-04-01 08:01:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        end = DateUtil.toDate("2021-04-01 12:00:01", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
         log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
 
-        start = DateUtil.toDate("2021-04-01 08:01:00", DateUtil.DEFAULT_FORMAT);
-        end = DateUtil.toDate("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        start = DateUtil.toDate("2021-04-01 08:01:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        end = DateUtil.toDate("2021-04-01 12:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
         log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
     }
 
@@ -216,21 +216,21 @@ public class DateUtilTest extends BaseCoreTest {
     @Test
     public void testIsValidDate() throws Exception {
         List<String> dates = ImmutableList.of("202108-1", "2021-09-01");
-        log.info("{}", DateUtil.isValidDate(dates, DateUtil.DAY_FORMAT));
+        log.info("{}", DateUtil.isValidDate(dates, DateFormatEnum.yyyy_MM_dd.getValue()));
 
         List<String> dates2 = ImmutableList.of("2021-19-19");
-        log.info("{}", DateUtil.isValidDate(dates2, DateUtil.DAY_FORMAT));
+        log.info("{}", DateUtil.isValidDate(dates2, DateFormatEnum.yyyy_MM_dd.getValue()));
 
         List<String> dates3 = ImmutableList.of("2021-09-01", "2021-10-11");
 
-        log.info("{}", DateUtil.isValidDate(dates3, DateUtil.DAY_FORMAT));
-        log.info("{}", DateUtil.isValidDate(dates3, DateUtil.DATETIME_YMHM));
+        log.info("{}", DateUtil.isValidDate(dates3, DateFormatEnum.yyyy_MM_dd.getValue()));
+        log.info("{}", DateUtil.isValidDate(dates3, DateFormatEnum.yyyy_MM_dd_HH_mm.getValue()));
 
     }
 
     @Test
     public void testGet() throws Exception {
-        Date date = DateUtil.toDate("2021-04-01 13:01:50", DateUtil.DEFAULT_FORMAT);
+        Date date = DateUtil.toDate("2021-04-01 13:01:50", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
 
         Assert.assertEquals(2021, DateUtil.getYear(date));
         Assert.assertEquals(4, DateUtil.getMonth(date));
