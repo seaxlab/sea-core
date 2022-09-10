@@ -87,6 +87,11 @@ public abstract class AbstractQueryCache<K, V> implements IQueryCache<K, V> {
                   .collect(Collectors.toList());
     }
 
+    /**
+     * 业务类型
+     *
+     * @return
+     */
     protected abstract String getBizType();
 
     /**
