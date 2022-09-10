@@ -161,37 +161,41 @@ public abstract class AbstractQueryCache<K, V> implements IQueryCache<K, V> {
         if (cache == null) {
             synchronized (this) {
                 if (cache == null) {
-                    CacheBuilder builder = CacheBuilder.newBuilder();
-                    //并发度
-                    builder.concurrencyLevel(getConcurrencyLevel());
-                    // 缓存最大数量
-                    builder.maximumSize(getMaximumSize());
-                    //数据被创建多久后被移除
-                    builder.expireAfterWrite(getExpireAfterWriteDuration(), TimeUnit.MINUTES);
-                    if (getRecordStatFlag()) {
-                        builder.recordStats();
-                    }
-
-                    cache = builder.build(new CacheLoader<K, Optional<V>>() {
-                        @Override
-                        public Optional<V> load(K key) {
-                            log.info("try to load cache[{}], key={}", getBizType(), key);
-                            Optional<V> value = fetchData(key);
-                            return value == null ? Optional.empty() : value;
-                        }
-
-                        @Override
-                        public Map<K, Optional<V>> loadAll(Iterable<? extends K> keys) throws Exception {
-                            log.info("try to load cache[{}] by multi keys, key={}", getBizType(), keys);
-                            Map<K, Optional<V>> map = fetchMultiData(keys);
-                            return map == null ? new HashMap<>() : map;
-                        }
-                    });
-                    log.info("init local loading cache success [{}]", this.getClass().getSimpleName());
+                    buildCache();
                 }
             }
         }
 
         return cache;
+    }
+
+    private void buildCache() {
+        CacheBuilder builder = CacheBuilder.newBuilder();
+        //并发度
+        builder.concurrencyLevel(getConcurrencyLevel());
+        // 缓存最大数量
+        builder.maximumSize(getMaximumSize());
+        //数据被创建多久后被移除
+        builder.expireAfterWrite(getExpireAfterWriteDuration(), TimeUnit.MINUTES);
+        if (getRecordStatFlag()) {
+            builder.recordStats();
+        }
+
+        cache = builder.build(new CacheLoader<K, Optional<V>>() {
+            @Override
+            public Optional<V> load(K key) {
+                log.info("try to load cache[{}], key={}", getBizType(), key);
+                Optional<V> value = fetchData(key);
+                return value == null ? Optional.empty() : value;
+            }
+
+            @Override
+            public Map<K, Optional<V>> loadAll(Iterable<? extends K> keys) throws Exception {
+                log.info("try to load cache[{}] by multi keys, key={}", getBizType(), keys);
+                Map<K, Optional<V>> map = fetchMultiData(keys);
+                return map == null ? new HashMap<>() : map;
+            }
+        });
+        log.info("init local loading cache success [{}]", this.getClass().getSimpleName());
     }
 }
