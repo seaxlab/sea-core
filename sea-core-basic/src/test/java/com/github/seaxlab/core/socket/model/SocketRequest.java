@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.socket.model;
 
+import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,7 +59,7 @@ public class SocketRequest implements Runnable {
                 log.info("SOCKET SERVER: read {}", line);
 
                 if (line != null) {
-                    String response = DateUtil.toYMDHMSNoPoint(DateUtil.nowDate());
+                    String response = DateUtil.toString(DateUtil.nowDate(), DateFormatEnum.yyyyMMddHHmmss);
                     this.output.write(response);
                     this.output.newLine();
                     this.output.flush();

@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.enums.RangeModeEnum;
 import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +31,18 @@ import java.util.concurrent.TimeUnit;
 public class DateUtilTest extends BaseCoreTest {
 
     @Test
-    public void testCommon() throws Exception {
-        println(DateUtil.nowStr());
+    public void testToDate() throws Exception {
+        log.info("{}", DateUtil.toDate(Instant.now()));
+    }
+
+    @Test
+    public void testToString() throws Exception {
+        println(DateUtil.toString(new Date(), "MM-dd*HH:mm"));
+    }
+
+    @Test
+    public void testAdd() throws Exception {
         println(DateUtil.nowDate());
-        println(DateUtil.now("MM-dd*HH:mm"));
 
         Date now = DateUtil.nowDate();
 
@@ -74,11 +83,6 @@ public class DateUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void parseTest() throws Exception {
-        log.info("{}", DateUtil.parse(Instant.now()));
-    }
-
-    @Test
     public void testTruncate() throws Exception {
         for (int i = 0; i < 10000; i++) {
             log.info("{}", DateUtil.truncate(new Date(), Calendar.MINUTE));
@@ -88,15 +92,15 @@ public class DateUtilTest extends BaseCoreTest {
 
     @Test
     public void testBetweenDays() throws Exception {
-        Date start = DateUtil.str2Date("2021-04-01", DateUtil.DAY_FORMAT);
-        Date end = DateUtil.str2Date("2021-06-02", DateUtil.DAY_FORMAT);
+        Date start = DateUtil.toDate("2021-04-01", DateUtil.DAY_FORMAT);
+        Date end = DateUtil.toDate("2021-06-02", DateUtil.DAY_FORMAT);
         log.info("days={}", DateUtil.betweenDayList(start, end));
     }
 
     @Test
     public void testDiffSimple() throws Exception {
-        Date start = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date end = DateUtil.str2Date("2021-04-02 13:01:00", DateUtil.DEFAULT_FORMAT);
+        Date start = DateUtil.toDate("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date end = DateUtil.toDate("2021-04-02 13:01:00", DateUtil.DEFAULT_FORMAT);
 
         log.info("minutes={}", DateUtil.diffSimple(start, end, ChronoUnit.MINUTES));
         log.info("days={}", DateUtil.diffSimple(start, end, ChronoUnit.DAYS));
@@ -104,28 +108,28 @@ public class DateUtilTest extends BaseCoreTest {
 
     @Test
     public void testDiff() throws Exception {
-        Date start = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date end = DateUtil.str2Date("2021-04-02 10:01:00", DateUtil.DEFAULT_FORMAT);
+        Date start = DateUtil.toDate("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date end = DateUtil.toDate("2021-04-02 10:01:00", DateUtil.DEFAULT_FORMAT);
         log.info("minutes={}", DateUtil.diff(start, end, TimeUnit.MINUTES));
         log.info("days={}", DateUtil.diff(start, end, TimeUnit.DAYS));
     }
 
     @Test
     public void testParseToDate() throws Exception {
-        Date start = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date end = DateUtil.str2Date("2021-04-02 10:01:01", DateUtil.DEFAULT_FORMAT);
+        Date start = DateUtil.toDate("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date end = DateUtil.toDate("2021-04-02 10:01:01", DateUtil.DEFAULT_FORMAT);
 
         log.info("{}", DateUtil.toString(DateUtil.parseToDate(start, end), DateUtil.DEFAULT_FORMAT));
     }
 
     @Test
     public void testIsMonthAndDayInRange() throws Exception {
-        Date start = DateUtil.str2Date("2021-05-01 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date end = DateUtil.str2Date("2021-12-10 10:01:01", DateUtil.DEFAULT_FORMAT);
+        Date start = DateUtil.toDate("2021-05-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date end = DateUtil.toDate("2021-12-10 10:01:01", DateUtil.DEFAULT_FORMAT);
 
-        Date target = DateUtil.str2Date("2021-04-03 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date target2 = DateUtil.str2Date("2021-08-03 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date target3 = DateUtil.str2Date("2021-12-13 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date target = DateUtil.toDate("2021-04-03 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date target2 = DateUtil.toDate("2021-08-03 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date target3 = DateUtil.toDate("2021-12-13 12:00:00", DateUtil.DEFAULT_FORMAT);
 
         log.info("{}", DateUtil.isMonthAndDayInRange(target, start, end, RangeModeEnum.CLOSE_CLOSE));
         log.info("{}", DateUtil.isMonthAndDayInRange(target2, start, end, RangeModeEnum.CLOSE_CLOSE));
@@ -135,24 +139,24 @@ public class DateUtilTest extends BaseCoreTest {
 
     @Test
     public void testHasIntersection2() throws Exception {
-        Date totalStart = DateUtil.str2Date("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
-        Date totalEnd = DateUtil.str2Date("2021-04-01 09:00:00", DateUtil.DEFAULT_FORMAT);
+        Date totalStart = DateUtil.toDate("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
+        Date totalEnd = DateUtil.toDate("2021-04-01 09:00:00", DateUtil.DEFAULT_FORMAT);
 
         Date start, end;
-        start = DateUtil.str2Date("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
-        end = DateUtil.str2Date("2021-04-01 08:30:00", DateUtil.DEFAULT_FORMAT);
+        start = DateUtil.toDate("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
+        end = DateUtil.toDate("2021-04-01 08:30:00", DateUtil.DEFAULT_FORMAT);
         log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
 
     }
 
     @Test
     public void testHasIntersection3() throws Exception {
-        Date totalStart = DateUtil.str2Date("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
-        Date totalEnd = DateUtil.str2Date("2021-04-01 09:00:00", DateUtil.DEFAULT_FORMAT);
+        Date totalStart = DateUtil.toDate("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
+        Date totalEnd = DateUtil.toDate("2021-04-01 09:00:00", DateUtil.DEFAULT_FORMAT);
 
         Date start, end;
-        start = DateUtil.str2Date("2021-04-01 07:00:00", DateUtil.DEFAULT_FORMAT);
-        end = DateUtil.str2Date("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
+        start = DateUtil.toDate("2021-04-01 07:00:00", DateUtil.DEFAULT_FORMAT);
+        end = DateUtil.toDate("2021-04-01 08:00:00", DateUtil.DEFAULT_FORMAT);
         log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
 
     }
@@ -161,26 +165,26 @@ public class DateUtilTest extends BaseCoreTest {
     @Test
     public void testHasIntersection() throws Exception {
 
-        Date totalStart = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
-        Date totalEnd = DateUtil.str2Date("2021-04-01 13:01:00", DateUtil.DEFAULT_FORMAT);
+        Date totalStart = DateUtil.toDate("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        Date totalEnd = DateUtil.toDate("2021-04-01 13:01:00", DateUtil.DEFAULT_FORMAT);
 
         Date start, end;
-        start = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
-        end = DateUtil.str2Date("2021-04-01 14:01:01", DateUtil.DEFAULT_FORMAT);
+        start = DateUtil.toDate("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        end = DateUtil.toDate("2021-04-01 14:01:01", DateUtil.DEFAULT_FORMAT);
         log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
 
 
-        start = DateUtil.str2Date("2021-04-01 13:01:00", DateUtil.DEFAULT_FORMAT);
-        end = DateUtil.str2Date("2021-04-01 14:01:01", DateUtil.DEFAULT_FORMAT);
+        start = DateUtil.toDate("2021-04-01 13:01:00", DateUtil.DEFAULT_FORMAT);
+        end = DateUtil.toDate("2021-04-01 14:01:01", DateUtil.DEFAULT_FORMAT);
         log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
 
 
-        start = DateUtil.str2Date("2021-04-01 08:01:00", DateUtil.DEFAULT_FORMAT);
-        end = DateUtil.str2Date("2021-04-01 12:00:01", DateUtil.DEFAULT_FORMAT);
+        start = DateUtil.toDate("2021-04-01 08:01:00", DateUtil.DEFAULT_FORMAT);
+        end = DateUtil.toDate("2021-04-01 12:00:01", DateUtil.DEFAULT_FORMAT);
         log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
 
-        start = DateUtil.str2Date("2021-04-01 08:01:00", DateUtil.DEFAULT_FORMAT);
-        end = DateUtil.str2Date("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
+        start = DateUtil.toDate("2021-04-01 08:01:00", DateUtil.DEFAULT_FORMAT);
+        end = DateUtil.toDate("2021-04-01 12:00:00", DateUtil.DEFAULT_FORMAT);
         log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
     }
 
@@ -188,25 +192,25 @@ public class DateUtilTest extends BaseCoreTest {
     public void testSetSecond() throws Exception {
         Date now = new Date();
         Date date = DateUtil.setYear(now, 1999);
-        log.info("time={}", DateUtil.toYMDHMS(date));
+        log.info("time={}", DateUtil.toString(date, DateFormatEnum.DEFAULT));
 
 
         date = DateUtil.setMonth(now, 12);
-        log.info("time={}", DateUtil.toYMDHMS(date));
+        log.info("time={}", DateUtil.toString(date, DateFormatEnum.DEFAULT));
 
 
         date = DateUtil.setDay(now, 20);
-        log.info("time={}", DateUtil.toYMDHMS(date));
+        log.info("time={}", DateUtil.toString(date, DateFormatEnum.DEFAULT));
 
 
-        date = DateUtil.setHour(now, 8);
-        log.info("time={}", DateUtil.toYMDHMS(date));
+        date = DateUtil.setHour(now, 23);
+        log.info("time={}", DateUtil.toString(date, DateFormatEnum.DEFAULT));
 
         date = DateUtil.setMinute(now, 10);
-        log.info("time={}", DateUtil.toYMDHMS(date));
+        log.info("time={}", DateUtil.toString(date, DateFormatEnum.DEFAULT));
 
         date = DateUtil.setSecond(now, 20);
-        log.info("time={}", DateUtil.toYMDHMS(date));
+        log.info("time={}", DateUtil.toString(date, DateFormatEnum.DEFAULT));
     }
 
     @Test
@@ -226,7 +230,7 @@ public class DateUtilTest extends BaseCoreTest {
 
     @Test
     public void testGet() throws Exception {
-        Date date = DateUtil.str2Date("2021-04-01 13:01:50", DateUtil.DEFAULT_FORMAT);
+        Date date = DateUtil.toDate("2021-04-01 13:01:50", DateUtil.DEFAULT_FORMAT);
 
         Assert.assertEquals(2021, DateUtil.getYear(date));
         Assert.assertEquals(4, DateUtil.getMonth(date));
@@ -250,15 +254,36 @@ public class DateUtilTest extends BaseCoreTest {
     }
 
     @Test
+    public void testGetBeginAndEndOfWeek() throws Exception {
+
+        log.info("{}", DateUtil.getBeginOfWeek(new Date()));
+        log.info("{}", DateUtil.getEndOfWeek(new Date()));
+
+        Date[] dates;
+        dates = DateUtil.getBeginAndEndOfWeek(new Date(), -1);
+        log.info("{},{}", dates[0], dates[1]);
+
+        dates = DateUtil.getBeginAndEndOfWeek(new Date(), 0);
+        log.info("{},{}", dates[0], dates[1]);
+
+        dates = DateUtil.getBeginAndEndOfWeek(new Date(), 1);
+        log.info("{},{}", dates[0], dates[1]);
+    }
+
+    @Test
     public void testGetBeginAndEndOfMonth() throws Exception {
-        Date[] dates = DateUtil.getBeginAndEndOfMonth(new Date(), 0);
+
+        Date[] dates;
+
+        dates = DateUtil.getBeginAndEndOfMonth(new Date(), -1);
+        log.info("{},{}", dates[0], dates[1]);
+
+        dates = DateUtil.getBeginAndEndOfMonth(new Date(), 0);
         log.info("{},{}", dates[0], dates[1]);
 
         dates = DateUtil.getBeginAndEndOfMonth(new Date(), 1);
         log.info("{},{}", dates[0], dates[1]);
 
-        dates = DateUtil.getBeginAndEndOfMonth(DateUtil.getPreBillDate(), -1);
-        log.info("{},{}", dates[0], dates[1]);
     }
 
     @Test
@@ -277,11 +302,16 @@ public class DateUtilTest extends BaseCoreTest {
 
     @Test
     public void testLastDay() throws Exception {
-
         String year = new SimpleDateFormat("yy", Locale.CHINESE).format(new Date());
         log.info("{}", year);
         year = new SimpleDateFormat("yy").format(new Date());
         log.info("{}", year);
+    }
+
+    @Test
+    public void testBeginAndEndDateTime() throws Exception {
+        Date[] dates = DateUtil.getBeginAndEndDateTimeOfDay(new Date());
+        log.info("begin={},end={}", dates[0], dates[1]);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.lang.sql;
 
 import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.lang.sql.util.TimeUtil;
 import com.github.seaxlab.core.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class TimeUtilTest extends BaseCoreTest {
         Date date = new Date();
         Time time = TimeUtil.of(date);
 
-        log.info("{}", DateUtil.toYMDHMS(time));
-        log.info("{}", DateUtil.toHMS(time));
+        log.info("{}", DateUtil.toString(time, DateFormatEnum.DEFAULT));
+        log.info("{}", DateUtil.toString(time, DateFormatEnum.HH_mm_ss));
     }
 }

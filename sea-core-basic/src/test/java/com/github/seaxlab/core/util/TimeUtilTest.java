@@ -31,8 +31,8 @@ public class TimeUtilTest extends BaseCoreTest {
 
     @Test
     public void testCompareDateTime() throws Exception {
-        Date date1 = DateUtil.str2Date("2021-04-01 13:01:50", DateUtil.DEFAULT_FORMAT);
-        Date date2 = DateUtil.str2Date("2021-03-01 14:01:50", DateUtil.DEFAULT_FORMAT);
+        Date date1 = DateUtil.toDate("2021-04-01 13:01:50", DateUtil.DEFAULT_FORMAT);
+        Date date2 = DateUtil.toDate("2021-03-01 14:01:50", DateUtil.DEFAULT_FORMAT);
 
         Assert.assertEquals(TimeUtil.compare(date1, date2), -1);
     }

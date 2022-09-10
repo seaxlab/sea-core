@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.lang.jvm.manager;
 
+import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +37,7 @@ public class StackManager {
      */
     public static String dump() {
         final StringBuilder dump = new StringBuilder();
-        dump.append(DateUtil.toYMDHMS(new Date())).append(" ").append(LOGO_TITLE).append("\n\n");
+        dump.append(DateUtil.toString(new Date(), DateFormatEnum.DEFAULT)).append(" ").append(LOGO_TITLE).append("\n\n");
 
         final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
         threadMXBean.setThreadContentionMonitoringEnabled(true);
@@ -46,10 +47,7 @@ public class StackManager {
 
         for (ThreadInfo threadInfo : threadInfos) {
 //            log.debug("threadInfo={}", threadInfo);
-            dump.append('"')
-                .append(threadInfo.getThreadName())
-                .append("\" ")
-                .append(" tid=").append(threadInfo.getThreadId());
+            dump.append('"').append(threadInfo.getThreadName()).append("\" ").append(" tid=").append(threadInfo.getThreadId());
 
 
             final Thread.State state = threadInfo.getThreadState();
@@ -75,7 +73,7 @@ public class StackManager {
      */
     public static void dump(OutputStream stream) throws Exception {
         StringBuilder sb = new StringBuilder();
-        sb.append(DateUtil.toYMDHMS(new Date())).append(" ").append(LOGO_TITLE).append("\n\n");
+        sb.append(DateUtil.toString(new Date(), DateFormatEnum.DEFAULT)).append(" ").append(LOGO_TITLE).append("\n\n");
         stream.write(sb.toString().getBytes());
 
         ThreadMXBean threadMxBean = ManagementFactory.getThreadMXBean();
@@ -91,7 +89,7 @@ public class StackManager {
      */
     public static String dumpStandard() {
         StringBuilder sb = new StringBuilder();
-        sb.append(DateUtil.toYMDHMS(new Date())).append(" ").append(LOGO_TITLE).append("\n\n");
+        sb.append(DateUtil.toString(new Date(), DateFormatEnum.DEFAULT)).append(" ").append(LOGO_TITLE).append("\n\n");
 
 
         ThreadMXBean threadMxBean = ManagementFactory.getThreadMXBean();
@@ -103,15 +101,12 @@ public class StackManager {
 
 
     private static String getThreadDumpString(ThreadInfo threadInfo) {
-        StringBuilder sb = new StringBuilder("\"" + threadInfo.getThreadName() + "\"" +
-                " Id=" + threadInfo.getThreadId() + " " +
-                threadInfo.getThreadState());
+        StringBuilder sb = new StringBuilder("\"" + threadInfo.getThreadName() + "\"" + " Id=" + threadInfo.getThreadId() + " " + threadInfo.getThreadState());
         if (threadInfo.getLockName() != null) {
             sb.append(" on " + threadInfo.getLockName());
         }
         if (threadInfo.getLockOwnerName() != null) {
-            sb.append(" owned by \"" + threadInfo.getLockOwnerName() +
-                    "\" Id=" + threadInfo.getLockOwnerId());
+            sb.append(" owned by \"" + threadInfo.getLockOwnerName() + "\" Id=" + threadInfo.getLockOwnerId());
         }
         if (threadInfo.isSuspended()) {
             sb.append(" (suspended)");
