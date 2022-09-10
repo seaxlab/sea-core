@@ -21,6 +21,7 @@ public enum ErrorMessageEnum implements IErrorEnum {
     CODE_IS_NULL("sea_basic_code_is_null", "code is null"), //
     LOCK_FAIL("sea_basic_lock_fail", "操作进行中，请稍后尝试。"),
 
+    METHOD_EXECUTION_ERROR("sea_method_execution_error", "方法执行异常"),//
     DB_ERROR("sea_db_", "数据库异常"), //
     RPC_INVOKE_ERROR("sea_rpc_invoke_error", "远程调用异常"), //
     HTTP_ERROR("sea_http_error", "HTTP调用异常"),//

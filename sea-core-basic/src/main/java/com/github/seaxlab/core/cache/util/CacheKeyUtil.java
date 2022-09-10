@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.cache.util;
 
-import com.google.common.base.Preconditions;
+import com.github.seaxlab.core.common.SymbolConst;
+import com.github.seaxlab.core.exception.Precondition;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -25,16 +26,15 @@ public final class CacheKeyUtil {
      * @return
      */
     public static String get(String system, String module, String... keys) {
-        Preconditions.checkNotNull(system, "system参数不能为空");
-        Preconditions.checkNotNull(module, "module参数不能为空");
+        Precondition.checkNotNull(system, "system参数不能为空");
+        Precondition.checkNotNull(module, "module参数不能为空");
 
         StringBuilder sb = new StringBuilder(system);
-        sb.append(":").append(module);
+        sb.append(SymbolConst.COLON).append(module);
 
         if (keys != null) {
-
-            for (int i = 0; i < keys.length; i++) {
-                sb.append(":").append(keys[i]);
+            for (String key : keys) {
+                sb.append(SymbolConst.COLON).append(key);
             }
         }
         return sb.toString();

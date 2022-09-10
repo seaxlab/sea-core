@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.cache;
+package com.github.seaxlab.core.spring.cache;
 
 /**
  * module name

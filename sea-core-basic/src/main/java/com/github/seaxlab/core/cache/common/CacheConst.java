@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.cache;
+package com.github.seaxlab.core.cache.common;
 
 import com.google.common.cache.RemovalListener;
 import lombok.extern.slf4j.Slf4j;

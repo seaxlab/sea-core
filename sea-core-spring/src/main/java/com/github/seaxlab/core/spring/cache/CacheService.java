@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.cache;
+package com.github.seaxlab.core.spring.cache;
 
 import com.github.seaxlab.core.model.Tuple2;
 import com.github.seaxlab.core.model.layer.po.EntityKey;
