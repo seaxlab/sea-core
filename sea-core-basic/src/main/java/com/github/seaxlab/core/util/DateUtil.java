@@ -163,10 +163,16 @@ public final class DateUtil {
         Precondition.checkNotNull(date, "date cannot be null.");
         Precondition.checkNotNull(time, "time cannot be null.");
 
-        String dateStr = toString(date, DateFormatEnum.yyyy_MM_dd.getValue());
-        String timeStr = toString(time, DateFormatEnum.HH_mm_ss.getValue());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
 
-        return toDateByDateAndTimeStr(dateStr, timeStr);
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(time);
+
+        set(calendar, calendar2.get(Calendar.HOUR_OF_DAY), calendar2.get(Calendar.MINUTE),  //
+                calendar2.get(Calendar.SECOND), calendar2.get(Calendar.MILLISECOND));
+
+        return calendar.getTime();
     }
 
     /**
@@ -210,8 +216,7 @@ public final class DateUtil {
         Precondition.checkNotEmpty(dateStr, "date str cannot be empty");
         Precondition.checkNotEmpty(timeStr, "time str cannot be empty");
 
-        String strDate = dateStr.trim() + " " + timeStr.trim();
-        return toDate(strDate, datePattern + " " + timePattern);
+        return toDate(dateStr.trim() + " " + timeStr.trim(), datePattern + " " + timePattern);
     }
 
 
