@@ -189,7 +189,7 @@ public class DateUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void testSetSecond() throws Exception {
+    public void testSet() throws Exception {
         Date now = new Date();
         Date date = DateUtil.setYear(now, 1999);
         log.info("time={}", DateUtil.toString(date, DateFormatEnum.DEFAULT));
@@ -214,7 +214,17 @@ public class DateUtilTest extends BaseCoreTest {
     }
 
     @Test
-    public void testIsValidDate() throws Exception {
+    public void testIsValid() throws Exception {
+
+        Date begin = DateUtil.toDate("2021-04-01 13:01:50", DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
+        Date end = DateUtil.toDate("2021-04-01 13:10:50", DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
+        log.info("{}", DateUtil.isValidRange(begin, end));
+
+        begin = DateUtil.toDate("2021-05-01 13:01:50", DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
+        end = DateUtil.toDate("2021-04-01 13:10:50", DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
+        log.info("{}", DateUtil.isValidRange(begin, end));
+
+
         List<String> dates = ImmutableList.of("202108-1", "2021-09-01");
         log.info("{}", DateUtil.isValid(dates, DateFormatEnum.yyyy_MM_dd));
 
@@ -229,8 +239,18 @@ public class DateUtilTest extends BaseCoreTest {
     }
 
     @Test
+    public void testCompare() throws Exception {
+        Date date1 = DateUtil.toDate("2021-04-01 13:01:50", DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
+        Date date2 = DateUtil.toDate("2021-04-01 12:01:50", DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
+
+        log.info("compare value={}", DateUtil.compareDatePart(date1, date2));
+        log.info("compare value={}", DateUtil.compareTimePart(date1, date2));
+    }
+
+
+    @Test
     public void testGet() throws Exception {
-        Date date = DateUtil.toDate("2021-04-01 13:01:50", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
+        Date date = DateUtil.toDate("2021-04-01 13:01:50", DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
 
         Assert.assertEquals(2021, DateUtil.getYear(date));
         Assert.assertEquals(4, DateUtil.getMonth(date));

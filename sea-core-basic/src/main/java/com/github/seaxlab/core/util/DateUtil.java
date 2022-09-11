@@ -6,7 +6,6 @@ import com.github.seaxlab.core.enums.WeekEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
 import org.apache.commons.lang3.time.DateUtils;
-import org.joda.time.DateTimeComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,6 +115,16 @@ public final class DateUtil {
     public static Date toDate(Instant instant) {
         Precondition.checkNotNull(instant, "instant is null");
         return new Date(instant.toEpochMilli());
+    }
+
+    /**
+     * date str to default date (yyyy-MM-dd HH:mm:ss)
+     *
+     * @param dateStr
+     * @return
+     */
+    public static Date toDate(String dateStr) {
+        return toDate(dateStr, DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
     }
 
     /**
@@ -905,9 +914,22 @@ public final class DateUtil {
      * @param date2 date
      * @return 1大于，0相等，-1小于
      */
-    public static int compareDate(Date date1, Date date2) {
-        DateTimeComparator comparator = DateTimeComparator.getDateOnlyInstance();
-        return comparator.compare(date1, date2);
+    public static int compareDatePart(Date date1, Date date2) {
+        Precondition.checkNotNull(date1);
+        Precondition.checkNotNull(date2);
+
+//        DateTimeComparator comparator = DateTimeComparator.getDateOnlyInstance();
+//        return comparator.compare(date1, date2);
+
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(date1);
+        setBeginTime(calendar1);
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(date2);
+        setBeginTime(calendar2);
+
+        return Long.compare(calendar1.getTime().getTime(), calendar2.getTime().getTime());
     }
 
     /**
@@ -917,9 +939,22 @@ public final class DateUtil {
      * @param date2 date
      * @return 1大于，0相等，-1小于
      */
-    public static int compareTime(Date date1, Date date2) {
-        DateTimeComparator comparator = DateTimeComparator.getTimeOnlyInstance();
-        return comparator.compare(date1, date2);
+    public static int compareTimePart(Date date1, Date date2) {
+        Precondition.checkNotNull(date1);
+        Precondition.checkNotNull(date2);
+
+//        DateTimeComparator comparator = DateTimeComparator.getTimeOnlyInstance();
+//        return comparator.compare(date1, date2);
+
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(date1);
+        setBeginDate(calendar1);
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(date2);
+        setBeginDate(calendar2);
+
+        return Long.compare(calendar1.getTime().getTime(), calendar2.getTime().getTime());
     }
 
     /**
@@ -1605,6 +1640,17 @@ public final class DateUtil {
         c.setTime(date);
         c.set(calendarField, amount);
         return c.getTime();
+    }
+
+    /**
+     * 将日期部分设置成1970-1-1
+     *
+     * @param calendar
+     */
+    private static void setBeginDate(final Calendar calendar) {
+        calendar.set(Calendar.YEAR, 1970);
+        calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
     }
 
     /**
