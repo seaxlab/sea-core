@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
 public abstract class AbstractQueryCache<K, V> implements IQueryCache<K, V> {
 
     //用于初始化cache的参数及其缺省值
-    private int DEFAULT_MAX_POOL_SIZE = 500;
+    private final int DEFAULT_MAX_POOL_SIZE = 500;
     // 写入10min后移除
-    private int DEFAULT_EXPIRE_AFTER_WRITE_DURATION = 10;
+    private final int DEFAULT_EXPIRE_AFTER_WRITE_DURATION = 10;
 
     // 缓存实例
     private LoadingCache<K, Optional<V>> cache;
@@ -62,7 +62,7 @@ public abstract class AbstractQueryCache<K, V> implements IQueryCache<K, V> {
             return new HashMap<>();
         }
 
-        Map<K, Optional<V>> result = null;
+        Map<K, Optional<V>> result;
         try {
             result = getCache().getAll(keys);
         } catch (ExecutionException e) {
@@ -82,8 +82,8 @@ public abstract class AbstractQueryCache<K, V> implements IQueryCache<K, V> {
         }
 
         return map.values().stream()//
-                  .filter(v -> v.isPresent()) //
-                  .map(item -> item.get()) //
+                  .filter(Optional::isPresent) //
+                  .map(Optional::get) //
                   .collect(Collectors.toList());
     }
 
