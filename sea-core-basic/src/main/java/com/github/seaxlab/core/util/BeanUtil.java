@@ -81,6 +81,7 @@ public final class BeanUtil {
      * @return 返回 bean 对象
      */
     public static <T> T mapToBean(Map<String, ?> map, Class<T> clazz) {
+        // cglib中创建的Map是不可变对象
         //T bean = ClassUtil.newInstance(clazz);
         //BeanMap.create(bean).putAll(map);
         //return bean;
