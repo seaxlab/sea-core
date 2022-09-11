@@ -56,14 +56,14 @@ public class DateUtilTest extends BaseCoreTest {
 
     @Test
     public void testAdd() throws Exception {
-        println(DateUtil.nowDate());
 
         Date now = DateUtil.nowDate();
-
-        Date day1 = DateUtil.addDay(now, 1);
-
+        
+        println(now);
+        println(DateUtil.addDay(now, 1));
         println(DateUtil.addHour(now, 1));
         println(DateUtil.addMinute(now, 15));
+        println(DateUtil.addSecond(now, 15));
     }
 
     @Test
