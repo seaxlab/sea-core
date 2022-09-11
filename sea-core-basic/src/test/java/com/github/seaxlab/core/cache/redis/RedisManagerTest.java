@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.cache.redis;
 
-import com.github.seaxlab.core.cache.BaseTest;
+import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.cache.redis.jedis.JedisManager;
 import com.github.seaxlab.core.util.EqualUtil;
 import com.github.seaxlab.core.util.ListUtil;
@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0
  */
 @Slf4j
-public class RedisManagerTest extends BaseTest {
+public class RedisManagerTest extends BaseCoreTest {
 
     RedisServer redisServer;
 

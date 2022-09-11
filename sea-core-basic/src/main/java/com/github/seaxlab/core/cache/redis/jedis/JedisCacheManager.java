@@ -1,9 +1,8 @@
-package com.github.seaxlab.core.cache.redis.impl;
+package com.github.seaxlab.core.cache.redis.jedis;
 
 import com.alibaba.fastjson.JSON;
 import com.github.seaxlab.core.cache.CacheConfig;
 import com.github.seaxlab.core.cache.CacheManager;
-import com.github.seaxlab.core.cache.redis.domain.RedisReentrantLock;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.util.SerializeUtil;
 import com.github.seaxlab.core.util.UrlUtil;
@@ -17,14 +16,14 @@ import java.util.Properties;
 import java.util.concurrent.locks.Lock;
 
 /**
- * module name
+ * jedis cache manager
  *
  * @author spy
  * @version 1.0 2021/1/3
  * @since 1.0
  */
 @Slf4j
-public class RedisCacheManagerImpl implements CacheManager {
+public class JedisCacheManager implements CacheManager {
 
     private CacheConfig cacheConfig;
 
@@ -139,7 +138,8 @@ public class RedisCacheManagerImpl implements CacheManager {
     @Override
     public Lock getLock(String lock) {
         try {
-            return new RedisReentrantLock(pool, lock);
+            //TODO
+            //return new RedisReentrantLock(pool, lock);
         } catch (Exception e) {
             log.error("fail to add to cache.", e);
             ExceptionHandler.publishMsg("fail to create redis reenterlock.");

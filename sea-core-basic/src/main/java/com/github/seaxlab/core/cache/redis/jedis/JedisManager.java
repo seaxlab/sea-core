@@ -1,6 +1,7 @@
-package com.github.seaxlab.core.cache.redis;
+package com.github.seaxlab.core.cache.redis.jedis;
 
 import com.alibaba.fastjson.JSON;
+import com.github.seaxlab.core.cache.redis.RedisConst;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.util.*;
 import org.apache.commons.collections4.CollectionUtils;
@@ -21,9 +22,9 @@ import java.util.stream.Collectors;
  * @version 1.0 2019-07-18
  * @since 1.0
  */
-public class RedisManager {
+public class JedisManager {
 
-    private static Logger log = LoggerFactory.getLogger(RedisManager.class);
+    private static Logger log = LoggerFactory.getLogger(JedisManager.class);
 
     // Redis服务器IP
     private String host;
@@ -47,7 +48,7 @@ public class RedisManager {
 
     private static final Map<String, String> scriptMap = new ConcurrentHashMap<>();
 
-    public RedisManager() {
+    public JedisManager() {
 
     }
 
@@ -59,7 +60,7 @@ public class RedisManager {
      * @param password
      * @param database
      */
-    public RedisManager(String host, int port, String password, int database) {
+    public JedisManager(String host, int port, String password, int database) {
         this.host = host;
         this.port = port;
         this.password = password;
