@@ -33,6 +33,7 @@ public class DateUtilTest extends BaseCoreTest {
     @Test
     public void testToDate() throws Exception {
         log.info("{}", DateUtil.toDate(Instant.now()));
+        log.info("{}", DateUtil.toDate("2020-09-01 12:12:12"));
     }
 
     @Test

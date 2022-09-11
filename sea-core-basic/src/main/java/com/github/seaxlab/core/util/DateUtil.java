@@ -43,7 +43,7 @@ public final class DateUtil {
     /**
      * build simple date format.
      *
-     * @param dateFormatEnum
+     * @param dateFormatEnum date format enum
      * @return
      */
     public static SimpleDateFormat getSdf(DateFormatEnum dateFormatEnum) {
@@ -120,7 +120,7 @@ public final class DateUtil {
     /**
      * date str to default date (yyyy-MM-dd HH:mm:ss)
      *
-     * @param dateStr
+     * @param dateStr date str
      * @return
      */
     public static Date toDate(String dateStr) {
@@ -130,8 +130,8 @@ public final class DateUtil {
     /**
      * date str to java date
      *
-     * @param dateStr
-     * @param dateFormatEnum
+     * @param dateStr        date str
+     * @param dateFormatEnum date format enum
      * @return
      */
     public static Date toDate(String dateStr, DateFormatEnum dateFormatEnum) {
@@ -273,8 +273,8 @@ public final class DateUtil {
     /**
      * 将日期转成字符串
      *
-     * @param date
-     * @param dateFormatEnum
+     * @param date           date
+     * @param dateFormatEnum date format enum
      * @return
      */
     public static String toString(Date date, DateFormatEnum dateFormatEnum) {
@@ -439,8 +439,8 @@ public final class DateUtil {
     /**
      * 当前日期的N周前后的日期
      *
-     * @param date
-     * @param week
+     * @param date date
+     * @param week week
      * @return
      */
     public static Date addWeek(Date date, int week) {
@@ -1126,11 +1126,7 @@ public final class DateUtil {
      * @return boolean
      */
     public static boolean afterNow(Date date) {
-        if (date.getTime() > new Date().getTime()) {
-            return true;
-        }
-
-        return false;
+        return date.getTime() > new Date().getTime();
     }
 
     /**
@@ -1140,11 +1136,7 @@ public final class DateUtil {
      * @return boolean
      */
     public static boolean beforeNow(Date date) {
-        if (date.getTime() < new Date().getTime()) {
-            return true;
-        }
-
-        return false;
+        return date.getTime() < new Date().getTime();
     }
 
     /**
