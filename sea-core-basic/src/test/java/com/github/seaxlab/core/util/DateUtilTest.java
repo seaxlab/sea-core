@@ -131,9 +131,9 @@ public class DateUtilTest extends BaseCoreTest {
         Date target2 = DateUtil.toDate("2021-08-03 12:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
         Date target3 = DateUtil.toDate("2021-12-13 12:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
 
-        log.info("{}", DateUtil.isMonthAndDayInRange(target, start, end, RangeModeEnum.CLOSE_CLOSE));
-        log.info("{}", DateUtil.isMonthAndDayInRange(target2, start, end, RangeModeEnum.CLOSE_CLOSE));
-        log.info("{}", DateUtil.isMonthAndDayInRange(target3, start, end, RangeModeEnum.CLOSE_CLOSE));
+        log.info("{}", DateUtil.isInRangeByMonthAndDay(target, start, end, RangeModeEnum.CLOSE_CLOSE));
+        log.info("{}", DateUtil.isInRangeByMonthAndDay(target2, start, end, RangeModeEnum.CLOSE_CLOSE));
+        log.info("{}", DateUtil.isInRangeByMonthAndDay(target3, start, end, RangeModeEnum.CLOSE_CLOSE));
 
     }
 
@@ -216,15 +216,15 @@ public class DateUtilTest extends BaseCoreTest {
     @Test
     public void testIsValidDate() throws Exception {
         List<String> dates = ImmutableList.of("202108-1", "2021-09-01");
-        log.info("{}", DateUtil.isValidDate(dates, DateFormatEnum.yyyy_MM_dd.getValue()));
+        log.info("{}", DateUtil.isValid(dates, DateFormatEnum.yyyy_MM_dd));
 
         List<String> dates2 = ImmutableList.of("2021-19-19");
-        log.info("{}", DateUtil.isValidDate(dates2, DateFormatEnum.yyyy_MM_dd.getValue()));
+        log.info("{}", DateUtil.isValid(dates2, DateFormatEnum.yyyy_MM_dd));
 
         List<String> dates3 = ImmutableList.of("2021-09-01", "2021-10-11");
 
-        log.info("{}", DateUtil.isValidDate(dates3, DateFormatEnum.yyyy_MM_dd.getValue()));
-        log.info("{}", DateUtil.isValidDate(dates3, DateFormatEnum.yyyy_MM_dd_HH_mm.getValue()));
+        log.info("{}", DateUtil.isValid(dates3, DateFormatEnum.yyyy_MM_dd));
+        log.info("{}", DateUtil.isValid(dates3, DateFormatEnum.yyyy_MM_dd_HH_mm));
 
     }
 

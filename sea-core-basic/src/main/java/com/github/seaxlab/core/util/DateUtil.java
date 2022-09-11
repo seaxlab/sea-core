@@ -704,6 +704,33 @@ public final class DateUtil {
         return date1.getTime() == date2.getTime();
     }
 
+
+    /**
+     * 获取两个日期之间相差天数,包含两个日期当天,
+     *
+     * @param beginDate 开始日期
+     * @param endDate   结束日期
+     * @return long
+     */
+    public static long diffDays(Date beginDate, Date endDate) {
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+
+        calendar1.clear();
+        calendar1.setTime(beginDate);
+
+        calendar2.clear();
+        calendar2.setTime(endDate);
+
+        long diffMillis = calendar2.getTimeInMillis() - calendar1.getTimeInMillis();
+//		long diffSeconds = diffMillis / 1000;
+//		long diffMinutes = diffMillis / (60 * 1000);
+//		long diffHours = diffMillis / (60 * 60 * 1000);
+        long diffDays = diffMillis / (24L * 60 * 60 * 1000);
+
+        return diffDays + 1;
+    }
+
     /**
      * 两个日期时间的差异量,(截断指定单位之后的）
      *
@@ -712,7 +739,7 @@ public final class DateUtil {
      * @param timeUnit  单位
      * @return long
      */
-    public static Long diffSimple(Date beginDate, Date endDate, ChronoUnit timeUnit) {
+    public static long diffSimple(Date beginDate, Date endDate, ChronoUnit timeUnit) {
         Precondition.checkNotNull(beginDate, "beginDate不能为空");
         Precondition.checkNotNull(endDate, "endDate不能为空");
         Precondition.checkNotNull(timeUnit, "timeUnit不能为空");
@@ -756,33 +783,6 @@ public final class DateUtil {
         return 0L;
     }
 
-
-    /**
-     * 获取两个日期之间相差天数,包含两个日期当天
-     *
-     * @param beginDate 开始日期
-     * @param endDate   结束日期
-     * @return long
-     */
-    public static long diffDays(Date beginDate, Date endDate) {
-        Calendar calendar1 = Calendar.getInstance();
-        Calendar calendar2 = Calendar.getInstance();
-
-        calendar1.clear();
-        calendar1.setTime(beginDate);
-
-        calendar2.clear();
-        calendar2.setTime(endDate);
-
-        long diffMillis = calendar2.getTimeInMillis() - calendar1.getTimeInMillis();
-//		long diffSeconds = diffMillis / 1000;
-//		long diffMinutes = diffMillis / (60 * 1000);
-//		long diffHours = diffMillis / (60 * 60 * 1000);
-        long diffDays = diffMillis / (24L * 60 * 60 * 1000);
-
-        return diffDays + 1;
-    }
-
     /**
      * 两个日期时间的差异量(准确计算）
      *
@@ -791,7 +791,7 @@ public final class DateUtil {
      * @param timeUnit  单位
      * @return long
      */
-    public static Long diff(Date beginDate, Date endDate, TimeUnit timeUnit) {
+    public static long diff(Date beginDate, Date endDate, TimeUnit timeUnit) {
         Precondition.checkNotNull(beginDate, "beginDate不能为空");
         Precondition.checkNotNull(endDate, "endDate不能为空");
         Precondition.checkNotNull(timeUnit, "timeUnit不能为空");
@@ -819,7 +819,11 @@ public final class DateUtil {
      * @return List date
      */
     public static List<Date> betweenDayList(Date start, Date end) {
+        Precondition.checkNotNull(start, "start date cannot be null");
+        Precondition.checkNotNull(end, "end date cannot be null");
+
         if (start.after(end)) {
+            log.warn("start date is after end date, plz check.");
             return new ArrayList();
         }
         List<Date> days = new ArrayList<>();
@@ -865,7 +869,11 @@ public final class DateUtil {
      * @return list string
      */
     public static List<String> betweenDays(Date start, Date end, String dateFormat) {
+        Precondition.checkNotNull(start, "start date cannot be null");
+        Precondition.checkNotNull(end, "end date cannot be null");
+
         if (start.after(end)) {
+            log.warn("start date is after end date, plz check.");
             return new ArrayList();
         }
 
@@ -928,12 +936,11 @@ public final class DateUtil {
      * @return list string
      */
     public static List<String> betweenHours(Date start, Date end) {
-        if (start == null || end == null) {
-            log.warn("start or end is null");
-            return new ArrayList();
-        }
+        Precondition.checkNotNull(start, "start date cannot be null");
+        Precondition.checkNotNull(end, "end date cannot be null");
 
         if (start.after(end)) {
+            log.warn("start date is after end date, plz check.");
             return new ArrayList();
         }
 
@@ -969,6 +976,7 @@ public final class DateUtil {
      * @return 日期字符串
      */
     public static String getWeek(String dateStr, String format) {
+        Precondition.checkNotBlank(dateStr, "date string cannot be empty.");
         if (format == null) {
             format = DateFormatEnum.yyyy_MM_dd.getValue();
         }
@@ -1065,78 +1073,6 @@ public final class DateUtil {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
         return calendar.getTime();
-    }
-
-    /**
-     * 判断是否合法的范围
-     *
-     * @param begin 开始日期
-     * @param end   结束日期
-     * @return boolean
-     */
-    public static boolean isValidRange(Date begin, Date end) {
-        if (begin == null || end == null) {
-            return false;
-        }
-
-        return begin.getTime() <= end.getTime();
-    }
-
-    /**
-     * 校验日期格式是否合法
-     *
-     * @param dateStr date str
-     * @param format  yyyy-MM-dd,  yyyyMMdd
-     * @return boolean
-     */
-    public static boolean isValidDate(String dateStr, String format) {
-        if (StringUtil.isEmpty(format) || StringUtil.isEmpty(dateStr)) {
-            return false;
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        // 严格模式
-        sdf.setLenient(false);
-        try {
-            sdf.parse(dateStr);
-            return true;
-        } catch (ParseException e) {
-            log.error("parse date exception", e);
-        }
-
-        return false;
-    }
-
-    /**
-     * 判断日期是否符合指定的格式
-     *
-     * @param dateList date str list
-     * @param format   date time format
-     * @return boolean
-     */
-    public static boolean isValidDate(List<String> dateList, String format) {
-        if (StringUtil.isEmpty(format) || ListUtil.isEmpty(dateList)) {
-            return false;
-        }
-
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        // 严格模式
-        sdf.setLenient(false);
-
-        boolean valid = true;
-        for (String date : dateList) {
-            try {
-                sdf.parse(date);
-                valid = true;
-            } catch (ParseException e) {
-                log.error("parseException", e);
-                valid = false;
-            }
-            if (!valid) {
-                break;
-            }
-        }
-
-        return valid;
     }
 
     /**
@@ -1248,6 +1184,74 @@ public final class DateUtil {
         return isInRange(nowDate(), beginDate, endDate);
     }
 
+
+    /**
+     * 判断是否合法的范围
+     *
+     * @param begin 开始日期
+     * @param end   结束日期
+     * @return boolean
+     */
+    public static boolean isValidRange(Date begin, Date end) {
+        Precondition.checkNotNull(begin, "begin date cannot be null.");
+        Precondition.checkNotNull(end, "end date cannot be null.");
+        return begin.getTime() <= end.getTime();
+    }
+
+    /**
+     * 校验日期格式是否合法
+     *
+     * @param dateStr        date str
+     * @param dateFormatEnum DateFormatEnum
+     * @return boolean
+     */
+    public static boolean isValid(String dateStr, DateFormatEnum dateFormatEnum) {
+        Precondition.checkNotNull(dateFormatEnum, "date format enum cannot be null");
+        SimpleDateFormat sdf = getSdf(dateFormatEnum);
+        // 严格模式
+        sdf.setLenient(false);
+        try {
+            sdf.parse(dateStr);
+            return true;
+        } catch (ParseException e) {
+            log.error("parse date exception", e);
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断日期是否符合指定的格式
+     *
+     * @param dateList       date str list
+     * @param dateFormatEnum date time format
+     * @return boolean
+     */
+    public static boolean isValid(List<String> dateList, DateFormatEnum dateFormatEnum) {
+        Precondition.checkNotNull(dateList);
+        Precondition.checkNotNull(dateFormatEnum);
+
+        SimpleDateFormat sdf = getSdf(dateFormatEnum);
+        // 严格模式
+        sdf.setLenient(false);
+
+        boolean valid = true;
+        for (String date : dateList) {
+            try {
+                sdf.parse(date);
+                valid = true;
+            } catch (ParseException e) {
+                log.error("parseException", e);
+                valid = false;
+            }
+            if (!valid) {
+                break;
+            }
+        }
+
+        return valid;
+    }
+
     /**
      * 判断当前日期时间是否在指定范围内
      *
@@ -1261,12 +1265,7 @@ public final class DateUtil {
      * @return boolean
      */
     public static boolean isInRange(Date targetDate, Date beginDate, Date endDate) {
-        if (targetDate == null || beginDate == null || endDate == null) {
-            log.warn("some one is null");
-            return false;
-        }
-
-        return beginDate.getTime() <= targetDate.getTime() && targetDate.getTime() <= endDate.getTime();
+        return isInRange(targetDate, beginDate, endDate, RangeModeEnum.CLOSE_CLOSE);
     }
 
     /**
@@ -1284,10 +1283,11 @@ public final class DateUtil {
      * @see RangeModeEnum
      */
     public static boolean isInRange(Date targetDate, Date beginDate, Date endDate, RangeModeEnum rangeMode) {
-        if (targetDate == null || beginDate == null || endDate == null) {
-            log.warn("some one is null");
-            return false;
-        }
+        Precondition.checkNotNull(targetDate, "target date cannot be null");
+        Precondition.checkNotNull(beginDate, "begin date cannot be null");
+        Precondition.checkNotNull(endDate, "end date cannot be null");
+        Precondition.checkNotNull(endDate, "range mode cannot be null");
+
         switch (rangeMode) {
             case OPEN_OPEN:
                 return beginDate.getTime() < targetDate.getTime() && targetDate.getTime() < endDate.getTime();
@@ -1316,14 +1316,14 @@ public final class DateUtil {
      * @return boolean
      */
     public static boolean isInRange(Date targetBeginDate, Date targetEndDate, Date totalBeginDate, Date totalEndDate) {
-        if (targetBeginDate == null || targetEndDate == null || totalBeginDate == null || totalEndDate == null) {
-            log.warn("some one is null");
-            return false;
-        }
+        Precondition.checkNotNull(targetBeginDate, "target begin date cannot be null");
+        Precondition.checkNotNull(targetEndDate, "target end date cannot be null");
+        Precondition.checkNotNull(totalBeginDate, "total begin date cannot be null");
+        Precondition.checkNotNull(totalEndDate, "total end date cannot be null");
 
         boolean flag1 = targetBeginDate.getTime() >= totalBeginDate.getTime();
-        boolean flag2 = targetEndDate.getTime() >= targetBeginDate.getTime();
-        boolean flag3 = totalEndDate.getTime() >= targetEndDate.getTime();
+        boolean flag2 = targetBeginDate.getTime() <= targetEndDate.getTime();
+        boolean flag3 = targetEndDate.getTime() <= totalEndDate.getTime();
 
         return flag1 && flag2 && flag3;
     }
@@ -1337,13 +1337,13 @@ public final class DateUtil {
      * @param rangeMode  比较模式
      * @return boolean
      */
-    public static boolean isMonthAndDayInRange(Date targetDate, Date beginDate, Date endDate, RangeModeEnum rangeMode) {
-        if (targetDate == null || beginDate == null || endDate == null) {
-            log.warn("some one is null");
-            return false;
-        }
+    public static boolean isInRangeByMonthAndDay(Date targetDate, Date beginDate, Date endDate, RangeModeEnum rangeMode) {
+        Precondition.checkNotNull(targetDate, "target date cannot be null");
+        Precondition.checkNotNull(beginDate, "begin date cannot be null");
+        Precondition.checkNotNull(endDate, "end date cannot be null");
+        Precondition.checkNotNull(rangeMode, "range mode cannot be null");
 
-        SimpleDateFormat sdf = new SimpleDateFormat(DateFormatEnum.MMdd.getValue());
+        SimpleDateFormat sdf = getSdf(DateFormatEnum.MMdd);
         int targetMonth = Integer.parseInt(sdf.format(targetDate));
         int beginMonth = Integer.parseInt(sdf.format(beginDate));
         int endMonth = Integer.parseInt(sdf.format(endDate));
@@ -1372,10 +1372,10 @@ public final class DateUtil {
      * @return boolean
      */
     public static boolean hasIntersection(Date targetBeginDate, Date targetEndDate, Date totalBeginDate, Date totalEndDate) {
-        if (targetBeginDate == null || targetEndDate == null || totalBeginDate == null || totalEndDate == null) {
-            log.warn("some one is null");
-            return false;
-        }
+        Precondition.checkNotNull(targetBeginDate, "target begin date cannot be null");
+        Precondition.checkNotNull(targetEndDate, "target end date cannot be null");
+        Precondition.checkNotNull(totalBeginDate, "total begin date cannot be null");
+        Precondition.checkNotNull(totalEndDate, "total end date cannot be null");
 
         boolean flag1 = targetBeginDate.getTime() >= totalEndDate.getTime();
         boolean flag2 = targetEndDate.getTime() <= totalBeginDate.getTime();
