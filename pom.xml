@@ -22,7 +22,6 @@
         <module>sea-core-web</module>
         <module>sea-core-dal</module>
         <module>sea-core-test</module>
-        <module>sea-core-cache</module>
         <module>sea-core-spring-boot-starter</module>
         <module>sea-core-spring</module>
         <module>sea-core-security</module>
@@ -202,12 +201,6 @@
             <dependency>
                 <groupId>com.github.seaxlab</groupId>
                 <artifactId>sea-core-security</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.seaxlab</groupId>
-                <artifactId>sea-core-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
