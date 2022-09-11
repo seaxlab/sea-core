@@ -1172,19 +1172,6 @@ public final class DateUtil {
         return fromCalendar.getTime().getTime() > nowCalendar.getTime().getTime();
     }
 
-
-    /**
-     * 判断当前日期时间是否在指定范围内
-     *
-     * @param beginDate 开始日期
-     * @param endDate   结束日期
-     * @return boolean
-     */
-    public static boolean nowIsInRange(Date beginDate, Date endDate) {
-        return isInRange(nowDate(), beginDate, endDate);
-    }
-
-
     /**
      * 判断是否合法的范围
      *
