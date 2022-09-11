@@ -43,11 +43,14 @@ public class DateUtilTest extends BaseCoreTest {
 
     @Test
     public void testTradingDay() throws Exception {
-        Date tradingDay = DateUtil.getBillDate();
+        Date tradingDay = DateUtil.getTradingDay();
         log.info("{}", tradingDay);
         log.info("{}", tradingDay.getTime());
-        log.info("{}", DateUtil.getMilliSecond(tradingDay));
-        log.info("{}", DateUtil.getMilliSecond(new Date()));
+        log.info("{}", DateUtil.getMilliSecond(tradingDay)); //0
+        log.info("{}", DateUtil.getMilliSecond(new Date())); // xx
+
+        log.info("{}", DateUtil.getPreTradingDay());
+        log.info("{}", DateUtil.getNextTradingDay());
     }
 
 

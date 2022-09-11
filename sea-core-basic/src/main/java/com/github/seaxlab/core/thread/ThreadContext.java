@@ -132,7 +132,7 @@ public class ThreadContext {
      * @return yyyy-MM-dd
      */
     public static final Date getTradingDay() {
-        return getSafe(CoreConst.SYS_TRADING_DAY_NOW, DateUtil.getBillDate());
+        return getSafe(CoreConst.SYS_TRADING_DAY_NOW, DateUtil.getTradingDay());
 
     }
 

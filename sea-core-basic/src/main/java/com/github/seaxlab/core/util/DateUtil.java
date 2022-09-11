@@ -326,6 +326,16 @@ public final class DateUtil {
     }
 
     /**
+     * 获取前一天
+     *
+     * @param date 指定日期
+     * @return date
+     */
+    public static Date getPreDate(Date date) {
+        return addDay(date, -1);
+    }
+
+    /**
      * 获取下一天
      *
      * @param date 指定日期
@@ -341,7 +351,7 @@ public final class DateUtil {
      *
      * @return date
      */
-    public static Date getBillDate() {
+    public static Date getTradingDay() {
         return truncate(nowDate());
     }
 
@@ -352,61 +362,54 @@ public final class DateUtil {
      * @param date 指定日期
      * @return date
      */
-    public static Date getBillDate(Date date) {
+    public static Date getTradingDay(Date date) {
         return truncate(date);
     }
 
     /**
-     * 获取下一天，
+     * 获取当前时间的前一交易日，
+     * <font color="red">时间部分为00:00:00</font>
+     *
+     * @return date
+     */
+    public static Date getPreTradingDay() {
+        return getPreTradingDay(nowDate());
+    }
+
+    /**
+     * 获取前一交易日，
      * <font color="red">时间部分为00:00:00</font>
      *
      * @param date 指定日期
      * @return date
      */
-    public static Date getNextBillDate(Date date) {
-        return truncate(addDay(date, 1));
-    }
-
-    /**
-     * 获取当前时间的下一天，
-     * <font color="red">时间部分为00:00:00</font>
-     *
-     * @return date
-     */
-    public static Date getNextBillDate() {
-        return truncate(getNextBillDate(nowDate()));
-    }
-
-    /**
-     * 获取前一天
-     *
-     * @param date 指定日期
-     * @return date
-     */
-    public static Date getPreDate(Date date) {
-        return addDay(date, -1);
-    }
-
-    /**
-     * 获取前一天，
-     * <font color="red">时间部分为00:00:00</font>
-     *
-     * @param date 指定日期
-     * @return date
-     */
-    public static Date getPreBillDate(Date date) {
+    public static Date getPreTradingDay(Date date) {
         return truncate(addDay(date, -1));
     }
 
+
     /**
-     * 获取当前时间的前一天，
+     * 获取当前时间的下一交易日，
      * <font color="red">时间部分为00:00:00</font>
      *
      * @return date
      */
-    public static Date getPreBillDate() {
-        return getPreBillDate(nowDate());
+    public static Date getNextTradingDay() {
+        return getNextTradingDay(nowDate());
     }
+
+    /**
+     * 获取指定时间的下一交易日，
+     * <font color="red">时间部分为00:00:00</font>
+     *
+     * @param date 指定日期
+     * @return date
+     */
+    public static Date getNextTradingDay(Date date) {
+        return truncate(addDay(date, 1));
+    }
+
+    //------------------------add 
 
     /**
      * 计算 month个月后的时间
