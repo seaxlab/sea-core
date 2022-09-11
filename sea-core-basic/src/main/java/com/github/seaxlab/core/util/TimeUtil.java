@@ -3,10 +3,9 @@ package com.github.seaxlab.core.util;
 import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.enums.RangeModeEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
+import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.model.Tuple2;
-import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
-import org.joda.time.DateTimeComparator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,9 +28,6 @@ import static java.util.concurrent.TimeUnit.*;
  */
 @Slf4j
 public final class TimeUtil {
-
-    //public static final String FORMAT_HHmmSS = "HH:mm:ss";
-    //public static final String FORMAT_HHmm = "HH:mm";
 
     private TimeUtil() {
     }
@@ -105,7 +101,7 @@ public final class TimeUtil {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         try {
             return sdf.parse(timeStr);
-        } catch (Exception e) {
+        } catch (ParseException e) {
             log.error("fail to parse exception", e);
             ExceptionHandler.publishMsg("parse date time error");
             return null;
@@ -147,9 +143,9 @@ public final class TimeUtil {
 
             String now;
             if (EqualUtil.isEq(timeFormatStr, DateFormatEnum.HH_mm_ss.getValue())) {
-                now = hour + ":" + minute + ":" + second;
+                now = (hour < 10 ? "0" : "") + hour + ":" + minute + ":" + second;
             } else {
-                now = hour + ":" + minute;
+                now = (hour < 10 ? "0" : "") + hour + ":" + minute;
             }
             return isInRange(now, beginTime, endTime, timeFormatStr, RangeModeEnum.CLOSE_CLOSE);
         } catch (Exception e) {
@@ -171,7 +167,7 @@ public final class TimeUtil {
     public static boolean isInRange(String targetTime, List<Tuple2<String, String>> timeList,
                                     String timeFormatStr, RangeModeEnum rangeMode) {
 
-        Preconditions.checkNotNull(targetTime, "target time cannot be null");
+        Precondition.checkNotNull(targetTime, "target time cannot be null");
         if (timeList == null || timeList.isEmpty()) {
             return false;
         }
@@ -199,15 +195,10 @@ public final class TimeUtil {
      */
     public static boolean isInRange(String targetTime, String beginTime, String endTime,
                                     String timeFormatStr, RangeModeEnum rangeMode) {
-        Preconditions.checkNotNull(targetTime, "target time cannot be null");
-        Preconditions.checkNotNull(beginTime, "begin time cannot be null");
-        Preconditions.checkNotNull(endTime, "end time cannot be null");
-        Preconditions.checkNotNull(rangeMode, "区间模式不能为空");
-
-//        if (targetTime.length() != beginTime.length() || beginTime.length() != endTime.length()) {
-//            log.warn("targetTime,beginTime,endTime不相同:[{},{},{}]", targetTime.length(), beginTime.length(), endTime.length());
-//            return false;
-//        }
+        Precondition.checkNotNull(targetTime, "target time cannot be null");
+        Precondition.checkNotNull(beginTime, "begin time cannot be null");
+        Precondition.checkNotNull(endTime, "end time cannot be null");
+        Precondition.checkNotNull(rangeMode, "区间模式不能为空");
 
         if (StringUtil.isEmpty(timeFormatStr)) {
             timeFormatStr = DateFormatEnum.HH_mm.getValue();
@@ -277,8 +268,17 @@ public final class TimeUtil {
      * @return
      */
     public static int compare(Date date1, Date date2) {
-        DateTimeComparator comparator = DateTimeComparator.getTimeOnlyInstance();
-        return comparator.compare(date1, date2);
+//        DateTimeComparator comparator = DateTimeComparator.getTimeOnlyInstance();
+//        return comparator.compare(date1, date2);
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(date1);
+        setBeginDate(calendar1);
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(date2);
+        setBeginDate(calendar2);
+
+        return calendar1.getTime().compareTo(calendar2.getTime());
     }
 
     /**
@@ -307,9 +307,9 @@ public final class TimeUtil {
      * @return
      */
     public static int compare(String time1, String time2, String timeFormatStr) {
-        Preconditions.checkNotNull(time1);
-        Preconditions.checkNotNull(time2);
-        Preconditions.checkNotNull(timeFormatStr);
+        Precondition.checkNotNull(time1);
+        Precondition.checkNotNull(time2);
+        Precondition.checkNotNull(timeFormatStr);
         SimpleDateFormat format = new SimpleDateFormat(timeFormatStr);
 
         try {
@@ -334,9 +334,9 @@ public final class TimeUtil {
      * @return
      */
     public static String add(String timeStr, String timeFormatStr, int delta, TimeUnit timeUnit) {
-        Preconditions.checkNotNull(timeStr);
-        Preconditions.checkNotNull(timeFormatStr);
-        Preconditions.checkNotNull(timeUnit);
+        Precondition.checkNotNull(timeStr);
+        Precondition.checkNotNull(timeFormatStr);
+        Precondition.checkNotNull(timeUnit);
 
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(timeFormatStr);
         LocalTime time = LocalTime.parse(timeStr, timeFormatter);
@@ -354,8 +354,8 @@ public final class TimeUtil {
      * @return
      */
     public static LocalTime add(LocalTime time, int delta, TimeUnit timeUnit) {
-        Preconditions.checkNotNull(time);
-        Preconditions.checkNotNull(timeUnit);
+        Precondition.checkNotNull(time);
+        Precondition.checkNotNull(timeUnit);
 
         LocalTime newTime;
         switch (timeUnit) {
@@ -389,6 +389,8 @@ public final class TimeUtil {
         return String.format(Locale.ROOT, "%.4g", value) + " " + abbreviate(unit);
     }
 
+
+    //---------------------private ---------------------------------
     private static TimeUnit chooseUnit(long nanos) {
         if (DAYS.convert(nanos, NANOSECONDS) > 0) {
             return DAYS;
@@ -432,5 +434,14 @@ public final class TimeUtil {
         }
     }
 
-
+    /**
+     * 将日期部分设置成1970-1-1
+     *
+     * @param calendar
+     */
+    private static void setBeginDate(final Calendar calendar) {
+        calendar.set(Calendar.YEAR, 1970);
+        calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+    }
 }

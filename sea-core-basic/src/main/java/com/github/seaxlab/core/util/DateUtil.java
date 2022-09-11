@@ -929,7 +929,7 @@ public final class DateUtil {
         calendar2.setTime(date2);
         setBeginTime(calendar2);
 
-        return Long.compare(calendar1.getTime().getTime(), calendar2.getTime().getTime());
+        return calendar1.getTime().compareTo(calendar2.getTime());
     }
 
     /**
@@ -954,7 +954,7 @@ public final class DateUtil {
         calendar2.setTime(date2);
         setBeginDate(calendar2);
 
-        return Long.compare(calendar1.getTime().getTime(), calendar2.getTime().getTime());
+        return calendar1.getTime().compareTo(calendar2.getTime());
     }
 
     /**
