@@ -32,7 +32,7 @@ public abstract class AbstractQueryCache<K, V> implements IQueryCache<K, V> {
     private final int DEFAULT_EXPIRE_AFTER_WRITE_DURATION = 10;
 
     // 缓存实例
-    private LoadingCache<K, Optional<V>> cache;
+    private volatile LoadingCache<K, Optional<V>> cache;
 
     /**
      * 从缓存中获取数据（第一次自动调用fetchData从外部获取数据），并处理异常
