@@ -10,6 +10,7 @@ import com.github.seaxlab.core.util.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,7 +90,7 @@ public final class JacksonUtil {
         try {
             return objectMapper.readValue(objectToString(map), clazz);
         } catch (Exception e) {
-            log.error("fail to convert mapt to bean");
+            log.error("fail to convert map to bean");
         }
         return null;
     }
@@ -107,7 +108,7 @@ public final class JacksonUtil {
         } catch (Exception e) {
             log.error("fail to convert bean to map", e);
         }
-        return null;
+        return new HashMap<>();
     }
 
 
