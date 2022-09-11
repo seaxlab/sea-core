@@ -19,9 +19,11 @@ public enum DateFormatEnum {
     yyyyMMddHHmmssSSS("yyyyMMddHHmmssSSS"),
     yyyyMMdd_HHmmss("yyyyMMdd_HHmmss"),
     yyyy_MM_dd_HH_mm("yyyy-MM-dd HH:mm"),
+    yyyy_MM_dd_HH("yyyy-MM-dd HH"),
     yyyy_MM_dd("yyyy-MM-dd"),
     yyyyMMdd("yyyyMMdd"),
     yyyyMM("yyyyMM"),
+
 
     // year short
     yy_MM_dd_HH_mm_ss("yy-MM-dd HH:mm:ss"),

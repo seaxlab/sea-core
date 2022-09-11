@@ -298,6 +298,7 @@ public final class DateUtil {
      * @return string
      */
     public static String toString(Timestamp time) {
+        Precondition.checkNotNull(time);
         Date date = new Date(time.getTime());
         return toString(date, DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
     }
@@ -311,34 +312,8 @@ public final class DateUtil {
      * @return date
      */
     public static Date clone(Date date) {
+        Precondition.checkNotNull(date);
         return new Date(date.getTime());
-    }
-
-
-    /**
-     * 获取两个日期之间相差天数,包含两个日期当天
-     *
-     * @param beginDate 开始日期
-     * @param endDate   结束日期
-     * @return long
-     */
-    public static long dateDifDays(Date beginDate, Date endDate) {
-        Calendar calendar1 = Calendar.getInstance();
-        Calendar calendar2 = Calendar.getInstance();
-
-        calendar1.clear();
-        calendar1.setTime(beginDate);
-
-        calendar2.clear();
-        calendar2.setTime(endDate);
-
-        long diffMillis = calendar2.getTimeInMillis() - calendar1.getTimeInMillis();
-//		long diffSeconds = diffMillis / 1000;
-//		long diffMinutes = diffMillis / (60 * 1000);
-//		long diffHours = diffMillis / (60 * 60 * 1000);
-        long diffDays = diffMillis / (24L * 60 * 60 * 1000);
-
-        return diffDays + 1;
     }
 
     /**
@@ -597,6 +572,7 @@ public final class DateUtil {
         return cal.get(Calendar.SECOND);
     }
 
+    // --------------------------set begin------------------------
 
     /**
      * 设置指定 year
@@ -608,7 +584,6 @@ public final class DateUtil {
     public static Date setYear(Date date, int delta) {
         return set(date, Calendar.YEAR, delta);
     }
-
 
     /**
      * 设置指定 month
@@ -677,49 +652,7 @@ public final class DateUtil {
         return set(date, Calendar.MILLISECOND, delta);
     }
 
-
-    /**
-     * 将日期和时间字符串转成日期
-     *
-     * @param date
-     * @param time
-     * @return
-     */
-    public static Date toDateYMDHMS(String date, String time) {
-        if (StringUtil.isBlank(date)) {
-            log.warn("date str is blank");
-            return null;
-        }
-
-        String sformat;
-        date = StringUtil.trim(date);
-        time = StringUtil.trim(time);
-
-        if (StringUtil.isEmpty(date)) {
-            log.warn("date is empty");
-            return null;
-        }
-        if (StringUtil.isEmpty(time)) {
-            log.warn("time is empty");
-            return null;
-        }
-
-        if (date.contains(":")) {
-            sformat = DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue();
-        } else if (date.contains("-")) {
-            sformat = DateFormatEnum.yyyy_MM_dd.getValue();
-        } else {
-            sformat = DateFormatEnum.yyyyMMdd.getValue();
-        }
-
-        if (time.contains(":")) {
-            sformat = sformat + " " + DateFormatEnum.HH_mm_ss.getValue();
-        } else {
-            sformat = sformat + " " + DateFormatEnum.HH_mm.getValue();
-        }
-
-        return format(date + " " + time, sformat);
-    }
+    //----------------------------set end -----------------------------
 
     /**
      * 生成只到天的时间，保留精度到天
@@ -821,6 +754,33 @@ public final class DateUtil {
         }
 
         return 0L;
+    }
+
+
+    /**
+     * 获取两个日期之间相差天数,包含两个日期当天
+     *
+     * @param beginDate 开始日期
+     * @param endDate   结束日期
+     * @return long
+     */
+    public static long diffDays(Date beginDate, Date endDate) {
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+
+        calendar1.clear();
+        calendar1.setTime(beginDate);
+
+        calendar2.clear();
+        calendar2.setTime(endDate);
+
+        long diffMillis = calendar2.getTimeInMillis() - calendar1.getTimeInMillis();
+//		long diffSeconds = diffMillis / 1000;
+//		long diffMinutes = diffMillis / (60 * 1000);
+//		long diffHours = diffMillis / (60 * 60 * 1000);
+        long diffDays = diffMillis / (24L * 60 * 60 * 1000);
+
+        return diffDays + 1;
     }
 
     /**
@@ -1006,16 +966,15 @@ public final class DateUtil {
         }
 
         List<String> hours = new ArrayList();
+        SimpleDateFormat sdf = getSdf(DateFormatEnum.yyyy_MM_dd_HH);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH");
+        hours.add(sdf.format(start));
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(start);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-
-        hours.add(sdf.format(start));
 
         while (true) {
             calendar.add(Calendar.HOUR_OF_DAY, 1);
@@ -1046,7 +1005,6 @@ public final class DateUtil {
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
         return WeekEnum.getDescByType(dayOfWeek);
@@ -1277,17 +1235,11 @@ public final class DateUtil {
     public static boolean beforeDay(Date srcDate, Date destDate) {
         Calendar fromCalendar = Calendar.getInstance();
         fromCalendar.setTime(srcDate);
-        fromCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        fromCalendar.set(Calendar.MINUTE, 0);
-        fromCalendar.set(Calendar.SECOND, 0);
-        fromCalendar.set(Calendar.MILLISECOND, 0);
+        setBeginTime(fromCalendar);
 
         Calendar nowCalendar = Calendar.getInstance();
         nowCalendar.setTime(destDate);
-        nowCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        nowCalendar.set(Calendar.MINUTE, 0);
-        nowCalendar.set(Calendar.SECOND, 0);
-        nowCalendar.set(Calendar.MILLISECOND, 0);
+        setBeginTime(nowCalendar);
 
         return fromCalendar.getTime().getTime() < nowCalendar.getTime().getTime();
     }
@@ -1303,17 +1255,11 @@ public final class DateUtil {
     public static boolean afterDay(Date srcDate, Date destDate) {
         Calendar fromCalendar = Calendar.getInstance();
         fromCalendar.setTime(srcDate);
-        fromCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        fromCalendar.set(Calendar.MINUTE, 0);
-        fromCalendar.set(Calendar.SECOND, 0);
-        fromCalendar.set(Calendar.MILLISECOND, 0);
+        setBeginTime(fromCalendar);
 
         Calendar nowCalendar = Calendar.getInstance();
         nowCalendar.setTime(destDate);
-        nowCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        nowCalendar.set(Calendar.MINUTE, 0);
-        nowCalendar.set(Calendar.SECOND, 0);
-        nowCalendar.set(Calendar.MILLISECOND, 0);
+        setBeginTime(nowCalendar);
 
         return fromCalendar.getTime().getTime() > nowCalendar.getTime().getTime();
     }
