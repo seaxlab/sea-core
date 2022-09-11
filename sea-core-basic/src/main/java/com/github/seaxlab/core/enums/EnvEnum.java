@@ -1,6 +1,9 @@
 package com.github.seaxlab.core.enums;
 
 import com.github.seaxlab.core.util.EqualUtil;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Objects;
 
 /**
  * env enum
@@ -9,6 +12,7 @@ import com.github.seaxlab.core.util.EqualUtil;
  * @version 1.0 2021/1/25
  * @since 1.0
  */
+@Slf4j
 public enum EnvEnum implements IBaseEnum<String> {
     UNKNOWN("unknown", "unknown env"),
     LOCAL("local", "local env"),
@@ -50,11 +54,17 @@ public enum EnvEnum implements IBaseEnum<String> {
      * @return
      */
     public static EnvEnum of(String code) {
+        if (Objects.isNull(code)) {
+            log.warn("code is null.");
+            return UNKNOWN;
+        }
+
         for (EnvEnum item : VALUES) {
             if (EqualUtil.isEq(item.getCode(), code, false)) {
                 return item;
             }
         }
+        log.warn("unknown code={}", code);
         return UNKNOWN;
     }
 
