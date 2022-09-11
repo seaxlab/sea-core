@@ -1201,7 +1201,7 @@ public final class DateUtil {
             sdf.parse(dateStr);
             return true;
         } catch (ParseException e) {
-            log.error("parse date exception", e);
+            log.error("parse date exception, date str={}, format={}", dateStr, dateFormatEnum.getValue());
         }
 
         return false;
@@ -1228,7 +1228,7 @@ public final class DateUtil {
                 sdf.parse(date);
                 valid = true;
             } catch (ParseException e) {
-                log.error("parseException", e);
+                log.error("parse date exception, date str={}, format={}", date, dateFormatEnum.getValue());
                 valid = false;
             }
             if (!valid) {
