@@ -890,34 +890,6 @@ public final class DateUtil {
         return days;
     }
 
-
-    /**
-     * 比较时间必须在N天之前
-     *
-     * @param beginDate 开始日期
-     * @param endDate   结束日期
-     * @param n         天之前
-     * @return boolean
-     */
-    public static boolean compareDay(Date beginDate, Date endDate, Integer n) {
-        //获取N天前的时间
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, -n);
-        Date date = cal.getTime();
-        //获取N天前的23:59:59
-        Date beforeTwoDay = getEndDateTimeOfDay(date);
-        if (endDate != null) {
-            if (beginDate.compareTo(beforeTwoDay) > 0 || endDate.compareTo(beforeTwoDay) > 0 || beginDate.compareTo(endDate) > 0) {
-                return false;
-            }
-        } else {
-            if (beginDate.compareTo(beforeTwoDay) > 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     /**
      * 只比较日期部分
      *
