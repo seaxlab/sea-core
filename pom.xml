@@ -106,7 +106,7 @@
         <alibaba.rocketmq.version>3.4.9</alibaba.rocketmq.version>
         <alibaba.ttl.version>2.12.1</alibaba.ttl.version>
 
-        <sofa.tracer.version>[3.0.5, 3.0.99]</sofa.tracer.version>
+        <sofa.tracer.version>3.0.12</sofa.tracer.version>
         <skywalking.agent.version>8.11.0</skywalking.agent.version>
 
         <jedis.version>3.2.0</jedis.version>
