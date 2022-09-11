@@ -65,7 +65,7 @@ public class CoreConst {
     /**
      * 当前交易日
      */
-    public static final String SYS_TRADE_DATE_NOW = "SEA_SYS_TRADE_DATE_NOW";
+    public static final String SYS_TRADING_DAY_NOW = "SEA_SYS_TRADING_DAY_NOW";
 
 
     /* global yes flag */

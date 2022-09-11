@@ -416,6 +416,7 @@ public final class DateUtil {
      * @return 新日期
      */
     public static Date addYear(Date date, int delta) {
+        Precondition.checkNotNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.YEAR, delta);
@@ -430,6 +431,7 @@ public final class DateUtil {
      * @return 新日期
      */
     public static Date addMonth(Date date, int month) {
+        Precondition.checkNotNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.MONTH, month);
@@ -455,6 +457,7 @@ public final class DateUtil {
      * @return 新日期
      */
     public static Date addDay(Date date, int day) {
+        Precondition.checkNotNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_MONTH, day);
@@ -469,6 +472,7 @@ public final class DateUtil {
      * @return 新日期
      */
     public static Date addHour(Date date, int hour) {
+        Precondition.checkNotNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.HOUR_OF_DAY, hour);
@@ -483,6 +487,7 @@ public final class DateUtil {
      * @return 新日期
      */
     public static Date addMinute(Date date, int minute) {
+        Precondition.checkNotNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.MINUTE, minute);
@@ -497,6 +502,7 @@ public final class DateUtil {
      * @return 新日期
      */
     public static Date addSecond(Date date, int second) {
+        Precondition.checkNotNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.SECOND, second);
@@ -510,6 +516,7 @@ public final class DateUtil {
      * @return int
      */
     public static int getYear(Date date) {
+        Precondition.checkNotNull(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
@@ -523,6 +530,7 @@ public final class DateUtil {
      * @return int
      */
     public static int getMonth(Date date) {
+        Precondition.checkNotNull(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
@@ -536,6 +544,7 @@ public final class DateUtil {
      * @return int
      */
     public static int getDay(Date date) {
+        Precondition.checkNotNull(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
@@ -549,6 +558,7 @@ public final class DateUtil {
      * @return int
      */
     public static int getHour(Date date) {
+        Precondition.checkNotNull(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
@@ -562,6 +572,8 @@ public final class DateUtil {
      * @return int
      */
     public static int getMinute(Date date) {
+        Precondition.checkNotNull(date);
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
@@ -575,10 +587,26 @@ public final class DateUtil {
      * @return int
      */
     public static int getSecond(Date date) {
+        Precondition.checkNotNull(date);
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
         return cal.get(Calendar.SECOND);
+    }
+
+    /**
+     * 获取指定日期时间的毫秒值
+     *
+     * @param date
+     * @return
+     */
+    public static int getMilliSecond(Date date) {
+        Precondition.checkNotNull(date);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.MILLISECOND);
     }
 
     // --------------------------set begin------------------------
