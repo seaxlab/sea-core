@@ -2,6 +2,7 @@ package com.github.seaxlab.core.component.json.jackson.util;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -47,13 +48,27 @@ public final class JacksonUtil {
         //});
     }
 
-    /**
-     * get object mapper
-     * @return
-     */
     //public static ObjectMapper getObjectMapper() {
     //    return objectMapper;
     //}
+
+    /**
+     * check json str is valid.
+     *
+     * @param json
+     * @return
+     */
+    public static boolean isValid(String json) {
+        try {
+            objectMapper.readTree(json);
+        } catch (JacksonException e) {
+            log.warn("fail to validate json str");
+            return false;
+        }
+        return true;
+
+    }
+
 
     /**
      * 将对象转成字符串
