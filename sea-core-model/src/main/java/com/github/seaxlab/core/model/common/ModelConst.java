@@ -24,6 +24,9 @@ public final class ModelConst {
     // 关联单号
     public static final String REF_NO = "refNo";
 
+    public static final String REF_BIZ_KEY = "refBizKey";
+
+
     // 单号
     public static final String ORDER_NO = "orderNo";
     // 子单号
@@ -61,7 +64,9 @@ public final class ModelConst {
     public static final String TYPE = "type";
     public static final String CATEGORY = "category";
     public static final String BIZ_TYPE = "bizType";
+    public static final String BIZ_TYPE_NAME = "bizTypeName";
     public static final String BIZ_SUB_TYPE = "bizSubType";
+    public static final String BIZ_SUB_TYPE_NAME = "bizSubTypeName";
 
     public static final String BIZ_TYPE_CODE = "bizTypeCode";
     public static final String BIZ_SUB_TYPE_CODE = "bizSubTypeCode";
