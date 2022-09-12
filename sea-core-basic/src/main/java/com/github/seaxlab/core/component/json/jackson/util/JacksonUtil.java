@@ -3,18 +3,16 @@ package com.github.seaxlab.core.component.json.jackson.util;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.seaxlab.core.util.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static java.util.stream.Collectors.toList;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * jackson util
@@ -29,6 +27,7 @@ public final class JacksonUtil {
     private JacksonUtil() {
     }
 
+    // thread-safe
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     static {
@@ -37,6 +36,15 @@ public final class JacksonUtil {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        // 这里不能使用setDateFormat(),否则会导致线程不安全
+        //SimpleDateFormat dateFormat = DateUtil.getSdf(DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
+        //objectMapper.setDateFormat(dateFormat);
+        // 这里注册会影响@JsonFormat
+        //objectMapper.registerModule(new SimpleModule() {
+        //    {
+        //        addSerializer(Date.class, new DateToStringSerializer());
+        //    }
+        //});
     }
 
     /**
@@ -57,7 +65,7 @@ public final class JacksonUtil {
     public static String objectToString(Object obj) {
         try {
             return objectMapper.writeValueAsString(obj);
-        } catch (Exception e) {
+        } catch (JsonProcessingException e) {
             log.error("fail to convert object to string", e);
         }
         return "";
@@ -72,10 +80,63 @@ public final class JacksonUtil {
     public static String toString(Object obj) {
         try {
             return objectMapper.writeValueAsString(obj);
-        } catch (Exception e) {
+        } catch (JsonProcessingException e) {
             log.error("fail to convert object to string", e);
         }
         return "";
+    }
+
+    /**
+     * json array string to list
+     *
+     * @param jsonArrayStr
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> toList(String jsonArrayStr, Class<T> clazz) {
+        try {
+            //DOC not work
+            //objectMapper.readValue(json, new TypeReference<List<T>>() {
+            //});
+
+            JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, clazz);
+            return objectMapper.readValue(jsonArrayStr, javaType);
+        } catch (JsonProcessingException e) {
+            log.error("fail to convert json string to list", e);
+        }
+        return new ArrayList<>();
+    }
+
+    /**
+     * json array string to List
+     *
+     * @param jsonArrayStr
+     * @return
+     */
+    public static List<Map<String, Object>> toMapList(String jsonArrayStr) {
+        try {
+            return objectMapper.readValue(jsonArrayStr, List.class);
+        } catch (JsonProcessingException e) {
+            log.error("fail to convert json string to list<Map<String,Object>>", e);
+        }
+        return new ArrayList();
+    }
+
+    /**
+     * json object string to Object
+     *
+     * @param jsonObjectStr
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> T toObject(String jsonObjectStr, Class<T> clazz) {
+        try {
+            return objectMapper.readValue(jsonObjectStr, clazz);
+        } catch (JsonProcessingException e) {
+            log.error("fail to convert json string to Object", e);
+        }
+        return null;
     }
 
     /**
@@ -90,7 +151,7 @@ public final class JacksonUtil {
         try {
             return objectMapper.readValue(objectToString(map), clazz);
         } catch (Exception e) {
-            log.error("fail to convert map to bean");
+            log.error("fail to convert map to bean", e);
         }
         return null;
     }
@@ -122,7 +183,7 @@ public final class JacksonUtil {
         if (CollectionUtil.isEmpty(beans)) {
             return Collections.emptyList();
         }
-        return beans.stream().map(JacksonUtil::beanToMap).collect(toList());
+        return beans.stream().map(JacksonUtil::beanToMap).collect(Collectors.toList());
     }
 
     /**
@@ -136,6 +197,6 @@ public final class JacksonUtil {
         if (CollectionUtil.isEmpty(maps)) {
             return Collections.emptyList();
         }
-        return maps.stream().map(e -> mapToBean(e, clazz)).collect(toList());
+        return maps.stream().map(e -> mapToBean(e, clazz)).collect(Collectors.toList());
     }
 }

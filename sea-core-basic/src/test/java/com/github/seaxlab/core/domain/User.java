@@ -31,6 +31,7 @@ public class User {
 
     private String remark2 = "abc";
 
+    //@JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
     public User() {
