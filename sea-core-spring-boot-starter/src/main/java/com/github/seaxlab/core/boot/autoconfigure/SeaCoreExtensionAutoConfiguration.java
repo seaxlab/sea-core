@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SeaCoreExtensionAutoConfiguration {
 
-    @Bean(initMethod = "init", name = "seaCoreExtensionBootstrap")
+    @Bean("seaCoreExtensionBootstrap")
     @ConditionalOnMissingBean(ExtensionBootstrap.class)
     public ExtensionBootstrap bootstrap() {
         return new ExtensionBootstrap();
