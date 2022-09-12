@@ -6,9 +6,7 @@ import com.github.seaxlab.core.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * module name
@@ -48,5 +46,37 @@ public class JacksonUtilTest extends BaseCoreTest {
         log.info("{}", users);
     }
 
+    @Test
+    public void testBeansToMaps() throws Exception {
+        List<User> users = new ArrayList<User>();
+
+        User user = new User();
+        user.setName("1");
+        user.setCreateTime(new Date());
+        users.add(user);
+
+        user = new User();
+        user.setName("2");
+        user.setCreateTime(new Date());
+        users.add(user);
+        log.info("{}", JacksonUtil.beansToMaps(users));
+    }
+
+    @Test
+    public void testMapsToBeans() throws Exception {
+        List<Map<String, Object>> users = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "11");
+        map.put("remark", "11");
+        users.add(map);
+
+        map = new HashMap<>();
+        map.put("name", "22");
+        map.put("remark", "221");
+        users.add(map);
+
+        List<User> userList = JacksonUtil.mapsToBeans(users, User.class);
+        log.info("user list={}", userList);
+    }
 
 }
