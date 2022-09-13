@@ -62,6 +62,7 @@ public final class JacksonUtil {
         try {
             objectMapper.readTree(json);
         } catch (JacksonException e) {
+            //JacksonException is top exception to jackson.
             log.warn("fail to validate json str");
             return false;
         }
