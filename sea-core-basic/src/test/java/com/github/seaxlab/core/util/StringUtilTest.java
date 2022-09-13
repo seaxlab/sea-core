@@ -110,4 +110,11 @@ public class StringUtilTest extends BaseCoreTest {
         data.add("c");
         log.info("{}", StringUtil.toString(data));
     }
+
+    @Test
+    public void testRemoveOneSuffix() throws Exception {
+        log.info("{}", StringUtil.removeOneSuffix("abcReqBO", "ReqBO", "BO"));
+        log.info("{}", StringUtil.removeOneSuffix("abcReqBO", "reqBO", "BO"));
+    }
+
 }

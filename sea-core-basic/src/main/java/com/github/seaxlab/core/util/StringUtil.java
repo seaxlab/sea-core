@@ -823,6 +823,25 @@ public final class StringUtil {
     }
 
     /**
+     * 移除指定的后缀，只要一个匹配就停止，注意顺序
+     *
+     * @param target
+     * @param suffixArray 注意顺序
+     * @return
+     */
+    public static String removeOneSuffix(final String target, String... suffixArray) {
+        String value = target;
+        for (String suffix : suffixArray) {
+            if (target.endsWith(suffix)) {
+                value = target.substring(0, target.length() - suffix.length());
+                break;
+            }
+        }
+        return value;
+    }
+
+
+    /**
      * check str contains part or not.
      * <p>
      * contains("abcdef", "xyz") //false
