@@ -2,6 +2,8 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.common.CharConst;
 import com.github.seaxlab.core.common.SymbolConst;
+import com.github.seaxlab.core.enums.RegExpEnum;
+import com.github.seaxlab.core.exception.Precondition;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import lombok.extern.slf4j.Slf4j;
@@ -804,13 +806,6 @@ public final class StringUtil {
         return true;
     }
 
-    /**
-     * remove emoji expression.
-     *
-     * @param str
-     * @return
-     */
-    private static final String REG_EXP_RMOJI = "[\ud83c\udf00-\ud83d\ude4f]|[\ud83d\ude80-\ud83d\udeff]";
 
     /**
      * remove emoji expression
@@ -819,7 +814,8 @@ public final class StringUtil {
      * @return string
      */
     public static String removeEmoji(String str) {
-        return str.replaceAll(REG_EXP_RMOJI, "");
+        Precondition.checkNotNull(str);
+        return str.replaceAll(RegExpEnum.EMOJI.getExpression(), "");
     }
 
     /**
@@ -830,6 +826,7 @@ public final class StringUtil {
      * @return
      */
     public static String removeOneSuffix(final String target, String... suffixArray) {
+        Precondition.checkNotNull(target);
         String value = target;
         for (String suffix : suffixArray) {
             if (target.endsWith(suffix)) {

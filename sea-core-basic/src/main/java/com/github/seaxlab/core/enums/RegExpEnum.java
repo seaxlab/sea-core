@@ -52,6 +52,8 @@ public enum RegExpEnum implements IBaseRegExpEnum<String> {
     FLOAT_NEGATIVE("^(-(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*)))$", "负浮点数"),
     FLOAT_NEGATIVE_AND_ZERO("^((-\\d+(\\.\\d+)?)|(0+(\\.0+)?))$", "非正浮点数（负浮点数 + 0）"),
     //
+    EMOJI("[\ud83c\udf00-\ud83d\ude4f]|[\ud83d\ude80-\ud83d\udeff]","EMOJI表情符号"),
+    //
     NONE("", "none");
 
     private String expression;
