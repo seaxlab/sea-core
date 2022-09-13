@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
- * module name
+ * local cache util, manage cache by unified.
  *
  * @author spy
  * @version 1.0 2021/9/3
@@ -39,8 +39,8 @@ public class LocalCacheUtil {
         cache.computeIfAbsent(bizType, key -> {
             log.info("create guava cache.");
             Cache loadingCache = CacheBuilder.newBuilder()
-                                             .expireAfterWrite(duration, unit)
-                                             .maximumSize(maxSize)
+                                             .expireAfterWrite(duration, unit) //
+                                             .maximumSize(maxSize) //
                                              .build();
             return loadingCache;
         });
