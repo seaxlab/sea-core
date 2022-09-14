@@ -208,26 +208,26 @@ public class RedisTemplateCacheService implements CacheService {
     }
 
     @Override
-    public <T extends EntityKey> List<T> queryMapList(String key, List<String> mapKeys) {
+    public <T extends EntityKey<String>> List<T> queryMapList(String key, List<String> mapKeys) {
         return queryMapList(key, mapKeys, null);
     }
 
     @Override
-    public <T extends EntityKey> List<T> queryMapList(String key, List<String> mapKeys, Function<List<String>, List<T>> function) {
+    public <T extends EntityKey<String>> List<T> queryMapList(String key, List<String> mapKeys, Function<List<String>, List<T>> function) {
         return queryMapList(key, mapKeys, function, CACHE_CONFIG.getFirst(), CACHE_CONFIG.getSecond());
     }
 
     @Override
-    public <T extends EntityKey> List<T> queryMapList(String key, List<String> mapKeys, Function<List<String>, List<T>> function, long timeout, TimeUnit timeUnit) {
+    public <T extends EntityKey<String>> List<T> queryMapList(String key, List<String> mapKeys, Function<List<String>, List<T>> function, long timeout, TimeUnit timeUnit) {
         if (ListUtil.isEmpty(mapKeys)) {
             log.warn("map keys is empty.");
             return ListUtil.empty();
         }
 
         mapKeys = mapKeys.stream()
-                         .filter(item -> StringUtil.isNotBlank(item))
-                         .distinct()
-                         .collect(Collectors.toList());
+                .filter(item -> StringUtil.isNotBlank(item))
+                .distinct()
+                .collect(Collectors.toList());
         if (ListUtil.isEmpty(mapKeys)) {
             log.warn("map keys is empty after filter blank element.");
             return ListUtil.empty();
@@ -256,7 +256,7 @@ public class RedisTemplateCacheService implements CacheService {
             return data;
         }
 
-        List<String> exitKeys = ListUtil.toListDistinct(data, EntityKey::getEntityKey);
+        List<String> exitKeys = ListUtil.toListDistinct(data, EntityKey<String>::getEntityKey);
         List<String> restKeys = ListUtil.filter(mapKeys, keys -> !exitKeys.contains(keys));
         // 没有查询到的key
         List<T> restData = function.apply(restKeys);

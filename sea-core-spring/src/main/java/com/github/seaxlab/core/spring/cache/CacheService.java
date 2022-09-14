@@ -139,7 +139,7 @@ public interface CacheService {
      * @param <T>
      * @return
      */
-    <T extends EntityKey> List<T> queryMapList(String key, List<String> mapKeys);
+    <T extends EntityKey<String>> List<T> queryMapList(String key, List<String> mapKeys);
 
     /**
      * query map list
@@ -153,9 +153,9 @@ public interface CacheService {
      * @param <T>
      * @return
      */
-    <T extends EntityKey> List<T> queryMapList(String key,
-                                               List<String> mapKeys,
-                                               Function<List<String>/*mapKeys*/, List<T>> function);
+    <T extends EntityKey<String>> List<T> queryMapList(String key,
+                                                       List<String> mapKeys,
+                                                       Function<List<String>/*mapKeys*/, List<T>> function);
 
     /**
      * query map list
@@ -171,10 +171,10 @@ public interface CacheService {
      * @param <T>
      * @return
      */
-    <T extends EntityKey> List<T> queryMapList(String key,
-                                               List<String> mapKeys,
-                                               Function<List<String>/*mapKeys*/, List<T>> function,
-                                               long timeout, TimeUnit timeUnit);
+    <T extends EntityKey<String>> List<T> queryMapList(String key,
+                                                       List<String> mapKeys,
+                                                       Function<List<String>/*mapKeys*/, List<T>> function,
+                                                       long timeout, TimeUnit timeUnit);
 
     /**
      * set key

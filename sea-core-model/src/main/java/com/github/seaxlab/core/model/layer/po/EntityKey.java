@@ -7,7 +7,7 @@ package com.github.seaxlab.core.model.layer.po;
  * @version 1.0 2021/9/24
  * @since 1.0
  */
-public interface EntityKey {
+public interface EntityKey<T> {
 
-    String getEntityKey();
+    T getEntityKey();
 }
