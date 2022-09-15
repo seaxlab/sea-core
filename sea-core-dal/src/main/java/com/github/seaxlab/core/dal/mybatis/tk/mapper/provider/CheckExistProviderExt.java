@@ -24,7 +24,7 @@ public class CheckExistProviderExt extends MapperTemplate {
         Class<?> entityClass = this.getEntityClass(ms);
 
         StringBuilder sql = new StringBuilder();
-        // select count(*)>0 from tech_sys_corp where corp_code='3702011121' limit 1;
+        // select count(*)>0 from t_order where code='220011' limit 1;
 
         sql.append("select count(*) > 0 ");
         sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));

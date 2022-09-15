@@ -21,7 +21,7 @@ public class SelectLatestOneProviderExt extends MapperTemplate {
         super(mapperClass, mapperHelper);
     }
 
-    // select * from corp where corp_code='3702011121' order by id desc limit 1;
+    // select * from t_order where code='111' order by id desc limit 1;
 
     public String selectLatestOne(MappedStatement ms) {
         Class<?> entityClass = this.getEntityClass(ms);
