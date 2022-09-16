@@ -518,7 +518,7 @@ public final class ReflectUtil {
      */
     public static boolean hasField(Class<?> clazz, String fieldName, Class<?> fieldType) {
         try {
-            Field field = FieldUtils.getField(clazz, fieldName);
+            Field field = FieldUtils.getField(clazz, fieldName, true);
             if (field != null) {
                 if (fieldType != null) {
                     return fieldType.equals(field.getType());
