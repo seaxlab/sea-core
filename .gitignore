@@ -16,7 +16,8 @@ target/
 .settings
 .springBeans
 
-.idea
+.idea/
+.fleet/
 *.iws
 *.iml
 *.ipr
