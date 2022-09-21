@@ -26,7 +26,10 @@ public final class ModelConst {
 
     public static final String REF_BIZ_KEY = "refBizKey";
 
-
+    //外部订单号(商户订单号)
+    public static final String OUT_TRADE_NO = "outTradeNo";
+    // 外部请求单号
+    public static final String OUT_REQUEST_NO = "outRequestNo";
     // 单号
     public static final String ORDER_NO = "orderNo";
     // 子单号
@@ -35,6 +38,7 @@ public final class ModelConst {
     public static final String SERIAL_NUMBER = "serialNumber";
     // 交易号
     public static final String TRANS_NO = "transNo";
+
 
     // 申请单-单号
     public static final String APPLY_NO = "applyNo";
