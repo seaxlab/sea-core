@@ -43,8 +43,7 @@ public class BeanUtil {
      * @param beanClass   The  {@link Class} of Bean
      * @return If present , return <code>true</code> , or <code>false</code>
      */
-    public static boolean isBeanPresent(ListableBeanFactory beanFactory,
-                                        Class<?> beanClass) {
+    public static boolean isBeanPresent(ListableBeanFactory beanFactory, Class<?> beanClass) {
 
         return isBeanPresent(beanFactory, beanClass, false);
 
@@ -59,10 +58,7 @@ public class BeanUtil {
      * @param includingAncestors including ancestors or not
      * @return If present , return <code>true</code> , or <code>false</code>
      */
-    public static boolean isBeanPresent(ListableBeanFactory beanFactory,
-                                        Class<?> beanClass,
-                                        boolean includingAncestors) {
-
+    public static boolean isBeanPresent(ListableBeanFactory beanFactory, Class<?> beanClass, boolean includingAncestors) {
         String[] beanNames = getBeanNames(beanFactory, beanClass, includingAncestors);
 
         return !ObjectUtils.isEmpty(beanNames);
@@ -77,21 +73,15 @@ public class BeanUtil {
      * @param includingAncestors including ancestors or not
      * @return If present , return <code>true</code> , or <code>false</code>
      */
-    public static boolean isBeanPresent(ListableBeanFactory beanFactory,
-                                        String beanClassName,
-                                        boolean includingAncestors) {
+    public static boolean isBeanPresent(ListableBeanFactory beanFactory, String beanClassName, boolean includingAncestors) {
 
         boolean present = false;
-
         ClassLoader classLoader = beanFactory.getClass().getClassLoader();
 
         if (ClassUtils.isPresent(beanClassName, classLoader)) {
-
             Class beanClass = ClassUtils.resolveClassName(beanClassName, classLoader);
-
             present = isBeanPresent(beanFactory, beanClass, includingAncestors);
         }
-
 
         return present;
 
@@ -104,8 +94,7 @@ public class BeanUtil {
      * @param beanClassName The  name of {@link Class} of Bean
      * @return If present , return <code>true</code> , or <code>false</code>
      */
-    public static boolean isBeanPresent(ListableBeanFactory beanFactory,
-                                        String beanClassName) {
+    public static boolean isBeanPresent(ListableBeanFactory beanFactory, String beanClassName) {
 
         return isBeanPresent(beanFactory, beanClassName, false);
 
@@ -120,8 +109,7 @@ public class BeanUtil {
      * @return If present , return <code>true</code> , or <code>false</code>
      * @since 1.0.6
      */
-    public static boolean isBeanPresent(BeanFactory beanFactory, String beanName, Class<?> beanClass)
-            throws NullPointerException {
+    public static boolean isBeanPresent(BeanFactory beanFactory, String beanName, Class<?> beanClass) throws NullPointerException {
         return beanFactory.containsBean(beanName) && beanFactory.isTypeMatch(beanName, beanClass);
     }
 
@@ -144,8 +132,7 @@ public class BeanUtil {
      * @param includingAncestors including ancestors or not
      * @return If found , return the array of Bean Names , or empty array.
      */
-    public static String[] getBeanNames(ListableBeanFactory beanFactory, Class<?> beanClass,
-                                        boolean includingAncestors) {
+    public static String[] getBeanNames(ListableBeanFactory beanFactory, Class<?> beanClass, boolean includingAncestors) {
         // Issue : https://github.com/alibaba/spring-context-support/issues/22
         if (includingAncestors) {
             return beanNamesForTypeIncludingAncestors(beanFactory, beanClass, true, false);
@@ -173,8 +160,7 @@ public class BeanUtil {
      * @param includingAncestors including ancestors or not
      * @return If found , return the array of Bean Names , or empty array.
      */
-    public static String[] getBeanNames(ConfigurableListableBeanFactory beanFactory, Class<?> beanClass,
-                                        boolean includingAncestors) {
+    public static String[] getBeanNames(ConfigurableListableBeanFactory beanFactory, Class<?> beanClass, boolean includingAncestors) {
         return getBeanNames((ListableBeanFactory) beanFactory, beanClass, includingAncestors);
     }
 
@@ -193,19 +179,11 @@ public class BeanUtil {
         }
 
         Class<?> beanType = null;
-
         try {
-
             beanType = ClassUtils.resolveClassName(beanClassName, classLoader);
-
             beanType = ClassUtils.getUserClass(beanType);
-
         } catch (Exception e) {
-
-            if (logger.isErrorEnabled()) {
-                logger.error(e.getMessage(), e);
-            }
-
+            log.error("fail to resolve bean type", e);
         }
 
         return beanType;
@@ -223,36 +201,25 @@ public class BeanUtil {
      * @throws NoUniqueBeanDefinitionException if more than one bean of the given type was found
      * @see org.springframework.beans.factory.BeanFactoryUtils#beanOfTypeIncludingAncestors(ListableBeanFactory, Class)
      */
-    public static <T> T getOptionalBean(ListableBeanFactory beanFactory, Class<T> beanClass,
-                                        boolean includingAncestors) throws BeansException {
+    public static <T> T getOptionalBean(ListableBeanFactory beanFactory, Class<T> beanClass, boolean includingAncestors) throws BeansException {
 
         String[] beanNames = getBeanNames(beanFactory, beanClass, includingAncestors);
 
         if (ObjectUtils.isEmpty(beanNames)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("The bean [ class : " + beanClass.getName() + " ] can't be found ");
+            if (log.isDebugEnabled()) {
+                log.debug("The bean [ class : {} ] can't be found ", beanClass.getName());
             }
             return null;
         }
 
         T bean = null;
-
         try {
-
-            bean = includingAncestors ?
-                    beanOfTypeIncludingAncestors(beanFactory, beanClass) :
-                    beanFactory.getBean(beanClass);
-
+            bean = includingAncestors ? beanOfTypeIncludingAncestors(beanFactory, beanClass) : beanFactory.getBean(beanClass);
         } catch (Exception e) {
-
-            if (logger.isErrorEnabled()) {
-                logger.error(e.getMessage(), e);
-            }
-
+            log.error("fail to get optional bean", e);
         }
 
         return bean;
-
     }
 
     /**
@@ -281,15 +248,13 @@ public class BeanUtil {
      * @throws BeansException in case of creation errors
      * @since 1.0.6
      */
-    public static <T> T getBeanIfAvailable(BeanFactory beanFactory, String beanName, Class<T> beanType)
-            throws BeansException {
+    public static <T> T getBeanIfAvailable(BeanFactory beanFactory, String beanName, Class<T> beanType) throws BeansException {
         if (isBeanPresent(beanFactory, beanName, beanType)) {
             return beanFactory.getBean(beanName, beanType);
         }
 
-        if (logger.isDebugEnabled()) {
-            logger.debug(format("The bean[name : %s , type : %s] can't be found in Spring BeanFactory",
-                    beanName, beanType.getName()));
+        if (log.isDebugEnabled()) {
+            log.debug(format("The bean[name : %s , type : %s] can't be found in Spring BeanFactory", beanName, beanType.getName()));
         }
         return null;
     }

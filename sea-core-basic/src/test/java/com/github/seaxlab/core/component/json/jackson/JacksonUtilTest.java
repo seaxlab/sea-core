@@ -1,8 +1,14 @@
 package com.github.seaxlab.core.component.json.jackson;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.component.json.jackson.util.JacksonUtil;
 import com.github.seaxlab.core.domain.User;
+import com.github.seaxlab.core.enums.IBaseEnum;
+import lombok.Data;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -17,6 +23,66 @@ import java.util.*;
  */
 @Slf4j
 public class JacksonUtilTest extends BaseCoreTest {
+
+    @Data
+    public static class Student {
+        private String name;
+        private StatusEnum status;
+
+        //extend
+        public String getStatusDesc() {
+            return this.status.getDesc();
+        }
+    }
+
+    @Getter
+    public enum StatusEnum implements IBaseEnum<Integer> {
+        NORMAL(1, "正常"), //
+        EXCEPTION(2, "");
+        private Integer code;
+        private String desc;
+
+        StatusEnum(Integer code, String desc) {
+            this.code = code;
+            this.desc = desc;
+        }
+
+        @JsonCreator
+        public static StatusEnum of(int code) {
+            for (StatusEnum item : values()) {
+                if (item.getCode() == code) {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        @JsonValue
+        public Integer getCode() {
+            return code;
+        }
+
+    }
+
+    @Test
+    public void testEnum() throws Exception {
+        Student student = new Student();
+        student.setName("smith");
+        student.setStatus(StatusEnum.NORMAL);
+        final ObjectMapper objectMapper = new ObjectMapper();
+        //SimpleModule simpleModule1 = new SimpleModule();
+        //simpleModule1.addSerializer(IBaseEnum.class, new BaseEnumSerializer());
+        //simpleModule1.addDeserializer(IBaseEnum.class, new BaseEnumDeserializer());
+        //objectMapper.registerModule(simpleModule1);
+
+        log.info("{}", objectMapper.writeValueAsString(student));
+
+
+        String content = "{\"name\":\"smith\",\"status\":1}";
+        Student st = objectMapper.readValue(content, Student.class);
+        log.info("{}", st);
+    }
+
     @Test
     public void testToString() throws Exception {
         User user = new User();
