@@ -124,6 +124,52 @@ public final class ObjectUtil {
         return true;
     }
 
+    /**
+     * check has one null.
+     *
+     * @param objects
+     * @return
+     */
+    public static boolean hasOneNull(Object... objects) {
+        for (Object obj : objects) {
+            if (obj == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * check has one empty
+     *
+     * @param objects
+     * @return
+     */
+    public static boolean hasOneEmpty(Object... objects) {
+        for (Object obj : objects) {
+            if (obj == null) {
+                return true;
+            }
+            if (obj instanceof String) {
+                String value = (String) obj;
+                if (StringUtil.isEmpty(value)) {
+                    return true;
+                }
+            } else if (obj instanceof Collection) {
+                Collection collection = (Collection) obj;
+                if (collection.isEmpty()) {
+                    return true;
+                }
+            } else if (ArrayUtil.isArray(obj)) {
+                if (ArrayUtil.length(obj) == 0) {
+                    return true;
+                }
+            }
+        }
+        //
+        return false;
+    }
+
 
     public static <T extends Comparable<? super T>> T min(final T... values) {
         return ObjectUtils.min(values);
