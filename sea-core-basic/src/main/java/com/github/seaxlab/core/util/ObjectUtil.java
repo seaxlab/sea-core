@@ -125,12 +125,12 @@ public final class ObjectUtil {
     }
 
     /**
-     * check has one null.
+     * check has one object is null.
      *
      * @param objects
      * @return
      */
-    public static boolean hasOneNull(Object... objects) {
+    public static boolean hasNull(Object... objects) {
         for (Object obj : objects) {
             if (obj == null) {
                 return true;
@@ -145,7 +145,7 @@ public final class ObjectUtil {
      * @param objects
      * @return
      */
-    public static boolean hasOneEmpty(Object... objects) {
+    public static boolean hasEmpty(Object... objects) {
         for (Object obj : objects) {
             if (obj == null) {
                 return true;
