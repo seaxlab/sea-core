@@ -17,10 +17,10 @@ public class CheckerTest {
 
     @Test
     public void test16() throws Exception {
-        Checker<String, Boolean> checker = new Checker<String, Boolean>() {
+        Checker<String> checker = new Checker<String>() {
             @Override
-            public Result<Boolean> check(String input) {
-                return Result.success(true);
+            public Result<Void> check(String input) {
+                return Result.success();
             }
         };
 
