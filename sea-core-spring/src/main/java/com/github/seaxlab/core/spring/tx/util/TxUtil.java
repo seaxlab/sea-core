@@ -12,6 +12,9 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 /**
  * tx util
+ * <p>
+ * it has the same behavior with @Transactional
+ * </p>
  *
  * @author spy
  * @version 1.0 2019-08-06

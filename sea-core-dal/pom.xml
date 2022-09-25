@@ -24,6 +24,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.github.seaxlab</groupId>
+            <artifactId>sea-core-spring</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <scope>provided</scope>

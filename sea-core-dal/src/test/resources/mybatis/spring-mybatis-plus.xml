@@ -37,4 +37,6 @@
         <property name="basePackage" value="com.github.seaxlab.core.dal.mybatis.plus"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory2"/>
     </bean>
+
+    <bean class="com.github.seaxlab.core.dal.mybatis.plus.User2Service"/>
 </beans>

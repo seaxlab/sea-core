@@ -2,8 +2,13 @@ package com.github.seaxlab.core.dal.mybatis.plus;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.github.seaxlab.core.spring.tx.util.TxUtil;
+import com.github.seaxlab.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 
 import javax.annotation.Resource;
 
@@ -38,4 +43,31 @@ public class CheckExistTest extends BasePlusTest {
         boolean exist = user2Mapper.checkExist(wrapper);
         log.info("exist={}", exist);
     }
+
+    @Autowired
+    private DataSourceTransactionManager dataSourceTransactionManager;
+
+    @Resource
+    private User2Service user2Service;
+
+    @Test
+    public void testTx() throws Exception {
+        TransactionStatus txStatus = TxUtil.begin(dataSourceTransactionManager);
+        try {
+            User2 entity = new User2();
+            entity.setName("t_" + IdUtil.getYYYYMMDDHHMMSSSSS());
+            user2Mapper.insert(entity);
+            user2Service.add();
+            TxUtil.commit(dataSourceTransactionManager, txStatus);
+        } catch (Exception e) {
+            log.error("ee", e);
+            TxUtil.rollback(dataSourceTransactionManager, txStatus);
+        }
+    }
+
+    @Test
+    public void testTx2() throws Exception {
+        user2Service.add2();
+    }
+
 }
