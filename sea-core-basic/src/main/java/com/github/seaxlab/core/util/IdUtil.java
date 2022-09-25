@@ -34,7 +34,7 @@ public final class IdUtil {
     }
 
     public static String getYYYYMMDDHHMM() {
-        return DateUtil.toString(new Date(), "yyyyMMddHHmm");
+        return DateUtil.toString(new Date(), DateFormatEnum.yyyyMMddHHmm);
     }
 
     /**

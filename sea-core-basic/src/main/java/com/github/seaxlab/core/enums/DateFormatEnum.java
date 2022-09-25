@@ -15,6 +15,7 @@ public enum DateFormatEnum {
 
     // date
     yyyy_MM_dd_HH_mm_ss("yyyy-MM-dd HH:mm:ss"),
+    yyyyMMddHHmm("yyyyMMddHHmm"),
     yyyyMMddHHmmss("yyyyMMddHHmmss"),
     yyyyMMddHHmmssSSS("yyyyMMddHHmmssSSS"),
     yyyyMMdd_HHmmss("yyyyMMdd_HHmmss"),
