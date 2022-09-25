@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
     }
 
     private Result buildResult(String code, String defaultErrorMsg, Object data) {
-        Result result = Result.fail(code);
+        Result result = Result.fail();
 
         result.setCode(code);
         result.setMsg(getErrorMessage(code, defaultErrorMsg));

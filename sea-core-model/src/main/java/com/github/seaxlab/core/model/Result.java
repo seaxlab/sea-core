@@ -49,10 +49,10 @@ public class Result<T> implements Serializable {
      */
     private T data;
 
-    /**
-     * 扩展参数，如果data中无法存放时才使用此参数
-     */
-    private Object extra;
+    ///**
+    // * 扩展参数，如果data中无法存放时才使用此参数
+    // */
+    //private Object extra;
 
 
     public Result() {
@@ -86,14 +86,15 @@ public class Result<T> implements Serializable {
         this.data = data;
     }
 
+    // wrong api.
     /**
      * extra obj for special case
      *
      * @param obj extra obj.
      */
-    public void extra(Object obj) {
-        this.extra = obj;
-    }
+    //public void extra(Object obj) {
+    //    this.extra = obj;
+    //}
 
     /**
      * 直接返回true
@@ -137,15 +138,16 @@ public class Result<T> implements Serializable {
         return fail("", "");
     }
 
-    public static <T> Result<T> fail(String code) {
-        return fail(code, null);
-    }
+    // wrong api.
+    //public static <T> Result<T> fail(String code) {
+    //    return fail(code, null);
+    //}
 
     public static <T> Result<T> failMsg(String msg) {
         return fail(null, msg);
     }
 
-    public static <T> Result<T> fail(String code, String msg) {
+    private static <T> Result<T> fail(String code, String msg) {
         Result<T> result = new Result<>();
 
         result.setSuccess(false);
