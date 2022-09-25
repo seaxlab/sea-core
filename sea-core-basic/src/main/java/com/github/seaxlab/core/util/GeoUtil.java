@@ -2,6 +2,8 @@ package com.github.seaxlab.core.util;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.RoundingMode;
+
 /**
  * 位置工具
  *
@@ -33,16 +35,39 @@ public final class GeoUtil {
             double radLat2 = radian(lat2);
             double a = radLat1 - radLat2;
             double b = radian(lng1) - radian(lng2);
-            return (2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)
-                    + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2))))
-                    * EARTH_RADIUS;
+            return (2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)))) * EARTH_RADIUS;
         } finally {
             log.info("calc geo distance cost={}ms", System.currentTimeMillis() - begin);
         }
     }
 
+    /**
+     * 获取距离文案
+     *
+     * @param distance
+     * @return
+     */
+    public static String getDistanceDesc(int distance) {
+        return getDistanceDesc(distance, 1);
+    }
+
+    /**
+     * 获取距离文案
+     *
+     * @param distance
+     * @param scale
+     * @return
+     */
+    public static String getDistanceDesc(int distance, int scale) {
+        if (distance < 1000) {
+            return distance + "米";
+        }
+        return NumberUtil.divide(distance, 1000, scale, RoundingMode.DOWN) + "公里";
+    }
+
+
+    // ---------private
     private static double radian(double d) {
         return d * Math.PI / 180.0;
     }
-
 }
