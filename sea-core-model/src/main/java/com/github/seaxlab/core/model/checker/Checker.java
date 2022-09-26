@@ -10,8 +10,7 @@ import com.github.seaxlab.core.model.Result;
  * @since 1.0
  */
 public interface Checker<I> {
-
-
+    
     /**
      * 校验器
      *

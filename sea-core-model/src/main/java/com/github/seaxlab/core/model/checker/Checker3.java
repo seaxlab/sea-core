@@ -11,7 +11,6 @@ import com.github.seaxlab.core.model.Result;
  */
 public interface Checker3<I1, I2, I3> {
 
-
     /**
      * 校验器
      *
