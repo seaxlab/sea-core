@@ -59,6 +59,9 @@ public final class GeoUtil {
      * @return
      */
     public static String getDistanceDesc(int distance, int scale) {
+        if (distance < 0) {
+            return "-";
+        }
         if (distance < 1000) {
             return distance + "米";
         }
