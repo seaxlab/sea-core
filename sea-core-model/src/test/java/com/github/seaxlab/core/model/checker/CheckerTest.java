@@ -1,7 +1,6 @@
-package com.github.seaxlab.core.checker;
+package com.github.seaxlab.core.model.checker;
 
 import com.github.seaxlab.core.model.Result;
-import com.github.seaxlab.core.model.checker.Checker;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
