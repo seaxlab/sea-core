@@ -1,8 +1,8 @@
 package com.github.seaxlab.core.loader;
 
 import com.github.seaxlab.core.exception.Precondition;
-import com.github.seaxlab.core.model.LinkedMultiValueMap;
-import com.github.seaxlab.core.model.MultiValueMap;
+import com.github.seaxlab.core.lang.map.LinkedMultiValueMap;
+import com.github.seaxlab.core.lang.map.MultiValueMap;
 import com.github.seaxlab.core.util.ClassUtil;
 import com.github.seaxlab.core.util.PropertiesUtil;
 import com.github.seaxlab.core.util.ReflectUtil;

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * module name
+ * key value pair
  *
  * @author spy
  * @version 1.0 2020/7/31

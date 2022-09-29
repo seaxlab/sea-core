@@ -1,12 +1,12 @@
-package com.github.seaxlab.core.model;
+package com.github.seaxlab.core.lang.map;
 
 import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.*;
 
 /**
- * Simple implementation of {@link MultiValueMap} that wraps a {@link HashMap},
- * storing multiple values in a {@link ArrayList}.
+ * Simple implementation of {@link MultiValueMap} that wraps a {@link LinkedHashMap},
+ * storing multiple values in a {@link LinkedList}.
  *
  * <p>This Map implementation is generally not thread-safe. It is primarily designed
  * for data structures exposed from request objects, for use in a single thread only.
@@ -18,7 +18,7 @@ import java.util.*;
  * @version 1.0 2021/3/1
  * @since 1.0
  */
-public class DefaultMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializable, Cloneable {
+public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializable, Cloneable {
 
     private static final long serialVersionUID = 3801124242820219131L;
 
@@ -26,24 +26,24 @@ public class DefaultMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializ
 
 
     /**
-     * Create a new DefaultMultiValueMap that wraps a {@link HashMap}.
+     * Create a new LinkedMultiValueMap that wraps a {@link LinkedHashMap}.
      */
-    public DefaultMultiValueMap() {
-        this.targetMap = new HashMap<>();
+    public LinkedMultiValueMap() {
+        this.targetMap = new LinkedHashMap<>();
     }
 
     /**
-     * Create a new DefaultMultiValueMap that wraps a {@link HashMap}
+     * Create a new LinkedMultiValueMap that wraps a {@link LinkedHashMap}
      * with the given initial capacity.
      *
      * @param initialCapacity the initial capacity
      */
-    public DefaultMultiValueMap(int initialCapacity) {
-        this.targetMap = new HashMap<>(initialCapacity);
+    public LinkedMultiValueMap(int initialCapacity) {
+        this.targetMap = new LinkedHashMap<>(initialCapacity);
     }
 
     /**
-     * Copy constructor: Create a new DefaultMultiValueMap with the same mappings as
+     * Copy constructor: Create a new LinkedMultiValueMap with the same mappings as
      * the specified Map. Note that this will be a shallow copy; its value-holding
      * List entries will get reused and therefore cannot get modified independently.
      *
@@ -51,8 +51,8 @@ public class DefaultMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializ
      * @see #clone()
      * @see #deepCopy()
      */
-    public DefaultMultiValueMap(Map<K, List<V>> otherMap) {
-        this.targetMap = new HashMap<>(otherMap);
+    public LinkedMultiValueMap(Map<K, List<V>> otherMap) {
+        this.targetMap = new LinkedHashMap<>(otherMap);
     }
 
 
@@ -67,13 +67,13 @@ public class DefaultMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializ
 
     @Override
     public void add(K key, @Nullable V value) {
-        List<V> values = this.targetMap.computeIfAbsent(key, k -> new ArrayList<>());
+        List<V> values = this.targetMap.computeIfAbsent(key, k -> new LinkedList<>());
         values.add(value);
     }
 
     @Override
     public void addAll(K key, List<? extends V> values) {
-        List<V> currentValues = this.targetMap.computeIfAbsent(key, k -> new ArrayList<>());
+        List<V> currentValues = this.targetMap.computeIfAbsent(key, k -> new LinkedList<>());
         currentValues.addAll(values);
     }
 
@@ -86,7 +86,7 @@ public class DefaultMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializ
 
     @Override
     public void set(K key, @Nullable V value) {
-        List<V> values = new ArrayList<>();
+        List<V> values = new LinkedList<>();
         values.add(value);
         this.targetMap.put(key, values);
     }
@@ -98,7 +98,7 @@ public class DefaultMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializ
 
     @Override
     public Map<K, V> toSingleValueMap() {
-        Map<K, V> singleValueMap = new HashMap<>(this.targetMap.size());
+        Map<K, V> singleValueMap = new LinkedHashMap<>(this.targetMap.size());
         this.targetMap.forEach((key, values) -> {
             if (values != null && !values.isEmpty()) {
                 singleValueMap.put(key, values.get(0));
@@ -193,15 +193,15 @@ public class DefaultMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializ
      * Create a deep copy of this Map.
      *
      * @return a copy of this Map, including a copy of each value-holding List entry
-     * (consistently using an independent modifiable {@link ArrayList} for each entry)
+     * (consistently using an independent modifiable {@link LinkedList} for each entry)
      * along the lines of {@code MultiValueMap.addAll} semantics
      * @see #addAll(MultiValueMap)
      * @see #clone()
      * @since 4.2
      */
-    public DefaultMultiValueMap<K, V> deepCopy() {
-        DefaultMultiValueMap<K, V> copy = new DefaultMultiValueMap<>(size());
-        forEach((key, values) -> copy.put(key, new ArrayList<>(values)));
+    public LinkedMultiValueMap<K, V> deepCopy() {
+        LinkedMultiValueMap<K, V> copy = new LinkedMultiValueMap<>(size());
+        forEach((key, values) -> copy.put(key, new LinkedList<>(values)));
         return copy;
     }
 
@@ -213,12 +213,13 @@ public class DefaultMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializ
      * {@code Map.put} semantics
      * @see #put(Object, List)
      * @see #putAll(Map)
-     * @see DefaultMultiValueMap(Map)
+     * @see LinkedMultiValueMap#LinkedMultiValueMap(Map)
      * @see #deepCopy()
+     * @since 4.2
      */
     @Override
-    public DefaultMultiValueMap<K, V> clone() {
-        return new DefaultMultiValueMap<>(this);
+    public LinkedMultiValueMap<K, V> clone() {
+        return new LinkedMultiValueMap<>(this);
     }
 
 }

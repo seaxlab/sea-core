@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.model;
+package com.github.seaxlab.core.lang.map;
 
 import javax.annotation.Nullable;
 import java.util.List;

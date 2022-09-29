@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.model;
+package com.github.seaxlab.core.lang.map;
 
 import com.github.seaxlab.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
