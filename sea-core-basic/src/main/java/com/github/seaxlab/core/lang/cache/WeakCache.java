@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.lang.cache;
 
 
-import com.github.seaxlab.core.lang.map.ConcurrentReferenceHashMap;
+import com.github.seaxlab.core.lang.concurrent.ConcurrentReferenceHashMap;
 
 /**
  * 弱引用缓存（只能生存到下一次GC前）

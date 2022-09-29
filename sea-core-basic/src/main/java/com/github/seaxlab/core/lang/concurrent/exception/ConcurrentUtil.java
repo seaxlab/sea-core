@@ -1,5 +1,6 @@
-package com.github.seaxlab.core.lang.concurrent;
+package com.github.seaxlab.core.lang.concurrent.exception;
 
+import com.github.seaxlab.core.lang.concurrent.ConcurrentInitializer;
 import org.apache.commons.lang3.Validate;
 
 import java.util.concurrent.ConcurrentMap;
@@ -15,13 +16,13 @@ import java.util.concurrent.TimeUnit;
  *
  * @since 3.0
  */
-public class ConcurrentUtils {
+public class ConcurrentUtil {
 
     /**
      * Private constructor so that no instances can be created. This class
      * contains only static utility methods.
      */
-    private ConcurrentUtils() {
+    private ConcurrentUtil() {
     }
 
     /**

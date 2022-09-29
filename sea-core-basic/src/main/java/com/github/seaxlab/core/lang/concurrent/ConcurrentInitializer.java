@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.lang.concurrent;
 
+import com.github.seaxlab.core.lang.concurrent.exception.ConcurrentException;
+
 /**
  * <p>
  * Definition of an interface for the thread-safe initialization of objects.

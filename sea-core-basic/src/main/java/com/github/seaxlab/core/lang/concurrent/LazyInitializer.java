@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.lang.concurrent;
 
+import com.github.seaxlab.core.lang.concurrent.exception.ConcurrentException;
+
 /**
  * <p>
  * This class provides a generic implementation of the lazy initialization

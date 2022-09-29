@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.lang.concurrent;
 
+import com.github.seaxlab.core.lang.concurrent.exception.ConcurrentException;
 import org.apache.commons.lang3.concurrent.LazyInitializer;
 
 import java.util.concurrent.atomic.AtomicReference;

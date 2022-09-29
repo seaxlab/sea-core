@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.lang.map;
+package com.github.seaxlab.core.lang.concurrent;
 
 import com.github.seaxlab.core.exception.Precondition;
 import org.springframework.util.ObjectUtils;

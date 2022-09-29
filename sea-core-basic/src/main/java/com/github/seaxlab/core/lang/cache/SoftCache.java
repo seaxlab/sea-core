@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.lang.cache;
 
 
-import com.github.seaxlab.core.lang.map.ConcurrentReferenceHashMap;
+import com.github.seaxlab.core.lang.concurrent.ConcurrentReferenceHashMap;
 
 /**
  * 软引用缓存 (内存不足时(内存溢出之前))

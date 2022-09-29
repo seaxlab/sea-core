@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.lang.concurrent;
+package com.github.seaxlab.core.lang.concurrent.exception;
 
 
 /**
@@ -37,7 +37,7 @@ public class ConcurrentException extends Exception {
      * @throws IllegalArgumentException if the cause is not a checked exception
      */
     public ConcurrentException(final Throwable cause) {
-        super(ConcurrentUtils.checkedException(cause));
+        super(ConcurrentUtil.checkedException(cause));
     }
 
     /**
@@ -49,6 +49,6 @@ public class ConcurrentException extends Exception {
      * @throws IllegalArgumentException if the cause is not a checked exception
      */
     public ConcurrentException(final String msg, final Throwable cause) {
-        super(msg, ConcurrentUtils.checkedException(cause));
+        super(msg, ConcurrentUtil.checkedException(cause));
     }
 }

@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.lang.concurrent;
 
 import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.lang.concurrent.exception.ConcurrentException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
