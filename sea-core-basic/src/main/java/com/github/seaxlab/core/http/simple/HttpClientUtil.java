@@ -110,7 +110,10 @@ public class HttpClientUtil {
                 connectionManager.setMaxTotal(managerMaxTotal);
                 //socketConfig
                 SocketConfig socketConfig = SocketConfig.custom().setSoTimeout(socketTimeOut).build();
-                httpClient = HttpClients.custom().setConnectionManager(connectionManager).setDefaultSocketConfig(socketConfig).build();
+                httpClient = HttpClients.custom()
+                                        .setConnectionManager(connectionManager) //
+                                        .setDefaultSocketConfig(socketConfig) //
+                                        .build();
             } catch (Exception ex) {
                 log.error("httpClient——初始化——报错，错误信息", ex);
             }
