@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 模块
+ * base core test
  *
  * @author spy
  * @version 1.0 2019-06-16
