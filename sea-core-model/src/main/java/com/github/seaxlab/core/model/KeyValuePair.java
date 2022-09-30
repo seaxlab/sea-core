@@ -16,19 +16,19 @@ public class KeyValuePair<K, V> implements Serializable {
     private K key;
     private V value;
 
-    public KeyValuePair() {
+    private KeyValuePair() {
 
     }
 
-    public KeyValuePair(K k, V v) {
+    public KeyValuePair(K key, V value) {
         this.key = key;
-        this.value = v;
+        this.value = value;
     }
 
-    public static <K, V> KeyValuePair<K, V> of(K k, V v) {
+    public static <K, V> KeyValuePair<K, V> of(K key, V value) {
         KeyValuePair<K, V> kv = new KeyValuePair<>();
-        kv.setKey(k);
-        kv.setValue(v);
+        kv.setKey(key);
+        kv.setValue(value);
         return kv;
     }
 }
