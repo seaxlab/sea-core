@@ -60,6 +60,7 @@ public final class GeoUtil {
      */
     public static String getDistanceDesc(int distance, int scale) {
         if (distance < 0) {
+            log.warn("distance[{}] is negative", distance);
             return "-";
         }
         if (distance < 1000) {
