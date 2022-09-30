@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.model.service;
+package com.github.seaxlab.core.lang.function;
 
 /**
  * no args and no return value.

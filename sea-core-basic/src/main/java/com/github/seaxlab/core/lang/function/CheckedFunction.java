@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.component.function;
+package com.github.seaxlab.core.lang.function;
 
 import javax.annotation.Nullable;
 import java.io.Serializable;
