@@ -1,10 +1,7 @@
 package com.github.seaxlab.core.thread;
 
-import com.github.seaxlab.core.common.CoreConst;
-import com.github.seaxlab.core.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -116,27 +113,7 @@ public class ThreadContext {
         T v = getSafe(key);
         return v == null ? defaultValue : v;
     }
-
-    /**
-     * 获取当前上下文操作时间
-     *
-     * @return
-     */
-    public static final Date getNowDate() {
-        return getSafe(CoreConst.SYS_DATE_NOW, new Date());
-    }
-
-    /**
-     * 当前交易日
-     *
-     * @return yyyy-MM-dd
-     */
-    public static final Date getTradingDay() {
-        return getSafe(CoreConst.SYS_TRADING_DAY_NOW, DateUtil.getTradingDay());
-
-    }
-
-
+    
     /**
      * 获取线程上下文
      */

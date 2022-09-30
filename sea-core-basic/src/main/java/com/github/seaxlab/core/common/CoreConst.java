@@ -57,17 +57,6 @@ public class CoreConst {
      */
     public static final String SYS_EDITOR = "SYS_EDITOR";
 
-    /**
-     * current date
-     */
-    public static final String SYS_DATE_NOW = "SEA_SYS_DATE_NOW";
-
-    /**
-     * 当前交易日
-     */
-    public static final String SYS_TRADING_DAY_NOW = "SEA_SYS_TRADING_DAY_NOW";
-
-
     /* global yes flag */
     public static final Boolean YES = Boolean.TRUE;
     /* global no flag */
