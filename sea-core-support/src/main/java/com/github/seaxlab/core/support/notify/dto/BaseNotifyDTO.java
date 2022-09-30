@@ -11,11 +11,11 @@ import java.util.Map;
  * @version 1.0 2020/3/4
  * @since 1.0
  */
-
 @Data
 public class BaseNotifyDTO {
 
     // title+content or template+param
+    //
     private String title;
     private String content;
 

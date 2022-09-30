@@ -4,7 +4,7 @@ import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.http.simple.HttpClientUtil;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.support.notify.dto.FeiShuNotifyDTO;
-import com.github.seaxlab.core.support.notify.enums.FeiShuMsgTypeEnum;
+import com.github.seaxlab.core.support.notify.enums.MsgTypeEnum;
 import com.github.seaxlab.core.support.notify.manager.NotifyManager;
 import com.github.seaxlab.core.support.notify.util.NotifyUtil;
 import lombok.Getter;
@@ -50,9 +50,9 @@ public class FeiShuNotifyManager implements NotifyManager<FeiShuNotifyDTO> {
         FeiShuNotifyDTO.RobotSendRequest request = new FeiShuNotifyDTO.RobotSendRequest();
 
         if (dto.getMsgTypeEnum() == null) {
-            dto.setMsgTypeEnum(FeiShuMsgTypeEnum.TEXT);
+            dto.setMsgTypeEnum(MsgTypeEnum.TEXT);
         }
-        request.setMsgType(dto.getMsgTypeEnum().getKey());
+        request.setMsgType(dto.getMsgTypeEnum().getCode());
         FeiShuNotifyDTO.RobotSendRequest.Content content = new FeiShuNotifyDTO.RobotSendRequest.Content();
         request.setContent(content);
         //

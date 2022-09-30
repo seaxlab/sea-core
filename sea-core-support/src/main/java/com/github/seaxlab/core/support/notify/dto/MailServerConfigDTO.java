@@ -1,8 +1,6 @@
 package com.github.seaxlab.core.support.notify.dto;
 
-import com.github.seaxlab.core.model.layer.dto.BaseRequestDTO;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * module name
@@ -12,8 +10,7 @@ import lombok.EqualsAndHashCode;
  * @since 1.0
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class MailServerConfigDTO extends BaseRequestDTO {
+public class MailServerConfigDTO {
 
     private String protocol;
 

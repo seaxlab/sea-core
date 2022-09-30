@@ -1,9 +1,6 @@
 package com.github.seaxlab.core.support.notify.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * module name
@@ -14,9 +11,6 @@ import lombok.NoArgsConstructor;
  */
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class NotifyConfigDTO {
 
     private String appId;

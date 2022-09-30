@@ -2,7 +2,7 @@ package com.github.seaxlab.core.support.notify.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.seaxlab.core.support.notify.enums.FeiShuMsgTypeEnum;
+import com.github.seaxlab.core.support.notify.enums.MsgTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Data
 public class FeiShuNotifyDTO extends BaseNotifyDTO {
 
-    private FeiShuMsgTypeEnum msgTypeEnum;
+    private MsgTypeEnum msgTypeEnum;
 
 
     @Data

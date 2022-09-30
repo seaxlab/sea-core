@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.support.notify.dto;
 
-import com.github.seaxlab.core.support.notify.enums.DingDingMsgTypeEnum;
+import com.github.seaxlab.core.support.notify.enums.MsgTypeEnum;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class DingDingNotifyDTO extends BaseNotifyDTO {
 
-    private DingDingMsgTypeEnum msgTypeEnum;
+    private MsgTypeEnum msgTypeEnum;
     // at one/all
     private At at;
 

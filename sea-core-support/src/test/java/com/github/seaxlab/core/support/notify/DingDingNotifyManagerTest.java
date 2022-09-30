@@ -2,7 +2,7 @@ package com.github.seaxlab.core.support.notify;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.seaxlab.core.support.notify.dto.DingDingNotifyDTO;
-import com.github.seaxlab.core.support.notify.enums.DingDingMsgTypeEnum;
+import com.github.seaxlab.core.support.notify.enums.MsgTypeEnum;
 import com.github.seaxlab.core.support.notify.manager.impl.DingDingNotifyManager;
 import com.github.seaxlab.core.support.notify.util.DingDingUtil;
 import com.github.seaxlab.core.test.AbstractCore5Test;
@@ -126,7 +126,7 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
 
 
         DingDingNotifyDTO dto = new DingDingNotifyDTO();
-        dto.setMsgTypeEnum(DingDingMsgTypeEnum.MARKDOWN);
+        dto.setMsgTypeEnum(MsgTypeEnum.MARKDOWN);
         dto.setTitle("test");
         dto.setContent(sb.toString());
 
