@@ -2,7 +2,6 @@ package com.github.seaxlab.core.support.notify.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -14,7 +13,7 @@ import java.util.Map;
  */
 
 @Data
-public class BaseNotifyDTO implements Serializable {
+public class BaseNotifyDTO {
 
     // title+content or template+param
     private String title;
