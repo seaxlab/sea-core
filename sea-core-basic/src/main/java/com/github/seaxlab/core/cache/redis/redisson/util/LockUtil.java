@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.cache.redis.redisson.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.RedissonMultiLock;
 import org.redisson.api.RLock;
 
 /**
@@ -26,8 +27,13 @@ public class LockUtil {
             return;
         }
         try {
-            if (lock.isLocked() && lock.isHeldByCurrentThread()) {
+            // multi lock has no isLocked and isHeldByCurrentThread() method.
+            if (lock instanceof RedissonMultiLock) {
                 lock.unlock();
+            } else {
+                if (lock.isLocked() && lock.isHeldByCurrentThread()) {
+                    lock.unlock();
+                }
             }
         } catch (Exception e) {
             log.error("fail to unlock", e);
