@@ -1,11 +1,12 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.common.SymbolConst;
-import com.github.seaxlab.core.model.Diff;
 import com.google.common.collect.Sets;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.SetUtils;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -101,9 +102,7 @@ public final class SetUtil {
             return empty();
         }
 
-        return list.stream()
-                   .map(func)
-                   .collect(Collectors.toSet());
+        return list.stream().map(func).collect(Collectors.toSet());
     }
 
     /**
@@ -225,12 +224,10 @@ public final class SetUtil {
             return sets.stream().findFirst().get();
         }
 
-        return sets.stream()
-                   .map(HashSet::new)
-                   .reduce((s1, s2) -> {
-                       s1.retainAll(s2);
-                       return s1;
-                   }).orElseGet(() -> new HashSet<>(0));
+        return sets.stream().map(HashSet::new).reduce((s1, s2) -> {
+            s1.retainAll(s2);
+            return s1;
+        }).orElseGet(() -> new HashSet<>(0));
     }
 
     /**
@@ -348,12 +345,10 @@ public final class SetUtil {
         }
 
 
-        return sets.stream()
-                   .map(HashSet::new)
-                   .reduce((s1, s2) -> {
-                       s1.addAll(s2);
-                       return s1;
-                   }).orElseGet(() -> new HashSet<>(0));
+        return sets.stream().map(HashSet::new).reduce((s1, s2) -> {
+            s1.addAll(s2);
+            return s1;
+        }).orElseGet(() -> new HashSet<>(0));
     }
 
     /**
@@ -379,6 +374,27 @@ public final class SetUtil {
         }
 
         return union(set);
+    }
+
+
+    @Data
+    public static class Diff<T> implements Serializable {
+
+        /**
+         * 交集部分
+         */
+        private Set<T> intersections;
+
+        /**
+         * 左侧拥有，右侧没有
+         */
+        private Set<T> lefts;
+
+        /**
+         * 左侧没有，右侧拥有
+         */
+        private Set<T> rights;
+
     }
 
 

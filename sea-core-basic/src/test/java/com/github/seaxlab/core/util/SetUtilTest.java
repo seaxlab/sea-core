@@ -2,7 +2,6 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.domain.User;
-import com.github.seaxlab.core.model.Diff;
 import lombok.extern.slf4j.Slf4j;
 import org.javers.common.collections.Sets;
 import org.junit.Assert;
@@ -98,7 +97,7 @@ public class SetUtilTest extends BaseCoreTest {
     public void testToString2() throws Exception {
         Set<User> set = new HashSet<>();
         set.add(new User(10L, "s10"));
-        set.add(new User(2l, "s2"));
+        set.add(new User(2L, "s2"));
         set.add(new User(20L, "s20"));
 
         Assert.assertEquals("s2,s10,s20", SetUtil.toString(set, User::getName, ","));
@@ -201,7 +200,7 @@ public class SetUtilTest extends BaseCoreTest {
         set3.add("b");
         set3.add("c");
         set3.add("da");
-        List list = Arrays.asList(set1, set2, set3);
+        List<Set<String>> list = Arrays.asList(set1, set2, set3);
 
         log.info("{}", SetUtil.union(list));
         log.info("{},{},{}", set1, set2, set3);
@@ -303,7 +302,7 @@ public class SetUtilTest extends BaseCoreTest {
         Set<String> set1 = Sets.asSet("1", "2");
         Set<String> set2 = Sets.asSet("2", "3");
 
-        Diff<String> diff = SetUtil.diff(set1, set2);
+        SetUtil.Diff<String> diff = SetUtil.diff(set1, set2);
 
         log.info("common={}", diff.getIntersections());
         log.info("lefts={}", diff.getLefts());
