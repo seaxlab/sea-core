@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.support.notify.dto;
 
-import com.github.seaxlab.core.model.layer.dto.BaseRequestDTO;
 import com.github.seaxlab.core.support.notify.manager.dingding.DingDingMsgTypeEnum;
 import lombok.Data;
 
@@ -23,11 +22,8 @@ public class DingDingNotifyDTO extends BaseNotifyDTO {
 
     /**
      * at
-     *
-     * @author top auto create
-     * @since 1.0, null
      */
-    public static class At extends BaseRequestDTO {
+    public static class At {
 
         private List<String> atMobiles;
         private boolean isAtAll;

@@ -17,6 +17,9 @@ import java.net.URLEncoder;
 @Slf4j
 public final class DingDingUtil {
 
+    private DingDingUtil() {
+    }
+
     /**
      * access_token方式
      */

@@ -40,7 +40,11 @@ public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
 
     private void send0(DingDingNotifyDTO dto) {
         log.info("send ding ding msg begin.");
-        log.debug("title={},msg={}", dto.getTitle(), dto.getContent());
+        if (log.isDebugEnabled()) {
+            log.debug("title={},msg={}", dto.getTitle(), dto.getContent());
+        }
+
+        //
         DingDingRobotSendRequest request = new DingDingRobotSendRequest();
 
         if (dto.getMsgTypeEnum() == null) {

@@ -1,7 +1,8 @@
 package com.github.seaxlab.core.support.notify.dto;
 
-import com.github.seaxlab.core.model.layer.dto.BaseRequestDTO;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * module name
@@ -12,7 +13,7 @@ import lombok.Data;
  */
 
 @Data
-public class BaseNotifyDTO extends BaseRequestDTO {
+public class BaseNotifyDTO implements Serializable {
 
     private String title;
 

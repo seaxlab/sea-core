@@ -21,7 +21,7 @@ import java.util.List;
  * @since 1.0
  */
 @Slf4j
-public class NotifyManagerTest extends AbstractCore5Test {
+public class DingDingNotifyManagerTest extends AbstractCore5Test {
 
     @Test
     public void testSign() throws Exception {
