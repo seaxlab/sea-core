@@ -15,35 +15,17 @@ import java.util.List;
  */
 @Data
 public class DingDingNotifyDTO extends BaseNotifyDTO {
+
+    private DingDingMsgTypeEnum msgTypeEnum;
     // at one/all
     private At at;
 
-    private DingDingMsgTypeEnum msgTypeEnum;
 
-    /**
-     * at
-     */
+    @Data
     public static class At {
 
         private List<String> atMobiles;
-        private boolean isAtAll;
-
-        public List<String> getAtMobiles() {
-            return this.atMobiles;
-        }
-
-        public void setAtMobiles(List<String> atMobiles) {
-            this.atMobiles = atMobiles;
-        }
-
-        public boolean getIsAtAll() {
-            return this.isAtAll;
-        }
-
-        public void setIsAtAll(boolean isAtAll) {
-            this.isAtAll = isAtAll;
-        }
-
+        private boolean atAll;
 
         //extend
         public void addMobile(String mobile) {

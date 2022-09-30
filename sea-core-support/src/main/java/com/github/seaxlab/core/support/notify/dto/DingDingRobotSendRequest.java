@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.support.notify.dto;
 
-import com.github.seaxlab.core.model.layer.dto.BaseRequestDTO;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,34 +18,14 @@ import java.util.List;
 @Data
 public class DingDingRobotSendRequest implements Serializable {
 
-    /**
-     * at
-     */
+    private String msgtype;
+    private Text text;
+    private Markdown markdown;
     private At at;
 
-    private String msgtype;
-
-    /**
-     * TEXT
-     */
-    private Text text;
-
-    private Markdown markdown;
-
-    /**
-     * @author top auto create
-     * @since 1.0, null
-     */
-    public static class Text extends BaseRequestDTO {
+    @Data
+    public static class Text {
         private String content;
-
-        public String getContent() {
-            return this.content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
     }
 
     @Data
@@ -53,30 +34,13 @@ public class DingDingRobotSendRequest implements Serializable {
         private String text;
     }
 
-
-    /**
-     * @author top auto create
-     * @since 1.0, null
-     */
-    public static class At extends BaseRequestDTO {
+    @Data
+    public static class At {
         private List<String> atMobiles;
-        private boolean isAtAll;
 
-        public List<String> getAtMobiles() {
-            return this.atMobiles;
-        }
-
-        public void setAtMobiles(List<String> atMobiles) {
-            this.atMobiles = atMobiles;
-        }
-
-        public boolean getIsAtAll() {
-            return this.isAtAll;
-        }
-
-        public void setIsAtAll(boolean isAtAll) {
-            this.isAtAll = isAtAll;
-        }
+        @JSONField(name = "isAtAll")
+        @JsonProperty("isAtAll")
+        private Boolean atAll;
     }
 
 

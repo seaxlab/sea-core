@@ -81,8 +81,8 @@ public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
             if (at.getAtMobiles() != null) {
                 finalAt.setAtMobiles(at.getAtMobiles());
             }
-            if (at.getIsAtAll()) {
-                finalAt.setIsAtAll(true);
+            if (at.isAtAll()) {
+                finalAt.setAtAll(true);
             }
             request.setAt(finalAt);
         }

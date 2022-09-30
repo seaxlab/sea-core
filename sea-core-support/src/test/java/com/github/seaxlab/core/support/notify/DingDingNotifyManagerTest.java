@@ -55,7 +55,7 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
         DingDingNotifyDTO.At at = new DingDingNotifyDTO.At();
 
         at.setAtMobiles(mobiles);
-        at.setIsAtAll(true);
+        at.setAtAll(true);
         dto.setAt(at);
 
         // {"at":{"atMobiles":["10086"],"isAtAll":true},"content":"111"}
