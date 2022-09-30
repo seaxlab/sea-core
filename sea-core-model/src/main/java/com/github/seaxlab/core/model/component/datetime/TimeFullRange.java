@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.model.datetime;
+package com.github.seaxlab.core.model.component.datetime;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.github.seaxlab.core.model.layer.dto.DTO;
@@ -14,10 +14,11 @@ import java.util.Date;
  * @since 1.0
  */
 @Data
-public class DateTimeFullRange extends DTO {
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+public class TimeFullRange extends DTO {
+
+    @JSONField(format = "HH:mm:ss")
     private Date begin;
 
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "HH:mm:ss")
     private Date end;
 }

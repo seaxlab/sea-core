@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.model.datetime;
+package com.github.seaxlab.core.model.component.datetime;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.github.seaxlab.core.model.checker.SimpleValidator;

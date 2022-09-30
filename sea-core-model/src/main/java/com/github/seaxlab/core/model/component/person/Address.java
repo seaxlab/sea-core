@@ -42,7 +42,7 @@ public class Address extends DTO {
     private String phone;
 
     // 是否默认
-    private Boolean isDefault;
+    private Boolean defaultFlag;
 
     /**
      * 全名

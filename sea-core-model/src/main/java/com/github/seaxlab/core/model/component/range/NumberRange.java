@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.model.range;
+package com.github.seaxlab.core.model.component.range;
 
 import com.github.seaxlab.core.model.layer.dto.DTO;
 import lombok.Data;
