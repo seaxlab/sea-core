@@ -33,7 +33,7 @@ public abstract class AbstractSingleConcreteBizService<T>
             log.info("do service check");
             Result checkResult = check();
             Preconditions.checkNotNull(checkResult, "check result cannot null");
-            if (!checkResult.getSuccess()) {
+            if (checkResult.isFail()) {
                 log.warn("check result is false. [{}]", checkResult);
                 return checkResult;
             }
@@ -54,16 +54,12 @@ public abstract class AbstractSingleConcreteBizService<T>
 
 
             log.info("do service begin");
-
             ret = doService();
-
             log.info("do service end");
 
         } finally {
             log.info("do service destroy begin");
-
             destroy();
-
             log.info("do service destroy end");
         }
 
