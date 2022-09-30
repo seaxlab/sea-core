@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.component.json.jackson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.seaxlab.core.BaseCoreTest;
@@ -145,4 +146,17 @@ public class JacksonUtilTest extends BaseCoreTest {
         log.info("user list={}", userList);
     }
 
+
+    @Test
+    public void testAlias() throws Exception {
+        XY model = new XY();
+        model.setName("hello");
+        log.info("{}", JacksonUtil.toString(model));
+    }
+
+    @Data
+    public static class XY {
+        @JsonProperty("n")
+        private String name;
+    }
 }
