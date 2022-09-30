@@ -2,7 +2,7 @@ package com.github.seaxlab.core.support.notify;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.seaxlab.core.support.notify.dto.DingDingNotifyDTO;
-import com.github.seaxlab.core.support.notify.manager.dingding.DingDingMsgTypeEnum;
+import com.github.seaxlab.core.support.notify.enums.DingDingMsgTypeEnum;
 import com.github.seaxlab.core.support.notify.manager.impl.DingDingNotifyManager;
 import com.github.seaxlab.core.support.notify.util.DingDingUtil;
 import com.github.seaxlab.core.test.AbstractCore5Test;

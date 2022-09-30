@@ -4,8 +4,9 @@ import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.http.simple.HttpClientUtil;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.support.notify.dto.FeiShuNotifyDTO;
+import com.github.seaxlab.core.support.notify.enums.FeiShuMsgTypeEnum;
 import com.github.seaxlab.core.support.notify.manager.NotifyManager;
-import com.github.seaxlab.core.support.notify.manager.dingding.FeiShuMsgTypeEnum;
+import com.github.seaxlab.core.support.notify.util.NotifyUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -57,10 +58,10 @@ public class FeiShuNotifyManager implements NotifyManager<FeiShuNotifyDTO> {
         //
         switch (dto.getMsgTypeEnum()) {
             case TEXT:
-                content.setText(dto.getContent());
+                content.setText(NotifyUtil.getContent(dto));
                 break;
             case MARKDOWN:
-                content.setText(dto.getContent());
+                content.setText(NotifyUtil.getContent(dto));
                 break;
             default:
                 log.warn("unsupported fei shu msg type={}", dto.getMsgTypeEnum());

@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.support.notify.dto;
 
-import com.github.seaxlab.core.support.notify.manager.dingding.DingDingMsgTypeEnum;
+import com.github.seaxlab.core.support.notify.enums.DingDingMsgTypeEnum;
 import lombok.Data;
 
 import java.util.ArrayList;

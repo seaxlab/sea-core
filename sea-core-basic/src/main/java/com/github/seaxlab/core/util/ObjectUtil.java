@@ -5,6 +5,7 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -93,6 +94,37 @@ public final class ObjectUtil {
         return false;
     }
 
+    public static boolean isNotEmpty(Object... objects) {
+        // check all object, find empty, so stop
+        for (Object obj : objects) {
+            if (obj == null) {
+                return false;
+            }
+            if (obj instanceof String) {
+                String value = (String) obj;
+                if (StringUtil.isEmpty(value)) {
+                    return false;
+                }
+            } else if (obj instanceof Collection) {
+                Collection collection = (Collection) obj;
+                if (collection.isEmpty()) {
+                    return false;
+                }
+            } else if (obj instanceof Map) {
+                Map map = (Map) obj;
+                if (map.isEmpty()) {
+                    return false;
+                }
+            } else if (ArrayUtil.isArray(obj)) {
+                if (ArrayUtil.isEmpty(obj)) {
+                    return false;
+                }
+            }
+        }
+        //all object is fine.
+        return true;
+    }
+
     /**
      * check all objects are empty.
      * 支持字符串、对象、集合混合检测
@@ -113,6 +145,11 @@ public final class ObjectUtil {
             } else if (obj instanceof Collection) {
                 Collection collection = (Collection) obj;
                 if (!collection.isEmpty()) {
+                    return false;
+                }
+            } else if (obj instanceof Map) {
+                Map map = (Map) obj;
+                if (!map.isEmpty()) {
                     return false;
                 }
             } else if (ArrayUtil.isArray(obj)) {

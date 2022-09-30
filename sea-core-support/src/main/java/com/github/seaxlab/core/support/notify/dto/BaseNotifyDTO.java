@@ -3,9 +3,10 @@ package com.github.seaxlab.core.support.notify.dto;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
- * module name
+ * base notify DTO.
  *
  * @author spy
  * @version 1.0 2020/3/4
@@ -15,7 +16,11 @@ import java.io.Serializable;
 @Data
 public class BaseNotifyDTO implements Serializable {
 
+    // title+content or template+param
     private String title;
-
     private String content;
+
+    // {name},你好
+    private String template;
+    private Map<String, String> param;
 }

@@ -4,8 +4,9 @@ import com.github.seaxlab.core.http.simple.HttpClientUtil;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.support.notify.dto.DingDingNotifyDTO;
 import com.github.seaxlab.core.support.notify.dto.DingDingRobotSendRequest;
+import com.github.seaxlab.core.support.notify.enums.DingDingMsgTypeEnum;
 import com.github.seaxlab.core.support.notify.manager.NotifyManager;
-import com.github.seaxlab.core.support.notify.manager.dingding.DingDingMsgTypeEnum;
+import com.github.seaxlab.core.support.notify.util.NotifyUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +56,7 @@ public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
         switch (dto.getMsgTypeEnum()) {
             case TEXT:
                 DingDingRobotSendRequest.Text text = new DingDingRobotSendRequest.Text();
-                text.setContent(dto.getContent());
+                text.setContent(NotifyUtil.getContent(dto));
 
                 request.setText(text);
                 break;
@@ -63,7 +64,7 @@ public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
 
                 DingDingRobotSendRequest.Markdown markdown = new DingDingRobotSendRequest.Markdown();
                 markdown.setTitle(dto.getTitle());
-                markdown.setText(dto.getContent());
+                markdown.setText(NotifyUtil.getContent(dto));
 
                 request.setMarkdown(markdown);
                 break;

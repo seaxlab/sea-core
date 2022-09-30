@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.support.notify.manager.dingding;
+package com.github.seaxlab.core.support.notify.enums;
 
 import lombok.Getter;
 import lombok.Setter;

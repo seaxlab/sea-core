@@ -2,7 +2,7 @@ package com.github.seaxlab.core.support.notify.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.seaxlab.core.support.notify.manager.dingding.FeiShuMsgTypeEnum;
+import com.github.seaxlab.core.support.notify.enums.FeiShuMsgTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
