@@ -21,7 +21,7 @@ import java.io.Serializable;
  * @since 1.0
  */
 @Data
-@JSONType(orders = {"success", "traceId", "code", "msg", "data", "extra"})
+@JSONType(orders = {"success", "traceId", "code", "msg", "data"})
 public class Result<T> implements Serializable {
 
     /**
