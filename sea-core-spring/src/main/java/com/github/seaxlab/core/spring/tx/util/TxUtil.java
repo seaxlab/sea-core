@@ -27,6 +27,15 @@ public final class TxUtil {
     }
 
     /**
+     * return whether has active transaction
+     *
+     * @return
+     */
+    public static boolean hasActive() {
+        return TransactionSynchronizationManager.isActualTransactionActive();
+    }
+
+    /**
      * 回滚事务
      */
     public static void rollback() {
