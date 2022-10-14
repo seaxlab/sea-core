@@ -12,14 +12,14 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * module name
+ * quartz util
  *
  * @author spy
  * @version 1.0 2020/3/30
  * @since 1.0
  */
 @Slf4j
-public class QuartzUtil {
+public final class QuartzUtil {
 
     private QuartzUtil() {
 
