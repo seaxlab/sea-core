@@ -22,7 +22,8 @@ public enum ErrorMessageEnum implements IErrorEnum {
     LOCK_FAIL("sea_basic_lock_fail", "操作进行中，请稍后尝试。"),
 
     METHOD_EXECUTION_ERROR("sea_method_execution_error", "方法执行异常"),//
-    DB_ERROR("sea_db_", "数据库异常"), //
+    DB_ERROR("sea_db_error", "数据库异常"), //
+    DB_OPERATION_FAIL("sea_db_operation_fail", "数据库操作失败"), //
     RPC_INVOKE_ERROR("sea_rpc_invoke_error", "远程调用异常"), //
     HTTP_ERROR("sea_http_error", "HTTP调用异常"),//
     SERIAL_ERROR("sea_serial_error", "序列化异常"),//
