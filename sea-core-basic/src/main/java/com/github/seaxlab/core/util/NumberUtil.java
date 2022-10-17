@@ -582,6 +582,22 @@ public final class NumberUtil {
         return scale(num, scale, RoundingMode.DOWN);
     }
 
+
+    /**
+     * scale fro bigdecimal
+     *
+     * @param bigDecimal
+     * @param scale
+     * @param mode
+     * @return
+     */
+    public static BigDecimal scale(BigDecimal bigDecimal, int scale, RoundingMode mode) {
+        if (bigDecimal == null) {
+            return BigDecimal.ZERO;
+        }
+        return bigDecimal.setScale(scale, mode);
+    }
+
     /**
      * scale
      *
