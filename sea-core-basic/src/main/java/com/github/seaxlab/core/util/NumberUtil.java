@@ -582,9 +582,19 @@ public final class NumberUtil {
         return scale(num, scale, RoundingMode.DOWN);
     }
 
+    /**
+     * scale down for big decimal
+     *
+     * @param bigDecimal
+     * @param scale
+     * @return
+     */
+    public static BigDecimal scaleDown(BigDecimal bigDecimal, int scale) {
+        return scale(bigDecimal, scale, RoundingMode.DOWN);
+    }
 
     /**
-     * scale fro bigdecimal
+     * scale for big decimal
      *
      * @param bigDecimal
      * @param scale
