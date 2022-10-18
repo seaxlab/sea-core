@@ -44,6 +44,19 @@ public final class NumberUtil {
     }
 
     /**
+     * check whether it is zero or not
+     *
+     * @param amount
+     * @return
+     */
+    public static boolean isNotZero(BigDecimal amount) {
+        if (amount == null) {
+            return false;
+        }
+        return BigDecimal.ZERO.compareTo(amount) != 0;
+    }
+
+    /**
      * 判断是否为0
      *
      * @param value
