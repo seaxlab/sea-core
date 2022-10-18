@@ -39,7 +39,8 @@ public class FileSequenceService implements SequenceService {
                 nextValue = 1;
             } else {
                 //++
-                String content = Files.toString(seqFile, Charsets.UTF_8);
+
+                String content = Files.asCharSource(seqFile, Charsets.UTF_8).read();
 
                 try {
                     nextValue = Long.valueOf(content) + 1;
