@@ -350,6 +350,10 @@ public final class NumberUtil {
     public static BigDecimal add(BigDecimal value, BigDecimal... values) {
         BigDecimal result = value == null ? BigDecimal.ZERO : value;
 
+        if (ArrayUtil.isEmpty(values)) {
+            return result;
+        }
+
         for (BigDecimal item : values) {
             if (item == null) {
                 continue;

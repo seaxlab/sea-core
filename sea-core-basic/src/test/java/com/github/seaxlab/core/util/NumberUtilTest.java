@@ -30,6 +30,12 @@ public class NumberUtilTest extends BaseCoreTest {
     }
 
     @Test
+    public void testAdd2() throws Exception {
+        BigDecimal result = NumberUtil.add(null, null);
+        log.info("result={}", result);
+    }
+
+    @Test
     public void testAddInt() throws Exception {
         log.info("{}", NumberUtil.addInt("1", "-1", "", "-0"));
     }
