@@ -340,6 +340,25 @@ public final class NumberUtil {
         return result;
     }
 
+    /**
+     * multi big decimal for native
+     *
+     * @param value
+     * @param values
+     * @return
+     */
+    public static BigDecimal add(BigDecimal value, BigDecimal... values) {
+        BigDecimal result = value == null ? BigDecimal.ZERO : value;
+
+        for (BigDecimal item : values) {
+            if (item == null) {
+                continue;
+            }
+            result = result.add(item);
+        }
+
+        return result;
+    }
 
     /**
      * 多个数值累加（高精度）

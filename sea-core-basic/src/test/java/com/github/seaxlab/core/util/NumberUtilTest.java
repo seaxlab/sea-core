@@ -21,6 +21,15 @@ public class NumberUtilTest extends BaseCoreTest {
 
 
     @Test
+    public void testAdd() throws Exception {
+        BigDecimal a1 = new BigDecimal("1.2");
+        BigDecimal a2 = new BigDecimal("2");
+        BigDecimal a3 = new BigDecimal("3");
+        BigDecimal result = NumberUtil.add(null, a1, a2, a3, null);
+        log.info("result={}", result);
+    }
+
+    @Test
     public void testAddInt() throws Exception {
         log.info("{}", NumberUtil.addInt("1", "-1", "", "-0"));
     }
