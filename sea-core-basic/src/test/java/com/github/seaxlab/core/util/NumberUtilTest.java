@@ -21,6 +21,14 @@ public class NumberUtilTest extends BaseCoreTest {
 
 
     @Test
+    public void testCompare() throws Exception {
+        log.info("{}", NumberUtil.compare(new BigDecimal("-1"), new BigDecimal("1")));
+        log.info("{}", NumberUtil.compare(new BigDecimal("0"), new BigDecimal("0")));
+        log.info("{}", NumberUtil.compare(new BigDecimal("1"), new BigDecimal("-1")));
+        log.info("{}", NumberUtil.compare(new BigDecimal("1"), null));
+    }
+
+    @Test
     public void testAdd() throws Exception {
         BigDecimal a1 = new BigDecimal("1.2");
         BigDecimal a2 = new BigDecimal("2");

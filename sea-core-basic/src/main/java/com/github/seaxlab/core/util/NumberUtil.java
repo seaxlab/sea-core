@@ -30,6 +30,23 @@ public final class NumberUtil {
     }
 
     /**
+     * compare two big decimal
+     *
+     * @param value1
+     * @param value2
+     * @return
+     */
+    public static int compare(final BigDecimal value1, final BigDecimal value2) {
+        if (value1 != null && value2 != null) {
+            return value1.compareTo(value2);
+        }
+
+        BigDecimal a = value1 == null ? BigDecimal.ZERO : value1;
+        BigDecimal b = value2 == null ? BigDecimal.ZERO : value2;
+        return a.compareTo(b);
+    }
+
+    /**
      * 判断是否为0
      *
      * @param amount
