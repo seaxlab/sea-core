@@ -82,13 +82,27 @@ public final class NumberUtil {
         return true;
     }
 
-
     public static boolean isPositive(Integer value) {
         if (value == null || value.intValue() <= 0) {
             return false;
         }
         return true;
     }
+
+    /**
+     * 判断是否是正数
+     *
+     * @param value
+     * @return
+     */
+    public static boolean isPositive(BigDecimal value) {
+        if (value == null) {
+            return false;
+        }
+
+        return value.compareTo(BigDecimal.ZERO) > 0;
+    }
+
 
     public static boolean isNotPositive(Long value) {
         if (value == null || value.longValue() <= 0) {
@@ -103,6 +117,20 @@ public final class NumberUtil {
         }
         return false;
     }
+
+    /**
+     * 判断是否非正数
+     *
+     * @param value
+     * @return
+     */
+    public static boolean isNotPositive(BigDecimal value) {
+        if (value == null) {
+            return false;
+        }
+        return value.compareTo(BigDecimal.ZERO) <= 0;
+    }
+
 
     /**
      * 判断是否是负数
@@ -131,6 +159,20 @@ public final class NumberUtil {
     }
 
     /**
+     * 判断是否是负数
+     *
+     * @param value
+     * @return
+     */
+    public static boolean isNegative(BigDecimal value) {
+        if (value == null) {
+            return false;
+        }
+
+        return value.compareTo(BigDecimal.ZERO) < 0;
+    }
+
+    /**
      * check number is not negative
      *
      * @param value
@@ -156,6 +198,18 @@ public final class NumberUtil {
         return false;
     }
 
+    /**
+     * 判断是否是非负数
+     *
+     * @param value
+     * @return
+     */
+    public static boolean isNotNegative(BigDecimal value) {
+        if (value == null) {
+            return false;
+        }
+        return value.compareTo(BigDecimal.ZERO) >= 0;
+    }
 
     /**
      * integer to BigDecimal

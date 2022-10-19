@@ -66,6 +66,33 @@ public class NumberUtilTest extends BaseCoreTest {
         log.info("{}", NumberUtil.substract("1.0", "0.0001", "0.000005"));
     }
 
+    @Test
+    public void testIsPositive() throws Exception {
+        log.info("{}", NumberUtil.isPositive(new BigDecimal("-1.2")));
+        log.info("{}", NumberUtil.isPositive(new BigDecimal("0")));
+        log.info("{}", NumberUtil.isPositive(new BigDecimal("1.2")));
+    }
+
+    @Test
+    public void testIsNotPositive() throws Exception {
+        log.info("{}", NumberUtil.isNotPositive(new BigDecimal("-1.2")));
+        log.info("{}", NumberUtil.isNotPositive(new BigDecimal("0")));
+        log.info("{}", NumberUtil.isNotPositive(new BigDecimal("1.2")));
+    }
+
+    @Test
+    public void testIsNegative() throws Exception {
+        log.info("{}", NumberUtil.isNegative(new BigDecimal("-1.2")));
+        log.info("{}", NumberUtil.isNegative(new BigDecimal("0")));
+        log.info("{}", NumberUtil.isNegative(new BigDecimal("1.2")));
+    }
+
+    @Test
+    public void testIsNotNegative() throws Exception {
+        log.info("{}", NumberUtil.isNotNegative(new BigDecimal("-1.2")));
+        log.info("{}", NumberUtil.isNotNegative(new BigDecimal("0")));
+        log.info("{}", NumberUtil.isNotNegative(new BigDecimal("1.2")));
+    }
 
     @Test
     public void run23() throws Exception {
@@ -181,7 +208,6 @@ public class NumberUtilTest extends BaseCoreTest {
     @Test
     public void testComparisonRatio() throws Exception {
         log.info("{}", NumberUtil.comparisonRatio(10, 30));
-
     }
 }
 
