@@ -3,6 +3,7 @@ package com.github.seaxlab.core.util;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -72,6 +73,20 @@ public final class EqualUtil {
     public static boolean isEq(Long value1, Long value2) {
         if (Objects.nonNull(value1) && Objects.nonNull(value2)) {
             return value1.longValue() == value2.longValue();
+        }
+        return false;
+    }
+
+    /**
+     * check equal.
+     *
+     * @param value1
+     * @param value2
+     * @return
+     */
+    public static boolean isEq(BigDecimal value1, BigDecimal value2) {
+        if (Objects.nonNull(value1) && Objects.nonNull(value2)) {
+            return value1.compareTo(value2) == 0;
         }
         return false;
     }
@@ -314,6 +329,17 @@ public final class EqualUtil {
      */
     public static boolean isNotEq(Long baseVar, Long value1, Long value2, Long value3) {
         return (!isEq(baseVar, value1)) && (!isEq(baseVar, value2)) && (!isEq(baseVar, value3));
+    }
+
+    /**
+     * is not equal
+     *
+     * @param value1
+     * @param value2
+     * @return
+     */
+    public static boolean isNotEq(BigDecimal value1, BigDecimal value2) {
+        return !isEq(value1, value2);
     }
 
     /**

@@ -6,6 +6,7 @@ import org.apache.commons.collections4.SetUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -118,5 +119,13 @@ public class EqualUtilTest extends BaseCoreTest {
         log.info("{}", set1.containsAll(set2));
         log.info("{}", SetUtils.difference(set1, set2).toSet());
         log.info("{}", SetUtils.difference(set2, set1).toSet());
+    }
+
+    @Test
+    public void testIsEqualBigDecimal() throws Exception {
+        BigDecimal value1 = new BigDecimal("1.2");
+        BigDecimal value2 = new BigDecimal("1.20");
+        log.info("{}", EqualUtil.isEq(value1, value2));
+        log.info("{}", EqualUtil.isNotEq(value1, value2));
     }
 }
