@@ -195,6 +195,20 @@ public final class SetUtil {
     }
 
     /**
+     * get first one ,return value may be null
+     *
+     * @param set
+     * @param <T>
+     * @return
+     */
+    public static <T> T firstOne(Set<T> set) {
+        if (isEmpty(set)) {
+            return null;
+        }
+        return set.stream().findFirst().orElse(null);
+    }
+
+    /**
      * 两个集合的交集
      *
      * @param a
