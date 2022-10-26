@@ -14,6 +14,8 @@ public class AopGlobalConfig {
 
     // 判断是否允许打印耗时日志
     private static boolean logCostFlag = true;
+    // 判断是否允许打印请求日志
+    private static boolean logRequestFlag = true;
 
     public static boolean getLogCostFlag() {
         return logCostFlag;
@@ -21,6 +23,14 @@ public class AopGlobalConfig {
 
     public static void setLogCostFlag(boolean enable) {
         logCostFlag = enable;
+    }
+
+    public static boolean getLogRequestFlag() {
+        return logRequestFlag;
+    }
+
+    public static void setLogRequestFlag(boolean flag) {
+        logRequestFlag = flag;
     }
 
 }

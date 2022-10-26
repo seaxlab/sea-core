@@ -2,6 +2,7 @@ package com.github.seaxlab.core.example.controller;
 
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.spring.annotation.LogCost;
+import com.github.seaxlab.core.spring.annotation.LogRequest;
 import com.github.seaxlab.core.thread.util.CallableUtil;
 import com.github.seaxlab.core.thread.util.ThreadPoolUtil;
 import com.github.seaxlab.core.thread.util.ThreadUtil;
@@ -31,6 +32,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class TestController implements InitializingBean {
 
     @LogCost
+    @LogRequest
     @GetMapping("/log")
     public Result log() {
         log.info("----log");

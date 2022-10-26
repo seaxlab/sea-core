@@ -9,7 +9,7 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 import java.lang.reflect.Method;
 
 /**
- * module name
+ * log cost point cut
  *
  * @author spy
  * @version 1.0 2021/12/16

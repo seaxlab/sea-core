@@ -2,13 +2,15 @@ package com.github.seaxlab.core.boot.autoconfigure.config;
 
 import com.github.seaxlab.core.spring.aop.advisor.DefaultPointCutAdvisor;
 import com.github.seaxlab.core.spring.aop.advisor.LogCostPointCut;
+import com.github.seaxlab.core.spring.aop.advisor.LogRequestPointcut;
 import com.github.seaxlab.core.spring.aop.interceptor.LogCostMethodInterceptor;
+import com.github.seaxlab.core.spring.aop.interceptor.LogRequestMethodInterceptor;
+import com.github.seaxlab.core.spring.enums.OrderedEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.PointcutAdvisor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 
 /**
  * module name
@@ -82,9 +84,22 @@ public class SeaCoreConfig {
 
         advisor.setAdviceBeanName("seaLogCostPointcutAdvisor");
         advisor.setAdvice(new LogCostMethodInterceptor());
-        advisor.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        advisor.setOrder(OrderedEnum.LOG_COST.getCode());
         return advisor;
     }
+
+    @Bean
+    public PointcutAdvisor seaLogRequestAdvisor() {
+        log.info("init sea log request advisor bean");
+
+        DefaultPointCutAdvisor advisor = new DefaultPointCutAdvisor(new LogRequestPointcut());
+
+        advisor.setAdviceBeanName("seaLogRequestPointcutAdvisor");
+        advisor.setAdvice(new LogRequestMethodInterceptor());
+        advisor.setOrder(OrderedEnum.LOG_REQUEST.getCode());
+        return advisor;
+    }
+
 
     //private static final String DEFAULT_EXPRESSION_PROFILER = "@annotation(com.github.seaxlab.core.component.perf.anno.Profiler)";
 
