@@ -30,6 +30,10 @@ public final class RegExpUtil {
         return pattern.matcher(text).matches();
     }
 
+    public static boolean isNot(String text, RegExpEnum regExpEnum) {
+        return !is(text, regExpEnum);
+    }
+
     /**
      * 根据传入的正则表达式和字符串进行校验。<br/>
      *
@@ -40,6 +44,10 @@ public final class RegExpUtil {
     public static boolean is(String text, String patternStr) {
         Pattern pattern = Pattern.compile(patternStr);
         return pattern.matcher(text).matches();
+    }
+
+    public static boolean isNot(String text, String patternStr) {
+        return !is(text, patternStr);
     }
 
 
@@ -53,7 +61,7 @@ public final class RegExpUtil {
     public static boolean find(String text, RegExpEnum regExpEnum) {
         return find(text, regExpEnum.getExpression());
     }
-    
+
     /**
      * 检查text中是否包含指定的正则
      *
