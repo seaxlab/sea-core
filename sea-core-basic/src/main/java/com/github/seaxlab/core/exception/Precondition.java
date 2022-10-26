@@ -58,7 +58,7 @@ public final class Precondition {
 
     public static <K, V> void checkNotEmpty(Map<K, V> data, String msg) {
         if (data == null || data.isEmpty()) {
-            ExceptionHandler.publish(msg);
+            ExceptionHandler.publish("", msg);
         }
     }
 
