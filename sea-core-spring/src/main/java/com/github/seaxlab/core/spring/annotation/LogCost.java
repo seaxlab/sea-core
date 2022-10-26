@@ -15,6 +15,11 @@ import java.lang.annotation.*;
 @Inherited
 public @interface LogCost {
 
-    String remark() default "";
+    /**
+     * business category
+     *
+     * @return
+     */
+    String type() default "";
 
 }

@@ -40,10 +40,10 @@ public class LogCostMethodInterceptor implements MethodInterceptor {
         } finally {
             String prefix = "";
             try {
-                if (StringUtil.isBlank(anno.remark())) {
+                if (StringUtil.isBlank(anno.type())) {
                     prefix = invocation.getMethod().getDeclaringClass().getSimpleName() + "." + invocation.getMethod().getName();
                 } else {
-                    prefix = anno.remark();
+                    prefix = anno.type();
                 }
             } catch (Exception e) {
                 log.error("fail to get class and method name info", e);
