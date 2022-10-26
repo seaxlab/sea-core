@@ -1,7 +1,6 @@
 package com.github.seaxlab.core.exception;
 
 import com.github.seaxlab.core.enums.IErrorEnum;
-import com.github.seaxlab.core.util.StringUtil;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 
@@ -48,51 +47,10 @@ public final class ExceptionHandler {
         throw new BaseAppException(exception, args);
     }
 
-    /**
-     * 抛出异常
-     *
-     * @param code
-     * @return BaseAppException
-     * @throws BaseAppException
-     */
-    public static BaseAppException publish(String code) throws BaseAppException {
-        return publish(code, null, null);
-    }
-
     public static BaseAppException publish(String code, String msg) throws BaseAppException {
         return publish(code, msg, null);
     }
 
-    /**
-     * 兼容已有系统
-     *
-     * @param code
-     * @return BaseAppException
-     * @throws BaseAppException
-     */
-    public static BaseAppException publishOld(String code) throws BaseAppException {
-        code = StringUtil.isEmpty(code) ? OLD_CODE : (OLD_CODE + code);
-        return publish(code, null, null);
-    }
-
-    public static BaseAppException publishOld(String code, String msg) throws BaseAppException {
-        code = StringUtil.isEmpty(code) ? OLD_CODE : (OLD_CODE + code);
-        return publish(code, msg, null);
-    }
-
-    public static BaseAppException publishOld(Long code) throws BaseAppException {
-        String newCode = code == null ? OLD_CODE : (OLD_CODE + code.toString());
-        return publish(newCode, null, null);
-    }
-
-    public static BaseAppException publishOld(Long code, String msg) throws BaseAppException {
-        String newCode = code == null ? OLD_CODE : (OLD_CODE + code.toString());
-        return publish(newCode, msg, null);
-    }
-
-    public static BaseAppException publishMsgOld(String msg) throws BaseAppException {
-        return publish(OLD_CODE, msg, null);
-    }
 
     public static BaseAppException publishMsg(String msg) throws BaseAppException {
         return publish(NO_ERROR_CODE, msg, null);
