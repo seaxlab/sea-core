@@ -156,6 +156,10 @@ public final class ObjectUtil {
                 if (ArrayUtil.length(obj) > 0) {
                     return false;
                 }
+            } else {
+                if (obj != null) {
+                    return false;
+                }
             }
         }
         return true;
