@@ -20,3 +20,4 @@ sea:
   fastjson:
     enable: false
   test: SEA_DES()
+  base-package: com.abc,com.github.seaxlab

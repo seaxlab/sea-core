@@ -1,14 +1,16 @@
 package com.github.seaxlab.core.boot.autoconfigure.config;
 
-import com.github.seaxlab.core.spring.aop.advisor.DefaultPointCutAdvisor;
-import com.github.seaxlab.core.spring.aop.advisor.LogCostPointCut;
-import com.github.seaxlab.core.spring.aop.advisor.LogRequestPointcut;
+import com.github.seaxlab.core.boot.autoconfigure.SeaProperties;
+import com.github.seaxlab.core.spring.aop.advisor.DynamicPointcutAdvisor;
 import com.github.seaxlab.core.spring.aop.interceptor.LogCostMethodInterceptor;
 import com.github.seaxlab.core.spring.aop.interceptor.LogRequestMethodInterceptor;
+import com.github.seaxlab.core.spring.aop.util.AopUtil;
 import com.github.seaxlab.core.spring.enums.OrderedEnum;
+import com.github.seaxlab.core.util.MessageUtil;
+import com.github.seaxlab.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.PointcutAdvisor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,80 +25,54 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SeaCoreConfig {
 
-    @Value("${sea.fastjson.writeNullValue:false}")
-    private Boolean writeNullValueFlag;
+    private final SeaProperties seaProperties;
 
-//    @Bean
-//    @ConditionalOnClass(FastJsonHttpMessageConverter.class)
-//    @ConditionalOnProperty(prefix = "sea", name = "fastjson.enable", havingValue = "true", matchIfMissing = true)
-//    @ConditionalOnMissingBean
-//    public FastJsonHttpMessageConverter fastJsonHttpMessageConverter() {
-//        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
-//        FastJsonConfig fastJsonConfig = new FastJsonConfig();
-//
-//
-//        //支持空值输出
-//        if (writeNullValueFlag.booleanValue()) {
-//            fastJsonConfig.setSerializerFeatures(
-//                    SerializerFeature.PrettyFormat,
-//                    SerializerFeature.QuoteFieldNames,
-//                    SerializerFeature.IgnoreErrorGetter,
-//                    SerializerFeature.WriteDateUseDateFormat,
-//                    SerializerFeature.DisableCircularReferenceDetect,
-//                    SerializerFeature.WriteMapNullValue,
-//                    SerializerFeature.WriteNullBooleanAsFalse,
-//                    SerializerFeature.WriteNullListAsEmpty,
-//                    SerializerFeature.WriteNullNumberAsZero,
-//                    SerializerFeature.WriteNullStringAsEmpty
-//            );
-//        } else {
-//            fastJsonConfig.setSerializerFeatures(
-//                    SerializerFeature.PrettyFormat,
-//                    SerializerFeature.QuoteFieldNames,
-//                    SerializerFeature.IgnoreErrorGetter,
-//                    SerializerFeature.WriteDateUseDateFormat,
-//                    SerializerFeature.DisableCircularReferenceDetect
-//            );
-//        }
-//
-//        //
-//        fastConverter.setFastJsonConfig(fastJsonConfig);
-//
-//        fastConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON,
-//                MediaType.APPLICATION_JSON_UTF8));
-//
-//        return fastConverter;
-//    }
+    public SeaCoreConfig(SeaProperties seaProperties) {
+        this.seaProperties = seaProperties;
+    }
 
-    //private static final String DEFAULT_EXPRESSION_LOG_COST = "@annotation(com.github.seaxlab.core.spring.annotation.LogCost)";
+    private static final String DEFAULT_EXPRESSION_LOG_COST = "@annotation(com.github.seaxlab.core.spring.annotation.LogCost)";
+    private static final String DEFAULT_EXPRESSION_LOG_REQUEST = "@annotation(com.github.seaxlab.core.spring.annotation.LogRequest)";
+
 
     @Bean
-    //@ConditionalOnMissingBean
+    @ConditionalOnMissingBean(name = "seaLogCostAdvisor")
     public PointcutAdvisor seaLogCostAdvisor() {
         log.info("init sea log cost advisor bean");
 
-        //DynamicPointcutAdvisor advisor = new DynamicPointcutAdvisor(DEFAULT_EXPRESSION_LOG_COST);
-        //advisor.setAdviceBeanName("seaLogCostPointcutAdvisor");
-        //advisor.setAdvice(new LogCostMethodInterceptor());
-        //advisor.setOrder(Ordered.HIGHEST_PRECEDENCE);
-
-        DefaultPointCutAdvisor advisor = new DefaultPointCutAdvisor(new LogCostPointCut());
-
+        String expression = DEFAULT_EXPRESSION_LOG_COST;
+        if (StringUtil.isNotBlank(seaProperties.getBasePackage())) {
+            String condition = AopUtil.getOneExecutionByOr(seaProperties.getBasePackage());
+            if (StringUtil.isNotBlank(condition)) {
+                expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION_LOG_COST);
+            }
+        }
+        DynamicPointcutAdvisor advisor = new DynamicPointcutAdvisor(expression);
         advisor.setAdviceBeanName("seaLogCostPointcutAdvisor");
         advisor.setAdvice(new LogCostMethodInterceptor());
         advisor.setOrder(OrderedEnum.LOG_COST.getCode());
+
         return advisor;
     }
 
+
     @Bean
+    @ConditionalOnMissingBean(name = "seaLogRequestAdvisor")
     public PointcutAdvisor seaLogRequestAdvisor() {
         log.info("init sea log request advisor bean");
+        String expression = DEFAULT_EXPRESSION_LOG_COST;
+        if (StringUtil.isNotBlank(seaProperties.getBasePackage())) {
+            String condition = AopUtil.getOneExecutionByOr(seaProperties.getBasePackage());
+            if (StringUtil.isNotBlank(condition)) {
+                expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION_LOG_COST);
+            }
+        }
 
-        DefaultPointCutAdvisor advisor = new DefaultPointCutAdvisor(new LogRequestPointcut());
-
+        DynamicPointcutAdvisor advisor = new DynamicPointcutAdvisor(expression);
         advisor.setAdviceBeanName("seaLogRequestPointcutAdvisor");
         advisor.setAdvice(new LogRequestMethodInterceptor());
         advisor.setOrder(OrderedEnum.LOG_REQUEST.getCode());
+
         return advisor;
     }
 

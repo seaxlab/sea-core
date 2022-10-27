@@ -52,6 +52,8 @@ public class SeaProperties {
     @Value("${spring.application.name:sea-default-app}")
     private String appName;
 
+    // aop base package for all custom, can split by comma
+    private String basePackage;
 
     @NestedConfigurationProperty
     private Fastjson fastjson;
