@@ -4,6 +4,7 @@ import com.github.seaxlab.core.common.Env;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import java.util.Properties;
 
@@ -67,6 +68,17 @@ public class SeaProperties {
      * Scheduled注解需要清理thread context包路径，需符合aspectj pointcut expression规范
      */
     private String scheduleThreadContextBasePackage;
+
+
+    @NestedConfigurationProperty
+    private Log log;
+
+    @Data
+    public static class Log {
+        private Boolean enable = false;
+        // 外部接口是否打印日志
+        private String otherBasePackage;
+    }
 
 //    @NestedConfigurationProperty
 //    private Fastjson fastjson;

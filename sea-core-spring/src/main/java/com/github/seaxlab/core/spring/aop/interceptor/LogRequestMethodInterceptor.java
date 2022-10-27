@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * log request method interceptor
+ * log request method interceptor, you should add LogRequest annotation
  *
  * @author spy
  * @version 1.0 2022/10/26

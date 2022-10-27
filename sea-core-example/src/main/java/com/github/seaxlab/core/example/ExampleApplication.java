@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Slf4j
 @EnableScheduling
 @SpringBootApplication(
-        scanBasePackages = "com.github.seaxlab.core.example"
+        scanBasePackages = {"com.github.seaxlab.core.example", "com.abc"}
 )
 public class ExampleApplication {
 

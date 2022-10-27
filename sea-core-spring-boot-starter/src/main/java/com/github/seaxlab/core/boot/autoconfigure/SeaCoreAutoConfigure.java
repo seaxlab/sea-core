@@ -1,5 +1,8 @@
 package com.github.seaxlab.core.boot.autoconfigure;
 
+import com.github.seaxlab.core.boot.autoconfigure.config.LogCostConfig;
+import com.github.seaxlab.core.boot.autoconfigure.config.LogPublicConfig;
+import com.github.seaxlab.core.boot.autoconfigure.config.LogRequestConfig;
 import com.github.seaxlab.core.boot.autoconfigure.config.SeaCoreConfig;
 import com.github.seaxlab.core.boot.autoconfigure.schedule.SeaScheduleConfig;
 import com.github.seaxlab.core.spring.context.SpringContextHolder;
@@ -20,7 +23,7 @@ import org.springframework.context.annotation.Import;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(SeaProperties.class)
-@Import({SeaCoreConfig.class, SeaScheduleConfig.class})
+@Import({LogCostConfig.class, LogPublicConfig.class, LogRequestConfig.class, SeaCoreConfig.class, SeaScheduleConfig.class})
 public class SeaCoreAutoConfigure {
 
     /**

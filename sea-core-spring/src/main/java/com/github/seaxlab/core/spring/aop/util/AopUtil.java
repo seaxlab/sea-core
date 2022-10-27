@@ -1,6 +1,8 @@
 package com.github.seaxlab.core.spring.aop.util;
 
 import com.github.seaxlab.core.common.SymbolConst;
+import com.github.seaxlab.core.exception.Precondition;
+import com.github.seaxlab.core.spring.aop.AopExpressionEnum;
 import com.github.seaxlab.core.util.MessageUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +17,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AopUtil {
 
-    private static final String EXECUTION_ONE = "execution(public * {}..*.*(..))";
-
+    /**
+     * get one execution
+     *
+     * @param packagePath
+     * @return
+     */
+    public static String getOneExecution(AopExpressionEnum expressionEnum, String packagePath) {
+        Precondition.checkNotEmpty("packagePath", "packagePath cannot be empty.");
+        return "(" + MessageUtil.format(expressionEnum.getCode(), packagePath.trim()) + ")";
+    }
 
     /**
      * get on execution by or
@@ -24,7 +34,7 @@ public class AopUtil {
      * @param packagePaths
      * @return
      */
-    public static String getOneExecutionByOr(String packagePaths) {
+    public static String getOneExecutionByOr(AopExpressionEnum expressionEnum, String packagePaths) {
         if (StringUtil.isBlank(packagePaths)) {
             return StringUtil.empty();
         }
@@ -35,18 +45,18 @@ public class AopUtil {
             packages = new String[]{packagePaths};
         }
         if (packages.length == 1) {
-            return "(" + MessageUtil.format(EXECUTION_ONE, packages[0]) + ")";
+            return "(" + MessageUtil.format(expressionEnum.getCode(), packages[0]) + ")";
         }
 
         String expression = "";
         if (packages.length > 1) {
-            expression = MessageUtil.format(EXECUTION_ONE, packages[0]);
+            expression = MessageUtil.format(expressionEnum.getCode(), packages[0]);
             for (int i = 1; i < packages.length; i++) {
                 String item = packages[i];
                 if (StringUtil.isBlank(item)) {
                     continue;
                 }
-                expression += " or " + MessageUtil.format(EXECUTION_ONE, item.trim());
+                expression += " or " + MessageUtil.format(expressionEnum.getCode(), item.trim());
             }
         }
         return "(" + expression + ")";

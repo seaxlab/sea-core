@@ -16,6 +16,8 @@ public class AopGlobalConfig {
     private static boolean logCostFlag = true;
     // 判断是否允许打印请求日志
     private static boolean logRequestFlag = true;
+    // 是否打印bean public method
+    private static boolean logPublicMethodFlag = true;
 
     public static boolean getLogCostFlag() {
         return logCostFlag;
@@ -31,6 +33,14 @@ public class AopGlobalConfig {
 
     public static void setLogRequestFlag(boolean flag) {
         logRequestFlag = flag;
+    }
+
+    public static boolean getLogPublicMethodFlag() {
+        return logPublicMethodFlag;
+    }
+
+    public static void setLogPublicMethodFlag(boolean flag) {
+        logPublicMethodFlag = flag;
     }
 
 }

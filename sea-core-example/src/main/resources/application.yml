@@ -21,3 +21,6 @@ sea:
     enable: false
   test: SEA_DES()
   base-package: com.abc,com.github.seaxlab
+  log:
+    enable: true
+    other-base-package: com.abc.service

@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.example.controller;
 
+import com.abc.service.PayService;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.spring.annotation.LogCost;
 import com.github.seaxlab.core.spring.annotation.LogRequest;
@@ -7,6 +8,7 @@ import com.github.seaxlab.core.thread.util.CallableUtil;
 import com.github.seaxlab.core.thread.util.ThreadPoolUtil;
 import com.github.seaxlab.core.thread.util.ThreadUtil;
 import com.github.seaxlab.core.web.util.RequestUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,13 +31,19 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 @RestController
 @RequestMapping("/api/test")
+@RequiredArgsConstructor
 public class TestController implements InitializingBean {
+
+    private final PayService payService;
 
     @LogCost
     @LogRequest
     @GetMapping("/log")
     public Result log() {
         log.info("----log");
+
+        payService.add(1, 2);
+        payService.test();
 
         return Result.success();
     }
