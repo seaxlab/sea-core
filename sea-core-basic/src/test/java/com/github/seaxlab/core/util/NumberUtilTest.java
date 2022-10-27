@@ -54,6 +54,11 @@ public class NumberUtilTest extends BaseCoreTest {
     }
 
     @Test
+    public void testAddInt3() throws Exception {
+        log.info("{}", NumberUtil.addInt(1, null, 2, 3));
+    }
+
+    @Test
     public void testAddLong() throws Exception {
         Assert.assertEquals(100, NumberUtil.addLong("1", "-1", "", "100"));
     }

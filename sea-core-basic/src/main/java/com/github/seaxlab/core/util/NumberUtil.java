@@ -368,6 +368,27 @@ public final class NumberUtil {
     }
 
     /**
+     * add int for Integers
+     *
+     * @param values
+     * @return
+     */
+    public static int addInt(Integer... values) {
+        if (ArrayUtil.isEmpty(values)) {
+            return 0;
+        }
+        int sum = 0;
+        for (Integer value : values) {
+            if (value == null) {
+                continue;
+            }
+            sum += value;
+        }
+
+        return sum;
+    }
+
+    /**
      * long数值字符串累加
      *
      * @param values values
@@ -386,6 +407,26 @@ public final class NumberUtil {
             sum += Long.parseLong(value);
         }
 
+        return sum;
+    }
+
+    /**
+     * add long for Longs
+     *
+     * @param values
+     * @return
+     */
+    public static long addLong(Long... values) {
+        if (ArrayUtil.isEmpty(values)) {
+            return 0L;
+        }
+        long sum = 0;
+        for (Long value : values) {
+            if (value == null) {
+                continue;
+            }
+            sum += value;
+        }
         return sum;
     }
 
