@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.PointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * log request config
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
  * @since 1.0
  */
 @Slf4j
-@Component("seaLogRequestConfig")
+@Configuration("seaLogRequestConfig")
 @RequiredArgsConstructor
 public class LogRequestConfig {
 

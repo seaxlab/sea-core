@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0 2019-06-16
  * @since 1.0
  */
-public abstract class BaseCoreTest extends AbstractCoreTest {
+public class BaseCoreTest extends AbstractCoreTest {
 
     private Logger logger = LoggerFactory.getLogger(BaseCoreTest.class);
     // 必须要有 User-Agent
