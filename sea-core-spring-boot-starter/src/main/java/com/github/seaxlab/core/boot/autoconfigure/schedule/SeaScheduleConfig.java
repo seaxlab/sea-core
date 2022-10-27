@@ -2,10 +2,14 @@ package com.github.seaxlab.core.boot.autoconfigure.schedule;
 
 import com.github.seaxlab.core.boot.autoconfigure.SeaProperties;
 import com.github.seaxlab.core.spring.aop.advisor.DynamicPointcutAdvisor;
+import com.github.seaxlab.core.spring.aop.enums.AopExpressionEnum;
 import com.github.seaxlab.core.spring.aop.interceptor.ThreadContextMethodInterceptor;
+import com.github.seaxlab.core.spring.aop.util.AopUtil;
+import com.github.seaxlab.core.util.MessageUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,23 +24,29 @@ import org.springframework.core.Ordered;
  */
 @Slf4j
 @Configuration
+@RequiredArgsConstructor
 public class SeaScheduleConfig {
-    @Autowired
-    private SeaProperties seaProps;
+
+    private final SeaProperties seaProperties;
 
     public static final String DEFAULT_EXPRESSION_SCHEDULE = "@annotation(org.springframework.scheduling.annotation.Scheduled)";
 
     @Bean
+    @ConditionalOnMissingBean(name = "seaScheduleThreadContextPointcutAdvisor")
     @ConditionalOnProperty(name = "sea.schedule-thread-context-enable", havingValue = "true")
-    public DynamicPointcutAdvisor seaDynamicPointcutAdvisor() {
-        String expression = seaProps.getScheduleThreadContextBasePackage();
+    public DynamicPointcutAdvisor seaScheduleThreadContextPointcutAdvisor() {
+        log.info("init sea schedule thread context advisor bean");
 
-        if (StringUtil.isNotEmpty(expression)) {
-            expression = expression + " and " + DEFAULT_EXPRESSION_SCHEDULE;
-        } else {
-            expression = DEFAULT_EXPRESSION_SCHEDULE;
+        String basePackage = seaProperties.getScheduleThreadContextBasePackage();
+
+        String expression = DEFAULT_EXPRESSION_SCHEDULE;
+        if (StringUtil.isNotBlank(basePackage)) {
+            String condition = AopUtil.getByOr(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, basePackage);
+            if (StringUtil.isNotBlank(condition)) {
+                expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION_SCHEDULE);
+            }
         }
-        log.info("sea schedule thread context expression={}", expression);
+
         DynamicPointcutAdvisor advisor = new DynamicPointcutAdvisor(expression);
         advisor.setAdviceBeanName("seaScheduleThreadContextPointcutAdvisor");
         advisor.setAdvice(new ThreadContextMethodInterceptor());

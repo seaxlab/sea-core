@@ -1,8 +1,8 @@
 package com.github.seaxlab.core.boot.autoconfigure.config;
 
 import com.github.seaxlab.core.boot.autoconfigure.SeaProperties;
-import com.github.seaxlab.core.spring.aop.AopExpressionEnum;
 import com.github.seaxlab.core.spring.aop.advisor.DynamicPointcutAdvisor;
+import com.github.seaxlab.core.spring.aop.enums.AopExpressionEnum;
 import com.github.seaxlab.core.spring.aop.interceptor.LogCostMethodInterceptor;
 import com.github.seaxlab.core.spring.aop.util.AopUtil;
 import com.github.seaxlab.core.spring.enums.OrderedEnum;
@@ -38,7 +38,7 @@ public class LogCostConfig {
 
         String expression = DEFAULT_EXPRESSION_LOG_COST;
         if (StringUtil.isNotBlank(seaProperties.getBasePackage())) {
-            String condition = AopUtil.getOneExecutionByOr(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, seaProperties.getBasePackage());
+            String condition = AopUtil.getByOr(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, seaProperties.getBasePackage());
             if (StringUtil.isNotBlank(condition)) {
                 expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION_LOG_COST);
             }

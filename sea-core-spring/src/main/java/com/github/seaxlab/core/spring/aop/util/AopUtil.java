@@ -2,7 +2,7 @@ package com.github.seaxlab.core.spring.aop.util;
 
 import com.github.seaxlab.core.common.SymbolConst;
 import com.github.seaxlab.core.exception.Precondition;
-import com.github.seaxlab.core.spring.aop.AopExpressionEnum;
+import com.github.seaxlab.core.spring.aop.enums.AopExpressionEnum;
 import com.github.seaxlab.core.util.MessageUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -23,18 +23,43 @@ public class AopUtil {
      * @param packagePath
      * @return
      */
-    public static String getOneExecution(AopExpressionEnum expressionEnum, String packagePath) {
+    public static String getOne(AopExpressionEnum expressionEnum, String packagePath) {
         Precondition.checkNotEmpty("packagePath", "packagePath cannot be empty.");
         return "(" + MessageUtil.format(expressionEnum.getCode(), packagePath.trim()) + ")";
     }
 
     /**
-     * get on execution by or
+     * get by or
      *
      * @param packagePaths
      * @return
      */
-    public static String getOneExecutionByOr(AopExpressionEnum expressionEnum, String packagePaths) {
+    public static String getByOr(AopExpressionEnum expressionEnum, String packagePaths) {
+        return computeByCondition(expressionEnum, packagePaths, "or");
+    }
+
+    /**
+     * get by and
+     *
+     * @param expressionEnum
+     * @param packagePaths
+     * @return
+     */
+    public static String getByAnd(AopExpressionEnum expressionEnum, String packagePaths) {
+        return computeByCondition(expressionEnum, packagePaths, "and");
+    }
+
+    // ---------------------------------private
+
+    /**
+     * compute by condition
+     *
+     * @param expressionEnum
+     * @param packagePaths
+     * @param condition
+     * @return
+     */
+    private static String computeByCondition(final AopExpressionEnum expressionEnum, final String packagePaths, final String condition) {
         if (StringUtil.isBlank(packagePaths)) {
             return StringUtil.empty();
         }
@@ -56,9 +81,10 @@ public class AopUtil {
                 if (StringUtil.isBlank(item)) {
                     continue;
                 }
-                expression += " or " + MessageUtil.format(expressionEnum.getCode(), item.trim());
+                expression += " " + condition + " " + MessageUtil.format(expressionEnum.getCode(), item.trim());
             }
         }
         return "(" + expression + ")";
     }
+
 }
