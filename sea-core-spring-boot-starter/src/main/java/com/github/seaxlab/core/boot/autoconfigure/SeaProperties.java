@@ -4,7 +4,6 @@ import com.github.seaxlab.core.common.Env;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import java.util.Properties;
 
@@ -52,11 +51,13 @@ public class SeaProperties {
     @Value("${spring.application.name:sea-default-app}")
     private String appName;
 
-    // aop base package for all custom, can split by comma
+    /**
+     * base package for all custom, can split by comma
+     * <ul>
+     * <li>aop</li>
+     * </ul>
+     */
     private String basePackage;
-
-    @NestedConfigurationProperty
-    private Fastjson fastjson;
 
     /**
      * 是否需要开启@scheduled注解清理上下文，默认false
@@ -67,22 +68,25 @@ public class SeaProperties {
      */
     private String scheduleThreadContextBasePackage;
 
-    @Data
-    public static class Fastjson {
-        private Boolean enable = false;
-        //输出空值
-        private Boolean writeNullValue;
-    }
-
-    @NestedConfigurationProperty
-    private Redis redis;
-
-    @Data
-    public static class Redis {
-        private String host;
-        private int port;
-        private String password;
-        private int database;
-    }
+//    @NestedConfigurationProperty
+//    private Fastjson fastjson;
+//
+//    @Data
+//    public static class Fastjson {
+//        private Boolean enable = false;
+//        //输出空值
+//        private Boolean writeNullValue;
+//    }
+//
+//    @NestedConfigurationProperty
+//    private Redis redis;
+//
+//    @Data
+//    public static class Redis {
+//        private String host;
+//        private int port;
+//        private String password;
+//        private int database;
+//    }
 
 }

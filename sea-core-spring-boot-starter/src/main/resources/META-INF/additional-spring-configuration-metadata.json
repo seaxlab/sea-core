@@ -1,7 +1,60 @@
 {
   "groups": [
-
+    {
+      "name": "sea",
+      "type": "com.github.seaxlab.core.boot.autoconfigure.SeaProperties",
+      "sourceType": "com.github.seaxlab.core.boot.autoconfigure.SeaProperties"
+    }
   ],
   "properties": [
+    {
+      "name": "sea.region",
+      "type": "java.lang.String",
+      "sourceType": "com.github.seaxlab.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "default",
+      "description": "区域，jiangsu/shandong/-idc."
+    },
+    {
+      "name": "sea.env",
+      "type": "java.lang.String",
+      "sourceType": "com.github.seaxlab.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "pro",
+      "description": "环境标识，local/dev/test/uat/sit/pre/pro."
+    },
+    {
+      "name": "sea.profile",
+      "type": "java.lang.String",
+      "sourceType": "com.github.seaxlab.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "",
+      "description": "profile for sub env, uat2,uat3."
+    },
+    {
+      "name": "sea.app-name",
+      "type": "java.lang.String",
+      "sourceType": "com.github.seaxlab.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "${spring.application.name}",
+      "description": "sea application name."
+    },
+    {
+      "name": "sea.base-package",
+      "type": "java.lang.String",
+      "sourceType": "com.github.seaxlab.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "",
+      "description": "base package."
+    },
+    {
+      "name": "sea.schedule-thread-context-enable",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.github.seaxlab.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "false",
+      "description": "是否需要开启@scheduled注解清理上下文，默认false"
+    },
+    {
+      "name": "sea.schedule-thread-context-base-package",
+      "type": "java.lang.String",
+      "sourceType": "com.github.seaxlab.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": "",
+      "description": "schedule需要清理thread context包路径，需符合aspectj pointcut expression规范,默认所有@Scheduled注解，例如execution(public * com.github.spy..*.*(..))."
+    }
   ]
 }
