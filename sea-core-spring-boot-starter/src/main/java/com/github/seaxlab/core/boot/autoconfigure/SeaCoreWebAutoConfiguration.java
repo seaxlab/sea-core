@@ -2,6 +2,7 @@ package com.github.seaxlab.core.boot.autoconfigure;
 
 import com.github.seaxlab.core.util.ObjectUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import com.github.seaxlab.core.web.common.WebConst;
 import com.github.seaxlab.core.web.filter.SeaGlobalFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,12 @@ public class SeaCoreWebAutoConfiguration implements WebMvcConfigurer {
             urlPatterns = new String[]{"/api/*"};
         }
         registration.addUrlPatterns(urlPatterns);
-//        registration.addInitParameter("filter", "/api/,/restapi/"); //添加默认参数
+
+        if (StringUtil.isNotBlank(filter.getLogMode())) {
+            registration.addInitParameter(WebConst.FILTER_CONFIG_LOG_MODE, filter.getLogMode().trim());
+        }
+
+        //        registration.addInitParameter("filter", "/api/,/restapi/"); //添加默认参数
 //        registration.addInitParameter("noFilter", "");
         registration.setName("SeaGlobalFilter");
         if (ObjectUtil.isNotNull(filter.getOrder())) {

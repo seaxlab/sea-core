@@ -6,6 +6,7 @@ import com.github.seaxlab.core.thread.ThreadContext;
 import com.github.seaxlab.core.util.ListUtil;
 import com.github.seaxlab.core.util.MapUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import com.github.seaxlab.core.web.common.WebConst;
 import com.github.seaxlab.core.web.extension.HttpCookieParseExtension;
 import com.github.seaxlab.core.web.extension.HttpHeaderParseExtension;
 import com.github.seaxlab.core.web.extension.HttpRequestParseExtension;
@@ -30,6 +31,7 @@ import java.util.Map;
 @Slf4j
 public class SeaGlobalFilter implements Filter {
 
+    private static String logMode;
     private static Map<String, String> httpHeaderMap;
     private static Map<String, String> httpCookieMap;
     private static Map<String, String> httpRequestMap;
@@ -37,6 +39,8 @@ public class SeaGlobalFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         log.info("sea global filter init");
+
+        logMode = StringUtil.defaultIfBlank(filterConfig.getInitParameter(WebConst.FILTER_CONFIG_LOG_MODE), WebConst.LOG_MODE_1);
 
         initHttpHeaderParse();
         initHttpCookieParse();
@@ -66,7 +70,15 @@ public class SeaGlobalFilter implements Filter {
     }
 
     private void logRequest(HttpServletRequest request) {
-        RequestUtil.logSimple(request);
+        switch (logMode) {
+            default:
+            case WebConst.LOG_MODE_1:
+                RequestUtil.logSimple(request);
+                break;
+            case WebConst.LOG_MODE_2:
+                RequestUtil.logSimple2(request);
+                break;
+        }
     }
 
     /**

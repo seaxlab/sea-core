@@ -28,3 +28,4 @@ sea:
     filter:
       enable: true
       url-pattern: /api/*
+      log-mode: 2

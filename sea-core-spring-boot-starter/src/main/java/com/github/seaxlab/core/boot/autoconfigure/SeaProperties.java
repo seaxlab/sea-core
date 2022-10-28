@@ -95,6 +95,7 @@ public class SeaProperties {
         private Boolean enable = true;
         private String urlPattern;
         private Integer order;
+        private String logMode = "1";
     }
 
 //    @NestedConfigurationProperty

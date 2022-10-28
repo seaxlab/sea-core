@@ -218,10 +218,17 @@ public class RequestUtil {
      */
     public static void logSimple(HttpServletRequest request) {
         //TODO if you have invokerAppVersion/invokerChannel/invokerDeviceType, you can add more.
-        log.info("sea request log: [{},{}] queryString={},userAgent={},ip={}",
-                request.getMethod(), request.getRequestURI(), request.getQueryString(),
-                getUserAgent(request), getClientIpAddress(request));
+        log.info("sea request log: [{},{}] queryString={},userAgent={},ip={}", //
+                request.getMethod(), request.getRequestURI(), request.getQueryString(), //
+                getClientIpAddress(request), getUserAgent(request));
     }
+
+    public static void logSimple2(HttpServletRequest request) {
+        log.info("sea request log: [{}] queryString={},userAgent={},ip={}", //
+                request.getMethod(), request.getQueryString(), //
+                getClientIpAddress(request), getUserAgent(request));
+    }
+
 
     /**
      * print request info
