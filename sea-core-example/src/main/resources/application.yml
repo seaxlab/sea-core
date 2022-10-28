@@ -24,3 +24,7 @@ sea:
   log:
     enable: true
     other-base-package: com.abc.service
+  web:
+    filter:
+      enable: true
+      url-pattern: /api/*

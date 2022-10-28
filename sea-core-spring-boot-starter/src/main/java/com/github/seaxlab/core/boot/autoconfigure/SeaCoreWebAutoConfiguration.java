@@ -1,9 +1,13 @@
 package com.github.seaxlab.core.boot.autoconfigure;
 
+import com.github.seaxlab.core.util.ObjectUtil;
+import com.github.seaxlab.core.util.StringUtil;
 import com.github.seaxlab.core.web.filter.SeaGlobalFilter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -22,20 +26,33 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @AutoConfigureAfter(WebMvcAutoConfiguration.class)
+@RequiredArgsConstructor
 public class SeaCoreWebAutoConfiguration implements WebMvcConfigurer {
 
-    //TODO order、urlPattern field
+    private final SeaProperties seaProperties;
 
     @Bean
+    @ConditionalOnProperty(name = "sea.web.filter.enable", havingValue = "true")
     @ConditionalOnMissingBean(name = "seaGlobalFilter")
     public FilterRegistrationBean seaGlobalFilter() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new SeaGlobalFilter());
-        registration.addUrlPatterns("/*");
+
+        SeaProperties.Filter filter = seaProperties.getWeb().getFilter();
+
+        String[] urlPatterns;
+        if (StringUtil.isNotBlank(filter.getUrlPattern())) {
+            urlPatterns = StringUtil.split(filter.getUrlPattern(), ',');
+        } else {
+            urlPatterns = new String[]{"/api/*"};
+        }
+        registration.addUrlPatterns(urlPatterns);
 //        registration.addInitParameter("filter", "/api/,/restapi/"); //添加默认参数
 //        registration.addInitParameter("noFilter", "");
         registration.setName("SeaGlobalFilter");
-//        registration.setOrder(1);//设置优先级
+        if (ObjectUtil.isNotNull(filter.getOrder())) {
+            registration.setOrder(filter.getOrder());//设置优先级
+        }
         return registration;
     }
 

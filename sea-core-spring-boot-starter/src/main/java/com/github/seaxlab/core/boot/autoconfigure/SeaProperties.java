@@ -73,11 +73,28 @@ public class SeaProperties {
     @NestedConfigurationProperty
     private Log log;
 
+    @NestedConfigurationProperty
+    private Web web;
+
+    // nested class
     @Data
     public static class Log {
         private Boolean enable = false;
         // 外部接口是否打印日志
         private String otherBasePackage;
+    }
+
+
+    @Data
+    public static class Web {
+        private Filter filter;
+    }
+
+    @Data
+    public static class Filter {
+        private Boolean enable = true;
+        private String urlPattern;
+        private Integer order;
     }
 
 //    @NestedConfigurationProperty
