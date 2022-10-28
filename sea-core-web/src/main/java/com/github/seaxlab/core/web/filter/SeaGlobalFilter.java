@@ -78,6 +78,9 @@ public class SeaGlobalFilter implements Filter {
             case WebConst.LOG_MODE_2:
                 RequestUtil.logSimple2(request);
                 break;
+            case WebConst.LOG_MODE_3:
+                RequestUtil.logSimple3(request);
+                break;
         }
     }
 

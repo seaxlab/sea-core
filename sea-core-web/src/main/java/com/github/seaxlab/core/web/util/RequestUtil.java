@@ -213,6 +213,7 @@ public class RequestUtil {
 
     /**
      * print simple request info
+     * http method + uri + query string + IP + User Agent
      *
      * @param request
      */
@@ -223,12 +224,28 @@ public class RequestUtil {
                 getClientIpAddress(request), getUserAgent(request));
     }
 
+    /**
+     * print simple request info
+     * http method + query string + IP + User Agent
+     *
+     * @param request
+     */
     public static void logSimple2(HttpServletRequest request) {
         log.info("sea request log: [{}] queryString={},userAgent={},ip={}", //
                 request.getMethod(), request.getQueryString(), //
                 getClientIpAddress(request), getUserAgent(request));
     }
 
+    /**
+     * print simple request info
+     * http method + IP + User Agent
+     *
+     * @param request
+     */
+    public static void logSimple3(HttpServletRequest request) {
+        log.info("sea request log: [{}] userAgent={},ip={}", //
+                request.getMethod(), getClientIpAddress(request), getUserAgent(request));
+    }
 
     /**
      * print request info

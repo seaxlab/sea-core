@@ -30,4 +30,5 @@ public class WebConst {
 
     public static final String LOG_MODE_1 = "1";
     public static final String LOG_MODE_2 = "2";
+    public static final String LOG_MODE_3 = "3";
 }
