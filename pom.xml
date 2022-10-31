@@ -24,9 +24,9 @@
         <module>sea-core-test</module>
         <module>sea-core-security</module>
         <module>sea-core-support</module>
-        <module>sea-core-spring-boot-starter</module>
         <module>sea-core-spring</module>
         <module>sea-core-spring-cloud</module>
+        <module>sea-core-spring-boot-starter</module>
         <module>sea-core-example</module>
         <module>sea-core-example-cloud</module>
     </modules>

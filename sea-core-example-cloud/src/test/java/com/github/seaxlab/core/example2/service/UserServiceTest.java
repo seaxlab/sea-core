@@ -4,11 +4,10 @@ import com.github.seaxlab.core.example2.BaseSpringTest;
 import com.github.seaxlab.core.example2.feign.UserApi;
 import com.github.seaxlab.core.example2.feign.response.UserRespDTO;
 import com.github.seaxlab.core.model.Result;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * User Service test
@@ -18,10 +17,10 @@ import java.util.List;
  * @since 1.0
  */
 @Slf4j
-@RequiredArgsConstructor
 public class UserServiceTest extends BaseSpringTest {
 
-    private final UserApi userApi;
+    @Autowired
+    private UserApi userApi;
 
     @Test
     public void testGetUserInfo() throws Exception {

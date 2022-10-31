@@ -1,5 +1,9 @@
-# yml
+server:
+  port: 8800
+
 spring:
+  profiles:
+    active: local
   application:
     name: sea-core-example2
   cloud:
@@ -7,14 +11,9 @@ spring:
       discovery:
         register-enabled: false
         server-addr: nacos:8848
-  jackson:
-    time-zone: GMT+8
-sea:
-  mock:
-    enabled: true
-    feign:
-      enabled: true
-      config-file-path: ${user.home}/sea/mock
-feign:
-  httpclient:
-    max-connections-per-route:
+    jackson:
+      time-zone: GMT+8
+logging:
+  file:
+    name: ${spring.application.name}
+    path: ${user.home}/logs/${spring.application.name}

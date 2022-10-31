@@ -1,10 +1,23 @@
-server:
-  port: 8800
+# sea config
 sea:
-  env: local
   list:
     - a
     - b
     - c
   #  @Value方式注入成员
   list2: a,b,c
+  #
+  host: localhost
+  schedule-thread-context-base-package: execution(public * com.abc..*.*(..))
+  fastjson:
+    enable: false
+  test: SEA_DES()
+  base-package: com.abc,com.github.seaxlab
+  log:
+    enable: true
+    other-base-package: com.abc.service
+  web:
+    filter:
+      enable: true
+      url-pattern: /api/*
+      log-mode: 2

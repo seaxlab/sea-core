@@ -12,20 +12,6 @@ logging:
   file:
     name: ${spring.application.name}
     path: ${user.home}/logs/${spring.application.name}
-
+#
 sea:
-  host: localhost
   env: pro
-  schedule-thread-context-base-package: execution(public * com.abc..*.*(..))
-  fastjson:
-    enable: false
-  test: SEA_DES()
-  base-package: com.abc,com.github.seaxlab
-  log:
-    enable: true
-    other-base-package: com.abc.service
-  web:
-    filter:
-      enable: true
-      url-pattern: /api/*
-      log-mode: 2
