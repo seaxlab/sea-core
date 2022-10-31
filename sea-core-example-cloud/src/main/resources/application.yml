@@ -1,0 +1,20 @@
+# yml
+spring:
+  application:
+    name: sea-core-example2
+  cloud:
+    nacos:
+      discovery:
+        register-enabled: false
+        server-addr: nacos:8848
+  jackson:
+    time-zone: GMT+8
+sea:
+  mock:
+    enabled: true
+    feign:
+      enabled: true
+      config-file-path: ${user.home}/sea/mock
+feign:
+  httpclient:
+    max-connections-per-route:

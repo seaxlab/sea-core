@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.springcloud.feign.mock;
 
 
-import com.github.seaxlab.core.springcloud.feign.config.FeignMockProperties;
+import com.github.seaxlab.core.springcloud.feign.FeignMockProperties;
 import feign.Client;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -9,6 +9,9 @@ import org.springframework.cloud.client.loadbalancer.LoadBalancerProperties;
 import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.cloud.openfeign.loadbalancer.FeignBlockingLoadBalancerClient;
 
+/**
+ * mock feign object wrapper
+ */
 public class MockFeignObjectWrapper {
     private final BeanFactory beanFactory;
 

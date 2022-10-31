@@ -1,14 +1,16 @@
-package com.github.seaxlab.core.springcloud.feign.config;
+package com.github.seaxlab.core.springcloud.feign;
 
 import com.github.seaxlab.core.util.StringUtil;
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Map;
 
 @Data
-//@Configuration
-//@ConfigurationProperties(prefix = "sea.springcloud.feign.mock")
+@Configuration
+@ConfigurationProperties(prefix = "sea.spring.cloud.feign.mock")
 public class FeignMockProperties {
 
     private Boolean enabled = false;

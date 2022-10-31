@@ -6,12 +6,15 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.cloud.openfeign.FeignContext;
 
+/**
+ * mock feign context bean post processor.
+ */
 public class MockFeignContextBeanPostProcessor implements BeanPostProcessor {
 
     private final BeanFactory beanFactory;
     private MockFeignObjectWrapper mockFeignObjectWrapper;
 
-    MockFeignContextBeanPostProcessor(BeanFactory beanFactory) {
+    public MockFeignContextBeanPostProcessor(BeanFactory beanFactory) {
         this.beanFactory = beanFactory;
     }
 

@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.springcloud.feign.mock;
 
 import com.github.seaxlab.core.exception.ExceptionHandler;
-import com.github.seaxlab.core.springcloud.feign.config.FeignMockProperties;
+import com.github.seaxlab.core.springcloud.feign.FeignMockProperties;
 import com.github.seaxlab.core.springcloud.feign.util.KeyUtil;
 import com.github.seaxlab.core.util.FileUtil;
 import com.github.seaxlab.core.util.PathUtil;
@@ -26,6 +26,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * mock load balance feign client
+ */
 @Slf4j
 public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient {
 
