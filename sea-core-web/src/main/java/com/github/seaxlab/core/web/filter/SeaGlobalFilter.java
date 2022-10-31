@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.web.filter;
 
-import com.github.seaxlab.core.common.CoreConst;
 import com.github.seaxlab.core.loader.EnhancedServiceLoader;
 import com.github.seaxlab.core.thread.ThreadContext;
 import com.github.seaxlab.core.util.ListUtil;
@@ -56,7 +55,6 @@ public class SeaGlobalFilter implements Filter {
             parseHttpCookie(req);
             parseHttpRequest(req);
 
-            initCommon(req);
             chain.doFilter(request, response);
         } finally {
             ThreadContext.clean();
@@ -82,16 +80,6 @@ public class SeaGlobalFilter implements Filter {
                 RequestUtil.logSimple3(request);
                 break;
         }
-    }
-
-    /**
-     * init common info into thread context
-     *
-     * @param request
-     */
-    private void initCommon(HttpServletRequest request) {
-        ThreadContext.put(CoreConst.REQUEST_URL, request.getRequestURI());
-        ThreadContext.put(CoreConst.REQUEST_USER_AGENT, RequestUtil.getUserAgent(request));
     }
 
     /**
