@@ -29,7 +29,7 @@ public class LogPublicConfig {
     private final SeaProperties seaProperties;
 
     @Bean
-    @ConditionalOnProperty(name = "sea.log.enable", havingValue = "true")
+    @ConditionalOnProperty(name = "sea.log.enabled", havingValue = "true")
     @ConditionalOnMissingBean(name = "seaLogPublicMethodPointcutAdvisor")
     public PointcutAdvisor seaLogPublicAdvisor() {
         log.info("init sea log public method advisor bean");

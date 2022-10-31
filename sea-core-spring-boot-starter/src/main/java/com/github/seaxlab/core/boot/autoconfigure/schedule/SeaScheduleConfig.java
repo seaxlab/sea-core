@@ -33,7 +33,7 @@ public class SeaScheduleConfig {
 
     @Bean
     @ConditionalOnMissingBean(name = "seaScheduleThreadContextPointcutAdvisor")
-    @ConditionalOnProperty(name = "sea.schedule-thread-context-enable", havingValue = "true")
+    @ConditionalOnProperty(name = "sea.schedule-thread-context-enabled", havingValue = "true")
     public DynamicPointcutAdvisor seaScheduleThreadContextPointcutAdvisor() {
         log.info("init sea schedule thread context advisor bean");
 

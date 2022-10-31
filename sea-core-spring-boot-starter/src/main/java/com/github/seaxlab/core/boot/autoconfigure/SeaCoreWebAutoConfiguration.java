@@ -33,7 +33,7 @@ public class SeaCoreWebAutoConfiguration implements WebMvcConfigurer {
     private final SeaProperties seaProperties;
 
     @Bean
-    @ConditionalOnProperty(name = "sea.web.filter.enable", havingValue = "true")
+    @ConditionalOnProperty(name = "sea.web.filter.enabled", havingValue = "true")
     @ConditionalOnMissingBean(name = "seaGlobalFilter")
     public FilterRegistrationBean seaGlobalFilter() {
         FilterRegistrationBean registration = new FilterRegistrationBean();

@@ -43,7 +43,7 @@
       "description": "base package."
     },
     {
-      "name": "sea.schedule-thread-context-enable",
+      "name": "sea.schedule-thread-context-enabled",
       "type": "java.lang.Boolean",
       "sourceType": "com.github.seaxlab.core.boot.autoconfigure.SeaProperties",
       "defaultValue": "false",
@@ -57,7 +57,7 @@
       "description": "schedule需要清理thread context包路径，需符合aspectj pointcut expression规范,默认所有@Scheduled注解，例如execution(public * com.github.spy..*.*(..))."
     },
     {
-      "name": "sea.web.filter.enable",
+      "name": "sea.web.filter.enabled",
       "type": "java.lang.String",
       "sourceType": "com.github.seaxlab.core.boot.autoconfigure.SeaProperties",
       "defaultValue": "true",

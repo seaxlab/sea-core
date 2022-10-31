@@ -10,14 +10,14 @@ sea:
   host: localhost
   schedule-thread-context-base-package: execution(public * com.abc..*.*(..))
   fastjson:
-    enable: false
+    enabled: false
   test: SEA_DES()
   base-package: com.abc,com.github.seaxlab
   log:
-    enable: true
+    enabled: true
     other-base-package: com.abc.service
   web:
     filter:
-      enable: true
+      enabled: true
       url-pattern: /api/*
       log-mode: 2

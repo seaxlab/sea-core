@@ -1,12 +1,11 @@
 package com.github.seaxlab.core.boot.autoconfigure;
 
 import com.github.seaxlab.core.common.Env;
+import java.util.Properties;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-
-import java.util.Properties;
 
 /**
  * yml配置文件
@@ -79,7 +78,8 @@ public class SeaProperties {
     // nested class
     @Data
     public static class Log {
-        private Boolean enable = false;
+
+        private Boolean enabled = false;
         // 外部接口是否打印日志
         private String otherBasePackage;
     }
@@ -92,7 +92,8 @@ public class SeaProperties {
 
     @Data
     public static class Filter {
-        private Boolean enable = true;
+
+        private Boolean enabled = true;
         private String urlPattern;
         private Integer order;
         private String logMode = "1";
@@ -103,7 +104,7 @@ public class SeaProperties {
 //
 //    @Data
 //    public static class Fastjson {
-//        private Boolean enable = false;
+//        private Boolean enabled = false;
 //        //输出空值
 //        private Boolean writeNullValue;
 //    }
