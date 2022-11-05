@@ -1,11 +1,16 @@
 package com.github.seaxlab.core.util;
 
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
-
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * equal util
@@ -156,55 +161,49 @@ public final class EqualUtil {
             return isIn((Byte) a, bb);
         } else if (clazz == Integer.class) {
             List<Integer> bb = (List<Integer>) b;
-            return isIn((Integer) a, bb);
+          return isIn((Integer) a, bb);
         } else if (clazz == Long.class) {
-            List<Long> bb = (List<Long>) b;
-            return isIn((Long) a, bb);
+          List<Long> bb = (List<Long>) b;
+          return isIn((Long) a, bb);
         } else {
-            List<String> bb = (List<String>) b;
-            return isIn(String.valueOf(a), bb);
+          List<String> bb = (List<String>) b;
+          return isIn(String.valueOf(a), bb);
         }
     }
 
-    public enum DateMode {
-        YEAR,
-        MONTH,
-        DAY,
-        HOUR,
-        MINUTE,
-        SECOND,
-        MIllI_SECOND
+  public enum DateMode {
+    YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, MIllI_SECOND
+  }
+
+  /**
+   * 日期比较
+   *
+   * @param date1 datetime
+   * @param date2 datetime
+   * @return
+   */
+  public static boolean isEq(final Date date1, final Date date2) {
+    if (date1 == null || date2 == null) {
+      log.warn("date1 or date2 is null, plz check.");
+      return false;
     }
 
-    /**
-     * 日期比较
-     *
-     * @param date1 datetime
-     * @param date2 datetime
-     * @return
-     */
-    public static boolean isEq(final Date date1, final Date date2) {
-        if (date1 == null || date2 == null) {
-            log.warn("date1 or date2 is null, plz check.");
-            return false;
-        }
+    return date1.getTime() == date2.getTime();
+  }
 
-        return date1.getTime() == date2.getTime();
+  /**
+   * 日期比较
+   *
+   * @param date1    datetime
+   * @param date2    datetime
+   * @param dateMode date mode
+   * @return
+   */
+  public static boolean isEq(final Date date1, final Date date2, DateMode dateMode) {
+    if (date1 == null || date2 == null) {
+      log.warn("date1 or date2 is null, plz check.");
+      return false;
     }
-
-    /**
-     * 日期比较
-     *
-     * @param date1    datetime
-     * @param date2    datetime
-     * @param dateMode date mode
-     * @return
-     */
-    public static boolean isEq(final Date date1, final Date date2, DateMode dateMode) {
-        if (date1 == null || date2 == null) {
-            log.warn("date1 or date2 is null, plz check.");
-            return false;
-        }
         Preconditions.checkNotNull(dateMode, "日期比较模式不能为空");
 
         String format = "";
@@ -244,7 +243,6 @@ public final class EqualUtil {
 
         return left.equalsIgnoreCase(right);
     }
-
 
     //---不等操作
 
@@ -388,12 +386,23 @@ public final class EqualUtil {
      * @return boolean
      */
     public static boolean isNotEq(String str1, String str2, boolean caseSensitive) {
-        return !isEq(str1, str2, caseSensitive);
+      return !isEq(str1, str2, caseSensitive);
     }
 
 
-    // -----------------------isIn
-    //TODO enable
+  /**
+   * is not eq for date
+   *
+   * @param date1
+   * @param date2
+   * @return
+   */
+  public static boolean isNotEq(final Date date1, final Date date2) {
+    return !isEq(date1, date2);
+  }
+
+  // -----------------------isIn
+  //TODO enable
 //
 //    public static <E> boolean isIn(E value, Collection<E> values) {
 //        if (value == null || values == null) {
@@ -402,28 +411,28 @@ public final class EqualUtil {
 //        return values.stream().anyMatch(item -> item == value);
 //    }
 
-    /**
-     * 判断当前字符是否在数组中
-     *
-     * @param str1
-     * @param strArray
-     * @return
-     */
-    public static boolean isIn(String str1, String... strArray) {
-        Preconditions.checkNotNull(str1);
-        Preconditions.checkNotNull(strArray);
+  /**
+   * 判断当前字符是否在数组中
+   *
+   * @param str1
+   * @param strArray
+   * @return
+   */
+  public static boolean isIn(String str1, String... strArray) {
+    Preconditions.checkNotNull(str1);
+    Preconditions.checkNotNull(strArray);
 
-        return Arrays.stream(strArray).anyMatch(item -> isEq(str1, item));
-    }
+    return Arrays.stream(strArray).anyMatch(item -> isEq(str1, item));
+  }
 
-    public static boolean isNotIn(String str, String... strArray) {
-        return !isIn(str, strArray);
-    }
+  public static boolean isNotIn(String str, String... strArray) {
+    return !isIn(str, strArray);
+  }
 
-    /**
-     * 判断当前value是否在其中
-     *
-     * @param value
+  /**
+   * 判断当前value是否在其中
+   *
+   * @param value
      * @param values
      * @return
      */
