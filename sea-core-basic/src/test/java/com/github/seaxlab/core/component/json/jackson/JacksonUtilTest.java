@@ -8,12 +8,15 @@ import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.component.json.jackson.util.JacksonUtil;
 import com.github.seaxlab.core.domain.User;
 import com.github.seaxlab.core.enums.IBaseEnum;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-
-import java.util.*;
 
 /**
  * module name
@@ -27,6 +30,7 @@ public class JacksonUtilTest extends BaseCoreTest {
 
     @Data
     public static class Student {
+
         private String name;
         private StatusEnum status;
 
@@ -48,7 +52,7 @@ public class JacksonUtilTest extends BaseCoreTest {
             this.desc = desc;
         }
 
-        @JsonCreator
+        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
         public static StatusEnum of(int code) {
             for (StatusEnum item : values()) {
                 if (item.getCode() == code) {
@@ -77,7 +81,6 @@ public class JacksonUtilTest extends BaseCoreTest {
         //objectMapper.registerModule(simpleModule1);
 
         log.info("{}", objectMapper.writeValueAsString(student));
-
 
         String content = "{\"name\":\"smith\",\"status\":1}";
         Student st = objectMapper.readValue(content, Student.class);
@@ -156,6 +159,7 @@ public class JacksonUtilTest extends BaseCoreTest {
 
     @Data
     public static class XY {
+
         @JsonProperty("n")
         private String name;
     }
