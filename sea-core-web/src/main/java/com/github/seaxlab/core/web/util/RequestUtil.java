@@ -9,14 +9,13 @@ import com.github.seaxlab.core.util.StringUtil;
 import com.github.seaxlab.core.web.common.WebConst;
 import com.github.seaxlab.core.web.model.RequestDTO;
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * request util
@@ -218,10 +217,10 @@ public class RequestUtil {
      * @param request
      */
     public static void logSimple(HttpServletRequest request) {
-        //TODO if you have invokerAppVersion/invokerChannel/invokerDeviceType, you can add more.
-        log.info("sea request log: [{},{}] queryString={},userAgent={},ip={}", //
-                request.getMethod(), request.getRequestURI(), request.getQueryString(), //
-                getClientIpAddress(request), getUserAgent(request));
+      //TODO if you have invokerAppVersion/invokerChannel/invokerDeviceType, you can add more.
+      log.info("sea request log: [{},{}] queryString={},ip={},userAgent={}", //
+          request.getMethod(), request.getRequestURI(), request.getQueryString(), //
+          getClientIpAddress(request), getUserAgent(request));
     }
 
     /**
@@ -231,9 +230,9 @@ public class RequestUtil {
      * @param request
      */
     public static void logSimple2(HttpServletRequest request) {
-        log.info("sea request log: [{}] queryString={},userAgent={},ip={}", //
-                request.getMethod(), request.getQueryString(), //
-                getClientIpAddress(request), getUserAgent(request));
+      log.info("sea request log: [{}] queryString={},ip={},userAgent={}", //
+          request.getMethod(), request.getQueryString(), //
+          getClientIpAddress(request), getUserAgent(request));
     }
 
     /**
