@@ -242,8 +242,8 @@ public class RequestUtil {
      * @param request
      */
     public static void logSimple3(HttpServletRequest request) {
-        log.info("sea request log: [{}] userAgent={},ip={}", //
-                request.getMethod(), getClientIpAddress(request), getUserAgent(request));
+      log.info("sea request log: [{}] ip={},userAgent={}", //
+          request.getMethod(), getClientIpAddress(request), getUserAgent(request));
     }
 
     /**
