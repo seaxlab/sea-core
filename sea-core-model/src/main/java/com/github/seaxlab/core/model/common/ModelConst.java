@@ -83,108 +83,108 @@ public final class ModelConst {
 
   // 业务键
   public static final String BIZ_KEY = "bizKey";
-    // 业务单号
-    public static final String BIZ_NO = "bizNo";
+  // 业务单号
+  public static final String BIZ_NO = "bizNo";
 
-    public static final String STATUS = "status";
-    public static final String STATE = "state";
-    //阶段
-    public static final String STAGE = "stage";
-    public static final String SCOPE = "scope";
-    public static final String RANGE = "range";
-    public static final String VALUE = "value";
+  public static final String STATUS = "status";
+  public static final String STATE = "state";
+  //阶段
+  public static final String STAGE = "stage";
+  public static final String SCOPE = "scope";
+  public static final String RANGE = "range";
+  public static final String VALUE = "value";
 
-    public static final String ENV = "env";
+  public static final String ENV = "env";
 
-    public static final String SORT = "sort";
-    public static final String ORDER = "order";
-    public static final String PRIORITY = "priority";
-    public static final String RANK = "rank";
-    public static final String SCORE = "score";
-    public static final String LEVEL = "level";
-    public static final String GRADE = "grade";
+  public static final String SORT = "sort";
+  public static final String ORDER = "order";
+  public static final String PRIORITY = "priority";
+  public static final String RANK = "rank";
+  public static final String SCORE = "score";
+  public static final String LEVEL = "level";
+  public static final String GRADE = "grade";
 
-    public static final String PREFIX = "prefix";
-    public static final String SUFFIX = "suffix";
-    public static final String INTRO = "intro";
-    public static final String META = "meta";
-    public static final String EXTRA = "extra";
-    public static final String REMARK = "remark";
-    public static final String DESCRIPTION = "description";
+  public static final String PREFIX = "prefix";
+  public static final String SUFFIX = "suffix";
+  public static final String INTRO = "intro";
+  public static final String META = "meta";
+  public static final String EXTRA = "extra";
+  public static final String REMARK = "remark";
+  public static final String DESCRIPTION = "description";
 
-    public static final String USE_FLAG = "useFlag";
-    public static final String STOP_FLAG = "stopFlag";
-    public static final String ACTIVE_FLAG = "activeFlag";
-    public static final String SYNC_FLAG = "syncFlag";
+  public static final String USE_FLAG = "useFlag";
+  public static final String STOP_FLAG = "stopFlag";
+  public static final String ACTIVE_FLAG = "activeFlag";
+  public static final String SYNC_FLAG = "syncFlag";
 
-    // 启停标识
-    public static final String IS_ENABLED = "isEnabled";
-    public static final String ENABLE_FLAG = "enableFlag";
+  // 启停标识
+  public static final String IS_ENABLED = "isEnabled";
+  public static final String ENABLE_FLAG = "enableFlag";
 
-    // 删除标识
-    public static final String IS_DELETED = "isDeleted";
-    public static final String DEL_FLAG = "delFlag";
-    public static final String DELETED = "deleted";
+  // 删除标识
+  public static final String IS_DELETED = "isDeleted";
+  public static final String DEL_FLAG = "delFlag";
+  public static final String DELETED = "deleted";
 
-    // 版本号
-    public static final String VERSION = "version";
-    public static final String MODEL_VERSION = "modelVersion"; /* db model version */
-    //租户
-    public static final String TENANT_ID = "tenantId";
+  // 版本号
+  public static final String VERSION = "version";
+  public static final String MODEL_VERSION = "modelVersion"; /* db model version */
+  //租户
+  public static final String TENANT_ID = "tenantId";
 
-    /*----------这里兼容了几种常用的字段-----------------*/
-    // 创建人
-    public static final String CREATOR = "creator";
-    public static final String CREATE_USER_ID = "createUserId";
-    public static final String CREATE_USER_NAME = "createUserName";
-    public static final String CREATE_USER = "createUser";
+  /*----------这里兼容了几种常用的字段-----------------*/
+  // 创建人
+  public static final String CREATOR = "creator";
+  public static final String CREATE_USER_ID = "createUserId";
+  public static final String CREATE_USER_NAME = "createUserName";
+  public static final String CREATE_USER = "createUser";
 
-    public static final String CREATE_TIME = "createTime";
-    public static final String CREATED_BY = "createdBy"; // BIGINT
-    public static final String CREATED_USER_NAME = "createdUserName";
-    public static final String GMT_CREATE = "gmtCreate";
+  public static final String CREATE_TIME = "createTime";
+  public static final String CREATED_BY = "createdBy"; // BIGINT
+  public static final String CREATED_USER_NAME = "createdUserName";
+  public static final String GMT_CREATE = "gmtCreate";
 
-    // 修改人
-    public static final String EDITOR = "editor";
-    public static final String UPDATE_USER_ID = "updateUserId";
-    public static final String UPDATE_USER_NAME = "updateUserName";
-    public static final String UPDATE_USER = "updateUser";
+  // 修改人
+  public static final String EDITOR = "editor";
+  public static final String UPDATE_USER_ID = "updateUserId";
+  public static final String UPDATE_USER_NAME = "updateUserName";
+  public static final String UPDATE_USER = "updateUser";
 
-    public static final String UPDATED_BY = "updatedBy"; // BIGINT
-    public static final String UPDATED_USER_NAME = "updatedUserName";
-    public static final String UPDATE_TIME = "updateTime";
-    public static final String UPDATED_AT = "updatedAt";
-    public static final String GMT_MODIFY = "gmtModify";
+  public static final String UPDATED_BY = "updatedBy"; // BIGINT
+  public static final String UPDATED_USER_NAME = "updatedUserName";
+  public static final String UPDATE_TIME = "updateTime";
+  public static final String UPDATED_AT = "updatedAt";
+  public static final String GMT_MODIFY = "gmtModify";
 
-    public static final String TRADING_DAY = "tradingDay";
-    public static final String BILL_DATE = "billDate";
+  public static final String TRADING_DAY = "tradingDay";
+  public static final String BILL_DATE = "billDate";
 
-    // src/dist, from/to
-    public static final String BEGIN_DATE = "beginDate";
-    public static final String END_DATE = "endDate";
-    public static final String BEGIN_TIME = "beginTime";
-    public static final String END_TIME = "endTime";
+  // src/dist, from/to
+  public static final String BEGIN_DATE = "beginDate";
+  public static final String END_DATE = "endDate";
+  public static final String BEGIN_TIME = "beginTime";
+  public static final String END_TIME = "endTime";
 
-    public static final String PERIOD_TYPE = "periodType";
+  public static final String PERIOD_TYPE = "periodType";
 
-    public static final String BATCH_NO = "batchNo";
+  public static final String BATCH_NO = "batchNo";
 
-    public static final String TAG = "tag";
-    public static final String TAG1 = "tag1";
-    public static final String TAG2 = "tag2";
-    public static final String TAG3 = "tag3";
-    public static final String TAG4 = "tag4";
-    public static final String TAG5 = "tag5";
-    public static final String TAG6 = "tag6";
+  public static final String TAG = "tag";
+  public static final String TAG1 = "tag1";
+  public static final String TAG2 = "tag2";
+  public static final String TAG3 = "tag3";
+  public static final String TAG4 = "tag4";
+  public static final String TAG5 = "tag5";
+  public static final String TAG6 = "tag6";
 
 
-    /*-------------共性字段-----------------*/
-    public static final String REQUEST_ID = "requestId";
-    public static final String TRACE_ID = "traceId";
-    /* 来源 */
-    public static final String SOURCE = "source";
-    /* 用户操作时系统渠道 */
-    public static final String CHANNEL = "channel";
+  /*-------------共性字段-----------------*/
+  public static final String REQUEST_ID = "requestId";
+  public static final String TRACE_ID = "traceId";
+  /* 来源 */
+  public static final String SOURCE = "source";
+  /* 用户操作时系统渠道 */
+  public static final String CHANNEL = "channel";
   /*场景*/
   public static final String SCENE = "scene";
   public static final String SCENE_NAME = "sceneName";
@@ -206,6 +206,14 @@ public final class ModelConst {
   public static final String PAYLOAD = "payload";
   public static final String RESULT = "result";
   public static final String SUCCESS = "success";
+  // 耗时
+  public static final String COST = "cost";
+  public static final String TIME = "time";
+
+  //金额，数量
+  public static final String MONEY = "money";
+  public static final String AMOUNT = "amount";
+  public static final String QUANTITY = "quantity";
 
   public static final String COUNT = "count";
   public static final String SIZE = "size";
