@@ -111,6 +111,8 @@ public final class ModelConst {
   public static final String EXTRA = "extra";
   public static final String REMARK = "remark";
   public static final String DESCRIPTION = "description";
+  public static final String EXCEPTION = "exception";
+  public static final String ERROR = "error";
 
   public static final String USE_FLAG = "useFlag";
   public static final String STOP_FLAG = "stopFlag";
