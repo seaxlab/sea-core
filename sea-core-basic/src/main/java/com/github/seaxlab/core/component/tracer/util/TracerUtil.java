@@ -2,7 +2,7 @@ package com.github.seaxlab.core.component.tracer.util;
 
 import com.github.seaxlab.core.component.tracer.enums.TracerProviderEnum;
 import com.github.seaxlab.core.component.tracer.skywalking.util.SkyWalkingUtil;
-import com.github.seaxlab.core.component.tracer.sofa.util.SofaUtil;
+import com.github.seaxlab.core.component.tracer.sofa.util.SofaTracerUtil;
 import com.github.seaxlab.core.config.ConfigurationFactory;
 import com.github.seaxlab.core.enums.ConfigKeyEnum;
 import com.github.seaxlab.core.util.EqualUtil;
@@ -33,7 +33,7 @@ public class TracerUtil {
             return SkyWalkingUtil.getTraceId();
         }
         if (EqualUtil.isEq(mode, TracerProviderEnum.SOFA.getCode(), false)) {
-            return SofaUtil.getTraceId();
+            return SofaTracerUtil.getTraceId();
         }
 
         return "NONE";
