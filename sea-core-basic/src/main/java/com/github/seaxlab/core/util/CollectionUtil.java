@@ -1,9 +1,14 @@
 package com.github.seaxlab.core.util;
 
-import lombok.extern.slf4j.Slf4j;
-
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * module name
@@ -87,4 +92,38 @@ public final class CollectionUtil {
         c1 = tmp;
     }
 
+
+    /**
+     * collection to set
+     *
+     * @param collection
+     * @param func
+     * @param <E>
+     * @param <R>
+     * @return
+     */
+    public static <E, R> Set<R> toSet(Collection<E> collection, Function<E, R> func) {
+        if (collection == null || collection.isEmpty()) {
+            return new HashSet<>();
+        }
+
+        return collection.stream().map(func).collect(Collectors.toSet());
+    }
+
+    /**
+     * collection to set
+     *
+     * @param collection
+     * @param func
+     * @param <E>
+     * @param <R>
+     * @return
+     */
+    public static <E, R> List<R> toList(Collection<E> collection, Function<E, R> func) {
+        if (collection == null || collection.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return collection.stream().map(func).collect(Collectors.toList());
+    }
 }
