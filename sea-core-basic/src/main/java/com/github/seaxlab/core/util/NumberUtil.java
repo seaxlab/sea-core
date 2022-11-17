@@ -2,15 +2,14 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.common.SymbolConst;
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.math.NumberUtils;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.TreeSet;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * number util
@@ -81,6 +80,19 @@ public final class NumberUtil {
      */
     public static boolean isZero(Long value) {
         if (value == null || value.longValue() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * check value is zero
+     *
+     * @param value
+     * @return
+     */
+    public static boolean isZero(Integer value) {
+        if (value == null || value.intValue() == 0) {
             return true;
         }
         return false;
@@ -543,10 +555,7 @@ public final class NumberUtil {
     }
 
     /**
-     * 在连续的数值范围中取[中位数]
-     * 如果有两个中位数取【后者】
-     * 例如1~9-->5
-     * 例如1~10-->6 ()
+     * 在连续的数值范围中取[中位数] 如果有两个中位数取【后者】 例如1~9-->5 例如1~10-->6 ()
      *
      * @param begin
      * @param end
@@ -560,10 +569,7 @@ public final class NumberUtil {
     }
 
     /**
-     * 在连续的数值范围中取[中位数]
-     * 如果有两个中位数取【前者】
-     * 例如1~9-->5
-     * 例如1~10-->6 ()
+     * 在连续的数值范围中取[中位数] 如果有两个中位数取【前者】 例如1~9-->5 例如1~10-->6 ()
      *
      * @param begin
      * @param end
@@ -629,7 +635,8 @@ public final class NumberUtil {
         return divide(num1, num2, 2, RoundingMode.HALF_UP);
     }
 
-    public static BigDecimal divide(Integer num1, Integer num2, int scale, RoundingMode roundingMode) {
+    public static BigDecimal divide(Integer num1, Integer num2, int scale,
+        RoundingMode roundingMode) {
         return divide(toBigDecimal(num1), toBigDecimal(num2), scale, roundingMode);
     }
 
@@ -637,7 +644,8 @@ public final class NumberUtil {
         return divide(toBigDecimal(num1), toBigDecimal(num2), scale, roundingMode);
     }
 
-    public static BigDecimal divide(Double num1, Double num2, int scale, RoundingMode roundingMode) {
+    public static BigDecimal divide(Double num1, Double num2, int scale,
+        RoundingMode roundingMode) {
         return divide(toBigDecimal(num1), toBigDecimal(num2), scale, roundingMode);
     }
 
@@ -650,7 +658,8 @@ public final class NumberUtil {
      * @param roundingMode
      * @return
      */
-    public static BigDecimal divide(BigDecimal num1, BigDecimal num2, int scale, RoundingMode roundingMode) {
+    public static BigDecimal divide(BigDecimal num1, BigDecimal num2, int scale,
+        RoundingMode roundingMode) {
         Preconditions.checkNotNull(num1, "num1 cannot be null");
         Preconditions.checkNotNull(num2, "num2 cannot be null");
 
@@ -675,8 +684,7 @@ public final class NumberUtil {
     }
 
     /**
-     * scale
-     * 有效小数位后向上
+     * scale 有效小数位后向上
      * <pre>
      * 1.114-> 1.12
      * 1.115-> 1.12
@@ -691,8 +699,7 @@ public final class NumberUtil {
     }
 
     /**
-     * scale up
-     * double != num
+     * scale up double != num
      *
      * @param num
      * @param scale
@@ -703,8 +710,7 @@ public final class NumberUtil {
     }
 
     /**
-     * scale down
-     * 有效小数位后向下
+     * scale down 有效小数位后向下
      * <pre>
      *     1.114-->1.11
      *     1.115-->1.11
@@ -719,8 +725,7 @@ public final class NumberUtil {
     }
 
     /**
-     * scale down
-     * double != string
+     * scale down double != string
      *
      * @param num
      * @param scale
@@ -770,8 +775,7 @@ public final class NumberUtil {
     }
 
     /**
-     * scale
-     * double != str
+     * scale double != str
      *
      * @param num
      * @param scale
@@ -782,7 +786,6 @@ public final class NumberUtil {
         BigDecimal bd = new BigDecimal(num);
         return bd.setScale(scale, mode);
     }
-
 
     // ---------N进制转换
 
@@ -855,7 +858,8 @@ public final class NumberUtil {
         if (num == 0) {
             return ZERO;
         }
-        char[] chs = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        char[] chs = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
+            'F'};
         char[] result = new char[32];
         int index = result.length;
         while (num != 0) {
@@ -935,8 +939,7 @@ public final class NumberUtil {
     }
 
     /**
-     * 获取数字的长度
-     * 1100 -> 4
+     * 获取数字的长度 1100 -> 4
      *
      * @param value 数字值
      * @return int
@@ -1020,7 +1023,8 @@ public final class NumberUtil {
      * @param roundingMode
      * @return x.xx
      */
-    public static BigDecimal comparisonRatio(long before, long now, int scale, RoundingMode roundingMode) {
+    public static BigDecimal comparisonRatio(long before, long now, int scale,
+        RoundingMode roundingMode) {
         if (scale < 0) {
             scale = 2;
         }
