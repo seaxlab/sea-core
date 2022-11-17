@@ -21,5 +21,7 @@ public class LogTest extends BaseCoreTest {
 
         log.info(" args={}", JSONUtil.toStr(args));
         log.info(" args={}", JSONUtil.toStr(null));
+        NullPointerException exception = new NullPointerException();
+        log.warn("abc", exception);
     }
 }

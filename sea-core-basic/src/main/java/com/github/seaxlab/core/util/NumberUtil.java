@@ -73,7 +73,7 @@ public final class NumberUtil {
     }
 
     /**
-     * 判断是否为0
+     * check value is zero
      *
      * @param value
      * @return
