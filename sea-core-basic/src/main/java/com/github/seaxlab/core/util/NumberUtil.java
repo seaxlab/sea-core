@@ -635,8 +635,7 @@ public final class NumberUtil {
         return divide(num1, num2, 2, RoundingMode.HALF_UP);
     }
 
-    public static BigDecimal divide(Integer num1, Integer num2, int scale,
-        RoundingMode roundingMode) {
+    public static BigDecimal divide(Integer num1, Integer num2, int scale, RoundingMode roundingMode) {
         return divide(toBigDecimal(num1), toBigDecimal(num2), scale, roundingMode);
     }
 
@@ -644,8 +643,7 @@ public final class NumberUtil {
         return divide(toBigDecimal(num1), toBigDecimal(num2), scale, roundingMode);
     }
 
-    public static BigDecimal divide(Double num1, Double num2, int scale,
-        RoundingMode roundingMode) {
+    public static BigDecimal divide(Double num1, Double num2, int scale, RoundingMode roundingMode) {
         return divide(toBigDecimal(num1), toBigDecimal(num2), scale, roundingMode);
     }
 
@@ -658,8 +656,7 @@ public final class NumberUtil {
      * @param roundingMode
      * @return
      */
-    public static BigDecimal divide(BigDecimal num1, BigDecimal num2, int scale,
-        RoundingMode roundingMode) {
+    public static BigDecimal divide(BigDecimal num1, BigDecimal num2, int scale, RoundingMode roundingMode) {
         Preconditions.checkNotNull(num1, "num1 cannot be null");
         Preconditions.checkNotNull(num2, "num2 cannot be null");
 
@@ -858,8 +855,7 @@ public final class NumberUtil {
         if (num == 0) {
             return ZERO;
         }
-        char[] chs = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
-            'F'};
+        char[] chs = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
         char[] result = new char[32];
         int index = result.length;
         while (num != 0) {
@@ -1023,8 +1019,7 @@ public final class NumberUtil {
      * @param roundingMode
      * @return x.xx
      */
-    public static BigDecimal comparisonRatio(long before, long now, int scale,
-        RoundingMode roundingMode) {
+    public static BigDecimal comparisonRatio(long before, long now, int scale, RoundingMode roundingMode) {
         if (scale < 0) {
             scale = 2;
         }
