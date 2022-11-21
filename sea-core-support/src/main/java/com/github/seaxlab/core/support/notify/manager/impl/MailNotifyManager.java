@@ -7,11 +7,10 @@ import com.github.seaxlab.core.support.notify.manager.NotifyManager;
 import com.github.seaxlab.core.util.ExceptionUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.google.common.base.Preconditions;
+import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.mail.EmailConstants;
 import org.apache.commons.mail.SimpleEmail;
-
-import java.util.Date;
 
 /**
  * module name
@@ -84,7 +83,7 @@ public class MailNotifyManager implements NotifyManager<MailNotifyDTO> {
 
             result.setSuccess(true);
         } catch (Exception e) {
-            log.error("fail to send mail", e);
+            log.warn("fail to send mail", e);
             result.setSuccess(false);
             result.setMsg(ExceptionUtil.getStackTrace(e));
         } finally {

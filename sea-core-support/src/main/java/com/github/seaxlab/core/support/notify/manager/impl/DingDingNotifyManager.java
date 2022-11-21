@@ -32,7 +32,7 @@ public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
             send0(dto);
             result.setSuccess(true);
         } catch (Exception e) {
-            log.error("send ding ding msg error", e);
+            log.warn("send ding ding msg error", e);
             result.setMsg(e.getMessage());
         }
 

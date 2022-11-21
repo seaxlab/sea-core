@@ -34,7 +34,7 @@ public class FeiShuNotifyManager implements NotifyManager<FeiShuNotifyDTO> {
             send0(dto);
             result.setSuccess(true);
         } catch (Exception e) {
-            log.error("send fei shu msg error", e);
+            log.warn("send fei shu msg error", e);
             result.setMsg(e.getMessage());
         }
 
