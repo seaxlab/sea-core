@@ -6,17 +6,15 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.component.json.jackson.util.JacksonUtil;
+import com.github.seaxlab.core.component.json.model.A;
 import com.github.seaxlab.core.domain.User;
 import com.github.seaxlab.core.enums.IBaseEnum;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+
+import java.util.*;
 
 /**
  * module name
@@ -28,45 +26,13 @@ import org.junit.Test;
 @Slf4j
 public class JacksonUtilTest extends BaseCoreTest {
 
-    @Data
-    public static class Student {
-
-        private String name;
-        private StatusEnum status;
-
-        //extend
-        public String getStatusDesc() {
-            return this.status.getDesc();
-        }
-    }
-
-    @Getter
-    public enum StatusEnum implements IBaseEnum<Integer> {
-        NORMAL(1, "正常"), //
-        EXCEPTION(2, "");
-        private Integer code;
-        private String desc;
-
-        StatusEnum(Integer code, String desc) {
-            this.code = code;
-            this.desc = desc;
-        }
-
-        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-        public static StatusEnum of(int code) {
-            for (StatusEnum item : values()) {
-                if (item.getCode() == code) {
-                    return item;
-                }
-            }
-            return null;
-        }
-
-        @JsonValue
-        public Integer getCode() {
-            return code;
-        }
-
+    @Test
+    public void testSerialize() throws Exception {
+        A a = new A();
+        a.setId(1L);
+        a.setName("tt");
+        a.setPassword("123456");
+        log.info("a={}", JacksonUtil.toString(a));
     }
 
     @Test
@@ -162,5 +128,47 @@ public class JacksonUtilTest extends BaseCoreTest {
 
         @JsonProperty("n")
         private String name;
+    }
+
+
+    @Data
+    public static class Student {
+
+        private String name;
+        private StatusEnum status;
+
+        //extend
+        public String getStatusDesc() {
+            return this.status.getDesc();
+        }
+    }
+
+    @Getter
+    public enum StatusEnum implements IBaseEnum<Integer> {
+        NORMAL(1, "正常"), //
+        EXCEPTION(2, "");
+        private Integer code;
+        private String desc;
+
+        StatusEnum(Integer code, String desc) {
+            this.code = code;
+            this.desc = desc;
+        }
+
+        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+        public static StatusEnum of(int code) {
+            for (StatusEnum item : values()) {
+                if (item.getCode() == code) {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        @JsonValue
+        public Integer getCode() {
+            return code;
+        }
+
     }
 }

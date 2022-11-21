@@ -6,8 +6,9 @@ import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.github.seaxlab.core.util.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,13 +29,21 @@ public final class JacksonUtil {
     }
 
     // thread-safe
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final JsonMapper objectMapper;
 
     static {
+        objectMapper = JsonMapper.builder()
+                                 //忽略Transient字段
+                                 .enable(MapperFeature.PROPAGATE_TRANSIENT_MARKER) //
+                                 .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false) //
+                                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)//
+                                 .build();
         // 关闭空对象不让序列化功能
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//        objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+        //objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        //objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        //objectMapper.enable(MapperFeature.PROPAGATE_TRANSIENT_MARKER); //忽略transient字段，enable方法标注废弃
+        //objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         // 这里不能使用setDateFormat(),否则会导致线程不安全
         //SimpleDateFormat dateFormat = DateUtil.getSdf(DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
