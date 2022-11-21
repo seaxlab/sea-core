@@ -1,11 +1,10 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
 /**
  * module name
@@ -29,4 +28,17 @@ public class FreemarkerUtilTest extends BaseCoreTest {
         log.info(FreemarkerUtil.replace("hello ${user},${age},${(abc)!}", params));
         log.info(FreemarkerUtil.replace("hello ${user},${age},${(object.attribute)!'default text'}", params));
     }
+
+    @Test
+    public void testManually() throws Exception {
+        FreemarkerUtil.initConfig(FreemarkerUtilTest.class.getClassLoader(), "/");
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", "tt");
+        params.put("remark", null);
+        params.put("remark2", "");
+        params.put("remark3", "remark3");
+        String page = FreemarkerUtil.render("template/test.ftl", params);
+        log.info("page={}", page);
+    }
+
 }
