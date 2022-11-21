@@ -28,7 +28,7 @@ public final class FreemarkerUtil {
         log.info("try to init freemarker config.");
         //1. 创建Configuration实例
         //Configuration实例是存储 FreeMarker 应用级设置的核心部分
-        cfg = new Configuration(Configuration.getVersion());
+        cfg = new Configuration(Configuration.VERSION_2_3_31);
         //指定模板文件所在路径
 //        cfg.setDirectoryForTemplateLoading(new File("D:/templates"));
         cfg.setClassLoaderForTemplateLoading(classLoader, basePackagePath);
@@ -77,7 +77,7 @@ public final class FreemarkerUtil {
 
         try {
             //指定Configuration版本，基于依赖的版本
-            Configuration cfg = new Configuration(Configuration.getVersion());
+            Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
             //模板文件编码
             cfg.setDefaultEncoding("utf-8");
             //模板解析出错，则重新抛出异常
