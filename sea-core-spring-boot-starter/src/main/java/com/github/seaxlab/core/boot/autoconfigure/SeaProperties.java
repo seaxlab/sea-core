@@ -19,85 +19,89 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 @ConfigurationProperties("sea")
 public class SeaProperties {
 
-    /**
-     * store all properties. eg. host field.
-     */
-    private Properties properties = new Properties();
+  /**
+   * store all properties. eg. host field.
+   */
+  private Properties properties = new Properties();
 
-    public Properties getProperties() {
-        return this.properties;
-    }
+  public Properties getProperties() {
+    return this.properties;
+  }
 
-    /**
-     * region, eg: jiangsu-idc
-     */
-    private String region;
+  /**
+   * region, eg: jiangsu-idc
+   */
+  private String region;
 
-    /**
-     * 当前环境
-     *
-     * @see Env
-     */
-    private String env;
+  /**
+   * 当前环境
+   *
+   * @see Env
+   */
+  private String env;
 
-    /**
-     * profile for sub env.
-     */
-    private String profile;
+  // trace type
+  private Integer traceType;
 
-    /**
-     * application name. if null, it will be spring.application.name.
-     */
-    @Value("${spring.application.name:sea-default-app}")
-    private String appName;
+  /**
+   * profile for sub env.
+   */
+  private String profile;
 
-    /**
-     * base package for all custom, can split by comma
-     * <ul>
-     * <li>aop</li>
-     * </ul>
-     */
-    private String basePackage;
+  /**
+   * application name. if null, it will be spring.application.name.
+   */
+  @Value("${spring.application.name:default-app}")
+  private String appName;
 
-    /**
-     * 是否需要开启@scheduled注解清理上下文，默认false
-     */
-    public Boolean scheduleThreadContextEnable = false;
-    /**
-     * Scheduled注解需要清理thread context包路径，需符合aspectj pointcut expression规范
-     */
-    private String scheduleThreadContextBasePackage;
+  /**
+   * base package for all custom, can split by comma
+   * <ul>
+   * <li>aop</li>
+   * </ul>
+   */
+  private String basePackage;
 
-
-    @NestedConfigurationProperty
-    private Log log;
-
-    @NestedConfigurationProperty
-    private Web web;
-
-    // nested class
-    @Data
-    public static class Log {
-
-        private Boolean enabled = false;
-        // 外部接口是否打印日志
-        private String otherBasePackage;
-    }
+  /**
+   * 是否需要开启@scheduled注解清理上下文，默认false
+   */
+  public Boolean scheduleThreadContextEnable = false;
+  /**
+   * Scheduled注解需要清理thread context包路径，需符合aspectj pointcut expression规范
+   */
+  private String scheduleThreadContextBasePackage;
 
 
-    @Data
-    public static class Web {
-        private Filter filter;
-    }
+  @NestedConfigurationProperty
+  private Log log;
 
-    @Data
-    public static class Filter {
+  @NestedConfigurationProperty
+  private Web web;
 
-        private Boolean enabled = true;
-        private String urlPattern;
-        private Integer order;
-        private String logMode = "1";
-    }
+  // nested class
+  @Data
+  public static class Log {
+
+    private Boolean enabled = false;
+    // 外部接口是否打印日志
+    private String otherBasePackage;
+  }
+
+
+  @Data
+  public static class Web {
+
+    private Filter filter;
+  }
+
+  @Data
+  public static class Filter {
+
+    private Boolean enabled = true;
+    private String urlPattern;
+    private Integer order;
+    private String logMode = "1";
+  }
 
 //    @NestedConfigurationProperty
 //    private Fastjson fastjson;

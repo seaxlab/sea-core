@@ -36,6 +36,13 @@
       "description": "sea application name."
     },
     {
+      "name": "sea.trace-type",
+      "type": "java.lang.Integer",
+      "sourceType": "com.github.seaxlab.core.boot.autoconfigure.SeaProperties",
+      "defaultValue": 0,
+      "description": "Trace type, 0:none."
+    },
+    {
       "name": "sea.base-package",
       "type": "java.lang.String",
       "sourceType": "com.github.seaxlab.core.boot.autoconfigure.SeaProperties",
