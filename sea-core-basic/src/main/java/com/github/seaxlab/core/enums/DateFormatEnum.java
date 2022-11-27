@@ -69,7 +69,7 @@ public enum DateFormatEnum {
   ;
 
   @Getter
-  private String value;
+  private final String value;
 
   DateFormatEnum(String value) {
     this.value = value;

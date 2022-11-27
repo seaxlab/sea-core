@@ -23,7 +23,7 @@ public enum DataTypeEnum {
   ;
 
   @Getter
-  private String key;
+  private final String key;
 
   private static final DataTypeEnum[] VALUES;
 

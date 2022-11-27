@@ -48,9 +48,8 @@ public enum WeekChineseEnum {
    */
   Sunday(7, "周日");
 
-  private int type;
-
-  private String desc;
+  private final int type;
+  private final String desc;
 
   private static final WeekChineseEnum[] VALUES;
 

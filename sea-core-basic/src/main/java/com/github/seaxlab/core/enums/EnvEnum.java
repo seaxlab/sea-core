@@ -23,8 +23,8 @@ public enum EnvEnum implements IBaseEnum<String> {
   PRE("pre", "pre env"),
   PRO("pro", "production env"),
   ;
-  private String code;
-  private String desc;
+  private final String code;
+  private final String desc;
 
   private static final EnvEnum[] VALUES;
 

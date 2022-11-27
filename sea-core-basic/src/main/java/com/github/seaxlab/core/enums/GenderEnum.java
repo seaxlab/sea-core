@@ -18,8 +18,8 @@ public enum GenderEnum implements IBaseEnum<Integer> {
   MAN(1, "男"),
   WOMAN(2, "女");
 
-  private Integer code;
-  private String desc;
+  private final Integer code;
+  private final String desc;
 
   private static final GenderEnum[] VALUES;
 

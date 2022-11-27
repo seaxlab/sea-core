@@ -20,8 +20,8 @@ public enum NetworkEnum implements IBaseEnum<String> {
   EXTRANET("extranet", "专网"),
   INTERNET("internet", "互联网");
 
-  private String code;
-  private String desc;
+  private final String code;
+  private final String desc;
 
   NetworkEnum(String code, String desc) {
     this.code = code;

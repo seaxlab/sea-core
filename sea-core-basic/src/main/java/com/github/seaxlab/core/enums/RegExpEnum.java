@@ -57,8 +57,8 @@ public enum RegExpEnum implements IBaseRegExpEnum<String> {
   //
   NONE("", "none");
 
-  private String expression;
-  private String desc;
+  private final String expression;
+  private final String desc;
 
   RegExpEnum(String expression, String desc) {
     this.expression = expression;

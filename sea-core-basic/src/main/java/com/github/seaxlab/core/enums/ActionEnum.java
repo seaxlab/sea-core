@@ -38,8 +38,8 @@ public enum ActionEnum implements Serializable {
 
   ;
 
-  private String key;
-  private String desc;
+  private final String key;
+  private final String desc;
 
   private static final ActionEnum[] VALUES;
 

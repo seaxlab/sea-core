@@ -20,8 +20,8 @@ public enum ConfigKeyEnum implements IBaseEnum<String> {
   //
   ;
 
-  private String code;
-  private String desc;
+  private final String code;
+  private final String desc;
 
   ConfigKeyEnum(String code, String desc) {
     this.code = code;

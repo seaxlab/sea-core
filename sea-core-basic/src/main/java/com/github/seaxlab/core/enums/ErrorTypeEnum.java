@@ -17,8 +17,8 @@ public enum ErrorTypeEnum implements IBaseEnum<String> {
   BIZ("BIZ", "业务"),
   VALIDATOR("VALIDATOR", "参数校验");
 
-  private String code;
-  private String desc;
+  private final String code;
+  private final String desc;
 
   ErrorTypeEnum(String code, String desc) {
     this.code = code;

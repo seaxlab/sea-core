@@ -16,8 +16,8 @@ public enum ScriptTypeEnum implements IBaseEnum<String> {
   TEXT_TEMPLATE("text_template", "文本模板"),
   JAVASCRIPT("javascript", "javascript脚本");
 
-  private String code;
-  private String desc;
+  private final String code;
+  private final String desc;
 
   ScriptTypeEnum(String code, String desc) {
     this.code = code;
