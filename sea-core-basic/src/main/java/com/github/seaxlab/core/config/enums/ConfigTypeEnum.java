@@ -20,8 +20,8 @@ public enum ConfigTypeEnum implements IBaseEnum<String> {
   TYPESAFE("typesafe", "based on TypeSafe config"),
   ;
 
-  private String code;
-  private String desc;
+  private final String code;
+  private final String desc;
 
   ConfigTypeEnum(String code, String desc) {
     this.code = code;

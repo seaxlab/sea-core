@@ -15,39 +15,39 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Getter
 public enum OssTypeEnum implements IBaseEnum<String> {
-    UNKNOWN("unknown", "未知"),
+  UNKNOWN("unknown", "未知"),
 
-    ALI_YUN("ali_yun", "ali yun"),
-    QINIU_CLOUD("qiniu_cloud", "qiniu cloud"),
-    TENCENT_CLOUD("tencent_cloud", "tencent cloud"),
-    MINIO("minio", "minio"),
-    HUAWEI_CLOUD("huawei_cloud", "huawei cloud"),
-    AWS("aws", "AWS"),
+  ALI_YUN("ali_yun", "ali yun"),
+  QINIU_CLOUD("qiniu_cloud", "qiniu cloud"),
+  TENCENT_CLOUD("tencent_cloud", "tencent cloud"),
+  MINIO("minio", "minio"),
+  HUAWEI_CLOUD("huawei_cloud", "huawei cloud"),
+  AWS("aws", "AWS"),
 
-    ;
-    //add here
-    ;
+  ;
+  //add here
+  ;
 
-    private String code;
-    private String desc;
+  private final String code;
+  private final String desc;
 
-    OssTypeEnum(String code, String desc) {
-        this.code = code;
-        this.desc = desc;
+  OssTypeEnum(String code, String desc) {
+    this.code = code;
+    this.desc = desc;
+  }
+
+  public static OssTypeEnum of(String code) {
+    if (code == null) {
+      log.warn("code is null");
+      return UNKNOWN;
     }
 
-    public static OssTypeEnum of(String code) {
-        if (code == null) {
-            log.warn("code is null");
-            return UNKNOWN;
-        }
-
-        for (OssTypeEnum item : values()) {
-            if (EqualUtil.isEq(code, item.code)) {
-                return item;
-            }
-        }
-        log.warn("unknown code={}", code);
-        return UNKNOWN;
+    for (OssTypeEnum item : values()) {
+      if (EqualUtil.isEq(code, item.code)) {
+        return item;
+      }
     }
+    log.warn("unknown code={}", code);
+    return UNKNOWN;
+  }
 }

@@ -13,39 +13,39 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Getter
 public enum TriggerTypeEnum implements IBaseEnum<Integer> {
-    UNKNOWN(0, "unknown", "unknown"), //
-    MANUAL(1, "manual", "手动"), //
-    AUTO(2, "auto", "自动"),//
-    ;
+  UNKNOWN(0, "unknown", "unknown"), //
+  MANUAL(1, "manual", "手动"), //
+  AUTO(2, "auto", "自动"),//
+  ;
 
-    private Integer code;
-    private String key;
-    private String desc;
+  private final Integer code;
+  private final String key;
+  private final String desc;
 
-    TriggerTypeEnum(Integer code, String key, String desc) {
-        this.code = code;
-        this.key = key;
-        this.desc = desc;
+  TriggerTypeEnum(Integer code, String key, String desc) {
+    this.code = code;
+    this.key = key;
+    this.desc = desc;
+  }
+
+  private static final TriggerTypeEnum[] VALUES;
+
+  static {
+    VALUES = values();
+  }
+
+  public static TriggerTypeEnum of(Integer code) {
+    if (code == null) {
+      log.warn("code is null");
+      return UNKNOWN;
     }
 
-    private static final TriggerTypeEnum[] VALUES;
-
-    static {
-        VALUES = values();
+    for (TriggerTypeEnum item : VALUES) {
+      if (code.intValue() == item.getCode().intValue()) {
+        return item;
+      }
     }
-
-    public static TriggerTypeEnum of(Integer code) {
-        if (code == null) {
-            log.warn("code is null");
-            return UNKNOWN;
-        }
-
-        for (TriggerTypeEnum item : VALUES) {
-            if (code.intValue() == item.getCode().intValue()) {
-                return item;
-            }
-        }
-        log.warn("unknown code={}", code);
-        return UNKNOWN;
-    }
+    log.warn("unknown code={}", code);
+    return UNKNOWN;
+  }
 }

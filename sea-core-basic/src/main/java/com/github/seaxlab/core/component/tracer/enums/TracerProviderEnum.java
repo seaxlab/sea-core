@@ -15,38 +15,38 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Getter
 public enum TracerProviderEnum implements IBaseEnum<String> {
-    UNKNOWN("unknown", "unknown"), //
-    NONE("none", "none"), //
-    SKYWALKING("skywalking", "skywalking"), //
-    SOFA("sofa", "sofa tracer"),
-    ;
+  UNKNOWN("unknown", "unknown"), //
+  NONE("none", "none"), //
+  SKYWALKING("skywalking", "skywalking"), //
+  SOFA("sofa", "sofa tracer"),
+  ;
 
-    private String code;
-    private String desc;
+  private final String code;
+  private final String desc;
 
-    TracerProviderEnum(String code, String desc) {
-        this.code = code;
-        this.desc = desc;
+  TracerProviderEnum(String code, String desc) {
+    this.code = code;
+    this.desc = desc;
+  }
+
+  private static final TracerProviderEnum[] VALUES;
+
+  static {
+    VALUES = values();
+  }
+
+  public static TracerProviderEnum of(String code) {
+    if (code == null) {
+      log.warn("code is null");
+      return UNKNOWN;
     }
 
-    private static final TracerProviderEnum[] VALUES;
-
-    static {
-        VALUES = values();
+    for (TracerProviderEnum item : VALUES) {
+      if (EqualUtil.isEq(code, item.code)) {
+        return item;
+      }
     }
-
-    public static TracerProviderEnum of(String code) {
-        if (code == null) {
-            log.warn("code is null");
-            return UNKNOWN;
-        }
-
-        for (TracerProviderEnum item : VALUES) {
-            if (EqualUtil.isEq(code, item.code)) {
-                return item;
-            }
-        }
-        log.warn("unknown code={}", code);
-        return UNKNOWN;
-    }
+    log.warn("unknown code={}", code);
+    return UNKNOWN;
+  }
 }

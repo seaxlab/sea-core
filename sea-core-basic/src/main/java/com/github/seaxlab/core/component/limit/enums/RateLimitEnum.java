@@ -11,37 +11,37 @@ import com.github.seaxlab.core.util.EqualUtil;
  * @since 1.0
  */
 public enum RateLimitEnum implements IBaseEnum<String> {
-    UNKNOWN("unknown", "未知限流类型"),
-    FIXED("fixed", "固定窗口"),
-    SLIDING("sliding", "滑动窗口"),
-    ;
+  UNKNOWN("unknown", "未知限流类型"),
+  FIXED("fixed", "固定窗口"),
+  SLIDING("sliding", "滑动窗口"),
+  ;
 
-    private String code;
-    private String desc;
+  private final String code;
+  private final String desc;
 
-    RateLimitEnum(String code, String desc) {
-        this.code = code;
-        this.desc = desc;
+  RateLimitEnum(String code, String desc) {
+    this.code = code;
+    this.desc = desc;
+  }
+
+  @Override
+  public String getCode() {
+    return this.code;
+  }
+
+  @Override
+  public String getDesc() {
+    return this.desc;
+  }
+
+  public static RateLimitEnum of(String code) {
+    for (RateLimitEnum item : values()) {
+      if (EqualUtil.isEq(item.getCode(), code, false)) {
+        return item;
+      }
     }
-
-    @Override
-    public String getCode() {
-        return this.code;
-    }
-
-    @Override
-    public String getDesc() {
-        return this.desc;
-    }
-
-    public static RateLimitEnum of(String code) {
-        for (RateLimitEnum item : values()) {
-            if (EqualUtil.isEq(item.getCode(), code, false)) {
-                return item;
-            }
-        }
-        return UNKNOWN;
-    }
+    return UNKNOWN;
+  }
 
 
 }
