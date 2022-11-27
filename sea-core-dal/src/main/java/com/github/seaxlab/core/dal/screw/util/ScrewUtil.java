@@ -86,7 +86,9 @@ public final class ScrewUtil {
    * 创建 screw 的引擎配置
    */
   private static EngineConfig buildEngineConfig(DBModelCreateDTO dto) {
-    return EngineConfig.builder().fileOutputDir(StringUtil.defaultIfBlank(dto.getOutPutDir(), PathUtil.getUserHome() + "/screw")) // 生成文件路径
+    String fileOutputDir = StringUtil.defaultIfBlank(dto.getOutPutDir(), PathUtil.getUserHome() + "/screw");
+    return EngineConfig.builder()//
+                       .fileOutputDir(fileOutputDir) // 生成文件路径
                        .openOutputDir(false) // 打开目录
                        .fileType(ObjectUtil.defaultIfNull(dto.getEngineFileType(), EngineFileType.HTML)) // 文件类型
                        .produceType(EngineTemplateType.freemarker) // 文件类型
@@ -99,7 +101,8 @@ public final class ScrewUtil {
    * 指定生成逻辑、当存在指定表、指定表前缀、指定表后缀时，将生成指定表，其余表不生成、并跳过忽略表配置
    */
   private static ProcessConfig buildProcessConfig() {
-    return ProcessConfig.builder().designatedTableName(Collections.emptyList())  // 根据名称指定表生成
+    return ProcessConfig.builder() //
+                        .designatedTableName(Collections.emptyList())  // 根据名称指定表生成
                         .designatedTablePrefix(Collections.emptyList()) //根据表前缀生成
                         .designatedTableSuffix(Collections.emptyList()) // 根据表后缀生成
                         .ignoreTableName(Arrays.asList("test_user", "test_group")) // 忽略表名
