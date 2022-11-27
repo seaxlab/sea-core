@@ -14,74 +14,74 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Getter
 public enum EnabledFlagEnum implements IBaseEnum<Integer> {
-    UNKNOWN(-1, "未知"), //
-    ENABLED(1, "启用"),  //
-    DISABLED(0, "禁用");
+  UNKNOWN(-1, "未知"),
+  ENABLED(1, "启用"),
+  DISABLED(0, "禁用"),
+  ;
 
-    private Integer code;
+  private Integer code;
+  private String desc;
 
-    private String desc;
+  private static final EnabledFlagEnum[] VALUES;
 
-    private static final EnabledFlagEnum[] VALUES;
+  static {
+    VALUES = values();
+  }
 
-    static {
-        VALUES = values();
+  EnabledFlagEnum(int code, String desc) {
+    this.code = code;
+    this.desc = desc;
+  }
+
+  /**
+   * of
+   *
+   * @param code
+   * @return
+   */
+  public static EnabledFlagEnum of(Integer code) {
+    if (code == null) {
+      log.warn(ErrorMessageEnum.CODE_IS_NULL.getMessage());
+      return UNKNOWN;
     }
 
-    EnabledFlagEnum(int code, String desc) {
-        this.code = code;
-        this.desc = desc;
+    for (EnabledFlagEnum status : VALUES) {
+      if (code.intValue() == status.getCode().intValue()) {
+        return status;
+      }
+    }
+    log.warn("unknown code={}", code);
+    return UNKNOWN;
+  }
+
+  /**
+   * 是否启用
+   *
+   * @param code
+   * @return
+   */
+  public static boolean isEnabled(Integer code) {
+    if (code == null) {
+      log.warn(ErrorMessageEnum.CODE_IS_NULL.getMessage());
+      return false;
     }
 
-    /**
-     * of
-     *
-     * @param code
-     * @return
-     */
-    public static EnabledFlagEnum of(Integer code) {
-        if (code == null) {
-            log.warn(ErrorMessageEnum.CODE_IS_NULL.getMessage());
-            return UNKNOWN;
-        }
+    return ENABLED.code.intValue() == code.intValue();
+  }
 
-        for (EnabledFlagEnum status : VALUES) {
-            if (code.intValue() == status.getCode().intValue()) {
-                return status;
-            }
-        }
-        log.warn("unknown code={}", code);
-        return UNKNOWN;
+
+  /**
+   * 是否禁用
+   *
+   * @param code
+   * @return
+   */
+  public static boolean isDisabled(Integer code) {
+    if (code == null) {
+      log.warn(ErrorMessageEnum.CODE_IS_NULL.getMessage());
+      return false;
     }
-
-    /**
-     * 是否启用
-     *
-     * @param code
-     * @return
-     */
-    public static boolean isEnabled(Integer code) {
-        if (code == null) {
-            log.warn(ErrorMessageEnum.CODE_IS_NULL.getMessage());
-            return false;
-        }
-
-        return ENABLED.code.intValue() == code.intValue();
-    }
-
-
-    /**
-     * 是否禁用
-     *
-     * @param code
-     * @return
-     */
-    public static boolean isDisabled(Integer code) {
-        if (code == null) {
-            log.warn(ErrorMessageEnum.CODE_IS_NULL.getMessage());
-            return false;
-        }
-        return DISABLED.code.intValue() == code.intValue();
-    }
+    return DISABLED.code.intValue() == code.intValue();
+  }
 
 }

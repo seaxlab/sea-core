@@ -8,12 +8,12 @@ package com.github.seaxlab.core.enums;
  * @since 1.0
  */
 public enum RangeModeEnum {
-    //()
-    OPEN_OPEN,
-    //(]
-    OPEN_CLOSE,
-    //[)
-    CLOSE_OPEN,
-    //[]
-    CLOSE_CLOSE
+  //()
+  OPEN_OPEN,
+  //(]
+  OPEN_CLOSE,
+  //[)
+  CLOSE_OPEN,
+  //[]
+  CLOSE_CLOSE
 }

@@ -15,59 +15,58 @@ import java.io.Serializable;
 @Getter
 @Slf4j
 public enum ActionEnum implements Serializable {
-    UNKNOWN("unknown", "未知"),
+  UNKNOWN("unknown", "未知"),
 
-    ADD("add", "新增"),
-    DELETE("delete", "删除"),
-    DELETE_LOGIC("delete_logic", "逻辑删除"),
-    DELETE_PHYSICS("delete_physics", "物理删除"),
+  ADD("add", "新增"),
+  DELETE("delete", "删除"),
+  DELETE_LOGIC("delete_logic", "逻辑删除"),
+  DELETE_PHYSICS("delete_physics", "物理删除"),
 
-    UPDATE("update", "更新"),
-    QUERY("query", "查询"),
+  UPDATE("update", "更新"),
+  QUERY("query", "查询"),
 
-    ENABLE("enable", "启用"),
-    DISABLE("disable", "停用"),
+  ENABLE("enable", "启用"),
+  DISABLE("disable", "停用"),
 
-    BATCH_ADD("batch_add", "批量新增"),
-    BATCH_DELETE("batch_delete", "批量删除"),
-    BATCH_UPDATE("batch_update", "批量更新"),
-    BATCH_QUERY("batch_query", "批量查询"),
+  BATCH_ADD("batch_add", "批量新增"),
+  BATCH_DELETE("batch_delete", "批量删除"),
+  BATCH_UPDATE("batch_update", "批量更新"),
+  BATCH_QUERY("batch_query", "批量查询"),
 
-    BATCH_ENABLE("batch_enable", "批量启用"),
-    BATCH_DISABLE("batch_disable", "批量停用"),
+  BATCH_ENABLE("batch_enable", "批量启用"),
+  BATCH_DISABLE("batch_disable", "批量停用"),
+
+  ;
+
+  private String key;
+  private String desc;
+
+  private static final ActionEnum[] VALUES;
+
+  static {
+    VALUES = values();
+  }
 
 
-    ;
+  ActionEnum(String key, String desc) {
+    this.key = key;
+    this.desc = desc;
+  }
 
-    private String key;
-    private String desc;
-
-    private static final ActionEnum[] VALUES;
-
-    static {
-        VALUES = values();
+  public static ActionEnum of(String action) {
+    if (action == null || action.trim().isEmpty()) {
+      log.warn("action is empty");
+      return UNKNOWN;
     }
 
-
-    ActionEnum(String key, String desc) {
-        this.key = key;
-        this.desc = desc;
+    for (ActionEnum item : VALUES) {
+      if (item.getKey().equalsIgnoreCase(action)) {
+        return item;
+      }
     }
 
-    public static ActionEnum of(String action) {
-        if (action == null || action.trim().isEmpty()) {
-            log.warn("action is empty");
-            return UNKNOWN;
-        }
-
-        for (ActionEnum item : VALUES) {
-            if (item.getKey().equalsIgnoreCase(action)) {
-                return item;
-            }
-        }
-
-        log.warn("unknown code={}", action);
-        return UNKNOWN;
-    }
+    log.warn("unknown code={}", action);
+    return UNKNOWN;
+  }
 
 }

@@ -13,42 +13,42 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Getter
 public enum GenderEnum implements IBaseEnum<Integer> {
-    UNKNOWN(0, "未知"),
+  UNKNOWN(0, "未知"),
 
-    MAN(1, "男"),
-    WOMAN(2, "女");
+  MAN(1, "男"),
+  WOMAN(2, "女");
 
-    private Integer code;
-    private String desc;
+  private Integer code;
+  private String desc;
 
-    private static final GenderEnum[] VALUES;
+  private static final GenderEnum[] VALUES;
 
-    static {
-        VALUES = values();
+  static {
+    VALUES = values();
+  }
+
+  GenderEnum(int code, String desc) {
+    this.code = code;
+    this.desc = desc;
+  }
+
+  public static GenderEnum of(Integer code) {
+    if (code == null) {
+      log.warn("code is null");
+      return UNKNOWN;
     }
 
-    GenderEnum(int code, String desc) {
-        this.code = code;
-        this.desc = desc;
+    for (GenderEnum genderEnum : VALUES) {
+      if (genderEnum.getCode().intValue() == code.intValue()) {
+        return genderEnum;
+      }
     }
+    log.warn("unknown code={}", code);
+    return UNKNOWN;
+  }
 
-    public static GenderEnum of(Integer code) {
-        if (code == null) {
-            log.warn("code is null");
-            return UNKNOWN;
-        }
-
-        for (GenderEnum genderEnum : VALUES) {
-            if (genderEnum.getCode().intValue() == code.intValue()) {
-                return genderEnum;
-            }
-        }
-        log.warn("unknown code={}", code);
-        return UNKNOWN;
-    }
-
-    public static String getDesc(Integer code) {
-        GenderEnum genderEnum = of(code);
-        return genderEnum == UNKNOWN ? "" : genderEnum.getDesc();
-    }
+  public static String getDesc(Integer code) {
+    GenderEnum genderEnum = of(code);
+    return genderEnum == UNKNOWN ? "" : genderEnum.getDesc();
+  }
 }

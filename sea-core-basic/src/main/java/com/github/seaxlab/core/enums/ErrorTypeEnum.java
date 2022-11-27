@@ -12,16 +12,16 @@ import lombok.Getter;
 @Getter
 public enum ErrorTypeEnum implements IBaseEnum<String> {
 
-    SYSTEM("SYS", "系统"),
-    APPLICATION("Application", "应用"),
-    BIZ("BIZ", "业务"),
-    VALIDATOR("VALIDATOR", "参数校验");
+  SYSTEM("SYS", "系统"),
+  APPLICATION("Application", "应用"),
+  BIZ("BIZ", "业务"),
+  VALIDATOR("VALIDATOR", "参数校验");
 
-    private String code;
-    private String desc;
+  private String code;
+  private String desc;
 
-    ErrorTypeEnum(String code, String desc) {
-        this.code = code;
-        this.desc = desc;
-    }
+  ErrorTypeEnum(String code, String desc) {
+    this.code = code;
+    this.desc = desc;
+  }
 }

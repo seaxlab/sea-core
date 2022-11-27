@@ -15,37 +15,37 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Getter
 public enum ConfigTypeEnum implements IBaseEnum<String> {
-    UNKNOWN("unknown", "unknown"), //
-    SIMPLE("simple", "base on HashMap"),//
-    TYPESAFE("typesafe", "based on TypeSafe config"),//
-    ;
+  UNKNOWN("unknown", "unknown"),
+  SIMPLE("simple", "base on HashMap"),
+  TYPESAFE("typesafe", "based on TypeSafe config"),
+  ;
 
-    private String code;
-    private String desc;
+  private String code;
+  private String desc;
 
-    ConfigTypeEnum(String code, String desc) {
-        this.code = code;
-        this.desc = desc;
+  ConfigTypeEnum(String code, String desc) {
+    this.code = code;
+    this.desc = desc;
+  }
+
+  private static final ConfigTypeEnum[] VALUES;
+
+  static {
+    VALUES = values();
+  }
+
+  public static ConfigTypeEnum of(String code) {
+    if (code == null) {
+      log.warn("code is null");
+      return UNKNOWN;
     }
 
-    private static final ConfigTypeEnum[] VALUES;
-
-    static {
-        VALUES = values();
+    for (ConfigTypeEnum item : VALUES) {
+      if (EqualUtil.isEq(code, item.code)) {
+        return item;
+      }
     }
-
-    public static ConfigTypeEnum of(String code) {
-        if (code == null) {
-            log.warn("code is null");
-            return UNKNOWN;
-        }
-
-        for (ConfigTypeEnum item : VALUES) {
-            if (EqualUtil.isEq(code, item.code)) {
-                return item;
-            }
-        }
-        log.warn("unknown code={}", code);
-        return UNKNOWN;
-    }
+    log.warn("unknown code={}", code);
+    return UNKNOWN;
+  }
 }

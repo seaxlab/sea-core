@@ -13,42 +13,40 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public enum DataTypeEnum {
-    UNKNOWN("UNKNOWN"),
+  UNKNOWN("UNKNOWN"),
 
-    BOOLEAN("BOOLEAN"),
-    NUMBER("NUMBER"),
-    TEXT("TEXT"),
-    JSON("JSON"),
-    MOBILE("mobile"),
+  BOOLEAN("BOOLEAN"),
+  NUMBER("NUMBER"),
+  TEXT("TEXT"),
+  JSON("JSON"),
+  MOBILE("mobile"),
+  ;
 
+  @Getter
+  private String key;
 
-    ;
+  private static final DataTypeEnum[] VALUES;
 
-    @Getter
-    private String key;
+  static {
+    VALUES = values();
+  }
 
-    private static final DataTypeEnum[] VALUES;
+  DataTypeEnum(String key) {
+    this.key = key;
+  }
 
-    static {
-        VALUES = values();
+  public static DataTypeEnum of(String str) {
+    if (str == null || str.isEmpty()) {
+      log.warn("str is empty, plz check.");
+      return UNKNOWN;
     }
-
-    DataTypeEnum(String key) {
-        this.key = key;
+    for (DataTypeEnum item : VALUES) {
+      if (EqualUtil.isEq(item.getKey(), str, false)) {
+        return item;
+      }
     }
+    log.warn("unhandled value={}", str);
 
-    public static DataTypeEnum of(String str) {
-        if (str == null || str.isEmpty()) {
-            log.warn("str is empty, plz check.");
-            return UNKNOWN;
-        }
-        for (DataTypeEnum item : VALUES) {
-            if (EqualUtil.isEq(item.getKey(), str, false)) {
-                return item;
-            }
-        }
-        log.warn("unhandled value={}", str);
-
-        return UNKNOWN;
-    }
+    return UNKNOWN;
+  }
 }
