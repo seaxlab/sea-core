@@ -1,0 +1,24 @@
+#set($greet = "hello")
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+<p>$!{greet} $!{fullName}</p>
+<p>my another name is $!{anotherName}</p>
+<p>my another name is $!{request.anotherName}</p>
+<p>${test.getUser()}</p>
+<p>$date</p>
+<select>
+  <option value="0">请选择</option>
+  #foreach($list in $!request.listTree)
+    #if($!list.name==$request.anotherName)
+      <option value="$!list.id" selected="selected">$!list.name</option>
+    #else
+      <option value="$!list.id">$!list.name</option>
+    #end
+  #end
+</select>
+</body>
+</html>

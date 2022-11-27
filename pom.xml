@@ -1,719 +1,726 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.github.seaxlab</groupId>
-        <artifactId>sea-root</artifactId>
-        <version>[2.2.0, 2.2.99]</version>
-    </parent>
+  <parent>
+    <groupId>com.github.seaxlab</groupId>
+    <artifactId>sea-root</artifactId>
+    <version>[2.2.0, 2.2.99]</version>
+  </parent>
 
-    <artifactId>sea-core</artifactId>
-    <version>2.6.6-SNAPSHOT</version>
+  <artifactId>sea-core</artifactId>
+  <version>2.6.6-SNAPSHOT</version>
 
-    <packaging>pom</packaging>
+  <packaging>pom</packaging>
 
-    <description>sea-core library</description>
+  <description>sea-core library</description>
 
-    <modules>
-        <module>sea-core-model</module>
-        <module>sea-core-basic</module>
-        <module>sea-core-web</module>
-        <module>sea-core-dal</module>
-        <module>sea-core-test</module>
-        <module>sea-core-security</module>
-        <module>sea-core-support</module>
-        <module>sea-core-spring</module>
-        <module>sea-core-spring-cloud</module>
-        <module>sea-core-spring-boot-starter</module>
-        <module>sea-core-example</module>
-        <module>sea-core-example-cloud</module>
-    </modules>
-
-
-    <developers>
-        <developer>
-            <id>spy</id>
-            <name>shipengyan</name>
-        </developer>
-    </developers>
-
-    <properties>
-        <maven.test.skip>true</maven.test.skip>
-        <maven.javadoc.skip>true</maven.javadoc.skip>
-
-        <!--  basic third library  -->
-        <logback.version>1.2.3</logback.version>
-        <lombok.version>1.18.16</lombok.version>
-        <slf4j.version>1.7.30</slf4j.version>
-        <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
-
-        <jackson.version>2.13.3</jackson.version>
-        <hutool.version>5.7.22</hutool.version>
-        <gson.version>2.8.6</gson.version>
-        <bcprov.version>1.68</bcprov.version>
-
-        <!-- for test -->
-        <junit.version>4.12</junit.version>
-        <junit-jupiter.version>5.5.0</junit-jupiter.version>
-        <!--  注意：mockito版本高于此版本的有bug  -->
-        <mockito.version>2.23.4</mockito.version>
-        <mockserver.version>5.11.2</mockserver.version>
-
-        <assertj-core.version>3.12.2</assertj-core.version>
-        <junit-platform-launcher.version>1.5.1</junit-platform-launcher.version>
-        <jmh.version>1.27</jmh.version>
-        <javafaker.version>1.0.2</javafaker.version>
+  <modules>
+    <module>sea-core-model</module>
+    <module>sea-core-basic</module>
+    <module>sea-core-web</module>
+    <module>sea-core-dal</module>
+    <module>sea-core-test</module>
+    <module>sea-core-security</module>
+    <module>sea-core-support</module>
+    <module>sea-core-spring</module>
+    <module>sea-core-spring-cloud</module>
+    <module>sea-core-spring-boot-starter</module>
+    <module>sea-core-example</module>
+    <module>sea-core-example-cloud</module>
+  </modules>
 
 
-        <apache.lang.version>3.9</apache.lang.version>
-        <apache.collection.version>4.4</apache.collection.version>
-        <apache.pool2.version>2.7.0</apache.pool2.version>
-        <apache.codec.version>1.13</apache.codec.version>
-        <apache.net.version>3.6</apache.net.version>
-        <apache.compress.version>1.18</apache.compress.version>
-        <apache.io.version>2.8.0</apache.io.version>
-        <apache.httpclient.version>4.5.13</apache.httpclient.version>
-        <apache.httpmime.version>4.5.13</apache.httpmime.version>
-        <apache.httpasyncclient.version>4.1.5</apache.httpasyncclient.version>
-        <apache.curator.version>4.0.1</apache.curator.version>
-        <apache.email.version>1.5</apache.email.version>
+  <developers>
+    <developer>
+      <id>spy</id>
+      <name>shipengyan</name>
+    </developer>
+  </developers>
+
+  <properties>
+    <maven.test.skip>true</maven.test.skip>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+
+    <!--  basic third library  -->
+    <logback.version>1.2.3</logback.version>
+    <lombok.version>1.18.16</lombok.version>
+    <slf4j.version>1.7.30</slf4j.version>
+    <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
+
+    <jackson.version>2.13.3</jackson.version>
+    <hutool.version>5.7.22</hutool.version>
+    <gson.version>2.8.6</gson.version>
+    <bcprov.version>1.68</bcprov.version>
+
+    <!-- for test -->
+    <junit.version>4.12</junit.version>
+    <junit-jupiter.version>5.5.0</junit-jupiter.version>
+    <!--  注意：mockito版本高于此版本的有bug  -->
+    <mockito.version>2.23.4</mockito.version>
+    <mockserver.version>5.11.2</mockserver.version>
+
+    <assertj-core.version>3.12.2</assertj-core.version>
+    <junit-platform-launcher.version>1.5.1</junit-platform-launcher.version>
+    <jmh.version>1.27</jmh.version>
+    <javafaker.version>1.0.2</javafaker.version>
 
 
-        <okhttp.version>3.14.9</okhttp.version>
-        <typesafe.version>1.3.4</typesafe.version>
-        <jodatime.version>2.10.9</jodatime.version>
-        <freemarker.version>2.3.31</freemarker.version>
-        <quartz.version>2.3.2</quartz.version>
-        <hibernate.validator.version>6.0.22.Final</hibernate.validator.version>
-
-        <netty.version>4.1.58.Final</netty.version>
-        <snakeyaml.version>1.25</snakeyaml.version>
-        <!-- groovy 2.5只后变成pom了-->
-        <!-- <groovy.version>2.5.7</groovy.version>-->
-        <groovy.version>2.4.16</groovy.version>
-        <aviator.version>5.2.7</aviator.version>
-        <google.zxing.version>3.4.0</google.zxing.version>
-
-        <!-- oss -->
-        <aliyun.oss.sdk.version>3.5.0</aliyun.oss.sdk.version>
-        <minio.version>8.2.1</minio.version>
-        <huaweicloud.obj.version>3.21.8</huaweicloud.obj.version>
-        <qiniu.oss.version>7.7.0</qiniu.oss.version>
+    <apache.lang.version>3.9</apache.lang.version>
+    <apache.collection.version>4.4</apache.collection.version>
+    <apache.pool2.version>2.7.0</apache.pool2.version>
+    <apache.codec.version>1.13</apache.codec.version>
+    <apache.net.version>3.6</apache.net.version>
+    <apache.compress.version>1.18</apache.compress.version>
+    <apache.io.version>2.8.0</apache.io.version>
+    <apache.httpclient.version>4.5.13</apache.httpclient.version>
+    <apache.httpmime.version>4.5.13</apache.httpmime.version>
+    <apache.httpasyncclient.version>4.1.5</apache.httpasyncclient.version>
+    <apache.curator.version>4.0.1</apache.curator.version>
+    <apache.email.version>1.5</apache.email.version>
 
 
-        <javers.version>5.6.3</javers.version>
-        <alibaba.rocketmq.version>3.4.9</alibaba.rocketmq.version>
-        <alibaba.ttl.version>2.12.1</alibaba.ttl.version>
+    <okhttp.version>3.14.9</okhttp.version>
+    <typesafe.version>1.3.4</typesafe.version>
+    <jodatime.version>2.10.9</jodatime.version>
+    <freemarker.version>2.3.31</freemarker.version>
+    <velocity.version>2.3</velocity.version>
+    <quartz.version>2.3.2</quartz.version>
+    <hibernate.validator.version>6.0.22.Final</hibernate.validator.version>
 
-        <sofa.tracer.version>3.0.12</sofa.tracer.version>
-        <skywalking.agent.version>8.11.0</skywalking.agent.version>
+    <netty.version>4.1.58.Final</netty.version>
+    <snakeyaml.version>1.25</snakeyaml.version>
+    <!-- groovy 2.5只后变成pom了-->
+    <!-- <groovy.version>2.5.7</groovy.version>-->
+    <groovy.version>2.4.16</groovy.version>
+    <aviator.version>5.2.7</aviator.version>
+    <google.zxing.version>3.4.0</google.zxing.version>
 
-        <jedis.version>3.2.0</jedis.version>
-        <redisson.version>3.16.6</redisson.version>
-
-        <dom4j.version>2.1.3</dom4j.version>
-        <reflections.version>0.9.12</reflections.version>
-        <ognl.version>3.2.18</ognl.version>
-        <influxdb.version>2.0.0</influxdb.version>
-        <clickhouse.version>0.3.1</clickhouse.version>
-
-        <jsch.version>0.1.55</jsch.version>
-        <cxf.version>3.5.0</cxf.version>
-
-        <mysql.version>5.1.47</mysql.version>
-        <druid.version>1.2.8</druid.version>
-        <hikaricp.version>3.4.5</hikaricp.version>
-        <h2.version>1.4.200</h2.version>
-
-        <mybatis.version>3.5.5</mybatis.version>
-        <mybatis.spring.version>2.0.0</mybatis.spring.version>
-        <mybatis.spring.boot.version>2.0.1</mybatis.spring.boot.version>
-
-        <mybatis.tk.version>4.1.4</mybatis.tk.version>
-        <mybatis.tk.mapper.boot.version>2.1.5</mybatis.tk.mapper.boot.version>
-
-        <!-- 依赖 mybatis 3.5.5+ -->
-        <mybatis.plus.version>3.4.3.3</mybatis.plus.version>
-        <mybatis.plus.generator.version>3.4.1</mybatis.plus.generator.version>
-
-        <pageHelper.version>5.1.10</pageHelper.version>
-        <pageHelper.boot.version>1.2.12</pageHelper.boot.version>
-
-        <servlet.version>4.0.1</servlet.version>
-        <javax.annotation.version>1.3.2</javax.annotation.version>
+    <!-- oss -->
+    <aliyun.oss.sdk.version>3.5.0</aliyun.oss.sdk.version>
+    <minio.version>8.2.1</minio.version>
+    <huaweicloud.obj.version>3.21.8</huaweicloud.obj.version>
+    <qiniu.oss.version>7.7.0</qiniu.oss.version>
 
 
-        <cglib.version>3.3.0</cglib.version>
-        <!-- spring  5.2.12.RELEASE -->
-        <aspectj.version>1.9.6</aspectj.version>
-        <spring.version>5.3.18</spring.version>
-        <spring.boot.version>2.5.12</spring.boot.version>
-        <spring.cloud.version>2020.0.5</spring.cloud.version>
-        <spring.cloud.alibaba.version>2021.1</spring.cloud.alibaba.version>
+    <javers.version>5.6.3</javers.version>
+    <alibaba.rocketmq.version>3.4.9</alibaba.rocketmq.version>
+    <alibaba.ttl.version>2.12.1</alibaba.ttl.version>
 
-    </properties>
+    <sofa.tracer.version>3.0.12</sofa.tracer.version>
+    <skywalking.agent.version>8.11.0</skywalking.agent.version>
+
+    <jedis.version>3.2.0</jedis.version>
+    <redisson.version>3.16.6</redisson.version>
+
+    <dom4j.version>2.1.3</dom4j.version>
+    <reflections.version>0.9.12</reflections.version>
+    <ognl.version>3.2.18</ognl.version>
+    <influxdb.version>2.0.0</influxdb.version>
+    <clickhouse.version>0.3.1</clickhouse.version>
+
+    <jsch.version>0.1.55</jsch.version>
+    <cxf.version>3.5.0</cxf.version>
+
+    <mysql.version>5.1.47</mysql.version>
+    <druid.version>1.2.8</druid.version>
+    <hikaricp.version>3.4.5</hikaricp.version>
+    <h2.version>1.4.200</h2.version>
+
+    <mybatis.version>3.5.5</mybatis.version>
+    <mybatis.spring.version>2.0.0</mybatis.spring.version>
+    <mybatis.spring.boot.version>2.0.1</mybatis.spring.boot.version>
+
+    <mybatis.tk.version>4.1.4</mybatis.tk.version>
+    <mybatis.tk.mapper.boot.version>2.1.5</mybatis.tk.mapper.boot.version>
+
+    <!-- 依赖 mybatis 3.5.5+ -->
+    <mybatis.plus.version>3.4.3.3</mybatis.plus.version>
+    <mybatis.plus.generator.version>3.4.1</mybatis.plus.generator.version>
+
+    <pageHelper.version>5.1.10</pageHelper.version>
+    <pageHelper.boot.version>1.2.12</pageHelper.boot.version>
+
+    <servlet.version>4.0.1</servlet.version>
+    <javax.annotation.version>1.3.2</javax.annotation.version>
 
 
+    <cglib.version>3.3.0</cglib.version>
+    <!-- spring  5.2.12.RELEASE -->
+    <aspectj.version>1.9.6</aspectj.version>
+    <spring.version>5.3.18</spring.version>
+    <spring.boot.version>2.5.12</spring.boot.version>
+    <spring.cloud.version>2020.0.5</spring.cloud.version>
+    <spring.cloud.alibaba.version>2021.1</spring.cloud.alibaba.version>
+
+  </properties>
+
+
+  <dependencies>
+    <!-- lombok  -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <!-- logback -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+
+  <dependencyManagement>
     <dependencies>
-        <!-- lombok  -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
+      <!-- common model -->
+      <dependency>
+        <groupId>com.github.seaxlab</groupId>
+        <artifactId>sea-core-model</artifactId>
+        <version>${project.version}</version>
+      </dependency>
 
-        <!-- logback -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <optional>true</optional>
-        </dependency>
+      <dependency>
+        <groupId>com.github.seaxlab</groupId>
+        <artifactId>sea-core-basic</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.seaxlab</groupId>
+        <artifactId>sea-core-security</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.seaxlab</groupId>
+        <artifactId>sea-core-spring</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.seaxlab</groupId>
+        <artifactId>sea-core-spring-cloud</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.seaxlab</groupId>
+        <artifactId>sea-core-web</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.seaxlab</groupId>
+        <artifactId>sea-core-test</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.seaxlab</groupId>
+        <artifactId>sea-core-spring-boot-starter</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+
+      <!--  sea core end -->
+
+      <!-- junit4 begin -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+      </dependency>
+      <!-- junit4 end -->
+
+      <!--  junit5 begin   -->
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${junit-jupiter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-params</artifactId>
+        <version>${junit-jupiter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.platform</groupId>
+        <artifactId>junit-platform-launcher</artifactId>
+        <version>${junit-platform-launcher.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>${mockito.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
+        <version>${mockito.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${assertj-core.version}</version>
+      </dependency>
+      <!--  junit5 end   -->
+
+      <!-- for test-->
+      <dependency>
+        <groupId>com.github.javafaker</groupId>
+        <artifactId>javafaker</artifactId>
+        <version>${javafaker.version}</version>
+      </dependency>
+
+
+      <!-- lombok  -->
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>${lombok.version}</version>
+      </dependency>
+
+      <!-- log -->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jul-to-slf4j</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
+
+      <!-- logback -->
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-core</artifactId>
+        <version>${logback.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${logback.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct</artifactId>
+        <version>${org.mapstruct.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>${fastjson.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>${gson.version}</version>
+      </dependency>
+
+      <!-- hutool begin -->
+      <dependency>
+        <groupId>cn.hutool</groupId>
+        <artifactId>hutool-core</artifactId>
+        <version>${hutool.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>cn.hutool</groupId>
+        <artifactId>hutool-http</artifactId>
+        <version>${hutool.version}</version>
+      </dependency>
+      <!-- hutool end -->
+
+      <!-- apache tool-->
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${apache.lang.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-collections4</artifactId>
+        <version>${apache.collection.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-pool2</artifactId>
+        <version>${apache.pool2.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-compress</artifactId>
+        <version>${apache.compress.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-email</artifactId>
+        <version>${apache.email.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>${apache.codec.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${apache.io.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-net</groupId>
+        <artifactId>commons-net</artifactId>
+        <version>${apache.net.version}</version>
+      </dependency>
+
+
+      <!--http client -->
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>${apache.httpclient.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpasyncclient</artifactId>
+        <version>${apache.httpasyncclient.version}</version>
+      </dependency>
+      <!--upload file-->
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpmime</artifactId>
+        <version>${apache.httpmime.version}</version>
+      </dependency>
+
+
+      <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>okhttp</artifactId>
+        <version>${okhttp.version}</version>
+      </dependency>
+
+
+      <!-- config -->
+      <dependency>
+        <groupId>com.typesafe</groupId>
+        <artifactId>config</artifactId>
+        <version>${typesafe.version}</version>
+      </dependency>
+
+      <!-- JMH -->
+      <dependency>
+        <groupId>org.openjdk.jmh</groupId>
+        <artifactId>jmh-core</artifactId>
+        <version>${jmh.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.openjdk.jmh</groupId>
+        <artifactId>jmh-generator-annprocess</artifactId>
+        <version>${jmh.version}</version>
+      </dependency>
+
+
+      <dependency>
+        <groupId>com.google.zxing</groupId>
+        <artifactId>javase</artifactId>
+        <version>${google.zxing.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.zxing</groupId>
+        <artifactId>core</artifactId>
+        <version>${google.zxing.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.aliyun.oss</groupId>
+        <artifactId>aliyun-sdk-oss</artifactId>
+        <version>${aliyun.oss.sdk.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.minio</groupId>
+        <artifactId>minio</artifactId>
+        <version>${minio.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.javers</groupId>
+        <artifactId>javers-core</artifactId>
+        <version>${javers.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.alibaba.rocketmq</groupId>
+        <artifactId>rocketmq-client</artifactId>
+        <version>${alibaba.rocketmq.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>transmittable-thread-local</artifactId>
+        <version>${alibaba.ttl.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.alipay.sofa</groupId>
+        <artifactId>tracer-core</artifactId>
+        <version>${sofa.tracer.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.skywalking</groupId>
+        <artifactId>apm-toolkit-trace</artifactId>
+        <version>${skywalking.agent.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.dom4j</groupId>
+        <artifactId>dom4j</artifactId>
+        <version>${dom4j.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.mock-server</groupId>
+        <artifactId>mockserver-netty</artifactId>
+        <version>${mockserver.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.reflections</groupId>
+        <artifactId>reflections</artifactId>
+        <version>${reflections.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>ognl</groupId>
+        <artifactId>ognl</artifactId>
+        <version>${ognl.version}</version>
+      </dependency>
+
+      <!-- influxdb begin -->
+      <dependency>
+        <groupId>com.influxdb</groupId>
+        <artifactId>influxdb-client-java</artifactId>
+        <version>${influxdb.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.influxdb</groupId>
+        <artifactId>influxdb-client-flux</artifactId>
+        <version>${influxdb.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.influxdb</groupId>
+        <artifactId>flux-dsl</artifactId>
+        <version>${influxdb.version}</version>
+      </dependency>
+      <!-- influxdb end -->
+
+      <dependency>
+        <groupId>ru.yandex.clickhouse</groupId>
+        <artifactId>clickhouse-jdbc</artifactId>
+        <version>${clickhouse.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.googlecode.aviator</groupId>
+        <artifactId>aviator</artifactId>
+        <version>${aviator.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.huaweicloud</groupId>
+        <artifactId>esdk-obs-java</artifactId>
+        <version>${huaweicloud.obj.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.qiniu</groupId>
+        <artifactId>qiniu-java-sdk</artifactId>
+        <version>${qiniu.oss.version}</version>
+      </dependency>
+
+      <!--for ssh-->
+      <dependency>
+        <groupId>com.jcraft</groupId>
+        <artifactId>jsch</artifactId>
+        <version>${jsch.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-frontend-jaxws</artifactId>
+        <version>${cxf.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-transports-http</artifactId>
+        <version>${cxf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-transports-http-jetty</artifactId>
+        <version>${cxf.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-features-logging</artifactId>
+        <version>${cxf.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+        <version>${cxf.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-rs-client</artifactId>
+        <version>${cxf.version}</version>
+      </dependency>
+
+
+      <dependency>
+        <groupId>com.github.pagehelper</groupId>
+        <artifactId>pagehelper</artifactId>
+        <version>${pageHelper.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.pagehelper</groupId>
+        <artifactId>pagehelper-spring-boot-starter</artifactId>
+        <version>${pageHelper.boot.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>${servlet.version}</version>
+      </dependency>
+
+      <!-- jakarta.annotation is new version -->
+      <dependency>
+        <groupId>javax.annotation</groupId>
+        <artifactId>javax.annotation-api</artifactId>
+        <version>${javax.annotation.version}</version>
+      </dependency>
+
+
+      <!-- spring begin -->
+      <dependency>
+        <groupId>org.aspectj</groupId>
+        <artifactId>aspectjweaver</artifactId>
+        <version>${aspectj.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-jdbc</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aop</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webflux</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <!-- spring end -->
+
+      <dependency>
+        <groupId>cglib</groupId>
+        <artifactId>cglib</artifactId>
+        <version>${cglib.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.velocity</groupId>
+        <artifactId>velocity-engine-core</artifactId>
+        <version>${velocity.version}</version>
+      </dependency>
+
+
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-
-            <!-- common model -->
-            <dependency>
-                <groupId>com.github.seaxlab</groupId>
-                <artifactId>sea-core-model</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!-- very important component. -->
-            <dependency>
-                <groupId>com.github.seaxlab</groupId>
-                <artifactId>sea-core-basic</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.seaxlab</groupId>
-                <artifactId>sea-core-security</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.seaxlab</groupId>
-                <artifactId>sea-core-spring</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.seaxlab</groupId>
-                <artifactId>sea-core-spring-cloud</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.seaxlab</groupId>
-                <artifactId>sea-core-web</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.seaxlab</groupId>
-                <artifactId>sea-core-test</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.seaxlab</groupId>
-                <artifactId>sea-core-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-
-            <!--  sea core end -->
-
-            <!-- junit4 begin -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-            </dependency>
-            <!-- junit4 end -->
-
-            <!--  junit5 begin   -->
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <version>${junit-jupiter.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-params</artifactId>
-                <version>${junit-jupiter.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.platform</groupId>
-                <artifactId>junit-platform-launcher</artifactId>
-                <version>${junit-platform-launcher.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-junit-jupiter</artifactId>
-                <version>${mockito.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.assertj</groupId>
-                <artifactId>assertj-core</artifactId>
-                <version>${assertj-core.version}</version>
-            </dependency>
-            <!--  junit5 end   -->
-
-            <!-- for test-->
-            <dependency>
-                <groupId>com.github.javafaker</groupId>
-                <artifactId>javafaker</artifactId>
-                <version>${javafaker.version}</version>
-            </dependency>
-
-
-            <!-- lombok  -->
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-            </dependency>
-
-            <!-- log -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jcl-over-slf4j</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jul-to-slf4j</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-
-            <!-- logback -->
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct</artifactId>
-                <version>${org.mapstruct.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-                <version>${gson.version}</version>
-            </dependency>
-
-            <!-- hutool begin -->
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-core</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-http</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-            <!-- hutool end -->
-
-            <!-- apache tool-->
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${apache.lang.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-collections4</artifactId>
-                <version>${apache.collection.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-pool2</artifactId>
-                <version>${apache.pool2.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-compress</artifactId>
-                <version>${apache.compress.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-email</artifactId>
-                <version>${apache.email.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${apache.codec.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${apache.io.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-net</groupId>
-                <artifactId>commons-net</artifactId>
-                <version>${apache.net.version}</version>
-            </dependency>
-
-
-            <!--http client -->
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${apache.httpclient.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpasyncclient</artifactId>
-                <version>${apache.httpasyncclient.version}</version>
-            </dependency>
-            <!--upload file-->
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpmime</artifactId>
-                <version>${apache.httpmime.version}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
-                <version>${okhttp.version}</version>
-            </dependency>
-
-
-            <!-- config -->
-            <dependency>
-                <groupId>com.typesafe</groupId>
-                <artifactId>config</artifactId>
-                <version>${typesafe.version}</version>
-            </dependency>
-
-            <!-- JMH -->
-            <dependency>
-                <groupId>org.openjdk.jmh</groupId>
-                <artifactId>jmh-core</artifactId>
-                <version>${jmh.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.openjdk.jmh</groupId>
-                <artifactId>jmh-generator-annprocess</artifactId>
-                <version>${jmh.version}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>com.google.zxing</groupId>
-                <artifactId>javase</artifactId>
-                <version>${google.zxing.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.zxing</groupId>
-                <artifactId>core</artifactId>
-                <version>${google.zxing.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.aliyun.oss</groupId>
-                <artifactId>aliyun-sdk-oss</artifactId>
-                <version>${aliyun.oss.sdk.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.minio</groupId>
-                <artifactId>minio</artifactId>
-                <version>${minio.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.javers</groupId>
-                <artifactId>javers-core</artifactId>
-                <version>${javers.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.rocketmq</groupId>
-                <artifactId>rocketmq-client</artifactId>
-                <version>${alibaba.rocketmq.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>transmittable-thread-local</artifactId>
-                <version>${alibaba.ttl.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alipay.sofa</groupId>
-                <artifactId>tracer-core</artifactId>
-                <version>${sofa.tracer.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.skywalking</groupId>
-                <artifactId>apm-toolkit-trace</artifactId>
-                <version>${skywalking.agent.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.dom4j</groupId>
-                <artifactId>dom4j</artifactId>
-                <version>${dom4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mock-server</groupId>
-                <artifactId>mockserver-netty</artifactId>
-                <version>${mockserver.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.reflections</groupId>
-                <artifactId>reflections</artifactId>
-                <version>${reflections.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>ognl</groupId>
-                <artifactId>ognl</artifactId>
-                <version>${ognl.version}</version>
-            </dependency>
-
-            <!-- influxdb begin -->
-            <dependency>
-                <groupId>com.influxdb</groupId>
-                <artifactId>influxdb-client-java</artifactId>
-                <version>${influxdb.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.influxdb</groupId>
-                <artifactId>influxdb-client-flux</artifactId>
-                <version>${influxdb.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.influxdb</groupId>
-                <artifactId>flux-dsl</artifactId>
-                <version>${influxdb.version}</version>
-            </dependency>
-            <!-- influxdb end -->
-
-            <dependency>
-                <groupId>ru.yandex.clickhouse</groupId>
-                <artifactId>clickhouse-jdbc</artifactId>
-                <version>${clickhouse.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.googlecode.aviator</groupId>
-                <artifactId>aviator</artifactId>
-                <version>${aviator.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.huaweicloud</groupId>
-                <artifactId>esdk-obs-java</artifactId>
-                <version>${huaweicloud.obj.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.qiniu</groupId>
-                <artifactId>qiniu-java-sdk</artifactId>
-                <version>${qiniu.oss.version}</version>
-            </dependency>
-
-            <!--for ssh-->
-            <dependency>
-                <groupId>com.jcraft</groupId>
-                <artifactId>jsch</artifactId>
-                <version>${jsch.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-frontend-jaxws</artifactId>
-                <version>${cxf.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-transports-http</artifactId>
-                <version>${cxf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-transports-http-jetty</artifactId>
-                <version>${cxf.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-features-logging</artifactId>
-                <version>${cxf.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-                <version>${cxf.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-rs-client</artifactId>
-                <version>${cxf.version}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper</artifactId>
-                <version>${pageHelper.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>${pageHelper.boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>${servlet.version}</version>
-            </dependency>
-
-            <!-- jakarta.annotation is new version -->
-            <dependency>
-                <groupId>javax.annotation</groupId>
-                <artifactId>javax.annotation-api</artifactId>
-                <version>${javax.annotation.version}</version>
-            </dependency>
-
-
-            <!-- spring begin -->
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjweaver</artifactId>
-                <version>${aspectj.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-jdbc</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-web</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-webmvc</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-aop</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-webflux</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-test</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-
-            <!-- spring end -->
-
-            <dependency>
-                <groupId>cglib</groupId>
-                <artifactId>cglib</artifactId>
-                <version>${cglib.version}</version>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
+  </dependencyManagement>
 
 </project>
