@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.model;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 
@@ -12,77 +13,80 @@ import java.io.Serializable;
  * @since 1.0
  */
 @Data
+@Slf4j
 public class PageInfo implements Serializable {
 
-    public static final String ASC = "ASC";
+  public static final String ASC = "ASC";
 
-    public static final String DESC = "DESC";
+  public static final String DESC = "DESC";
 
-    public static final Integer DEFAULT_PAGE_SIZE = 10;
+  public static final Integer DEFAULT_PAGE_SIZE = 10;
 
-    /**
-     * the same as pageIndex
-     */
-    private Integer pageNum = 1;
+  /**
+   * the same as pageIndex
+   */
+  private Integer pageNum = 1;
 
-    private Integer pageSize = 10;
+  private Integer pageSize = 10;
 
-    /**
-     * 每页最大记录数
-     */
-    private Integer pageMaxSize;
+  /**
+   * 每页最大记录数
+   */
+  private Integer pageMaxSize;
 
-    private String orderBy;
+  private String orderBy;
 
-    private String orderDirection;
+  private String orderDirection;
 
-    private String groupBy;
+  private String groupBy;
 
-    /**
-     * 是否进行count总数统计
-     */
-    private boolean countFlag = true;
+  /**
+   * 是否进行count总数统计
+   */
+  private boolean countFlag = true;
 
-    public static PageInfo of(int pageNum, int pageSize) {
-        PageInfo pageInfo = new PageInfo();
-        pageInfo.setPageNum(pageNum);
-        pageInfo.setPageSize(pageSize);
-        return pageInfo;
+  public static PageInfo of(int pageNum, int pageSize) {
+    PageInfo pageInfo = new PageInfo();
+    pageInfo.setPageNum(pageNum);
+    pageInfo.setPageSize(pageSize);
+    return pageInfo;
+  }
+
+  public static PageInfo of(int pageNum, int pageSize, boolean countFlag) {
+    PageInfo pageInfo = new PageInfo();
+    pageInfo.setPageNum(pageNum);
+    pageInfo.setPageSize(pageSize);
+    pageInfo.setCountFlag(countFlag);
+    return pageInfo;
+  }
+
+
+  public Integer getPageNum() {
+    if (pageNum < 1) {
+      log.warn("pageNum[{}]<1", pageNum);
+      return 1;
     }
+    return pageNum;
+  }
 
-    public static PageInfo of(int pageNum, int pageSize, boolean countFlag) {
-        PageInfo pageInfo = new PageInfo();
-        pageInfo.setPageNum(pageNum);
-        pageInfo.setPageSize(pageSize);
-        pageInfo.setCountFlag(countFlag);
-        return pageInfo;
+  public Integer getPageSize() {
+    if (pageSize < 1) {
+      log.warn("pageSize[{}]<1", pageSize);
+      return DEFAULT_PAGE_SIZE;
     }
+    return pageSize;
+  }
 
+  public int getOffset() {
+    return (getPageNum() - 1) * getPageSize();
+  }
 
-    public Integer getPageNum() {
-        if (pageNum < 1) {
-            return 1;
-        }
-        return pageNum;
+  public void setOrderDirection(String orderDirection) {
+    if (orderDirection == null || orderDirection.isEmpty()) {
+      return;
     }
-
-    public Integer getPageSize() {
-        if (pageSize < 1) {
-            return DEFAULT_PAGE_SIZE;
-        }
-        return pageSize;
+    if (ASC.equalsIgnoreCase(orderDirection) || DESC.equalsIgnoreCase(orderDirection)) {
+      this.orderDirection = orderDirection.toLowerCase();
     }
-
-    public int getOffset() {
-        return (getPageNum() - 1) * getPageSize();
-    }
-
-    public void setOrderDirection(String orderDirection) {
-        if (orderDirection == null || orderDirection.isEmpty()) {
-            return;
-        }
-        if (ASC.equalsIgnoreCase(orderDirection) || DESC.equalsIgnoreCase(orderDirection)) {
-            this.orderDirection = orderDirection.toLowerCase();
-        }
-    }
+  }
 }

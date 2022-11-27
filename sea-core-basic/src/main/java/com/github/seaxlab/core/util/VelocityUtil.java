@@ -37,7 +37,7 @@ public final class VelocityUtil {
    * <li>org.apache.velocity.runtime.resource.loader.StringResourceLoader</li>
    * </ul>
    *
-   * @param templateFullPath
+   * @param templateFullPath such as '/template/velocity/test.vm'
    * @param params
    * @return
    */
