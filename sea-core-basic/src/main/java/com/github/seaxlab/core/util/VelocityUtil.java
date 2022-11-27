@@ -30,6 +30,12 @@ public final class VelocityUtil {
 
   /**
    * render from classpath
+   * <ul>
+   * <li>org.apache.velocity.runtime.resource.loader.JarResourceLoader</li>
+   * <li>org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader</li>
+   * <li>org.apache.velocity.runtime.resource.loader.URLResourceLoader</li>
+   * <li>org.apache.velocity.runtime.resource.loader.StringResourceLoader</li>
+   * </ul>
    *
    * @param templateFullPath
    * @param params
