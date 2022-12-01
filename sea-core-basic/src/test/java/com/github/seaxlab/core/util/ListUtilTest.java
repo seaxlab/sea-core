@@ -3,12 +3,18 @@ package com.github.seaxlab.core.util;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.domain.Role;
 import com.github.seaxlab.core.domain.User;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.*;
-import java.util.function.Predicate;
 
 /**
  * module name
@@ -24,7 +30,7 @@ public class ListUtilTest extends BaseCoreTest {
     public void testToList() throws Exception {
         String[] array = new String[]{"1", "s"};
 
-        log.info("{}", ListUtil.toList(array));
+      log.debug("{}", ListUtil.toList(array));
     }
 
     @Test
