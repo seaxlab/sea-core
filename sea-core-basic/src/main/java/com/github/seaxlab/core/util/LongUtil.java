@@ -14,90 +14,98 @@ import org.apache.commons.lang3.StringUtils;
 @Slf4j
 public final class LongUtil {
 
-    private LongUtil() {
+  private LongUtil() {
+  }
+
+  public static Long parse(Object obj) {
+    if (obj == null) {
+      return null;
+    }
+    //
+    if (obj instanceof Number) {
+      if (obj instanceof Long) {
+        return (Long) obj;
+      } else {
+        return ((Number) obj).longValue();
+      }
+    }
+    //
+    try {
+      return Long.parseLong(obj.toString());
+    } catch (Exception e) {
+      log.error("fail to parse long", e);
     }
 
-    public static Long parse(Object obj) {
-        if (obj == null) {
-            return null;
-        }
+    return null;
+  }
 
-        try {
-            return Long.parseLong(obj.toString());
-        } catch (Exception e) {
-            log.error("fail to parse long", e);
-        }
+  public static Long defaultIfNull(Long value, Long defaultValue) {
+    Preconditions.checkNotNull(defaultValue, "default value can not be null");
 
-        return null;
+    if (value == null) {
+      return defaultValue;
     }
 
-    public static Long defaultIfNull(Long value, Long defaultValue) {
-        Preconditions.checkNotNull(defaultValue, "default value can not be null");
+    return value;
+  }
 
-        if (value == null) {
-            return defaultValue;
-        }
-
-        return value;
+  /**
+   * 如果value为空，则返回默认值
+   *
+   * @param value
+   * @param defaultValue
+   * @return
+   */
+  public static Long defaultIfNull(String value, Long defaultValue) {
+    if (value == null || value.trim().isEmpty()) {
+      log.warn("value is empty.");
+      return defaultValue;
     }
 
-    /**
-     * 如果value为空，则返回默认值
-     *
-     * @param value
-     * @param defaultValue
-     * @return
-     */
-    public static Long defaultIfNull(String value, Long defaultValue) {
-        if (value == null || value.trim().isEmpty()) {
-            log.warn("value is empty.");
-            return defaultValue;
-        }
-
-        try {
-            return Long.parseLong(value);
-        } catch (Exception e) {
-            log.error("fail to parse value to integer", e);
-        }
-
-        return defaultValue;
+    try {
+      return Long.parseLong(value);
+    } catch (Exception e) {
+      log.error("fail to parse value to integer", e);
     }
 
-    /**
-     * 非0数字
-     *
-     * @param value
-     * @return
-     */
-    public static boolean isNotZero(Long value) {
-        if (value == null) {
-            return false;
-        }
-        return value.longValue() != 0L;
-    }
+    return defaultValue;
+  }
 
-    /**
-     * 分割成Long[]
-     *
-     * @param arrayStr
-     * @param splitChar
-     * @return
-     */
-    public static Long[] split(String arrayStr, char splitChar) {
-        String[] array = StringUtils.split(arrayStr, splitChar);
-        if (array == null || array.length == 0) {
-            return ArrayUtil.emptyArray(Long.class);
-        }
-        Long[] values = new Long[array.length];
-        for (int i = 0; i < array.length; i++) {
-            String item = array[i];
-            if (StringUtil.isBlank(item)) {
-                values[i] = 0L;
-            } else {
-                values[i] = Long.valueOf(item.trim());
-            }
-        }
-        return values;
+  /**
+   * 非0数字
+   *
+   * @param value
+   * @return
+   */
+  public static boolean isNotZero(Long value) {
+    if (value == null) {
+      return false;
     }
+    return value.longValue() != 0L;
+  }
+
+  /**
+   * 分割成Long[]
+   *
+   * @param arrayStr
+   * @param splitChar
+   * @return
+   */
+  public static Long[] split(String arrayStr, char splitChar) {
+    String[] array = StringUtils.split(arrayStr, splitChar);
+    if (array == null || array.length == 0) {
+      return ArrayUtil.emptyArray(Long.class);
+    }
+    Long[] values = new Long[array.length];
+    for (int i = 0; i < array.length; i++) {
+      String item = array[i];
+      if (StringUtil.isBlank(item)) {
+        values[i] = 0L;
+      } else {
+        values[i] = Long.valueOf(item.trim());
+      }
+    }
+    return values;
+  }
 
 }
