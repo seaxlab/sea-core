@@ -15,39 +15,41 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Getter
 public enum MsgTypeEnum implements IBaseEnum<String> {
-    UNKNOWN("unknown", "unknown"),
+  UNKNOWN("unknown", "unknown"),
 
-    //add here
-    TEXT("text", "text"), //
-    MARKDOWN("markdown", "markdown"),
-    ;
+  //add here
+  TEXT("text", "text"), //
+  MARKDOWN("markdown", "markdown"),
+  INTERACTIVE("interactive", "interactive"),
 
-    private final String code;
-    private final String desc;
+  ;
 
-    MsgTypeEnum(String code, String desc) {
-        this.code = code;
-        this.desc = desc;
+  private final String code;
+  private final String desc;
+
+  MsgTypeEnum(String code, String desc) {
+    this.code = code;
+    this.desc = desc;
+  }
+
+  private static final MsgTypeEnum[] VALUES;
+
+  static {
+    VALUES = values();
+  }
+
+  public static MsgTypeEnum of(String code) {
+    if (code == null) {
+      log.warn("code is null");
+      return UNKNOWN;
     }
 
-    private static final MsgTypeEnum[] VALUES;
-
-    static {
-        VALUES = values();
+    for (MsgTypeEnum item : VALUES) {
+      if (EqualUtil.isEq(code, item.code)) {
+        return item;
+      }
     }
-
-    public static MsgTypeEnum of(String code) {
-        if (code == null) {
-            log.warn("code is null");
-            return UNKNOWN;
-        }
-
-        for (MsgTypeEnum item : VALUES) {
-            if (EqualUtil.isEq(code, item.code)) {
-                return item;
-            }
-        }
-        log.warn("unknown code={}", code);
-        return UNKNOWN;
-    }
+    log.warn("unknown code={}", code);
+    return UNKNOWN;
+  }
 }

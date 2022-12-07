@@ -2,10 +2,13 @@ package com.github.seaxlab.core.support.notify;
 
 import com.github.seaxlab.core.support.BaseSupportTest;
 import com.github.seaxlab.core.support.notify.dto.FeiShuNotifyDTO;
+import com.github.seaxlab.core.support.notify.enums.MsgTypeEnum;
 import com.github.seaxlab.core.support.notify.manager.impl.FeiShuNotifyManager;
 import com.github.seaxlab.core.support.notify.util.FeiShuUtil;
+import com.github.seaxlab.core.util.FileUtil;
 import com.github.seaxlab.core.util.MessageUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -18,16 +21,36 @@ import org.junit.Test;
 @Slf4j
 public class FeiShuNotifyManagerTest extends BaseSupportTest {
 
-    @Test
-    public void test17() throws Exception {
-        String accessToken = getPassword("feishu_access_token");
-        String url = MessageUtil.format(FeiShuUtil.URL_SIMPLE, accessToken);
+  private String url;
 
-        FeiShuNotifyManager notifyManager = new FeiShuNotifyManager();
-        notifyManager.setEndpoint(url);
-        FeiShuNotifyDTO dto = new FeiShuNotifyDTO();
-        dto.setTitle("test");
-        dto.setContent("test");
-        notifyManager.send(dto);
-    }
+  @Before
+  public void before() {
+    String accessToken = getPassword("feishu_access_token");
+    url = MessageUtil.format(FeiShuUtil.URL_SIMPLE, accessToken);
+  }
+
+  @Test
+  public void test17() throws Exception {
+
+    FeiShuNotifyManager notifyManager = new FeiShuNotifyManager();
+    notifyManager.setEndpoint(url);
+    FeiShuNotifyDTO dto = new FeiShuNotifyDTO();
+    dto.setTitle("test");
+    dto.setContent("test");
+    notifyManager.send(dto);
+  }
+
+  @Test
+  public void testInteractive() throws Exception {
+    FeiShuNotifyManager notifyManager = new FeiShuNotifyManager();
+    notifyManager.setEndpoint(url);
+    FeiShuNotifyDTO dto = new FeiShuNotifyDTO();
+    dto.setMsgTypeEnum(MsgTypeEnum.INTERACTIVE);
+    dto.setTitle("test");
+
+    String content = FileUtil.readFormClasspath("feishu/card.json");
+    dto.setContent(content);
+    notifyManager.send(dto);
+  }
+
 }

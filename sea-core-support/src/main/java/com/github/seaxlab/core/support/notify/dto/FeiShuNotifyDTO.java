@@ -3,9 +3,8 @@ package com.github.seaxlab.core.support.notify.dto;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.seaxlab.core.support.notify.enums.MsgTypeEnum;
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * fei shu notify DTO
@@ -17,35 +16,44 @@ import java.io.Serializable;
 @Data
 public class FeiShuNotifyDTO extends BaseNotifyDTO {
 
-    private MsgTypeEnum msgTypeEnum;
+  private MsgTypeEnum msgTypeEnum;
 
+
+  @Data
+  public static class RobotSendRequest implements Serializable {
+
+    @JSONField(name = "msg_type")
+    @JsonProperty("msg_type")
+    private String msgType;
+    private Content content;
+    private String card;
 
     @Data
-    public static class RobotSendRequest implements Serializable {
+    public static class Content {
 
-        @JSONField(name = "msg_type")
-        @JsonProperty("msg_type")
-        private String msgType;
-        private Content content;
-
-        @Data
-        public static class Content {
-            private String text;
-//            private Markdown markdown;
-        }
-
-        @Data
-        public static class Text {
-            private String text;
-        }
-
-        @Data
-        public static class Markdown {
-            private String title;
-            private String text;
-        }
-
-
+      private String text;
     }
+
+    @Data
+    public static class Card {
+
+      private String text;
+    }
+
+    @Data
+    public static class Text {
+
+      private String text;
+    }
+
+    @Data
+    public static class Markdown {
+
+      private String title;
+      private String text;
+    }
+
+
+  }
 
 }

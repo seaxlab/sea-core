@@ -21,66 +21,66 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FeiShuNotifyManager implements NotifyManager<FeiShuNotifyDTO> {
 
-    @Getter
-    @Setter
-    private String endpoint;
+  @Getter
+  @Setter
+  private String endpoint;
 
-    @Override
-    public Result send(FeiShuNotifyDTO dto) {
-        Precondition.checkNotBlank(endpoint, "endpoint cannot be empty.");
+  @Override
+  public Result send(FeiShuNotifyDTO dto) {
+    Precondition.checkNotBlank(endpoint, "endpoint cannot be empty.");
 
-        Result result = Result.fail();
-        try {
-            send0(dto);
-            result.setSuccess(true);
-        } catch (Exception e) {
-            log.warn("send fei shu msg error", e);
-            result.setMsg(e.getMessage());
-        }
-
-        return result;
+    Result result = Result.fail();
+    try {
+      send0(dto);
+      result.setSuccess(true);
+    } catch (Exception e) {
+      log.warn("send fei shu msg error", e);
+      result.setMsg(e.getMessage());
     }
 
-    private void send0(FeiShuNotifyDTO dto) {
-        log.info("send fei shu msg begin.");
-        if (log.isDebugEnabled()) {
-            log.debug("title={},msg={}", dto.getTitle(), dto.getContent());
-        }
-        //
-        FeiShuNotifyDTO.RobotSendRequest request = new FeiShuNotifyDTO.RobotSendRequest();
+    return result;
+  }
 
-        if (dto.getMsgTypeEnum() == null) {
-            dto.setMsgTypeEnum(MsgTypeEnum.TEXT);
-        }
-        request.setMsgType(dto.getMsgTypeEnum().getCode());
-        FeiShuNotifyDTO.RobotSendRequest.Content content = new FeiShuNotifyDTO.RobotSendRequest.Content();
-        request.setContent(content);
-        //
-        switch (dto.getMsgTypeEnum()) {
-            case TEXT:
-                content.setText(NotifyUtil.getContent(dto));
-                break;
-            case MARKDOWN:
-                content.setText(NotifyUtil.getContent(dto));
-                break;
-            default:
-                log.warn("unsupported fei shu msg type={}", dto.getMsgTypeEnum());
-                break;
-        }
-
-
-        String response = HttpClientUtil.postJSON(endpoint, request);
-        log.info("send fei shu msg end, response={}.", response);
+  private void send0(FeiShuNotifyDTO dto) {
+    log.info("send fei shu msg begin.");
+    if (log.isDebugEnabled()) {
+      log.debug("title={},msg={}", dto.getTitle(), dto.getContent());
     }
-
-    //{
-    //    "msg_type": "text",
-    //    "content": {
-    //        "text": "新更新提醒"
-    //    }
-    //}
     //
-    // {"StatusCode":0,"StatusMessage":"success"}.
+    FeiShuNotifyDTO.RobotSendRequest request = new FeiShuNotifyDTO.RobotSendRequest();
+
+    if (dto.getMsgTypeEnum() == null) {
+      dto.setMsgTypeEnum(MsgTypeEnum.TEXT);
+    }
+    request.setMsgType(dto.getMsgTypeEnum().getCode());
+    //
+    switch (dto.getMsgTypeEnum()) {
+      case TEXT:
+      case MARKDOWN:
+        FeiShuNotifyDTO.RobotSendRequest.Content content = new FeiShuNotifyDTO.RobotSendRequest.Content();
+        content.setText(NotifyUtil.getContent(dto));
+        request.setContent(content);
+        break;
+      case INTERACTIVE:
+        request.setCard(NotifyUtil.getContent(dto));
+        break;
+      default:
+        log.warn("unsupported fei shu msg type={}", dto.getMsgTypeEnum());
+        break;
+    }
+
+    String response = HttpClientUtil.postJSON(endpoint, request);
+    log.info("send fei shu msg end, response={}.", response);
+  }
+
+  //{
+  //    "msg_type": "text",
+  //    "content": {
+  //        "text": "新更新提醒"
+  //    }
+  //}
+  //
+  // {"StatusCode":0,"StatusMessage":"success"}.
 
 
 }
