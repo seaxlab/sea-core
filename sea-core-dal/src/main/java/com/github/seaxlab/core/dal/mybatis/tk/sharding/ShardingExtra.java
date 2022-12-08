@@ -12,19 +12,19 @@ import lombok.Data;
 @Data
 public class ShardingExtra {
 
-    /**
-     * 表总数
-     */
-    private int tableCount;
+  /**
+   * 表总数
+   */
+  private int tableCount;
 
-    /**
-     * 前缀位数
-     */
-    private int prefixCount;
+  /**
+   * 前缀位数
+   */
+  private int prefixCount;
 
-    /**
-     * 后缀位数
-     */
-    private int suffixCount;
+  /**
+   * 后缀位数
+   */
+  private int suffixCount;
 
 }

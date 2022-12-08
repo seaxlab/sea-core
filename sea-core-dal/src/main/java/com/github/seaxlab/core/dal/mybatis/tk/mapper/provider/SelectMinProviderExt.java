@@ -15,24 +15,24 @@ import tk.mybatis.mapper.mapperhelper.MapperTemplate;
 @Slf4j
 public class SelectMinProviderExt extends MapperTemplate {
 
-    public SelectMinProviderExt(Class<?> mapperClass, MapperHelper mapperHelper) {
-        super(mapperClass, mapperHelper);
-    }
+  public SelectMinProviderExt(Class<?> mapperClass, MapperHelper mapperHelper) {
+    super(mapperClass, mapperHelper);
+  }
 
 
-    public String selectMin(MappedStatement ms) {
-        Class<?> entityClass = this.getEntityClass(ms);
+  public String selectMin(MappedStatement ms) {
+    Class<?> entityClass = this.getEntityClass(ms);
 
-        StringBuilder sql = new StringBuilder();
+    StringBuilder sql = new StringBuilder();
 
-        return sql.toString();
-    }
+    return sql.toString();
+  }
 
-    public String selectMinList(MappedStatement ms) {
-        Class<?> entityClass = this.getEntityClass(ms);
+  public String selectMinList(MappedStatement ms) {
+    Class<?> entityClass = this.getEntityClass(ms);
 
-        StringBuilder sql = new StringBuilder();
+    StringBuilder sql = new StringBuilder();
 
-        return sql.toString();
-    }
+    return sql.toString();
+  }
 }

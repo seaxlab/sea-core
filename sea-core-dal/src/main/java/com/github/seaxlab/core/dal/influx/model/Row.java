@@ -1,8 +1,7 @@
 package com.github.seaxlab.core.dal.influx.model;
 
-import lombok.Data;
-
 import java.util.Map;
+import lombok.Data;
 
 /**
  * module name
@@ -13,12 +12,13 @@ import java.util.Map;
  */
 @Data
 public class Row {
-    private String metric;
-    private Object value;
-    /**
-     * 时间点毫秒
-     */
-    private long time;
-    private Map<String, Object> tags;
-    private Map<String, Object> fields;
+
+  private String metric;
+  private Object value;
+  /**
+   * 时间点毫秒
+   */
+  private long time;
+  private Map<String, Object> tags;
+  private Map<String, Object> fields;
 }

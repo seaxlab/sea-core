@@ -11,9 +11,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class DalConst {
-    /**
-     * sql hint
-     */
-    public static final String SEA_SQL_HINT = "sea.sql.hint";
+
+  /**
+   * sql hint
+   */
+  public static final String SEA_SQL_HINT = "sea.sql.hint";
 
 }

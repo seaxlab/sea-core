@@ -8,6 +8,6 @@ package com.github.seaxlab.core.dal.mybatis.common.enums;
  * @since 1.0
  */
 public enum ShardingEnum {
-    MOD,//取余
+  MOD,//取余
 
 }

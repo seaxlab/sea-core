@@ -11,4 +11,5 @@ import tk.mybatis.mapper.annotation.RegisterMapper;
  */
 @RegisterMapper
 public interface EnhancedMapper<T> extends InsertOrUpdateMapper<T> {
+
 }

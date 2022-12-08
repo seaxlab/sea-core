@@ -12,14 +12,14 @@ import lombok.Data;
 @Data
 public class DataBaseInfo {
 
-    private String id;
+  private String id;
 
-    private String url;
-    private String connectionType;
-    private String driver;
-    private String username;
-    private String password;
+  private String url;
+  private String connectionType;
+  private String driver;
+  private String username;
+  private String password;
 
-    private int initSize;
-    private int maxSize;
+  private int initSize;
+  private int maxSize;
 }

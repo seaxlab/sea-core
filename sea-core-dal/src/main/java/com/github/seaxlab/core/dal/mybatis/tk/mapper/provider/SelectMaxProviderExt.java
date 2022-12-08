@@ -17,56 +17,56 @@ import tk.mybatis.mapper.mapperhelper.SqlHelper;
 @Slf4j
 public class SelectMaxProviderExt extends MapperTemplate {
 
-    public SelectMaxProviderExt(Class<?> mapperClass, MapperHelper mapperHelper) {
-        super(mapperClass, mapperHelper);
-    }
+  public SelectMaxProviderExt(Class<?> mapperClass, MapperHelper mapperHelper) {
+    super(mapperClass, mapperHelper);
+  }
 
 
-    public String selectMax(MappedStatement ms) {
-        Class<?> entityClass = this.getEntityClass(ms);
-        String tableName = this.tableName(entityClass);
+  public String selectMax(MappedStatement ms) {
+    Class<?> entityClass = this.getEntityClass(ms);
+    String tableName = this.tableName(entityClass);
 
-        // 将返回值设置成ResultMap
-        setResultType(ms, entityClass);
+    // 将返回值设置成ResultMap
+    setResultType(ms, entityClass);
 
-        StringBuilder sql = new StringBuilder();
-        sql.append(DynamicSqlUtil.selectTableAColumns(entityClass));
-        sql.append(" FROM ");
-        sql.append(tableName).append(" AS a,");
-        sql.append(" ( ").append(DynamicSqlUtil.getMaxSubQuerySQL())
-           // 这是什么鬼，用常量可以
+    StringBuilder sql = new StringBuilder();
+    sql.append(DynamicSqlUtil.selectTableAColumns(entityClass));
+    sql.append(" FROM ");
+    sql.append(tableName).append(" AS a,");
+    sql.append(" ( ").append(DynamicSqlUtil.getMaxSubQuerySQL())
+      // 这是什么鬼，用常量可以
 //        sql.append(" where age=12 ")
-           //TODO 这里不能嵌套
-           .append(SqlHelper.whereAllIfColumns(entityClass, false))
-           .append(" )").append(" b ");
-        sql.append(DynamicSqlUtil.whereTableAJoinColumns()).append(" ");
-        //TODO 这里也不能嵌套
+      //TODO 这里不能嵌套
+      .append(SqlHelper.whereAllIfColumns(entityClass, false))
+      .append(" )").append(" b ");
+    sql.append(DynamicSqlUtil.whereTableAJoinColumns()).append(" ");
+    //TODO 这里也不能嵌套
 //        sql.append(DynamicSqlUtil.whereTableAFilterColumns(entityClass, false, false));
 //        sql.append(" and age=12");
-        return sql.toString();
-    }
+    return sql.toString();
+  }
 
-    /**
-     * @param ms
-     * @return
-     */
-    public String selectMaxList(MappedStatement ms) {
-        Class<?> entityClass = this.getEntityClass(ms);
-        String tableName = this.tableName(entityClass);
+  /**
+   * @param ms
+   * @return
+   */
+  public String selectMaxList(MappedStatement ms) {
+    Class<?> entityClass = this.getEntityClass(ms);
+    String tableName = this.tableName(entityClass);
 
-        // 将返回值设置成ResultMap
-        setResultType(ms, entityClass);
+    // 将返回值设置成ResultMap
+    setResultType(ms, entityClass);
 
-        StringBuilder sql = new StringBuilder();
-        sql.append(DynamicSqlUtil.selectTableAColumns(entityClass));
-        sql.append(" FROM ");
-        sql.append(tableName).append(" a, ");
-        sql.append("( ").append(DynamicSqlUtil.getMaxSubQuerySQL()).append(")").append(" b ");
-        sql.append(DynamicSqlUtil.whereTableAJoinColumns());
+    StringBuilder sql = new StringBuilder();
+    sql.append(DynamicSqlUtil.selectTableAColumns(entityClass));
+    sql.append(" FROM ");
+    sql.append(tableName).append(" a, ");
+    sql.append("( ").append(DynamicSqlUtil.getMaxSubQuerySQL()).append(")").append(" b ");
+    sql.append(DynamicSqlUtil.whereTableAJoinColumns());
 //        sql.append(DynamicSqlUtil.whereTableAFilterColumns(entityClass, false, false));
 
-        return sql.toString();
-    }
+    return sql.toString();
+  }
 
 //    SELECT
 //        a.*

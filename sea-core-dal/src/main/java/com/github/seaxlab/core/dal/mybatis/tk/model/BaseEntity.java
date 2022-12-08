@@ -1,10 +1,9 @@
 package com.github.seaxlab.core.dal.mybatis.tk.model;
 
 import com.github.seaxlab.core.dal.mybatis.common.model.BaseEmptyEntity;
-import lombok.Data;
-
-import javax.persistence.Column;
 import java.util.Date;
+import javax.persistence.Column;
+import lombok.Data;
 
 /**
  * module name
@@ -16,15 +15,15 @@ import java.util.Date;
 @Data
 public class BaseEntity extends BaseEmptyEntity {
 
-    @Column(name = "`create_user`")
-    private String createUser;
+  @Column(name = "`create_user`")
+  private String createUser;
 
-    @Column(name = "`create_time`")
-    private Date createTime;
+  @Column(name = "`create_time`")
+  private Date createTime;
 
-    @Column(name = "`update_user`")
-    private String updateUser;
+  @Column(name = "`update_user`")
+  private String updateUser;
 
-    @Column(name = "`update_time`")
-    private Date updateTime;
+  @Column(name = "`update_time`")
+  private Date updateTime;
 }

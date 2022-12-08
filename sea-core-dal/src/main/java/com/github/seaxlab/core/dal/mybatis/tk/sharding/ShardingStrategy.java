@@ -9,12 +9,12 @@ package com.github.seaxlab.core.dal.mybatis.tk.sharding;
  */
 public interface ShardingStrategy<T> {
 
-    /**
-     * 返回数字字符串
-     *
-     * @param value 分表字段值
-     * @param extra 扩展参数
-     * @return 数字字符串
-     */
-    String execute(T value, ShardingExtra extra);
+  /**
+   * 返回数字字符串
+   *
+   * @param value 分表字段值
+   * @param extra 扩展参数
+   * @return 数字字符串
+   */
+  String execute(T value, ShardingExtra extra);
 }

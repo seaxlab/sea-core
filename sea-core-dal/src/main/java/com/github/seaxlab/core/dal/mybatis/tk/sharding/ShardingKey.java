@@ -1,7 +1,6 @@
 package com.github.seaxlab.core.dal.mybatis.tk.sharding;
 
 import com.github.seaxlab.core.dal.mybatis.common.enums.ShardingEnum;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -18,17 +17,17 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ShardingKey {
 
-    /**
-     * 默认分表策略
-     *
-     * @return int
-     */
-    int value() default 1;
+  /**
+   * 默认分表策略
+   *
+   * @return int
+   */
+  int value() default 1;
 
-    /**
-     * 分库策略
-     *
-     * @return sharding enum
-     */
-    ShardingEnum strategy() default ShardingEnum.MOD;
+  /**
+   * 分库策略
+   *
+   * @return sharding enum
+   */
+  ShardingEnum strategy() default ShardingEnum.MOD;
 }

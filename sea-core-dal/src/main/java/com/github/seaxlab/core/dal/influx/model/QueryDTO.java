@@ -1,11 +1,10 @@
 package com.github.seaxlab.core.dal.influx.model;
 
-import lombok.Data;
-
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import lombok.Data;
 
 /**
  * module name
@@ -16,12 +15,13 @@ import java.util.Map;
  */
 @Data
 public class QueryDTO {
-    private String bucket;
-    private Date start;
-    private Date stop;
-    private Map<String, Object> tags;
+
+  private String bucket;
+  private Date start;
+  private Date stop;
+  private Map<String, Object> tags;
 
 
-    private List<String> groupBy;
-    private Comparator<Row> comparator;
+  private List<String> groupBy;
+  private Comparator<Row> comparator;
 }

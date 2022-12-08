@@ -1,8 +1,7 @@
 package com.github.seaxlab.core.dal.influx.model;
 
-import lombok.Data;
-
 import java.util.Map;
+import lombok.Data;
 
 /**
  * module name
@@ -13,6 +12,7 @@ import java.util.Map;
  */
 @Data
 public class TableQueryDTO {
-    private String bucket;
-    private Map<String, String> tags;
+
+  private String bucket;
+  private Map<String, String> tags;
 }

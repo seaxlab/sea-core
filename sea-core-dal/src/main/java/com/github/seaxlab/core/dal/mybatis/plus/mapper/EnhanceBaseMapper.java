@@ -14,12 +14,12 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface EnhanceBaseMapper<T> extends BaseMapper<T> {
 
-    /**
-     * check exist by wrapper
-     *
-     * @param wrapper
-     * @return
-     */
-    boolean checkExist(@Param(Constants.WRAPPER) Wrapper<T> wrapper);
+  /**
+   * check exist by wrapper
+   *
+   * @param wrapper
+   * @return
+   */
+  boolean checkExist(@Param(Constants.WRAPPER) Wrapper<T> wrapper);
 
 }

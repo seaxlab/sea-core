@@ -13,15 +13,15 @@ import tk.mybatis.mapper.entity.Example;
 @Slf4j
 public class ShardingExample extends Example {
 
-    private AbstractShardingEntity entity;
+  private AbstractShardingEntity entity;
 
-    public ShardingExample(AbstractShardingEntity entity) {
-        super(entity.getClass());
-        this.entity = entity;
-    }
+  public ShardingExample(AbstractShardingEntity entity) {
+    super(entity.getClass());
+    this.entity = entity;
+  }
 
-    @Override
-    public String getDynamicTableName() {
-        return entity.getDynamicTableName();
-    }
+  @Override
+  public String getDynamicTableName() {
+    return entity.getDynamicTableName();
+  }
 }

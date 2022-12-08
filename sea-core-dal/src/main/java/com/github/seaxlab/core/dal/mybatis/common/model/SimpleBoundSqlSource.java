@@ -12,14 +12,14 @@ import org.apache.ibatis.mapping.SqlSource;
  */
 public class SimpleBoundSqlSource implements SqlSource {
 
-    private BoundSql boundSql;
+  private BoundSql boundSql;
 
-    public SimpleBoundSqlSource(BoundSql boundSql) {
-        this.boundSql = boundSql;
-    }
+  public SimpleBoundSqlSource(BoundSql boundSql) {
+    this.boundSql = boundSql;
+  }
 
-    @Override
-    public BoundSql getBoundSql(Object parameterObject) {
-        return boundSql;
-    }
+  @Override
+  public BoundSql getBoundSql(Object parameterObject) {
+    return boundSql;
+  }
 }

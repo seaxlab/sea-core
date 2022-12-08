@@ -7,8 +7,7 @@ import tk.mybatis.mapper.mapperhelper.MapperTemplate;
 import tk.mybatis.mapper.mapperhelper.SqlHelper;
 
 /**
- * 如果只判断是否存在只要一条即可
- * select 1 from table where column1='xx' limit 1
+ * 如果只判断是否存在只要一条即可 select 1 from table where column1='xx' limit 1
  *
  * @author spy
  * @version 1.0 2021/6/13
@@ -16,33 +15,34 @@ import tk.mybatis.mapper.mapperhelper.SqlHelper;
  */
 @Slf4j
 public class CheckExistProviderExt extends MapperTemplate {
-    public CheckExistProviderExt(Class<?> mapperClass, MapperHelper mapperHelper) {
-        super(mapperClass, mapperHelper);
-    }
 
-    public String checkExist(MappedStatement ms) {
-        Class<?> entityClass = this.getEntityClass(ms);
+  public CheckExistProviderExt(Class<?> mapperClass, MapperHelper mapperHelper) {
+    super(mapperClass, mapperHelper);
+  }
 
-        StringBuilder sql = new StringBuilder();
-        // select count(*)>0 from t_order where code='220011' limit 1;
+  public String checkExist(MappedStatement ms) {
+    Class<?> entityClass = this.getEntityClass(ms);
 
-        sql.append("select count(*) > 0 ");
-        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.whereAllIfColumns(entityClass, isNotEmpty()));
-        sql.append(" limit 1");
+    StringBuilder sql = new StringBuilder();
+    // select count(*)>0 from t_order where code='220011' limit 1;
 
-        return sql.toString();
-    }
+    sql.append("select count(*) > 0 ");
+    sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
+    sql.append(SqlHelper.whereAllIfColumns(entityClass, isNotEmpty()));
+    sql.append(" limit 1");
 
-    public String checkExistByExample(MappedStatement ms) {
-        Class<?> entityClass = this.getEntityClass(ms);
+    return sql.toString();
+  }
 
-        StringBuilder sql = new StringBuilder();
-        sql.append("select count(*) > 0 ");
-        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.exampleWhereClause());
-        sql.append(" limit 1");
+  public String checkExistByExample(MappedStatement ms) {
+    Class<?> entityClass = this.getEntityClass(ms);
 
-        return sql.toString();
-    }
+    StringBuilder sql = new StringBuilder();
+    sql.append("select count(*) > 0 ");
+    sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
+    sql.append(SqlHelper.exampleWhereClause());
+    sql.append(" limit 1");
+
+    return sql.toString();
+  }
 }

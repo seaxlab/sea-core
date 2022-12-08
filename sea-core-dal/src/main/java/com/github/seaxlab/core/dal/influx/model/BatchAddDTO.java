@@ -1,8 +1,7 @@
 package com.github.seaxlab.core.dal.influx.model;
 
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 /**
  * module name
@@ -13,7 +12,8 @@ import java.util.List;
  */
 @Data
 public class BatchAddDTO {
-    private String org;
-    private String bucket;
-    private List<Row> data;
+
+  private String org;
+  private String bucket;
+  private List<Row> data;
 }

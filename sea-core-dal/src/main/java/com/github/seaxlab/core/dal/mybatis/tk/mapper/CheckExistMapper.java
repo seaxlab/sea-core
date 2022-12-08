@@ -15,9 +15,9 @@ import tk.mybatis.mapper.entity.Example;
 @RegisterMapper
 public interface CheckExistMapper<T> {
 
-    @SelectProvider(type = CheckExistProviderExt.class, method = "dynamicSQL")
-    boolean checkExist(T record);
+  @SelectProvider(type = CheckExistProviderExt.class, method = "dynamicSQL")
+  boolean checkExist(T record);
 
-    @SelectProvider(type = CheckExistProviderExt.class, method = "dynamicSQL")
-    boolean checkExistByExample(Example example);
+  @SelectProvider(type = CheckExistProviderExt.class, method = "dynamicSQL")
+  boolean checkExistByExample(Example example);
 }

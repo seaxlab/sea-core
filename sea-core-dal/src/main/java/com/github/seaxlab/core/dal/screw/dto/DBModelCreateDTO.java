@@ -15,23 +15,23 @@ import lombok.Data;
 @Data
 public class DBModelCreateDTO {
 
-    // db input
-    // 默认mysql driver
-    private String driverClassName;
-    private String url;
-    private String username;
-    private String password;
+  // db input
+  // 默认mysql driver
+  private String driverClassName;
+  private String url;
+  private String username;
+  private String password;
 
-    //
-    private ProcessConfig processConfig;
+  //
+  private ProcessConfig processConfig;
 
-    // file output
-    private EngineFileType engineFileType;
-    private String outPutDir;
-    private String outPutFileName;
-    private String version;
+  // file output
+  private EngineFileType engineFileType;
+  private String outPutDir;
+  private String outPutFileName;
+  private String version;
 
-    private String description;
+  private String description;
 
-    private SshConfig sshConfig;
+  private SshConfig sshConfig;
 }

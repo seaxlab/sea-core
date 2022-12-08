@@ -1,10 +1,9 @@
 package com.github.seaxlab.core.dal.mybatis.common.handler;
 
+import java.util.Set;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
 import org.apache.ibatis.type.MappedTypes;
-
-import java.util.Set;
 
 /**
  * long set json
@@ -16,4 +15,5 @@ import java.util.Set;
 @MappedTypes({Set.class})
 @MappedJdbcTypes(JdbcType.VARCHAR)
 public class LongSetJsonTypeHandler extends SetJsonTypeHandler<Long> {
+
 }

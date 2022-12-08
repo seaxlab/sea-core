@@ -15,32 +15,32 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class HintContext {
 
-    /**
-     * 设置hint
-     *
-     * @param hint
-     */
-    public static void put(String hint) {
-        if (StringUtil.isEmpty(hint)) {
-            log.warn("hint is empty, plz check.");
-            return;
-        }
-        ThreadContext.put(DalConst.SEA_SQL_HINT, hint);
+  /**
+   * 设置hint
+   *
+   * @param hint
+   */
+  public static void put(String hint) {
+    if (StringUtil.isEmpty(hint)) {
+      log.warn("hint is empty, plz check.");
+      return;
     }
+    ThreadContext.put(DalConst.SEA_SQL_HINT, hint);
+  }
 
-    /**
-     * get hint
-     *
-     * @return
-     */
-    public static String get() {
-        return ThreadContext.get(DalConst.SEA_SQL_HINT);
-    }
+  /**
+   * get hint
+   *
+   * @return
+   */
+  public static String get() {
+    return ThreadContext.get(DalConst.SEA_SQL_HINT);
+  }
 
-    /**
-     * remove  hint
-     */
-    public static void remove() {
-        ThreadContext.remove(DalConst.SEA_SQL_HINT);
-    }
+  /**
+   * remove  hint
+   */
+  public static void remove() {
+    ThreadContext.remove(DalConst.SEA_SQL_HINT);
+  }
 }
