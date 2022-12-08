@@ -13,15 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 public class UnsupportedOperationException extends BaseAppException {
 
 
-    public UnsupportedOperationException() {
-        super(ErrorMessageEnum.UNSUPPORTED_OPERATION);
-    }
+  public UnsupportedOperationException() {
+    super(ErrorMessageEnum.UNSUPPORTED_OPERATION);
+  }
 
 
-    public UnsupportedOperationException(String message) {
-        super(ErrorMessageEnum.UNSUPPORTED_OPERATION, message);
-    }
-
+  public UnsupportedOperationException(String message) {
+    super(ErrorMessageEnum.UNSUPPORTED_OPERATION, message);
+  }
 
 //    public UnsupportedOperationException(String message, Throwable cause) {
 //        super(message, cause);

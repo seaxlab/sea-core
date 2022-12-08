@@ -1,10 +1,9 @@
 package com.github.seaxlab.core.exception;
 
 import com.github.seaxlab.core.enums.IErrorEnum;
+import java.lang.reflect.InvocationTargetException;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
-
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * 异常抛出辅助类
@@ -15,78 +14,78 @@ import java.lang.reflect.InvocationTargetException;
  */
 public final class ExceptionHandler {
 
-    private ExceptionHandler() {
+  private ExceptionHandler() {
+  }
+
+  public static final String NO_ERROR_CODE = "";
+
+  /**
+   * 兼容已有系统
+   */
+  public static final String OLD_CODE = "OLD_";
+
+
+  /**
+   * publish BaseAppException from IErrorException
+   *
+   * @param exception IErrorException
+   * @return
+   */
+  public static BaseAppException publish(IErrorEnum exception) {
+    throw new BaseAppException(exception);
+  }
+
+  /**
+   * publish BaseAppException from IErrorException
+   *
+   * @param exception IErrorException
+   * @param args      arguments
+   * @return
+   */
+  public static BaseAppException publish(IErrorEnum exception, Object... args) {
+    throw new BaseAppException(exception, args);
+  }
+
+  public static BaseAppException publish(String code, String msg) throws BaseAppException {
+    return publish(code, msg, null);
+  }
+
+
+  public static BaseAppException publishMsg(String msg) throws BaseAppException {
+    return publish(NO_ERROR_CODE, msg, null);
+  }
+
+  public static BaseAppException publishMsg(String format, Object... argArray) {
+    FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+    return publish(NO_ERROR_CODE, ft.getMessage(), null);
+  }
+
+  /**
+   * 抛出异常
+   *
+   * @param code 错误码
+   * @param msg  消息
+   * @param t    Throwable
+   * @return BaseAppException
+   * @throws BaseAppException
+   */
+  public static BaseAppException publish(String code, String msg, Throwable t) throws BaseAppException {
+
+    BaseAppException baseAppException;
+    if (t instanceof BaseAppException) {
+      baseAppException = (BaseAppException) t;
+    } else if (t instanceof InvocationTargetException) {
+      // 仅仅对此情况进行处理，不能进行深层检查！
+      Throwable cause = t.getCause();
+      if (cause instanceof BaseAppException) {
+        baseAppException = (BaseAppException) cause;
+      } else {
+        baseAppException = new BaseAppException(code, msg);
+      }
+    } else {
+      baseAppException = new BaseAppException(code, msg);
     }
 
-    public static final String NO_ERROR_CODE = "";
-
-    /**
-     * 兼容已有系统
-     */
-    public static final String OLD_CODE = "OLD_";
-
-
-    /**
-     * publish BaseAppException from IErrorException
-     *
-     * @param exception IErrorException
-     * @return
-     */
-    public static BaseAppException publish(IErrorEnum exception) {
-        throw new BaseAppException(exception);
-    }
-
-    /**
-     * publish BaseAppException from IErrorException
-     *
-     * @param exception IErrorException
-     * @param args      arguments
-     * @return
-     */
-    public static BaseAppException publish(IErrorEnum exception, Object... args) {
-        throw new BaseAppException(exception, args);
-    }
-
-    public static BaseAppException publish(String code, String msg) throws BaseAppException {
-        return publish(code, msg, null);
-    }
-
-
-    public static BaseAppException publishMsg(String msg) throws BaseAppException {
-        return publish(NO_ERROR_CODE, msg, null);
-    }
-
-    public static BaseAppException publishMsg(String format, Object... argArray) {
-        FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-        return publish(NO_ERROR_CODE, ft.getMessage(), null);
-    }
-
-    /**
-     * 抛出异常
-     *
-     * @param code 错误码
-     * @param msg  消息
-     * @param t    Throwable
-     * @return BaseAppException
-     * @throws BaseAppException
-     */
-    public static BaseAppException publish(String code, String msg, Throwable t) throws BaseAppException {
-
-        BaseAppException baseAppException;
-        if (t instanceof BaseAppException) {
-            baseAppException = (BaseAppException) t;
-        } else if (t instanceof InvocationTargetException) {
-            // 仅仅对此情况进行处理，不能进行深层检查！
-            Throwable cause = t.getCause();
-            if (cause instanceof BaseAppException) {
-                baseAppException = (BaseAppException) cause;
-            } else {
-                baseAppException = new BaseAppException(code, msg);
-            }
-        } else {
-            baseAppException = new BaseAppException(code, msg);
-        }
-
-        throw baseAppException;
-    }
+    throw baseAppException;
+  }
 }

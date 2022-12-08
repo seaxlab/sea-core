@@ -10,26 +10,26 @@ import com.github.seaxlab.core.exception.BaseAppException;
  */
 public interface Lifecycle {
 
-    /**
-     * 正常启动
-     *
-     * @throws BaseAppException
-     */
-    void init() throws BaseAppException;
+  /**
+   * 正常启动
+   *
+   * @throws BaseAppException
+   */
+  void init() throws BaseAppException;
 
-    /**
-     * 正常停止
-     *
-     * @throws BaseAppException
-     */
-    void destroy() throws BaseAppException;
+  /**
+   * 正常停止
+   *
+   * @throws BaseAppException
+   */
+  void destroy() throws BaseAppException;
 
-    /**
-     * 是否存储运行运行状态
-     *
-     * @return
-     * @throws BaseAppException
-     */
-    boolean isInited() throws BaseAppException;
+  /**
+   * 是否存储运行运行状态
+   *
+   * @return
+   * @throws BaseAppException
+   */
+  boolean isInited() throws BaseAppException;
 
 }

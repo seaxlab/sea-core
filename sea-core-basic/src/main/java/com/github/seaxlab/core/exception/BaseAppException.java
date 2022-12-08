@@ -16,38 +16,38 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class BaseAppException extends RuntimeException {
 
-    private String code; // NOSONAR
+  private String code; // NOSONAR
 
-    private String desc; // NOSONAR
+  private String desc; // NOSONAR
 
-    // 可扩展参数
+  // 可扩展参数
 
-    public BaseAppException() {
-        super();
-    }
+  public BaseAppException() {
+    super();
+  }
 
-    public BaseAppException(Throwable throwable) {
-        super(throwable);
-    }
+  public BaseAppException(Throwable throwable) {
+    super(throwable);
+  }
 
-    public BaseAppException(String desc) {
-        this("", desc);
-    }
+  public BaseAppException(String desc) {
+    this("", desc);
+  }
 
-    public BaseAppException(String code, String desc) {
-        super((code != null) ? (code + (desc == null ? "" : (":" + desc))) : desc);
-        this.code = code;
-        this.desc = desc;
-    }
+  public BaseAppException(String code, String desc) {
+    super((code != null) ? (code + (desc == null ? "" : (":" + desc))) : desc);
+    this.code = code;
+    this.desc = desc;
+  }
 
-    public BaseAppException(IErrorEnum errorEnum) {
-        this.code = errorEnum.getCode();
-        this.desc = errorEnum.getMessage();
-    }
+  public BaseAppException(IErrorEnum errorEnum) {
+    this.code = errorEnum.getCode();
+    this.desc = errorEnum.getMessage();
+  }
 
-    public BaseAppException(IErrorEnum errorEnum, Object... args) {
-        this.code = errorEnum.getCode();
-        this.desc = MessageUtil.format(errorEnum.getMessage(), args);
-    }
+  public BaseAppException(IErrorEnum errorEnum, Object... args) {
+    this.code = errorEnum.getCode();
+    this.desc = MessageUtil.format(errorEnum.getMessage(), args);
+  }
 
 }
