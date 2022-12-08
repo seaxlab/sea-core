@@ -1,0 +1,33 @@
+{
+  "config": {
+    "wide_screen_mode": true
+  },
+  "header": {
+    "template": "red",
+    "title": {
+      "content": "【dev环境 order】告警通知",
+      "tag": "plain_text"
+    }
+  },
+  "elements": [
+    {
+      "tag": "div",
+      "text": {
+        "content": "${content}",
+        "tag": "lark_md"
+      }
+    },
+    {
+      "tag": "hr"
+    },
+    {
+      "elements": [
+        {
+          "content": "xxx Power by SPY",
+          "tag": "plain_text"
+        }
+      ],
+      "tag": "note"
+    }
+  ]
+}
