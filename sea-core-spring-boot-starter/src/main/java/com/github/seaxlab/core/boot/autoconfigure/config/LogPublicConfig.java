@@ -1,11 +1,11 @@
 package com.github.seaxlab.core.boot.autoconfigure.config;
 
 import com.github.seaxlab.core.boot.autoconfigure.SeaProperties;
-import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.spring.aop.advisor.DynamicPointcutAdvisor;
 import com.github.seaxlab.core.spring.aop.enums.AopExpressionEnum;
 import com.github.seaxlab.core.spring.aop.interceptor.LogPublicMethodInterceptor;
 import com.github.seaxlab.core.spring.aop.util.AopUtil;
+import com.github.seaxlab.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.PointcutAdvisor;
@@ -26,21 +26,25 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class LogPublicConfig {
 
-    private final SeaProperties seaProperties;
+  private final SeaProperties seaProperties;
+  private final String EMPTY_PACKAGE = "com.github.seaxlab.helloworld";
 
-    @Bean
-    @ConditionalOnProperty(name = "sea.log.enabled", havingValue = "true")
-    @ConditionalOnMissingBean(name = "seaLogPublicMethodPointcutAdvisor")
-    public PointcutAdvisor seaLogPublicAdvisor() {
-        log.info("init sea log public method advisor bean");
-        String basePackage = seaProperties.getLog().getOtherBasePackage();
-        Precondition.checkNotEmpty(basePackage, "sea.log.otherBasePackage cannot be empty in application.yml");
-        String expression = AopUtil.getByOr(AopExpressionEnum.EXECUTION_PACKAGE, basePackage);
-
-        DynamicPointcutAdvisor advisor = new DynamicPointcutAdvisor(expression);
-        advisor.setAdviceBeanName("seaLogPublicMethodPointcutAdvisor");
-        advisor.setAdvice(new LogPublicMethodInterceptor());
-
-        return advisor;
+  @Bean
+  @ConditionalOnProperty(name = "sea.log.enabled", havingValue = "true")
+  @ConditionalOnMissingBean(name = "seaLogPublicMethodPointcutAdvisor")
+  public PointcutAdvisor seaLogPublicAdvisor() {
+    log.info("init sea log public method advisor bean");
+    String basePackage = seaProperties.getLog().getOtherBasePackage();
+    if (StringUtil.isBlank(basePackage)) {
+      basePackage = EMPTY_PACKAGE;
+      log.warn("sea.log.otherBasePackage is empty, so set to default empty package.");
     }
+    String expression = AopUtil.getByOr(AopExpressionEnum.EXECUTION_PACKAGE, basePackage);
+
+    DynamicPointcutAdvisor advisor = new DynamicPointcutAdvisor(expression);
+    advisor.setAdviceBeanName("seaLogPublicMethodPointcutAdvisor");
+    advisor.setAdvice(new LogPublicMethodInterceptor());
+
+    return advisor;
+  }
 }
