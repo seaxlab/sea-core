@@ -94,7 +94,7 @@
     <!-- groovy 2.5只后变成pom了-->
     <!-- <groovy.version>2.5.7</groovy.version>-->
     <groovy.version>2.4.16</groovy.version>
-    <aviator.version>5.2.7</aviator.version>
+    <aviator.version>5.3.3</aviator.version>
     <google.zxing.version>3.4.0</google.zxing.version>
 
     <!-- oss -->
