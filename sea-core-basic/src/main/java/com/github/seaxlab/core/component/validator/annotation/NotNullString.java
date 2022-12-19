@@ -9,7 +9,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * not contain space
+ * not null string
  *
  * @author spy
  * @version 1.0 2022/12/29
