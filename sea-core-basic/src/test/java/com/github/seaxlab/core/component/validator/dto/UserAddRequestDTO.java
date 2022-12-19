@@ -1,9 +1,9 @@
 package com.github.seaxlab.core.component.validator.dto;
 
 import com.github.seaxlab.core.component.validator.annotation.NotContainSpace;
-import lombok.Data;
-
+import com.github.seaxlab.core.component.validator.annotation.NotNullString;
 import javax.validation.constraints.NotNull;
+import lombok.Data;
 
 /**
  * module name
@@ -15,7 +15,8 @@ import javax.validation.constraints.NotNull;
 @Data
 public class UserAddRequestDTO {
 
-    @NotNull
-    @NotContainSpace
-    private String name;
+  @NotNull
+  @NotContainSpace
+  @NotNullString
+  private String name;
 }
