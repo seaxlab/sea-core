@@ -1,10 +1,9 @@
 package com.github.seaxlab.core.component.validator.constraint;
 
 import com.github.seaxlab.core.component.validator.annotation.StatusCheck;
-import lombok.extern.slf4j.Slf4j;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Status validator

@@ -3,10 +3,9 @@ package com.github.seaxlab.core.component.validator.constraint;
 import com.github.seaxlab.core.component.validator.annotation.CodeCheck;
 import com.github.seaxlab.core.enums.RegExpEnum;
 import com.github.seaxlab.core.util.RegExpUtil;
-import lombok.extern.slf4j.Slf4j;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * code validator

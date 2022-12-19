@@ -2,10 +2,9 @@ package com.github.seaxlab.core.component.validator.constraint;
 
 import com.github.seaxlab.core.common.SymbolConst;
 import com.github.seaxlab.core.component.validator.annotation.NotContainSpace;
-import lombok.extern.slf4j.Slf4j;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * not contain space validator.
