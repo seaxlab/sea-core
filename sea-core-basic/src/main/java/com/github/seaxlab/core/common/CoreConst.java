@@ -2,10 +2,11 @@ package com.github.seaxlab.core.common;
 
 import com.github.seaxlab.core.util.ClassUtil;
 import com.github.seaxlab.core.util.JvmUtil;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * sea core const
@@ -231,6 +232,11 @@ public class CoreConst {
   public static final int NUMBER_8 = 8;
   public static final int NUMBER_9 = 9;
   public static final int NUMBER_10 = 10;
+  public static final int NUMBER_30 = 30;
+  public static final int NUMBER_60 = 60;
+  public static final int NUMBER_90 = 90;
+  public static final int NUMBER_180 = 180;
+  public static final int NUMBER_365 = 365;
 
 
   // lock time
