@@ -1,0 +1,62 @@
+package com.github.seaxlab.core.component.buffertrigger.common;
+
+import java.util.concurrent.locks.Condition;
+import javax.annotation.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * @author w.vela Created on 2019-07-30.
+ */
+public class BackPressureHandler<T> implements RejectHandler<T> {
+
+  private static final Logger logger = LoggerFactory.getLogger(BackPressureHandler.class);
+
+  private static GlobalBackPressureListener globalBackPressureListener = null;
+
+  @Nullable
+  private final BackPressureListener<T> listener;
+  private String name;
+
+  public BackPressureHandler(BackPressureListener<T> listener) {
+    this.listener = listener;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  @Override
+  public boolean onReject(T element, @Nullable Condition condition) {
+    if (listener != null) {
+      try {
+        listener.onHandle(element);
+      } catch (Throwable e) {
+        logger.error("", e);
+      }
+    }
+    if (globalBackPressureListener != null) {
+      try {
+        globalBackPressureListener.onHandle(name, element);
+      } catch (Throwable e) {
+        logger.error("", e);
+      }
+    }
+    assert condition != null;
+    long startNano = System.nanoTime();
+    condition.awaitUninterruptibly();
+    long blockInNano = System.nanoTime() - startNano;
+    if (globalBackPressureListener != null) {
+      try {
+        globalBackPressureListener.postHandle(name, element, blockInNano);
+      } catch (Throwable e) {
+        logger.error("", e);
+      }
+    }
+    return true;
+  }
+
+  public static void setupGlobalBackPressureListener(GlobalBackPressureListener listener) {
+    globalBackPressureListener = listener;
+  }
+}
