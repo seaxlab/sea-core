@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class DownloaderVO {
 
-    private String fileUrl;
-    private String fileName;
-    private String bizKey;
+  private String fileUrl;
+  private String fileName;
+  private String bizKey;
 }

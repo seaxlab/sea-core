@@ -4,7 +4,7 @@ import com.github.seaxlab.core.enums.IBaseEnum;
 import com.github.seaxlab.core.util.EqualUtil;
 
 /**
- * module name
+ * rate limit enum
  *
  * @author spy
  * @version 1.0 2021/2/3

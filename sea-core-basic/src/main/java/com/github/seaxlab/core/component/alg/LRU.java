@@ -1,13 +1,11 @@
 package com.github.seaxlab.core.component.alg;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * LRU的实现比较简单，因为java中的LinkedHashMap有很多特点正好适合LRU的思想。<br/>
- * LRU（least recently used）最近最少使用，首先淘汰最长时间未被使用的页面。<br/>
+ * LRU的实现比较简单，因为java中的LinkedHashMap有很多特点正好适合LRU的思想。<br/> LRU（least recently used）最近最少使用，首先淘汰最长时间未被使用的页面。<br/>
  * 使用链表实现，当一个元素被访问了，把元素移动到链表的顶端，插入新元素也放到顶端，当缓存数量到达限制，直接从链表底端移除元素<br/>
  * <p>
  * LinkedHashMap有一个accessOrder的参数正好和LRU的思路相契合，这里使用0.75的默认加载因子<br/>
@@ -21,20 +19,20 @@ import java.util.Map;
 @Slf4j
 public class LRU<K, V> extends LinkedHashMap<K, V> {
 
-    private final int MAX_SIZE;
+  private final int MAX_SIZE;
 
-    public LRU(int capacity) {
-        super(8, 0.75f, true);
-        this.MAX_SIZE = capacity;
-    }
+  public LRU(int capacity) {
+    super(8, 0.75f, true);
+    this.MAX_SIZE = capacity;
+  }
 
-    @Override
-    public boolean removeEldestEntry(Map.Entry<K, V> eldest) {
-        if (size() > MAX_SIZE) {
-            if (log.isDebugEnabled()) {
-                log.debug("remove entry: {}", eldest.getValue());
-            }
-        }
-        return size() > MAX_SIZE;
+  @Override
+  public boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+    if (size() > MAX_SIZE) {
+      if (log.isDebugEnabled()) {
+        log.debug("remove entry: {}", eldest.getValue());
+      }
     }
+    return size() > MAX_SIZE;
+  }
 }

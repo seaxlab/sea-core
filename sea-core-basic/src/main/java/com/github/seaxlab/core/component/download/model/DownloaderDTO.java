@@ -12,43 +12,43 @@ import lombok.Data;
 @Data
 public class DownloaderDTO {
 
-    /**
-     * remote file url
-     */
-    private String remoteFileUrl;
+  /**
+   * remote file url
+   */
+  private String remoteFileUrl;
 
-    /**
-     * auth header key
-     */
-    private String authHeaderKey;
+  /**
+   * auth header key
+   */
+  private String authHeaderKey;
 
-    /**
-     * auth header value.
-     */
-    private String authHeaderValue;
+  /**
+   * auth header value.
+   */
+  private String authHeaderValue;
 
-    /**
-     * local file dir
-     */
-    private String newDir;
+  /**
+   * local file dir
+   */
+  private String newDir;
 
-    /**
-     * local file name
-     */
-    private String newFileName;
+  /**
+   * local file name
+   */
+  private String newFileName;
 
-    /**
-     * overwrite exist file.
-     */
-    private Boolean overwrite;
+  /**
+   * overwrite exist file.
+   */
+  private Boolean overwrite;
 
-    /**
-     * 开启多少个线程下载
-     */
-    private Integer threadCount;
+  /**
+   * 开启多少个线程下载
+   */
+  private Integer threadCount;
 
-    /**
-     * 业务键，回传给调用方
-     */
-    private String bizKey;
+  /**
+   * 业务键，回传给调用方
+   */
+  private String bizKey;
 }

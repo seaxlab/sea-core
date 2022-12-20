@@ -13,11 +13,11 @@ import com.github.seaxlab.core.model.Result;
  */
 public interface Downloader<A extends DownloaderDTO> {
 
-    /**
-     * download file
-     *
-     * @param dto
-     * @return
-     */
-    Result<DownloaderVO> execute(A dto);
+  /**
+   * download file
+   *
+   * @param dto
+   * @return
+   */
+  Result<DownloaderVO> execute(A dto);
 }
