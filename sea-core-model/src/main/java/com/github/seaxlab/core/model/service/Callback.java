@@ -10,11 +10,11 @@ package com.github.seaxlab.core.model.service;
  */
 public interface Callback<T> {
 
-    /**
-     * Execute t.
-     *
-     * @return the t
-     */
-    T execute();
+  /**
+   * Execute t.
+   *
+   * @return the t
+   */
+  T execute();
 }
 

@@ -12,32 +12,32 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ApiConst {
 
-    private ApiConst() {
-    }
+  private ApiConst() {
+  }
 
-    // 公开API
-    public static final String OPEN = "/api/open";
+  // 公开API
+  public static final String OPEN = "/api/open";
 
-    // 内部API
-    public static final String INNER = "/api/inner";
+  // 内部API
+  public static final String INNER = "/api/inner";
 
-    // for console
-    public static final String CONSOLE = "/api/console";
+  // for console
+  public static final String CONSOLE = "/api/console";
 
-    // for app
-    public static final String APP = "/api/app";
+  // for app
+  public static final String APP = "/api/app";
 
-    // for rpc
-    public static final String RPC = "/api/rpc";
+  // for rpc
+  public static final String RPC = "/api/rpc";
 
-    // for test
-    public static final String TEST = "/api/test";
+  // for test
+  public static final String TEST = "/api/test";
 
-    // for pc?
+  // for pc?
 
-    public static final String FEIGN_SERVICE = "Feign服务";
-    public static final String DUBBO_SERVICE = "Dubbo服务";
-    public static final String CONSOLE_SERVICE = "管理后台服务";
-    public static final String APP_SERVICE = "APP接口服务";
-    public static final String TEST_SERVICE = "Test服务";
+  public static final String FEIGN_SERVICE = "Feign服务";
+  public static final String DUBBO_SERVICE = "Dubbo服务";
+  public static final String CONSOLE_SERVICE = "管理后台服务";
+  public static final String APP_SERVICE = "APP接口服务";
+  public static final String TEST_SERVICE = "Test服务";
 }

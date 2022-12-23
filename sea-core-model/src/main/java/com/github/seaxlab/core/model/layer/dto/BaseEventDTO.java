@@ -8,4 +8,5 @@ package com.github.seaxlab.core.model.layer.dto;
  * @since 1.0
  */
 public class BaseEventDTO extends DTO {
+
 }

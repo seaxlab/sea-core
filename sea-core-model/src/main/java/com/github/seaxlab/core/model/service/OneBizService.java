@@ -11,11 +11,11 @@ import com.github.seaxlab.core.model.Result;
  */
 public interface OneBizService<Context, R> {
 
-    /**
-     * execute biz service
-     *
-     * @param ctx context
-     * @return R
-     */
-    Result<R> execute(Context ctx);
+  /**
+   * execute biz service
+   *
+   * @param ctx context
+   * @return R
+   */
+  Result<R> execute(Context ctx);
 }

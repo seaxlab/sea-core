@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class BizContext extends HashMap {
 
-    public static BizContext create() {
-        return new BizContext();
-    }
+  public static BizContext create() {
+    return new BizContext();
+  }
 }

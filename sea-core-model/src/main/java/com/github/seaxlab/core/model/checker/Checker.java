@@ -10,19 +10,19 @@ import com.github.seaxlab.core.model.Result;
  * @since 1.0
  */
 public interface Checker<I> {
-    
-    /**
-     * 校验器
-     *
-     * @param input
-     * @return
-     */
-    Result<Void> check(I input);
 
-    /**
-     * 多个checker时的执行顺序
-     */
-    default int order() {
-        return 0;
-    }
+  /**
+   * 校验器
+   *
+   * @param input
+   * @return
+   */
+  Result<Void> check(I input);
+
+  /**
+   * 多个checker时的执行顺序
+   */
+  default int order() {
+    return 0;
+  }
 }

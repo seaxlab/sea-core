@@ -1,11 +1,10 @@
 package com.github.seaxlab.core.model.layer.encrypt;
 
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * 加密后的响应
@@ -19,42 +18,43 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EncryptResult implements Serializable {
-    /**
-     * 响应成功与否
-     */
-    private Boolean success;
 
-    /**
-     * 错误码
-     */
-    private String errorCode;
+  /**
+   * 响应成功与否
+   */
+  private Boolean success;
 
-    /**
-     * 消息
-     */
-    private String message;
+  /**
+   * 错误码
+   */
+  private String errorCode;
 
-    /**
-     * appId
-     */
-    private String appId;
+  /**
+   * 消息
+   */
+  private String message;
 
-    /**
-     * 签名
-     */
-    private String sign;
+  /**
+   * appId
+   */
+  private String appId;
 
-    /**
-     * 秘钥版本
-     */
-    private String version;
-    /**
-     * 内容内容
-     */
-    private String bizContent;
+  /**
+   * 签名
+   */
+  private String sign;
 
-    /**
-     * 请求时间戳 yyyyMMddHHmmss
-     */
-    private String timestamp;
+  /**
+   * 秘钥版本
+   */
+  private String version;
+  /**
+   * 内容内容
+   */
+  private String bizContent;
+
+  /**
+   * 请求时间戳 yyyyMMddHHmmss
+   */
+  private String timestamp;
 }

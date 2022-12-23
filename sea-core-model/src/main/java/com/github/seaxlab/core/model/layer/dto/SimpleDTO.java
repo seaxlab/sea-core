@@ -12,25 +12,25 @@ import lombok.Data;
 @Data
 public class SimpleDTO extends DTO {
 
-    private Long id;
-    private String code;
-    private String name;
-    private String type;
-    private String remark;
+  private Long id;
+  private String code;
+  private String name;
+  private String type;
+  private String remark;
 
-    public static SimpleDTO create(String code, String name) {
-        SimpleDTO dto = new SimpleDTO();
-        dto.setCode(code);
-        dto.setName(name);
-        return dto;
-    }
+  public static SimpleDTO create(String code, String name) {
+    SimpleDTO dto = new SimpleDTO();
+    dto.setCode(code);
+    dto.setName(name);
+    return dto;
+  }
 
-    public static SimpleDTO create(String code, String name, String type) {
-        SimpleDTO dto = new SimpleDTO();
-        dto.setCode(code);
-        dto.setName(name);
-        dto.setType(type);
-        return dto;
-    }
+  public static SimpleDTO create(String code, String name, String type) {
+    SimpleDTO dto = new SimpleDTO();
+    dto.setCode(code);
+    dto.setName(name);
+    dto.setType(type);
+    return dto;
+  }
 
 }

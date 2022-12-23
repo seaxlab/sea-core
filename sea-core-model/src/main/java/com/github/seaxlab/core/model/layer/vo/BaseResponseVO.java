@@ -1,8 +1,7 @@
 package com.github.seaxlab.core.model.layer.vo;
 
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * 基本返回值基类，所有返回值继承
@@ -14,7 +13,7 @@ import java.io.Serializable;
 @Data
 public class BaseResponseVO implements Serializable {
 
-    // 幂等字段，上下游系统自行保证
-    // idempotent
-    // public boolean repeat;
+  // 幂等字段，上下游系统自行保证
+  // idempotent
+  // public boolean repeat;
 }

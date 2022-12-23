@@ -1,8 +1,7 @@
 package com.github.seaxlab.core.model.layer.cmd;
 
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * external param, for example: userAddCmd/OrderPlaceCmd
@@ -14,5 +13,5 @@ import java.io.Serializable;
 @Data
 public class Cmd implements Serializable {
 
-    //private String requestId;
+  //private String requestId;
 }

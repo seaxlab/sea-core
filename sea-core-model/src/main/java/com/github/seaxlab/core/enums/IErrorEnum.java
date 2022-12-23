@@ -9,17 +9,17 @@ package com.github.seaxlab.core.enums;
  */
 public interface IErrorEnum {
 
-    /**
-     * error code
-     *
-     * @return
-     */
-    String getCode();
+  /**
+   * error code
+   *
+   * @return
+   */
+  String getCode();
 
-    /**
-     * error message
-     *
-     * @return
-     */
-    String getMessage();
+  /**
+   * error message
+   *
+   * @return
+   */
+  String getMessage();
 }

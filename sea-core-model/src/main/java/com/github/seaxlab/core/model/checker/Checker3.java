@@ -11,20 +11,20 @@ import com.github.seaxlab.core.model.Result;
  */
 public interface Checker3<I1, I2, I3> {
 
-    /**
-     * 校验器
-     *
-     * @param input1 input
-     * @param input2 input
-     * @param input3 input
-     * @return
-     */
-    Result<Void> check(I1 input1, I2 input2, I3 input3);
+  /**
+   * 校验器
+   *
+   * @param input1 input
+   * @param input2 input
+   * @param input3 input
+   * @return
+   */
+  Result<Void> check(I1 input1, I2 input2, I3 input3);
 
-    /**
-     * 多个checker时的执行顺序
-     */
-    default int order() {
-        return 0;
-    }
+  /**
+   * 多个checker时的执行顺序
+   */
+  default int order() {
+    return 0;
+  }
 }

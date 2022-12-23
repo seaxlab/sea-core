@@ -24,7 +24,6 @@ public enum OperatorEnum implements IBaseEnum<Integer> {
   RANGE_OPEN_CLOSE(9, "在此范围（左开右闭）", "(,]", "({},{}]"),
   RANGE_CLOSE_OPEN(10, "在此范围（左闭右开）", "[,)", "[{},{})"),
 
-
   ;
   private final Integer code;
   private final String name;

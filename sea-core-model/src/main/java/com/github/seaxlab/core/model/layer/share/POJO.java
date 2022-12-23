@@ -1,7 +1,6 @@
 package com.github.seaxlab.core.model.layer.share;
 
 import com.github.seaxlab.core.model.annotation.Doc;
-
 import java.io.Serializable;
 
 /**
@@ -15,4 +14,5 @@ import java.io.Serializable;
 @Deprecated
 @Doc("禁止使用POJO")
 public class POJO implements Serializable {
+
 }

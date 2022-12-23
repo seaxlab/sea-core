@@ -1,8 +1,7 @@
 package com.github.seaxlab.core.model.layer.vo;
 
-import lombok.Data;
-
 import java.util.Date;
+import lombok.Data;
 
 /**
  * module name
@@ -14,28 +13,28 @@ import java.util.Date;
 @Data
 public class BaseEntityResponseVO extends BaseResponseVO {
 
-    /**
-     * 备注
-     */
-    private String remark;
+  /**
+   * 备注
+   */
+  private String remark;
 
-    /**
-     * 创建人
-     */
-    private String creator;
+  /**
+   * 创建人
+   */
+  private String creator;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
+  /**
+   * 创建时间
+   */
+  private Date createTime;
 
-    /**
-     * 更新人
-     */
-    private String editor;
+  /**
+   * 更新人
+   */
+  private String editor;
 
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
+  /**
+   * 更新时间
+   */
+  private Date updateTime;
 }

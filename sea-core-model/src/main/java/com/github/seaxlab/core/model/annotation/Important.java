@@ -1,6 +1,10 @@
 package com.github.seaxlab.core.model.annotation;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * module name
@@ -14,17 +18,17 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
 public @interface Important {
 
-    /**
-     * 重要内容
-     *
-     * @return
-     */
-    String value() default "";
+  /**
+   * 重要内容
+   *
+   * @return
+   */
+  String value() default "";
 
-    /**
-     * 重要程度
-     *
-     * @return
-     */
-    int level() default 1;
+  /**
+   * 重要程度
+   *
+   * @return
+   */
+  int level() default 1;
 }

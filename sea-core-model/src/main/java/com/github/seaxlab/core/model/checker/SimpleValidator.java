@@ -9,10 +9,10 @@ package com.github.seaxlab.core.model.checker;
  */
 public interface SimpleValidator {
 
-    /**
-     * 判断是否合法
-     *
-     * @return boolean
-     */
-    boolean isValid();
+  /**
+   * 判断是否合法
+   *
+   * @return boolean
+   */
+  boolean isValid();
 }

@@ -11,5 +11,5 @@ import com.github.seaxlab.core.model.Result;
  */
 public interface CompensableService<Input, R> {
 
-    Result<R> compensate(Input input);
+  Result<R> compensate(Input input);
 }

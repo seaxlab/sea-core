@@ -1,8 +1,7 @@
 package com.github.seaxlab.core.model.layer.dto;
 
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * module name
@@ -13,4 +12,5 @@ import java.io.Serializable;
  */
 @Data
 public class BaseResponseDTO implements Serializable {
+
 }

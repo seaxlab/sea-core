@@ -1,8 +1,7 @@
 package com.github.seaxlab.core.model.component.person;
 
-import lombok.Data;
-
 import java.util.Date;
+import lombok.Data;
 
 /**
  * module name
@@ -14,9 +13,9 @@ import java.util.Date;
 @Data
 public class Birthday {
 
-    private int year;
-    private int month;
-    private int day;
-    private Date date;
-    private String dateStr;
+  private int year;
+  private int month;
+  private int day;
+  private Date date;
+  private String dateStr;
 }

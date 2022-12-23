@@ -10,8 +10,9 @@ import com.github.seaxlab.core.model.Result;
  * @since 1.0
  */
 public class BaseChecker<I> implements Checker<I> {
-    @Override
-    public Result<Void> check(I input) {
-        return Result.success();
-    }
+
+  @Override
+  public Result<Void> check(I input) {
+    return Result.success();
+  }
 }

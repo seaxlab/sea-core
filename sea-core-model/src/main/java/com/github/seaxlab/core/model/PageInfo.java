@@ -1,9 +1,8 @@
 package com.github.seaxlab.core.model;
 
+import java.io.Serializable;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.Serializable;
 
 /**
  * 分页信息，从1开始

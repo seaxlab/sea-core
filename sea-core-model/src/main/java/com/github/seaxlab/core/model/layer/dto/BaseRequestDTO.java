@@ -1,8 +1,7 @@
 package com.github.seaxlab.core.model.layer.dto;
 
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * 请求对象基类

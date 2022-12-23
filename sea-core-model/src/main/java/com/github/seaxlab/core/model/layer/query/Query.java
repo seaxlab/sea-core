@@ -10,4 +10,5 @@ import java.io.Serializable;
  * @since 1.0
  */
 public class Query implements Serializable {
+
 }
