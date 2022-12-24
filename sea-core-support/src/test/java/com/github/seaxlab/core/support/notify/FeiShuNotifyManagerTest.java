@@ -8,11 +8,12 @@ import com.github.seaxlab.core.support.notify.util.FeiShuUtil;
 import com.github.seaxlab.core.util.FileUtil;
 import com.github.seaxlab.core.util.FreemarkerUtil;
 import com.github.seaxlab.core.util.MessageUtil;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * module name

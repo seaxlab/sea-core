@@ -12,5 +12,5 @@ import lombok.Data;
 @Data
 public class ObjectPutVO {
 
-    private String key;
+  private String key;
 }

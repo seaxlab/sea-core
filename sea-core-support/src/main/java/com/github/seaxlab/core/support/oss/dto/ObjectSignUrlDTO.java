@@ -12,9 +12,9 @@ import lombok.Data;
  */
 @Data
 public class ObjectSignUrlDTO {
-    private String bucket;
-    private String key;
-    private long expireSeconds;
+  private String bucket;
+  private String key;
+  private long expireSeconds;
 
-    private HttpMethodEnum httpMethod;
+  private HttpMethodEnum httpMethod;
 }

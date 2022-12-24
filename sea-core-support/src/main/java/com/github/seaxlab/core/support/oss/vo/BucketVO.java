@@ -12,5 +12,5 @@ import lombok.Data;
 @Data
 public class BucketVO {
 
-    private String name;
+  private String name;
 }

@@ -13,13 +13,13 @@ import org.junit.Before;
 @Slf4j
 public class HuaWeiCloudOssManagerTest extends BaseOssManagerTest {
 
-    @Before
-    public void before() {
-        ENDPOINT = "https://27.221.114.245:8443";
-        ACCESS_KEY = "WZZJCCRGI08LKFVUW6CL";
-        SECRET_KEY = "2mo3ntGirIaPbfZVDpqXbJmbKRzRWjwaJgC5qBxb";
-        super.before();
-    }
+  @Before
+  public void before() {
+    ENDPOINT = "https://27.221.114.245:8443";
+    ACCESS_KEY = "WZZJCCRGI08LKFVUW6CL";
+    SECRET_KEY = "2mo3ntGirIaPbfZVDpqXbJmbKRzRWjwaJgC5qBxb";
+    super.before();
+  }
 
 
 }

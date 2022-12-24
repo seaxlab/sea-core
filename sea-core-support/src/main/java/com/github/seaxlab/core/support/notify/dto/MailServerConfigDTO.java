@@ -12,26 +12,26 @@ import lombok.Data;
 @Data
 public class MailServerConfigDTO {
 
-    private String protocol;
+  private String protocol;
 
-    private String host;
+  private String host;
 
-    private Integer port;
+  private Integer port;
 
-    private Boolean isSsl;
+  private Boolean isSsl;
 
-    private Integer sslPort;
+  private Integer sslPort;
 
-    private String isAuth;
+  private String isAuth;
 
-    private String username;
+  private String username;
 
-    private String password;
+  private String password;
 
-    private String defaultSender;
+  private String defaultSender;
 
-    private String defaultSenderName;
+  private String defaultSenderName;
 
-    private Boolean debug;
+  private Boolean debug;
 
 }

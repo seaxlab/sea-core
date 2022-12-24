@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class NotifyConfigDTO {
 
-    private String appId;
+  private String appId;
 
-    private String appSecret;
+  private String appSecret;
 }

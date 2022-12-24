@@ -7,10 +7,11 @@ import com.github.seaxlab.core.support.notify.manager.NotifyManager;
 import com.github.seaxlab.core.util.ExceptionUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.google.common.base.Preconditions;
-import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.mail.EmailConstants;
 import org.apache.commons.mail.SimpleEmail;
+
+import java.util.Date;
 
 /**
  * module name
@@ -22,74 +23,74 @@ import org.apache.commons.mail.SimpleEmail;
 @Slf4j
 public class MailNotifyManager implements NotifyManager<MailNotifyDTO> {
 
-    @Override
-    public Result send(MailNotifyDTO dto) {
-        Result result = Result.fail();
+  @Override
+  public Result send(MailNotifyDTO dto) {
+    Result result = Result.fail();
 
-        MailServerConfigDTO mailConfig = dto.getMailServerConfigDTO();
+    MailServerConfigDTO mailConfig = dto.getMailServerConfigDTO();
 
-        Preconditions.checkNotNull(mailConfig, "mail server config cannot be null.");
+    Preconditions.checkNotNull(mailConfig, "mail server config cannot be null.");
 
-        try {
-            log.info("send email begin.");
+    try {
+      log.info("send email begin.");
 
-            SimpleEmail mail = new SimpleEmail();
-            // 设置邮箱服务器信息
-            mail.setSmtpPort(mailConfig.getPort());
-            if (mailConfig.getIsSsl()) {
-                mail.setSslSmtpPort(mailConfig.getSslPort().toString());
-                mail.setSSLOnConnect(true);
-            }
-            mail.setHostName(mailConfig.getHost());
-            // TODO 设置密码验证器(授权码）
-            mail.setAuthentication(mailConfig.getUsername(), mailConfig.getPassword());
-            // 设置邮件发送者
+      SimpleEmail mail = new SimpleEmail();
+      // 设置邮箱服务器信息
+      mail.setSmtpPort(mailConfig.getPort());
+      if (mailConfig.getIsSsl()) {
+        mail.setSslSmtpPort(mailConfig.getSslPort().toString());
+        mail.setSSLOnConnect(true);
+      }
+      mail.setHostName(mailConfig.getHost());
+      // TODO 设置密码验证器(授权码）
+      mail.setAuthentication(mailConfig.getUsername(), mailConfig.getPassword());
+      // 设置邮件发送者
 //            mail.setFrom(mailConfig.getDefaultSender());
-            mail.setFrom(mailConfig.getDefaultSender(), StringUtil.defaultIfEmpty(mailConfig.getDefaultSenderName(), mailConfig.getDefaultSender()));
+      mail.setFrom(mailConfig.getDefaultSender(), StringUtil.defaultIfEmpty(mailConfig.getDefaultSenderName(), mailConfig.getDefaultSender()));
 
-            // 设置邮件接收者
-            if (StringUtil.isNotEmpty(dto.getTo())) {
-                mail.addTo(StringUtil.split(dto.getTo(), ';'));
-            }
+      // 设置邮件接收者
+      if (StringUtil.isNotEmpty(dto.getTo())) {
+        mail.addTo(StringUtil.split(dto.getTo(), ';'));
+      }
 
-            // 抄送
-            if (StringUtil.isNotEmpty(dto.getCc())) {
-                mail.addCc(StringUtil.split(dto.getCc(), ';'));
-            }
-            // 密送
-            if (StringUtil.isNotEmpty(dto.getBcc())) {
-                mail.addBcc(StringUtil.split(dto.getBcc(), ';'));
-            }
+      // 抄送
+      if (StringUtil.isNotEmpty(dto.getCc())) {
+        mail.addCc(StringUtil.split(dto.getCc(), ';'));
+      }
+      // 密送
+      if (StringUtil.isNotEmpty(dto.getBcc())) {
+        mail.addBcc(StringUtil.split(dto.getBcc(), ';'));
+      }
 
-            // 设置邮件编码
-            mail.setCharset("UTF-8");
-            // 设置邮件主题
-            mail.setSubject(dto.getTitle());
+      // 设置邮件编码
+      mail.setCharset("UTF-8");
+      // 设置邮件主题
+      mail.setSubject(dto.getTitle());
 
-            // 设置邮件内容
-            if (dto.getIsHtml() != null && dto.getIsHtml()) {
-                mail.setContent(dto.getContent(), EmailConstants.TEXT_HTML);
-            } else {
-                mail.setMsg(dto.getContent());
-            }
+      // 设置邮件内容
+      if (dto.getIsHtml() != null && dto.getIsHtml()) {
+        mail.setContent(dto.getContent(), EmailConstants.TEXT_HTML);
+      } else {
+        mail.setMsg(dto.getContent());
+      }
 
-            // 设置邮件发送时间
-            mail.setSentDate(new Date());
+      // 设置邮件发送时间
+      mail.setSentDate(new Date());
 
-            mail.setDebug(mailConfig.getDebug());
+      mail.setDebug(mailConfig.getDebug());
 
-            // 发送邮件
-            mail.send();
+      // 发送邮件
+      mail.send();
 
-            result.setSuccess(true);
-        } catch (Exception e) {
-            log.warn("fail to send mail", e);
-            result.setSuccess(false);
-            result.setMsg(ExceptionUtil.getStackTrace(e));
-        } finally {
-            log.info("send mail end. ret={}", result);
-        }
-
-        return result;
+      result.setSuccess(true);
+    } catch (Exception e) {
+      log.warn("fail to send mail", e);
+      result.setSuccess(false);
+      result.setMsg(ExceptionUtil.getStackTrace(e));
+    } finally {
+      log.info("send mail end. ret={}", result);
     }
+
+    return result;
+  }
 }

@@ -12,8 +12,8 @@ import lombok.Data;
 @Data
 public class ObjectUrlDTO {
 
-    private String bucket;
-    private String key;
-    private boolean customDomainFlag;
+  private String bucket;
+  private String key;
+  private boolean customDomainFlag;
 
 }

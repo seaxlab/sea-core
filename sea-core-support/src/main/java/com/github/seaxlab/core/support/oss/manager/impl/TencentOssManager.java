@@ -14,19 +14,19 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class TencentOssManager extends AbstractOssManager {
-    //TODO
+  //TODO
 
 
-    @Override
-    public void _init(OssConfig config) {
-    }
+  @Override
+  public void _init(OssConfig config) {
+  }
 
-    @Override
-    public void _destroy() {
-    }
+  @Override
+  public void _destroy() {
+  }
 
-    @Override
-    public String getType() {
-        return OssTypeEnum.TENCENT_CLOUD.getCode();
-    }
+  @Override
+  public String getType() {
+    return OssTypeEnum.TENCENT_CLOUD.getCode();
+  }
 }

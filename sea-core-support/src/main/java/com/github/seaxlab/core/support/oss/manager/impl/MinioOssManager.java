@@ -31,295 +31,295 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MinioOssManager extends AbstractOssManager {
 
-    private MinioClient client;
+  private MinioClient client;
 
-    /**
-     * 桶占位符
-     */
-    private static final String BUCKET_PARAM = "${bucket}";
-    /**
-     * bucket权限-只读
-     */
-    private static final String READ_ONLY = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "/*\"]}]}";
-    /**
-     * bucket权限-只写
-     */
-    private static final String WRITE_ONLY = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:AbortMultipartUpload\",\"s3:DeleteObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "/*\"]}]}";
-    /**
-     * bucket权限-读写
-     */
-    private static final String READ_WRITE = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:DeleteObject\",\"s3:GetObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\",\"s3:AbortMultipartUpload\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "/*\"]}]}";
+  /**
+   * 桶占位符
+   */
+  private static final String BUCKET_PARAM = "${bucket}";
+  /**
+   * bucket权限-只读
+   */
+  private static final String READ_ONLY = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "/*\"]}]}";
+  /**
+   * bucket权限-只写
+   */
+  private static final String WRITE_ONLY = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:AbortMultipartUpload\",\"s3:DeleteObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "/*\"]}]}";
+  /**
+   * bucket权限-读写
+   */
+  private static final String READ_WRITE = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:DeleteObject\",\"s3:GetObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\",\"s3:AbortMultipartUpload\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "/*\"]}]}";
 
-    @Override
-    public void _init(OssConfig config) {
-        client = MinioClient.builder()
-                            .endpoint(config.getEndpoint())
-                            .credentials(config.getAccessKey(), config.getSecretKey())
-                            .build();
-    }
+  @Override
+  public void _init(OssConfig config) {
+    client = MinioClient.builder()
+                        .endpoint(config.getEndpoint())
+                        .credentials(config.getAccessKey(), config.getSecretKey())
+                        .build();
+  }
 
-    @Override
-    public void _destroy() {
-        client = null;
-    }
+  @Override
+  public void _destroy() {
+    client = null;
+  }
 
-    @Override
-    public String getType() {
-        return OssTypeEnum.MINIO.getCode();
-    }
+  @Override
+  public String getType() {
+    return OssTypeEnum.MINIO.getCode();
+  }
 
-    @Override
-    public boolean _checkBucketExist(String bucket) {
-        BucketExistsArgs args = BucketExistsArgs.builder()
-                                                .bucket(bucket)
-                                                .build();
-        try {
-            return client.bucketExists(args);
-        } catch (Exception e) {
-            log.error("fail to check bucket exist", e);
-        }
-        return false;
-    }
-
-    @Override
-    public Result _createBucket(String bucket) {
-        Result result = Result.fail();
-        MakeBucketArgs args = MakeBucketArgs.builder()
+  @Override
+  public boolean _checkBucketExist(String bucket) {
+    BucketExistsArgs args = BucketExistsArgs.builder()
                                             .bucket(bucket)
                                             .build();
-        try {
-            client.makeBucket(args);
-            result.value(true);
-        } catch (Exception e) {
-            log.error("fail to create bucket", e);
-        }
-        return result;
+    try {
+      return client.bucketExists(args);
+    } catch (Exception e) {
+      log.error("fail to check bucket exist", e);
     }
+    return false;
+  }
 
-    @Override
-    public Result _createBucket(BucketCreateDTO dto) {
-        Result result = Result.fail();
-        MakeBucketArgs args = MakeBucketArgs.builder()
-                                            .bucket(dto.getName())
+  @Override
+  public Result _createBucket(String bucket) {
+    Result result = Result.fail();
+    MakeBucketArgs args = MakeBucketArgs.builder()
+                                        .bucket(bucket)
+                                        .build();
+    try {
+      client.makeBucket(args);
+      result.value(true);
+    } catch (Exception e) {
+      log.error("fail to create bucket", e);
+    }
+    return result;
+  }
+
+  @Override
+  public Result _createBucket(BucketCreateDTO dto) {
+    Result result = Result.fail();
+    MakeBucketArgs args = MakeBucketArgs.builder()
+                                        .bucket(dto.getName())
+                                        .build();
+    //TODO test
+    try {
+      client.makeBucket(args);
+      SetBucketPolicyArgs.Builder policyArgsBuilder = SetBucketPolicyArgs.builder()
+                                                                         .bucket(dto.getName());
+      switch (dto.getAclEnum()) {
+        case PUBLIC:
+          policyArgsBuilder.config(READ_ONLY.replace(BUCKET_PARAM, dto.getName()));
+          break;
+        case PRIVATE:
+          policyArgsBuilder.config(WRITE_ONLY.replace(BUCKET_PARAM, dto.getName()));
+          break;
+      }
+      client.setBucketPolicy(policyArgsBuilder.build());
+      result.value(true);
+    } catch (Exception e) {
+      log.error("fail to create bucket", e);
+    }
+    return result;
+  }
+
+  @Override
+  public Result _deleteBucket(String bucket) {
+    Result result = Result.fail();
+    RemoveBucketArgs args = RemoveBucketArgs.builder()
+                                            .bucket(bucket)
                                             .build();
-        //TODO test
-        try {
-            client.makeBucket(args);
-            SetBucketPolicyArgs.Builder policyArgsBuilder = SetBucketPolicyArgs.builder()
-                                                                               .bucket(dto.getName());
-            switch (dto.getAclEnum()) {
-                case PUBLIC:
-                    policyArgsBuilder.config(READ_ONLY.replace(BUCKET_PARAM, dto.getName()));
-                    break;
-                case PRIVATE:
-                    policyArgsBuilder.config(WRITE_ONLY.replace(BUCKET_PARAM, dto.getName()));
-                    break;
-            }
-            client.setBucketPolicy(policyArgsBuilder.build());
-            result.value(true);
-        } catch (Exception e) {
-            log.error("fail to create bucket", e);
-        }
-        return result;
+    try {
+      client.removeBucket(args);
+      result.value(true);
+    } catch (Exception e) {
+      log.error("fail to create bucket", e);
     }
+    return result;
 
-    @Override
-    public Result _deleteBucket(String bucket) {
-        Result result = Result.fail();
-        RemoveBucketArgs args = RemoveBucketArgs.builder()
+  }
+
+  @Override
+  public Result<List<BucketVO>> _queryBuckets() {
+    Result<List<BucketVO>> result = Result.fail();
+
+    try {
+      List<Bucket> buckets = client.listBuckets();
+      if (ListUtil.isEmpty(buckets)) {
+        result.value(ListUtil.empty());
+        return result;
+      }
+
+      List<BucketVO> vos = buckets.stream()
+                                  .map(item -> {
+                                    BucketVO vo = new BucketVO();
+                                    vo.setName(item.name());
+                                    return vo;
+                                  }).collect(Collectors.toList());
+      result.value(vos);
+    } catch (Exception e) {
+      log.error("fail to query buckets", e);
+    }
+    return result;
+  }
+
+  @Override
+  public boolean _checkObjExist(String bucket, String key) {
+
+    try {
+      GetObjectArgs args = GetObjectArgs.builder()
+                                        .bucket(bucket)
+                                        .object(key)
+                                        .build();
+
+      GetObjectResponse resp = client.getObject(args);
+      return resp != null;
+    } catch (Exception e) {
+      log.error("fail to check obj exist", e);
+    }
+    return false;
+  }
+
+  @Override
+  public Result<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
+    Result<ObjectPutVO> result = Result.fail();
+    try {
+      UploadObjectArgs args = UploadObjectArgs.builder()
+                                              .bucket(bucket)
+                                              .object(key)
+                                              .filename(filePath)
+                                              .build();
+      client.uploadObject(args);
+
+      ObjectPutVO vo = new ObjectPutVO();
+      vo.setKey(key);
+
+      result.value(vo);
+    } catch (Exception e) {
+      log.error("fail to upload obj", e);
+      result.setMsg(e.getMessage());
+    }
+    return result;
+  }
+
+  @Override
+  public Result<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
+    Result<String> result = Result.fail();
+
+    GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
+                                                              .bucket(bucket)
+                                                              .object(key)
+                                                              .expiry((int) expireSeconds, TimeUnit.SECONDS)
+                                                              .build();
+    try {
+      result.value(client.getPresignedObjectUrl(args));
+    } catch (Exception e) {
+      log.error("fail to get obj signed url", e);
+      result.setMsg("获取签名数据失败");
+    }
+    return result;
+  }
+
+  @Override
+  public Result<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
+    Result<String> result = Result.fail();
+
+    GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
+                                                              .bucket(dto.getBucket())
+                                                              .object(dto.getKey())
+                                                              .expiry((int) dto.getExpireSeconds(), TimeUnit.SECONDS)
+                                                              .method(toMethod(dto.getHttpMethod()))
+                                                              .build();
+    try {
+      result.value(client.getPresignedObjectUrl(args));
+    } catch (Exception e) {
+      log.error("fail to get obj signed url", e);
+      result.setMsg("获取签名数据失败");
+    }
+    return result;
+  }
+
+  @Override
+  public Result<Boolean> _downloadObj(String bucket, String key, String filePath) {
+    Result<Boolean> result = Result.fail();
+    try {
+      GetObjectArgs args = GetObjectArgs.builder()
+                                        .bucket(bucket)
+                                        .object(key)
+                                        .build();
+      GetObjectResponse response = client.getObject(args);
+
+      result.value(true);
+    } catch (Exception e) {
+      log.error("fail to download obj", e);
+      result.setMsg(e.getMessage());
+    }
+    return result;
+  }
+
+  @Override
+  public Result<Boolean> _deleteObj(String bucket, String key) {
+    Result<Boolean> result = Result.fail();
+    try {
+      RemoveObjectArgs args = RemoveObjectArgs.builder()
+                                              .bucket(bucket)
+                                              .object(key)
+                                              .build();
+      client.removeObject(args);
+      result.setData(true);
+    } catch (Exception e) {
+      log.error("fail to delete obj", e);
+      result.setMsg(e.getMessage());
+    }
+    return result;
+  }
+
+  @Override
+  public Result<Boolean> _deleteObjs(String bucket, List<String> keys) {
+    Result<Boolean> result = Result.fail();
+
+    try {
+      List<DeleteObject> list = new ArrayList<>();
+      keys.forEach(key -> list.add(new DeleteObject(key)));
+
+      if (list.isEmpty()) {
+        result.setMsg("keys is empty.");
+        return result;
+      }
+
+      RemoveObjectsArgs args = RemoveObjectsArgs.builder()
                                                 .bucket(bucket)
+                                                .objects(list)
                                                 .build();
-        try {
-            client.removeBucket(args);
-            result.value(true);
-        } catch (Exception e) {
-            log.error("fail to create bucket", e);
-        }
-        return result;
-
+      client.removeObjects(args);
+      result.setData(true);
+    } catch (Exception e) {
+      log.error("fail to delete objs", e);
+      result.setMsg(e.getMessage());
     }
+    return result;
+  }
 
-    @Override
-    public Result<List<BucketVO>> _queryBuckets() {
-        Result<List<BucketVO>> result = Result.fail();
-
-        try {
-            List<Bucket> buckets = client.listBuckets();
-            if (ListUtil.isEmpty(buckets)) {
-                result.value(ListUtil.empty());
-                return result;
-            }
-
-            List<BucketVO> vos = buckets.stream()
-                                        .map(item -> {
-                                            BucketVO vo = new BucketVO();
-                                            vo.setName(item.name());
-                                            return vo;
-                                        }).collect(Collectors.toList());
-            result.value(vos);
-        } catch (Exception e) {
-            log.error("fail to query buckets", e);
-        }
-        return result;
+  // --------------------private
+  private Method toMethod(HttpMethodEnum httpMethod) {
+    switch (httpMethod) {
+      case GET:
+        return Method.GET;
+      case POST:
+        return Method.POST;
+      case DELETE:
+        return Method.DELETE;
+      case PUT:
+        return Method.PUT;
+      case HEAD:
+        return Method.HEAD;
+      case OPTIONS:
+        log.warn(" options is not supported by minio, we will use GET instead.");
+        //重点：不支持的方法
+        return Method.GET;
+      default:
+        log.warn("input http method is null, so we will use GET instead.");
+        return Method.GET;
     }
-
-    @Override
-    public boolean _checkObjExist(String bucket, String key) {
-
-        try {
-            GetObjectArgs args = GetObjectArgs.builder()
-                                              .bucket(bucket)
-                                              .object(key)
-                                              .build();
-
-            GetObjectResponse resp = client.getObject(args);
-            return resp != null;
-        } catch (Exception e) {
-            log.error("fail to check obj exist", e);
-        }
-        return false;
-    }
-
-    @Override
-    public Result<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
-        Result<ObjectPutVO> result = Result.fail();
-        try {
-            UploadObjectArgs args = UploadObjectArgs.builder()
-                                                    .bucket(bucket)
-                                                    .object(key)
-                                                    .filename(filePath)
-                                                    .build();
-            client.uploadObject(args);
-
-            ObjectPutVO vo = new ObjectPutVO();
-            vo.setKey(key);
-
-            result.value(vo);
-        } catch (Exception e) {
-            log.error("fail to upload obj", e);
-            result.setMsg(e.getMessage());
-        }
-        return result;
-    }
-
-    @Override
-    public Result<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
-        Result<String> result = Result.fail();
-
-        GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
-                                                                  .bucket(bucket)
-                                                                  .object(key)
-                                                                  .expiry((int) expireSeconds, TimeUnit.SECONDS)
-                                                                  .build();
-        try {
-            result.value(client.getPresignedObjectUrl(args));
-        } catch (Exception e) {
-            log.error("fail to get obj signed url", e);
-            result.setMsg("获取签名数据失败");
-        }
-        return result;
-    }
-
-    @Override
-    public Result<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
-        Result<String> result = Result.fail();
-
-        GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
-                                                                  .bucket(dto.getBucket())
-                                                                  .object(dto.getKey())
-                                                                  .expiry((int) dto.getExpireSeconds(), TimeUnit.SECONDS)
-                                                                  .method(toMethod(dto.getHttpMethod()))
-                                                                  .build();
-        try {
-            result.value(client.getPresignedObjectUrl(args));
-        } catch (Exception e) {
-            log.error("fail to get obj signed url", e);
-            result.setMsg("获取签名数据失败");
-        }
-        return result;
-    }
-
-    @Override
-    public Result<Boolean> _downloadObj(String bucket, String key, String filePath) {
-        Result<Boolean> result = Result.fail();
-        try {
-            GetObjectArgs args = GetObjectArgs.builder()
-                                              .bucket(bucket)
-                                              .object(key)
-                                              .build();
-            GetObjectResponse response = client.getObject(args);
-
-            result.value(true);
-        } catch (Exception e) {
-            log.error("fail to download obj", e);
-            result.setMsg(e.getMessage());
-        }
-        return result;
-    }
-
-    @Override
-    public Result<Boolean> _deleteObj(String bucket, String key) {
-        Result<Boolean> result = Result.fail();
-        try {
-            RemoveObjectArgs args = RemoveObjectArgs.builder()
-                                                    .bucket(bucket)
-                                                    .object(key)
-                                                    .build();
-            client.removeObject(args);
-            result.setData(true);
-        } catch (Exception e) {
-            log.error("fail to delete obj", e);
-            result.setMsg(e.getMessage());
-        }
-        return result;
-    }
-
-    @Override
-    public Result<Boolean> _deleteObjs(String bucket, List<String> keys) {
-        Result<Boolean> result = Result.fail();
-
-        try {
-            List<DeleteObject> list = new ArrayList<>();
-            keys.forEach(key -> list.add(new DeleteObject(key)));
-
-            if (list.isEmpty()) {
-                result.setMsg("keys is empty.");
-                return result;
-            }
-
-            RemoveObjectsArgs args = RemoveObjectsArgs.builder()
-                                                      .bucket(bucket)
-                                                      .objects(list)
-                                                      .build();
-            client.removeObjects(args);
-            result.setData(true);
-        } catch (Exception e) {
-            log.error("fail to delete objs", e);
-            result.setMsg(e.getMessage());
-        }
-        return result;
-    }
-
-    // --------------------private
-    private Method toMethod(HttpMethodEnum httpMethod) {
-        switch (httpMethod) {
-            case GET:
-                return Method.GET;
-            case POST:
-                return Method.POST;
-            case DELETE:
-                return Method.DELETE;
-            case PUT:
-                return Method.PUT;
-            case HEAD:
-                return Method.HEAD;
-            case OPTIONS:
-                log.warn(" options is not supported by minio, we will use GET instead.");
-                //重点：不支持的方法
-                return Method.GET;
-            default:
-                log.warn("input http method is null, so we will use GET instead.");
-                return Method.GET;
-        }
-    }
+  }
 }

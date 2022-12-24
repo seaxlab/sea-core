@@ -14,12 +14,12 @@ import java.util.Map;
 @Data
 public class BaseNotifyDTO {
 
-    // title+content or template+param
-    //
-    private String title;
-    private String content;
+  // title+content or template+param
+  //
+  private String title;
+  private String content;
 
-    // {name},你好
-    private String template;
-    private Map<String, String> param;
+  // {name},你好
+  private String template;
+  private Map<String, String> param;
 }

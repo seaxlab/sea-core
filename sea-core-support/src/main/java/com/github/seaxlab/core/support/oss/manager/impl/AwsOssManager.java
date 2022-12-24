@@ -15,18 +15,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AwsOssManager extends AbstractOssManager {
 
-    @Override
-    public void _init(OssConfig config) {
-    }
+  @Override
+  public void _init(OssConfig config) {
+  }
 
-    @Override
-    public void _destroy() {
-    }
+  @Override
+  public void _destroy() {
+  }
 
-    @Override
-    public String getType() {
-        return OssTypeEnum.AWS.getCode();
-    }
+  @Override
+  public String getType() {
+    return OssTypeEnum.AWS.getCode();
+  }
 
-    //TODO
+  //TODO
 }

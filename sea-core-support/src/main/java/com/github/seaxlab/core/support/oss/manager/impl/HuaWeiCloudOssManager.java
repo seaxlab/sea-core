@@ -34,357 +34,357 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class HuaWeiCloudOssManager extends AbstractOssManager {
-    private ObsClient client;
+  private ObsClient client;
 
-    @Override
-    public void _init(OssConfig config) {
-        client = new ObsClient(config.getAccessKey(), config.getSecretKey(), config.getEndpoint());
+  @Override
+  public void _init(OssConfig config) {
+    client = new ObsClient(config.getAccessKey(), config.getSecretKey(), config.getEndpoint());
+  }
+
+  @Override
+  public void _destroy() {
+    if (client != null) {
+      try {
+        client.close();
+      } catch (Exception e) {
+        log.error("fail to close obs client", e);
+        throw new RuntimeException(e);
+      }
     }
+  }
 
-    @Override
-    public void _destroy() {
-        if (client != null) {
-            try {
-                client.close();
-            } catch (Exception e) {
-                log.error("fail to close obs client", e);
-                throw new RuntimeException(e);
-            }
-        }
+  @Override
+  public String getType() {
+    return OssTypeEnum.HUAWEI_CLOUD.getCode();
+  }
+
+  @Override
+  public boolean _checkBucketExist(String bucket) {
+    try {
+      return client.headBucket(bucket);
+    } catch (Exception e) {
+      log.error("fail to check bucket exist", e);
     }
+    return false;
+  }
 
-    @Override
-    public String getType() {
-        return OssTypeEnum.HUAWEI_CLOUD.getCode();
+  @Override
+  public Result<Boolean> _createBucket(String bucket) {
+    Result<Boolean> result = Result.fail();
+
+    try {
+      client.createBucket(bucket);
+      result.value(true);
+    } catch (Exception e) {
+      log.error("fail to create bucket", e);
+      result.setMsg("创建桶失败");
     }
+    return result;
+  }
 
-    @Override
-    public boolean _checkBucketExist(String bucket) {
-        try {
-            return client.headBucket(bucket);
-        } catch (Exception e) {
-            log.error("fail to check bucket exist", e);
-        }
-        return false;
+  @Override
+  public Result _createBucket(BucketCreateDTO dto) {
+    Result<Boolean> result = Result.fail();
+
+    try {
+      CreateBucketRequest request = new CreateBucketRequest();
+      request.setBucketName(dto.getName());
+      request.setAcl(toACL(dto.getAclEnum()));
+      client.createBucket(request);
+      result.value(true);
+    } catch (Exception e) {
+      log.error("fail to create bucket", e);
     }
+    return result;
+  }
 
-    @Override
-    public Result<Boolean> _createBucket(String bucket) {
-        Result<Boolean> result = Result.fail();
+  @Override
+  public Result _deleteBucket(String bucket) {
+    Result<Boolean> result = Result.fail();
 
-        try {
-            client.createBucket(bucket);
-            result.value(true);
-        } catch (Exception e) {
-            log.error("fail to create bucket", e);
-            result.setMsg("创建桶失败");
-        }
+    try {
+      client.deleteBucket(bucket);
+      result.value(true);
+    } catch (Exception e) {
+      log.error("fail to create bucket", e);
+      result.setMsg("删除桶失败");
+    }
+    return result;
+  }
+
+  @Override
+  public Result<List<BucketVO>> _queryBuckets() {
+    Result result = Result.fail();
+    try {
+      ListBucketsRequest request = new ListBucketsRequest();
+      request.setBucketType(BucketTypeEnum.OBJECT);
+
+      List<ObsBucket> buckets = client.listBuckets(request);
+      if (ListUtil.isEmpty(buckets)) {
+        log.warn("buckets is empty.");
+        result.value(ListUtil.empty());
         return result;
+      }
+      List<BucketVO> vos = buckets.stream()
+                                  .map(item -> {
+                                    BucketVO vo = new BucketVO();
+                                    vo.setName(item.getBucketName());
+                                    return vo;
+                                  }).collect(Collectors.toList());
+      result.value(vos);
+    } catch (Exception e) {
+      log.error("fail to query buckets", e);
     }
 
-    @Override
-    public Result _createBucket(BucketCreateDTO dto) {
-        Result<Boolean> result = Result.fail();
+    return result;
+  }
 
-        try {
-            CreateBucketRequest request = new CreateBucketRequest();
-            request.setBucketName(dto.getName());
-            request.setAcl(toACL(dto.getAclEnum()));
-            client.createBucket(request);
-            result.value(true);
-        } catch (Exception e) {
-            log.error("fail to create bucket", e);
-        }
+  @Override
+  public boolean _checkObjExist(String bucket, String key) {
+    return client.doesObjectExist(bucket, key);
+  }
+
+  @Override
+  public Result<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
+    Result<ObjectPutVO> result = Result.fail();
+
+    try {
+      return uploadObj(bucket, key, new File(filePath));
+    } catch (Exception e) {
+      log.error("fail to put obj", e);
+    }
+
+    return result;
+  }
+
+  @Override
+  public Result<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
+    Result<ObjectPutVO> result = Result.fail();
+
+    try {
+      PutObjectRequest request = new PutObjectRequest();
+      request.setBucketName(bucket);
+      request.setObjectKey(key);
+      request.setFile(file);
+      client.putObject(request);
+
+      ObjectPutVO vo = new ObjectPutVO();
+      vo.setKey(key);
+      result.value(vo);
+    } catch (Exception e) {
+      log.error("fail to put obj", e);
+    }
+
+    return result;
+  }
+
+  @Override
+  public Result<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
+    Result<ObjectPutVO> result = Result.fail();
+
+    try {
+      PutObjectRequest request = new PutObjectRequest();
+      request.setBucketName(bucket);
+      request.setObjectKey(key);
+      request.setInput(inputStream);
+      client.putObject(request);
+
+      ObjectPutVO vo = new ObjectPutVO();
+      vo.setKey(key);
+      result.value(vo);
+    } catch (Exception e) {
+      log.error("fail to put obj", e);
+    }
+
+    return result;
+  }
+
+  @Override
+  public Result<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
+    Result<ObjectPutVO> result = Result.fail();
+
+    try {
+      PutObjectRequest request = new PutObjectRequest();
+      request.setBucketName(dto.getBucket());
+      request.setObjectKey(dto.getKey());
+      request.setFile(dto.getFile());
+      request.setInput(dto.getInputStream());
+      request.setAcl(toACL(dto.getAclEnum()));
+      client.putObject(request);
+
+      ObjectPutVO vo = new ObjectPutVO();
+      vo.setKey(dto.getKey());
+      result.value(vo);
+    } catch (Exception e) {
+      log.error("fail to put obj", e);
+    }
+
+    return result;
+  }
+
+
+  @Override
+  public Result<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
+    Result<String> result = Result.fail();
+    try {
+      TemporarySignatureRequest request = new TemporarySignatureRequest(HttpMethodEnum.GET, expireSeconds);
+      request.setBucketName(bucket);
+      request.setObjectKey(key);
+      TemporarySignatureResponse response = client.createTemporarySignature(request);
+      result.value(response.getSignedUrl());
+    } catch (Exception e) {
+      log.error("fail to get security url", e);
+    }
+
+    return result;
+  }
+
+  @Override
+  public Result<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
+    Result<String> result = Result.fail();
+    try {
+      TemporarySignatureRequest request = new TemporarySignatureRequest(toHttpMethodEnum(dto.getHttpMethod()), dto.getExpireSeconds());
+      request.setBucketName(dto.getBucket());
+      request.setObjectKey(dto.getKey());
+      TemporarySignatureResponse response = client.createTemporarySignature(request);
+      result.value(response.getSignedUrl());
+    } catch (Exception e) {
+      log.error("fail to get security url", e);
+    }
+    return result;
+  }
+
+  @Override
+  public Result<Boolean> _downloadObj(String bucket, String key, String filePath) {
+    Result<Boolean> result = Result.fail();
+
+    try {
+      ObsObject obsObject = client.getObject(bucket, key);
+      if (obsObject == null) {
+        log.warn("obj is not exist");
+        result.setMsg("对象不存在");
         return result;
+      }
+
+      InputStream input = obsObject.getObjectContent();
+      byte[] b = new byte[1024];
+      FileOutputStream fos = new FileOutputStream(filePath);
+      int len;
+      while ((len = input.read(b)) != -1) {
+        fos.write(b, 0, len);
+      }
+      IOUtil.close(fos);
+      IOUtil.close(input);
+      result.value(true);
+    } catch (Exception e) {
+      log.error("fail to download object from oss", e);
     }
 
-    @Override
-    public Result _deleteBucket(String bucket) {
-        Result<Boolean> result = Result.fail();
+    return result;
+  }
 
-        try {
-            client.deleteBucket(bucket);
-            result.value(true);
-        } catch (Exception e) {
-            log.error("fail to create bucket", e);
-            result.setMsg("删除桶失败");
-        }
+  @Override
+  public Result<Boolean> _deleteObj(String bucket, String key) {
+    Result<Boolean> result = Result.fail();
+    try {
+      client.deleteObject(bucket, key);
+      result.value(true);
+    } catch (Exception e) {
+      log.error("fail to delete obj", e);
+      result.setMsg("删除对象失败");
+    }
+    return result;
+  }
+
+  @Override
+  public Result<Boolean> _deleteObjs(String bucket, List<String> keys) {
+    Result<Boolean> result = Result.fail();
+
+    try {
+      DeleteObjectsRequest request = new DeleteObjectsRequest();
+      request.setBucketName(bucket);
+      keys.forEach(key -> request.addKeyAndVersion(key));
+      client.deleteObjects(request);
+      result.value(true);
+    } catch (Exception e) {
+      log.error("fail to delete objs", e);
+    }
+
+    return result;
+  }
+
+  @Override
+  public Result<List<ObjectVO>> _queryObjs(ObjectQueryDTO dto) {
+    Result<List<ObjectVO>> result = Result.fail();
+    ListObjectsRequest request = new ListObjectsRequest(dto.getBucket());
+    request.setMaxKeys(dto.getMaxKeys());
+    request.setPrefix(dto.getPrefix());
+
+    try {
+      ObjectListing data = client.listObjects(request);
+      if (data == null) {
+        log.warn("data is null");
+        result.value(Collections.EMPTY_LIST);
         return result;
-    }
+      }
 
-    @Override
-    public Result<List<BucketVO>> _queryBuckets() {
-        Result result = Result.fail();
-        try {
-            ListBucketsRequest request = new ListBucketsRequest();
-            request.setBucketType(BucketTypeEnum.OBJECT);
-
-            List<ObsBucket> buckets = client.listBuckets(request);
-            if (ListUtil.isEmpty(buckets)) {
-                log.warn("buckets is empty.");
-                result.value(ListUtil.empty());
-                return result;
-            }
-            List<BucketVO> vos = buckets.stream()
-                                        .map(item -> {
-                                            BucketVO vo = new BucketVO();
-                                            vo.setName(item.getBucketName());
-                                            return vo;
-                                        }).collect(Collectors.toList());
-            result.value(vos);
-        } catch (Exception e) {
-            log.error("fail to query buckets", e);
-        }
-
+      if (CollectionUtil.isEmpty(data.getObjects())) {
+        log.info("objects count is 0");
+        result.value(Collections.EMPTY_LIST);
         return result;
-    }
+      }
 
-    @Override
-    public boolean _checkObjExist(String bucket, String key) {
-        return client.doesObjectExist(bucket, key);
-    }
+      List<ObjectVO> vos = new ArrayList<>();
+      log.info("objects count is {}", data.getObjects().size());
 
-    @Override
-    public Result<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
-        Result<ObjectPutVO> result = Result.fail();
+      for (ObsObject obsObject : data.getObjects()) {
 
-        try {
-            return uploadObj(bucket, key, new File(filePath));
-        } catch (Exception e) {
-            log.error("fail to put obj", e);
-        }
+        ObjectVO vo = new ObjectVO();
+        vo.setKey(obsObject.getObjectKey());
+        vos.add(vo);
+      }
 
-        return result;
-    }
-
-    @Override
-    public Result<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
-        Result<ObjectPutVO> result = Result.fail();
-
-        try {
-            PutObjectRequest request = new PutObjectRequest();
-            request.setBucketName(bucket);
-            request.setObjectKey(key);
-            request.setFile(file);
-            client.putObject(request);
-
-            ObjectPutVO vo = new ObjectPutVO();
-            vo.setKey(key);
-            result.value(vo);
-        } catch (Exception e) {
-            log.error("fail to put obj", e);
-        }
-
-        return result;
-    }
-
-    @Override
-    public Result<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
-        Result<ObjectPutVO> result = Result.fail();
-
-        try {
-            PutObjectRequest request = new PutObjectRequest();
-            request.setBucketName(bucket);
-            request.setObjectKey(key);
-            request.setInput(inputStream);
-            client.putObject(request);
-
-            ObjectPutVO vo = new ObjectPutVO();
-            vo.setKey(key);
-            result.value(vo);
-        } catch (Exception e) {
-            log.error("fail to put obj", e);
-        }
-
-        return result;
-    }
-
-    @Override
-    public Result<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
-        Result<ObjectPutVO> result = Result.fail();
-
-        try {
-            PutObjectRequest request = new PutObjectRequest();
-            request.setBucketName(dto.getBucket());
-            request.setObjectKey(dto.getKey());
-            request.setFile(dto.getFile());
-            request.setInput(dto.getInputStream());
-            request.setAcl(toACL(dto.getAclEnum()));
-            client.putObject(request);
-
-            ObjectPutVO vo = new ObjectPutVO();
-            vo.setKey(dto.getKey());
-            result.value(vo);
-        } catch (Exception e) {
-            log.error("fail to put obj", e);
-        }
-
-        return result;
+      result.value(vos);
+    } catch (Exception e) {
+      log.error("fail to query objs from oss", e);
+      result.setMsg("查询对象列表失败");
     }
 
 
-    @Override
-    public Result<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
-        Result<String> result = Result.fail();
-        try {
-            TemporarySignatureRequest request = new TemporarySignatureRequest(HttpMethodEnum.GET, expireSeconds);
-            request.setBucketName(bucket);
-            request.setObjectKey(key);
-            TemporarySignatureResponse response = client.createTemporarySignature(request);
-            result.value(response.getSignedUrl());
-        } catch (Exception e) {
-            log.error("fail to get security url", e);
-        }
+    return result;
+  }
 
-        return result;
+
+  //------private
+  private HttpMethodEnum toHttpMethodEnum(com.github.seaxlab.core.support.oss.enums.HttpMethodEnum httpMethodEnum) {
+    switch (httpMethodEnum) {
+      case GET:
+        return HttpMethodEnum.GET;
+      case PUT:
+        return HttpMethodEnum.PUT;
+      case POST:
+        return HttpMethodEnum.POST;
+      case HEAD:
+        return HttpMethodEnum.HEAD;
+      case DELETE:
+        return HttpMethodEnum.DELETE;
+      case OPTIONS:
+        return HttpMethodEnum.OPTIONS;
+      default:
+        return HttpMethodEnum.GET;
     }
+  }
 
-    @Override
-    public Result<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
-        Result<String> result = Result.fail();
-        try {
-            TemporarySignatureRequest request = new TemporarySignatureRequest(toHttpMethodEnum(dto.getHttpMethod()), dto.getExpireSeconds());
-            request.setBucketName(dto.getBucket());
-            request.setObjectKey(dto.getKey());
-            TemporarySignatureResponse response = client.createTemporarySignature(request);
-            result.value(response.getSignedUrl());
-        } catch (Exception e) {
-            log.error("fail to get security url", e);
-        }
-        return result;
+  public AccessControlList toACL(AclEnum aclEnum) {
+    if (aclEnum == null) {
+      return AccessControlList.REST_CANNED_PRIVATE;
     }
-
-    @Override
-    public Result<Boolean> _downloadObj(String bucket, String key, String filePath) {
-        Result<Boolean> result = Result.fail();
-
-        try {
-            ObsObject obsObject = client.getObject(bucket, key);
-            if (obsObject == null) {
-                log.warn("obj is not exist");
-                result.setMsg("对象不存在");
-                return result;
-            }
-
-            InputStream input = obsObject.getObjectContent();
-            byte[] b = new byte[1024];
-            FileOutputStream fos = new FileOutputStream(filePath);
-            int len;
-            while ((len = input.read(b)) != -1) {
-                fos.write(b, 0, len);
-            }
-            IOUtil.close(fos);
-            IOUtil.close(input);
-            result.value(true);
-        } catch (Exception e) {
-            log.error("fail to download object from oss", e);
-        }
-
-        return result;
-    }
-
-    @Override
-    public Result<Boolean> _deleteObj(String bucket, String key) {
-        Result<Boolean> result = Result.fail();
-        try {
-            client.deleteObject(bucket, key);
-            result.value(true);
-        } catch (Exception e) {
-            log.error("fail to delete obj", e);
-            result.setMsg("删除对象失败");
-        }
-        return result;
-    }
-
-    @Override
-    public Result<Boolean> _deleteObjs(String bucket, List<String> keys) {
-        Result<Boolean> result = Result.fail();
-
-        try {
-            DeleteObjectsRequest request = new DeleteObjectsRequest();
-            request.setBucketName(bucket);
-            keys.forEach(key -> request.addKeyAndVersion(key));
-            client.deleteObjects(request);
-            result.value(true);
-        } catch (Exception e) {
-            log.error("fail to delete objs", e);
-        }
-
-        return result;
-    }
-
-    @Override
-    public Result<List<ObjectVO>> _queryObjs(ObjectQueryDTO dto) {
-        Result<List<ObjectVO>> result = Result.fail();
-        ListObjectsRequest request = new ListObjectsRequest(dto.getBucket());
-        request.setMaxKeys(dto.getMaxKeys());
-        request.setPrefix(dto.getPrefix());
-
-        try {
-            ObjectListing data = client.listObjects(request);
-            if (data == null) {
-                log.warn("data is null");
-                result.value(Collections.EMPTY_LIST);
-                return result;
-            }
-
-            if (CollectionUtil.isEmpty(data.getObjects())) {
-                log.info("objects count is 0");
-                result.value(Collections.EMPTY_LIST);
-                return result;
-            }
-
-            List<ObjectVO> vos = new ArrayList<>();
-            log.info("objects count is {}", data.getObjects().size());
-
-            for (ObsObject obsObject : data.getObjects()) {
-
-                ObjectVO vo = new ObjectVO();
-                vo.setKey(obsObject.getObjectKey());
-                vos.add(vo);
-            }
-
-            result.value(vos);
-        } catch (Exception e) {
-            log.error("fail to query objs from oss", e);
-            result.setMsg("查询对象列表失败");
-        }
-
-
-        return result;
-    }
-
-
-    //------private
-    private HttpMethodEnum toHttpMethodEnum(com.github.seaxlab.core.support.oss.enums.HttpMethodEnum httpMethodEnum) {
-        switch (httpMethodEnum) {
-            case GET:
-                return HttpMethodEnum.GET;
-            case PUT:
-                return HttpMethodEnum.PUT;
-            case POST:
-                return HttpMethodEnum.POST;
-            case HEAD:
-                return HttpMethodEnum.HEAD;
-            case DELETE:
-                return HttpMethodEnum.DELETE;
-            case OPTIONS:
-                return HttpMethodEnum.OPTIONS;
-            default:
-                return HttpMethodEnum.GET;
-        }
-    }
-
-    public AccessControlList toACL(AclEnum aclEnum) {
-        if (aclEnum == null) {
-            return AccessControlList.REST_CANNED_PRIVATE;
-        }
-        switch (aclEnum) {
-            case PUBLIC:
-                return AccessControlList.REST_CANNED_PUBLIC_READ;
-            case PRIVATE:
-                return AccessControlList.REST_CANNED_PRIVATE;
-        }
+    switch (aclEnum) {
+      case PUBLIC:
+        return AccessControlList.REST_CANNED_PUBLIC_READ;
+      case PRIVATE:
         return AccessControlList.REST_CANNED_PRIVATE;
     }
+    return AccessControlList.REST_CANNED_PRIVATE;
+  }
 }

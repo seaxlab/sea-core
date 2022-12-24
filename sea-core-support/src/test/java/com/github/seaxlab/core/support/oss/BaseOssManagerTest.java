@@ -19,43 +19,43 @@ import org.junit.Before;
 @Slf4j
 public class BaseOssManagerTest extends BaseSupportTest {
 
-    protected OssTypeEnum OSS_TYPE;
-    protected String ENDPOINT = "";
-    protected String ACCESS_KEY = "";
-    protected String SECRET_KEY = "";
+  protected OssTypeEnum OSS_TYPE;
+  protected String ENDPOINT = "";
+  protected String ACCESS_KEY = "";
+  protected String SECRET_KEY = "";
 
-    protected String BUCKET = "test-b-001";
+  protected String BUCKET = "test-b-001";
 
-    protected OssManager ossManager;
+  protected OssManager ossManager;
 
 
-    @Before
-    public void before() {
-        OssConfig config = new OssConfig();
-        config.setEndpoint(ENDPOINT);
-        config.setAccessKey(ACCESS_KEY);
-        config.setSecretKey(SECRET_KEY);
+  @Before
+  public void before() {
+    OssConfig config = new OssConfig();
+    config.setEndpoint(ENDPOINT);
+    config.setAccessKey(ACCESS_KEY);
+    config.setSecretKey(SECRET_KEY);
 
-        ossManager = OssManagerFactory.get(OSS_TYPE);
-        ossManager.init(config);
+    ossManager = OssManagerFactory.get(OSS_TYPE);
+    ossManager.init(config);
+  }
+
+  // test biz
+  public void createBucketIfNeed() {
+    if (!ossManager.checkBucketExist(BUCKET)) {
+      ossManager.createBucket(BUCKET);
     }
+  }
 
-    // test biz
-    public void createBucketIfNeed() {
-        if (!ossManager.checkBucketExist(BUCKET)) {
-            ossManager.createBucket(BUCKET);
-        }
-    }
-
-    public void uploadObj(String bucket, String key, String filePath) {
-        ossManager.uploadObj(bucket, key, filePath);
-    }
+  public void uploadObj(String bucket, String key, String filePath) {
+    ossManager.uploadObj(bucket, key, filePath);
+  }
 
 
-    @After
-    public void after() {
-        ossManager.destroy();
-    }
+  @After
+  public void after() {
+    ossManager.destroy();
+  }
 
 
 }

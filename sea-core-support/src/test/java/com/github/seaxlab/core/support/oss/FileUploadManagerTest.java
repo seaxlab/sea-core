@@ -18,37 +18,37 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 public class FileUploadManagerTest extends BaseSupportTest {
 
-    private AliyunFileUploadManager fileUploadManager;
+  private AliyunFileUploadManager fileUploadManager;
 
 
-    private String bucketDefault;
+  private String bucketDefault;
 
-    @BeforeEach
-    public void before() {
+  @BeforeEach
+  public void before() {
 
-        String accessKeyId = getPassword("oss_yt_access_key_id");
-        String accessKeySecret = getPassword("oss_yt_access_key_secret");
-        String endpoint = "oss-cn-hangzhou.aliyuncs.com";
+    String accessKeyId = getPassword("oss_yt_access_key_id");
+    String accessKeySecret = getPassword("oss_yt_access_key_secret");
+    String endpoint = "oss-cn-hangzhou.aliyuncs.com";
 
-        fileUploadManager = new AliyunFileUploadManager();
-        fileUploadManager.setEndpoint(endpoint);
-        fileUploadManager.setAccessKeyId(accessKeyId);
-        fileUploadManager.setAccessKeySecret(accessKeySecret);
+    fileUploadManager = new AliyunFileUploadManager();
+    fileUploadManager.setEndpoint(endpoint);
+    fileUploadManager.setAccessKeyId(accessKeyId);
+    fileUploadManager.setAccessKeySecret(accessKeySecret);
 
-        bucketDefault = getPassword("oss_yt_bucket_default");
+    bucketDefault = getPassword("oss_yt_bucket_default");
 //        bucketDefault = "test";
-    }
+  }
 
-    @Test
-    public void run16() throws Exception {
-        String filename = IdUtil.shortUUID() + ".png";
+  @Test
+  public void run16() throws Exception {
+    String filename = IdUtil.shortUUID() + ".png";
 
-        String userHome = PathUtil.getUserHome();
-        String fileUrl = fileUploadManager.uploadByFilePath(userHome + "/test/test.png", bucketDefault, filename);
-        log.info("fileUrl={}", fileUrl);
+    String userHome = PathUtil.getUserHome();
+    String fileUrl = fileUploadManager.uploadByFilePath(userHome + "/test/test.png", bucketDefault, filename);
+    log.info("fileUrl={}", fileUrl);
 
-        //https://${bucket}.oss-cn-hangzhou.aliyuncs.com/2fc1b6419c75412ab0d1b494fd2d0fd3.png
+    //https://${bucket}.oss-cn-hangzhou.aliyuncs.com/2fc1b6419c75412ab0d1b494fd2d0fd3.png
 
-    }
+  }
 
 }

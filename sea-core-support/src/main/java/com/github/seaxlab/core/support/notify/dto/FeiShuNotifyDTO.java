@@ -3,8 +3,9 @@ package com.github.seaxlab.core.support.notify.dto;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.seaxlab.core.support.notify.enums.MsgTypeEnum;
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * fei shu notify DTO

@@ -12,6 +12,6 @@ import lombok.Data;
  */
 @Data
 public class BucketCreateDTO {
-    private String name;
-    private AclEnum aclEnum;
+  private String name;
+  private AclEnum aclEnum;
 }
