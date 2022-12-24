@@ -1,13 +1,14 @@
 package com.github.seaxlab.core.dal.mybatis.tk.util;
 
 import com.github.seaxlab.core.util.ListUtil;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import tk.mybatis.mapper.common.base.insert.InsertSelectiveMapper;
 import tk.mybatis.mapper.common.base.update.UpdateByPrimaryKeySelectiveMapper;
+
+import java.util.List;
 
 /**
  * batch util
@@ -37,8 +38,8 @@ public final class BatchUtil {
    * @param <T>
    */
   public static <T extends InsertSelectiveMapper> void insertByBatch(SqlSessionFactory sqlSessionFactory,
-    Class<T> mapperClass,
-    List list) {
+                                                                     Class<T> mapperClass,
+                                                                     List list) {
     if (ListUtil.isEmpty(list)) {
       log.warn("list is empty");
       return;
@@ -70,8 +71,8 @@ public final class BatchUtil {
    * @param <T>
    */
   public static <T extends InsertSelectiveMapper> void insert(SqlSessionFactory sqlSessionFactory,
-    Class<T> mapperClass,
-    List list) {
+                                                              Class<T> mapperClass,
+                                                              List list) {
     insertByBatch(sqlSessionFactory, mapperClass, list);
   }
 

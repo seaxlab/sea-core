@@ -16,11 +16,11 @@ import java.util.Map;
  */
 @Slf4j
 public class CustomHttpHeaderParseExtension implements HttpHeaderParseExtension {
-    @Override
-    public Map<String, String> get() {
-        Map<String, String> map = MapUtil.newNoResizeHashMap(1);
+  @Override
+  public Map<String, String> get() {
+    Map<String, String> map = MapUtil.newNoResizeHashMap(1);
 
-        map.put("X-Service-Chain", CoreConst.CTX_TAG_GRAY);
-        return map;
-    }
+    map.put("X-Service-Chain", CoreConst.CTX_TAG_GRAY);
+    return map;
+  }
 }

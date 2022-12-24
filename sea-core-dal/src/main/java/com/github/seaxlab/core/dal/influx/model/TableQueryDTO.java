@@ -1,7 +1,8 @@
 package com.github.seaxlab.core.dal.influx.model;
 
-import java.util.Map;
 import lombok.Data;
+
+import java.util.Map;
 
 /**
  * module name

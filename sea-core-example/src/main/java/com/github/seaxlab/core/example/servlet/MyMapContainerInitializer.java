@@ -13,8 +13,8 @@ import javax.servlet.ServletContext;
  */
 @Slf4j
 public class MyMapContainerInitializer implements MyContainerInitializer {
-    @Override
-    public void onStartup(ServletContext context) {
-        log.info("map---");
-    }
+  @Override
+  public void onStartup(ServletContext context) {
+    log.info("map---");
+  }
 }

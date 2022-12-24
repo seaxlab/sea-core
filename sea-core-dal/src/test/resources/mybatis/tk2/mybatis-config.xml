@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-    <properties resource="db.properties"/>
+  <properties resource="db.properties"/>
 
-    <settings>
-        <setting name="useGeneratedKeys" value="true"/>
-    </settings>
+  <settings>
+    <setting name="useGeneratedKeys" value="true"/>
+  </settings>
 
-    <typeAliases>
-    </typeAliases>
+  <typeAliases>
+  </typeAliases>
 
-    <environments default="test2">
+  <environments default="test2">
 
-        <environment id="dev">
-            <transactionManager type="JDBC"/>
-            <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
-                <property name="username" value="admin"/>
-                <property name="password" value="admin"/>
-            </dataSource>
-        </environment>
+    <environment id="dev">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+        <property name="username" value="admin"/>
+        <property name="password" value="admin"/>
+      </dataSource>
+    </environment>
 
-        <environment id="test">
-            <transactionManager type="JDBC"/>
-            <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
-                <property name="username" value="admin"/>
-                <property name="password" value="admin"/>
-            </dataSource>
-        </environment>
+    <environment id="test">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+        <property name="username" value="admin"/>
+        <property name="password" value="admin"/>
+      </dataSource>
+    </environment>
 
-        <environment id="test2">
-            <transactionManager type="JDBC">
-            </transactionManager>
-            <dataSource type="POOLED">
-                <property name="driver" value="org.h2.Driver"/>
-                <property name="url" value="jdbc:h2:mem:db"/>
-                <property name="username" value="sa"/>
-                <property name="password" value="sa"/>
-            </dataSource>
-        </environment>
-    </environments>
+    <environment id="test2">
+      <transactionManager type="JDBC">
+      </transactionManager>
+      <dataSource type="POOLED">
+        <property name="driver" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:mem:db"/>
+        <property name="username" value="sa"/>
+        <property name="password" value="sa"/>
+      </dataSource>
+    </environment>
+  </environments>
 
-    <mappers>
-        <mapper resource="mybatis/user.xml"/>
-    </mappers>
+  <mappers>
+    <mapper resource="mybatis/user.xml"/>
+  </mappers>
 
 </configuration>

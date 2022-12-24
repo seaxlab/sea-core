@@ -8,14 +8,15 @@ import com.github.seaxlab.core.model.common.ModelConst;
 import com.github.seaxlab.core.model.util.PageUtil;
 import com.github.seaxlab.core.util.ListUtil;
 import com.github.seaxlab.core.util.ReflectUtil;
-import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.binding.MapperProxy;
 import org.apache.ibatis.session.RowBounds;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
+
+import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * module name
@@ -255,7 +256,7 @@ public final class MapperUtil {
    * @return
    */
   public static <T> boolean updateByVersion(Mapper<T> mapper, T updateRecord, Long id, Integer version,
-    boolean isDeletedFlag) {
+                                            boolean isDeletedFlag) {
     Precondition.checkNotNull(mapper);
     Precondition.checkNotNull(updateRecord);
     Precondition.checkNotNull(id);
@@ -306,7 +307,7 @@ public final class MapperUtil {
    * @return
    */
   public static <T> boolean updateByVersion(Mapper<T> mapper, T updateRecord, List<T> targetRecords,
-    boolean isDeletedFlag) {
+                                            boolean isDeletedFlag) {
     Precondition.checkNotNull(mapper);
     Precondition.checkNotNull(updateRecord);
     Precondition.checkNotEmpty(targetRecords, "targetRecords不能为空");

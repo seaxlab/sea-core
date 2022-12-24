@@ -2,11 +2,12 @@ package com.github.seaxlab.core.dal.mybatis.tk.sharding;
 
 import com.github.seaxlab.core.util.NumberUtil;
 import com.github.seaxlab.core.util.StringUtil;
-import java.lang.reflect.Field;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import lombok.extern.slf4j.Slf4j;
 import tk.mybatis.mapper.entity.IDynamicTableName;
+
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.lang.reflect.Field;
 
 
 /**

@@ -3,8 +3,9 @@ package com.github.seaxlab.core.dal.mybatis.plus.injector;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.github.seaxlab.core.dal.mybatis.plus.method.CheckExist;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * module name

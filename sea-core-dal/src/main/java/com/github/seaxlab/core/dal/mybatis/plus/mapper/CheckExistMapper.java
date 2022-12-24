@@ -35,6 +35,6 @@ public interface CheckExistMapper<E> {
    */
   @SelectProvider(type = CheckExistProviderExt.class, method = "checkExistByFun2")
   boolean checkExist2(SFunction<E, ?> column1, @Param("val1") Object val1, SFunction<E, ?> column2,
-    @Param("val2") Object val2);
+                      @Param("val2") Object val2);
 
 }

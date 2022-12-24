@@ -16,8 +16,8 @@ import org.springframework.core.env.ConfigurableEnvironment;
 @Configuration
 public class BeanConfig {
 
-    //@Bean
-    public EncryptPropertiesBeanFactoryPostProcessor encryptPropertiesBeanFactoryPostProcessor(ConfigurableEnvironment environment) {
-        return new EncryptPropertiesBeanFactoryPostProcessor(environment);
-    }
+  //@Bean
+  public EncryptPropertiesBeanFactoryPostProcessor encryptPropertiesBeanFactoryPostProcessor(ConfigurableEnvironment environment) {
+    return new EncryptPropertiesBeanFactoryPostProcessor(environment);
+  }
 }

@@ -20,13 +20,13 @@ import java.util.concurrent.ScheduledExecutorService;
 @Configuration
 public class ScheduledConfig implements SchedulingConfigurer {
 
-    @Override
-    public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
-        scheduledTaskRegistrar.setScheduler(setTaskExecutors());
-    }
+  @Override
+  public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
+    scheduledTaskRegistrar.setScheduler(setTaskExecutors());
+  }
 
-    @Bean(destroyMethod = "shutdown")
-    public ScheduledExecutorService setTaskExecutors() {
-        return ScheduledThreadPoolUtil.get("sea-task-pool", 2);
-    }
+  @Bean(destroyMethod = "shutdown")
+  public ScheduledExecutorService setTaskExecutors() {
+    return ScheduledThreadPoolUtil.get("sea-task-pool", 2);
+  }
 }

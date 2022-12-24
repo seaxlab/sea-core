@@ -2,9 +2,6 @@ package com.github.seaxlab.core.dal.mybatis.common.util;
 
 import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.util.DateUtil;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.ParameterMapping;
@@ -12,6 +9,10 @@ import org.apache.ibatis.mapping.ParameterMode;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.TypeHandlerRegistry;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * sql util

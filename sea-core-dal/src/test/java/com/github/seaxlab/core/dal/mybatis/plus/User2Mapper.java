@@ -10,5 +10,5 @@ import com.github.seaxlab.core.dal.mybatis.plus.mapper.EnhanceBaseMapper;
  * @since 1.0
  */
 public interface User2Mapper extends EnhanceBaseMapper<User2> {
-    Integer selectMaxAge();
+  Integer selectMaxAge();
 }

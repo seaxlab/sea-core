@@ -9,15 +9,15 @@ import java.util.List;
 @Slf4j
 public class UserApiFallback implements UserApi {
 
-    @Override
-    public Result<UserRespDTO> getUserInfo(Long userId) {
-        log.warn("get user info fallback");
-        return Result.fail();
-    }
+  @Override
+  public Result<UserRespDTO> getUserInfo(Long userId) {
+    log.warn("get user info fallback");
+    return Result.fail();
+  }
 
-    @Override
-    public Result<List<UserRespDTO>> search(Long userId) {
-        log.warn("search fallback");
-        return Result.fail();
-    }
+  @Override
+  public Result<List<UserRespDTO>> search(Long userId) {
+    log.warn("search fallback");
+    return Result.fail();
+  }
 }

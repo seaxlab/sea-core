@@ -18,29 +18,29 @@ import java.util.ArrayList;
  */
 @Slf4j
 public class SimpleTest extends BaseMybatisTest {
-    private SqlSession session;
+  private SqlSession session;
 
-    @Before
-    public void before() {
-        session = getSqlSession();
-    }
+  @Before
+  public void before() {
+    session = getSqlSession();
+  }
 
-    @Test
-    public void queryAll() {
+  @Test
+  public void queryAll() {
 
-        ArrayList users = (ArrayList) session.selectList("com.github.seaxlab.core.mybatis.domain.UserMappers.queryAll");
-        log.info("users={}", users);
-    }
+    ArrayList users = (ArrayList) session.selectList("com.github.seaxlab.core.mybatis.domain.UserMappers.queryAll");
+    log.info("users={}", users);
+  }
 
-    @Test
-    public void queryById() {
-        UserMapper mapper = session.getMapper(UserMapper.class);
-        log.info("users={}", mapper.queryById(1L));
-    }
+  @Test
+  public void queryById() {
+    UserMapper mapper = session.getMapper(UserMapper.class);
+    log.info("users={}", mapper.queryById(1L));
+  }
 
-    @After
-    public void destroy() {
-        session.close();
-    }
+  @After
+  public void destroy() {
+    session.close();
+  }
 
 }

@@ -15,33 +15,33 @@ import javax.persistence.*;
 @Data
 @Table(name = "user1")
 public class User1 {
-    /**
-     * 主键
-     */
-    @Id
-    @Column(name = "`id`")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  /**
+   * 主键
+   */
+  @Id
+  @Column(name = "`id`")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(name = "`code`")
-    private String code;
+  @Column(name = "`code`")
+  private String code;
 
-    @Column(name = "`name`")
-    private String name;
+  @Column(name = "`name`")
+  private String name;
 
-    @Column(name = "`card_no`")
-    private String cardNo;
+  @Column(name = "`card_no`")
+  private String cardNo;
 
-    @Column(name = "`age`")
-    private Integer age;
+  @Column(name = "`age`")
+  private Integer age;
 
-    @Column(name = "`email`")
-    private String email;
+  @Column(name = "`email`")
+  private String email;
 
-    @Column(name = "`create_time`")
-    private String createTime;
+  @Column(name = "`create_time`")
+  private String createTime;
 
-    @Version
-    @Column(name = "`version`")
-    private Integer version;
+  @Version
+  @Column(name = "`version`")
+  private Integer version;
 }

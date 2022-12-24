@@ -34,58 +34,58 @@ import java.util.concurrent.ThreadPoolExecutor;
 @RequiredArgsConstructor
 public class TestController implements InitializingBean {
 
-    private final PayService payService;
+  private final PayService payService;
 
-    @LogCost
-    @LogRequest
-    @GetMapping("/log")
-    public Result log() {
-        log.info("----log");
+  @LogCost
+  @LogRequest
+  @GetMapping("/log")
+  public Result log() {
+    log.info("----log");
 
-        payService.add(1, 2);
-        payService.test();
+    payService.add(1, 2);
+    payService.test();
 
-        return Result.success();
-    }
+    return Result.success();
+  }
 
-    @GetMapping("/log/get")
-    public Result getTest() {
-        ThreadPoolExecutor tpe = ThreadPoolUtil.createTemp("sea-test", 4, 4);
+  @GetMapping("/log/get")
+  public Result getTest() {
+    ThreadPoolExecutor tpe = ThreadPoolUtil.createTemp("sea-test", 4, 4);
 
-        log.info("-----");
-        Callable<String> callable = CallableUtil.create(true, () -> {
-            log.info("get data");
-            return "";
-        });
-        tpe.submit(callable);
-        ThreadUtil.sleepSecond(10);
+    log.info("-----");
+    Callable<String> callable = CallableUtil.create(true, () -> {
+      log.info("get data");
+      return "";
+    });
+    tpe.submit(callable);
+    ThreadUtil.sleepSecond(10);
 
-        return Result.success();
-    }
+    return Result.success();
+  }
 
-    @PostMapping("/log/post")
-    public Result postTest(HttpServletRequest request) {
+  @PostMapping("/log/post")
+  public Result postTest(HttpServletRequest request) {
 
-        return Result.success();
-    }
+    return Result.success();
+  }
 
-    @PostMapping("/log/post_json")
-    public Result postJSONTest(HttpServletRequest request) {
+  @PostMapping("/log/post_json")
+  public Result postJSONTest(HttpServletRequest request) {
 
 
-        log.info("my request body={}", RequestUtil.getRequestBody(request));
-        return Result.success();
-    }
+    log.info("my request body={}", RequestUtil.getRequestBody(request));
+    return Result.success();
+  }
 
-    @Value("sea.list")
-    private String[] list;
+  @Value("sea.list")
+  private String[] list;
 
-    @Value("${sea.list2}")
-    private String[] list2;
+  @Value("${sea.list2}")
+  private String[] list2;
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        log.info("list={}", list);
-        log.info("list2={}", list2);
-    }
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    log.info("list={}", list);
+    log.info("list2={}", list2);
+  }
 }

@@ -16,11 +16,11 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 public class WrapperUtilTest {
 
-    @Test
-    public void test16() throws Exception {
-        LambdaQueryWrapper<User2> wrapper = Wrappers.lambdaQuery();
+  @Test
+  public void test16() throws Exception {
+    LambdaQueryWrapper<User2> wrapper = Wrappers.lambdaQuery();
 
 
-        WrapperUtil.set(wrapper, User2::getCode, "12");
-    }
+    WrapperUtil.set(wrapper, User2::getCode, "12");
+  }
 }

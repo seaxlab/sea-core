@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 public class UserRespDTO {
 
-    private Long userId;
-    private String userName;
-    private Date birthday;
+  private Long userId;
+  private String userName;
+  private Date birthday;
 }

@@ -13,8 +13,8 @@ import javax.servlet.ServletContext;
  */
 @Slf4j
 public class MyListContainerInitializer implements MyContainerInitializer {
-    @Override
-    public void onStartup(ServletContext context) {
-        log.info("list---");
-    }
+  @Override
+  public void onStartup(ServletContext context) {
+    log.info("list---");
+  }
 }

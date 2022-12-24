@@ -35,7 +35,7 @@ public class CheckExist extends AbstractMethod {
    * 查询
    */
   protected MappedStatement addSelectMappedStatementForTable(Class<?> mapperClass, String id, SqlSource sqlSource,
-    TableInfo table) {
+                                                             TableInfo table) {
     String resultMap = table.getResultMap();
     if (null != resultMap) {
       /* 返回 resultMap 映射结果集 */

@@ -1,6 +1,12 @@
 package com.github.seaxlab.core.dal.mybatis.common.handler;
 
 import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.MappedJdbcTypes;
+import org.apache.ibatis.type.MappedTypes;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.CallableStatement;
@@ -9,11 +15,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.type.BaseTypeHandler;
-import org.apache.ibatis.type.JdbcType;
-import org.apache.ibatis.type.MappedJdbcTypes;
-import org.apache.ibatis.type.MappedTypes;
 
 /**
  * List<T><=> JSON Array string.

@@ -18,28 +18,28 @@ import java.util.Date;
 @Table(name = "`user`")
 public class User {
 
-    @Column(name = "`id`")
-    private Long id;
+  @Column(name = "`id`")
+  private Long id;
 
-    @Column(name = "`name`")
-    private String name;
+  @Column(name = "`name`")
+  private String name;
 
-    @Column(name = "`age`")
-    private Integer age;
+  @Column(name = "`age`")
+  private Integer age;
 
-    @Column(name = "`address`")
-    private String address;
+  @Column(name = "`address`")
+  private String address;
 
-    @Column(name = "`create_time`")
-    private Date createTime;
+  @Column(name = "`create_time`")
+  private Date createTime;
 
-    @Column(name = "`update_time`")
-    private Date updateTime;
+  @Column(name = "`update_time`")
+  private Date updateTime;
 
-    @Version
-    @Column(name = "`version`")
-    private Integer version;
+  @Version
+  @Column(name = "`version`")
+  private Integer version;
 
-    @Column(name = "`is_deleted`")
-    private Boolean isDeleted;
+  @Column(name = "`is_deleted`")
+  private Boolean isDeleted;
 }

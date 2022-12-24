@@ -3,8 +3,8 @@
 <mapper namespace="com.github.seaxlab.core.dal.mybatis.plus.User2Mapper">
 
 
-    <select id="selectMaxAge" resultType="java.lang.Integer">
-        select max(age)
-        from user2
-    </select>
+  <select id="selectMaxAge" resultType="java.lang.Integer">
+    select max(age)
+    from user2
+  </select>
 </mapper>

@@ -20,53 +20,53 @@ import static org.mockito.Mockito.verify;
 @Slf4j
 public class JSONTypeHandlerTest extends BaseTypeHandlerTest {
 
-    private static final TypeHandler<User> TYPE_HANDLER = new JSONTypeHandler<User>();
+  private static final TypeHandler<User> TYPE_HANDLER = new JSONTypeHandler<User>();
 
-    //    @Mock
-    private User user;
+  //    @Mock
+  private User user;
 
-    @BeforeEach
-    public void before() {
-        user = new User();
-        user.setId(0L);
-        user.setUsername("ss");
-    }
+  @BeforeEach
+  public void before() {
+    user = new User();
+    user.setId(0L);
+    user.setUsername("ss");
+  }
 
-    @Override
-    @Test
-    @DisplayName("设置参数")
-    public void shouldSetParameter() throws Exception {
-        TYPE_HANDLER.setParameter(ps, 1, user, null);
-        verify(ps).setString(1, JSONUtil.toStr(user));
-    }
+  @Override
+  @Test
+  @DisplayName("设置参数")
+  public void shouldSetParameter() throws Exception {
+    TYPE_HANDLER.setParameter(ps, 1, user, null);
+    verify(ps).setString(1, JSONUtil.toStr(user));
+  }
 
-    @Override
-    public void shouldGetResultFromResultSetByName() throws Exception {
+  @Override
+  public void shouldGetResultFromResultSetByName() throws Exception {
 
-    }
+  }
 
-    @Override
-    public void shouldGetResultNullFromResultSetByName() throws Exception {
+  @Override
+  public void shouldGetResultNullFromResultSetByName() throws Exception {
 
-    }
+  }
 
-    @Override
-    public void shouldGetResultFromResultSetByPosition() throws Exception {
+  @Override
+  public void shouldGetResultFromResultSetByPosition() throws Exception {
 
-    }
+  }
 
-    @Override
-    public void shouldGetResultNullFromResultSetByPosition() throws Exception {
+  @Override
+  public void shouldGetResultNullFromResultSetByPosition() throws Exception {
 
-    }
+  }
 
-    @Override
-    public void shouldGetResultFromCallableStatement() throws Exception {
+  @Override
+  public void shouldGetResultFromCallableStatement() throws Exception {
 
-    }
+  }
 
-    @Override
-    public void shouldGetResultNullFromCallableStatement() throws Exception {
+  @Override
+  public void shouldGetResultNullFromCallableStatement() throws Exception {
 
-    }
+  }
 }

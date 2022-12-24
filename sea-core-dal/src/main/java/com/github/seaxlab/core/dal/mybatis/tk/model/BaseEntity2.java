@@ -1,9 +1,10 @@
 package com.github.seaxlab.core.dal.mybatis.tk.model;
 
 import com.github.seaxlab.core.dal.mybatis.common.model.BaseEmptyEntity;
-import java.util.Date;
-import javax.persistence.Column;
 import lombok.Data;
+
+import javax.persistence.Column;
+import java.util.Date;
 
 /**
  * module name

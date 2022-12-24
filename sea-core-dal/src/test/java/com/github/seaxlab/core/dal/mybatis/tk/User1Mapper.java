@@ -17,11 +17,11 @@ import java.util.List;
  * @since 1.0
  */
 public interface User1Mapper extends
-        Mapper<User1>,
-        InsertOrUpdateMapper<User1>,
-        SelectMaxMapper<User1>,
-        CheckExistMapper<User1>,
-        SelectLatestOneMapper<User1> {
+  Mapper<User1>,
+  InsertOrUpdateMapper<User1>,
+  SelectMaxMapper<User1>,
+  CheckExistMapper<User1>,
+  SelectLatestOneMapper<User1> {
 
-    List<User1> queryHistory(@Param("delayMinute") int delayMinute);
+  List<User1> queryHistory(@Param("delayMinute") int delayMinute);
 }

@@ -25,62 +25,62 @@ import java.util.List;
 @Slf4j
 public class MapperUtilTest extends BaseMybatisTest {
 
-    private SqlSession sqlSession;
-    private UserMapper userMapper;
+  private SqlSession sqlSession;
+  private UserMapper userMapper;
 
-    @Before
-    public void before() {
-        sqlSession = getSqlSession();
-        userMapper = sqlSession.getMapper(UserMapper.class);
-    }
+  @Before
+  public void before() {
+    sqlSession = getSqlSession();
+    userMapper = sqlSession.getMapper(UserMapper.class);
+  }
 
-    @Test
-    public void testUpdateBlankField() throws Exception {
-        User user = new User();
-        user.setId(1L);
-        user.setName("");
-        int rowCount = userMapper.updateByPrimaryKeySelective(user);
-        log.info("row count={}", rowCount);
-    }
+  @Test
+  public void testUpdateBlankField() throws Exception {
+    User user = new User();
+    user.setId(1L);
+    user.setName("");
+    int rowCount = userMapper.updateByPrimaryKeySelective(user);
+    log.info("row count={}", rowCount);
+  }
 
 
-    @Test
-    public void testUpdateByVersion() throws Exception {
+  @Test
+  public void testUpdateByVersion() throws Exception {
 
-        List<User> users = new ArrayList<>();
+    List<User> users = new ArrayList<>();
 
-        User user = new User();
-        user.setId(1L);
-        user.setVersion(1);
-        users.add(user);
+    User user = new User();
+    user.setId(1L);
+    user.setVersion(1);
+    users.add(user);
 
-        user = new User();
-        user.setId(2L);
-        user.setVersion(1);
-        users.add(user);
+    user = new User();
+    user.setId(2L);
+    user.setVersion(1);
+    users.add(user);
 
-        User entity = new User();
-        entity.setName("---");
+    User entity = new User();
+    entity.setName("---");
 
-        Example example = new Example(User.class);
+    Example example = new Example(User.class);
 
-        boolean sucFlag = MapperUtil.updateByVersion(userMapper, entity, users);
-        log.info("suc flag={}", sucFlag);
+    boolean sucFlag = MapperUtil.updateByVersion(userMapper, entity, users);
+    log.info("suc flag={}", sucFlag);
 
-    }
+  }
 
-    @Test
-    public void testToPage() throws Exception {
-        Example example = new Example(User.class);
-        PageInfo pageInfo = PageInfo.of(1, 2);
-        List<User> users = userMapper.selectByExampleAndRowBounds(example, MapperUtil.toPage(pageInfo));
+  @Test
+  public void testToPage() throws Exception {
+    Example example = new Example(User.class);
+    PageInfo pageInfo = PageInfo.of(1, 2);
+    List<User> users = userMapper.selectByExampleAndRowBounds(example, MapperUtil.toPage(pageInfo));
 
-        log.info("users={}", users);
-    }
+    log.info("users={}", users);
+  }
 
-    @After
-    public void after() {
-        sqlSession.close();
-    }
+  @After
+  public void after() {
+    sqlSession.close();
+  }
 
 }

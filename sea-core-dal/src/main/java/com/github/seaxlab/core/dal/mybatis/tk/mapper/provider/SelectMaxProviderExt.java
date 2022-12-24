@@ -34,11 +34,11 @@ public class SelectMaxProviderExt extends MapperTemplate {
     sql.append(" FROM ");
     sql.append(tableName).append(" AS a,");
     sql.append(" ( ").append(DynamicSqlUtil.getMaxSubQuerySQL())
-      // 这是什么鬼，用常量可以
+       // 这是什么鬼，用常量可以
 //        sql.append(" where age=12 ")
-      //TODO 这里不能嵌套
-      .append(SqlHelper.whereAllIfColumns(entityClass, false))
-      .append(" )").append(" b ");
+       //TODO 这里不能嵌套
+       .append(SqlHelper.whereAllIfColumns(entityClass, false))
+       .append(" )").append(" b ");
     sql.append(DynamicSqlUtil.whereTableAJoinColumns()).append(" ");
     //TODO 这里也不能嵌套
 //        sql.append(DynamicSqlUtil.whereTableAFilterColumns(entityClass, false, false));

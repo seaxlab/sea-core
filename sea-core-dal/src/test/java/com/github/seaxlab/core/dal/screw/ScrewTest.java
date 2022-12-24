@@ -14,15 +14,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ScrewTest extends BaseCoreDalTest {
 
-    protected String getFileName(String prefix) {
-        return prefix + "_" + IdUtil.getYYYYMMDDHHMM();
-    }
+  protected String getFileName(String prefix) {
+    return prefix + "_" + IdUtil.getYYYYMMDDHHMM();
+  }
 
-    protected String getDBUrl(String baseUrl) {
-        return baseUrl + "?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true&useSSL=false";
-    }
+  protected String getDBUrl(String baseUrl) {
+    return baseUrl + "?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true&useSSL=false";
+  }
 
-    // simple dump
+  // simple dump
 
 //    public void testDumpAccount() throws Exception {
 //        DBModelCreateDTO dto = new DBModelCreateDTO();
@@ -35,7 +35,7 @@ public class ScrewTest extends BaseCoreDalTest {
 //        ScrewUtil.dump(dto);
 //    }
 
-    // dump by ssh
+  // dump by ssh
 
 //    public void testDumpQueue() throws Exception {
 //        SshConfig cfg = new SshConfig();

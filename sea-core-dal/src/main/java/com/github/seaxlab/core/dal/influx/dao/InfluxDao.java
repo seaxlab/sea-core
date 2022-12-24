@@ -3,6 +3,7 @@ package com.github.seaxlab.core.dal.influx.dao;
 import com.github.seaxlab.core.dal.influx.model.BatchAddDTO;
 import com.github.seaxlab.core.dal.influx.model.QueryDTO;
 import com.github.seaxlab.core.dal.influx.model.Row;
+
 import java.util.Comparator;
 import java.util.List;
 

@@ -4,9 +4,10 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.stat.DruidDataSourceStatManager;
 import com.github.seaxlab.core.dal.druid.model.DataBaseInfo;
 import com.github.seaxlab.core.util.MapUtil;
+import lombok.extern.slf4j.Slf4j;
+
 import java.sql.SQLException;
 import java.util.Map;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * druid util

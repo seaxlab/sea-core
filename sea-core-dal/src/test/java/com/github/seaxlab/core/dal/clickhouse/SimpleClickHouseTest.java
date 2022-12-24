@@ -27,36 +27,36 @@ import java.util.Map;
 public class SimpleClickHouseTest extends BaseCoreDalTest {
 
 
-    @Test
-    public void test17() throws Exception {
-        String url = "jdbc:clickhouse://mylab:8123/tutorial";
-        ClickHouseProperties properties = new ClickHouseProperties();
+  @Test
+  public void test17() throws Exception {
+    String url = "jdbc:clickhouse://mylab:8123/tutorial";
+    ClickHouseProperties properties = new ClickHouseProperties();
 // set connection options - see more defined in ClickHouseConnectionSettings
-        properties.setClientName("Agent #1");
+    properties.setClientName("Agent #1");
 // set default request options - more in ClickHouseQueryParam
-        properties.setSessionId("default-session-id");
-        ClickHouseDataSource dataSource = new ClickHouseDataSource(url, properties);
-        String sql = "select * from hits_v1 limit 0,100";
-        Map<ClickHouseQueryParam, String> additionalDBParams = new HashMap<>();
+    properties.setSessionId("default-session-id");
+    ClickHouseDataSource dataSource = new ClickHouseDataSource(url, properties);
+    String sql = "select * from hits_v1 limit 0,100";
+    Map<ClickHouseQueryParam, String> additionalDBParams = new HashMap<>();
 // set request options, which will override the default ones in ClickHouseProperties
-        additionalDBParams.put(ClickHouseQueryParam.SESSION_ID, "new-session-id");
+    additionalDBParams.put(ClickHouseQueryParam.SESSION_ID, "new-session-id");
 
-        List<Map> list = new ArrayList();
+    List<Map> list = new ArrayList();
 
-        try (ClickHouseConnection conn = dataSource.getConnection();
-             ClickHouseStatement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql, additionalDBParams)) {
-            ResultSetMetaData rsmd = rs.getMetaData();
+    try (ClickHouseConnection conn = dataSource.getConnection();
+         ClickHouseStatement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(sql, additionalDBParams)) {
+      ResultSetMetaData rsmd = rs.getMetaData();
 
-            while (rs.next()) {
-                Map map = new HashMap();
-                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                    map.put(rsmd.getColumnName(i), rs.getString(rsmd.getColumnName(i)));
-                }
-                list.add(map);
-            }
+      while (rs.next()) {
+        Map map = new HashMap();
+        for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+          map.put(rsmd.getColumnName(i), rs.getString(rsmd.getColumnName(i)));
         }
-
-        log.info("list={}", list);
+        list.add(map);
+      }
     }
+
+    log.info("list={}", list);
+  }
 }

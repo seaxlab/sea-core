@@ -12,6 +12,6 @@ import lombok.Data;
 @Data
 public class UserSaveDTO {
 
-    private String userName;
-    private String userCode;
+  private String userName;
+  private String userCode;
 }

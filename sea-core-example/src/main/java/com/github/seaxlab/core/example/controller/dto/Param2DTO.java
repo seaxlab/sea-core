@@ -13,6 +13,6 @@ import java.util.List;
  */
 @Data
 public class Param2DTO {
-    private String p21;
-    private List<String> p22;
+  private String p21;
+  private List<String> p22;
 }

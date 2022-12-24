@@ -1,10 +1,11 @@
 package com.github.seaxlab.core.dal.influx.model;
 
+import lombok.Data;
+
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import lombok.Data;
 
 /**
  * module name

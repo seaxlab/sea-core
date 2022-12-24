@@ -15,16 +15,16 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service("user1Service")
 public class User1Service implements UserService {
-    @Override
-    public String queryName() {
-        log.info("user1");
-        return "user1";
-    }
+  @Override
+  public String queryName() {
+    log.info("user1");
+    return "user1";
+  }
 
-    @Override
-    @LogCost
-    public String queryName2() {
-        log.info("user1 service name2");
-        return "query name2";
-    }
+  @Override
+  @LogCost
+  public String queryName2() {
+    log.info("user1 service name2");
+    return "query name2";
+  }
 }

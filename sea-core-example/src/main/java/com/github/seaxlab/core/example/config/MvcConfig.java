@@ -33,59 +33,59 @@ import java.util.List;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer, BeanFactoryAware, InitializingBean {
 
-    @Resource
-    private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
+  @Resource
+  private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
-    private ConfigurableBeanFactory beanFactory;
+  private ConfigurableBeanFactory beanFactory;
 
-    // custom
+  // custom
 
-    private final JsonParamArgumentResolver jsonParamArgumentResolver = new JsonParamArgumentResolver();
+  private final JsonParamArgumentResolver jsonParamArgumentResolver = new JsonParamArgumentResolver();
 
-    private final ResponseFileHandler responseFileHandler = new ResponseFileHandler();
+  private final ResponseFileHandler responseFileHandler = new ResponseFileHandler();
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
 
-        RequestLogInterceptor requestLogInterceptor = new RequestLogInterceptor();
+    RequestLogInterceptor requestLogInterceptor = new RequestLogInterceptor();
 
-        requestLogInterceptor.setIncludePayload(true);
-        registry.addInterceptor(requestLogInterceptor).addPathPatterns("/api/**");
+    requestLogInterceptor.setIncludePayload(true);
+    registry.addInterceptor(requestLogInterceptor).addPathPatterns("/api/**");
+  }
+
+
+  @Override
+  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+    resolvers.add(jsonParamArgumentResolver);
+  }
+
+  @Override
+  public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+    if (beanFactory instanceof ConfigurableBeanFactory) {
+      this.beanFactory = (ConfigurableBeanFactory) beanFactory;
     }
+  }
 
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    try {
+      // get request response body advice by reflect
+      Field adviceField = RequestMappingHandlerAdapter.class.getDeclaredField("requestResponseBodyAdvice");
+      adviceField.setAccessible(true);
+      jsonParamArgumentResolver.setRequestBodyAdvice((List<Object>) adviceField.get(requestMappingHandlerAdapter));
 
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(jsonParamArgumentResolver);
+      // deal with response file at first
+      List<HandlerMethodReturnValueHandler> handlers = new ArrayList<>();
+      handlers.add(responseFileHandler);
+
+      List<HandlerMethodReturnValueHandler> oldHandlers = requestMappingHandlerAdapter.getReturnValueHandlers();
+      if (ListUtil.isNotEmpty(oldHandlers)) {
+        handlers.addAll(oldHandlers);
+      }
+      requestMappingHandlerAdapter.setReturnValueHandlers(handlers);
+
+    } catch (Exception e) {
     }
-
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        if (beanFactory instanceof ConfigurableBeanFactory) {
-            this.beanFactory = (ConfigurableBeanFactory) beanFactory;
-        }
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        try {
-            // get request response body advice by reflect
-            Field adviceField = RequestMappingHandlerAdapter.class.getDeclaredField("requestResponseBodyAdvice");
-            adviceField.setAccessible(true);
-            jsonParamArgumentResolver.setRequestBodyAdvice((List<Object>) adviceField.get(requestMappingHandlerAdapter));
-
-            // deal with response file at first
-            List<HandlerMethodReturnValueHandler> handlers = new ArrayList<>();
-            handlers.add(responseFileHandler);
-
-            List<HandlerMethodReturnValueHandler> oldHandlers = requestMappingHandlerAdapter.getReturnValueHandlers();
-            if (ListUtil.isNotEmpty(oldHandlers)) {
-                handlers.addAll(oldHandlers);
-            }
-            requestMappingHandlerAdapter.setReturnValueHandlers(handlers);
-
-        } catch (Exception e) {
-        }
-        jsonParamArgumentResolver.setConfigurableBeanFactory(beanFactory);
-    }
+    jsonParamArgumentResolver.setConfigurableBeanFactory(beanFactory);
+  }
 }

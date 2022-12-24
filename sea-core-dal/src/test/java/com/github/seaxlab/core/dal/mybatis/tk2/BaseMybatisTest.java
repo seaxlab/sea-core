@@ -33,78 +33,78 @@ import java.io.Reader;
 @Slf4j
 public class BaseMybatisTest extends AbstractCoreTest {
 
-    private SqlSessionFactory sf;
+  private SqlSessionFactory sf;
 
-    @Before
-    public void setUp() throws Exception {
+  @Before
+  public void setUp() throws Exception {
 
-        startMySQL();
+    startMySQL();
 
-        log.info("starting up myBatis tests");
-        String resource = "mybatis/tk2/mybatis-config.xml";
-        Reader reader = Resources.getResourceAsReader(resource);
+    log.info("starting up myBatis tests");
+    String resource = "mybatis/tk2/mybatis-config.xml";
+    Reader reader = Resources.getResourceAsReader(resource);
 
-        // 直接测试example时需要加上这行代码
-        //EntityHelper.initEntityNameMap(User.class, new Config());
+    // 直接测试example时需要加上这行代码
+    //EntityHelper.initEntityNameMap(User.class, new Config());
 
-        sf = new SqlSessionFactoryBuilder().build(reader, "dev");
+    sf = new SqlSessionFactoryBuilder().build(reader, "dev");
 
-        //create user mapper
-        SqlSession session = sf.openSession();
-        try {
-            //创建一个MapperHelper
-            MapperHelper mapperHelper = new MapperHelper();
-            //设置配置
-            mapperHelper.setConfig(new Config());
-            //配置完成后，执行下面的操作
-            mapperHelper.processConfiguration(session.getConfiguration());
-        } finally {
-            session.close();
-        }
+    //create user mapper
+    SqlSession session = sf.openSession();
+    try {
+      //创建一个MapperHelper
+      MapperHelper mapperHelper = new MapperHelper();
+      //设置配置
+      mapperHelper.setConfig(new Config());
+      //配置完成后，执行下面的操作
+      mapperHelper.processConfiguration(session.getConfiguration());
+    } finally {
+      session.close();
     }
+  }
 
-    @After
-    public void tearDown() throws Exception {
-        log.info("closing down myBatis tests");
+  @After
+  public void tearDown() throws Exception {
+    log.info("closing down myBatis tests");
+  }
+
+
+  protected SqlSession getSqlSession() {
+    return sf.openSession();
+  }
+
+
+  private void startMySQL() throws Exception {
+    DBConfigurationBuilder configBuilder = DBConfigurationBuilder.newBuilder();
+    configBuilder.setPort(3306);
+    String userHome = PathUtil.getUserHome();
+    configBuilder.setDataDir(userHome + "/db"); // just an example
+
+    DB db = DB.newEmbeddedDB(configBuilder.build());
+
+    db.start();
+    db.createDB("mybatis", "admin", "admin");
+    // 执行初始化脚本
+    db.source("mybatis/tk2/mybatis.sql", "mybatis");
+  }
+
+  /**
+   * start h2 db.
+   */
+  private void startH2() {
+    DataSource dataSource = JdbcConnectionPool.create("jdbc:h2:file:./testDB", "root", "root");
+
+    TransactionFactory transactionFactory = new JdbcTransactionFactory();
+    Environment environment = new Environment("test2", transactionFactory, dataSource);
+    Configuration configuration = new Configuration(environment);
+    configuration.addMapper(UserMapper.class);
+    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+
+    try (SqlSession session = sqlSessionFactory.openSession()) {
+      UserMapper userMapper = session.getMapper(UserMapper.class);
+      //这里能够执行findAll说明userMapper是一个实例，那一定是在getMapper中发生了实例化
+      userMapper.queryAll().forEach(System.out::println);
     }
-
-
-    protected SqlSession getSqlSession() {
-        return sf.openSession();
-    }
-
-
-    private void startMySQL() throws Exception {
-        DBConfigurationBuilder configBuilder = DBConfigurationBuilder.newBuilder();
-        configBuilder.setPort(3306);
-        String userHome = PathUtil.getUserHome();
-        configBuilder.setDataDir(userHome + "/db"); // just an example
-
-        DB db = DB.newEmbeddedDB(configBuilder.build());
-
-        db.start();
-        db.createDB("mybatis", "admin", "admin");
-        // 执行初始化脚本
-        db.source("mybatis/tk2/mybatis.sql", "mybatis");
-    }
-
-    /**
-     * start h2 db.
-     */
-    private void startH2() {
-        DataSource dataSource = JdbcConnectionPool.create("jdbc:h2:file:./testDB", "root", "root");
-
-        TransactionFactory transactionFactory = new JdbcTransactionFactory();
-        Environment environment = new Environment("test2", transactionFactory, dataSource);
-        Configuration configuration = new Configuration(environment);
-        configuration.addMapper(UserMapper.class);
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            UserMapper userMapper = session.getMapper(UserMapper.class);
-            //这里能够执行findAll说明userMapper是一个实例，那一定是在getMapper中发生了实例化
-            userMapper.queryAll().forEach(System.out::println);
-        }
-    }
+  }
 
 }

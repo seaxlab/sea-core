@@ -23,48 +23,48 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @ContextConfiguration({
-        "classpath:mybatis/spring.xml",
-        "classpath:mybatis/spring-mybatis-plus.xml",
-        "classpath:mybatis/spring-mybatis-tk.xml",
+  "classpath:mybatis/spring.xml",
+  "classpath:mybatis/spring-mybatis-plus.xml",
+  "classpath:mybatis/spring-mybatis-tk.xml",
 })
 @Rollback(false)
 public class TkAndPlusTest extends AbstractCoreSpringTest {
 
-    /**
-     * tk
-     */
-    @Resource
-    private User1Mapper user1Mapper;
-    /**
-     * plus
-     */
-    @Resource
-    private User2Mapper user2Mapper;
+  /**
+   * tk
+   */
+  @Resource
+  private User1Mapper user1Mapper;
+  /**
+   * plus
+   */
+  @Resource
+  private User2Mapper user2Mapper;
 
-    @Test
-    public void queryTest() throws Exception {
-        User1 user1 = user1Mapper.selectByPrimaryKey(1);
-        log.info("user1={}", user1);
+  @Test
+  public void queryTest() throws Exception {
+    User1 user1 = user1Mapper.selectByPrimaryKey(1);
+    log.info("user1={}", user1);
 
-        User2 user2 = user2Mapper.selectById(1l);
-        log.info("user2={}", user2);
-    }
+    User2 user2 = user2Mapper.selectById(1l);
+    log.info("user2={}", user2);
+  }
 
-    //重点： 在同一个事务中
-    @Test
-    @Transactional
-    public void addTest() throws Exception {
-        String name = RandomUtil.alphabetic(6);
-        User1 user1 = new User1();
-        user1.setName(name);
-        int dbRowCount = user1Mapper.insertSelective(user1);
-        log.info("db row count={}", dbRowCount);
+  //重点： 在同一个事务中
+  @Test
+  @Transactional
+  public void addTest() throws Exception {
+    String name = RandomUtil.alphabetic(6);
+    User1 user1 = new User1();
+    user1.setName(name);
+    int dbRowCount = user1Mapper.insertSelective(user1);
+    log.info("db row count={}", dbRowCount);
 
 
-        User2 user2 = new User2();
-        user2.setName(name);
-        dbRowCount = user2Mapper.insert(user2);
-        log.info("db row count={}", dbRowCount);
+    User2 user2 = new User2();
+    user2.setName(name);
+    dbRowCount = user2Mapper.insert(user2);
+    log.info("db row count={}", dbRowCount);
 
-    }
+  }
 }

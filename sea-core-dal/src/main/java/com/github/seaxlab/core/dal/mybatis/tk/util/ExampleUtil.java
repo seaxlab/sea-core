@@ -7,14 +7,15 @@ import com.github.seaxlab.core.util.MapUtil;
 import com.github.seaxlab.core.util.ReflectUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.google.common.base.Preconditions;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import tk.mybatis.mapper.entity.Example;
+
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import tk.mybatis.mapper.entity.Example;
 
 /**
  * Example util 注意： 推荐使用Criteria参数，不在推荐使用example参数，因为example方式会多一层括号
@@ -276,7 +277,7 @@ public final class ExampleUtil {
    * @param endDate
    */
   public static void setRangeDateTime(final Example.Criteria criteria, String propertyName, Date beginDate,
-    Date endDate) {
+                                      Date endDate) {
     if (beginDate != null) {
       criteria.andGreaterThanOrEqualTo(propertyName, beginDate);
     }
@@ -369,7 +370,7 @@ public final class ExampleUtil {
    */
   public static void setStatusAndIsDeletedFlag(final Example.Criteria criteria) {
     criteria.andEqualTo("status", CoreConst.YES)
-      .andEqualTo("isDeleted", CoreConst.NO);
+            .andEqualTo("isDeleted", CoreConst.NO);
 
   }
 
@@ -407,7 +408,7 @@ public final class ExampleUtil {
    */
   public static void setIsEnabledAndIsDeletedFlag(final Example.Criteria criteria) {
     criteria.andEqualTo("isEnabled", CoreConst.YES)
-      .andEqualTo("isDeleted", CoreConst.NO);
+            .andEqualTo("isDeleted", CoreConst.NO);
   }
 
   // ---------------------example util
@@ -528,8 +529,8 @@ public final class ExampleUtil {
    */
   public static void setStatusAndIsDeletedFlag(Example example) {
     example.and()
-      .andEqualTo("status", CoreConst.YES)
-      .andEqualTo("isDeleted", CoreConst.NO);
+           .andEqualTo("status", CoreConst.YES)
+           .andEqualTo("isDeleted", CoreConst.NO);
 
   }
 
@@ -540,7 +541,7 @@ public final class ExampleUtil {
    */
   public static void setStatusFlag(Example example) {
     example.and()
-      .andEqualTo("status", CoreConst.YES);
+           .andEqualTo("status", CoreConst.YES);
 
   }
 
@@ -551,7 +552,7 @@ public final class ExampleUtil {
    */
   public static void setIsDeletedFlag(Example example) {
     example.and()
-      .andEqualTo("isDeleted", CoreConst.NO);
+           .andEqualTo("isDeleted", CoreConst.NO);
   }
 
   /**
@@ -561,7 +562,7 @@ public final class ExampleUtil {
    */
   public static void setIsEnabled(Example example) {
     example.and()
-      .andEqualTo("isEnabled", CoreConst.YES);
+           .andEqualTo("isEnabled", CoreConst.YES);
   }
 
   /**
@@ -571,8 +572,8 @@ public final class ExampleUtil {
    */
   public static void setIsEnabledAndIsDeletedFlag(Example example) {
     example.and()
-      .andEqualTo("isEnabled", CoreConst.YES)
-      .andEqualTo("isDeleted", CoreConst.NO);
+           .andEqualTo("isEnabled", CoreConst.YES)
+           .andEqualTo("isDeleted", CoreConst.NO);
   }
 
 }

@@ -1,8 +1,9 @@
 package com.github.seaxlab.core.dal.mybatis.tk.model;
 
-import javax.persistence.Column;
 import lombok.Data;
 import lombok.ToString;
+
+import javax.persistence.Column;
 
 /**
  * module name
