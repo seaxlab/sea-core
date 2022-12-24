@@ -23,10 +23,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @TestPropertySource(locations = "classpath:application.yml")
 public class AbstractCoreSpringBootTest extends AbstractCoreTest {
 
-    @Autowired
-    protected AbstractApplicationContext ctx;
+  @Autowired
+  protected AbstractApplicationContext ctx;
 
-    private void usage() {
-        log.info("@SpringBootTest(classes = SpringBootWebApplication.class)");
-    }
+  private void usage() {
+    log.info("@SpringBootTest(classes = SpringBootWebApplication.class)");
+  }
 }

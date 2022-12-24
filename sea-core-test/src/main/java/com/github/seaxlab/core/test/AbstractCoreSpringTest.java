@@ -19,30 +19,30 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class AbstractCoreSpringTest extends AbstractCoreTest {
 
-    @Autowired
-    protected AbstractApplicationContext ctx;
+  @Autowired
+  protected AbstractApplicationContext ctx;
 
-    @Before
-    public void setUp() throws Exception {
-        log.info("spring container ready!");
-    }
+  @Before
+  public void setUp() throws Exception {
+    log.info("spring container ready!");
+  }
 
-    @Test
-    public void test() {
-        log.info("ctx={}", ctx);
-        log.info("bean={}", ctx.getBean("helloWorld"));
-    }
+  @Test
+  public void test() {
+    log.info("ctx={}", ctx);
+    log.info("bean={}", ctx.getBean("helloWorld"));
+  }
 
-    private void usage() {
-        log.info("@ContextConfiguration(classpath:spring/*.xml)");
-        log.info("or");
-        log.info("@ContextConfiguration(classes = AbstractCoreSpringTest.class)");
-    }
+  private void usage() {
+    log.info("@ContextConfiguration(classpath:spring/*.xml)");
+    log.info("or");
+    log.info("@ContextConfiguration(classes = AbstractCoreSpringTest.class)");
+  }
 
-    private void startXmlApplication() {
-        log.info("this is by manual");
-        log.info("ctx = new ClassPathXmlApplicationContext(new String[]{xmlConfigFile});");
-        log.info("ctx.start();");
-    }
+  private void startXmlApplication() {
+    log.info("this is by manual");
+    log.info("ctx = new ClassPathXmlApplicationContext(new String[]{xmlConfigFile});");
+    log.info("ctx.start();");
+  }
 
 }
