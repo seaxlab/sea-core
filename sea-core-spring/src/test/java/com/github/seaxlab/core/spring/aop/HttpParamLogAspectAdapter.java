@@ -22,34 +22,34 @@ import java.util.List;
  */
 @Slf4j
 public class HttpParamLogAspectAdapter extends AbstractParamLogAspect {
-    @Override
-    protected void before(ProceedingJoinPoint joinPoint) throws Throwable {
+  @Override
+  protected void before(ProceedingJoinPoint joinPoint) throws Throwable {
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        //url
-        String url = request.getRequestURI();
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    //url
+    String url = request.getRequestURI();
 
-        String classType = joinPoint.getTarget().getClass().getName();
-        Class<?> clazz = Class.forName(classType);
-        String clazzName = clazz.getName();
-        String methodName = joinPoint.getSignature().getName();
+    String classType = joinPoint.getTarget().getClass().getName();
+    Class<?> clazz = Class.forName(classType);
+    String clazzName = clazz.getName();
+    String methodName = joinPoint.getSignature().getName();
 
-        Object[] args = joinPoint.getArgs();
-        String parameter = "";
+    Object[] args = joinPoint.getArgs();
+    String parameter = "";
 
-        if (args != null && args.length > 0) {
-            List<Object> logArgs = new ArrayList<>();
-            Arrays.stream(args)
-                  .forEach(arg -> {
-                      if (arg instanceof HttpServletRequest
-                              || arg instanceof HttpServletResponse
-                              || arg instanceof ModelMap) {
-                          return;
-                      }
-                      logArgs.add(arg);
-                  });
-            parameter = JSONUtil.toStr(logArgs);
-        }
-        log.info("请求,url:{},入参:{}", url, parameter);
+    if (args != null && args.length > 0) {
+      List<Object> logArgs = new ArrayList<>();
+      Arrays.stream(args)
+            .forEach(arg -> {
+              if (arg instanceof HttpServletRequest
+                || arg instanceof HttpServletResponse
+                || arg instanceof ModelMap) {
+                return;
+              }
+              logArgs.add(arg);
+            });
+      parameter = JSONUtil.toStr(logArgs);
     }
+    log.info("请求,url:{},入参:{}", url, parameter);
+  }
 }

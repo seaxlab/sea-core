@@ -14,25 +14,25 @@ import org.aspectj.lang.ProceedingJoinPoint;
 @Slf4j
 public abstract class AbstractParamLogAspect {
 
-    public Object handler(ProceedingJoinPoint joinPoint) throws Throwable {
+  public Object handler(ProceedingJoinPoint joinPoint) throws Throwable {
 
-        before(joinPoint);
+    before(joinPoint);
 
-        Object returnObj = joinPoint.proceed(joinPoint.getArgs());
+    Object returnObj = joinPoint.proceed(joinPoint.getArgs());
 
-        String result = "";
-        if (returnObj != null) {
-            result = JSONUtil.toStr(returnObj);
-        }
-        log.info("请求响应:{}", result);
-        return returnObj;
+    String result = "";
+    if (returnObj != null) {
+      result = JSONUtil.toStr(returnObj);
     }
+    log.info("请求响应:{}", result);
+    return returnObj;
+  }
 
-    /**
-     * before 拦截
-     *
-     * @param joinPoint
-     */
-    protected abstract void before(ProceedingJoinPoint joinPoint) throws Throwable;
+  /**
+   * before 拦截
+   *
+   * @param joinPoint
+   */
+  protected abstract void before(ProceedingJoinPoint joinPoint) throws Throwable;
 
 }

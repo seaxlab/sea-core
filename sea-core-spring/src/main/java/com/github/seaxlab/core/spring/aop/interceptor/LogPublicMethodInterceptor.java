@@ -18,34 +18,34 @@ import javax.annotation.Nullable;
 @Slf4j
 public class LogPublicMethodInterceptor implements MethodInterceptor {
 
-    @Nullable
-    @Override
-    public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
-        if (!AopGlobalConfig.getLogPublicMethodFlag()) {
-            return invocation.proceed();
-        }
-
-        Object returnValue = null;
-        try {
-            returnValue = invocation.proceed();
-        } finally {
-            log.info("{}, param=[{}],return={}", getPrefix(invocation), invocation.getArguments(), returnValue);
-        }
-        //
-        return returnValue;
+  @Nullable
+  @Override
+  public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
+    if (!AopGlobalConfig.getLogPublicMethodFlag()) {
+      return invocation.proceed();
     }
 
-    //--------------------------------private
-    private String getPrefix(MethodInvocation invocation) {
-        String prefix = "";
-        try {
-            prefix = invocation.getMethod().getDeclaringClass().getSimpleName() + "." + invocation.getMethod().getName();
-        } catch (Exception e) {
-            log.error("fail to get class and method name info", e);
-        }
-        //
-        return prefix;
+    Object returnValue = null;
+    try {
+      returnValue = invocation.proceed();
+    } finally {
+      log.info("{}, param=[{}],return={}", getPrefix(invocation), invocation.getArguments(), returnValue);
     }
+    //
+    return returnValue;
+  }
+
+  //--------------------------------private
+  private String getPrefix(MethodInvocation invocation) {
+    String prefix = "";
+    try {
+      prefix = invocation.getMethod().getDeclaringClass().getSimpleName() + "." + invocation.getMethod().getName();
+    } catch (Exception e) {
+      log.error("fail to get class and method name info", e);
+    }
+    //
+    return prefix;
+  }
 
 
 }

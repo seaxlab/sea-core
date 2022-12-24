@@ -17,18 +17,18 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  */
 @Slf4j
 public class EncryptResponseHandler implements HandlerMethodReturnValueHandler {
-    @Override
-    public boolean supportsReturnType(MethodParameter returnType) {
-        return AnnotatedElementUtils.hasAnnotation(returnType.getContainingClass(), EncryptResponse.class)
-                || returnType.hasMethodAnnotation(EncryptResponse.class);
-    }
+  @Override
+  public boolean supportsReturnType(MethodParameter returnType) {
+    return AnnotatedElementUtils.hasAnnotation(returnType.getContainingClass(), EncryptResponse.class)
+      || returnType.hasMethodAnnotation(EncryptResponse.class);
+  }
 
-    @Override
-    public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
-        log.info("EncryptResponseHandler handle return value.");
+  @Override
+  public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
+    log.info("EncryptResponseHandler handle return value.");
 
-        //TODO more
+    //TODO more
 //        必须设置
 //        mavContainer.setRequestHandled(true);
-    }
+  }
 }

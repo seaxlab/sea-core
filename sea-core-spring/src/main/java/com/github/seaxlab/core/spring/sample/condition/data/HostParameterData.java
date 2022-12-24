@@ -11,11 +11,11 @@ import org.springframework.web.server.ServerWebExchange;
 @LoadLevel(name = "host")
 public class HostParameterData implements ParameterData {
 
-    @Override
-    public String builder(final ConditionContext context, final String paramName) {
-        ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
+  @Override
+  public String builder(final ConditionContext context, final String paramName) {
+    ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
 
-        return exchange.getRequest().getRemoteAddress().getAddress().getHostAddress();
+    return exchange.getRequest().getRemoteAddress().getAddress().getHostAddress();
 //        return RequestUtil.getClientIpAddress(exchange.getRequest());
-    }
+  }
 }

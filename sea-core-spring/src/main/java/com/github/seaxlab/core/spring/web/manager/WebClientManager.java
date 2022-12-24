@@ -12,5 +12,5 @@ import org.springframework.web.reactive.function.client.WebClient;
  */
 public interface WebClientManager {
 
-    WebClient init(WebClientConfig config);
+  WebClient init(WebClientConfig config);
 }

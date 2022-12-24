@@ -45,45 +45,45 @@ import static org.junit.Assert.assertEquals;
 )
 public class DeferredApplicationEventPublisherTest {
 
-    @Autowired
-    private TestConfig testConfig;
+  @Autowired
+  private TestConfig testConfig;
 
-    @Test
-    public void test() {
-        assertEquals("Hello,World", testConfig.getTestEvent().getSource());
-    }
+  @Test
+  public void test() {
+    assertEquals("Hello,World", testConfig.getTestEvent().getSource());
+  }
 
 }
 
 class TestEvent extends ApplicationEvent {
 
-    public TestEvent(String source) {
-        super(source);
-    }
+  public TestEvent(String source) {
+    super(source);
+  }
 }
 
 class TestConfig implements BeanFactoryPostProcessor, ApplicationEventPublisherAware, ApplicationListener<TestEvent> {
 
-    private TestEvent testEvent;
+  private TestEvent testEvent;
 
-    private ApplicationEventPublisher applicationEventPublisher;
+  private ApplicationEventPublisher applicationEventPublisher;
 
-    @Override
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher = new DeferredApplicationEventPublisher(applicationEventPublisher);
-    }
+  @Override
+  public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+    this.applicationEventPublisher = new DeferredApplicationEventPublisher(applicationEventPublisher);
+  }
 
-    @Override
-    public void onApplicationEvent(TestEvent event) {
-        testEvent = event;
-    }
+  @Override
+  public void onApplicationEvent(TestEvent event) {
+    testEvent = event;
+  }
 
-    public TestEvent getTestEvent() {
-        return testEvent;
-    }
+  public TestEvent getTestEvent() {
+    return testEvent;
+  }
 
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        applicationEventPublisher.publishEvent(new TestEvent("Hello,World"));
-    }
+  @Override
+  public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    applicationEventPublisher.publishEvent(new TestEvent("Hello,World"));
+  }
 }

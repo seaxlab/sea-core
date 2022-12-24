@@ -15,20 +15,20 @@ import java.util.Map;
  */
 public abstract class PropertyValueUtil {
 
-    /**
-     * Get Sub {@link PropertyValues} from {@link ConfigurableEnvironment}
-     *
-     * @param environment {@link ConfigurableEnvironment}
-     * @param prefix      the prefix of property name
-     * @return {@link PropertyValues}
-     */
-    public static PropertyValues getSubPropertyValues(ConfigurableEnvironment environment, String prefix) {
+  /**
+   * Get Sub {@link PropertyValues} from {@link ConfigurableEnvironment}
+   *
+   * @param environment {@link ConfigurableEnvironment}
+   * @param prefix      the prefix of property name
+   * @return {@link PropertyValues}
+   */
+  public static PropertyValues getSubPropertyValues(ConfigurableEnvironment environment, String prefix) {
 
-        Map<String, Object> subProperties = PropertySourceUtil.getSubProperties(environment.getPropertySources(), environment, prefix);
+    Map<String, Object> subProperties = PropertySourceUtil.getSubProperties(environment.getPropertySources(), environment, prefix);
 
-        PropertyValues subPropertyValues = new MutablePropertyValues(subProperties);
+    PropertyValues subPropertyValues = new MutablePropertyValues(subProperties);
 
-        return subPropertyValues;
+    return subPropertyValues;
 
-    }
+  }
 }

@@ -16,15 +16,15 @@ import org.aopalliance.intercept.MethodInvocation;
 @Slf4j
 public class ThreadContextMethodInterceptor implements MethodInterceptor {
 
-    @Override
-    public Object invoke(MethodInvocation invocation) throws Throwable {
-        Object result;
-        try {
-            result = invocation.proceed();
-        } finally {
-            ThreadContext.clean();
-        }
-
-        return result;
+  @Override
+  public Object invoke(MethodInvocation invocation) throws Throwable {
+    Object result;
+    try {
+      result = invocation.proceed();
+    } finally {
+      ThreadContext.clean();
     }
+
+    return result;
+  }
 }

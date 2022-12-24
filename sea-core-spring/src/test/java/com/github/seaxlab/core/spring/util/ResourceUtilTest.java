@@ -15,12 +15,12 @@ import java.util.Map;
  */
 @Slf4j
 public class ResourceUtilTest {
-    @Test
-    public void testLoad() throws Exception {
-        Map<String, InputStream> map = ResourceUtil.load("cool/*/*.*");
+  @Test
+  public void testLoad() throws Exception {
+    Map<String, InputStream> map = ResourceUtil.load("cool/*/*.*");
 
-        log.info("map={}", map);
-    }
+    log.info("map={}", map);
+  }
 
 
 }

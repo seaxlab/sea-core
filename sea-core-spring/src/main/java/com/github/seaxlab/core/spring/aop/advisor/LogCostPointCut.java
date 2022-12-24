@@ -18,10 +18,10 @@ import java.lang.reflect.Method;
 @Slf4j
 public class LogCostPointCut extends StaticMethodMatcherPointcut {
 
-    @SneakyThrows
-    @Override
-    public boolean matches(Method method, Class<?> aClass) {
-        // 直接使用spring工具包，来获取method上的注解（会找父类上的注解）
-        return AnnotatedElementUtils.hasAnnotation(method, LogCost.class);
-    }
+  @SneakyThrows
+  @Override
+  public boolean matches(Method method, Class<?> aClass) {
+    // 直接使用spring工具包，来获取method上的注解（会找父类上的注解）
+    return AnnotatedElementUtils.hasAnnotation(method, LogCost.class);
+  }
 }

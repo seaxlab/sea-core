@@ -30,32 +30,32 @@ import static org.springframework.context.annotation.AnnotationConfigUtils.regis
  */
 public class ExposingClassPathBeanDefinitionScanner extends ClassPathBeanDefinitionScanner {
 
-    public ExposingClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry, boolean useDefaultFilters,
-                                                  Environment environment, ResourceLoader resourceLoader) {
-        super(registry, useDefaultFilters, environment);
-        setResourceLoader(resourceLoader);
-        registerAnnotationConfigProcessors(registry);
-    }
+  public ExposingClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry, boolean useDefaultFilters,
+                                                Environment environment, ResourceLoader resourceLoader) {
+    super(registry, useDefaultFilters, environment);
+    setResourceLoader(resourceLoader);
+    registerAnnotationConfigProcessors(registry);
+  }
 
-    @Override
-    public Set<BeanDefinitionHolder> doScan(String... basePackages) {
-        return super.doScan(basePackages);
-    }
+  @Override
+  public Set<BeanDefinitionHolder> doScan(String... basePackages) {
+    return super.doScan(basePackages);
+  }
 
-    @Override
-    public boolean checkCandidate(String beanName, BeanDefinition beanDefinition) throws IllegalStateException {
-        return super.checkCandidate(beanName, beanDefinition);
-    }
+  @Override
+  public boolean checkCandidate(String beanName, BeanDefinition beanDefinition) throws IllegalStateException {
+    return super.checkCandidate(beanName, beanDefinition);
+  }
 
-    public SingletonBeanRegistry getSingletonBeanRegistry() {
-        return (SingletonBeanRegistry) getRegistry();
-    }
+  public SingletonBeanRegistry getSingletonBeanRegistry() {
+    return (SingletonBeanRegistry) getRegistry();
+  }
 
-    public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) throws BeanDefinitionStoreException {
-        getRegistry().registerBeanDefinition(beanName, beanDefinition);
-    }
+  public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) throws BeanDefinitionStoreException {
+    getRegistry().registerBeanDefinition(beanName, beanDefinition);
+  }
 
-    public void registerSingleton(String beanName, Object singletonObject) {
-        getSingletonBeanRegistry().registerSingleton(beanName, singletonObject);
-    }
+  public void registerSingleton(String beanName, Object singletonObject) {
+    getSingletonBeanRegistry().registerSingleton(beanName, singletonObject);
+  }
 }

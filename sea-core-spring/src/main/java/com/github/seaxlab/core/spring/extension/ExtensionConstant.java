@@ -7,8 +7,8 @@ package com.github.seaxlab.core.spring.extension;
  */
 public class ExtensionConstant {
 
-    public final static String DOT_SEPARATOR = ".";
-    public final static String EXTENSION_EXTPT_NAMING = "ExtPt";
+  public final static String DOT_SEPARATOR = ".";
+  public final static String EXTENSION_EXTPT_NAMING = "ExtPt";
 
-    public final static String EXE_METHOD = "execute";
+  public final static String EXE_METHOD = "execute";
 }

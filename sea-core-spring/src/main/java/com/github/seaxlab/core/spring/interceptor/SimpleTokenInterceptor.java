@@ -21,29 +21,29 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public abstract class SimpleTokenInterceptor implements HandlerInterceptor {
 
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String clientToken = RequestUtil.getParamByPriority(request, "token");
+  @Override
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    String clientToken = RequestUtil.getParamByPriority(request, "token");
 
-        if (EqualUtil.isEq(getServerToken(), clientToken, false)) {
-            return true;
-        }
-        log.warn("client token[{}] is invalid", clientToken);
-        Result ret = Result.failMsg("invalid request.");
-        ResponseUtil.toJSON(response, ret);
-        return false;
+    if (EqualUtil.isEq(getServerToken(), clientToken, false)) {
+      return true;
     }
+    log.warn("client token[{}] is invalid", clientToken);
+    Result ret = Result.failMsg("invalid request.");
+    ResponseUtil.toJSON(response, ret);
+    return false;
+  }
 
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+  @Override
+  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
-    }
+  }
 
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+  @Override
+  public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
-    }
+  }
 
-    public abstract String getServerToken();
+  public abstract String getServerToken();
 
 }

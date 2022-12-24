@@ -16,20 +16,20 @@ import java.util.Map;
  */
 @Slf4j
 public class RSAMapParamDecryptor implements JsonParamFieldConvertor<Map, Map> {
-    @Override
-    public Map convert(JSON json, String[] paths, Map value) throws Exception {
-        // 遍历所有需要转换字段
-        for (String path : paths) {
-            //String paramValue = value.get(path);
-            String paramValue = "";
-            if (StringUtils.isNotEmpty(paramValue)) {
-                String pwd = "xxx";//TODO
-                if (StringUtils.isNotEmpty(pwd)) {
-                    value.put(path, pwd);
-                }
-            }
+  @Override
+  public Map convert(JSON json, String[] paths, Map value) throws Exception {
+    // 遍历所有需要转换字段
+    for (String path : paths) {
+      //String paramValue = value.get(path);
+      String paramValue = "";
+      if (StringUtils.isNotEmpty(paramValue)) {
+        String pwd = "xxx";//TODO
+        if (StringUtils.isNotEmpty(pwd)) {
+          value.put(path, pwd);
         }
-
-        return value;
+      }
     }
+
+    return value;
+  }
 }

@@ -19,11 +19,11 @@ import java.lang.annotation.*;
 @Documented
 @Constraint(validatedBy = BeanCheckValidator.class)
 public @interface BeanCheck {
-    String message() default "参数必须为指定的值!";
+  String message() default "参数必须为指定的值!";
 
-    Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+  Class<? extends Payload>[] payload() default {};
 
-    String value() default "";
+  String value() default "";
 }

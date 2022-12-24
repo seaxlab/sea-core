@@ -12,15 +12,15 @@ import static org.junit.Assert.assertEquals;
  * @since 1.0.4
  */
 @EnableConfigurationBeanBindings(
-        @EnableConfigurationBeanBinding(prefix = "usr", type = User.class)
+  @EnableConfigurationBeanBinding(prefix = "usr", type = User.class)
 )
 @Configuration
 public class EnableConfigurationBeanBindingsTest extends AbstractEnableConfigurationBeanBindingTest {
 
-    @Test
-    public void testUser() {
-        User user = context.getBean("m", User.class);
-        assertEquals("mercyblitz", user.getName());
-        assertEquals(34, user.getAge());
-    }
+  @Test
+  public void testUser() {
+    User user = context.getBean("m", User.class);
+    assertEquals("mercyblitz", user.getName());
+    assertEquals(34, user.getAge());
+  }
 }

@@ -11,19 +11,19 @@ import org.springframework.context.annotation.*;
  */
 @Configuration
 @ComponentScan(value = {"com.github.seaxlab.core.spring"},
-        excludeFilters = {@ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.github.seaxlab.core.spring.context.*")})
+  excludeFilters = {@ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.github.seaxlab.core.spring.context.*")})
 @PropertySource(value = {"classpath:sample.properties"})
 public class TestSpringConfig {
 
-    /**
-     * 必须在bootstrap初始化之前
-     *
-     * @return
-     */
-    @Bean
-    public SpringContextHolder springContextHolder() {
-        return new SpringContextHolder();
-    }
+  /**
+   * 必须在bootstrap初始化之前
+   *
+   * @return
+   */
+  @Bean
+  public SpringContextHolder springContextHolder() {
+    return new SpringContextHolder();
+  }
 
 //    @Bean(initMethod = "init")
 //    public ExtensionBootstrap bootstrap() {

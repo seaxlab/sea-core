@@ -11,10 +11,10 @@ import org.springframework.web.server.ServerWebExchange;
 @LoadLevel(name = "uri")
 public class URIParameterData implements ParameterData {
 
-    @Override
-    public String builder(final ConditionContext context, final String paramName) {
-        ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
+  @Override
+  public String builder(final ConditionContext context, final String paramName) {
+    ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
 
-        return exchange.getRequest().getURI().getPath();
-    }
+    return exchange.getRequest().getURI().getPath();
+  }
 }

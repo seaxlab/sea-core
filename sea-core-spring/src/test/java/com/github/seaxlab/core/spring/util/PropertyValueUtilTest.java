@@ -13,26 +13,26 @@ import org.springframework.mock.env.MockEnvironment;
  */
 public class PropertyValueUtilTest {
 
-    @Test
-    public void testGetSubPropertyValues() {
+  @Test
+  public void testGetSubPropertyValues() {
 
-        MockEnvironment environment = new MockEnvironment();
+    MockEnvironment environment = new MockEnvironment();
 
-        PropertyValues propertyValues = PropertyValueUtil.getSubPropertyValues(environment, "user");
+    PropertyValues propertyValues = PropertyValueUtil.getSubPropertyValues(environment, "user");
 
-        Assert.assertNotNull(propertyValues);
+    Assert.assertNotNull(propertyValues);
 
-        Assert.assertFalse(propertyValues.contains("name"));
-        Assert.assertFalse(propertyValues.contains("age"));
+    Assert.assertFalse(propertyValues.contains("name"));
+    Assert.assertFalse(propertyValues.contains("age"));
 
-        environment.setProperty("user.name", "Mercy");
-        environment.setProperty("user.age", "30");
+    environment.setProperty("user.name", "Mercy");
+    environment.setProperty("user.age", "30");
 
-        propertyValues = PropertyValueUtil.getSubPropertyValues(environment, "user");
+    propertyValues = PropertyValueUtil.getSubPropertyValues(environment, "user");
 
-        Assert.assertEquals("Mercy", propertyValues.getPropertyValue("name").getValue());
-        Assert.assertEquals("30", propertyValues.getPropertyValue("age").getValue());
+    Assert.assertEquals("Mercy", propertyValues.getPropertyValue("name").getValue());
+    Assert.assertEquals("30", propertyValues.getPropertyValue("age").getValue());
 
-    }
+  }
 
 }

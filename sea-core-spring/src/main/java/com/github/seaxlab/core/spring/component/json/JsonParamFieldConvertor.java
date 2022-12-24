@@ -11,13 +11,13 @@ import com.alibaba.fastjson.JSON;
  */
 public interface JsonParamFieldConvertor<R, P> {
 
-    /**
-     * 转换方法
-     *
-     * @param json  json参数
-     * @param paths 映射字段路径
-     * @param value 预处理参数
-     * @return
-     */
-    R convert(JSON json, String[] paths, P value) throws Exception;
+  /**
+   * 转换方法
+   *
+   * @param json  json参数
+   * @param paths 映射字段路径
+   * @param value 预处理参数
+   * @return
+   */
+  R convert(JSON json, String[] paths, P value) throws Exception;
 }

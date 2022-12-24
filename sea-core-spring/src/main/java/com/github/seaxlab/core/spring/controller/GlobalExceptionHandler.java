@@ -47,94 +47,94 @@ import java.util.Locale;
 //@ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @Autowired
-    private MessageSource messageSource;
+  @Autowired
+  private MessageSource messageSource;
 
-    @Autowired
-    private HttpServletRequest request;
-
-
-    @ExceptionHandler(value = BaseAppException.class)
-    @ResponseBody
-    public ResponseEntity<Result> handleBaseAppException(BaseAppException e) {
-        log.error("Biz service Exception", e);
-
-        return new ResponseEntity<Result>(buildResult(e.getCode(), e.getDesc(), null), HttpStatus.OK);
-    }
+  @Autowired
+  private HttpServletRequest request;
 
 
-    @ExceptionHandler(value = IllegalArgumentException.class)
-    @ResponseBody
-    public ResponseEntity<Result> handleIllegalArgumentException(IllegalArgumentException e) {
-        log.error("Biz service Exception", e);
+  @ExceptionHandler(value = BaseAppException.class)
+  @ResponseBody
+  public ResponseEntity<Result> handleBaseAppException(BaseAppException e) {
+    log.error("Biz service Exception", e);
 
-        return new ResponseEntity<>(buildResult(String.valueOf(-1), e.getMessage(), null), HttpStatus.OK);
-    }
+    return new ResponseEntity<Result>(buildResult(e.getCode(), e.getDesc(), null), HttpStatus.OK);
+  }
 
-    private Result buildResult(String code, String defaultErrorMsg, Object data) {
-        Result result = Result.fail();
 
-        result.setCode(code);
-        result.setMsg(getErrorMessage(code, defaultErrorMsg));
+  @ExceptionHandler(value = IllegalArgumentException.class)
+  @ResponseBody
+  public ResponseEntity<Result> handleIllegalArgumentException(IllegalArgumentException e) {
+    log.error("Biz service Exception", e);
 
-        log.error("code={},message={}", result.getCode(), result.getMsg());
+    return new ResponseEntity<>(buildResult(String.valueOf(-1), e.getMessage(), null), HttpStatus.OK);
+  }
 
-        printHttpHeader(request);
+  private Result buildResult(String code, String defaultErrorMsg, Object data) {
+    Result result = Result.fail();
 
-        return result;
-    }
+    result.setCode(code);
+    result.setMsg(getErrorMessage(code, defaultErrorMsg));
 
-    @ExceptionHandler(value = HttpMediaTypeNotAcceptableException.class)
-    @ResponseBody
-    public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpServletRequest request, HttpMediaTypeNotAcceptableException be) {
-        log.error("handle HttpMediaTypeNotAcceptableException", be);
+    log.error("code={},message={}", result.getCode(), result.getMsg());
 
-        return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
-    }
+    printHttpHeader(request);
 
-    @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
-    @ResponseBody
-    public ResponseEntity<?> handleHttpRequestMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException be) {
-        log.error("handle HttpRequestMethodNotSupportedException", be);
+    return result;
+  }
 
-        return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)), HttpStatus.METHOD_NOT_ALLOWED);
-    }
+  @ExceptionHandler(value = HttpMediaTypeNotAcceptableException.class)
+  @ResponseBody
+  public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpServletRequest request, HttpMediaTypeNotAcceptableException be) {
+    log.error("handle HttpMediaTypeNotAcceptableException", be);
 
-    @ExceptionHandler(value = {HttpMessageNotReadableException.class, MethodArgumentNotValidException.class, MissingServletRequestParameterException.class, MissingServletRequestPartException.class, TypeMismatchException.class, ServletRequestBindingException.class, BindException.class})
-    @ResponseBody
-    public ResponseEntity<Result> handleExceptions(HttpServletRequest request, Exception e) {
+    return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+  }
 
-        log.error("handle Exceptions", e);
-        String msg = e.getMessage();
+  @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
+  @ResponseBody
+  public ResponseEntity<?> handleHttpRequestMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException be) {
+    log.error("handle HttpRequestMethodNotSupportedException", be);
 
-        if (e instanceof BindException) {
-            BindException bindException = (BindException) e;
-            if (bindException.hasErrors()) {
-                List<FieldError> fieldErrors = bindException.getFieldErrors();
-                if (!CollectionUtils.isEmpty(fieldErrors)) {
-                    FieldError first = fieldErrors.get(0);
-                    msg = first.getDefaultMessage();
-                    log.error("field error[{}]", first.getField());
-                }
-            }
-        } else if (e instanceof MissingServletRequestParameterException) {
-            MissingServletRequestParameterException pe = (MissingServletRequestParameterException) e;
+    return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)), HttpStatus.METHOD_NOT_ALLOWED);
+  }
 
-            msg = "缺少参数" + pe.getParameterName();
+  @ExceptionHandler(value = {HttpMessageNotReadableException.class, MethodArgumentNotValidException.class, MissingServletRequestParameterException.class, MissingServletRequestPartException.class, TypeMismatchException.class, ServletRequestBindingException.class, BindException.class})
+  @ResponseBody
+  public ResponseEntity<Result> handleExceptions(HttpServletRequest request, Exception e) {
+
+    log.error("handle Exceptions", e);
+    String msg = e.getMessage();
+
+    if (e instanceof BindException) {
+      BindException bindException = (BindException) e;
+      if (bindException.hasErrors()) {
+        List<FieldError> fieldErrors = bindException.getFieldErrors();
+        if (!CollectionUtils.isEmpty(fieldErrors)) {
+          FieldError first = fieldErrors.get(0);
+          msg = first.getDefaultMessage();
+          log.error("field error[{}]", first.getField());
         }
+      }
+    } else if (e instanceof MissingServletRequestParameterException) {
+      MissingServletRequestParameterException pe = (MissingServletRequestParameterException) e;
 
-
-        Result result = buildResult(request, ErrorMessageEnum.SYS_PARAM_INVALID, getMessage(e));
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
+      msg = "缺少参数" + pe.getParameterName();
     }
 
-    @ExceptionHandler(value = {ConversionNotSupportedException.class, HttpMessageNotWritableException.class, MultipartException.class,
+
+    Result result = buildResult(request, ErrorMessageEnum.SYS_PARAM_INVALID, getMessage(e));
+
+    return new ResponseEntity<>(result, HttpStatus.OK);
+  }
+
+  @ExceptionHandler(value = {ConversionNotSupportedException.class, HttpMessageNotWritableException.class, MultipartException.class,
 //            NoHandlerFoundException.class,
-            Exception.class})
-    @ResponseBody
-    public ResponseEntity<Result> handleException(HttpServletRequest request, Exception e) {
-        log.error("Unexpected exceptions!!!", e);
+    Exception.class})
+  @ResponseBody
+  public ResponseEntity<Result> handleException(HttpServletRequest request, Exception e) {
+    log.error("Unexpected exceptions!!!", e);
 
 //        if (e instanceof MultipartException) {
 //            message = "文件大小不能大于50M";
@@ -143,109 +143,109 @@ public class GlobalExceptionHandler {
 //            code = CoreErrorConst.SYS_RES_NOT_EXIST;
 //        }
 
-        return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(e)), HttpStatus.OK);
-    }
+    return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(e)), HttpStatus.OK);
+  }
 
 
-    private Result buildResult(HttpServletRequest request, String code, String message, String errorMsgForLog) {
-        printHttpHeader(request);
+  private Result buildResult(HttpServletRequest request, String code, String message, String errorMsgForLog) {
+    printHttpHeader(request);
 
-        // 返回给前端的结果
-        Result result = getResult(code, message);
+    // 返回给前端的结果
+    Result result = getResult(code, message);
 
-        // 如果是开发环境则把异常抛出去
+    // 如果是开发环境则把异常抛出去
 
-        return result;
-    }
+    return result;
+  }
 
-    private Result buildResult(HttpServletRequest request, IErrorEnum errorException, String errorMsgForLog) {
-        printHttpHeader(request);
+  private Result buildResult(HttpServletRequest request, IErrorEnum errorException, String errorMsgForLog) {
+    printHttpHeader(request);
 
-        // 返回给前端的结果
-        Result result = getResult(errorException);
+    // 返回给前端的结果
+    Result result = getResult(errorException);
 
-        // 如果是开发环境则把异常抛出去
+    // 如果是开发环境则把异常抛出去
 
-        return result;
-    }
+    return result;
+  }
 
-    private Result getResult(String code, String message) {
-        Result result = new Result();
-        result.setSuccess(false);
-        result.setCode(code);
-        result.setMsg(getErrorMessage(code, message));
+  private Result getResult(String code, String message) {
+    Result result = new Result();
+    result.setSuccess(false);
+    result.setCode(code);
+    result.setMsg(getErrorMessage(code, message));
 //        result.setTraceId(TracerUtil.getTraceId());
 
-        log.error("code={},message={}", result.getCode(), result.getMsg());
+    log.error("code={},message={}", result.getCode(), result.getMsg());
 
-        return result;
-    }
+    return result;
+  }
 
-    private Result getResult(IErrorEnum errorException) {
-        Result result = new Result();
-        result.setSuccess(false);
-        result.setCode(errorException.getCode());
-        result.setMsg(errorException.getMessage());
+  private Result getResult(IErrorEnum errorException) {
+    Result result = new Result();
+    result.setSuccess(false);
+    result.setCode(errorException.getCode());
+    result.setMsg(errorException.getMessage());
 //        result.setTraceId(TracerUtil.getTraceId());
 
-        log.error("code={},message={}", result.getCode(), result.getMsg());
+    log.error("code={},message={}", result.getCode(), result.getMsg());
 
-        return result;
+    return result;
+  }
+
+  /**
+   * 如果Exception Message为空，则获取异常的堆栈信息
+   *
+   * @param exception
+   * @return
+   */
+  private String getMessage(Exception exception) {
+    String message = exception.getMessage();
+    if (!Strings.isNullOrEmpty(message)) {
+      return message;
+    }
+    try {
+      ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+      exception.printStackTrace(new PrintWriter(buffer, true));
+      message = buffer.toString();
+    } catch (Exception inner) {
+      log.error("get exception error", inner);
     }
 
-    /**
-     * 如果Exception Message为空，则获取异常的堆栈信息
-     *
-     * @param exception
-     * @return
-     */
-    private String getMessage(Exception exception) {
-        String message = exception.getMessage();
-        if (!Strings.isNullOrEmpty(message)) {
-            return message;
-        }
-        try {
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            exception.printStackTrace(new PrintWriter(buffer, true));
-            message = buffer.toString();
-        } catch (Exception inner) {
-            log.error("get exception error", inner);
-        }
+    return message;
+  }
 
-        return message;
+  private String getErrorMessage(String code, String message) {
+    String desc = message;
+    if (Strings.isNullOrEmpty(message)) {
+      desc = messageSource.getMessage(code, null, code, Locale.CHINESE);
     }
+    return desc;
+  }
 
-    private String getErrorMessage(String code, String message) {
-        String desc = message;
-        if (Strings.isNullOrEmpty(message)) {
-            desc = messageSource.getMessage(code, null, code, Locale.CHINESE);
-        }
-        return desc;
-    }
-
-    /**
-     * 打印 http header info
-     *
-     * @param request
-     */
-    private void printHttpHeader(HttpServletRequest request) {
+  /**
+   * 打印 http header info
+   *
+   * @param request
+   */
+  private void printHttpHeader(HttpServletRequest request) {
 //        Long userId = UserContext.getLoginUserIdIfNeed();
 //
 //        String token = request.getHeader(HttpHeaderDef.TOKEN);
 //        String deviceId = request.getHeader(HttpHeaderDef.DEVICE_ID);
 //        String osType = request.getHeader(HttpHeaderDef.CLIENT_TYPE);
 //        String clientVersion = request.getHeader(HttpHeaderDef.SOFT_VERSION);
-        String userAgent = RequestUtil.getUserAgent(request);
-        String ip = RequestUtil.getClientIpAddress(request);
+    String userAgent = RequestUtil.getUserAgent(request);
+    String ip = RequestUtil.getClientIpAddress(request);
 
-        FootPrintDTO footPrintDTO = new FootPrintDTO();
-        footPrintDTO.setUserAgent(userAgent);
-        footPrintDTO.setIp(ip);
+    FootPrintDTO footPrintDTO = new FootPrintDTO();
+    footPrintDTO.setUserAgent(userAgent);
+    footPrintDTO.setIp(ip);
 
 //        log.info("userId={},token={},deviceId={},osType={},clientVersion={}",
 //                userId, token, deviceId, osType, clientVersion);
-        log.info("foot print DTO={}", footPrintDTO);
-    }
+    log.info("foot print DTO={}", footPrintDTO);
+  }
 
 
 }

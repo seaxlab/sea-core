@@ -20,26 +20,26 @@ import java.util.Map;
 @Component("seaCoreExtensionBootstrap")
 public class ExtensionBootstrap implements ApplicationContextAware, InitializingBean {
 
-    @Autowired
-    private ExtensionRegister extensionRegister;
+  @Autowired
+  private ExtensionRegister extensionRegister;
 
-    private ApplicationContext applicationContext;
+  private ApplicationContext applicationContext;
 
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    this.applicationContext = applicationContext;
+  }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        log.info("init sea core spring extension begin.");
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    log.info("init sea core spring extension begin.");
 //        ApplicationContext applicationContext = SpringContextHolder.getApplicationContext();
-        Map<String, Object> extensionBeans = applicationContext.getBeansWithAnnotation(Extension.class);
+    Map<String, Object> extensionBeans = applicationContext.getBeansWithAnnotation(Extension.class);
 
-        log.info("spring extension size={}", extensionBeans.size());
+    log.info("spring extension size={}", extensionBeans.size());
 
-        extensionBeans.values().forEach(extension -> extensionRegister.doRegistration((IExtensionPoint) extension));
-        log.info("init sea core spring extension end.");
-    }
+    extensionBeans.values().forEach(extension -> extensionRegister.doRegistration((IExtensionPoint) extension));
+    log.info("init sea core spring extension end.");
+  }
 }

@@ -13,15 +13,15 @@ import org.springframework.core.env.PropertySource;
 @Slf4j
 public class NormalPropertySourceWrapper<T> extends PropertySource<T> {
 
-    private final PropertySourceWrapper<T> delegate;
+  private final PropertySourceWrapper<T> delegate;
 
-    public NormalPropertySourceWrapper(PropertySource<T> delegate) {
-        super(delegate.getName(), delegate.getSource());
-        this.delegate = new PropertySourceWrapper(delegate);
-    }
+  public NormalPropertySourceWrapper(PropertySource<T> delegate) {
+    super(delegate.getName(), delegate.getSource());
+    this.delegate = new PropertySourceWrapper(delegate);
+  }
 
-    @Override
-    public Object getProperty(String name) {
-        return delegate.getProperty(name);
-    }
+  @Override
+  public Object getProperty(String name) {
+    return delegate.getProperty(name);
+  }
 }

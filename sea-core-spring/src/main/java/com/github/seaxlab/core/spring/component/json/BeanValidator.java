@@ -10,5 +10,5 @@ package com.github.seaxlab.core.spring.component.json;
  */
 public interface BeanValidator {
 
-    void validate();
+  void validate();
 }

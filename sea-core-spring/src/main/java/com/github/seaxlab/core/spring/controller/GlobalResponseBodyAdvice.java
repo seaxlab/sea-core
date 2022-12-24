@@ -19,17 +19,17 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 //@ControllerAdvice
 public class GlobalResponseBodyAdvice implements ResponseBodyAdvice {
 
-    @Override
-    public boolean supports(MethodParameter returnType, Class converterType) {
-        return true;
-    }
+  @Override
+  public boolean supports(MethodParameter returnType, Class converterType) {
+    return true;
+  }
 
-    @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+  @Override
+  public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
 
-        if (body instanceof Result) {
+    if (body instanceof Result) {
 
-            Result result = (Result) body;
+      Result result = (Result) body;
 
 //            if (StringUtils.isEmpty(result.getTraceId())) {
 //                result.setTraceId(TraceUtil.getTraceId());
@@ -39,8 +39,8 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice {
 //                result.setSpanId(TraceUtil.getSpanId());
 //            }
 
-        }
-
-        return body;
     }
+
+    return body;
+  }
 }

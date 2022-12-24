@@ -17,14 +17,14 @@ import reactor.netty.http.client.HttpClient;
 @Slf4j
 public class WebFluxTest extends BaseSpringTest {
 
-    @Test
-    public void test17() throws Exception {
+  @Test
+  public void test17() throws Exception {
 
-        WebClient webClient = WebClient.builder()
-                                       .clientConnector(new ReactorClientHttpConnector(
-                                               HttpClient.create().followRedirect(true)
-                                       )).build();
+    WebClient webClient = WebClient.builder()
+                                   .clientConnector(new ReactorClientHttpConnector(
+                                     HttpClient.create().followRedirect(true)
+                                   )).build();
 
-        log.info("webclient={}", webClient);
-    }
+    log.info("webclient={}", webClient);
+  }
 }

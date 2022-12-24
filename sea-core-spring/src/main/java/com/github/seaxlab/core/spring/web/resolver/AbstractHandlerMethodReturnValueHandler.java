@@ -15,13 +15,13 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  */
 @Slf4j
 public class AbstractHandlerMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
-    @Override
-    public boolean supportsReturnType(MethodParameter returnType) {
-        return false;
-    }
+  @Override
+  public boolean supportsReturnType(MethodParameter returnType) {
+    return false;
+  }
 
-    @Override
-    public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
+  @Override
+  public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
 
-    }
+  }
 }

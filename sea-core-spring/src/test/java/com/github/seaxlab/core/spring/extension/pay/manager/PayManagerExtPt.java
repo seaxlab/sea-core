@@ -12,5 +12,5 @@ import com.github.seaxlab.core.spring.extension.pay.dto.PayDTO;
  */
 public interface PayManagerExtPt extends IExtensionPoint {
 
-    void pay(PayDTO dto);
+  void pay(PayDTO dto);
 }

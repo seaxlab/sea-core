@@ -20,32 +20,32 @@ import java.util.concurrent.ThreadLocalRandom;
 @ContextConfiguration(classes = {TestSpringConfig.class})
 public class ExtensionTest {
 
-    @Autowired
-    private PayService payService;
+  @Autowired
+  private PayService payService;
 
-    @Test
-    public void payExtensionTest() {
-        //1. Prepare
-        PayDTO dto = new PayDTO();
-        dto.setOrderNo("" + ThreadLocalRandom.current().nextInt(10000, 99999));
-        BizScenario scenario = BizScenario.of(Constants.BIZ_1, Constants.USE_CASE_1, Constants.SCENARIO_1);
-        dto.setBizScenario(scenario);
+  @Test
+  public void payExtensionTest() {
+    //1. Prepare
+    PayDTO dto = new PayDTO();
+    dto.setOrderNo("" + ThreadLocalRandom.current().nextInt(10000, 99999));
+    BizScenario scenario = BizScenario.of(Constants.BIZ_1, Constants.USE_CASE_1, Constants.SCENARIO_1);
+    dto.setBizScenario(scenario);
 
-        //2. Execute
-        payService.pay(dto);
-    }
+    //2. Execute
+    payService.pay(dto);
+  }
 
 
-    @Resource
-    private ExtensionExecutor extensionExecutor;
+  @Resource
+  private ExtensionExecutor extensionExecutor;
 
-    @Test
-    public void testGetExtension() throws Exception {
-        BizScenario scenario = BizScenario.of(Constants.BIZ_1, Constants.USE_CASE_1, Constants.SCENARIO_1);
+  @Test
+  public void testGetExtension() throws Exception {
+    BizScenario scenario = BizScenario.of(Constants.BIZ_1, Constants.USE_CASE_1, Constants.SCENARIO_1);
 
-        PayManagerExtPt extPt = extensionExecutor.locateComponent(PayManagerExtPt.class, scenario);
-        log.info("ext pointer={}", extPt);
-    }
+    PayManagerExtPt extPt = extensionExecutor.locateComponent(PayManagerExtPt.class, scenario);
+    log.info("ext pointer={}", extPt);
+  }
 
 
 //    @Test

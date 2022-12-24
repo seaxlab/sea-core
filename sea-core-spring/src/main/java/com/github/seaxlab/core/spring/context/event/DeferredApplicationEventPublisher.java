@@ -34,125 +34,125 @@ import static org.springframework.util.ReflectionUtils.findMethod;
  */
 public class DeferredApplicationEventPublisher implements ApplicationEventPublisher, ApplicationListener<ContextRefreshedEvent> {
 
-    /**
-     * The field name of {@link AbstractApplicationContext#earlyApplicationEvents}
-     */
-    private static final String EARLY_APPLICATION_EVENTS_FIELD_NAME = "earlyApplicationEvents";
+  /**
+   * The field name of {@link AbstractApplicationContext#earlyApplicationEvents}
+   */
+  private static final String EARLY_APPLICATION_EVENTS_FIELD_NAME = "earlyApplicationEvents";
 
-    /**
-     * The field name of {@link AbstractApplicationContext#applicationEventMulticaster}
-     */
-    private static final String APPLICATION_EVENT_MULTICASTER_FIELD_NAME = "applicationEventMulticaster";
+  /**
+   * The field name of {@link AbstractApplicationContext#applicationEventMulticaster}
+   */
+  private static final String APPLICATION_EVENT_MULTICASTER_FIELD_NAME = "applicationEventMulticaster";
 
-    /**
-     * The method name of publishEvent(Object)
-     */
-    private static final String PUBLISH_EVENT_OBJECT_METHOD_NAME = "publishEvent";
+  /**
+   * The method name of publishEvent(Object)
+   */
+  private static final String PUBLISH_EVENT_OBJECT_METHOD_NAME = "publishEvent";
 
-    /**
-     * {@link ApplicationEventPublisher#publishEvent(Object)} method
-     */
-    private static final Method PUBLISH_EVENT_METHOD = detectPublishEventMethod();
+  /**
+   * {@link ApplicationEventPublisher#publishEvent(Object)} method
+   */
+  private static final Method PUBLISH_EVENT_METHOD = detectPublishEventMethod();
 
-    private final ApplicationEventPublisher delegate;
+  private final ApplicationEventPublisher delegate;
 
-    /**
-     * May be null if the argument of {@link ApplicationEventPublisher} from constructor
-     */
-    private final ConfigurableApplicationContext context;
+  /**
+   * May be null if the argument of {@link ApplicationEventPublisher} from constructor
+   */
+  private final ConfigurableApplicationContext context;
 
-    private final ConcurrentLinkedQueue<ApplicationEvent> deferredEvents = new ConcurrentLinkedQueue<ApplicationEvent>();
+  private final ConcurrentLinkedQueue<ApplicationEvent> deferredEvents = new ConcurrentLinkedQueue<ApplicationEvent>();
 
-    private final boolean shouldDefer;
+  private final boolean shouldDefer;
 
-    /**
-     * @param delegate {@link ApplicationEventPublisher}
-     */
-    public DeferredApplicationEventPublisher(ApplicationEventPublisher delegate) {
-        notNull(delegate, "The ApplicationEventPublisher argument must not be null");
-        this.delegate = delegate;
-        this.context = delegate instanceof ConfigurableApplicationContext ? (ConfigurableApplicationContext) delegate : null;
-        if (this.context != null) {
-            this.context.addApplicationListener(this);
-        }
-        this.shouldDefer = !supportsEarlyApplicationEvents() || !isInitializedApplicationEventMulticaster();
+  /**
+   * @param delegate {@link ApplicationEventPublisher}
+   */
+  public DeferredApplicationEventPublisher(ApplicationEventPublisher delegate) {
+    notNull(delegate, "The ApplicationEventPublisher argument must not be null");
+    this.delegate = delegate;
+    this.context = delegate instanceof ConfigurableApplicationContext ? (ConfigurableApplicationContext) delegate : null;
+    if (this.context != null) {
+      this.context.addApplicationListener(this);
+    }
+    this.shouldDefer = !supportsEarlyApplicationEvents() || !isInitializedApplicationEventMulticaster();
+  }
+
+  protected boolean supportsPublishEventMethod() {
+    return PUBLISH_EVENT_METHOD != null;
+  }
+
+  @Override
+  public void publishEvent(ApplicationEvent event) {
+    if (shouldDefer) {
+      // before Spring 4.2
+      deferEvent(event);
+    } else {
+      doPublishEvent(event);
+    }
+  }
+
+  private void doPublishEvent(ApplicationEvent event) {
+    delegate.publishEvent(event);
+  }
+
+  private void deferEvent(ApplicationEvent event) {
+    try {
+      deferredEvents.add(event);
+    } catch (Exception ignore) {
+      deferredEvents.add(event);
+    }
+  }
+
+  /**
+   * Current method will not be invoked before Spring 4.2
+   *
+   * @param event the {@link ApplicationEvent} or the payload of {@link ApplicationEvent event}
+   */
+  public void publishEvent(Object event) {
+    if (supportsEarlyApplicationEvents() && supportsPublishEventMethod()) {
+      // invoke by reflection to resolve the compilation issue
+      ReflectionUtils.invokeMethod(PUBLISH_EVENT_METHOD, delegate, event);
+    } else { // before Spring 4.2
+      // DO NOTHING, just resolve the compilation issue in Spring 4.2 and above
+    }
+  }
+
+  @Override
+  public void onApplicationEvent(ContextRefreshedEvent event) {
+
+    if (supportsEarlyApplicationEvents()) {
+      return;
     }
 
-    protected boolean supportsPublishEventMethod() {
-        return PUBLISH_EVENT_METHOD != null;
+    ApplicationContext currentContext = event.getApplicationContext();
+
+    if (!currentContext.equals(delegate)) {
+      // prevent multiple event multi-casts in hierarchical contexts
+      return;
     }
 
-    @Override
-    public void publishEvent(ApplicationEvent event) {
-        if (shouldDefer) {
-            // before Spring 4.2
-            deferEvent(event);
-        } else {
-            doPublishEvent(event);
-        }
+    replayDeferredEvents();
+  }
+
+  private void replayDeferredEvents() {
+    Iterator<ApplicationEvent> iterator = deferredEvents.iterator();
+    while (iterator.hasNext()) {
+      ApplicationEvent event = iterator.next();
+      doPublishEvent(event);
+      iterator.remove(); // remove if published
     }
+  }
 
-    private void doPublishEvent(ApplicationEvent event) {
-        delegate.publishEvent(event);
-    }
+  private boolean supportsEarlyApplicationEvents() {
+    return context != null && findField(context.getClass(), EARLY_APPLICATION_EVENTS_FIELD_NAME) != null;
+  }
 
-    private void deferEvent(ApplicationEvent event) {
-        try {
-            deferredEvents.add(event);
-        } catch (Exception ignore) {
-            deferredEvents.add(event);
-        }
-    }
+  private boolean isInitializedApplicationEventMulticaster() {
+    return context != null && findField(context.getClass(), APPLICATION_EVENT_MULTICASTER_FIELD_NAME) != null;
+  }
 
-    /**
-     * Current method will not be invoked before Spring 4.2
-     *
-     * @param event the {@link ApplicationEvent} or the payload of {@link ApplicationEvent event}
-     */
-    public void publishEvent(Object event) {
-        if (supportsEarlyApplicationEvents() && supportsPublishEventMethod()) {
-            // invoke by reflection to resolve the compilation issue
-            ReflectionUtils.invokeMethod(PUBLISH_EVENT_METHOD, delegate, event);
-        } else { // before Spring 4.2
-            // DO NOTHING, just resolve the compilation issue in Spring 4.2 and above
-        }
-    }
-
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-
-        if (supportsEarlyApplicationEvents()) {
-            return;
-        }
-
-        ApplicationContext currentContext = event.getApplicationContext();
-
-        if (!currentContext.equals(delegate)) {
-            // prevent multiple event multi-casts in hierarchical contexts
-            return;
-        }
-
-        replayDeferredEvents();
-    }
-
-    private void replayDeferredEvents() {
-        Iterator<ApplicationEvent> iterator = deferredEvents.iterator();
-        while (iterator.hasNext()) {
-            ApplicationEvent event = iterator.next();
-            doPublishEvent(event);
-            iterator.remove(); // remove if published
-        }
-    }
-
-    private boolean supportsEarlyApplicationEvents() {
-        return context != null && findField(context.getClass(), EARLY_APPLICATION_EVENTS_FIELD_NAME) != null;
-    }
-
-    private boolean isInitializedApplicationEventMulticaster() {
-        return context != null && findField(context.getClass(), APPLICATION_EVENT_MULTICASTER_FIELD_NAME) != null;
-    }
-
-    private static Method detectPublishEventMethod() {
-        return findMethod(ApplicationEventPublisher.class, PUBLISH_EVENT_OBJECT_METHOD_NAME, Object.class);
-    }
+  private static Method detectPublishEventMethod() {
+    return findMethod(ApplicationEventPublisher.class, PUBLISH_EVENT_OBJECT_METHOD_NAME, Object.class);
+  }
 }

@@ -15,11 +15,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 @Slf4j
 public class BaseSpringTest {
 
-    @Test
-    public void run17() throws Exception {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestSpringConfig.class);
-        ExtensionBootstrap bootstrap = (ExtensionBootstrap) context.getBean("bootstrap");
-        System.out.println(bootstrap);
-    }
+  @Test
+  public void run17() throws Exception {
+    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestSpringConfig.class);
+    ExtensionBootstrap bootstrap = (ExtensionBootstrap) context.getBean("bootstrap");
+    System.out.println(bootstrap);
+  }
 
 }

@@ -10,11 +10,11 @@ package com.github.seaxlab.core.spring.component.json.xss;
 @FunctionalInterface
 public interface FieldReplacer {
 
-    /**
-     * 替换内容
-     *
-     * @param old 原始值
-     * @return 替换值
-     */
-    Object doReplace(Object old);
+  /**
+   * 替换内容
+   *
+   * @param old 原始值
+   * @return 替换值
+   */
+  Object doReplace(Object old);
 }

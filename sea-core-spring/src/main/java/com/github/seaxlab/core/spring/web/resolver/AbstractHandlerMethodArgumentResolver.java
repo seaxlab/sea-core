@@ -16,13 +16,13 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  */
 @Slf4j
 public class AbstractHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
-    @Override
-    public boolean supportsParameter(MethodParameter parameter) {
-        return false;
-    }
+  @Override
+  public boolean supportsParameter(MethodParameter parameter) {
+    return false;
+  }
 
-    @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return null;
-    }
+  @Override
+  public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+    return null;
+  }
 }

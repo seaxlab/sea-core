@@ -32,94 +32,94 @@ import java.util.List;
 @Slf4j
 public class RedisTemplateCacheServiceTest extends BaseSpringTest {
 
-    RedisTemplate<String, String> redisTemplate;
-    RedisTemplateCacheService redisTemplateCacheService;
+  RedisTemplate<String, String> redisTemplate;
+  RedisTemplateCacheService redisTemplateCacheService;
 
-    @Before
-    public void before() {
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+  @Before
+  public void before() {
+    Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        // output detailed class type, if no need, you should comment it.
-        objectMapper.activateDefaultTyping(
-                LaissezFaireSubTypeValidator.instance,
-                ObjectMapper.DefaultTyping.NON_FINAL);
-        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    // output detailed class type, if no need, you should comment it.
+    objectMapper.activateDefaultTyping(
+      LaissezFaireSubTypeValidator.instance,
+      ObjectMapper.DefaultTyping.NON_FINAL);
+    objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+    jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
 
-        final RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-        redisStandaloneConfiguration.setHostName("mylab");
-        redisStandaloneConfiguration.setPort(6379);
-        redisStandaloneConfiguration.setPassword("");
-        redisStandaloneConfiguration.setDatabase(0);
+    final RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+    redisStandaloneConfiguration.setHostName("mylab");
+    redisStandaloneConfiguration.setPort(6379);
+    redisStandaloneConfiguration.setPassword("");
+    redisStandaloneConfiguration.setDatabase(0);
 
-        LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory(redisStandaloneConfiguration);
-        connectionFactory.afterPropertiesSet();
+    LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory(redisStandaloneConfiguration);
+    connectionFactory.afterPropertiesSet();
 
 
-        redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(connectionFactory);
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
-        redisTemplate.afterPropertiesSet();
+    redisTemplate = new RedisTemplate<>();
+    redisTemplate.setConnectionFactory(connectionFactory);
+    redisTemplate.setKeySerializer(new StringRedisSerializer());
+    redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+    redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+    redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+    redisTemplate.afterPropertiesSet();
 
-        redisTemplateCacheService = new RedisTemplateCacheService(redisTemplate);
+    redisTemplateCacheService = new RedisTemplateCacheService(redisTemplate);
+  }
+
+  @Test
+  public void testAdd() throws Exception {
+    for (int i = 0; i < 20; i++) {
+      redisTemplateCacheService.set("key:limit:a:" + i, "" + i);
     }
+  }
 
-    @Test
-    public void testAdd() throws Exception {
-        for (int i = 0; i < 20; i++) {
-            redisTemplateCacheService.set("key:limit:a:" + i, "" + i);
-        }
-    }
+  @Test
+  public void testScan() throws Exception {
+    log.info("begin");
+    redisTemplateCacheService.scan("key:limit:*", 100, bytes -> {
+      String key = new String(bytes);
+      log.info("key={}", key);
+      redisTemplateCacheService.delete(key);
+    });
 
-    @Test
-    public void testScan() throws Exception {
-        log.info("begin");
-        redisTemplateCacheService.scan("key:limit:*", 100, bytes -> {
-            String key = new String(bytes);
-            log.info("key={}", key);
-            redisTemplateCacheService.delete(key);
-        });
+    log.info("end...");
+  }
 
-        log.info("end...");
-    }
-
-    @Test
-    public void testDeleteByWildcard() throws Exception {
-        redisTemplateCacheService.deleteByWildcard("key:limit:*");
-    }
+  @Test
+  public void testDeleteByWildcard() throws Exception {
+    redisTemplateCacheService.deleteByWildcard("key:limit:*");
+  }
 
 
-    @Test
-    public void testQueryMapList() throws Exception {
+  @Test
+  public void testQueryMapList() throws Exception {
 
-        String key = "users";
-        // clean first
-        redisTemplateCacheService.delete(key);
+    String key = "users";
+    // clean first
+    redisTemplateCacheService.delete(key);
 
-        List<String> mapKeys = ImmutableList.of("field1", "field2");
-        List<User> users = redisTemplateCacheService.queryMapList(key, mapKeys, (userCodes) -> {
-            List<User> dbUsers = new ArrayList<>();
-            for (int i = 0; i < 100; i++) {
-                User user = new User();
-                user.setCode("code" + RandomUtil.numeric(6));
-                dbUsers.add(user);
-            }
+    List<String> mapKeys = ImmutableList.of("field1", "field2");
+    List<User> users = redisTemplateCacheService.queryMapList(key, mapKeys, (userCodes) -> {
+      List<User> dbUsers = new ArrayList<>();
+      for (int i = 0; i < 100; i++) {
+        User user = new User();
+        user.setCode("code" + RandomUtil.numeric(6));
+        dbUsers.add(user);
+      }
 
-            return dbUsers;
-        });
-        log.info("users={}", users);
-    }
+      return dbUsers;
+    });
+    log.info("users={}", users);
+  }
 
-    @Test
-    public void testQueryMapListOnly() throws Exception {
-        String key = "users";
-        List<String> mapKeys = ImmutableList.of("code215815", "code700073");
-        List<User> users = redisTemplateCacheService.queryMapList(key, mapKeys);
-        log.info("users={}", users);
-    }
+  @Test
+  public void testQueryMapListOnly() throws Exception {
+    String key = "users";
+    List<String> mapKeys = ImmutableList.of("code215815", "code700073");
+    List<User> users = redisTemplateCacheService.queryMapList(key, mapKeys);
+    log.info("users={}", users);
+  }
 }

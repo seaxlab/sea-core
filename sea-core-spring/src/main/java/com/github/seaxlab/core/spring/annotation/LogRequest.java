@@ -15,10 +15,10 @@ import java.lang.annotation.*;
 @Inherited
 public @interface LogRequest {
 
-    /**
-     * business category
-     *
-     * @return
-     */
-    String type() default "";
+  /**
+   * business category
+   *
+   * @return
+   */
+  String type() default "";
 }

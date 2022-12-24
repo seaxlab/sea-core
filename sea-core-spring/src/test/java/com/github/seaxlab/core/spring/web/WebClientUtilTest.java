@@ -18,36 +18,36 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class WebClientUtilTest {
 
-    @Test
-    public void testRaw() throws Exception {
-        WebClient webClient = WebClient.builder()
-                                       .baseUrl("http://www.baidu.com/")
-                                       .exchangeStrategies(ExchangeStrategies.builder()
-                                                                             .codecs(configurer -> configurer.defaultCodecs()
-                                                                                                             .maxInMemorySize(-1))
-                                                                             .build())
-                                       .build();
+  @Test
+  public void testRaw() throws Exception {
+    WebClient webClient = WebClient.builder()
+                                   .baseUrl("http://www.baidu.com/")
+                                   .exchangeStrategies(ExchangeStrategies.builder()
+                                                                         .codecs(configurer -> configurer.defaultCodecs()
+                                                                                                         .maxInMemorySize(-1))
+                                                                         .build())
+                                   .build();
 
-        Mono<String> mono = webClient.get()
-                                     .uri("/")
-                                     .retrieve()
-                                     .bodyToMono(String.class);
+    Mono<String> mono = webClient.get()
+                                 .uri("/")
+                                 .retrieve()
+                                 .bodyToMono(String.class);
 
-        log.info("mono content={}", mono.block());
-    }
+    log.info("mono content={}", mono.block());
+  }
 
-    @Test
-    public void testSimple() throws Exception {
+  @Test
+  public void testSimple() throws Exception {
 
-        WebClient webClient = WebClientUtil.getInstance("abc");
+    WebClient webClient = WebClientUtil.getInstance("abc");
 
-        Mono<String> mono = webClient.get()
-                                     .uri("http://www.baidu.com/")
-                                     .retrieve()
-                                     .onStatus(httpStatus -> HttpStatus.NOT_FOUND.equals(httpStatus), clientResponse -> Mono.empty())
-                                     .bodyToMono(String.class);
+    Mono<String> mono = webClient.get()
+                                 .uri("http://www.baidu.com/")
+                                 .retrieve()
+                                 .onStatus(httpStatus -> HttpStatus.NOT_FOUND.equals(httpStatus), clientResponse -> Mono.empty())
+                                 .bodyToMono(String.class);
 
-        log.info("content={}", mono.block());
-    }
+    log.info("content={}", mono.block());
+  }
 
 }

@@ -12,12 +12,12 @@ import lombok.Data;
 @Data
 public class WebClientConfig {
 
-    private Integer maxConnection;
+  private Integer maxConnection;
 
-    private Long maxIdleTime;
-    private Long pendingAcquireTimeout;
+  private Long maxIdleTime;
+  private Long pendingAcquireTimeout;
 
-    private Long connReadTimeout;
-    private Long connWriteTimeout;
+  private Long connReadTimeout;
+  private Long connWriteTimeout;
 
 }

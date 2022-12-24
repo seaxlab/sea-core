@@ -15,15 +15,15 @@ import org.junit.Test;
 @Slf4j
 public class AopUtilTest extends BaseTest {
 
-    @Test
-    public void testGetByOr() throws Exception {
-        String expression = AopUtil.getByOr(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, "com.github.abc,com.xxx.abc");
-        log.info("{}", expression);
-    }
+  @Test
+  public void testGetByOr() throws Exception {
+    String expression = AopUtil.getByOr(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, "com.github.abc,com.xxx.abc");
+    log.info("{}", expression);
+  }
 
-    @Test
-    public void testGetByAnd() throws Exception {
-        String expression = AopUtil.getByAnd(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, "com.github.abc,com.xxx.abc");
-        log.info("{}", expression);
-    }
+  @Test
+  public void testGetByAnd() throws Exception {
+    String expression = AopUtil.getByAnd(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, "com.github.abc,com.xxx.abc");
+    log.info("{}", expression);
+  }
 }

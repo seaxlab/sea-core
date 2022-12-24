@@ -16,8 +16,8 @@ import java.lang.annotation.*;
 @Import(ConfigurationBeanBindingsRegister.class)
 public @interface EnableConfigurationBeanBindings {
 
-    /**
-     * @return the array of {@link EnableConfigurationBeanBinding EnableConfigurationBeanBindings}
-     */
-    EnableConfigurationBeanBinding[] value();
+  /**
+   * @return the array of {@link EnableConfigurationBeanBinding EnableConfigurationBeanBindings}
+   */
+  EnableConfigurationBeanBinding[] value();
 }

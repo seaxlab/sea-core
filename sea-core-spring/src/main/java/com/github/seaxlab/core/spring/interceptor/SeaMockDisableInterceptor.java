@@ -21,25 +21,25 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class SeaMockDisableInterceptor implements HandlerInterceptor {
 
-    @Value("${sea.env:pro}")
-    private String env;
+  @Value("${sea.env:pro}")
+  private String env;
 
 
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (Env.PRO.equalsIgnoreCase(env)) {
-            ThreadContext.remove(CoreConst.DEFAULT_MOCK_KEY);
-        }
-        return true;
+  @Override
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    if (Env.PRO.equalsIgnoreCase(env)) {
+      ThreadContext.remove(CoreConst.DEFAULT_MOCK_KEY);
     }
+    return true;
+  }
 
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+  @Override
+  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
-    }
+  }
 
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+  @Override
+  public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
-    }
+  }
 }

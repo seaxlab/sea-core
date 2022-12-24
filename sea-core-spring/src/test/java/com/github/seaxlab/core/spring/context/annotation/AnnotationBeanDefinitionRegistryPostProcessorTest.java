@@ -24,59 +24,59 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {
-        AnnotationBeanDefinitionRegistryPostProcessorTest.ServiceAnnotationBeanDefinitionRegistryPostProcessor.class,
-        AnnotationBeanDefinitionRegistryPostProcessorTest.class
+  AnnotationBeanDefinitionRegistryPostProcessorTest.ServiceAnnotationBeanDefinitionRegistryPostProcessor.class,
+  AnnotationBeanDefinitionRegistryPostProcessorTest.class
 })
 @Configuration
 public class AnnotationBeanDefinitionRegistryPostProcessorTest {
 
-    @ServiceExt
-    static class MyService {
+  @ServiceExt
+  static class MyService {
+  }
+
+  @Resource
+  private MyService myService;
+
+  @Qualifier("stringBean")
+  @Autowired
+  private String stringBean;
+
+  @Test
+  public void test() {
+    assertNotNull(myService);
+    assertEquals("Hello,World", stringBean);
+  }
+
+  @Test
+  public void testGetAnnotation() {
+    assertNotNull(AnnotationBeanDefinitionRegistryPostProcessor.getAnnotation(MyService.class, ServiceExt.class));
+  }
+
+  @Test
+  public void testResolveBeanClass() {
+
+  }
+
+  @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+  @Retention(RetentionPolicy.RUNTIME)
+  @Documented
+  @Inherited
+  @interface ServiceExt {
+  }
+
+  static class ServiceAnnotationBeanDefinitionRegistryPostProcessor extends
+    AnnotationBeanDefinitionRegistryPostProcessor {
+
+    public ServiceAnnotationBeanDefinitionRegistryPostProcessor() {
+      super(ServiceExt.class, ServiceExt.class);
     }
 
-    @Resource
-    private MyService myService;
-
-    @Qualifier("stringBean")
-    @Autowired
-    private String stringBean;
-
-    @Test
-    public void test() {
-        assertNotNull(myService);
-        assertEquals("Hello,World", stringBean);
-    }
-
-    @Test
-    public void testGetAnnotation() {
-        assertNotNull(AnnotationBeanDefinitionRegistryPostProcessor.getAnnotation(MyService.class, ServiceExt.class));
-    }
-
-    @Test
-    public void testResolveBeanClass() {
+    @Override
+    protected void registerSecondaryBeanDefinitions(ExposingClassPathBeanDefinitionScanner scanner,
+                                                    Map<String, AnnotatedBeanDefinition> primaryBeanDefinitions,
+                                                    String[] basePackages) {
+      scanner.registerSingleton("stringBean", "Hello,World");
 
     }
-
-    @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
-    @Retention(RetentionPolicy.RUNTIME)
-    @Documented
-    @Inherited
-    @interface ServiceExt {
-    }
-
-    static class ServiceAnnotationBeanDefinitionRegistryPostProcessor extends
-            AnnotationBeanDefinitionRegistryPostProcessor {
-
-        public ServiceAnnotationBeanDefinitionRegistryPostProcessor() {
-            super(ServiceExt.class, ServiceExt.class);
-        }
-
-        @Override
-        protected void registerSecondaryBeanDefinitions(ExposingClassPathBeanDefinitionScanner scanner,
-                                                        Map<String, AnnotatedBeanDefinition> primaryBeanDefinitions,
-                                                        String[] basePackages) {
-            scanner.registerSingleton("stringBean", "Hello,World");
-
-        }
-    }
+  }
 }

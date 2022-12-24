@@ -28,78 +28,78 @@ import static org.springframework.util.StringUtils.hasText;
 public class BeanRegisterUtil {
 
 
-    /**
-     * Register Infrastructure Bean
-     *
-     * @param beanDefinitionRegistry {@link BeanDefinitionRegistry}
-     * @param beanType               the type of bean
-     * @param beanName               the name of bean
-     * @return if it's a first time to register, return <code>true</code>, or <code>false</code>
-     */
-    public static boolean registerInfrastructureBean(BeanDefinitionRegistry beanDefinitionRegistry,
-                                                     String beanName,
-                                                     Class<?> beanType) {
+  /**
+   * Register Infrastructure Bean
+   *
+   * @param beanDefinitionRegistry {@link BeanDefinitionRegistry}
+   * @param beanType               the type of bean
+   * @param beanName               the name of bean
+   * @return if it's a first time to register, return <code>true</code>, or <code>false</code>
+   */
+  public static boolean registerInfrastructureBean(BeanDefinitionRegistry beanDefinitionRegistry,
+                                                   String beanName,
+                                                   Class<?> beanType) {
 
-        boolean registered = false;
+    boolean registered = false;
 
-        if (!beanDefinitionRegistry.containsBeanDefinition(beanName)) {
-            RootBeanDefinition beanDefinition = new RootBeanDefinition(beanType);
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-            beanDefinitionRegistry.registerBeanDefinition(beanName, beanDefinition);
-            registered = true;
+    if (!beanDefinitionRegistry.containsBeanDefinition(beanName)) {
+      RootBeanDefinition beanDefinition = new RootBeanDefinition(beanType);
+      beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+      beanDefinitionRegistry.registerBeanDefinition(beanName, beanDefinition);
+      registered = true;
 
-            if (log.isInfoEnabled()) {
-                log.info("The Infrastructure bean definition [" + beanDefinition
-                        + "with name [" + beanName + "] has been registered.");
-            }
+      if (log.isInfoEnabled()) {
+        log.info("The Infrastructure bean definition [" + beanDefinition
+          + "with name [" + beanName + "] has been registered.");
+      }
+    }
+
+    return registered;
+  }
+
+  /**
+   * Detect the alias is present or not in the given bean name from {@link AliasRegistry}
+   *
+   * @param registry {@link AliasRegistry}
+   * @param beanName the bean name
+   * @param alias    alias to test
+   * @return if present, return <code>true</code>, or <code>false</code>
+   */
+  public static boolean hasAlias(AliasRegistry registry, String beanName, String alias) {
+    return hasText(beanName) && hasText(alias) && containsElement(registry.getAliases(beanName), alias);
+  }
+
+
+  /**
+   * Register the beans from {@link SpringFactoriesLoader#loadFactoryNames(Class, ClassLoader) SpringFactoriesLoader}
+   *
+   * @param registry       {@link BeanDefinitionRegistry}
+   * @param factoryClasses The factory classes to register
+   * @return the count of beans that are succeeded to be registered
+   * @since 1.0.7
+   */
+  public static int registerSpringFactoriesBeans(BeanDefinitionRegistry registry, Class<?>... factoryClasses) {
+    int count = 0;
+
+    ClassLoader classLoader = registry.getClass().getClassLoader();
+
+    for (int i = 0; i < factoryClasses.length; i++) {
+      Class<?> factoryClass = factoryClasses[i];
+      List<String> factoryImplClassNames = loadFactoryNames(factoryClass, classLoader);
+      for (String factoryImplClassName : factoryImplClassNames) {
+        Class<?> factoryImplClass = resolveClassName(factoryImplClassName, classLoader);
+        String beanName = decapitalize(getShortName(factoryImplClassName));
+        if (registerInfrastructureBean(registry, beanName, factoryImplClass)) {
+          count++;
+        } else {
+          if (log.isWarnEnabled()) {
+            log.warn(format("The Factory Class bean[%s] has been registered with bean name[%s]",
+              factoryImplClassName, beanName));
+          }
         }
-
-        return registered;
+      }
     }
 
-    /**
-     * Detect the alias is present or not in the given bean name from {@link AliasRegistry}
-     *
-     * @param registry {@link AliasRegistry}
-     * @param beanName the bean name
-     * @param alias    alias to test
-     * @return if present, return <code>true</code>, or <code>false</code>
-     */
-    public static boolean hasAlias(AliasRegistry registry, String beanName, String alias) {
-        return hasText(beanName) && hasText(alias) && containsElement(registry.getAliases(beanName), alias);
-    }
-
-
-    /**
-     * Register the beans from {@link SpringFactoriesLoader#loadFactoryNames(Class, ClassLoader) SpringFactoriesLoader}
-     *
-     * @param registry       {@link BeanDefinitionRegistry}
-     * @param factoryClasses The factory classes to register
-     * @return the count of beans that are succeeded to be registered
-     * @since 1.0.7
-     */
-    public static int registerSpringFactoriesBeans(BeanDefinitionRegistry registry, Class<?>... factoryClasses) {
-        int count = 0;
-
-        ClassLoader classLoader = registry.getClass().getClassLoader();
-
-        for (int i = 0; i < factoryClasses.length; i++) {
-            Class<?> factoryClass = factoryClasses[i];
-            List<String> factoryImplClassNames = loadFactoryNames(factoryClass, classLoader);
-            for (String factoryImplClassName : factoryImplClassNames) {
-                Class<?> factoryImplClass = resolveClassName(factoryImplClassName, classLoader);
-                String beanName = decapitalize(getShortName(factoryImplClassName));
-                if (registerInfrastructureBean(registry, beanName, factoryImplClass)) {
-                    count++;
-                } else {
-                    if (log.isWarnEnabled()) {
-                        log.warn(format("The Factory Class bean[%s] has been registered with bean name[%s]",
-                                factoryImplClassName, beanName));
-                    }
-                }
-            }
-        }
-
-        return count;
-    }
+    return count;
+  }
 }

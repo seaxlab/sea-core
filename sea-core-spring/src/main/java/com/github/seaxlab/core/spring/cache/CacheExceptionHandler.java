@@ -9,12 +9,12 @@ package com.github.seaxlab.core.spring.cache;
  */
 public interface CacheExceptionHandler {
 
-    /**
-     * cache exception handler
-     *
-     * @param type cache op enum
-     * @param key  cache key
-     * @param t    exception.
-     */
-    void handle(String type, String key, Throwable t);
+  /**
+   * cache exception handler
+   *
+   * @param type cache op enum
+   * @param key  cache key
+   * @param t    exception.
+   */
+  void handle(String type, String key, Throwable t);
 }

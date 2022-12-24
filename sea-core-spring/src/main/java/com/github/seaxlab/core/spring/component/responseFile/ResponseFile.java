@@ -16,12 +16,12 @@ import java.io.InputStream;
 @Data
 public class ResponseFile {
 
-    private File file;
+  private File file;
 
-    private InputStream inputStream;
+  private InputStream inputStream;
 
-    private String attachmentName;
+  private String attachmentName;
 
-    private MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
+  private MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
 
 }

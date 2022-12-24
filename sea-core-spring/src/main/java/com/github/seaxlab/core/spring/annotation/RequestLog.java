@@ -16,57 +16,57 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface RequestLog {
 
-    /**
-     * show query string
-     *
-     * @return
-     */
-    boolean queryString() default true;
+  /**
+   * show query string
+   *
+   * @return
+   */
+  boolean queryString() default true;
 
-    /**
-     * show client info
-     *
-     * @return
-     */
-    boolean clientInfo() default true;
+  /**
+   * show client info
+   *
+   * @return
+   */
+  boolean clientInfo() default true;
 
-    /**
-     * show header info
-     *
-     * @return
-     */
-    boolean header() default true;
+  /**
+   * show header info
+   *
+   * @return
+   */
+  boolean header() default true;
 
-    /**
-     * show payload
-     *
-     * @return
-     */
-    boolean payload() default true;
+  /**
+   * show payload
+   *
+   * @return
+   */
+  boolean payload() default true;
 
-    /**
-     * max payload length
-     *
-     * @return
-     */
-    int maxPayloadLength() default 100;
+  /**
+   * max payload length
+   *
+   * @return
+   */
+  int maxPayloadLength() default 100;
 
 
-    /**
-     * show response, default false;
-     *
-     * @return
-     */
-    boolean response() default false;
+  /**
+   * show response, default false;
+   *
+   * @return
+   */
+  boolean response() default false;
 
-    /**
-     * max response length
-     * <p>
-     * if over this value, not print response info
-     * </p>
-     *
-     * @return
-     */
-    int maxResponseLength() default 100;
+  /**
+   * max response length
+   * <p>
+   * if over this value, not print response info
+   * </p>
+   *
+   * @return
+   */
+  int maxResponseLength() default 100;
 
 }

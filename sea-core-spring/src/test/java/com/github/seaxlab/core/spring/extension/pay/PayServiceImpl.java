@@ -18,12 +18,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class PayServiceImpl implements PayService {
 
-    @Autowired
-    private ExtensionExecutor extensionExecutor;
+  @Autowired
+  private ExtensionExecutor extensionExecutor;
 
-    @Override
-    public void pay(PayDTO dto) {
-        //do service
-        extensionExecutor.executeVoid(PayManagerExtPt.class, dto.getBizScenario(), extension -> extension.pay(dto));
-    }
+  @Override
+  public void pay(PayDTO dto) {
+    //do service
+    extensionExecutor.executeVoid(PayManagerExtPt.class, dto.getBizScenario(), extension -> extension.pay(dto));
+  }
 }
