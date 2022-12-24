@@ -17,28 +17,28 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SeaCoreExtensionAutoConfiguration {
 
-    @Bean("seaCoreExtensionBootstrap")
-    @ConditionalOnMissingBean(ExtensionBootstrap.class)
-    public ExtensionBootstrap bootstrap() {
-        return new ExtensionBootstrap();
-    }
+  @Bean("seaCoreExtensionBootstrap")
+  @ConditionalOnMissingBean(ExtensionBootstrap.class)
+  public ExtensionBootstrap bootstrap() {
+    return new ExtensionBootstrap();
+  }
 
-    @Bean("seaCoreExtensionRepository")
-    @ConditionalOnMissingBean(ExtensionRepository.class)
-    public ExtensionRepository repository() {
-        return new ExtensionRepository();
-    }
+  @Bean("seaCoreExtensionRepository")
+  @ConditionalOnMissingBean(ExtensionRepository.class)
+  public ExtensionRepository repository() {
+    return new ExtensionRepository();
+  }
 
-    @Bean("seaCoreExtensionExecutor")
-    @ConditionalOnMissingBean(ExtensionExecutor.class)
-    public ExtensionExecutor executor() {
-        return new ExtensionExecutor();
-    }
+  @Bean("seaCoreExtensionExecutor")
+  @ConditionalOnMissingBean(ExtensionExecutor.class)
+  public ExtensionExecutor executor() {
+    return new ExtensionExecutor();
+  }
 
-    @Bean("seaCoreExtensionRegister")
-    @ConditionalOnMissingBean(ExtensionRegister.class)
-    public ExtensionRegister register() {
-        return new ExtensionRegister();
-    }
+  @Bean("seaCoreExtensionRegister")
+  @ConditionalOnMissingBean(ExtensionRegister.class)
+  public ExtensionRegister register() {
+    return new ExtensionRegister();
+  }
 
 }

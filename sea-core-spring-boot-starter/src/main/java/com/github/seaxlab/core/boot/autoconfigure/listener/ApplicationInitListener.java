@@ -23,91 +23,91 @@ import java.util.Map;
 @Slf4j
 public class ApplicationInitListener implements ApplicationContextAware, ApplicationListener<ApplicationReadyEvent> {
 
-    private ApplicationContext ctx;
+  private ApplicationContext ctx;
 
-    // 这里不是bean，因此还不能获取到@Value值
+  // 这里不是bean，因此还不能获取到@Value值
 //    @Value("${sea.env:pro}")
 //    private String env;
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.ctx = applicationContext;
-    }
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    this.ctx = applicationContext;
+  }
 
-    @Override
-    public void onApplicationEvent(ApplicationReadyEvent event) {
-        //log.info(" spring ctx init.");
-        //if (event.getApplicationContext().getParent() != null) {
-        //    return;
-        //}
-        String env = ctx.getEnvironment().getProperty("sea.env", "pro");
-        log.info("sea.env={}", env);
+  @Override
+  public void onApplicationEvent(ApplicationReadyEvent event) {
+    //log.info(" spring ctx init.");
+    //if (event.getApplicationContext().getParent() != null) {
+    //    return;
+    //}
+    String env = ctx.getEnvironment().getProperty("sea.env", "pro");
+    log.info("sea.env={}", env);
 
-        ConfigurationFactory.getInstance().putString(CoreConst.SEA_ENV, env);
+    ConfigurationFactory.getInstance().putString(CoreConst.SEA_ENV, env);
 
-        log.info("=======================================");
-        log.info("=         Application Ready           =");
-        log.info("=======================================");
+    log.info("=======================================");
+    log.info("=         Application Ready           =");
+    log.info("=======================================");
 
-        log.info("Power by Sea Framework. Design by SPY.");
+    log.info("Power by Sea Framework. Design by SPY.");
 
-        //String port = ctx.getEnvironment().getProperty("server.port", "111");
-        //log.info("port={}", port);
+    //String port = ctx.getEnvironment().getProperty("server.port", "111");
+    //log.info("port={}", port);
 
-        doStatic();
+    doStatic();
 
-        new Thread(() -> doSystemInit()).start();
-    }
+    new Thread(() -> doSystemInit()).start();
+  }
 
-    private void doStatic() {
-        log.info("bean definition count = {}", ctx.getBeanDefinitionCount());
-    }
+  private void doStatic() {
+    log.info("bean definition count = {}", ctx.getBeanDefinitionCount());
+  }
 
-    private void doSystemInit() {
-        log.info("load init bean.");
+  private void doSystemInit() {
+    log.info("load init bean.");
 
-        //SPI way
-        List<ApplicationInitBean> list = EnhancedServiceLoader.loadAll(ApplicationInitBean.class);
+    //SPI way
+    List<ApplicationInitBean> list = EnhancedServiceLoader.loadAll(ApplicationInitBean.class);
 
-        list.stream().forEach(bean -> {
-            boolean hasException = true;
-            try {
-                bean.init();
-                hasException = false;
-            } catch (Exception e) {
-                log.error("fail to invoke init method", e);
-            } finally {
-                logInvokeMsg(bean.getClass().getName(), hasException);
-            }
-        });
+    list.stream().forEach(bean -> {
+      boolean hasException = true;
+      try {
+        bean.init();
+        hasException = false;
+      } catch (Exception e) {
+        log.error("fail to invoke init method", e);
+      } finally {
+        logInvokeMsg(bean.getClass().getName(), hasException);
+      }
+    });
 
-        //  spring way.
-        Map<String, ApplicationInitBean> beanMap = ctx.getBeansOfType(ApplicationInitBean.class);
+    //  spring way.
+    Map<String, ApplicationInitBean> beanMap = ctx.getBeansOfType(ApplicationInitBean.class);
 
-        if (beanMap != null) {
-            beanMap.forEach((name, bean) -> {
-                boolean hasException = true;
+    if (beanMap != null) {
+      beanMap.forEach((name, bean) -> {
+        boolean hasException = true;
 
-                try {
-                    bean.init();
-                    hasException = false;
-                } catch (Exception e) {
-                    log.error("fail to invoke bean init method", e);
-                } finally {
-                    logInvokeMsg(bean.getClass().getName(), hasException);
-                }
-            });
+        try {
+          bean.init();
+          hasException = false;
+        } catch (Exception e) {
+          log.error("fail to invoke bean init method", e);
+        } finally {
+          logInvokeMsg(bean.getClass().getName(), hasException);
         }
+      });
     }
+  }
 
 
-    private void logInvokeMsg(String className, boolean hasException) {
-        if (hasException) {
-            log.info("fail to invoke {} init method.", className);
-        } else {
-            log.info("invoke {} init method successfully.", className);
-        }
+  private void logInvokeMsg(String className, boolean hasException) {
+    if (hasException) {
+      log.info("fail to invoke {} init method.", className);
+    } else {
+      log.info("invoke {} init method successfully.", className);
     }
+  }
 
 
 }

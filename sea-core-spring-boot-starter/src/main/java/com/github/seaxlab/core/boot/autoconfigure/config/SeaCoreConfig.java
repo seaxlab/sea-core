@@ -17,9 +17,9 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class SeaCoreConfig {
 
-    private final SeaProperties seaProperties;
+  private final SeaProperties seaProperties;
 
 
-    //private static final String DEFAULT_EXPRESSION_PROFILER = "@annotation(com.github.seaxlab.core.component.perf.anno.Profiler)";
+  //private static final String DEFAULT_EXPRESSION_PROFILER = "@annotation(com.github.seaxlab.core.component.perf.anno.Profiler)";
 
 }

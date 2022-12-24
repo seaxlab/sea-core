@@ -27,27 +27,27 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class LogCostConfig {
 
-    private final SeaProperties seaProperties;
+  private final SeaProperties seaProperties;
 
-    private static final String DEFAULT_EXPRESSION_LOG_COST = "@annotation(com.github.seaxlab.core.spring.annotation.LogCost)";
+  private static final String DEFAULT_EXPRESSION_LOG_COST = "@annotation(com.github.seaxlab.core.spring.annotation.LogCost)";
 
-    @Bean
-    @ConditionalOnMissingBean(name = "seaLogCostPointcutAdvisor")
-    public PointcutAdvisor seaLogCostAdvisor() {
-        log.info("init sea log cost advisor bean");
+  @Bean
+  @ConditionalOnMissingBean(name = "seaLogCostPointcutAdvisor")
+  public PointcutAdvisor seaLogCostAdvisor() {
+    log.info("init sea log cost advisor bean");
 
-        String expression = DEFAULT_EXPRESSION_LOG_COST;
-        if (StringUtil.isNotBlank(seaProperties.getBasePackage())) {
-            String condition = AopUtil.getByOr(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, seaProperties.getBasePackage());
-            if (StringUtil.isNotBlank(condition)) {
-                expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION_LOG_COST);
-            }
-        }
-        DynamicPointcutAdvisor advisor = new DynamicPointcutAdvisor(expression);
-        advisor.setAdviceBeanName("seaLogCostPointcutAdvisor");
-        advisor.setAdvice(new LogCostMethodInterceptor());
-        advisor.setOrder(OrderedEnum.LOG_COST.getCode());
-
-        return advisor;
+    String expression = DEFAULT_EXPRESSION_LOG_COST;
+    if (StringUtil.isNotBlank(seaProperties.getBasePackage())) {
+      String condition = AopUtil.getByOr(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, seaProperties.getBasePackage());
+      if (StringUtil.isNotBlank(condition)) {
+        expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION_LOG_COST);
+      }
     }
+    DynamicPointcutAdvisor advisor = new DynamicPointcutAdvisor(expression);
+    advisor.setAdviceBeanName("seaLogCostPointcutAdvisor");
+    advisor.setAdvice(new LogCostMethodInterceptor());
+    advisor.setOrder(OrderedEnum.LOG_COST.getCode());
+
+    return advisor;
+  }
 }
