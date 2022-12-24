@@ -18,35 +18,35 @@ import java.util.concurrent.Callable;
 @Slf4j
 public class RequestHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {
 
-    public RequestHystrixConcurrencyStrategy() {
-        HystrixPlugins.reset();
-        HystrixPlugins.getInstance().registerConcurrencyStrategy(this);
+  public RequestHystrixConcurrencyStrategy() {
+    HystrixPlugins.reset();
+    HystrixPlugins.getInstance().registerConcurrencyStrategy(this);
+  }
+
+  @Override
+  public <T> Callable<T> wrapCallable(Callable<T> callable) {
+    RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+    return new WrappedCallable<>(callable, requestAttributes);
+  }
+
+  static class WrappedCallable<T> implements Callable<T> {
+
+    private final Callable<T> target;
+    private final RequestAttributes requestAttributes;
+
+    public WrappedCallable(Callable<T> target, RequestAttributes requestAttributes) {
+      this.target = target;
+      this.requestAttributes = requestAttributes;
     }
 
     @Override
-    public <T> Callable<T> wrapCallable(Callable<T> callable) {
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        return new WrappedCallable<>(callable, requestAttributes);
+    public T call() throws Exception {
+      try {
+        RequestContextHolder.setRequestAttributes(requestAttributes);
+        return target.call();
+      } finally {
+        RequestContextHolder.resetRequestAttributes();
+      }
     }
-
-    static class WrappedCallable<T> implements Callable<T> {
-
-        private final Callable<T> target;
-        private final RequestAttributes requestAttributes;
-
-        public WrappedCallable(Callable<T> target, RequestAttributes requestAttributes) {
-            this.target = target;
-            this.requestAttributes = requestAttributes;
-        }
-
-        @Override
-        public T call() throws Exception {
-            try {
-                RequestContextHolder.setRequestAttributes(requestAttributes);
-                return target.call();
-            } finally {
-                RequestContextHolder.resetRequestAttributes();
-            }
-        }
-    }
+  }
 }

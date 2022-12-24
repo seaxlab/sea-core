@@ -11,6 +11,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class Const {
-    // feign request uri
-    public static final String FEIGN_REQUEST_URI = "sea-sc-feign-request-uri";
+  // feign request uri
+  public static final String FEIGN_REQUEST_URI = "sea-sc-feign-request-uri";
 }

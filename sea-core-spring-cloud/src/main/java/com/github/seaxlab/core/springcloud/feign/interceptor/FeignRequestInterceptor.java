@@ -20,15 +20,15 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class FeignRequestInterceptor implements RequestInterceptor {
 
-    @Override
-    public void apply(RequestTemplate template) {
+  @Override
+  public void apply(RequestTemplate template) {
 
-        //TODO 带{id}的原始url
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    //TODO 带{id}的原始url
+    ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
-        HttpServletRequest request = requestAttributes.getRequest();
-        if (request != null) {
-            ThreadContext.put(Const.FEIGN_REQUEST_URI, request.getServletPath());
-        }
+    HttpServletRequest request = requestAttributes.getRequest();
+    if (request != null) {
+      ThreadContext.put(Const.FEIGN_REQUEST_URI, request.getServletPath());
     }
+  }
 }

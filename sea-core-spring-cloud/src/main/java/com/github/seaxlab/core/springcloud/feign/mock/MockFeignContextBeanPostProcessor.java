@@ -11,30 +11,30 @@ import org.springframework.cloud.openfeign.FeignContext;
  */
 public class MockFeignContextBeanPostProcessor implements BeanPostProcessor {
 
-    private final BeanFactory beanFactory;
-    private MockFeignObjectWrapper mockFeignObjectWrapper;
+  private final BeanFactory beanFactory;
+  private MockFeignObjectWrapper mockFeignObjectWrapper;
 
-    public MockFeignContextBeanPostProcessor(BeanFactory beanFactory) {
-        this.beanFactory = beanFactory;
-    }
+  public MockFeignContextBeanPostProcessor(BeanFactory beanFactory) {
+    this.beanFactory = beanFactory;
+  }
 
-    @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        if (bean instanceof FeignContext && !(bean instanceof MockFeignContext)) {
-            return new MockFeignContext(getMockFeignObjectWrapper(), (FeignContext) bean);
-        }
-        return bean;
+  @Override
+  public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+    if (bean instanceof FeignContext && !(bean instanceof MockFeignContext)) {
+      return new MockFeignContext(getMockFeignObjectWrapper(), (FeignContext) bean);
     }
+    return bean;
+  }
 
-    @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
-    }
+  @Override
+  public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    return bean;
+  }
 
-    private MockFeignObjectWrapper getMockFeignObjectWrapper() {
-        if (this.mockFeignObjectWrapper == null) {
-            this.mockFeignObjectWrapper = this.beanFactory.getBean(MockFeignObjectWrapper.class);
-        }
-        return this.mockFeignObjectWrapper;
+  private MockFeignObjectWrapper getMockFeignObjectWrapper() {
+    if (this.mockFeignObjectWrapper == null) {
+      this.mockFeignObjectWrapper = this.beanFactory.getBean(MockFeignObjectWrapper.class);
     }
+    return this.mockFeignObjectWrapper;
+  }
 }
