@@ -11,13 +11,13 @@ import lombok.Data;
  */
 @Data
 public class UserInfo {
-    private Long id;
-    private String name;
-    private int age;
-    private boolean isSuperAdmin;
+  private Long id;
+  private String name;
+  private int age;
+  private boolean isSuperAdmin;
 
-    private String startDate;
-    private String endDate;
-    private Boolean flag;
-    private int threads;
+  private String startDate;
+  private String endDate;
+  private Boolean flag;
+  private int threads;
 }

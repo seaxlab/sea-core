@@ -18,16 +18,16 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration(classes = SpringAnnotationTest.class)
 public class SpringAnnotationTest extends AbstractCoreSpringTest {
 
-    @Test
-    public void test17() throws Exception {
-        log.info("ctx={}", ctx);
-        ctx.publishEvent(new OrderEvent("111"));
+  @Test
+  public void test17() throws Exception {
+    log.info("ctx={}", ctx);
+    ctx.publishEvent(new OrderEvent("111"));
 
-        sleepSecond(3);
-    }
+    sleepSecond(3);
+  }
 
-    @EventListener
-    public void handleContextEvent(OrderEvent myEvent) {
-        System.out.println("event received: " + myEvent);
-    }
+  @EventListener
+  public void handleContextEvent(OrderEvent myEvent) {
+    System.out.println("event received: " + myEvent);
+  }
 }

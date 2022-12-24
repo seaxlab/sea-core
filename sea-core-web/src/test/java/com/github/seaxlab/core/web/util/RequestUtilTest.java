@@ -24,32 +24,32 @@ import static org.mockito.Mockito.when;
 @Slf4j
 public class RequestUtilTest extends BaseCoreWebTest {
 
-    @Test
-    public void run16() throws Exception {
+  @Test
+  public void run16() throws Exception {
 
-        Map<String, String> headers = new HashMap<>();
-        headers.put("HTTP_CLIENT_IP", "10.122.2.103");
-        headers.put("Content-Type", "text/html");
+    Map<String, String> headers = new HashMap<>();
+    headers.put("HTTP_CLIENT_IP", "10.122.2.103");
+    headers.put("Content-Type", "text/html");
 
-        Iterator<String> iterator = headers.keySet().iterator();
-        Enumeration headerNames = new Enumeration<String>() {
-            @Override
-            public boolean hasMoreElements() {
-                return iterator.hasNext();
-            }
+    Iterator<String> iterator = headers.keySet().iterator();
+    Enumeration headerNames = new Enumeration<String>() {
+      @Override
+      public boolean hasMoreElements() {
+        return iterator.hasNext();
+      }
 
-            @Override
-            public String nextElement() {
-                return iterator.next();
-            }
-        };
+      @Override
+      public String nextElement() {
+        return iterator.next();
+      }
+    };
 
-        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+    HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
 
-        when(request.getHeaderNames()).thenReturn(headerNames);
-        when(request.getHeader(anyString())).thenReturn("10.12.10.222");
+    when(request.getHeaderNames()).thenReturn(headerNames);
+    when(request.getHeader(anyString())).thenReturn("10.12.10.222");
 
 
-        log.info("ip={}", RequestUtil.getClientIpAddress(request));
-    }
+    log.info("ip={}", RequestUtil.getClientIpAddress(request));
+  }
 }

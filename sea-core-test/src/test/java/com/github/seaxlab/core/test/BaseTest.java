@@ -17,41 +17,41 @@ import java.util.Random;
 @Slf4j
 public class BaseTest extends AbstractCoreTest {
 
-    @Test
-    public void test16() throws Exception {
-        for (int i = 0; i < 10; i++) {
-            log.info("seq={}", nextSeq("abc"));
-        }
+  @Test
+  public void test16() throws Exception {
+    for (int i = 0; i < 10; i++) {
+      log.info("seq={}", nextSeq("abc"));
+    }
+  }
+
+  @Test
+  public void test24() throws Exception {
+    Runnable runnable = () -> {
+      log.info("seq={}", nextSeq("abc"));
+    };
+
+    runInMultiThread(runnable);
+    sleepMinute(5);
+  }
+
+  @Test
+  public void printTableTest() throws Exception {
+    List<String> headers = new ArrayList<>();
+    headers.add("id");
+    headers.add("name");
+    headers.add("age");
+    headers.add("isSuperAdmin");
+
+    List<UserInfo> users = new ArrayList<>();
+    for (int i = 0; i < 10; i++) {
+      UserInfo userInfo = new UserInfo();
+      userInfo.setId(Long.valueOf(i));
+      userInfo.setName("name" + i);
+      userInfo.setAge(i);
+      userInfo.setSuperAdmin(new Random().nextBoolean());
+      users.add(userInfo);
     }
 
-    @Test
-    public void test24() throws Exception {
-        Runnable runnable = () -> {
-            log.info("seq={}", nextSeq("abc"));
-        };
-
-        runInMultiThread(runnable);
-        sleepMinute(5);
-    }
-
-    @Test
-    public void printTableTest() throws Exception {
-        List<String> headers = new ArrayList<>();
-        headers.add("id");
-        headers.add("name");
-        headers.add("age");
-        headers.add("isSuperAdmin");
-
-        List<UserInfo> users = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            UserInfo userInfo = new UserInfo();
-            userInfo.setId(Long.valueOf(i));
-            userInfo.setName("name" + i);
-            userInfo.setAge(i);
-            userInfo.setSuperAdmin(new Random().nextBoolean());
-            users.add(userInfo);
-        }
-
-        _printTable(headers, users);
-    }
+    _printTable(headers, users);
+  }
 }

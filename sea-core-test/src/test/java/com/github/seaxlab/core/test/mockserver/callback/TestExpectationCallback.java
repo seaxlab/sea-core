@@ -18,16 +18,16 @@ import static org.mockserver.model.HttpResponse.response;
 @Slf4j
 public class TestExpectationCallback implements ExpectationResponseCallback {
 
-    public HttpResponse handle(HttpRequest httpRequest) {
-        log.info("----callback handle...");
-        if (httpRequest.getPath().getValue().endsWith("/callback")) {
-            return httpResponse;
-        } else {
-            return notFoundResponse();
-        }
+  public HttpResponse handle(HttpRequest httpRequest) {
+    log.info("----callback handle...");
+    if (httpRequest.getPath().getValue().endsWith("/callback")) {
+      return httpResponse;
+    } else {
+      return notFoundResponse();
     }
+  }
 
-    public static HttpResponse httpResponse = response()
-            .withStatusCode(200)
-            .withBody("success.");
+  public static HttpResponse httpResponse = response()
+    .withStatusCode(200)
+    .withBody("success.");
 }

@@ -18,16 +18,16 @@ import org.springframework.test.context.ContextConfiguration;
 @ComponentScan("com.github.seaxlab.core.test.spring.listener")
 public class SpringXmlTest extends AbstractCoreSpringTest {
 
-    @Test
-    public void test17() throws Exception {
-        log.info("ctx={}", ctx);
-        log.info("sea.appName in app.properties={}", getEnvValue("sea.appName"));
-        log.info("a={} in spring.properties", getEnvValue("a"));
-        log.info("sea.xxx={}", getEnvValue("sea.xxx"));
-    }
+  @Test
+  public void test17() throws Exception {
+    log.info("ctx={}", ctx);
+    log.info("sea.appName in app.properties={}", getEnvValue("sea.appName"));
+    log.info("a={} in spring.properties", getEnvValue("a"));
+    log.info("sea.xxx={}", getEnvValue("sea.xxx"));
+  }
 
 
-    private String getEnvValue(String key) {
-        return ctx.getEnvironment().getProperty(key);
-    }
+  private String getEnvValue(String key) {
+    return ctx.getEnvironment().getProperty(key);
+  }
 }
