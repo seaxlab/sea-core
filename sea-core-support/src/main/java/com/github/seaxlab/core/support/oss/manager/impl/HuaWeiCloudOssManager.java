@@ -2,12 +2,12 @@ package com.github.seaxlab.core.support.oss.manager.impl;
 
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.support.oss.dto.*;
+import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
+import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
+import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
 import com.github.seaxlab.core.support.oss.enums.AclEnum;
 import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
 import com.github.seaxlab.core.support.oss.manager.AbstractOssManager;
-import com.github.seaxlab.core.support.oss.vo.BucketVO;
-import com.github.seaxlab.core.support.oss.vo.ObjectPutVO;
-import com.github.seaxlab.core.support.oss.vo.ObjectVO;
 import com.github.seaxlab.core.util.CollectionUtil;
 import com.github.seaxlab.core.util.IOUtil;
 import com.github.seaxlab.core.util.ListUtil;
@@ -113,7 +113,7 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<List<BucketVO>> _queryBuckets() {
+  public Result<List<BucketRespDTO>> _queryBuckets() {
     Result result = Result.fail();
     try {
       ListBucketsRequest request = new ListBucketsRequest();
@@ -125,12 +125,12 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
         result.value(ListUtil.empty());
         return result;
       }
-      List<BucketVO> vos = buckets.stream()
-                                  .map(item -> {
-                                    BucketVO vo = new BucketVO();
-                                    vo.setName(item.getBucketName());
-                                    return vo;
-                                  }).collect(Collectors.toList());
+      List<BucketRespDTO> vos = buckets.stream()
+                                       .map(item -> {
+                                         BucketRespDTO vo = new BucketRespDTO();
+                                         vo.setName(item.getBucketName());
+                                         return vo;
+                                       }).collect(Collectors.toList());
       result.value(vos);
     } catch (Exception e) {
       log.error("fail to query buckets", e);
@@ -145,8 +145,8 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
-    Result<ObjectPutVO> result = Result.fail();
+  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, String filePath) {
+    Result<ObjectPutRespDTO> result = Result.fail();
 
     try {
       return uploadObj(bucket, key, new File(filePath));
@@ -158,8 +158,8 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
-    Result<ObjectPutVO> result = Result.fail();
+  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, File file) {
+    Result<ObjectPutRespDTO> result = Result.fail();
 
     try {
       PutObjectRequest request = new PutObjectRequest();
@@ -168,7 +168,7 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
       request.setFile(file);
       client.putObject(request);
 
-      ObjectPutVO vo = new ObjectPutVO();
+      ObjectPutRespDTO vo = new ObjectPutRespDTO();
       vo.setKey(key);
       result.value(vo);
     } catch (Exception e) {
@@ -179,8 +179,8 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
-    Result<ObjectPutVO> result = Result.fail();
+  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, InputStream inputStream) {
+    Result<ObjectPutRespDTO> result = Result.fail();
 
     try {
       PutObjectRequest request = new PutObjectRequest();
@@ -189,7 +189,7 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
       request.setInput(inputStream);
       client.putObject(request);
 
-      ObjectPutVO vo = new ObjectPutVO();
+      ObjectPutRespDTO vo = new ObjectPutRespDTO();
       vo.setKey(key);
       result.value(vo);
     } catch (Exception e) {
@@ -200,8 +200,8 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
-    Result<ObjectPutVO> result = Result.fail();
+  public Result<ObjectPutRespDTO> _uploadObj(ObjectUploadDTO dto) {
+    Result<ObjectPutRespDTO> result = Result.fail();
 
     try {
       PutObjectRequest request = new PutObjectRequest();
@@ -212,7 +212,7 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
       request.setAcl(toACL(dto.getAclEnum()));
       client.putObject(request);
 
-      ObjectPutVO vo = new ObjectPutVO();
+      ObjectPutRespDTO vo = new ObjectPutRespDTO();
       vo.setKey(dto.getKey());
       result.value(vo);
     } catch (Exception e) {
@@ -314,8 +314,8 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<List<ObjectVO>> _queryObjs(ObjectQueryDTO dto) {
-    Result<List<ObjectVO>> result = Result.fail();
+  public Result<List<ObjectRespDTO>> _queryObjs(ObjectQueryDTO dto) {
+    Result<List<ObjectRespDTO>> result = Result.fail();
     ListObjectsRequest request = new ListObjectsRequest(dto.getBucket());
     request.setMaxKeys(dto.getMaxKeys());
     request.setPrefix(dto.getPrefix());
@@ -334,12 +334,12 @@ public class HuaWeiCloudOssManager extends AbstractOssManager {
         return result;
       }
 
-      List<ObjectVO> vos = new ArrayList<>();
+      List<ObjectRespDTO> vos = new ArrayList<>();
       log.info("objects count is {}", data.getObjects().size());
 
       for (ObsObject obsObject : data.getObjects()) {
 
-        ObjectVO vo = new ObjectVO();
+        ObjectRespDTO vo = new ObjectRespDTO();
         vo.setKey(obsObject.getObjectKey());
         vos.add(vo);
       }

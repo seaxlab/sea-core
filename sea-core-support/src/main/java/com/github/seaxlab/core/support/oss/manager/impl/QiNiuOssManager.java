@@ -2,11 +2,11 @@ package com.github.seaxlab.core.support.oss.manager.impl;
 
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.support.oss.dto.*;
+import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
+import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
+import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
 import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
 import com.github.seaxlab.core.support.oss.manager.AbstractOssManager;
-import com.github.seaxlab.core.support.oss.vo.BucketVO;
-import com.github.seaxlab.core.support.oss.vo.ObjectPutVO;
-import com.github.seaxlab.core.support.oss.vo.ObjectVO;
 import com.github.seaxlab.core.util.*;
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
@@ -118,16 +118,16 @@ public class QiNiuOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<List<BucketVO>> _queryBuckets() {
-    Result<List<BucketVO>> result = Result.fail();
+  public Result<List<BucketRespDTO>> _queryBuckets() {
+    Result<List<BucketRespDTO>> result = Result.fail();
     BucketManager bucketManager = new BucketManager(auth, cfg);
     try {
       String[] buckets = bucketManager.buckets();
       if (ArrayUtil.isEmpty(buckets)) {
         result.value(ListUtil.empty());
       } else {
-        List<BucketVO> vos = Arrays.stream(buckets).map(item -> {
-          BucketVO vo = new BucketVO();
+        List<BucketRespDTO> vos = Arrays.stream(buckets).map(item -> {
+          BucketRespDTO vo = new BucketRespDTO();
           vo.setName(item);
           return vo;
         }).collect(Collectors.toList());
@@ -152,15 +152,15 @@ public class QiNiuOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
-    Result<ObjectPutVO> result = Result.fail();
+  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, String filePath) {
+    Result<ObjectPutRespDTO> result = Result.fail();
 
     try {
       String upToken = auth.uploadToken(bucket);
       UploadManager uploadManager = new UploadManager(cfg);
       Response res = uploadManager.put(filePath, key, upToken);
 
-      ObjectPutVO vo = new ObjectPutVO();
+      ObjectPutRespDTO vo = new ObjectPutRespDTO();
       vo.setKey(key);
       result.value(vo);
     } catch (Exception e) {
@@ -171,15 +171,15 @@ public class QiNiuOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
-    Result<ObjectPutVO> result = Result.fail();
+  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, File file) {
+    Result<ObjectPutRespDTO> result = Result.fail();
 
     try {
       String upToken = auth.uploadToken(bucket);
       UploadManager uploadManager = new UploadManager(cfg);
       Response res = uploadManager.put(file, key, upToken);
 
-      ObjectPutVO vo = new ObjectPutVO();
+      ObjectPutRespDTO vo = new ObjectPutRespDTO();
       vo.setKey(key);
       result.value(vo);
     } catch (Exception e) {
@@ -190,8 +190,8 @@ public class QiNiuOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
-    Result<ObjectPutVO> result = Result.fail();
+  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, InputStream inputStream) {
+    Result<ObjectPutRespDTO> result = Result.fail();
 
     try {
       String filePath = PathUtil.getUserHome() + "/logs/" + IdUtil.shortUUID();
@@ -207,7 +207,7 @@ public class QiNiuOssManager extends AbstractOssManager {
       UploadManager uploadManager = new UploadManager(cfg);
       Response res = uploadManager.put(filePath, key, upToken);
 
-      ObjectPutVO vo = new ObjectPutVO();
+      ObjectPutRespDTO vo = new ObjectPutRespDTO();
       vo.setKey(key);
       result.value(vo);
       FileUtil.deleteFiles(filePath);
@@ -219,7 +219,7 @@ public class QiNiuOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
+  public Result<ObjectPutRespDTO> _uploadObj(ObjectUploadDTO dto) {
     if (dto.getFile() != null) {
       return _uploadObj(dto.getBucket(), dto.getKey(), dto.getFile());
     } else {
@@ -340,19 +340,19 @@ public class QiNiuOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<List<ObjectVO>> _queryObjs(ObjectQueryDTO dto) {
-    Result<List<ObjectVO>> result = Result.fail();
+  public Result<List<ObjectRespDTO>> _queryObjs(ObjectQueryDTO dto) {
+    Result<List<ObjectRespDTO>> result = Result.fail();
     BucketManager bucketManager = new BucketManager(auth, cfg);
 
     try {
       FileListing fileListing = bucketManager.listFiles(dto.getBucket(), dto.getPrefix(), null, dto.getMaxKeys(), null);
       FileInfo[] items = fileListing.items;
-      List<ObjectVO> vos = Arrays.stream(items)
-                                 .map(item -> {
-                                   ObjectVO vo = new ObjectVO();
-                                   vo.setKey(item.key);
-                                   return vo;
-                                 }).collect(Collectors.toList());
+      List<ObjectRespDTO> vos = Arrays.stream(items)
+                                      .map(item -> {
+                                        ObjectRespDTO vo = new ObjectRespDTO();
+                                        vo.setKey(item.key);
+                                        return vo;
+                                      }).collect(Collectors.toList());
       result.value(vos);
     } catch (Exception e) {
       log.error("fail to query objs", e);

@@ -8,13 +8,13 @@ import com.aliyun.oss.model.*;
 import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.support.oss.dto.*;
+import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
+import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
+import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
 import com.github.seaxlab.core.support.oss.enums.AclEnum;
 import com.github.seaxlab.core.support.oss.enums.HttpMethodEnum;
 import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
 import com.github.seaxlab.core.support.oss.manager.AbstractOssManager;
-import com.github.seaxlab.core.support.oss.vo.BucketVO;
-import com.github.seaxlab.core.support.oss.vo.ObjectPutVO;
-import com.github.seaxlab.core.support.oss.vo.ObjectVO;
 import com.github.seaxlab.core.util.CollectionUtil;
 import com.github.seaxlab.core.util.ListUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -110,7 +110,7 @@ public class AliyunOssManager extends AbstractOssManager {
     return result;
   }
 
-  public Result<List<BucketVO>> _queryBuckets() {
+  public Result<List<BucketRespDTO>> _queryBuckets() {
     Result result = Result.fail();
     try {
       List<Bucket> buckets = client.listBuckets();
@@ -118,13 +118,12 @@ public class AliyunOssManager extends AbstractOssManager {
         result.value(ListUtil.empty());
         return result;
       }
-      List<BucketVO> vos = buckets.stream()
-                                  .map(item -> {
-                                    BucketVO vo = new BucketVO();
-                                    vo.setName(item.getName());
-                                    return vo;
-                                  }).collect(Collectors.toList());
-      result.value(vos);
+      List<BucketRespDTO> respDTOS = buckets.stream().map(item -> {
+        BucketRespDTO respDTO = new BucketRespDTO();
+        respDTO.setName(item.getName());
+        return respDTO;
+      }).collect(Collectors.toList());
+      result.value(respDTOS);
     } catch (Exception e) {
       log.error("fail to query buckets", e);
     }
@@ -136,16 +135,16 @@ public class AliyunOssManager extends AbstractOssManager {
     return client.doesObjectExist(bucket, key);
   }
 
-  public Result<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
-    Result<ObjectPutVO> result = Result.fail();
+  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, String filePath) {
+    Result<ObjectPutRespDTO> result = Result.fail();
 
     try {
       InputStream inputStream = new FileInputStream(filePath);
       PutObjectResult ret = client.putObject(bucket, key, inputStream);
 
-      ObjectPutVO vo = new ObjectPutVO();
-      vo.setKey(key);
-      result.value(vo);
+      ObjectPutRespDTO respDTO = new ObjectPutRespDTO();
+      respDTO.setKey(key);
+      result.value(respDTO);
     } catch (Exception e) {
       log.error("fail to upload obj", e);
     }
@@ -153,16 +152,16 @@ public class AliyunOssManager extends AbstractOssManager {
   }
 
 
-  public Result<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
-    Result<ObjectPutVO> result = Result.fail();
+  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, File file) {
+    Result<ObjectPutRespDTO> result = Result.fail();
 
     try {
       PutObjectRequest request = new PutObjectRequest(bucket, key, file);
       client.putObject(request);
 
-      ObjectPutVO vo = new ObjectPutVO();
-      vo.setKey(key);
-      result.value(vo);
+      ObjectPutRespDTO respDTO = new ObjectPutRespDTO();
+      respDTO.setKey(key);
+      result.value(respDTO);
     } catch (Exception e) {
       log.error("fail to put obj", e);
       result.setMsg("上传文件失败");
@@ -171,16 +170,16 @@ public class AliyunOssManager extends AbstractOssManager {
     return result;
   }
 
-  public Result<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
-    Result<ObjectPutVO> result = Result.fail();
+  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, InputStream inputStream) {
+    Result<ObjectPutRespDTO> result = Result.fail();
 
     try {
       PutObjectRequest request = new PutObjectRequest(bucket, key, inputStream);
       client.putObject(request);
 
-      ObjectPutVO vo = new ObjectPutVO();
-      vo.setKey(key);
-      result.value(vo);
+      ObjectPutRespDTO respDTO = new ObjectPutRespDTO();
+      respDTO.setKey(key);
+      result.value(respDTO);
     } catch (Exception e) {
       log.error("fail to put obj", e);
       result.setMsg("上传文件失败");
@@ -190,8 +189,8 @@ public class AliyunOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
-    Result<ObjectPutVO> result = Result.fail();
+  public Result<ObjectPutRespDTO> _uploadObj(ObjectUploadDTO dto) {
+    Result<ObjectPutRespDTO> result = Result.fail();
 
     try {
       PutObjectRequest request = null;
@@ -206,9 +205,9 @@ public class AliyunOssManager extends AbstractOssManager {
 
       client.putObject(request);
 
-      ObjectPutVO vo = new ObjectPutVO();
-      vo.setKey(dto.getKey());
-      result.value(vo);
+      ObjectPutRespDTO respDTO = new ObjectPutRespDTO();
+      respDTO.setKey(dto.getKey());
+      result.value(respDTO);
     } catch (Exception e) {
       log.error("fail to put obj", e);
       result.setMsg("上传文件失败");
@@ -301,10 +300,10 @@ public class AliyunOssManager extends AbstractOssManager {
     return result;
   }
 
-  public Result<List<ObjectVO>> _queryObjs(ObjectQueryDTO dto) {
+  public Result<List<ObjectRespDTO>> _queryObjs(ObjectQueryDTO dto) {
     Precondition.checkNotNull(dto.getBucket());
 
-    Result<List<ObjectVO>> result = Result.fail();
+    Result<List<ObjectRespDTO>> result = Result.fail();
     ListObjectsRequest request = new ListObjectsRequest(dto.getBucket());
     request.setMaxKeys(dto.getMaxKeys());
     request.setPrefix(dto.getPrefix());
@@ -323,17 +322,17 @@ public class AliyunOssManager extends AbstractOssManager {
         return result;
       }
 
-      List<ObjectVO> vos = new ArrayList<>();
+      List<ObjectRespDTO> respDTOS = new ArrayList<>();
       log.info("objects count is {}", data.getObjectSummaries().size());
 
       for (OSSObjectSummary objectSummary : data.getObjectSummaries()) {
 
-        ObjectVO vo = new ObjectVO();
-        vo.setKey(objectSummary.getKey());
-        vos.add(vo);
+        ObjectRespDTO respDTO = new ObjectRespDTO();
+        respDTO.setKey(objectSummary.getKey());
+        respDTOS.add(respDTO);
       }
 
-      result.value(vos);
+      result.value(respDTOS);
     } catch (Exception e) {
       log.error("fail to query objs from oss", e);
       result.setMsg("查询对象列表失败");

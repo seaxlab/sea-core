@@ -4,11 +4,11 @@ import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.support.oss.dto.BucketCreateDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectSignUrlDTO;
 import com.github.seaxlab.core.support.oss.dto.OssConfig;
+import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
+import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.enums.HttpMethodEnum;
 import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
 import com.github.seaxlab.core.support.oss.manager.AbstractOssManager;
-import com.github.seaxlab.core.support.oss.vo.BucketVO;
-import com.github.seaxlab.core.support.oss.vo.ObjectPutVO;
 import com.github.seaxlab.core.util.ListUtil;
 import io.minio.*;
 import io.minio.http.Method;
@@ -140,8 +140,8 @@ public class MinioOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<List<BucketVO>> _queryBuckets() {
-    Result<List<BucketVO>> result = Result.fail();
+  public Result<List<BucketRespDTO>> _queryBuckets() {
+    Result<List<BucketRespDTO>> result = Result.fail();
 
     try {
       List<Bucket> buckets = client.listBuckets();
@@ -150,12 +150,12 @@ public class MinioOssManager extends AbstractOssManager {
         return result;
       }
 
-      List<BucketVO> vos = buckets.stream()
-                                  .map(item -> {
-                                    BucketVO vo = new BucketVO();
-                                    vo.setName(item.name());
-                                    return vo;
-                                  }).collect(Collectors.toList());
+      List<BucketRespDTO> vos = buckets.stream()
+                                       .map(item -> {
+                                         BucketRespDTO vo = new BucketRespDTO();
+                                         vo.setName(item.name());
+                                         return vo;
+                                       }).collect(Collectors.toList());
       result.value(vos);
     } catch (Exception e) {
       log.error("fail to query buckets", e);
@@ -181,8 +181,8 @@ public class MinioOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
-    Result<ObjectPutVO> result = Result.fail();
+  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, String filePath) {
+    Result<ObjectPutRespDTO> result = Result.fail();
     try {
       UploadObjectArgs args = UploadObjectArgs.builder()
                                               .bucket(bucket)
@@ -191,7 +191,7 @@ public class MinioOssManager extends AbstractOssManager {
                                               .build();
       client.uploadObject(args);
 
-      ObjectPutVO vo = new ObjectPutVO();
+      ObjectPutRespDTO vo = new ObjectPutRespDTO();
       vo.setKey(key);
 
       result.value(vo);

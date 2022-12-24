@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.support.oss.vo;
+package com.github.seaxlab.core.support.oss.dto.response;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
-public class ObjectVO {
+public class BucketRespDTO {
 
-  private String key;
+  private String name;
 }

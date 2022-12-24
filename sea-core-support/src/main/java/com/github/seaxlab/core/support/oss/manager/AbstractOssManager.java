@@ -4,11 +4,11 @@ import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.support.oss.dto.*;
+import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
+import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
+import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
 import com.github.seaxlab.core.support.oss.enums.AclEnum;
 import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
-import com.github.seaxlab.core.support.oss.vo.BucketVO;
-import com.github.seaxlab.core.support.oss.vo.ObjectPutVO;
-import com.github.seaxlab.core.support.oss.vo.ObjectVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -102,7 +102,7 @@ public abstract class AbstractOssManager implements OssManager {
   }
 
   @Override
-  public Result<List<BucketVO>> queryBuckets() {
+  public Result<List<BucketRespDTO>> queryBuckets() {
     return _queryBuckets();
   }
 
@@ -115,7 +115,7 @@ public abstract class AbstractOssManager implements OssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> uploadObj(String bucket, String key, String filePath) {
+  public Result<ObjectPutRespDTO> uploadObj(String bucket, String key, String filePath) {
     Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
     Precondition.checkNotEmpty(key, "key cannot be empty");
     Precondition.checkNotEmpty(filePath, "filePath cannot be empty");
@@ -129,7 +129,7 @@ public abstract class AbstractOssManager implements OssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> uploadObj(String bucket, String key, File file) {
+  public Result<ObjectPutRespDTO> uploadObj(String bucket, String key, File file) {
     Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
     Precondition.checkNotEmpty(key, "key cannot be empty");
     Precondition.checkNotNull(file, "file cannot be empty");
@@ -143,7 +143,7 @@ public abstract class AbstractOssManager implements OssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> uploadObj(String bucket, String key, InputStream inputStream) {
+  public Result<ObjectPutRespDTO> uploadObj(String bucket, String key, InputStream inputStream) {
     Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
     Precondition.checkNotEmpty(key, "key cannot be empty");
     Precondition.checkNotNull(inputStream, "inputStream cannot be empty");
@@ -157,7 +157,7 @@ public abstract class AbstractOssManager implements OssManager {
   }
 
   @Override
-  public Result<ObjectPutVO> uploadObj(ObjectUploadDTO dto) {
+  public Result<ObjectPutRespDTO> uploadObj(ObjectUploadDTO dto) {
     Precondition.checkNotEmpty(dto.getBucket(), "bucket cannot be empty");
     Precondition.checkNotEmpty(dto.getKey(), "key cannot be empty");
     if (dto.getFile() == null && dto.getInputStream() == null) {
@@ -246,7 +246,7 @@ public abstract class AbstractOssManager implements OssManager {
   }
 
   @Override
-  public Result<List<ObjectVO>> queryObjs(ObjectQueryDTO dto) {
+  public Result<List<ObjectRespDTO>> queryObjs(ObjectQueryDTO dto) {
     Precondition.checkNotEmpty(dto.getBucket(), "bucket cannot be empty");
     if (dto.getMaxKeys() <= 0 || dto.getMaxKeys() >= 1000) {
       log.warn("max keys[{}] is invalid", dto.getMaxKeys());
@@ -280,7 +280,7 @@ public abstract class AbstractOssManager implements OssManager {
     return Result.failMsg("不支持的操作");
   }
 
-  public Result<List<BucketVO>> _queryBuckets() {
+  public Result<List<BucketRespDTO>> _queryBuckets() {
     return Result.failMsg("不支持的操作");
   }
 
@@ -288,19 +288,19 @@ public abstract class AbstractOssManager implements OssManager {
     return false;
   }
 
-  public Result<ObjectPutVO> _uploadObj(String bucket, String key, String filePath) {
+  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, String filePath) {
     return Result.failMsg("不支持的操作");
   }
 
-  public Result<ObjectPutVO> _uploadObj(String bucket, String key, File file) {
+  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, File file) {
     return Result.failMsg("不支持的操作");
   }
 
-  public Result<ObjectPutVO> _uploadObj(String bucket, String key, InputStream inputStream) {
+  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, InputStream inputStream) {
     return Result.failMsg("不支持的操作");
   }
 
-  public Result<ObjectPutVO> _uploadObj(ObjectUploadDTO dto) {
+  public Result<ObjectPutRespDTO> _uploadObj(ObjectUploadDTO dto) {
     return Result.failMsg("不支持的操作");
   }
 
@@ -339,7 +339,7 @@ public abstract class AbstractOssManager implements OssManager {
     return Result.failMsg("不支持的操作");
   }
 
-  public Result<List<ObjectVO>> _queryObjs(ObjectQueryDTO dto) {
+  public Result<List<ObjectRespDTO>> _queryObjs(ObjectQueryDTO dto) {
     return Result.failMsg("不支持的操作");
   }
 

@@ -2,9 +2,9 @@ package com.github.seaxlab.core.support.oss.manager;
 
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.support.oss.dto.*;
-import com.github.seaxlab.core.support.oss.vo.BucketVO;
-import com.github.seaxlab.core.support.oss.vo.ObjectPutVO;
-import com.github.seaxlab.core.support.oss.vo.ObjectVO;
+import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
+import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
+import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
 
 import java.io.File;
 import java.io.InputStream;
@@ -79,7 +79,7 @@ public interface OssManager {
    *
    * @return
    */
-  Result<List<BucketVO>> queryBuckets();
+  Result<List<BucketRespDTO>> queryBuckets();
 
   /**
    * check obj exist
@@ -98,7 +98,7 @@ public interface OssManager {
    * @param filePath
    * @return
    */
-  Result<ObjectPutVO> uploadObj(String bucket, String key, String filePath);
+  Result<ObjectPutRespDTO> uploadObj(String bucket, String key, String filePath);
 
   /**
    * upload obj by file
@@ -108,7 +108,7 @@ public interface OssManager {
    * @param file
    * @return
    */
-  Result<ObjectPutVO> uploadObj(String bucket, String key, File file);
+  Result<ObjectPutRespDTO> uploadObj(String bucket, String key, File file);
 
   /**
    * upload obj by stream
@@ -118,7 +118,7 @@ public interface OssManager {
    * @param inputStream
    * @return
    */
-  Result<ObjectPutVO> uploadObj(String bucket, String key, InputStream inputStream);
+  Result<ObjectPutRespDTO> uploadObj(String bucket, String key, InputStream inputStream);
 
   /**
    * update obj
@@ -129,7 +129,7 @@ public interface OssManager {
    * @param dto
    * @return
    */
-  Result<ObjectPutVO> uploadObj(ObjectUploadDTO dto);
+  Result<ObjectPutRespDTO> uploadObj(ObjectUploadDTO dto);
 
   /**
    * get object url.
@@ -191,5 +191,5 @@ public interface OssManager {
    * @param dto
    * @return
    */
-  Result<List<ObjectVO>> queryObjs(ObjectQueryDTO dto);
+  Result<List<ObjectRespDTO>> queryObjs(ObjectQueryDTO dto);
 }
