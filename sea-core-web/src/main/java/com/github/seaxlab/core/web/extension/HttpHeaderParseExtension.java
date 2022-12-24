@@ -13,10 +13,10 @@ import java.util.Map;
  */
 public interface HttpHeaderParseExtension {
 
-    /**
-     * get specified key
-     *
-     * @return Map, key:out-key, value:inner-key
-     */
-    Map<String, String> get();
+  /**
+   * get specified key
+   *
+   * @return Map, key:out-key, value:inner-key
+   */
+  Map<String, String> get();
 }

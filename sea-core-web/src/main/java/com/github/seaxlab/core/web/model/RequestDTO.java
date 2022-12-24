@@ -19,10 +19,10 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class RequestDTO implements Serializable {
 
-    private String uri;
-    private String method;
-    private String contentType;
-    private String queryString;
-    private int contentLength;
-    private String userAgent;
+  private String uri;
+  private String method;
+  private String contentType;
+  private String queryString;
+  private int contentLength;
+  private String userAgent;
 }

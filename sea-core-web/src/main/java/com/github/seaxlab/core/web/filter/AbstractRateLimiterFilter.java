@@ -34,68 +34,68 @@ import java.util.concurrent.TimeUnit;
 @Beta
 public abstract class AbstractRateLimiterFilter implements Filter {
 
-    private ConcurrentHashMap<String, RateLimiter> cache;
+  private ConcurrentHashMap<String, RateLimiter> cache;
 
-    private PathMatcher pathMatcher;
+  private PathMatcher pathMatcher;
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        pathMatcher = new AntPathMatcher();
-        cache = new ConcurrentHashMap<>();
-        List<RateLimiterConfig> rateLimiterConfigs = getRateLimiterConfigs();
+  @Override
+  public void init(FilterConfig filterConfig) throws ServletException {
+    pathMatcher = new AntPathMatcher();
+    cache = new ConcurrentHashMap<>();
+    List<RateLimiterConfig> rateLimiterConfigs = getRateLimiterConfigs();
 
-        for (RateLimiterConfig rateLimiterConfig : rateLimiterConfigs) {
-            cache.putIfAbsent(rateLimiterConfig.getUrl(), RateLimiter.create(rateLimiterConfig.getQps()));
+    for (RateLimiterConfig rateLimiterConfig : rateLimiterConfigs) {
+      cache.putIfAbsent(rateLimiterConfig.getUrl(), RateLimiter.create(rateLimiterConfig.getQps()));
+    }
+
+  }
+
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    HttpServletRequest req = (HttpServletRequest) request;
+    HttpServletResponse resp = (HttpServletResponse) response;
+    String url = req.getRequestURI();
+
+    Set<Map.Entry<String, RateLimiter>> entrys = cache.entrySet();
+    for (Map.Entry<String, RateLimiter> entry : entrys) {
+      if (pathMatcher.match(entry.getKey(), url)) {
+        RateLimiter rateLimiter = entry.getValue();
+        // go next if it acquires in 5 seconds
+        if (rateLimiter.tryAcquire(5, TimeUnit.SECONDS)) {
+          chain.doFilter(req, resp);
+          return;
+        } else {
+          log.warn("not get rate limiter token, so end request, url={}", url);
+          Result result = Result.fail(ErrorMessageEnum.SYS_RATE_LIMITER_ERROR);
+          ResponseUtil.toJSON(resp, result);
+          return;
         }
-
+        // should end, if hint url pattern.
+      }
     }
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
-        String url = req.getRequestURI();
+    // pass all by default.
+    chain.doFilter(req, resp);
+  }
 
-        Set<Map.Entry<String, RateLimiter>> entrys = cache.entrySet();
-        for (Map.Entry<String, RateLimiter> entry : entrys) {
-            if (pathMatcher.match(entry.getKey(), url)) {
-                RateLimiter rateLimiter = entry.getValue();
-                // go next if it acquires in 5 seconds
-                if (rateLimiter.tryAcquire(5, TimeUnit.SECONDS)) {
-                    chain.doFilter(req, resp);
-                    return;
-                } else {
-                    log.warn("not get rate limiter token, so end request, url={}", url);
-                    Result result = Result.fail(ErrorMessageEnum.SYS_RATE_LIMITER_ERROR);
-                    ResponseUtil.toJSON(resp, result);
-                    return;
-                }
-                // should end, if hint url pattern.
-            }
-        }
+  @Override
+  public void destroy() {
+    cache.clear();
+  }
 
-        // pass all by default.
-        chain.doFilter(req, resp);
-    }
+  /**
+   * 获取维度key，基于sass的软件，会有很多维度，不能将使用一个维度对所有租户进行限制
+   *
+   * @param request
+   * @return
+   */
+  abstract String getShardingKey(HttpServletRequest request);
 
-    @Override
-    public void destroy() {
-        cache.clear();
-    }
-
-    /**
-     * 获取维度key，基于sass的软件，会有很多维度，不能将使用一个维度对所有租户进行限制
-     *
-     * @param request
-     * @return
-     */
-    abstract String getShardingKey(HttpServletRequest request);
-
-    /**
-     * 获取限流配置
-     *
-     * @return
-     */
-    abstract List<RateLimiterConfig> getRateLimiterConfigs();
+  /**
+   * 获取限流配置
+   *
+   * @return
+   */
+  abstract List<RateLimiterConfig> getRateLimiterConfigs();
 
 }

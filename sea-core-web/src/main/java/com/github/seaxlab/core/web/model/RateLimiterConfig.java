@@ -12,10 +12,10 @@ import lombok.Data;
 @Data
 public class RateLimiterConfig {
 
-    /**
-     * support url wildcard pattern
-     */
-    private String url;
+  /**
+   * support url wildcard pattern
+   */
+  private String url;
 
-    private int qps;
+  private int qps;
 }

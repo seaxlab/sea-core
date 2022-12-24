@@ -15,15 +15,15 @@ import javax.servlet.ServletContextListener;
  */
 @Slf4j
 public class WebApplicationListener implements ServletContextListener {
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
+  @Override
+  public void contextInitialized(ServletContextEvent sce) {
 
-        CoreConst.WEB_ROOT = sce.getServletContext().getRealPath(".");
-        log.info("webRoot={}", CoreConst.WEB_ROOT);
-    }
+    CoreConst.WEB_ROOT = sce.getServletContext().getRealPath(".");
+    log.info("webRoot={}", CoreConst.WEB_ROOT);
+  }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
+  @Override
+  public void contextDestroyed(ServletContextEvent sce) {
 
-    }
+  }
 }
