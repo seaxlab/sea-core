@@ -56,6 +56,17 @@ public final class SetUtil {
   }
 
   /**
+   * build common hash set
+   *
+   * @param elements
+   * @param <T>
+   * @return
+   */
+  public static <T> Set<T> of(T... elements) {
+    return Sets.newHashSet(elements);
+  }
+
+  /**
    * iterator to set
    *
    * @param iterator
