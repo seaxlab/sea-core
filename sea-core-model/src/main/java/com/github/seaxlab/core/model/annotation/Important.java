@@ -14,17 +14,17 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
 public @interface Important {
 
-    /**
-     * 重要内容
-     *
-     * @return
-     */
-    String value() default "";
+  /**
+   * 重要内容
+   *
+   * @return
+   */
+  String value() default "";
 
-    /**
-     * 重要程度
-     *
-     * @return
-     */
-    int level() default 1;
+  /**
+   * 重要程度
+   *
+   * @return
+   */
+  int level() default 1;
 }

@@ -9,5 +9,5 @@ package com.github.seaxlab.core.model.layer.po;
  */
 public interface EntityKey<T> {
 
-    T getEntityKey();
+  T getEntityKey();
 }

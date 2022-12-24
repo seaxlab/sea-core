@@ -19,42 +19,42 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EncryptResult implements Serializable {
-    /**
-     * 响应成功与否
-     */
-    private Boolean success;
+  /**
+   * 响应成功与否
+   */
+  private Boolean success;
 
-    /**
-     * 错误码
-     */
-    private String errorCode;
+  /**
+   * 错误码
+   */
+  private String errorCode;
 
-    /**
-     * 消息
-     */
-    private String message;
+  /**
+   * 消息
+   */
+  private String message;
 
-    /**
-     * appId
-     */
-    private String appId;
+  /**
+   * appId
+   */
+  private String appId;
 
-    /**
-     * 签名
-     */
-    private String sign;
+  /**
+   * 签名
+   */
+  private String sign;
 
-    /**
-     * 秘钥版本
-     */
-    private String version;
-    /**
-     * 内容内容
-     */
-    private String bizContent;
+  /**
+   * 秘钥版本
+   */
+  private String version;
+  /**
+   * 内容内容
+   */
+  private String bizContent;
 
-    /**
-     * 请求时间戳 yyyyMMddHHmmss
-     */
-    private String timestamp;
+  /**
+   * 请求时间戳 yyyyMMddHHmmss
+   */
+  private String timestamp;
 }

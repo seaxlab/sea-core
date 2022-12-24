@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Data
 public class BaseResponseVO implements Serializable {
 
-    // 幂等字段，上下游系统自行保证
-    // idempotent
-    // public boolean repeat;
+  // 幂等字段，上下游系统自行保证
+  // idempotent
+  // public boolean repeat;
 }

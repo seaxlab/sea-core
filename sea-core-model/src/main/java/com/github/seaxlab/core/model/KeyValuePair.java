@@ -13,22 +13,22 @@ import java.io.Serializable;
  */
 @Data
 public class KeyValuePair<K, V> implements Serializable {
-    private K key;
-    private V value;
+  private K key;
+  private V value;
 
-    private KeyValuePair() {
+  private KeyValuePair() {
 
-    }
+  }
 
-    public KeyValuePair(K key, V value) {
-        this.key = key;
-        this.value = value;
-    }
+  public KeyValuePair(K key, V value) {
+    this.key = key;
+    this.value = value;
+  }
 
-    public static <K, V> KeyValuePair<K, V> of(K key, V value) {
-        KeyValuePair<K, V> kv = new KeyValuePair<>();
-        kv.setKey(key);
-        kv.setValue(value);
-        return kv;
-    }
+  public static <K, V> KeyValuePair<K, V> of(K key, V value) {
+    KeyValuePair<K, V> kv = new KeyValuePair<>();
+    kv.setKey(key);
+    kv.setValue(value);
+    return kv;
+  }
 }

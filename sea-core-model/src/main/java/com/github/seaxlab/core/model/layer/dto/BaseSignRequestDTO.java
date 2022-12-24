@@ -14,26 +14,26 @@ import java.io.Serializable;
 @Data
 public class BaseSignRequestDTO implements Serializable {
 
-    /**
-     * appId
-     */
-    private String appId;
+  /**
+   * appId
+   */
+  private String appId;
 
-    /**
-     * app秘钥
-     */
-    private String appSecret;
+  /**
+   * app秘钥
+   */
+  private String appSecret;
 
-    /**
-     * 随机字符串
-     */
-    private String nonceStr;
+  /**
+   * 随机字符串
+   */
+  private String nonceStr;
 
-    /**
-     * 时间戳，单位秒
-     * <code>
-     * String date = String.valueOf(System.currentTimeMillis() / 1000);
-     * </code>
-     */
-    private String timestamp;
+  /**
+   * 时间戳，单位秒
+   * <code>
+   * String date = String.valueOf(System.currentTimeMillis() / 1000);
+   * </code>
+   */
+  private String timestamp;
 }

@@ -17,28 +17,28 @@ import java.util.Date;
 @Data
 public class TimeRange extends DTO implements SimpleValidator {
 
-    @JSONField(format = "HH:mm")
-    private Date begin;
+  @JSONField(format = "HH:mm")
+  private Date begin;
 
-    @JSONField(format = "HH:mm")
-    private Date end;
+  @JSONField(format = "HH:mm")
+  private Date end;
 
-    @Override
-    @JSONField(serialize = false)
-    public boolean isValid() {
-        //TODO
-        return false;
-    }
+  @Override
+  @JSONField(serialize = false)
+  public boolean isValid() {
+    //TODO
+    return false;
+  }
 
-    public static TimeRange of(String beginStr, String endStr) {
-        //TODO
-        return null;
-    }
+  public static TimeRange of(String beginStr, String endStr) {
+    //TODO
+    return null;
+  }
 
-    public static TimeRange of(Date begin, Date end) {
-        //TODO
-        return null;
-    }
+  public static TimeRange of(Date begin, Date end) {
+    //TODO
+    return null;
+  }
 
 
 }

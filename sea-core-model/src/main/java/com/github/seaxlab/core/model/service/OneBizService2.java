@@ -11,12 +11,12 @@ import com.github.seaxlab.core.model.Result;
  */
 public interface OneBizService2<Context, Input, R> {
 
-    /**
-     * execute biz service
-     *
-     * @param ctx   context
-     * @param input input
-     * @return R
-     */
-    Result<R> execute(Context ctx, Input input);
+  /**
+   * execute biz service
+   *
+   * @param ctx   context
+   * @param input input
+   * @return R
+   */
+  Result<R> execute(Context ctx, Input input);
 }

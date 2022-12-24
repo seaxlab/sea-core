@@ -14,9 +14,9 @@ import java.util.Date;
 @Data
 public class Birthday {
 
-    private int year;
-    private int month;
-    private int day;
-    private Date date;
-    private String dateStr;
+  private int year;
+  private int month;
+  private int day;
+  private Date date;
+  private String dateStr;
 }

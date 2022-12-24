@@ -11,10 +11,10 @@ import lombok.Data;
  */
 @Data
 public class SimpleVO extends VO {
-    private Long id;
-    private String code;
-    private String name;
-    private String type;
-    private String typeName;
-    private String remark;
+  private Long id;
+  private String code;
+  private String name;
+  private String type;
+  private String typeName;
+  private String remark;
 }

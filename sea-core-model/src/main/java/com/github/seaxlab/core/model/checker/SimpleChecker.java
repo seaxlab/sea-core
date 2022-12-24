@@ -10,10 +10,10 @@ package com.github.seaxlab.core.model.checker;
  */
 public interface SimpleChecker<I> {
 
-    /**
-     * check
-     *
-     * @param input
-     */
-    void check(I input);
+  /**
+   * check
+   *
+   * @param input
+   */
+  void check(I input);
 }

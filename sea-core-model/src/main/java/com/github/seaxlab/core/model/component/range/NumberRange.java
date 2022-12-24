@@ -13,8 +13,8 @@ import lombok.Data;
 @Data
 public class NumberRange extends DTO {
 
-    private Integer begin;
+  private Integer begin;
 
-    private Integer end;
+  private Integer end;
 
 }

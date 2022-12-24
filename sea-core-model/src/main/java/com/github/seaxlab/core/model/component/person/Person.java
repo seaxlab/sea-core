@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 public class Person extends DTO {
 
-    private Name name;
-    private Age age;
-    private List<Address> addressList;
+  private Name name;
+  private Age age;
+  private List<Address> addressList;
 }

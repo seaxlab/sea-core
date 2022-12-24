@@ -11,24 +11,24 @@ import java.io.Serializable;
  */
 public interface IBaseEnum2<T> extends Serializable {
 
-    /**
-     * 标准编码
-     *
-     * @return T
-     */
-    T getCode();
+  /**
+   * 标准编码
+   *
+   * @return T
+   */
+  T getCode();
 
-    /**
-     * 对外名称
-     *
-     * @return string
-     */
-    String getName();
+  /**
+   * 对外名称
+   *
+   * @return string
+   */
+  String getName();
 
-    /**
-     * 描述
-     *
-     * @return string
-     */
-    String getDesc();
+  /**
+   * 描述
+   *
+   * @return string
+   */
+  String getDesc();
 }

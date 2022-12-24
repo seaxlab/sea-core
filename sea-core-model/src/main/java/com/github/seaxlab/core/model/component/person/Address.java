@@ -13,64 +13,64 @@ import lombok.Data;
 @Data
 public class Address extends DTO {
 
-    // 省
-    private String provinceCode;
-    private String provinceName;
+  // 省
+  private String provinceCode;
+  private String provinceName;
 
-    // 市
-    private String cityCode;
-    private String cityName;
+  // 市
+  private String cityCode;
+  private String cityName;
 
-    // 区
-    private String countryCode;
-    private String countryName;
+  // 区
+  private String countryCode;
+  private String countryName;
 
-    // 街道
-    private String streetCode;
-    private String streetName;
+  // 街道
+  private String streetCode;
+  private String streetName;
 
-    // 详细地址，门牌
-    private String detail;
+  // 详细地址，门牌
+  private String detail;
 
-    // 邮政编码
-    private String postCode;
+  // 邮政编码
+  private String postCode;
 
-    // 用户名称
-    private String userName;
+  // 用户名称
+  private String userName;
 
-    // 用户手机号
-    private String phone;
+  // 用户手机号
+  private String phone;
 
-    // 是否默认
-    private Boolean defaultFlag;
+  // 是否默认
+  private Boolean defaultFlag;
 
-    /**
-     * 全名
-     *
-     * @return string
-     */
-    public String getFullAddress() {
-        String address = contact(provinceName)
-                + contact(cityName, "")
-                + contact(countryName, "")
-                + contact(streetName, "")
-                + contact(detail, "");
+  /**
+   * 全名
+   *
+   * @return string
+   */
+  public String getFullAddress() {
+    String address = contact(provinceName)
+      + contact(cityName, "")
+      + contact(countryName, "")
+      + contact(streetName, "")
+      + contact(detail, "");
 
-        return address.trim();
+    return address.trim();
+  }
+
+  private String contact(String name) {
+    if (name == null || name.trim().isEmpty()) {
+      return "";
     }
+    return name;
+  }
 
-    private String contact(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            return "";
-        }
-        return name;
+  private String contact(String name, String defaultVal) {
+    if (name == null || name.trim().isEmpty()) {
+      return defaultVal;
     }
-
-    private String contact(String name, String defaultVal) {
-        if (name == null || name.trim().isEmpty()) {
-            return defaultVal;
-        }
-        return name + " ";
-    }
+    return name + " ";
+  }
 
 }

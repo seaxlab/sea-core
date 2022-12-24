@@ -16,9 +16,9 @@ import java.util.Date;
 @Data
 public class DateRange extends DTO {
 
-    @JSONField(format = "yyyy-MM-dd")
-    private Date begin;
+  @JSONField(format = "yyyy-MM-dd")
+  private Date begin;
 
-    @JSONField(format = "yyyy-MM-dd")
-    private Date end;
+  @JSONField(format = "yyyy-MM-dd")
+  private Date end;
 }

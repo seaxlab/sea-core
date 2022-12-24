@@ -14,5 +14,5 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface Doc {
 
-    String value() default "";
+  String value() default "";
 }

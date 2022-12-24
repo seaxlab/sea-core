@@ -21,23 +21,23 @@ import java.util.List;
 @Data
 public class BaseQueryConditionDTO implements Serializable {
 
-    private List<ConditionDTO> queryConditions;
+  private List<ConditionDTO> queryConditions;
 
 
-    @Data
-    public static class ConditionDTO {
-        // and/or
-        private String mode;
-        // 左右括号
-        private Boolean bracketLeftFlag = false;
-        private Boolean bracketRightFlag = false;
-        // 条件key
-        private String key;
-        // 操作符 =<>in等等
-        private String operator;
-        // value
-        private String value;
-        // value type
-        private String valueType;
-    }
+  @Data
+  public static class ConditionDTO {
+    // and/or
+    private String mode;
+    // 左右括号
+    private Boolean bracketLeftFlag = false;
+    private Boolean bracketRightFlag = false;
+    // 条件key
+    private String key;
+    // 操作符 =<>in等等
+    private String operator;
+    // value
+    private String value;
+    // value type
+    private String valueType;
+  }
 }

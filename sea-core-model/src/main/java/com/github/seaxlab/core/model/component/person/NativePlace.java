@@ -14,15 +14,15 @@ import java.io.Serializable;
 @Data
 public class NativePlace implements Serializable {
 
-    //省
-    private String provinceCode;
-    private String provinceName;
-    //市
-    private String cityCode;
-    private String cityName;
-    //区/县
-    private String countyCode;
-    private String countyName;
-    //
-    private String address;
+  //省
+  private String provinceCode;
+  private String provinceName;
+  //市
+  private String cityCode;
+  private String cityName;
+  //区/县
+  private String countyCode;
+  private String countyName;
+  //
+  private String address;
 }

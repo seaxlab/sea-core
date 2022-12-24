@@ -15,9 +15,9 @@ import java.util.Date;
  */
 @Data
 public class DateTimeFullRange extends DTO {
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date begin;
+  @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+  private Date begin;
 
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date end;
+  @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+  private Date end;
 }

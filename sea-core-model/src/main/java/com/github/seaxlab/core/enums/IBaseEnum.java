@@ -10,17 +10,17 @@ import java.io.Serializable;
  * @since 1.0
  */
 public interface IBaseEnum<T> extends Serializable {
-    /**
-     * 标准编码
-     *
-     * @return
-     */
-    T getCode();
+  /**
+   * 标准编码
+   *
+   * @return
+   */
+  T getCode();
 
-    /**
-     * 描述
-     *
-     * @return
-     */
-    String getDesc();
+  /**
+   * 描述
+   *
+   * @return
+   */
+  String getDesc();
 }

@@ -10,7 +10,7 @@ package com.github.seaxlab.core.model.checker;
  */
 public class BaseSimpleChecker2<Input1, Input2> implements SimpleChecker2<Input1, Input2> {
 
-    @Override
-    public void check(Input1 input1, Input2 input2) {
-    }
+  @Override
+  public void check(Input1 input1, Input2 input2) {
+  }
 }
