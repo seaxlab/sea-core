@@ -27,17 +27,17 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface LoadLevel {
-    /**
-     * Name string. (weakness depends)
-     *
-     * @return the string
-     */
-    String name();
+  /**
+   * Name string. (weakness depends)
+   *
+   * @return the string
+   */
+  String name();
 
-    /**
-     * Order int. the smaller, the more forward.
-     *
-     * @return the int
-     */
-    int order() default 0;
+  /**
+   * Order int. the smaller, the more forward.
+   *
+   * @return the int
+   */
+  int order() default 0;
 }

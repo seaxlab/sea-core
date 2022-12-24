@@ -12,8 +12,8 @@ import lombok.Data;
 @Data
 public class HttpUploadRespDTO {
 
-    /**
-     * 服务端响应内容（目前），具体内容，由调用方来反序列化成对象
-     */
-    private String content;
+  /**
+   * 服务端响应内容（目前），具体内容，由调用方来反序列化成对象
+   */
+  private String content;
 }

@@ -9,14 +9,14 @@ package com.github.seaxlab.core.thread;
  */
 public class NamedThread extends Thread {
 
-    private String name;
+  private String name;
 
-    private NamedThread() {
+  private NamedThread() {
 
-    }
+  }
 
-    public NamedThread(String name) {
-        super(name);
-        this.name = name;
-    }
+  public NamedThread(String name) {
+    super(name);
+    this.name = name;
+  }
 }

@@ -21,39 +21,39 @@ import java.io.InputStream;
 @Slf4j
 public final class OkHttpUtil {
 
-    /**
-     * create request body by input stream.
-     *
-     * @param mediaType
-     * @param inputStream
-     * @return
-     */
-    public static RequestBody create(final MediaType mediaType, final InputStream inputStream) {
-        return new RequestBody() {
-            @Override
-            public MediaType contentType() {
-                return mediaType;
-            }
+  /**
+   * create request body by input stream.
+   *
+   * @param mediaType
+   * @param inputStream
+   * @return
+   */
+  public static RequestBody create(final MediaType mediaType, final InputStream inputStream) {
+    return new RequestBody() {
+      @Override
+      public MediaType contentType() {
+        return mediaType;
+      }
 
-            @Override
-            public long contentLength() {
-                try {
-                    return inputStream.available();
-                } catch (IOException e) {
-                    return 0;
-                }
-            }
+      @Override
+      public long contentLength() {
+        try {
+          return inputStream.available();
+        } catch (IOException e) {
+          return 0;
+        }
+      }
 
-            @Override
-            public void writeTo(BufferedSink sink) throws IOException {
-                Source source = null;
-                try {
-                    source = Okio.source(inputStream);
-                    sink.writeAll(source);
-                } finally {
-                    Util.closeQuietly(source);
-                }
-            }
-        };
-    }
+      @Override
+      public void writeTo(BufferedSink sink) throws IOException {
+        Source source = null;
+        try {
+          source = Okio.source(inputStream);
+          sink.writeAll(source);
+        } finally {
+          Util.closeQuietly(source);
+        }
+      }
+    };
+  }
 }

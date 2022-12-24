@@ -12,12 +12,12 @@ import org.junit.Test;
  */
 @Slf4j
 public class TelnetUtilTest {
-    //TODO
+  //TODO
 
-    @Test
-    public void run17() throws Exception {
-        TelnetUtil telnetUtil = new TelnetUtil("www.baidu.com", 80);
+  @Test
+  public void run17() throws Exception {
+    TelnetUtil telnetUtil = new TelnetUtil("www.baidu.com", 80);
 
-        log.info("{}", telnetUtil.connectTest());
-    }
+    log.info("{}", telnetUtil.connectTest());
+  }
 }

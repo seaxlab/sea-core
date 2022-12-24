@@ -16,20 +16,20 @@ import java.util.Map;
 @Data
 public class HttpUploadDTO extends BaseHttpDTO {
 
-    // file/stream二选一即可
+  // file/stream二选一即可
 
-    /**
-     * 常规字段
-     */
-    private Map<String, Object> textFieldMap;
+  /**
+   * 常规字段
+   */
+  private Map<String, Object> textFieldMap;
 
-    /**
-     * 文件字段
-     */
-    private Map<String, File> fileFieldMap;
+  /**
+   * 文件字段
+   */
+  private Map<String, File> fileFieldMap;
 
-    /**
-     * 流方式字段
-     */
-    private Map<String, InputStream> streamFieldMap;
+  /**
+   * 流方式字段
+   */
+  private Map<String, InputStream> streamFieldMap;
 }

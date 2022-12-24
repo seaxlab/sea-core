@@ -14,13 +14,13 @@ import org.junit.Test;
 @Slf4j
 public class DiskUtilTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
+  @Test
+  public void run17() throws Exception {
 
 
-        log.info("free space={}", DiskUtil.getFreeSpace(USER_HOME));
-        log.info("usable space={}", DiskUtil.getUsableSpace(USER_HOME));
-        log.info("total space={}", DiskUtil.getTotalSpace(USER_HOME));
-        log.info("used percent={}", DiskUtil.getSpaceUsedPercent(USER_HOME));
-    }
+    log.info("free space={}", DiskUtil.getFreeSpace(USER_HOME));
+    log.info("usable space={}", DiskUtil.getUsableSpace(USER_HOME));
+    log.info("total space={}", DiskUtil.getTotalSpace(USER_HOME));
+    log.info("used percent={}", DiskUtil.getSpaceUsedPercent(USER_HOME));
+  }
 }

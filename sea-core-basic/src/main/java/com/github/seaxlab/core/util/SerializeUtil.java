@@ -14,22 +14,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SerializeUtil {
 
-    public static final String TYPE_JSON = "JSON";
+  public static final String TYPE_JSON = "JSON";
 
-    public static final String TYPE_BYTE = "BYTE";
+  public static final String TYPE_BYTE = "BYTE";
 
-    private SerializeUtil() {
-    }
+  private SerializeUtil() {
+  }
 
-    private static final SerializeProcessor processor = new DefaultSerializeProcessor();
+  private static final SerializeProcessor processor = new DefaultSerializeProcessor();
 
-    public static byte[] serialize(Object object) {
-        return processor.serialize(object);
-    }
+  public static byte[] serialize(Object object) {
+    return processor.serialize(object);
+  }
 
-    public static Object deserialize(byte[] bytes) {
-        return processor.deserialize(bytes, Object.class);
-    }
+  public static Object deserialize(byte[] bytes) {
+    return processor.deserialize(bytes, Object.class);
+  }
 
 
 }

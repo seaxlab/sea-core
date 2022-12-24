@@ -13,43 +13,43 @@ import org.slf4j.MDC;
 @Slf4j
 public final class MDCUtil {
 
-    private MDCUtil() {
+  private MDCUtil() {
+  }
+
+  /**
+   * 获取MDC上下文值
+   *
+   * @param key
+   * @param defaultValue
+   * @return
+   */
+  public static String get(String key, String defaultValue) {
+    String value = MDC.get(key);
+    if (StringUtil.isEmpty(value)) {
+      return defaultValue;
     }
 
-    /**
-     * 获取MDC上下文值
-     *
-     * @param key
-     * @param defaultValue
-     * @return
-     */
-    public static String get(String key, String defaultValue) {
-        String value = MDC.get(key);
-        if (StringUtil.isEmpty(value)) {
-            return defaultValue;
-        }
+    return value;
+  }
 
-        return value;
+
+  /**
+   * 获取MDC上下文值,如果不存在则存入上下文
+   *
+   * @param key
+   * @param defaultValue
+   * @return
+   */
+  public static String getAndSet(String key, String defaultValue) {
+    String value = MDC.get(key);
+
+    if (StringUtil.isEmpty(value)) {
+
+      MDC.put(key, defaultValue);
+
+      return defaultValue;
     }
 
-
-    /**
-     * 获取MDC上下文值,如果不存在则存入上下文
-     *
-     * @param key
-     * @param defaultValue
-     * @return
-     */
-    public static String getAndSet(String key, String defaultValue) {
-        String value = MDC.get(key);
-
-        if (StringUtil.isEmpty(value)) {
-
-            MDC.put(key, defaultValue);
-
-            return defaultValue;
-        }
-
-        return value;
-    }
+    return value;
+  }
 }

@@ -20,41 +20,41 @@ import static org.junit.Assert.assertEquals;
 @Slf4j
 public class PluginTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        Map map = new HashMap();
+  @Test
+  public void run17() throws Exception {
+    Map map = new HashMap();
 
-        // 重要：注意这里的顺序，以及执行后的顺序
-        map = (Map) new AlwaysMapPlugin().plugin(map);
-        map = (Map) new AlwaysMap2Plugin().plugin(map);
-        assertEquals("Always2", map.get("Anything"));
+    // 重要：注意这里的顺序，以及执行后的顺序
+    map = (Map) new AlwaysMapPlugin().plugin(map);
+    map = (Map) new AlwaysMap2Plugin().plugin(map);
+    assertEquals("Always2", map.get("Anything"));
+  }
+
+  @Intercepts({
+    @Signature(type = Map.class, method = "get", args = {Object.class})})
+  public static class AlwaysMapPlugin implements Interceptor {
+    @Override
+    public Object intercept(Invocation invocation) throws InvocationTargetException, IllegalAccessException {
+
+      log.info("---1 before");
+      invocation.proceed();
+      log.info("---1 after");
+      return "Always";
     }
 
-    @Intercepts({
-            @Signature(type = Map.class, method = "get", args = {Object.class})})
-    public static class AlwaysMapPlugin implements Interceptor {
-        @Override
-        public Object intercept(Invocation invocation) throws InvocationTargetException, IllegalAccessException {
+  }
 
-            log.info("---1 before");
-            invocation.proceed();
-            log.info("---1 after");
-            return "Always";
-        }
+  @Intercepts({
+    @Signature(type = Map.class, method = "get", args = {Object.class})})
+  public static class AlwaysMap2Plugin implements Interceptor {
+    @Override
+    public Object intercept(Invocation invocation) throws InvocationTargetException, IllegalAccessException {
 
+      log.info("---2 before");
+      invocation.proceed();
+      log.info("---2 after");
+      return "Always2";
     }
 
-    @Intercepts({
-            @Signature(type = Map.class, method = "get", args = {Object.class})})
-    public static class AlwaysMap2Plugin implements Interceptor {
-        @Override
-        public Object intercept(Invocation invocation) throws InvocationTargetException, IllegalAccessException {
-
-            log.info("---2 before");
-            invocation.proceed();
-            log.info("---2 after");
-            return "Always2";
-        }
-
-    }
+  }
 }

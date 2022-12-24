@@ -16,18 +16,18 @@ import java.util.Map;
 @Slf4j
 public class LRUTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
-        Map<Integer, Integer> map = new LRU<>(5);
-        for (int i = 1; i <= 11; i++) {
-            map.put(i, i);
-            System.out.println("cache的容量为：" + map.size());
-            if (i == 4) {
-                map.get(1);
-            }
-        }
-
-        System.out.println("=-=-=-=-=-=-=-map元素:");
-        map.entrySet().forEach(integerIntegerEntry -> System.out.println(integerIntegerEntry.getValue()));
+  @Test
+  public void test17() throws Exception {
+    Map<Integer, Integer> map = new LRU<>(5);
+    for (int i = 1; i <= 11; i++) {
+      map.put(i, i);
+      System.out.println("cache的容量为：" + map.size());
+      if (i == 4) {
+        map.get(1);
+      }
     }
+
+    System.out.println("=-=-=-=-=-=-=-map元素:");
+    map.entrySet().forEach(integerIntegerEntry -> System.out.println(integerIntegerEntry.getValue()));
+  }
 }

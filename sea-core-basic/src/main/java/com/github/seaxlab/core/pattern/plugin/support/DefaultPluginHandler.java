@@ -19,53 +19,53 @@ import java.util.List;
 @Slf4j
 public class DefaultPluginHandler implements PluginHandler {
 
-    private List<Plugin> plugins;
+  private List<Plugin> plugins;
 
 
-    public DefaultPluginHandler(List<Plugin> plugins) {
-        this.plugins = plugins;
-        Collections.sort(this.plugins, (o1, o2) -> Integer.compare(o1.getOrder(), o2.getOrder()));
+  public DefaultPluginHandler(List<Plugin> plugins) {
+    this.plugins = plugins;
+    Collections.sort(this.plugins, (o1, o2) -> Integer.compare(o1.getOrder(), o2.getOrder()));
+  }
+
+  @Override
+  public void handle(PluginContext context) {
+    new DefaultPluginChain(plugins).execute(context);
+  }
+
+
+  private static class DefaultPluginChain implements PluginChain {
+
+    private int index;
+
+    private final List<Plugin> plugins;
+
+    /**
+     * Instantiates a new Default plugin chain.
+     *
+     * @param plugins the plugins
+     */
+    DefaultPluginChain(final List<Plugin> plugins) {
+      this.plugins = plugins;
     }
 
+    /**
+     * Delegate to the next  in the chain.
+     *
+     * @param context plugin context
+     */
     @Override
-    public void handle(PluginContext context) {
-        new DefaultPluginChain(plugins).execute(context);
-    }
+    public void execute(final PluginContext context) {
+      if (this.index < plugins.size()) {
+        Plugin plugin = plugins.get(this.index++);
 
-
-    private static class DefaultPluginChain implements PluginChain {
-
-        private int index;
-
-        private final List<Plugin> plugins;
-
-        /**
-         * Instantiates a new Default plugin chain.
-         *
-         * @param plugins the plugins
-         */
-        DefaultPluginChain(final List<Plugin> plugins) {
-            this.plugins = plugins;
+        boolean skip = plugin.skip(context);
+        if (skip) {
+          this.execute(context);
+          return;
         }
 
-        /**
-         * Delegate to the next  in the chain.
-         *
-         * @param context plugin context
-         */
-        @Override
-        public void execute(final PluginContext context) {
-            if (this.index < plugins.size()) {
-                Plugin plugin = plugins.get(this.index++);
-
-                boolean skip = plugin.skip(context);
-                if (skip) {
-                    this.execute(context);
-                    return;
-                }
-
-                plugin.execute(context, this);
-            }
-        }
+        plugin.execute(context, this);
+      }
     }
+  }
 }

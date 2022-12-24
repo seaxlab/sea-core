@@ -22,228 +22,228 @@ import java.io.PipedOutputStream;
 @Slf4j
 public final class SshUtil {
 
-    private static final int DEFAULT_CONNECT_TIME_OUT = 30 * 1000; //30s
-    private static final int DEFAULT_WAIT_TIMEOUT = 100;
+  private static final int DEFAULT_CONNECT_TIME_OUT = 30 * 1000; //30s
+  private static final int DEFAULT_WAIT_TIMEOUT = 100;
 
 
-    /**
-     * connect remote host by local port forwarding and ssh.
-     *
-     * @param config
-     * @return
-     */
-    public static Result<SshResp> setUpPortForwarding(SshConfig config) {
-        Result<SshResp> result = Result.fail();
+  /**
+   * connect remote host by local port forwarding and ssh.
+   *
+   * @param config
+   * @return
+   */
+  public static Result<SshResp> setUpPortForwarding(SshConfig config) {
+    Result<SshResp> result = Result.fail();
 
-        try {
-            Session session = buildSession(config);
+    try {
+      Session session = buildSession(config);
 
-            // here assigned port is equal local port
-            int assignedPort = session.setPortForwardingL(config.getLocalPort(), config.getRemoteHost(), config.getRemotePort());
-            log.info("localhost:{} -> {}:{} connection established.", assignedPort, config.getRemoteHost(), config.getRemotePort());
+      // here assigned port is equal local port
+      int assignedPort = session.setPortForwardingL(config.getLocalPort(), config.getRemoteHost(), config.getRemotePort());
+      log.info("localhost:{} -> {}:{} connection established.", assignedPort, config.getRemoteHost(), config.getRemotePort());
 
-            SshResp resp = new SshResp();
-            resp.setSession(session);
-            resp.setAssignedPort(assignedPort);
-            result.value(resp);
-        } catch (Exception e) {
-            log.error("fail to connect remote ssh", e);
-            result.setMsg("fail to build local port forwarding ssh");
-        }
-
-        return result;
+      SshResp resp = new SshResp();
+      resp.setSession(session);
+      resp.setAssignedPort(assignedPort);
+      result.value(resp);
+    } catch (Exception e) {
+      log.error("fail to connect remote ssh", e);
+      result.setMsg("fail to build local port forwarding ssh");
     }
 
+    return result;
+  }
 
-    /**
-     * 执行命令
-     *
-     * @param config
-     * @param command
-     * @return
-     */
-    public static Result<String> executeCmd(SshConfig config, String command) {
-        Result<String> result = Result.fail();
 
-        Session session = null;
-        ChannelExec channel = null;
+  /**
+   * 执行命令
+   *
+   * @param config
+   * @param command
+   * @return
+   */
+  public static Result<String> executeCmd(SshConfig config, String command) {
+    Result<String> result = Result.fail();
 
-        try {
-            session = buildSession(config);
+    Session session = null;
+    ChannelExec channel = null;
 
-            try (PipedOutputStream errPipe = new PipedOutputStream();
-                 PipedInputStream errIs = new PipedInputStream(errPipe)) {
+    try {
+      session = buildSession(config);
 
-                channel = (ChannelExec) session.openChannel("exec");
-                channel.setInputStream(null);
-                channel.setErrStream(errPipe);
-                channel.setCommand(command);
+      try (PipedOutputStream errPipe = new PipedOutputStream();
+           PipedInputStream errIs = new PipedInputStream(errPipe)) {
 
-                InputStream is = channel.getInputStream();
+        channel = (ChannelExec) session.openChannel("exec");
+        channel.setInputStream(null);
+        channel.setErrStream(errPipe);
+        channel.setCommand(command);
 
-                log.info("begin exec cmd [{}]", command);
-                channel.connect();
-                while (!channel.isEOF()) {
-                    Thread.sleep(DEFAULT_WAIT_TIMEOUT);
-                }
-                String output = IOUtils.toString(is, Charsets.UTF_8);
-                IOUtils.close(is);
+        InputStream is = channel.getInputStream();
 
-                if (channel.getExitStatus() == 0) {
-                    log.info("exec cmd successfully.");
-                    result.value(output);
-                } else {
-                    String msg = IOUtils.toString(errIs, Charsets.UTF_8);
-                    log.warn("fail to exit status={}, msg={}", channel.getExitStatus(), msg);
-                    result.setMsg(msg);
-                }
-            }
-        } catch (Exception e) {
-            log.error("fail to connect remote ssh", e);
-            result.setMsg("fail to build local port forwarding ssh");
-        } finally {
-            close(channel);
-            close(session);
+        log.info("begin exec cmd [{}]", command);
+        channel.connect();
+        while (!channel.isEOF()) {
+          Thread.sleep(DEFAULT_WAIT_TIMEOUT);
         }
-        return result;
+        String output = IOUtils.toString(is, Charsets.UTF_8);
+        IOUtils.close(is);
+
+        if (channel.getExitStatus() == 0) {
+          log.info("exec cmd successfully.");
+          result.value(output);
+        } else {
+          String msg = IOUtils.toString(errIs, Charsets.UTF_8);
+          log.warn("fail to exit status={}, msg={}", channel.getExitStatus(), msg);
+          result.setMsg(msg);
+        }
+      }
+    } catch (Exception e) {
+      log.error("fail to connect remote ssh", e);
+      result.setMsg("fail to build local port forwarding ssh");
+    } finally {
+      close(channel);
+      close(session);
     }
+    return result;
+  }
 
-    /**
-     * rename file
-     *
-     * @param config
-     * @param oldPath
-     * @param newPath
-     * @return
-     */
-    public static Result<Boolean> rename(SshConfig config, String oldPath, String newPath) {
-        Result<Boolean> result = Result.fail();
-        Session session = null;
-        ChannelSftp channel = null;
+  /**
+   * rename file
+   *
+   * @param config
+   * @param oldPath
+   * @param newPath
+   * @return
+   */
+  public static Result<Boolean> rename(SshConfig config, String oldPath, String newPath) {
+    Result<Boolean> result = Result.fail();
+    Session session = null;
+    ChannelSftp channel = null;
 
-        try {
-            session = buildSession(config);
+    try {
+      session = buildSession(config);
 
-            log.info("rename {} --> {}", oldPath, newPath);
-            channel = (ChannelSftp) session.openChannel("sftp");
-            channel.connect();
-            channel.rename(oldPath, newPath);
+      log.info("rename {} --> {}", oldPath, newPath);
+      channel = (ChannelSftp) session.openChannel("sftp");
+      channel.connect();
+      channel.rename(oldPath, newPath);
 
-            result.value(true);
-        } catch (Exception e) {
-            log.error("fail to connect remote ssh", e);
-            result.setMsg("fail to build local port forwarding ssh");
-        } finally {
-            close(channel);
-            close(session);
-        }
-        return result;
+      result.value(true);
+    } catch (Exception e) {
+      log.error("fail to connect remote ssh", e);
+      result.setMsg("fail to build local port forwarding ssh");
+    } finally {
+      close(channel);
+      close(session);
     }
+    return result;
+  }
 
-    /**
-     * upload file by sftp
-     *
-     * @param config
-     * @param localFilePath
-     * @param remoteDir
-     * @return
-     */
-    public static Result<Boolean> upload(SshConfig config, String localFilePath, String remoteDir) {
-        Result<Boolean> result = Result.fail();
+  /**
+   * upload file by sftp
+   *
+   * @param config
+   * @param localFilePath
+   * @param remoteDir
+   * @return
+   */
+  public static Result<Boolean> upload(SshConfig config, String localFilePath, String remoteDir) {
+    Result<Boolean> result = Result.fail();
 
-        Session session = null;
-        ChannelSftp channel = null;
+    Session session = null;
+    ChannelSftp channel = null;
 
-        try {
-            session = buildSession(config);
+    try {
+      session = buildSession(config);
 
-            log.info("upload file {} --> {}", localFilePath, remoteDir);
-            channel = (ChannelSftp) session.openChannel("sftp");
-            channel.connect();
-            channel.put(localFilePath, remoteDir);
+      log.info("upload file {} --> {}", localFilePath, remoteDir);
+      channel = (ChannelSftp) session.openChannel("sftp");
+      channel.connect();
+      channel.put(localFilePath, remoteDir);
 
-            result.value(true);
-        } catch (Exception e) {
-            log.error("fail to connect remote ssh", e);
-            result.setMsg("fail to build local port forwarding ssh");
-        } finally {
-            close(channel);
-            close(session);
-        }
-        return result;
+      result.value(true);
+    } catch (Exception e) {
+      log.error("fail to connect remote ssh", e);
+      result.setMsg("fail to build local port forwarding ssh");
+    } finally {
+      close(channel);
+      close(session);
     }
+    return result;
+  }
 
-    /**
-     * download file from remote by sftp
-     *
-     * @param config
-     * @param remoteFilePath
-     * @param localDir
-     * @return
-     */
-    public static Result<Boolean> download(SshConfig config, String remoteFilePath, String localDir) {
-        Result<Boolean> result = Result.fail();
+  /**
+   * download file from remote by sftp
+   *
+   * @param config
+   * @param remoteFilePath
+   * @param localDir
+   * @return
+   */
+  public static Result<Boolean> download(SshConfig config, String remoteFilePath, String localDir) {
+    Result<Boolean> result = Result.fail();
 
-        Session session = null;
-        ChannelSftp channel = null;
+    Session session = null;
+    ChannelSftp channel = null;
 
-        try {
-            session = buildSession(config);
+    try {
+      session = buildSession(config);
 
-            log.info("download file {} --> {}", remoteFilePath, localDir);
-            channel = (ChannelSftp) session.openChannel("sftp");
-            channel.connect();
-            channel.get(remoteFilePath, localDir);
+      log.info("download file {} --> {}", remoteFilePath, localDir);
+      channel = (ChannelSftp) session.openChannel("sftp");
+      channel.connect();
+      channel.get(remoteFilePath, localDir);
 
-            result.value(true);
-        } catch (Exception e) {
-            log.error("fail to connect remote ssh", e);
-            result.setMsg("fail to build local port forwarding ssh");
-        } finally {
-            close(channel);
-            close(session);
-        }
-        return result;
+      result.value(true);
+    } catch (Exception e) {
+      log.error("fail to connect remote ssh", e);
+      result.setMsg("fail to build local port forwarding ssh");
+    } finally {
+      close(channel);
+      close(session);
     }
+    return result;
+  }
 
 
-    // --------private method.
+  // --------private method.
 
-    private static Session buildSession(SshConfig config) throws JSchException {
-        JSch jsch = new JSch();
-        if (StringUtil.isNotBlank(config.getPrivateKey())) {
-            jsch.addIdentity(config.getPrivateKey());
-        }
-        Session session = jsch.getSession(config.getSshUserName(), config.getSshHost(), config.getSshPort());
-
-        if (StringUtil.isNotBlank(config.getSshPassword())) {
-            session.setPassword(config.getSshPassword());
-        }
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.setTimeout(DEFAULT_CONNECT_TIME_OUT);
-        log.info("Establishing Connection...");
-        session.connect();
-        log.info("connection -> {}:{} established.", config.getSshHost(), config.getSshPort());
-        return session;
+  private static Session buildSession(SshConfig config) throws JSchException {
+    JSch jsch = new JSch();
+    if (StringUtil.isNotBlank(config.getPrivateKey())) {
+      jsch.addIdentity(config.getPrivateKey());
     }
+    Session session = jsch.getSession(config.getSshUserName(), config.getSshHost(), config.getSshPort());
 
-    private static void close(Channel channel) {
-        if (channel != null) {
-            try {
-                channel.disconnect();
-            } catch (Exception e) {
-                log.error("fail to close channel", e);
-            }
-        }
+    if (StringUtil.isNotBlank(config.getSshPassword())) {
+      session.setPassword(config.getSshPassword());
     }
+    session.setConfig("StrictHostKeyChecking", "no");
+    session.setTimeout(DEFAULT_CONNECT_TIME_OUT);
+    log.info("Establishing Connection...");
+    session.connect();
+    log.info("connection -> {}:{} established.", config.getSshHost(), config.getSshPort());
+    return session;
+  }
 
-    private static void close(Session session) {
-        if (session != null) {
-            try {
-                session.disconnect();
-            } catch (Exception e) {
-                log.error("fail to close session", e);
-            }
-        }
+  private static void close(Channel channel) {
+    if (channel != null) {
+      try {
+        channel.disconnect();
+      } catch (Exception e) {
+        log.error("fail to close channel", e);
+      }
     }
+  }
+
+  private static void close(Session session) {
+    if (session != null) {
+      try {
+        session.disconnect();
+      } catch (Exception e) {
+        log.error("fail to close session", e);
+      }
+    }
+  }
 }

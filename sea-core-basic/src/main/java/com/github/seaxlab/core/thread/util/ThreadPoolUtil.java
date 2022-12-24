@@ -1,14 +1,9 @@
 package com.github.seaxlab.core.thread.util;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 创建全局线程池，或创建临时线程池
@@ -48,7 +43,7 @@ public final class ThreadPoolUtil {
    * @return ThreadPoolExecutor
    */
   public static ThreadPoolExecutor get(final String uniqueName, final int corePoolSize, final int maxPoolSize,
-    final int queueSize) {
+                                       final int queueSize) {
     executorMap.computeIfAbsent(uniqueName, (key) -> {
       int finalCorePoolSize = 8;
       if (corePoolSize <= 0) {
@@ -165,7 +160,7 @@ public final class ThreadPoolUtil {
    * @return ThreadPoolExecutor
    */
   private static ThreadPoolExecutor namedFixMaxThreadPool(final String uniqueName, final int core, final int max,
-    final int queueSize, RejectedExecutionHandler handler) {
+                                                          final int queueSize, RejectedExecutionHandler handler) {
     return new ThreadPoolExecutor(core, max, 1L, TimeUnit.MINUTES, new ArrayBlockingQueue<>(queueSize),
       new ThreadFactory() {
         private AtomicInteger counter = new AtomicInteger(0);

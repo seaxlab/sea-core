@@ -17,13 +17,13 @@ import java.util.Set;
 @Slf4j
 public final class ValidationUtil {
 
-    private static final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+  private static final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-    /**
-     * get default validate
-     *
-     * @return
-     */
+  /**
+   * get default validate
+   *
+   * @return
+   */
 //    public static Validator getValidator() {
 //        if (validator == null) {
 //            ValidatorFactory validatorFactory = ;
@@ -37,15 +37,15 @@ public final class ValidationUtil {
 //        validator = validatorFactory.getValidator();
 //    }
 
-    /**
-     * 校验实体类
-     *
-     * @param t   实体
-     * @param <T>
-     * @return Set, 始终不为null
-     */
-    public static <T> Set<ConstraintViolation<T>> validate(T t) {
-        return validator.validate(t);
+  /**
+   * 校验实体类
+   *
+   * @param t   实体
+   * @param <T>
+   * @return Set, 始终不为null
+   */
+  public static <T> Set<ConstraintViolation<T>> validate(T t) {
+    return validator.validate(t);
 //        if (constraintViolations.size() > 0) {
 //            StringBuilder validateError = new StringBuilder();
 //            for (ConstraintViolation<T> constraintViolation : constraintViolations) {
@@ -56,18 +56,18 @@ public final class ValidationUtil {
 //        } else {
 //            return Collections.emptySet();
 //        }
-    }
+  }
 
-    /**
-     * 通过组来校验实体类
-     *
-     * @param t      实体
-     * @param groups 组
-     * @param <T>
-     * @return Set, 始终不为null
-     */
-    public static <T> Set<ConstraintViolation<T>> validate(T t, Class<?>... groups) {
-        return validator.validate(t, groups);
+  /**
+   * 通过组来校验实体类
+   *
+   * @param t      实体
+   * @param groups 组
+   * @param <T>
+   * @return Set, 始终不为null
+   */
+  public static <T> Set<ConstraintViolation<T>> validate(T t, Class<?>... groups) {
+    return validator.validate(t, groups);
 //        Set<ConstraintViolation<T>> constraintViolations = validator.validate(t, groups);
 //        if (constraintViolations.size() > 0) {
 //            StringBuilder validateError = new StringBuilder();
@@ -77,7 +77,7 @@ public final class ValidationUtil {
 //
 //            throw new ValidationException(validateError.toString());
 //        }
-    }
+  }
 
 
 }

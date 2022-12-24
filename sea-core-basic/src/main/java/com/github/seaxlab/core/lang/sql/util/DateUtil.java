@@ -13,20 +13,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DateUtil {
 
-    private DateUtil() {
-    }
+  private DateUtil() {
+  }
 
-    /**
-     * to sql date
-     *
-     * @param date
-     * @return
-     */
-    public static java.sql.Date of(java.util.Date date) {
-        if (date == null) {
-            return null;
-        }
-        return new java.sql.Date(date.getTime());
+  /**
+   * to sql date
+   *
+   * @param date
+   * @return
+   */
+  public static java.sql.Date of(java.util.Date date) {
+    if (date == null) {
+      return null;
     }
+    return new java.sql.Date(date.getTime());
+  }
 
 }

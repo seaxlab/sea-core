@@ -14,21 +14,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ConfigurationFactory {
 
-    private static class InstanceHolder {
-        public static final Configuration INSTANCE = buildConfiguration();
+  private static class InstanceHolder {
+    public static final Configuration INSTANCE = buildConfiguration();
 
-        private static Configuration buildConfiguration() {
-            //重要： 此时配置文件还未加载
-            return EnhancedServiceLoader.load(Configuration.class, ConfigTypeEnum.TYPESAFE.getCode());
-        }
+    private static Configuration buildConfiguration() {
+      //重要： 此时配置文件还未加载
+      return EnhancedServiceLoader.load(Configuration.class, ConfigTypeEnum.TYPESAFE.getCode());
     }
+  }
 
-    private ConfigurationFactory() {
-    }
+  private ConfigurationFactory() {
+  }
 
-    public static Configuration getInstance() {
-        return InstanceHolder.INSTANCE;
-    }
+  public static Configuration getInstance() {
+    return InstanceHolder.INSTANCE;
+  }
 
 
 }

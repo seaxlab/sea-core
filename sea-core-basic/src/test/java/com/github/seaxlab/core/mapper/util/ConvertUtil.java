@@ -13,14 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ConvertUtil {
 
-    public static Integer toInt(String str) {
-        if (str == null) {
-            return null;
-        }
-
-        if (RegExpUtil.isNumeric(str)) {
-            return Integer.valueOf(str);
-        }
-        return null;
+  public static Integer toInt(String str) {
+    if (str == null) {
+      return null;
     }
+
+    if (RegExpUtil.isNumeric(str)) {
+      return Integer.valueOf(str);
+    }
+    return null;
+  }
 }

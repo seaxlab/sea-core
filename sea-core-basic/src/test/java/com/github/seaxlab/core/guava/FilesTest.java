@@ -14,8 +14,8 @@ import org.junit.Test;
 @Slf4j
 public class FilesTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
+  @Test
+  public void test17() throws Exception {
 
-    }
+  }
 }

@@ -20,45 +20,45 @@ import java.util.concurrent.TimeoutException;
 public class TimeoutUtilTest extends BaseCoreTest {
 
 
-    @Test
-    public void testNormal() throws Exception {
-        log.info("try to begin");
-        Timer timer = TimeoutUtil.check(10, TimeUnit.SECONDS, () -> {
-            log.info("try to abort...");
-        });
+  @Test
+  public void testNormal() throws Exception {
+    log.info("try to begin");
+    Timer timer = TimeoutUtil.check(10, TimeUnit.SECONDS, () -> {
+      log.info("try to abort...");
+    });
 
-        sleepSecond(5);
-        log.info("end.");
-        timer.cancel();
+    sleepSecond(5);
+    log.info("end.");
+    timer.cancel();
+  }
+
+
+  @Test
+  public void testTimeout() throws Exception {
+    log.info("try to begin");
+    Timer timer = TimeoutUtil.check(10, TimeUnit.SECONDS, () -> {
+      log.info("try to abort...");
+    });
+
+    sleepSecond(20);
+    log.info("end.");
+  }
+
+  @Test
+  public void test46() throws Exception {
+    String str = "";
+    try {
+      str = CompletableFuture.supplyAsync(() -> {
+                               // your biz logic
+                               sleepSecond(3);
+                               return "success";
+                             })
+                             .get(30, TimeUnit.SECONDS);
+    } catch (TimeoutException e) {
+      log.error("timeout exception.", e);
+      str = "";
     }
 
-
-    @Test
-    public void testTimeout() throws Exception {
-        log.info("try to begin");
-        Timer timer = TimeoutUtil.check(10, TimeUnit.SECONDS, () -> {
-            log.info("try to abort...");
-        });
-
-        sleepSecond(20);
-        log.info("end.");
-    }
-
-    @Test
-    public void test46() throws Exception {
-        String str = "";
-        try {
-            str = CompletableFuture.supplyAsync(() -> {
-                                       // your biz logic
-                                       sleepSecond(3);
-                                       return "success";
-                                   })
-                                   .get(30, TimeUnit.SECONDS);
-        } catch (TimeoutException e) {
-            log.error("timeout exception.", e);
-            str = "";
-        }
-
-        log.info("str={}", str);
-    }
+    log.info("str={}", str);
+  }
 }

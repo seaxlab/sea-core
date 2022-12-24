@@ -22,121 +22,121 @@ import java.util.Properties;
 @Slf4j
 public final class PropertiesUtil {
 
-    private PropertiesUtil() {
-    }
+  private PropertiesUtil() {
+  }
 
-    /**
-     * load from file
-     *
-     * @param path
-     * @return
-     */
-    public static Properties load(String path) {
-        try {
-            InputStream in = PropertiesUtil.class.getClassLoader().getResourceAsStream(path);
-            if (in == null) {
-                log.info("load properties [{}] not exist", path);
-                return new Properties();
-            }
-            Properties pros = new Properties();
-            pros.load(in);
-            return pros;
-        } catch (Exception e) {
-            log.error("fail to load properties file", e);
-        }
-
+  /**
+   * load from file
+   *
+   * @param path
+   * @return
+   */
+  public static Properties load(String path) {
+    try {
+      InputStream in = PropertiesUtil.class.getClassLoader().getResourceAsStream(path);
+      if (in == null) {
+        log.info("load properties [{}] not exist", path);
         return new Properties();
+      }
+      Properties pros = new Properties();
+      pros.load(in);
+      return pros;
+    } catch (Exception e) {
+      log.error("fail to load properties file", e);
     }
 
-    /**
-     * load input stream.
-     *
-     * @param inputStream
-     * @return
-     * @throws IOException
-     */
-    public static Properties load(InputStream inputStream) throws IOException {
-        if (inputStream == null) {
-            return new Properties();
-        }
+    return new Properties();
+  }
 
-        Properties props = new Properties();
-        props.load(inputStream);
-        return props;
+  /**
+   * load input stream.
+   *
+   * @param inputStream
+   * @return
+   * @throws IOException
+   */
+  public static Properties load(InputStream inputStream) throws IOException {
+    if (inputStream == null) {
+      return new Properties();
     }
 
+    Properties props = new Properties();
+    props.load(inputStream);
+    return props;
+  }
 
-    /**
-     * load into Map
-     *
-     * @param path
-     * @return
-     */
-    public static Map<String, String> loadForMap(String path) {
-        Map<String, String> map = new HashMap<>();
-        Properties pros = load(path);
-        Enumeration<String> en = (Enumeration<String>) pros.propertyNames();
-        while (en.hasMoreElements()) {
-            String key = en.nextElement();
-            map.put(key, pros.getProperty(key));
-        }
-        return map;
+
+  /**
+   * load into Map
+   *
+   * @param path
+   * @return
+   */
+  public static Map<String, String> loadForMap(String path) {
+    Map<String, String> map = new HashMap<>();
+    Properties pros = load(path);
+    Enumeration<String> en = (Enumeration<String>) pros.propertyNames();
+    while (en.hasMoreElements()) {
+      String key = en.nextElement();
+      map.put(key, pros.getProperty(key));
+    }
+    return map;
+  }
+
+  /**
+   * param str to properties.
+   *
+   * @param paramStr
+   * @return
+   */
+  public static Properties parse(String paramStr) {
+    Properties props = new Properties();
+
+    String[] values = paramStr.split("&");
+
+    for (int i = 0; i < values.length; i++) {
+      String value = values[i];
+      String[] kv = value.split("=");
+      if (kv.length == 1) {
+        props.setProperty(kv[0], "");
+      } else if (kv.length == 2) {
+        props.setProperty(kv[0], kv[1]);
+      }
     }
 
-    /**
-     * param str to properties.
-     *
-     * @param paramStr
-     * @return
-     */
-    public static Properties parse(String paramStr) {
-        Properties props = new Properties();
+    return props;
+  }
 
-        String[] values = paramStr.split("&");
+  /**
+   * write properties file.
+   *
+   * @param properties
+   * @param fileName
+   * @return
+   */
+  public static boolean write(Properties properties, String fileName) {
+    return write(properties, fileName, null);
+  }
 
-        for (int i = 0; i < values.length; i++) {
-            String value = values[i];
-            String[] kv = value.split("=");
-            if (kv.length == 1) {
-                props.setProperty(kv[0], "");
-            } else if (kv.length == 2) {
-                props.setProperty(kv[0], kv[1]);
-            }
-        }
+  /**
+   * write properties
+   *
+   * @param properties
+   * @param fileName
+   * @return
+   */
+  public static boolean write(Properties properties, String fileName, String comment) {
+    boolean successFlag = true;
 
-        return props;
+    try (FileOutputStream out = new FileOutputStream(fileName);
+         OutputStreamWriter writer = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
+      properties.store(writer, comment);
+    } catch (IOException e) {
+      successFlag = false;
+      log.error("io exception", e);
     }
 
-    /**
-     * write properties file.
-     *
-     * @param properties
-     * @param fileName
-     * @return
-     */
-    public static boolean write(Properties properties, String fileName) {
-        return write(properties, fileName, null);
-    }
-
-    /**
-     * write properties
-     *
-     * @param properties
-     * @param fileName
-     * @return
-     */
-    public static boolean write(Properties properties, String fileName, String comment) {
-        boolean successFlag = true;
-
-        try (FileOutputStream out = new FileOutputStream(fileName);
-             OutputStreamWriter writer = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
-            properties.store(writer, comment);
-        } catch (IOException e) {
-            successFlag = false;
-            log.error("io exception", e);
-        }
-
-        return successFlag;
-    }
+    return successFlag;
+  }
 
 }

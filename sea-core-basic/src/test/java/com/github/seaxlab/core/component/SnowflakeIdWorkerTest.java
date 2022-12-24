@@ -17,18 +17,18 @@ import java.net.InetAddress;
 @Slf4j
 public class SnowflakeIdWorkerTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
+  @Test
+  public void test17() throws Exception {
 
-        log.info("hostname={}", InetAddress.getLocalHost().getHostName());
-        log.info("{}", System.currentTimeMillis());
-        long startTime = System.nanoTime();
-        for (int i = 0; i < 10; i++) {
-            long id = DefaultSnowflakeIdWorker.generateId();
-            log.info("id={}", id);
+    log.info("hostname={}", InetAddress.getLocalHost().getHostName());
+    log.info("{}", System.currentTimeMillis());
+    long startTime = System.nanoTime();
+    for (int i = 0; i < 10; i++) {
+      long id = DefaultSnowflakeIdWorker.generateId();
+      log.info("id={}", id);
 //2020 139530304863948801
 //2015 511669915243073543
-        }
-        log.info("{}ms", (System.nanoTime() - startTime) / 1000000);
     }
+    log.info("{}ms", (System.nanoTime() - startTime) / 1000000);
+  }
 }

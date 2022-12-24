@@ -14,10 +14,10 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 public @interface Order {
 
-    /**
-     * Order int.
-     *
-     * @return the int
-     */
-    int value() default 0;
+  /**
+   * Order int.
+   *
+   * @return the int
+   */
+  int value() default 0;
 }

@@ -15,12 +15,12 @@ import org.junit.Test;
 @Slf4j
 public class SortTest extends BaseCoreTest {
 
-    @Test
-    public void testInsertSort() throws Exception {
-        int[] array = {4, 3, 60, 50, 20};
+  @Test
+  public void testInsertSort() throws Exception {
+    int[] array = {4, 3, 60, 50, 20};
 
-        Sort sort = new InsertSort();
-        sort.sort(array);
-        log.info("after sort: {}", array);
-    }
+    Sort sort = new InsertSort();
+    sort.sort(array);
+    log.info("after sort: {}", array);
+  }
 }

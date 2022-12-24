@@ -19,31 +19,31 @@ import java.util.Random;
 @Slf4j
 public class SocketClientTest extends BaseCoreTest {
 
-    @Test
-    public void clientTest() throws Exception {
+  @Test
+  public void clientTest() throws Exception {
 
-        runInMultiThread(() -> {
-            SocketClientHelper socketClientHelper = SocketClientHelper.getInstance("127.0.0.1", 9001);
+    runInMultiThread(() -> {
+      SocketClientHelper socketClientHelper = SocketClientHelper.getInstance("127.0.0.1", 9001);
 
-            GenericObjectPoolConfig genericObjectPoolConfig = new GenericObjectPoolConfig();
-            genericObjectPoolConfig.setMaxTotal(200);
-            socketClientHelper.setConfiguration(genericObjectPoolConfig);
-            SocketClient socketClient = socketClientHelper.getSocket();
+      GenericObjectPoolConfig genericObjectPoolConfig = new GenericObjectPoolConfig();
+      genericObjectPoolConfig.setMaxTotal(200);
+      socketClientHelper.setConfiguration(genericObjectPoolConfig);
+      SocketClient socketClient = socketClientHelper.getSocket();
 
-            for (int i = 0; i < 10; i++) {
+      for (int i = 0; i < 10; i++) {
 
-                SocketClientSendData data = new SocketClientSendData();
-                data.setPlayLoad(("hello world" + i++).getBytes(StandardCharsets.UTF_8));
-                byte[] resp = socketClient.send(data);
-                log.info("resp={}", new String(resp, StandardCharsets.UTF_8));
+        SocketClientSendData data = new SocketClientSendData();
+        data.setPlayLoad(("hello world" + i++).getBytes(StandardCharsets.UTF_8));
+        byte[] resp = socketClient.send(data);
+        log.info("resp={}", new String(resp, StandardCharsets.UTF_8));
 
-                sleep(new Random().nextInt(20));
-            }
-            socketClientHelper.returnSocket(socketClient);
-            socketClientHelper.shutdown();
-        });
+        sleep(new Random().nextInt(20));
+      }
+      socketClientHelper.returnSocket(socketClient);
+      socketClientHelper.shutdown();
+    });
 
-        sleepMinute(10);
-    }
+    sleepMinute(10);
+  }
 
 }

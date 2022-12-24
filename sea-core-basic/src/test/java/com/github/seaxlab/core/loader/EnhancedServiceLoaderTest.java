@@ -19,18 +19,18 @@ import java.util.List;
 public class EnhancedServiceLoaderTest extends BaseCoreTest {
 
 
-    @Test
-    public void run18() throws Exception {
+  @Test
+  public void run18() throws Exception {
 
-        List<Class> generators = EnhancedServiceLoader.getAllExtensionClass(IdGenerator.class);
+    List<Class> generators = EnhancedServiceLoader.getAllExtensionClass(IdGenerator.class);
 
-        Assert.assertTrue(ListUtil.isNotEmpty(generators));
+    Assert.assertTrue(ListUtil.isNotEmpty(generators));
 
-        // all instance
-        List<IdGenerator> list = EnhancedServiceLoader.loadAll(IdGenerator.class);
+    // all instance
+    List<IdGenerator> list = EnhancedServiceLoader.loadAll(IdGenerator.class);
 
-        IdGenerator idGenerator = EnhancedServiceLoader.load(IdGenerator.class, "UUID");
-        Assert.assertEquals(idGenerator.getId(), "0001");
-    }
+    IdGenerator idGenerator = EnhancedServiceLoader.load(IdGenerator.class, "UUID");
+    Assert.assertEquals(idGenerator.getId(), "0001");
+  }
 
 }

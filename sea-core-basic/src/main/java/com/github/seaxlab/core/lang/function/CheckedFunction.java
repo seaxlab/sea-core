@@ -14,13 +14,13 @@ import java.io.Serializable;
  */
 @FunctionalInterface
 public interface CheckedFunction<T, R> extends Serializable {
-    /**
-     * Run the Function
-     *
-     * @param t T
-     * @return R R
-     * @throws Throwable CheckedException
-     */
-    @Nullable
-    R apply(@Nullable T t) throws Throwable;
+  /**
+   * Run the Function
+   *
+   * @param t T
+   * @return R R
+   * @throws Throwable CheckedException
+   */
+  @Nullable
+  R apply(@Nullable T t) throws Throwable;
 }

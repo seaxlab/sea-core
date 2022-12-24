@@ -15,12 +15,12 @@ import org.junit.Test;
 @Slf4j
 public class ChineseNumberUtilTest extends BaseCoreTest {
 
-    @Test
-    public void testConvert() throws Exception {
-        Assert.assertEquals("壹佰贰拾叁元", ChineseNumberUtil.convert("123"));
-        Assert.assertEquals("壹佰贰拾叁元肆角伍分陆厘", ChineseNumberUtil.convert("123.456789"));
-        log.info("{}", ChineseNumberUtil.convert("123.456789"));
-        //壹亿贰仟叁佰肆拾伍万陆仟柒佰捌拾玖元
-        log.info("{}", ChineseNumberUtil.convert("123456789"));
-    }
+  @Test
+  public void testConvert() throws Exception {
+    Assert.assertEquals("壹佰贰拾叁元", ChineseNumberUtil.convert("123"));
+    Assert.assertEquals("壹佰贰拾叁元肆角伍分陆厘", ChineseNumberUtil.convert("123.456789"));
+    log.info("{}", ChineseNumberUtil.convert("123.456789"));
+    //壹亿贰仟叁佰肆拾伍万陆仟柒佰捌拾玖元
+    log.info("{}", ChineseNumberUtil.convert("123456789"));
+  }
 }

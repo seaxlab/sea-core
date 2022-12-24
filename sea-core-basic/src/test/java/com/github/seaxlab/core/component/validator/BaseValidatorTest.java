@@ -17,15 +17,15 @@ import java.util.Set;
 @Slf4j
 public class BaseValidatorTest extends BaseCoreTest {
 
-    protected <T> void checkValidator(Set<ConstraintViolation<T>> set) {
-        if (Objects.isNull(set) || set.isEmpty()) {
-            log.warn("validator set is empty");
-            return;
-        }
-
-        set.forEach(item -> {
-            log.info("{}:{}", item.getPropertyPath().toString(), item.getMessage());
-        });
-
+  protected <T> void checkValidator(Set<ConstraintViolation<T>> set) {
+    if (Objects.isNull(set) || set.isEmpty()) {
+      log.warn("validator set is empty");
+      return;
     }
+
+    set.forEach(item -> {
+      log.info("{}:{}", item.getPropertyPath().toString(), item.getMessage());
+    });
+
+  }
 }

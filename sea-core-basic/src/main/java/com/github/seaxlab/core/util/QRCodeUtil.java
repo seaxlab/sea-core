@@ -28,121 +28,121 @@ import java.util.Map;
 @Slf4j
 public final class QRCodeUtil {
 
-    private QRCodeUtil() {
-    }
+  private QRCodeUtil() {
+  }
 
-    /**
-     * 默认图像类型
-     */
-    private static final String DEFAULT_FORMAT = "png";
+  /**
+   * 默认图像类型
+   */
+  private static final String DEFAULT_FORMAT = "png";
 
-    /**
-     * 生成二维码图片
-     *
-     * @param filePath 文件路径
-     * @param content  二维码中内容
-     */
-    public static void encode(String filePath, String content) throws IOException, WriterException {
-        encode(filePath, content, 200, 200);
-    }
+  /**
+   * 生成二维码图片
+   *
+   * @param filePath 文件路径
+   * @param content  二维码中内容
+   */
+  public static void encode(String filePath, String content) throws IOException, WriterException {
+    encode(filePath, content, 200, 200);
+  }
 
-    /**
-     * 生成二维码图片
-     *
-     * @param filePath
-     * @param content
-     * @param height
-     * @param width
-     * @throws IOException
-     * @throws WriterException
-     */
-    public static void encode(String filePath, String content, int height, int width) throws IOException, WriterException {
+  /**
+   * 生成二维码图片
+   *
+   * @param filePath
+   * @param content
+   * @param height
+   * @param width
+   * @throws IOException
+   * @throws WriterException
+   */
+  public static void encode(String filePath, String content, int height, int width) throws IOException, WriterException {
 
-        Map<EncodeHintType, Object> hints = getEncodeHints();
+    Map<EncodeHintType, Object> hints = getEncodeHints();
 
-        // 生成矩阵
-        BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
-        Path path = FileSystems.getDefault().getPath(filePath);
-        // 输出图像
-        MatrixToImageWriter.writeToPath(bitMatrix, DEFAULT_FORMAT, path);
-    }
-
-
-    /**
-     * 返回一个 BufferedImage 对象
-     *
-     * @param content 二维码内容
-     * @param width   宽
-     * @param height  高
-     */
-    public static BufferedImage toBufferedImage(String content, int width, int height) throws WriterException {
-        Map<EncodeHintType, Object> hints = getEncodeHints();
-
-        BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
-        return MatrixToImageWriter.toBufferedImage(bitMatrix);
-    }
-
-    /**
-     * 将二维码图片输出到一个流中
-     *
-     * @param content 二维码内容
-     * @param stream  输出流
-     * @param width   宽
-     * @param height  高
-     */
-    public static void writeToStream(String content, OutputStream stream, int width, int height) throws WriterException, IOException {
-        Map<EncodeHintType, Object> hints = getEncodeHints();
-
-        BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
-        MatrixToImageWriter.writeToStream(bitMatrix, DEFAULT_FORMAT, stream);
-    }
-
-    /**
-     * 对二维码进行解码，获取内容
-     *
-     * @param filePath
-     * @return
-     * @throws IOException
-     * @throws NotFoundException
-     */
-    public static String decode(String filePath) throws IOException, NotFoundException {
-        Result result = decodeResult(filePath);
-
-        return result.getText();
-    }
-
-    public static Result decodeResult(String filePath) throws IOException, NotFoundException {
-        BufferedImage image;
-        image = ImageIO.read(new File(filePath));
-        LuminanceSource source = new BufferedImageLuminanceSource(image);
-        Binarizer binarizer = new HybridBinarizer(source);
-        BinaryBitmap binaryBitmap = new BinaryBitmap(binarizer);
-
-        Map<DecodeHintType, Object> hints = getDecodeHint();
-
-        // 对图像进行解码
-        return new MultiFormatReader().decode(binaryBitmap, hints);
-    }
+    // 生成矩阵
+    BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
+    Path path = FileSystems.getDefault().getPath(filePath);
+    // 输出图像
+    MatrixToImageWriter.writeToPath(bitMatrix, DEFAULT_FORMAT, path);
+  }
 
 
-    private static Map<EncodeHintType, Object> getEncodeHints() {
-        Map<EncodeHintType, Object> hints = new HashMap<>();
-        hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-        // 容错等级 L、M、Q、H 其中 L 为最低, H 为最高
-        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+  /**
+   * 返回一个 BufferedImage 对象
+   *
+   * @param content 二维码内容
+   * @param width   宽
+   * @param height  高
+   */
+  public static BufferedImage toBufferedImage(String content, int width, int height) throws WriterException {
+    Map<EncodeHintType, Object> hints = getEncodeHints();
 
-        // 二维码与图片边距
-        hints.put(EncodeHintType.MARGIN, 1);
+    BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
+    return MatrixToImageWriter.toBufferedImage(bitMatrix);
+  }
 
-        return hints;
-    }
+  /**
+   * 将二维码图片输出到一个流中
+   *
+   * @param content 二维码内容
+   * @param stream  输出流
+   * @param width   宽
+   * @param height  高
+   */
+  public static void writeToStream(String content, OutputStream stream, int width, int height) throws WriterException, IOException {
+    Map<EncodeHintType, Object> hints = getEncodeHints();
 
-    private static Map<DecodeHintType, Object> getDecodeHint() {
-        Map<DecodeHintType, Object> hints = new HashMap<>();
-        hints.put(DecodeHintType.CHARACTER_SET, "UTF-8");
+    BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
+    MatrixToImageWriter.writeToStream(bitMatrix, DEFAULT_FORMAT, stream);
+  }
 
-        return hints;
-    }
+  /**
+   * 对二维码进行解码，获取内容
+   *
+   * @param filePath
+   * @return
+   * @throws IOException
+   * @throws NotFoundException
+   */
+  public static String decode(String filePath) throws IOException, NotFoundException {
+    Result result = decodeResult(filePath);
+
+    return result.getText();
+  }
+
+  public static Result decodeResult(String filePath) throws IOException, NotFoundException {
+    BufferedImage image;
+    image = ImageIO.read(new File(filePath));
+    LuminanceSource source = new BufferedImageLuminanceSource(image);
+    Binarizer binarizer = new HybridBinarizer(source);
+    BinaryBitmap binaryBitmap = new BinaryBitmap(binarizer);
+
+    Map<DecodeHintType, Object> hints = getDecodeHint();
+
+    // 对图像进行解码
+    return new MultiFormatReader().decode(binaryBitmap, hints);
+  }
+
+
+  private static Map<EncodeHintType, Object> getEncodeHints() {
+    Map<EncodeHintType, Object> hints = new HashMap<>();
+    hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+    // 容错等级 L、M、Q、H 其中 L 为最低, H 为最高
+    hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+
+    // 二维码与图片边距
+    hints.put(EncodeHintType.MARGIN, 1);
+
+    return hints;
+  }
+
+  private static Map<DecodeHintType, Object> getDecodeHint() {
+    Map<DecodeHintType, Object> hints = new HashMap<>();
+    hints.put(DecodeHintType.CHARACTER_SET, "UTF-8");
+
+    return hints;
+  }
 
 
 }

@@ -15,8 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DefaultOrderFsmEngine implements OrderFsmEngine {
 
-    @Override
-    public Result sendEvent(OrderCreateEvent orderCreateEvent) {
+  @Override
+  public Result sendEvent(OrderCreateEvent orderCreateEvent) {
 //        FsmOrder fsmOrder = null;
 //        if (orderStateEvent.newCreate()) {
 //            fsmOrder = this.fsmOrderService.getFsmOrder(orderStateEvent.getOrderId());
@@ -25,8 +25,8 @@ public class DefaultOrderFsmEngine implements OrderFsmEngine {
 //            }
 //        }
 //        return sendEvent(orderStateEvent, fsmOrder);
-        return null;
-    }
+    return null;
+  }
 
 //    public <T> ServiceResult<T> sendEvent(OrderStateEvent orderStateEvent, FsmOrder fsmOrder) throws Exception {
 //        // 构造当前事件上下文

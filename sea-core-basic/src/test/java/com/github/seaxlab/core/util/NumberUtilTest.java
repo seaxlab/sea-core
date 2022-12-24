@@ -20,207 +20,207 @@ import java.math.RoundingMode;
 public class NumberUtilTest extends BaseCoreTest {
 
 
-    @Test
-    public void testCompare() throws Exception {
-        log.info("{}", NumberUtil.compare(new BigDecimal("-1"), new BigDecimal("1")));
-        log.info("{}", NumberUtil.compare(new BigDecimal("0"), new BigDecimal("0")));
-        log.info("{}", NumberUtil.compare(new BigDecimal("1"), new BigDecimal("-1")));
-        log.info("{}", NumberUtil.compare(new BigDecimal("1"), null));
-    }
+  @Test
+  public void testCompare() throws Exception {
+    log.info("{}", NumberUtil.compare(new BigDecimal("-1"), new BigDecimal("1")));
+    log.info("{}", NumberUtil.compare(new BigDecimal("0"), new BigDecimal("0")));
+    log.info("{}", NumberUtil.compare(new BigDecimal("1"), new BigDecimal("-1")));
+    log.info("{}", NumberUtil.compare(new BigDecimal("1"), null));
+  }
 
-    @Test
-    public void testAdd() throws Exception {
-        BigDecimal a1 = new BigDecimal("1.2");
-        BigDecimal a2 = new BigDecimal("2");
-        BigDecimal a3 = new BigDecimal("3");
-        BigDecimal result = NumberUtil.add(null, a1, a2, a3, null);
-        log.info("result={}", result);
-    }
+  @Test
+  public void testAdd() throws Exception {
+    BigDecimal a1 = new BigDecimal("1.2");
+    BigDecimal a2 = new BigDecimal("2");
+    BigDecimal a3 = new BigDecimal("3");
+    BigDecimal result = NumberUtil.add(null, a1, a2, a3, null);
+    log.info("result={}", result);
+  }
 
-    @Test
-    public void testAdd2() throws Exception {
-        BigDecimal result = NumberUtil.add(null, null);
-        log.info("result={}", result);
-    }
+  @Test
+  public void testAdd2() throws Exception {
+    BigDecimal result = NumberUtil.add(null, null);
+    log.info("result={}", result);
+  }
 
-    @Test
-    public void testAddInt() throws Exception {
-        log.info("{}", NumberUtil.addInt("1", "-1", "", "-0"));
-    }
+  @Test
+  public void testAddInt() throws Exception {
+    log.info("{}", NumberUtil.addInt("1", "-1", "", "-0"));
+  }
 
-    @Test
-    public void testAddInt2() throws Exception {
-        log.info("{}", NumberUtil.addInt("1", "2.000"));
-    }
+  @Test
+  public void testAddInt2() throws Exception {
+    log.info("{}", NumberUtil.addInt("1", "2.000"));
+  }
 
-    @Test
-    public void testAddInt3() throws Exception {
-        log.info("{}", NumberUtil.addInt(1, null, 2, 3));
-    }
+  @Test
+  public void testAddInt3() throws Exception {
+    log.info("{}", NumberUtil.addInt(1, null, 2, 3));
+  }
 
-    @Test
-    public void testAddLong() throws Exception {
-        Assert.assertEquals(100, NumberUtil.addLong("1", "-1", "", "100"));
-    }
+  @Test
+  public void testAddLong() throws Exception {
+    Assert.assertEquals(100, NumberUtil.addLong("1", "-1", "", "100"));
+  }
 
-    @Test
-    public void testStr() throws Exception {
-        log.info("{}", NumberUtil.addStr("1", "2", "3.0001"));
-    }
-
-
-    @Test
-    public void testSubstract() throws Exception {
-        log.info("{}", NumberUtil.substract(1, 10, 20));
-    }
-
-    @Test
-    public void testSubstract2() throws Exception {
-        log.info("{}", NumberUtil.substract("1.0", "0.0001", "0.000005"));
-    }
-
-    @Test
-    public void testIsPositive() throws Exception {
-        log.info("{}", NumberUtil.isPositive(new BigDecimal("-1.2")));
-        log.info("{}", NumberUtil.isPositive(new BigDecimal("0")));
-        log.info("{}", NumberUtil.isPositive(new BigDecimal("1.2")));
-    }
-
-    @Test
-    public void testIsNotPositive() throws Exception {
-        log.info("{}", NumberUtil.isNotPositive(new BigDecimal("-1.2")));
-        log.info("{}", NumberUtil.isNotPositive(new BigDecimal("0")));
-        log.info("{}", NumberUtil.isNotPositive(new BigDecimal("1.2")));
-    }
-
-    @Test
-    public void testIsNegative() throws Exception {
-        log.info("{}", NumberUtil.isNegative(new BigDecimal("-1.2")));
-        log.info("{}", NumberUtil.isNegative(new BigDecimal("0")));
-        log.info("{}", NumberUtil.isNegative(new BigDecimal("1.2")));
-    }
-
-    @Test
-    public void testIsNotNegative() throws Exception {
-        log.info("{}", NumberUtil.isNotNegative(new BigDecimal("-1.2")));
-        log.info("{}", NumberUtil.isNotNegative(new BigDecimal("0")));
-        log.info("{}", NumberUtil.isNotNegative(new BigDecimal("1.2")));
-    }
-
-    @Test
-    public void run23() throws Exception {
-        //0,1,2,3
-        Assert.assertEquals(NumberUtil.median(0, 3), 2);
-        //1,2,3
-        Assert.assertEquals(NumberUtil.median(1, 3), 2);
-
-        //0,1,2,3
-        Assert.assertEquals(NumberUtil.medianBefore(0, 3), 1);
-        //1,2,3
-        Assert.assertEquals(NumberUtil.medianBefore(1, 3), 2);
-    }
-
-    @Test
-    public void run37() throws Exception {
-
-        Assert.assertEquals(NumberUtil.min(3, 1, 3), 1);
-        Assert.assertEquals(NumberUtil.max(3, 1, 3, 10), 10);
-
-    }
-
-    @Test
-    public void run45() throws Exception {
-        log.info("{}", NumberUtil.scaleUp(1.1141d, 2));
-        log.info("{}", NumberUtil.scaleUp(1.1151d, 2));
-    }
-
-    @Test
-    public void run51() throws Exception {
-        log.info("a={}", 1 / 200.0);
+  @Test
+  public void testStr() throws Exception {
+    log.info("{}", NumberUtil.addStr("1", "2", "3.0001"));
+  }
 
 
-        double a = NumberUtil.scaleUp(1 / 200.0, 3).doubleValue();
-        log.info("a={}", a);
+  @Test
+  public void testSubstract() throws Exception {
+    log.info("{}", NumberUtil.substract(1, 10, 20));
+  }
+
+  @Test
+  public void testSubstract2() throws Exception {
+    log.info("{}", NumberUtil.substract("1.0", "0.0001", "0.000005"));
+  }
+
+  @Test
+  public void testIsPositive() throws Exception {
+    log.info("{}", NumberUtil.isPositive(new BigDecimal("-1.2")));
+    log.info("{}", NumberUtil.isPositive(new BigDecimal("0")));
+    log.info("{}", NumberUtil.isPositive(new BigDecimal("1.2")));
+  }
+
+  @Test
+  public void testIsNotPositive() throws Exception {
+    log.info("{}", NumberUtil.isNotPositive(new BigDecimal("-1.2")));
+    log.info("{}", NumberUtil.isNotPositive(new BigDecimal("0")));
+    log.info("{}", NumberUtil.isNotPositive(new BigDecimal("1.2")));
+  }
+
+  @Test
+  public void testIsNegative() throws Exception {
+    log.info("{}", NumberUtil.isNegative(new BigDecimal("-1.2")));
+    log.info("{}", NumberUtil.isNegative(new BigDecimal("0")));
+    log.info("{}", NumberUtil.isNegative(new BigDecimal("1.2")));
+  }
+
+  @Test
+  public void testIsNotNegative() throws Exception {
+    log.info("{}", NumberUtil.isNotNegative(new BigDecimal("-1.2")));
+    log.info("{}", NumberUtil.isNotNegative(new BigDecimal("0")));
+    log.info("{}", NumberUtil.isNotNegative(new BigDecimal("1.2")));
+  }
+
+  @Test
+  public void run23() throws Exception {
+    //0,1,2,3
+    Assert.assertEquals(NumberUtil.median(0, 3), 2);
+    //1,2,3
+    Assert.assertEquals(NumberUtil.median(1, 3), 2);
+
+    //0,1,2,3
+    Assert.assertEquals(NumberUtil.medianBefore(0, 3), 1);
+    //1,2,3
+    Assert.assertEquals(NumberUtil.medianBefore(1, 3), 2);
+  }
+
+  @Test
+  public void run37() throws Exception {
+
+    Assert.assertEquals(NumberUtil.min(3, 1, 3), 1);
+    Assert.assertEquals(NumberUtil.max(3, 1, 3, 10), 10);
+
+  }
+
+  @Test
+  public void run45() throws Exception {
+    log.info("{}", NumberUtil.scaleUp(1.1141d, 2));
+    log.info("{}", NumberUtil.scaleUp(1.1151d, 2));
+  }
+
+  @Test
+  public void run51() throws Exception {
+    log.info("a={}", 1 / 200.0);
+
+
+    double a = NumberUtil.scaleUp(1 / 200.0, 3).doubleValue();
+    log.info("a={}", a);
 
 //        NumberUtil.divide()
 
-        BigDecimal bd = new BigDecimal("" + (1 / 200.0));
-        bd.setScale(3, RoundingMode.HALF_UP);
-        log.info("v={}", bd.doubleValue()); //0.005
+    BigDecimal bd = new BigDecimal("" + (1 / 200.0));
+    bd.setScale(3, RoundingMode.HALF_UP);
+    log.info("v={}", bd.doubleValue()); //0.005
 
-        BigDecimal bd2 = new BigDecimal(1 / 200.0); // here is not 0.005
-        bd2.setScale(3, RoundingMode.UP);
-        log.info("v={}", bd2.doubleValue()); //0.005
+    BigDecimal bd2 = new BigDecimal(1 / 200.0); // here is not 0.005
+    bd2.setScale(3, RoundingMode.UP);
+    log.info("v={}", bd2.doubleValue()); //0.005
 
-        BigDecimal c = NumberUtil.divide(1.0, 200.0, 3, RoundingMode.UP);
-        log.info("c={}", c.doubleValue());
-    }
+    BigDecimal c = NumberUtil.divide(1.0, 200.0, 3, RoundingMode.UP);
+    log.info("c={}", c.doubleValue());
+  }
 
-    @Test
-    public void test10T062() throws Exception {
-        log.info("{}", NumberUtil.convert10To62(123456));
-        log.info("{}", NumberUtil.convert10To62(100000000000000L));
-        log.info("{}", NumberUtil.convert10To62(1000000000000000000L));
-        log.info("{}", NumberUtil.convert62To10("ZZZZZZZZZZZZZ"));
-    }
+  @Test
+  public void test10T062() throws Exception {
+    log.info("{}", NumberUtil.convert10To62(123456));
+    log.info("{}", NumberUtil.convert10To62(100000000000000L));
+    log.info("{}", NumberUtil.convert10To62(1000000000000000000L));
+    log.info("{}", NumberUtil.convert62To10("ZZZZZZZZZZZZZ"));
+  }
 
-    @Test
-    public void testConvert() throws Exception {
-        int i = 666;
-        String hexString = Integer.toHexString(i);
-        System.out.println("十进制转换为十六进制：" + hexString);
+  @Test
+  public void testConvert() throws Exception {
+    int i = 666;
+    String hexString = Integer.toHexString(i);
+    System.out.println("十进制转换为十六进制：" + hexString);
 
-        int hexInt = Integer.parseInt(hexString, 16);
-        //如果是负数十六进制转为十进制，使用 BigInteger 获取
-        int hexNegativeInt = new BigInteger(hexString, 16).intValue();
+    int hexInt = Integer.parseInt(hexString, 16);
+    //如果是负数十六进制转为十进制，使用 BigInteger 获取
+    int hexNegativeInt = new BigInteger(hexString, 16).intValue();
 
-        String binaryString = Integer.toBinaryString(i);
-        System.out.println("十进制转换为二进制：" + binaryString);
+    String binaryString = Integer.toBinaryString(i);
+    System.out.println("十进制转换为二进制：" + binaryString);
 
-        int binaryInt = Integer.parseInt(binaryString, 2);
+    int binaryInt = Integer.parseInt(binaryString, 2);
 
-        String octalString = Integer.toOctalString(i);
+    String octalString = Integer.toOctalString(i);
 
-        System.out.println("十进制转换为八进制：" + octalString);
-        int octalInt = Integer.parseInt(octalString, 8);
-        System.out.println("十六进制反转：" + hexInt + " 二进制反转：" + binaryInt + " 八进制反转：" + octalInt);
-    }
+    System.out.println("十进制转换为八进制：" + octalString);
+    int octalInt = Integer.parseInt(octalString, 8);
+    System.out.println("十六进制反转：" + hexInt + " 二进制反转：" + binaryInt + " 八进制反转：" + octalInt);
+  }
 
-    @Test
-    public void testConvert2() {
-        Assert.assertEquals("10100", NumberUtil.convert10To2(20));
-        Assert.assertEquals("24", NumberUtil.convert10To8(20));
-        Assert.assertEquals("14", NumberUtil.convert10To16(20));
-        Assert.assertEquals("k", NumberUtil.convert10To62(20));
+  @Test
+  public void testConvert2() {
+    Assert.assertEquals("10100", NumberUtil.convert10To2(20));
+    Assert.assertEquals("24", NumberUtil.convert10To8(20));
+    Assert.assertEquals("14", NumberUtil.convert10To16(20));
+    Assert.assertEquals("k", NumberUtil.convert10To62(20));
 
-        Assert.assertEquals(20, NumberUtil.convert2To10("10100").intValue());
-        Assert.assertEquals(20, NumberUtil.convert8To10("24").intValue());
-        Assert.assertEquals(20, NumberUtil.convert16To10("14").intValue());
-        Assert.assertEquals(20, NumberUtil.convert62To10("k"));
+    Assert.assertEquals(20, NumberUtil.convert2To10("10100").intValue());
+    Assert.assertEquals(20, NumberUtil.convert8To10("24").intValue());
+    Assert.assertEquals(20, NumberUtil.convert16To10("14").intValue());
+    Assert.assertEquals(20, NumberUtil.convert62To10("k"));
 
-    }
+  }
 
-    @Test
-    public void testRatio() throws Exception {
-        log.info("{}", NumberUtil.ratio(10, 30));
-    }
+  @Test
+  public void testRatio() throws Exception {
+    log.info("{}", NumberUtil.ratio(10, 30));
+  }
 
-    @Test
-    public void testToPercent() throws Exception {
-        Assert.assertEquals("12.3", NumberUtil.toPercentStr(BigDecimal.valueOf(0.123)));
-        Assert.assertEquals("314.526", NumberUtil.toPercentStr(BigDecimal.valueOf(3.14526)));
-        Assert.assertEquals("314.526%", NumberUtil.toPercentStr2(BigDecimal.valueOf(3.14526)));
-    }
+  @Test
+  public void testToPercent() throws Exception {
+    Assert.assertEquals("12.3", NumberUtil.toPercentStr(BigDecimal.valueOf(0.123)));
+    Assert.assertEquals("314.526", NumberUtil.toPercentStr(BigDecimal.valueOf(3.14526)));
+    Assert.assertEquals("314.526%", NumberUtil.toPercentStr2(BigDecimal.valueOf(3.14526)));
+  }
 
-    @Test
-    public void testToString() throws Exception {
-        log.info("{}", NumberUtil.toString(BigDecimal.valueOf(0.123)));
+  @Test
+  public void testToString() throws Exception {
+    log.info("{}", NumberUtil.toString(BigDecimal.valueOf(0.123)));
 
-    }
+  }
 
-    @Test
-    public void testComparisonRatio() throws Exception {
-        log.info("{}", NumberUtil.comparisonRatio(10, 30));
-    }
+  @Test
+  public void testComparisonRatio() throws Exception {
+    log.info("{}", NumberUtil.comparisonRatio(10, 30));
+  }
 }
 

@@ -17,14 +17,14 @@ import org.junit.Test;
 @Slf4j
 public class Base62UtilTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
-        log.info("{}", Base62.encode("1234576890"));
-    }
+  @Test
+  public void test17() throws Exception {
+    log.info("{}", Base62.encode("1234576890"));
+  }
 
-    @Test
-    public void testAll() {
-        Assert.assertEquals("1A0afZkifxhHiC", Base62Util.encode("1234576890"));
-        Assert.assertEquals("1234576890", Base62Util.decode("1A0afZkifxhHiC"));
-    }
+  @Test
+  public void testAll() {
+    Assert.assertEquals("1A0afZkifxhHiC", Base62Util.encode("1234576890"));
+    Assert.assertEquals("1234576890", Base62Util.decode("1A0afZkifxhHiC"));
+  }
 }

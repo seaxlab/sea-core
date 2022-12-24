@@ -21,100 +21,100 @@ import java.util.List;
 @Slf4j
 public class ArrayUtilTest extends BaseCoreTest {
 
-    List<String> list = null;
+  List<String> list = null;
 
-    @Before
-    public void before() throws Exception {
-        super.before();
-        list = new ArrayList<>();
-        list.add("java");
-        list.add("c#");
-    }
+  @Before
+  public void before() throws Exception {
+    super.before();
+    list = new ArrayList<>();
+    list.add("java");
+    list.add("c#");
+  }
 
-    @Test
-    public void toArrayJdkTest() throws Exception {
-        String[] array = {};
+  @Test
+  public void toArrayJdkTest() throws Exception {
+    String[] array = {};
 
-        list.toArray(array);
-        Assert.assertEquals(0, array.length);
-    }
+    list.toArray(array);
+    Assert.assertEquals(0, array.length);
+  }
 
-    @Test
-    public void toArrayStringTest() throws Exception {
+  @Test
+  public void toArrayStringTest() throws Exception {
 
-        String[] array = ArrayUtil.toArray(list);
-        Assert.assertEquals("java", array[0]);
-        Assert.assertEquals("c#", array[1]);
-    }
+    String[] array = ArrayUtil.toArray(list);
+    Assert.assertEquals("java", array[0]);
+    Assert.assertEquals("c#", array[1]);
+  }
 
-    @Test
-    public void toArrayTest() throws Exception {
-        String[] array = ArrayUtil.toArray(list, String.class);
+  @Test
+  public void toArrayTest() throws Exception {
+    String[] array = ArrayUtil.toArray(list, String.class);
 
-        Assert.assertEquals("java", array[0]);
-        Assert.assertEquals("c#", array[1]);
-    }
+    Assert.assertEquals("java", array[0]);
+    Assert.assertEquals("c#", array[1]);
+  }
 
 
-    @Test
-    public void testConcat() throws Exception {
-        String[] a = new String[]{"1", "2"};
-        String[] b = new String[]{"3"};
-        String[] c = new String[]{};
-        String[] d = new String[]{"5"};
+  @Test
+  public void testConcat() throws Exception {
+    String[] a = new String[]{"1", "2"};
+    String[] b = new String[]{"3"};
+    String[] c = new String[]{};
+    String[] d = new String[]{"5"};
 
-        String[] all = ArrayUtil.concat(String.class, a, b, c, d);
+    String[] all = ArrayUtil.concat(String.class, a, b, c, d);
 
-        Assert.assertEquals("1", all[0]);
-        Assert.assertEquals("2", all[1]);
-        Assert.assertEquals("3", all[2]);
-        Assert.assertEquals("5", all[3]);
-    }
+    Assert.assertEquals("1", all[0]);
+    Assert.assertEquals("2", all[1]);
+    Assert.assertEquals("3", all[2]);
+    Assert.assertEquals("5", all[3]);
+  }
 
-    @Test
-    public void test73() throws Exception {
-        Object[] arrays = (Object[]) Array.newInstance(Object.class, 1024);
-        Assert.assertEquals(1024, arrays.length);
+  @Test
+  public void test73() throws Exception {
+    Object[] arrays = (Object[]) Array.newInstance(Object.class, 1024);
+    Assert.assertEquals(1024, arrays.length);
 
-        int[] x = {256};
-        Object[] a2 = (Object[]) Array.newInstance(Object.class, x);
-        log.info("{}", a2.length);
-    }
+    int[] x = {256};
+    Object[] a2 = (Object[]) Array.newInstance(Object.class, x);
+    log.info("{}", a2.length);
+  }
 
-    @Test
-    public void test84() throws Exception {
-        String[] arrays = new String[]{"123", "23"};
+  @Test
+  public void test84() throws Exception {
+    String[] arrays = new String[]{"123", "23"};
 
-        Assert.assertTrue(ArrayUtil.isNotEmpty(arrays));
-    }
+    Assert.assertTrue(ArrayUtil.isNotEmpty(arrays));
+  }
 
-    @Test
-    public void testSwap() {
-        String[] arrays = new String[]{"a", "b", "c"};
-        ArrayUtil.swap(arrays, 2, 0);
-        Assert.assertEquals("c", arrays[0]);
-        Assert.assertEquals("a", arrays[2]);
-    }
+  @Test
+  public void testSwap() {
+    String[] arrays = new String[]{"a", "b", "c"};
+    ArrayUtil.swap(arrays, 2, 0);
+    Assert.assertEquals("c", arrays[0]);
+    Assert.assertEquals("a", arrays[2]);
+  }
 
-    @Test
-    public void testCopy() throws Exception {
-        String[] arrays = new String[]{"a", "b", "c"};
-        String[] array2 = ArrayUtil.copy(arrays);
+  @Test
+  public void testCopy() throws Exception {
+    String[] arrays = new String[]{"a", "b", "c"};
+    String[] array2 = ArrayUtil.copy(arrays);
 
-        log.info("{}", array2);
-    }
+    log.info("{}", array2);
+  }
 
-    @Test
-    public void testCopy2() throws Exception {
-        User user1 = new User();
-        user1.setId(1L);
+  @Test
+  public void testCopy2() throws Exception {
+    User user1 = new User();
+    user1.setId(1L);
 
-        User user2 = new User();
-        user2.setId(2L);
+    User user2 = new User();
+    user2.setId(2L);
 
-        User[] arrays = new User[]{user1, user2};
-        User[] array2 = ArrayUtil.copy(arrays);
+    User[] arrays = new User[]{user1, user2};
+    User[] array2 = ArrayUtil.copy(arrays);
 
-        log.info("{}", array2);
-    }
+    log.info("{}", array2);
+  }
 }

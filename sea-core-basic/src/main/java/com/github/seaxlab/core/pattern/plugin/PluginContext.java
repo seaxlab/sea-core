@@ -12,23 +12,23 @@ import java.util.HashMap;
  */
 public class PluginContext implements Serializable {
 
-    private HashMap<String, Object> param = new HashMap<>();
+  private HashMap<String, Object> param = new HashMap<>();
 
 
-    public void put(String key, Object value) {
-        param.put(key, value);
-    }
+  public void put(String key, Object value) {
+    param.put(key, value);
+  }
 
-    public Object get(String key) {
-        return param.get(key);
-    }
+  public Object get(String key) {
+    return param.get(key);
+  }
 
-    public void remove(String key) {
-        param.remove(key);
-    }
+  public void remove(String key) {
+    param.remove(key);
+  }
 
-    public void removeAll() {
-        param.clear();
-    }
+  public void removeAll() {
+    param.clear();
+  }
 
 }

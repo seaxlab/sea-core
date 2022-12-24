@@ -18,32 +18,32 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  */
 @Slf4j
 public class RedisTemplateTest extends BaseCoreTest {
-    RedisTemplate<String, Object> redisTemplate;
+  RedisTemplate<String, Object> redisTemplate;
 
-    @Before
-    public void before() throws Exception {
-        RedisStandaloneConfiguration cfg = new RedisStandaloneConfiguration();
-        cfg.setHostName("mylab");
-        cfg.setPort(6379);
-        cfg.setDatabase(8);
-        cfg.setPassword("");
+  @Before
+  public void before() throws Exception {
+    RedisStandaloneConfiguration cfg = new RedisStandaloneConfiguration();
+    cfg.setHostName("mylab");
+    cfg.setPort(6379);
+    cfg.setDatabase(8);
+    cfg.setPassword("");
 
-        LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory(cfg);
-        connectionFactory.afterPropertiesSet();
+    LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory(cfg);
+    connectionFactory.afterPropertiesSet();
 
-        redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(connectionFactory);
-        //重点：注意序列化方式
-        redisTemplate.setDefaultSerializer(new StringRedisSerializer());
-        redisTemplate.afterPropertiesSet();
-    }
+    redisTemplate = new RedisTemplate<>();
+    redisTemplate.setConnectionFactory(connectionFactory);
+    //重点：注意序列化方式
+    redisTemplate.setDefaultSerializer(new StringRedisSerializer());
+    redisTemplate.afterPropertiesSet();
+  }
 
-    @Test
-    public void test17() throws Exception {
+  @Test
+  public void test17() throws Exception {
 
-        boolean hasKey = redisTemplate.hasKey("qingdaoUat:numSourceKey:3825_1_04250804");
-        log.info("hasKey={}", hasKey);
-        Object obj = redisTemplate.opsForValue().get("qingdaoUat:numSourceKey:3825_1_04250804");
-        log.info("obj={}", obj);
-    }
+    boolean hasKey = redisTemplate.hasKey("qingdaoUat:numSourceKey:3825_1_04250804");
+    log.info("hasKey={}", hasKey);
+    Object obj = redisTemplate.opsForValue().get("qingdaoUat:numSourceKey:3825_1_04250804");
+    log.info("obj={}", obj);
+  }
 }

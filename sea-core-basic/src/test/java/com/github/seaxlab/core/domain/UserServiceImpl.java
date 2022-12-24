@@ -11,10 +11,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class UserServiceImpl extends UserService<User2> {
-    public User2 get(Long id) {
-        User2 user = new User2();
-        user.setId(id);
-        user.setXx("xx");
-        return user;
-    }
+  public User2 get(Long id) {
+    User2 user = new User2();
+    user.setId(id);
+    user.setXx("xx");
+    return user;
+  }
 }

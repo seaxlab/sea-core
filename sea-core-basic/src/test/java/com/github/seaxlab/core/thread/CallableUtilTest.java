@@ -19,18 +19,18 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 public class CallableUtilTest extends BaseCoreTest {
 
-    @Test
-    public void testCreate() throws Exception {
-        ThreadPoolExecutor tpe = ThreadPoolUtil.createTemp("sea-test", 4, 4);
+  @Test
+  public void testCreate() throws Exception {
+    ThreadPoolExecutor tpe = ThreadPoolUtil.createTemp("sea-test", 4, 4);
 
-        log.info("-----");
-        Callable<String> callable = CallableUtil.create(true, () -> {
-            log.info("get data");
-            return "";
-        });
+    log.info("-----");
+    Callable<String> callable = CallableUtil.create(true, () -> {
+      log.info("get data");
+      return "";
+    });
 
-        tpe.submit(callable);
-        sleepMinute(2);
+    tpe.submit(callable);
+    sleepMinute(2);
 
-    }
+  }
 }

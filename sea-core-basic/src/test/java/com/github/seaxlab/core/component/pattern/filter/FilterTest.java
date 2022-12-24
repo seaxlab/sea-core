@@ -19,40 +19,40 @@ import java.util.List;
 @Slf4j
 public class FilterTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        List<Filter> filters = new ArrayList<>();
-        Filter filter = (request, filterChain) -> {
-            log.info("filter1 begin={}", request);
+  @Test
+  public void run17() throws Exception {
+    List<Filter> filters = new ArrayList<>();
+    Filter filter = (request, filterChain) -> {
+      log.info("filter1 begin={}", request);
 
-            String newRequest = request + ".1";
-            String ret = (String) filterChain.doFilter(newRequest);
+      String newRequest = request + ".1";
+      String ret = (String) filterChain.doFilter(newRequest);
 
-            log.info("filter1 end");
+      log.info("filter1 end");
 
-            return ret;
-        };
-        filters.add(filter);
+      return ret;
+    };
+    filters.add(filter);
 
-        Filter<String, String> filter2 = (Filter) (request, filterChain) -> {
-            log.info("filter2 begin={}", request);
-            String newRequest = request + ".2";
-            String ret = (String) filterChain.doFilter(newRequest);
-            log.info("filter2 end");
-            return ret;
+    Filter<String, String> filter2 = (Filter) (request, filterChain) -> {
+      log.info("filter2 begin={}", request);
+      String newRequest = request + ".2";
+      String ret = (String) filterChain.doFilter(newRequest);
+      log.info("filter2 end");
+      return ret;
 
-        };
-        filters.add(filter2);
+    };
+    filters.add(filter2);
 
-        FilterChain<String, String> filterChain = new FilterChain<>(filters, request -> {
-            log.info("final request={}", request);
-            String newRequest = request + ".final";
+    FilterChain<String, String> filterChain = new FilterChain<>(filters, request -> {
+      log.info("final request={}", request);
+      String newRequest = request + ".final";
 
-            return "" + newRequest;
-        });
+      return "" + newRequest;
+    });
 
-        String ret = filterChain.doFilter("abc");
+    String ret = filterChain.doFilter("abc");
 
-        log.info("ret={}", ret);
-    }
+    log.info("ret={}", ret);
+  }
 }

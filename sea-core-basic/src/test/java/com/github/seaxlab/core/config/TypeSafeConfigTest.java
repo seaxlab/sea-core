@@ -19,39 +19,39 @@ import org.junit.Test;
 @Slf4j
 public class TypeSafeConfigTest extends BaseCoreTest {
 
-    @Before
-    public void before() {
-        System.setProperty("sea.config.env", "local");
-    }
+  @Before
+  public void before() {
+    System.setProperty("sea.config.env", "local");
+  }
 
 
-    @Test
-    public void run17() throws Exception {
-        Config config = ConfigFactory.load();
+  @Test
+  public void run17() throws Exception {
+    Config config = ConfigFactory.load();
 
-        config.hasPath("abc");
+    config.hasPath("abc");
 
 
-        // IMPORTANT config is IMMUTABLE
-        config = config.withValue("abc", ConfigValueFactory.fromAnyRef("123"));
+    // IMPORTANT config is IMMUTABLE
+    config = config.withValue("abc", ConfigValueFactory.fromAnyRef("123"));
 
-        String value = config.getString("abc");
+    String value = config.getString("abc");
 
-        Assert.assertEquals(value, "123");
-    }
+    Assert.assertEquals(value, "123");
+  }
 
-    @Test
-    public void testOverride() throws Exception {
-        Config config = ConfigFactory.load();
+  @Test
+  public void testOverride() throws Exception {
+    Config config = ConfigFactory.load();
 
-        log.info("config={}", config);
+    log.info("config={}", config);
 
-        config = config.withValue("sea.config.a2", ConfigValueFactory.fromAnyRef("sbc"));
-        log.info("config={}", config);
+    config = config.withValue("sea.config.a2", ConfigValueFactory.fromAnyRef("sbc"));
+    log.info("config={}", config);
 
-        // 其存储结构是json，因此会覆盖
-        config = config.withValue("sea.config", ConfigValueFactory.fromAnyRef("ccc"));
-        log.info("config={}", config);
+    // 其存储结构是json，因此会覆盖
+    config = config.withValue("sea.config", ConfigValueFactory.fromAnyRef("ccc"));
+    log.info("config={}", config);
 
-    }
+  }
 }

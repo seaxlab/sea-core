@@ -13,13 +13,13 @@ import org.junit.Test;
 @Slf4j
 public class ClientLoggerTest {
 
-    @Test
-    public void test16() throws Exception {
-        InternalLogger logger = ClientLogger.getLog();
+  @Test
+  public void test16() throws Exception {
+    InternalLogger logger = ClientLogger.getLog();
 
-        logger.debug("debug");
-        logger.info("info");
-        logger.warn("warn");
-        logger.error("error");
-    }
+    logger.debug("debug");
+    logger.info("info");
+    logger.warn("warn");
+    logger.error("error");
+  }
 }

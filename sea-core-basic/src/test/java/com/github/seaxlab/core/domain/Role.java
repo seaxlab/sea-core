@@ -11,6 +11,6 @@ import lombok.Data;
  */
 @Data
 public class Role {
-    private String code;
-    private String name;
+  private String code;
+  private String name;
 }

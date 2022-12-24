@@ -17,43 +17,43 @@ import java.text.SimpleDateFormat;
 public class DateTimeContext {
 
 
-    /**
-     * get simple date format.
-     *
-     * @param dateFormatEnum
-     * @return
-     */
-    public static SimpleDateFormat get(DateFormatEnum dateFormatEnum) {
-        if (dateFormatEnum == null) {
-            dateFormatEnum = DateFormatEnum.yyyy_MM_dd_HH_mm_ss;
-        }
-        return get(dateFormatEnum.getValue());
+  /**
+   * get simple date format.
+   *
+   * @param dateFormatEnum
+   * @return
+   */
+  public static SimpleDateFormat get(DateFormatEnum dateFormatEnum) {
+    if (dateFormatEnum == null) {
+      dateFormatEnum = DateFormatEnum.yyyy_MM_dd_HH_mm_ss;
+    }
+    return get(dateFormatEnum.getValue());
+  }
+
+  public static SimpleDateFormat get(String format) {
+    String key = getKey(format);
+    SimpleDateFormat sdf = ThreadContext.get(key);
+    if (sdf == null) {
+      sdf = new SimpleDateFormat(format);
+      ThreadContext.put(key, sdf);
     }
 
-    public static SimpleDateFormat get(String format) {
-        String key = getKey(format);
-        SimpleDateFormat sdf = ThreadContext.get(key);
-        if (sdf == null) {
-            sdf = new SimpleDateFormat(format);
-            ThreadContext.put(key, sdf);
-        }
+    return sdf;
+  }
 
-        return sdf;
-    }
+  public static void clean(String format) {
+    ThreadContext.remove(getKey(format));
+  }
 
-    public static void clean(String format) {
-        ThreadContext.remove(getKey(format));
-    }
-
-    /**
-     * inner key.
-     *
-     * @param format date time format key.
-     * @return String
-     */
-    private static String getKey(String format) {
-        Precondition.checkNotEmpty(format, "format cannot be empty");
-        return "sea_sdf_" + format;
-    }
+  /**
+   * inner key.
+   *
+   * @param format date time format key.
+   * @return String
+   */
+  private static String getKey(String format) {
+    Precondition.checkNotEmpty(format, "format cannot be empty");
+    return "sea_sdf_" + format;
+  }
 
 }

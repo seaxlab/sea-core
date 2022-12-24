@@ -13,8 +13,8 @@ import org.junit.Test;
 @Slf4j
 public class SystemInfoUtilTest {
 
-    @Test
-    public void run16() throws Exception {
-        log.info("hostname={}", SystemInfoUtil.getHostName());
-    }
+  @Test
+  public void run16() throws Exception {
+    log.info("hostname={}", SystemInfoUtil.getHostName());
+  }
 }

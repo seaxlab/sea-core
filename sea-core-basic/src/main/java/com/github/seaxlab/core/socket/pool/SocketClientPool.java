@@ -15,11 +15,11 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
  */
 @Slf4j
 public class SocketClientPool extends GenericObjectPool<SocketClient> {
-    public SocketClientPool(PooledObjectFactory<SocketClient> factory) {
-        super(factory);
-    }
+  public SocketClientPool(PooledObjectFactory<SocketClient> factory) {
+    super(factory);
+  }
 
-    public SocketClientPool(PooledObjectFactory<SocketClient> factory, GenericObjectPoolConfig config) {
-        super(factory, config);
-    }
+  public SocketClientPool(PooledObjectFactory<SocketClient> factory, GenericObjectPoolConfig config) {
+    super(factory, config);
+  }
 }

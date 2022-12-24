@@ -13,22 +13,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CacheConst {
 
-    /**
-     * 空对象
-     */
-    public static final String EMPTY_OBJ = "{}";
+  /**
+   * 空对象
+   */
+  public static final String EMPTY_OBJ = "{}";
 
-    /**
-     * 空数组
-     */
-    public static final String EMPTY_ARRAY = "[]";
+  /**
+   * 空数组
+   */
+  public static final String EMPTY_ARRAY = "[]";
 
-    /**
-     * guava common remove listener
-     */
-    public static final RemovalListener COMMON_REMOVE_LISTENER = (RemovalListener<String, Object>) notification -> {
-        if (notification != null) {
-            log.info("remove cache key={}", notification.getKey());
-        }
-    };
+  /**
+   * guava common remove listener
+   */
+  public static final RemovalListener COMMON_REMOVE_LISTENER = (RemovalListener<String, Object>) notification -> {
+    if (notification != null) {
+      log.info("remove cache key={}", notification.getKey());
+    }
+  };
 }

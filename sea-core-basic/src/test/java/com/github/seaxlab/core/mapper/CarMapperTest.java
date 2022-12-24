@@ -14,20 +14,20 @@ import org.junit.Test;
 @Slf4j
 public class CarMapperTest extends BaseCoreTest {
 
-    @Test
-    public void testToDTO() {
-        //given
-        Car car = new Car();
-        car.setId("s");
-        car.setName("audi A4L");
-        car.setMake("china");
-        car.setNumberOfSeats(5);
+  @Test
+  public void testToDTO() {
+    //given
+    Car car = new Car();
+    car.setId("s");
+    car.setName("audi A4L");
+    car.setMake("china");
+    car.setNumberOfSeats(5);
 
-        //when
-        CarDTO carDto = CarMapper.INSTANCE.carToCarDto(car);
+    //when
+    CarDTO carDto = CarMapper.INSTANCE.carToCarDto(car);
 
-        //then
-        log.info("car={}", car);
-        log.info("carDto={}", carDto);
-    }
+    //then
+    log.info("car={}", car);
+    log.info("carDto={}", carDto);
+  }
 }

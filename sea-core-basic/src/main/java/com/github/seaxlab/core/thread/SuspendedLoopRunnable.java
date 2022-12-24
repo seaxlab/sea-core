@@ -11,44 +11,44 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public abstract class SuspendedLoopRunnable implements Runnable {
-    private volatile boolean running = true;
+  private volatile boolean running = true;
 
-    @Override
-    public void run() {
-        log.info("begin thread [{}]", name());
-        init();
+  @Override
+  public void run() {
+    log.info("begin thread [{}]", name());
+    init();
 
-        while (running) {
-            log.info("{} running", name());
-            try {
-                loopRun();
-            } catch (Exception e) {
-                log.error("fail to execute", e);
-            }
-        }
-
-        destroy();
-        log.info("end thread [{}]", name());
+    while (running) {
+      log.info("{} running", name());
+      try {
+        loopRun();
+      } catch (Exception e) {
+        log.error("fail to execute", e);
+      }
     }
 
-    public abstract String name();
+    destroy();
+    log.info("end thread [{}]", name());
+  }
 
-    /**
-     * 初始化
-     */
-    public abstract void init();
+  public abstract String name();
 
-    /**
-     * 循环执行
-     */
-    public abstract void loopRun();
+  /**
+   * 初始化
+   */
+  public abstract void init();
 
-    /**
-     * 结束执行
-     */
-    public abstract void destroy();
+  /**
+   * 循环执行
+   */
+  public abstract void loopRun();
 
-    public void stop() {
-        running = false;
-    }
+  /**
+   * 结束执行
+   */
+  public abstract void destroy();
+
+  public void stop() {
+    running = false;
+  }
 }

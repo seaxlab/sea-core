@@ -3,27 +3,15 @@ package com.github.seaxlab.core.util;
 import com.github.seaxlab.core.common.SymbolConst;
 import com.github.seaxlab.core.exception.Precondition;
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
+import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * List工具
@@ -476,7 +464,7 @@ public final class ListUtil {
    * @return
    */
   public static <K, R> Map<K, R> toMap(List<R> list, Function<? super R, ? extends K> keyMapper,
-    BinaryOperator<R> binaryOperator) {
+                                       BinaryOperator<R> binaryOperator) {
     if (isEmpty(list)) {
       return MapUtil.empty();
     }
@@ -493,7 +481,7 @@ public final class ListUtil {
    * @return
    */
   public static <K, R> Map<K, R> toDistinctMap(List<R> list,
-    Function<? super R, ? extends K> keyMapper) {
+                                               Function<? super R, ? extends K> keyMapper) {
     if (isEmpty(list)) {
       return MapUtil.empty();
     }
@@ -502,7 +490,7 @@ public final class ListUtil {
 
 
   public static <K, R> Map<K, R> toMap(List<R> list, Predicate<? super R> predicate,
-    Function<? super R, ? extends K> keyMapper) {
+                                       Function<? super R, ? extends K> keyMapper) {
     if (isEmpty(list)) {
       return MapUtil.empty();
     }
@@ -526,7 +514,7 @@ public final class ListUtil {
    * @return
    */
   public static <K, R> Map<K, List<R>> toMapList(List<R> list,
-    Function<? super R, ? extends K> keyMapper) {
+                                                 Function<? super R, ? extends K> keyMapper) {
     if (isEmpty(list)) {
       return MapUtil.empty();
     }
@@ -547,15 +535,15 @@ public final class ListUtil {
    * @return
    */
   public static <E, A, B> Map<A, List<B>> toMapList(List<E> list,
-    Function<? super E, ? extends A> keyMapper,
-    Function<? super E, ? extends B> valueMapper) {
+                                                    Function<? super E, ? extends A> keyMapper,
+                                                    Function<? super E, ? extends B> valueMapper) {
     if (isEmpty(list)) {
       return MapUtil.empty();
     }
 
     return list.stream()
-      .collect(
-        Collectors.groupingBy(keyMapper, Collectors.mapping(valueMapper, Collectors.toList())));
+               .collect(
+                 Collectors.groupingBy(keyMapper, Collectors.mapping(valueMapper, Collectors.toList())));
   }
 
   /**
@@ -568,7 +556,7 @@ public final class ListUtil {
    * @return
    */
   public static <E, A> Map<A, Long> toMapCount(List<E> list,
-    Function<? super E, ? extends A> keyMapper) {
+                                               Function<? super E, ? extends A> keyMapper) {
     if (isEmpty(list)) {
       return MapUtil.empty();
     }
@@ -590,14 +578,14 @@ public final class ListUtil {
    * @return
    */
   public static <E, A, B> Map<A, List<B>> toMapFlatList(List<E> list,
-    Function<? super E, ? extends A> keyMapper,
-    Function<? super E, ? extends Stream<? extends B>> valueMapper) {
+                                                        Function<? super E, ? extends A> keyMapper,
+                                                        Function<? super E, ? extends Stream<? extends B>> valueMapper) {
     if (isEmpty(list)) {
       return MapUtil.empty();
     }
 
     return list.stream()
-      .collect(Collectors.groupingBy(keyMapper, flatMapping(valueMapper, Collectors.toList())));
+               .collect(Collectors.groupingBy(keyMapper, flatMapping(valueMapper, Collectors.toList())));
   }
 
 
@@ -626,8 +614,8 @@ public final class ListUtil {
    * @return
    */
   public static <E, A, B> Map<A, List<B>> toMapFlatList2(List<E> list,
-    Function<? super E, ? extends A> keyMapper,
-    Function<? super E, List<B>> valueMapper) {
+                                                         Function<? super E, ? extends A> keyMapper,
+                                                         Function<? super E, List<B>> valueMapper) {
     if (isEmpty(list)) {
       return MapUtil.empty();
     }
@@ -671,7 +659,7 @@ public final class ListUtil {
    * @return
    */
   public static <E, R> List<R> toFlatList(List<E> list,
-    Function<? super E, List<? extends R>> mapper) {
+                                          Function<? super E, List<? extends R>> mapper) {
 
     if (isEmpty(list)) {
       return empty();
@@ -761,7 +749,7 @@ public final class ListUtil {
       return empty();
     }
     return data.stream().filter(item -> StringUtil.isNotEmpty(item)).distinct()
-      .collect(Collectors.toList());
+               .collect(Collectors.toList());
   }
 
   /**
@@ -958,7 +946,7 @@ public final class ListUtil {
    * @return
    */
   public static <T> List<T> intersection(final List<? extends T> list1,
-    final List<? extends T> list2) {
+                                         final List<? extends T> list2) {
     if (list1 == null || list2 == null) {
       return new ArrayList<>();
     }

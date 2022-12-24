@@ -14,14 +14,14 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public final class TimeUnitUtil {
 
-    /**
-     * convert duration to ms
-     *
-     * @param duration
-     * @param timeUnit
-     * @return
-     */
-    public static long toMills(long duration, TimeUnit timeUnit) {
-        return TimeUnit.MILLISECONDS.convert(duration, timeUnit);
-    }
+  /**
+   * convert duration to ms
+   *
+   * @param duration
+   * @param timeUnit
+   * @return
+   */
+  public static long toMills(long duration, TimeUnit timeUnit) {
+    return TimeUnit.MILLISECONDS.convert(duration, timeUnit);
+  }
 }

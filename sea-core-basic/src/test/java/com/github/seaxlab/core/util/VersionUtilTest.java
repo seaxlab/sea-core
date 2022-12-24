@@ -14,15 +14,15 @@ import org.junit.Test;
 @Slf4j
 public class VersionUtilTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
-        check("gson", "com/google/gson/Gson.class", "3.0.0");
-        check("spring-core", "org/springframework/core/SpringVersion.class", "3.0.0");
-    }
+  @Test
+  public void test17() throws Exception {
+    check("gson", "com/google/gson/Gson.class", "3.0.0");
+    check("spring-core", "org/springframework/core/SpringVersion.class", "3.0.0");
+  }
 
 
-    private void check(String name, String path, String minVersion) {
-        boolean valid = VersionUtil.validVersion(name, path, minVersion);
-        log.info("check {}  min version={}, {}", name, minVersion, valid);
-    }
+  private void check(String name, String path, String minVersion) {
+    boolean valid = VersionUtil.validVersion(name, path, minVersion);
+    log.info("check {}  min version={}, {}", name, minVersion, valid);
+  }
 }

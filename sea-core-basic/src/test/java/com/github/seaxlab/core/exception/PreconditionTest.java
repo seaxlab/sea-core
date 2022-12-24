@@ -15,16 +15,16 @@ import org.junit.Test;
 @Slf4j
 public class PreconditionTest extends BaseCoreTest {
 
-    @Test
-    public void testNotNull() throws Exception {
-        User user = null;
-        Precondition.checkNotNull(user, "user cannot be null");
-    }
+  @Test
+  public void testNotNull() throws Exception {
+    User user = null;
+    Precondition.checkNotNull(user, "user cannot be null");
+  }
 
-    @Test
-    public void test25() throws Exception {
-        String value = "";
-        Precondition.checkNotEmpty(value, "value cannot be empty.");
-    }
+  @Test
+  public void test25() throws Exception {
+    String value = "";
+    Precondition.checkNotEmpty(value, "value cannot be empty.");
+  }
 
 }

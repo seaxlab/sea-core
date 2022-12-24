@@ -18,11 +18,7 @@
 
 package com.github.seaxlab.core.util;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Utility class for working with Strings that have placeholder values in them. A placeholder takes the form
@@ -66,7 +62,7 @@ public enum PlaceholderUtil {
    *                                       or cause an exception ({@code false})
    */
   PlaceholderUtil(String placeholderPrefix, String placeholderSuffix, String valueSeparator,
-    boolean ignoreUnresolvablePlaceholders) {
+                  boolean ignoreUnresolvablePlaceholders) {
     if (StringUtil.isEmpty(placeholderPrefix) || StringUtil.isEmpty(placeholderSuffix)) {
       throw new UnsupportedOperationException("'placeholderPrefix or placeholderSuffix' must not be null");
     }
@@ -144,7 +140,7 @@ public enum PlaceholderUtil {
   }
 
   protected String parseStringValue(String value, PlaceholderResolver placeholderResolver,
-    Set<String> visitedPlaceholders) {
+                                    Set<String> visitedPlaceholders) {
 
     StringBuilder result = new StringBuilder(value);
 

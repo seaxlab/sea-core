@@ -17,16 +17,16 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class OkHttpClientUtilTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        String result = OkHttpClientUtil.get(IP_URL);
-        log.info("result={}", result);
-    }
+  @Test
+  public void run17() throws Exception {
+    String result = OkHttpClientUtil.get(IP_URL);
+    log.info("result={}", result);
+  }
 
-    @Test
-    public void run25() throws Exception {
-        OkHttpClientUtil.getAsync(IP_URL);
+  @Test
+  public void run25() throws Exception {
+    OkHttpClientUtil.getAsync(IP_URL);
 
-        TimeUnit.SECONDS.sleep(20);
-    }
+    TimeUnit.SECONDS.sleep(20);
+  }
 }

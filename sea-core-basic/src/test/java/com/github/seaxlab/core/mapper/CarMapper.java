@@ -21,14 +21,14 @@ import java.util.Collections;
 @Mapper(imports = {ListUtil.class, Collections.class, ConvertUtil.class})
 public interface CarMapper {
 
-    CarMapper INSTANCE = Mappers.getMapper(CarMapper.class);
+  CarMapper INSTANCE = Mappers.getMapper(CarMapper.class);
 
-    @Mapping(target = "id", expression = "java(ConvertUtil.toInt(car.getId()))")
-    @Mapping(source = "numberOfSeats", target = "seatCount")
-    @Mapping(source = "name", target = "carName")
-    @Mapping(source = "names", target = "names", defaultExpression = "java(ListUtil.empty())")
-    @Mapping(source = "wheels", target = "wheels", defaultExpression = "java(Collections.emptyList())")
-    CarDTO carToCarDto(Car car);
+  @Mapping(target = "id", expression = "java(ConvertUtil.toInt(car.getId()))")
+  @Mapping(source = "numberOfSeats", target = "seatCount")
+  @Mapping(source = "name", target = "carName")
+  @Mapping(source = "names", target = "names", defaultExpression = "java(ListUtil.empty())")
+  @Mapping(source = "wheels", target = "wheels", defaultExpression = "java(Collections.emptyList())")
+  CarDTO carToCarDto(Car car);
 }
 
 // sea-core/sea-core-basic/target/generated-test-sources/test-annotations/com/github/spy/sea/core/mapper/CarMapperImpl.java

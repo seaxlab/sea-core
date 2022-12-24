@@ -11,5 +11,5 @@ import com.github.seaxlab.core.model.Result;
  */
 public interface OrderFsmEngine {
 
-    Result sendEvent(OrderCreateEvent orderCreateEvent);
+  Result sendEvent(OrderCreateEvent orderCreateEvent);
 }

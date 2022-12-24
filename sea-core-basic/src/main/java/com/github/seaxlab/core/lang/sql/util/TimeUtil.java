@@ -15,13 +15,13 @@ import java.util.Date;
 @Slf4j
 public final class TimeUtil {
 
-    private TimeUtil() {
-    }
+  private TimeUtil() {
+  }
 
-    public static Time of(Date date) {
-        if (date == null) {
-            return null;
-        }
-        return new Time(date.getTime());
+  public static Time of(Date date) {
+    if (date == null) {
+      return null;
     }
+    return new Time(date.getTime());
+  }
 }

@@ -18,27 +18,27 @@ import java.util.Map;
 @Slf4j
 public final class DiffUtil {
 
-    /**
-     * object diff.
-     *
-     * @param leftObj
-     * @param rightObj
-     * @return
-     */
-    public static Diff compare(Object leftObj, Object rightObj) {
-        return JaversBuilder.javers()
-                            .build()
-                            .compare(leftObj, rightObj);
-    }
+  /**
+   * object diff.
+   *
+   * @param leftObj
+   * @param rightObj
+   * @return
+   */
+  public static Diff compare(Object leftObj, Object rightObj) {
+    return JaversBuilder.javers()
+                        .build()
+                        .compare(leftObj, rightObj);
+  }
 
-    /**
-     * map diff
-     *
-     * @param map1
-     * @param map2
-     * @return
-     */
-    public static MapDifference<String, Object> compare(Map<String, Object> map1, Map<String, Object> map2) {
-        return Maps.difference(map1, map2);
-    }
+  /**
+   * map diff
+   *
+   * @param map1
+   * @param map2
+   * @return
+   */
+  public static MapDifference<String, Object> compare(Map<String, Object> map1, Map<String, Object> map2) {
+    return Maps.difference(map1, map2);
+  }
 }

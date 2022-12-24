@@ -37,137 +37,137 @@ import java.util.concurrent.Future;
 @Slf4j
 public class HttpAsyncClientUtil {
 
-    public static CloseableHttpAsyncClient httpAsyncClient = null;
+  public static CloseableHttpAsyncClient httpAsyncClient = null;
 
-    /**
-     * 连接超时时间10秒
-     */
-    public static int connectionTimeout = 10000;
+  /**
+   * 连接超时时间10秒
+   */
+  public static int connectionTimeout = 10000;
 
-    /**
-     * 请求连接超时时间5秒
-     */
-    public static int connectionRequestTimeout = 5000;
+  /**
+   * 请求连接超时时间5秒
+   */
+  public static int connectionRequestTimeout = 5000;
 
-    /**
-     * 最大并发数
-     */
-    public static int managerMaxTotal = 300;
+  /**
+   * 最大并发数
+   */
+  public static int managerMaxTotal = 300;
 
-    /**
-     * 3秒sokect无反应强制断开
-     */
-    public static int socketTimeOut = 3000;
+  /**
+   * 3秒sokect无反应强制断开
+   */
+  public static int socketTimeOut = 3000;
 
-    public static String DEFAULT_CHARSET = "utf-8";
+  public static String DEFAULT_CHARSET = "utf-8";
 
-    /**
-     * 绕过验证
-     *
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws KeyManagementException
-     */
-    public static SSLContext createIgnoreVerifySSL() throws NoSuchAlgorithmException, KeyManagementException {
-        SSLContext sc = SSLContext.getInstance("SSLv3");
+  /**
+   * 绕过验证
+   *
+   * @return
+   * @throws NoSuchAlgorithmException
+   * @throws KeyManagementException
+   */
+  public static SSLContext createIgnoreVerifySSL() throws NoSuchAlgorithmException, KeyManagementException {
+    SSLContext sc = SSLContext.getInstance("SSLv3");
 
-        // 实现一个X509TrustManager接口，用于绕过验证，不用修改里面的方法
-        X509TrustManager trustManager = new X509TrustManager() {
-            @Override
-            public void checkClientTrusted(
-                    java.security.cert.X509Certificate[] paramArrayOfX509Certificate,
-                    String paramString) throws CertificateException {
-            }
+    // 实现一个X509TrustManager接口，用于绕过验证，不用修改里面的方法
+    X509TrustManager trustManager = new X509TrustManager() {
+      @Override
+      public void checkClientTrusted(
+        java.security.cert.X509Certificate[] paramArrayOfX509Certificate,
+        String paramString) throws CertificateException {
+      }
 
-            @Override
-            public void checkServerTrusted(
-                    java.security.cert.X509Certificate[] paramArrayOfX509Certificate,
-                    String paramString) throws CertificateException {
-            }
+      @Override
+      public void checkServerTrusted(
+        java.security.cert.X509Certificate[] paramArrayOfX509Certificate,
+        String paramString) throws CertificateException {
+      }
 
-            @Override
-            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-        };
-        sc.init(null, new TrustManager[]{trustManager}, null);
-        return sc;
+      @Override
+      public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+        return null;
+      }
+    };
+    sc.init(null, new TrustManager[]{trustManager}, null);
+    return sc;
+  }
+
+  public static HttpAsyncClient init() {
+    if (httpAsyncClient != null) {
+      return httpAsyncClient;
     }
 
-    public static HttpAsyncClient init() {
-        if (httpAsyncClient != null) {
-            return httpAsyncClient;
-        }
-
-        //绕过证书验证，处理https请求
-        SSLContext sslcontext = null;
-        try {
-            sslcontext = createIgnoreVerifySSL();
+    //绕过证书验证，处理https请求
+    SSLContext sslcontext = null;
+    try {
+      sslcontext = createIgnoreVerifySSL();
 
 
-            // 设置协议http和https对应的处理socket链接工厂的对象
-            Registry<SchemeIOSessionStrategy> sessionStrategyRegistry = RegistryBuilder.<SchemeIOSessionStrategy>create()
-                    .register("http", NoopIOSessionStrategy.INSTANCE)
-                    .register("https", new SSLIOSessionStrategy(sslcontext))
-                    .build();
-            //配置io线程
-            IOReactorConfig ioReactorConfig = IOReactorConfig.custom()
-                                                             .setIoThreadCount(Runtime.getRuntime().availableProcessors())
-                                                             .build();
-            //设置连接池大小
-            ConnectingIOReactor ioReactor = new DefaultConnectingIOReactor(ioReactorConfig);
-            PoolingNHttpClientConnectionManager connManager = new PoolingNHttpClientConnectionManager(ioReactor, null, sessionStrategyRegistry);
-            connManager.setMaxTotal(managerMaxTotal);
+      // 设置协议http和https对应的处理socket链接工厂的对象
+      Registry<SchemeIOSessionStrategy> sessionStrategyRegistry = RegistryBuilder.<SchemeIOSessionStrategy>create()
+                                                                                 .register("http", NoopIOSessionStrategy.INSTANCE)
+                                                                                 .register("https", new SSLIOSessionStrategy(sslcontext))
+                                                                                 .build();
+      //配置io线程
+      IOReactorConfig ioReactorConfig = IOReactorConfig.custom()
+                                                       .setIoThreadCount(Runtime.getRuntime().availableProcessors())
+                                                       .build();
+      //设置连接池大小
+      ConnectingIOReactor ioReactor = new DefaultConnectingIOReactor(ioReactorConfig);
+      PoolingNHttpClientConnectionManager connManager = new PoolingNHttpClientConnectionManager(ioReactor, null, sessionStrategyRegistry);
+      connManager.setMaxTotal(managerMaxTotal);
 
 
-            httpAsyncClient = HttpAsyncClients.custom()
-                                              .setConnectionManager(connManager)
-                                              .build();
+      httpAsyncClient = HttpAsyncClients.custom()
+                                        .setConnectionManager(connManager)
+                                        .build();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return httpAsyncClient;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
-
-    public static String get(final String url) {
-
-        init();
-
-        RequestConfig requestConfig = RequestConfig.custom()
-                                                   .setConnectionRequestTimeout(connectionRequestTimeout)
-                                                   .setConnectTimeout(connectionTimeout)
-                                                   .build();
-
-        HttpGet request = new HttpGet(url);
-        request.setConfig(requestConfig);
-        request.setHeader("User-Agent", "Chrome/sea-core");
-
-        httpAsyncClient.start();
-
-        String result = null;
-
-        try {
-
-            Future<HttpResponse> future = httpAsyncClient.execute(request, null);
-            HttpResponse response = future.get();
+    return httpAsyncClient;
+  }
 
 
-            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                result = EntityUtils.toString(response.getEntity(), DEFAULT_CHARSET);
-            } else {
-                log.warn("http status not 200, status code={}", response.getStatusLine().getStatusCode());
-            }
+  public static String get(final String url) {
+
+    init();
+
+    RequestConfig requestConfig = RequestConfig.custom()
+                                               .setConnectionRequestTimeout(connectionRequestTimeout)
+                                               .setConnectTimeout(connectionTimeout)
+                                               .build();
+
+    HttpGet request = new HttpGet(url);
+    request.setConfig(requestConfig);
+    request.setHeader("User-Agent", "Chrome/sea-core");
+
+    httpAsyncClient.start();
+
+    String result = null;
+
+    try {
+
+      Future<HttpResponse> future = httpAsyncClient.execute(request, null);
+      HttpResponse response = future.get();
 
 
-        } catch (Exception e) {
-            log.error("http get error", e);
-        }
+      if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+        result = EntityUtils.toString(response.getEntity(), DEFAULT_CHARSET);
+      } else {
+        log.warn("http status not 200, status code={}", response.getStatusLine().getStatusCode());
+      }
 
-        return result;
+
+    } catch (Exception e) {
+      log.error("http get error", e);
     }
+
+    return result;
+  }
 
 
 }

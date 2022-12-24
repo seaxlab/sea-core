@@ -18,42 +18,42 @@ import java.util.Optional;
 @Slf4j
 public final class JSONPathUtil {
 
-    /**
-     * check contain existed path
-     *
-     * @param rootObject
-     * @param path
-     * @return
-     */
-    public static boolean contains(Object rootObject, String path) {
-        if (rootObject instanceof JSONObject
-                || rootObject instanceof JSONArray) {
-        } else {
-            throw new UnsupportedOperationException();
-        }
-
-        return JSONPath.contains(rootObject, path);
+  /**
+   * check contain existed path
+   *
+   * @param rootObject
+   * @param path
+   * @return
+   */
+  public static boolean contains(Object rootObject, String path) {
+    if (rootObject instanceof JSONObject
+      || rootObject instanceof JSONArray) {
+    } else {
+      throw new UnsupportedOperationException();
     }
 
-    /**
-     * get value from rootObject
-     * （only for JSONObject）
-     *
-     * @param rootObject
-     * @param path
-     * @return
-     */
-    public static Optional<Object> get(Object rootObject, String path) {
-        if (rootObject instanceof JSONObject
-                || rootObject instanceof JSONArray) {
-        } else {
-            throw new UnsupportedOperationException();
-        }
+    return JSONPath.contains(rootObject, path);
+  }
 
-        return Optional.ofNullable(JSONPath.eval(rootObject, path));
+  /**
+   * get value from rootObject
+   * （only for JSONObject）
+   *
+   * @param rootObject
+   * @param path
+   * @return
+   */
+  public static Optional<Object> get(Object rootObject, String path) {
+    if (rootObject instanceof JSONObject
+      || rootObject instanceof JSONArray) {
+    } else {
+      throw new UnsupportedOperationException();
     }
 
+    return Optional.ofNullable(JSONPath.eval(rootObject, path));
+  }
 
-    //TODO
-    // more...
+
+  //TODO
+  // more...
 }

@@ -18,43 +18,43 @@ import java.util.List;
 @Slf4j
 public final class YmlUtil {
 
-    /**
-     * 读取指定流的，转换成对象
-     *
-     * @param targetClass 目标类型
-     * @param in          文件流(单个文档)
-     * @param <T>
-     * @return
-     */
-    public static <T> T load(Class<T> targetClass, InputStream in) {
-        Yaml yaml = new Yaml(new Constructor(targetClass));
-        T target = yaml.load(in);
-        return target;
-    }
+  /**
+   * 读取指定流的，转换成对象
+   *
+   * @param targetClass 目标类型
+   * @param in          文件流(单个文档)
+   * @param <T>
+   * @return
+   */
+  public static <T> T load(Class<T> targetClass, InputStream in) {
+    Yaml yaml = new Yaml(new Constructor(targetClass));
+    T target = yaml.load(in);
+    return target;
+  }
 
-    /**
-     * 一个文档中加载多个yaml模块
-     * classpath:yaml/test-multi.yml
-     *
-     * @param targetClass
-     * @param in
-     * @param <T>
-     * @return
-     */
-    public static <T> List<T> loadAll(Class<T> targetClass, InputStream in) {
-        Yaml yaml = new Yaml(new Constructor(targetClass));
-        Iterable targets = yaml.loadAll(in);
-        return Lists.newArrayList(targets);
-    }
+  /**
+   * 一个文档中加载多个yaml模块
+   * classpath:yaml/test-multi.yml
+   *
+   * @param targetClass
+   * @param in
+   * @param <T>
+   * @return
+   */
+  public static <T> List<T> loadAll(Class<T> targetClass, InputStream in) {
+    Yaml yaml = new Yaml(new Constructor(targetClass));
+    Iterable targets = yaml.loadAll(in);
+    return Lists.newArrayList(targets);
+  }
 
-    /**
-     * dump POJO to string
-     *
-     * @param data
-     * @return
-     */
-    public static String dump(Object data) {
-        Yaml yaml = new Yaml();
-        return yaml.dump(data);
-    }
+  /**
+   * dump POJO to string
+   *
+   * @param data
+   * @return
+   */
+  public static String dump(Object data) {
+    Yaml yaml = new Yaml();
+    return yaml.dump(data);
+  }
 }

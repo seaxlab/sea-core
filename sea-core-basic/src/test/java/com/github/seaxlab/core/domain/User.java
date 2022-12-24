@@ -15,32 +15,32 @@ import java.util.List;
 @Data
 public class User {
 
-    private Long id;
-    private String name;
-    private int age;
+  private Long id;
+  private String name;
+  private int age;
 
-    List<Role> roles;
-    List<String> roleCodes;
+  List<Role> roles;
+  List<String> roleCodes;
 
-    private boolean isSuc;
-    private Boolean isUsed;
+  private boolean isSuc;
+  private Boolean isUsed;
 
-    private Group group;
+  private Group group;
 
-    private String remark;
+  private String remark;
 
-    private String remark2 = "abc";
+  private String remark2 = "abc";
 
-    //@JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createTime;
+  //@JsonFormat(pattern = "yyyy-MM-dd")
+  private Date createTime;
 
-    public User() {
-    }
+  public User() {
+  }
 
-    public User(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+  public User(Long id, String name) {
+    this.id = id;
+    this.name = name;
+  }
 
 //    @Override
 //    public boolean equals(Object o) {

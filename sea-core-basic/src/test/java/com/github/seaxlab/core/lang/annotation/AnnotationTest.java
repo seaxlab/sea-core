@@ -18,55 +18,55 @@ import java.lang.reflect.Method;
 public class AnnotationTest extends BaseCoreTest {
 
 
-    @Test
-    public void testClass() {
-        final MergedAnnotation annotation = MergedAnnotation.from(AnnotationTest.class);
-        final Parent parent = annotation.getAnnotation(Parent.class);
+  @Test
+  public void testClass() {
+    final MergedAnnotation annotation = MergedAnnotation.from(AnnotationTest.class);
+    final Parent parent = annotation.getAnnotation(Parent.class);
 
-        log.info("parent.name()={}", parent.name());
-    }
+    log.info("parent.name()={}", parent.name());
+  }
 
-    @Test
-    public void testMethod() throws Exception {
-        Method method = UserEntity.class.getDeclaredMethod("getN");
-        final MergedAnnotation annotation = MergedAnnotation.from(method);
-        final Parent parent = annotation.getAnnotation(Parent.class);
+  @Test
+  public void testMethod() throws Exception {
+    Method method = UserEntity.class.getDeclaredMethod("getN");
+    final MergedAnnotation annotation = MergedAnnotation.from(method);
+    final Parent parent = annotation.getAnnotation(Parent.class);
 
-        log.info("parent.name()={}", parent.name());
-    }
+    log.info("parent.name()={}", parent.name());
+  }
 
-    @Test
-    public void testField() throws Exception {
-        Field field = UserEntity.class.getDeclaredField("name");
-        final MergedAnnotation annotation = MergedAnnotation.from(field);
-        final Parent parent = annotation.getAnnotation(Parent.class);
+  @Test
+  public void testField() throws Exception {
+    Field field = UserEntity.class.getDeclaredField("name");
+    final MergedAnnotation annotation = MergedAnnotation.from(field);
+    final Parent parent = annotation.getAnnotation(Parent.class);
 
-        log.info("parent.name()={}", parent.name());
-    }
+    log.info("parent.name()={}", parent.name());
+  }
 
-    @Test
-    public void testField2() throws Exception {
-        Field field = UserEntity.class.getDeclaredField("code");
-        final MergedAnnotation annotation = MergedAnnotation.from(field);
-        final Parent parent = annotation.getAnnotation(Parent.class);
+  @Test
+  public void testField2() throws Exception {
+    Field field = UserEntity.class.getDeclaredField("code");
+    final MergedAnnotation annotation = MergedAnnotation.from(field);
+    final Parent parent = annotation.getAnnotation(Parent.class);
 
-        log.info("parent.name()={}", parent.name());
-    }
+    log.info("parent.name()={}", parent.name());
+  }
 
+
+  @Children1
+  public static class UserEntity {
 
     @Children1
-    public static class UserEntity {
+    private String name;
 
-        @Children1
-        private String name;
+    @Children2
+    private String code;
 
-        @Children2
-        private String code;
+    @Children1
+    public void getN() {
 
-        @Children1
-        public void getN() {
-
-        }
     }
+  }
 
 }

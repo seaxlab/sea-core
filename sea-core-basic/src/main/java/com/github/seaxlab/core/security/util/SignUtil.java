@@ -23,72 +23,72 @@ import java.util.TreeMap;
 @Slf4j
 public class SignUtil {
 
-    private SignUtil() {
+  private SignUtil() {
+  }
+
+  /**
+   * 获取md5方式摘要
+   *
+   * @param map
+   * @return
+   */
+  public static String getByMd5(Map<String, String> map) {
+
+    Map treeMap = new TreeMap();
+    for (Map.Entry<String, String> entry : map.entrySet()) {
+      if ("sign_type".equals(entry.getKey())
+              || "signType".equals(entry.getKey())
+              || "sign".equals(entry.getKey())
+              || StringUtils.isEmpty(entry.getValue())) {
+        continue;
+      }
+      treeMap.put(entry.getKey(), entry.getValue());
     }
 
-    /**
-     * 获取md5方式摘要
-     *
-     * @param map
-     * @return
-     */
-    public static String getByMd5(Map<String, String> map) {
+    StringBuilder strBuilder = new StringBuilder();
+    Iterator it = treeMap.keySet().iterator();
+    while (it.hasNext()) {
+      Object key = it.next();
+      strBuilder.append(key + "=" + treeMap.get(key) + "&");
+    }
+    String message = strBuilder.substring(0, strBuilder.length() - 1);
+    return Md5Util.getDigest(message).toUpperCase();
+  }
 
-        Map treeMap = new TreeMap();
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            if ("sign_type".equals(entry.getKey())
-                    || "signType".equals(entry.getKey())
-                    || "sign".equals(entry.getKey())
-                    || StringUtils.isEmpty(entry.getValue())) {
-                continue;
-            }
-            treeMap.put(entry.getKey(), entry.getValue());
-        }
+  /**
+   * 判断是否有效签名
+   *
+   * @param map
+   * @param sign
+   * @return
+   */
+  public static boolean isValid(Map<String, String> map, String sign) {
+    String expectSign = getByMd5(map);
 
-        StringBuilder strBuilder = new StringBuilder();
-        Iterator it = treeMap.keySet().iterator();
-        while (it.hasNext()) {
-            Object key = it.next();
-            strBuilder.append(key + "=" + treeMap.get(key) + "&");
-        }
-        String message = strBuilder.substring(0, strBuilder.length() - 1);
-        return Md5Util.getDigest(message).toUpperCase();
+    return expectSign.equalsIgnoreCase(sign);
+  }
+
+
+  /**
+   * https://api.xx.com/send?access_token={}&timestamp={}&sign={}
+   * 生成签名
+   *
+   * @param timestamp
+   * @param secret
+   * @return
+   */
+  public static String get(Long timestamp, String secret) {
+    try {
+      String stringToSign = timestamp + "\n" + secret;
+      Mac mac = Mac.getInstance("HmacSHA256");
+      mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
+      byte[] signData = mac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8));
+      return URLEncoder.encode(new String(Base64.encodeBase64(signData)), CoreConst.DEFAULT_CHARSET_NAME);
+
+    } catch (Exception e) {
+      log.error("make sign error", e);
     }
 
-    /**
-     * 判断是否有效签名
-     *
-     * @param map
-     * @param sign
-     * @return
-     */
-    public static boolean isValid(Map<String, String> map, String sign) {
-        String expectSign = getByMd5(map);
-
-        return expectSign.equalsIgnoreCase(sign);
-    }
-
-
-    /**
-     * https://api.xx.com/send?access_token={}&timestamp={}&sign={}
-     * 生成签名
-     *
-     * @param timestamp
-     * @param secret
-     * @return
-     */
-    public static String get(Long timestamp, String secret) {
-        try {
-            String stringToSign = timestamp + "\n" + secret;
-            Mac mac = Mac.getInstance("HmacSHA256");
-            mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
-            byte[] signData = mac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8));
-            return URLEncoder.encode(new String(Base64.encodeBase64(signData)), CoreConst.DEFAULT_CHARSET_NAME);
-
-        } catch (Exception e) {
-            log.error("make sign error", e);
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

@@ -15,15 +15,15 @@ import org.junit.Test;
 public class PingUtilTest extends BaseCoreTest {
 
 
-    @Test
-    public void run23() throws Exception {
-        log.info("{}", PingUtil.ping("10.10.11.243"));
-    }
+  @Test
+  public void run23() throws Exception {
+    log.info("{}", PingUtil.ping("10.10.11.243"));
+  }
 
-    @Test
-    public void run16() throws Exception {
-        log.info("{}", PingUtil.ping("www.baidu.com", 3, 3000));
-    }
+  @Test
+  public void run16() throws Exception {
+    log.info("{}", PingUtil.ping("www.baidu.com", 3, 3000));
+  }
 
 
 }

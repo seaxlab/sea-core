@@ -17,15 +17,15 @@ import java.io.File;
 @Slf4j
 public class QrCodeUtilTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
-        File file = new File(getUserHome() + "/sea/core/qr-code.png");
-        FileUtil.ensureDir(file.getParent());
+  @Test
+  public void test17() throws Exception {
+    File file = new File(getUserHome() + "/sea/core/qr-code.png");
+    FileUtil.ensureDir(file.getParent());
 
-        QRCodeUtil.encode(file.getPath(), "abc");
+    QRCodeUtil.encode(file.getPath(), "abc");
 
-        String content = QRCodeUtil.decode(file.getPath());
+    String content = QRCodeUtil.decode(file.getPath());
 
-        Assert.assertEquals("abc", content);
-    }
+    Assert.assertEquals("abc", content);
+  }
 }

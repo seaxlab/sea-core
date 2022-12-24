@@ -20,206 +20,206 @@ import java.util.Properties;
 @Slf4j
 public final class ResourceUtil {
 
-    private static final String CLASSPATH_PREFIX = "classpath:";
+  private static final String CLASSPATH_PREFIX = "classpath:";
 
-    /**
-     * Returns the URL of the resource on the classpath.
-     *
-     * @param resource The resource to find
-     * @return The resource
-     * @throws IOException If the resource cannot be found or read
-     */
-    public static URL getResourceUrl(String resource) throws IOException {
-        if (resource.startsWith(CLASSPATH_PREFIX)) {
-            String path = resource.substring(CLASSPATH_PREFIX.length());
+  /**
+   * Returns the URL of the resource on the classpath.
+   *
+   * @param resource The resource to find
+   * @return The resource
+   * @throws IOException If the resource cannot be found or read
+   */
+  public static URL getResourceUrl(String resource) throws IOException {
+    if (resource.startsWith(CLASSPATH_PREFIX)) {
+      String path = resource.substring(CLASSPATH_PREFIX.length());
 
-            ClassLoader classLoader = ResourceUtil.class.getClassLoader();
+      ClassLoader classLoader = ResourceUtil.class.getClassLoader();
 
-            URL url = (classLoader != null ? classLoader.getResource(path) : ClassLoader.getSystemResource(path));
-            if (url == null) {
-                throw new FileNotFoundException("Resource [" + resource + "] does not exist");
-            }
+      URL url = (classLoader != null ? classLoader.getResource(path) : ClassLoader.getSystemResource(path));
+      if (url == null) {
+        throw new FileNotFoundException("Resource [" + resource + "] does not exist");
+      }
 
-            return url;
-        }
-
-        try {
-            return new URL(resource);
-        } catch (MalformedURLException ex) {
-            return new File(resource).toURI().toURL();
-        }
+      return url;
     }
 
-    /**
-     * Returns the URL of the resource on the classpath.
-     *
-     * @param loader   The classloader used to load the resource
-     * @param resource The resource to find
-     * @return The resource
-     * @throws IOException If the resource cannot be found or read
-     */
-    public static URL getResourceUrl(ClassLoader loader, String resource) throws IOException {
-        URL url = null;
-        if (loader != null) {
-            url = loader.getResource(resource);
-        }
-        if (url == null) {
-            url = ClassLoader.getSystemResource(resource);
-        }
-        if (url == null) {
-            throw new IOException("Could not find resource " + resource);
-        }
-        return url;
+    try {
+      return new URL(resource);
+    } catch (MalformedURLException ex) {
+      return new File(resource).toURI().toURL();
     }
+  }
 
-    /**
-     * Returns a resource on the classpath as a Stream object.
-     *
-     * @param resource The resource to find
-     * @return The resource
-     * @throws IOException If the resource cannot be found or read
-     */
-    public static InputStream getResourceAsStream(String resource) throws IOException {
-        ClassLoader loader = ResourceUtil.class.getClassLoader();
-        return getResourceAsStream(loader, resource);
+  /**
+   * Returns the URL of the resource on the classpath.
+   *
+   * @param loader   The classloader used to load the resource
+   * @param resource The resource to find
+   * @return The resource
+   * @throws IOException If the resource cannot be found or read
+   */
+  public static URL getResourceUrl(ClassLoader loader, String resource) throws IOException {
+    URL url = null;
+    if (loader != null) {
+      url = loader.getResource(resource);
     }
-
-    /**
-     * Returns a resource on the classpath as a Stream object.
-     *
-     * @param loader   The classloader used to load the resource
-     * @param resource The resource to find
-     * @return The resource
-     * @throws IOException If the resource cannot be found or read
-     */
-    public static InputStream getResourceAsStream(ClassLoader loader, String resource) throws IOException {
-        InputStream in = null;
-        if (loader != null) {
-            in = loader.getResourceAsStream(resource);
-        }
-        if (in == null) {
-            in = ClassLoader.getSystemResourceAsStream(resource);
-        }
-        if (in == null) {
-            throw new IOException("Could not find resource " + resource);
-        }
-        return in;
+    if (url == null) {
+      url = ClassLoader.getSystemResource(resource);
     }
-
-    /**
-     * return a resource on the classpath as string.
-     *
-     * @param resource
-     * @return
-     * @throws IOException
-     */
-    public static String getResourceAsString(String resource) throws IOException {
-        return getResourceAsString(resource, StandardCharsets.UTF_8);
+    if (url == null) {
+      throw new IOException("Could not find resource " + resource);
     }
+    return url;
+  }
 
-    /**
-     * return a resource on the classpath as string.
-     *
-     * @param resource
-     * @param charset
-     * @return
-     * @throws IOException
-     */
-    public static String getResourceAsString(String resource, Charset charset) throws IOException {
-        try (InputStream in = getResourceAsStream(resource)) {
-            return CharStreams.toString(new InputStreamReader(in, charset));
-        }
+  /**
+   * Returns a resource on the classpath as a Stream object.
+   *
+   * @param resource The resource to find
+   * @return The resource
+   * @throws IOException If the resource cannot be found or read
+   */
+  public static InputStream getResourceAsStream(String resource) throws IOException {
+    ClassLoader loader = ResourceUtil.class.getClassLoader();
+    return getResourceAsStream(loader, resource);
+  }
+
+  /**
+   * Returns a resource on the classpath as a Stream object.
+   *
+   * @param loader   The classloader used to load the resource
+   * @param resource The resource to find
+   * @return The resource
+   * @throws IOException If the resource cannot be found or read
+   */
+  public static InputStream getResourceAsStream(ClassLoader loader, String resource) throws IOException {
+    InputStream in = null;
+    if (loader != null) {
+      in = loader.getResourceAsStream(resource);
     }
-
-
-    /**
-     * Returns a resource on the classpath as a Properties object.
-     *
-     * @param resource The resource to find
-     * @return The resource
-     * @throws IOException If the resource cannot be found or read
-     */
-    public static Properties getResourceAsProperties(String resource) throws IOException {
-        ClassLoader loader = ResourceUtil.class.getClassLoader();
-        return getResourceAsProperties(loader, resource);
+    if (in == null) {
+      in = ClassLoader.getSystemResourceAsStream(resource);
     }
-
-    /**
-     * Returns a resource on the classpath as a Properties object.
-     *
-     * @param loader   The classloader used to load the resource
-     * @param resource The resource to find
-     * @return The resource
-     * @throws IOException If the resource cannot be found or read
-     */
-    public static Properties getResourceAsProperties(ClassLoader loader, String resource) throws IOException {
-        Properties props = new Properties();
-        InputStream in = getResourceAsStream(loader, resource);
-        props.load(in);
-        try {
-            if (in != null) {
-                in.close();
-            }
-        } catch (IOException ignored) {
-        }
-        return props;
+    if (in == null) {
+      throw new IOException("Could not find resource " + resource);
     }
+    return in;
+  }
 
-    /**
-     * Returns a resource on the classpath as a Reader object.
-     *
-     * @param resource The resource to find
-     * @return The resource
-     * @throws IOException If the resource cannot be found or read
-     */
-    public static InputStreamReader getResourceAsReader(String resource, String charsetName) throws IOException {
-        return new InputStreamReader(getResourceAsStream(resource), charsetName);
-    }
+  /**
+   * return a resource on the classpath as string.
+   *
+   * @param resource
+   * @return
+   * @throws IOException
+   */
+  public static String getResourceAsString(String resource) throws IOException {
+    return getResourceAsString(resource, StandardCharsets.UTF_8);
+  }
 
-    /**
-     * Returns a resource on the classpath as a Reader object.
-     *
-     * @param loader   The classloader used to load the resource
-     * @param resource The resource to find
-     * @return The resource
-     * @throws IOException If the resource cannot be found or read
-     */
-    public static Reader getResourceAsReader(ClassLoader loader, String resource, String charsetName)
-            throws IOException {
-        return new InputStreamReader(getResourceAsStream(loader, resource), charsetName);
+  /**
+   * return a resource on the classpath as string.
+   *
+   * @param resource
+   * @param charset
+   * @return
+   * @throws IOException
+   */
+  public static String getResourceAsString(String resource, Charset charset) throws IOException {
+    try (InputStream in = getResourceAsStream(resource)) {
+      return CharStreams.toString(new InputStreamReader(in, charset));
     }
+  }
 
-    /**
-     * Returns a resource on the classpath as a File object.
-     *
-     * @param resource The resource to find
-     * @return The resource
-     * @throws IOException If the resource cannot be found or read
-     */
-    public static File getResourceAsFile(String resource) throws IOException {
-        return new File(getResourceUrl(resource).getFile());
-    }
 
-    /**
-     * Returns a resource on the classpath as a File object.
-     *
-     * @param url The resource url to find
-     * @return The resource
-     */
-    public static File getResourceAsFile(URL url) {
-        return new File(url.getFile());
-    }
+  /**
+   * Returns a resource on the classpath as a Properties object.
+   *
+   * @param resource The resource to find
+   * @return The resource
+   * @throws IOException If the resource cannot be found or read
+   */
+  public static Properties getResourceAsProperties(String resource) throws IOException {
+    ClassLoader loader = ResourceUtil.class.getClassLoader();
+    return getResourceAsProperties(loader, resource);
+  }
 
-    /**
-     * Returns a resource on the classpath as a File object.
-     *
-     * @param loader   The classloader used to load the resource
-     * @param resource The resource to find
-     * @return The resource
-     * @throws IOException If the resource cannot be found or read
-     */
-    public static File getResourceAsFile(ClassLoader loader, String resource) throws IOException {
-        return new File(getResourceUrl(loader, resource).getFile());
+  /**
+   * Returns a resource on the classpath as a Properties object.
+   *
+   * @param loader   The classloader used to load the resource
+   * @param resource The resource to find
+   * @return The resource
+   * @throws IOException If the resource cannot be found or read
+   */
+  public static Properties getResourceAsProperties(ClassLoader loader, String resource) throws IOException {
+    Properties props = new Properties();
+    InputStream in = getResourceAsStream(loader, resource);
+    props.load(in);
+    try {
+      if (in != null) {
+        in.close();
+      }
+    } catch (IOException ignored) {
     }
+    return props;
+  }
+
+  /**
+   * Returns a resource on the classpath as a Reader object.
+   *
+   * @param resource The resource to find
+   * @return The resource
+   * @throws IOException If the resource cannot be found or read
+   */
+  public static InputStreamReader getResourceAsReader(String resource, String charsetName) throws IOException {
+    return new InputStreamReader(getResourceAsStream(resource), charsetName);
+  }
+
+  /**
+   * Returns a resource on the classpath as a Reader object.
+   *
+   * @param loader   The classloader used to load the resource
+   * @param resource The resource to find
+   * @return The resource
+   * @throws IOException If the resource cannot be found or read
+   */
+  public static Reader getResourceAsReader(ClassLoader loader, String resource, String charsetName)
+    throws IOException {
+    return new InputStreamReader(getResourceAsStream(loader, resource), charsetName);
+  }
+
+  /**
+   * Returns a resource on the classpath as a File object.
+   *
+   * @param resource The resource to find
+   * @return The resource
+   * @throws IOException If the resource cannot be found or read
+   */
+  public static File getResourceAsFile(String resource) throws IOException {
+    return new File(getResourceUrl(resource).getFile());
+  }
+
+  /**
+   * Returns a resource on the classpath as a File object.
+   *
+   * @param url The resource url to find
+   * @return The resource
+   */
+  public static File getResourceAsFile(URL url) {
+    return new File(url.getFile());
+  }
+
+  /**
+   * Returns a resource on the classpath as a File object.
+   *
+   * @param loader   The classloader used to load the resource
+   * @param resource The resource to find
+   * @return The resource
+   * @throws IOException If the resource cannot be found or read
+   */
+  public static File getResourceAsFile(ClassLoader loader, String resource) throws IOException {
+    return new File(getResourceUrl(loader, resource).getFile());
+  }
 
 }

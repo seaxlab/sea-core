@@ -16,14 +16,14 @@ import java.util.Scanner;
 @Slf4j
 public class ScannerUtilTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
-        Scanner sc = new Scanner(System.in);
-        // 读取一个整数
-        sc.nextInt();
+  @Test
+  public void test17() throws Exception {
+    Scanner sc = new Scanner(System.in);
+    // 读取一个整数
+    sc.nextInt();
 
-        // 读取一行字符串
-        sc.nextLine();
-    }
+    // 读取一行字符串
+    sc.nextLine();
+  }
 
 }

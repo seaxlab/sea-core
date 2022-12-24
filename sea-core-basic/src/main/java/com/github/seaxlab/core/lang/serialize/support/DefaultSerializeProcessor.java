@@ -20,35 +20,35 @@ import java.io.ObjectOutputStream;
 @Slf4j
 public class DefaultSerializeProcessor implements SerializeProcessor {
 
-    @Override
-    public <T> byte[] serialize(T obj) {
-        byte[] bytes = null;
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-             ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+  @Override
+  public <T> byte[] serialize(T obj) {
+    byte[] bytes = null;
+    try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+         ObjectOutputStream oos = new ObjectOutputStream(baos)) {
 
-            oos.writeObject(obj);
-            bytes = baos.toByteArray();
+      oos.writeObject(obj);
+      bytes = baos.toByteArray();
 
-        } catch (Exception e) {
-            log.error("序列化出错：", e);
-            throw new SerializeException();
-        }
-
-        return bytes;
+    } catch (Exception e) {
+      log.error("序列化出错：", e);
+      throw new SerializeException();
     }
 
-    @Override
-    public <T> T deserialize(byte[] bytes, Class<T> clazz) {
+    return bytes;
+  }
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-             ObjectInputStream ois = new ObjectInputStream(bais)) {
+  @Override
+  public <T> T deserialize(byte[] bytes, Class<T> clazz) {
 
-            return clazz.cast(ois.readObject());
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+         ObjectInputStream ois = new ObjectInputStream(bais)) {
 
-        } catch (Exception e) {
-            log.error("反序列化出错：", e);
-            throw new DeserializeException();
-        }
+      return clazz.cast(ois.readObject());
+
+    } catch (Exception e) {
+      log.error("反序列化出错：", e);
+      throw new DeserializeException();
+    }
 //        return null;
-    }
+  }
 }

@@ -1,10 +1,11 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * module name

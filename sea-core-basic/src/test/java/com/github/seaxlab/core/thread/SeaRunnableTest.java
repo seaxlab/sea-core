@@ -17,46 +17,46 @@ import java.util.concurrent.TimeUnit;
 public class SeaRunnableTest extends BaseCoreTest {
 
 
-    @Test
-    public void run18() throws Exception {
-        ThreadContext.put("name", "smith");
+  @Test
+  public void run18() throws Exception {
+    ThreadContext.put("name", "smith");
 
 
-        new Thread() {
-            @Override
-            public void run() {
-                log.info("---thread,{}", (String) ThreadContext.get("name"));
-            }
-        }.start();
+    new Thread() {
+      @Override
+      public void run() {
+        log.info("---thread,{}", (String) ThreadContext.get("name"));
+      }
+    }.start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                log.info("---thread runnable,{}", (String) ThreadContext.get("name"));
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        log.info("---thread runnable,{}", (String) ThreadContext.get("name"));
 
-            }
-        }).start();
-        //
-        SeaRunnable runnable = new SeaRunnable(new Runnable() {
-            @Override
-            public void run() {
-                log.info("---custom,{}", (String) ThreadContext.get("name"));
-            }
-        });
+      }
+    }).start();
+    //
+    SeaRunnable runnable = new SeaRunnable(new Runnable() {
+      @Override
+      public void run() {
+        log.info("---custom,{}", (String) ThreadContext.get("name"));
+      }
+    });
 
-        runnable.run();
-
-
-        Runnable runnable1 = new Runnable() {
-            @Override
-            public void run() {
-                log.info("-----run {}", (String) ThreadContext.get("name"));
-            }
-        };
-
-        runnable1.run();
+    runnable.run();
 
 
-        TimeUnit.SECONDS.sleep(10);
-    }
+    Runnable runnable1 = new Runnable() {
+      @Override
+      public void run() {
+        log.info("-----run {}", (String) ThreadContext.get("name"));
+      }
+    };
+
+    runnable1.run();
+
+
+    TimeUnit.SECONDS.sleep(10);
+  }
 }

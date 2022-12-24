@@ -13,14 +13,14 @@ import org.quartz.CronExpression;
 @Slf4j
 public final class CronExpressionUtil {
 
-    /**
-     * check recon is valid.
-     *
-     * @param cronStr
-     * @return
-     */
-    public static boolean isValid(String cronStr) {
-        return CronExpression.isValidExpression(cronStr);
-    }
+  /**
+   * check recon is valid.
+   *
+   * @param cronStr
+   * @return
+   */
+  public static boolean isValid(String cronStr) {
+    return CronExpression.isValidExpression(cronStr);
+  }
 
 }

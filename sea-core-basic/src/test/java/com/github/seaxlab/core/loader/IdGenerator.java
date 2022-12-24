@@ -9,5 +9,5 @@ package com.github.seaxlab.core.loader;
  */
 public interface IdGenerator {
 
-    String getId();
+  String getId();
 }

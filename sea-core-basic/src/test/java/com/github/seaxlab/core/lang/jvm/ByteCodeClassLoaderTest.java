@@ -15,15 +15,15 @@ import org.junit.Test;
  */
 @Slf4j
 public class ByteCodeClassLoaderTest extends BaseCoreTest {
-    @Test
-    public void test16() throws Exception {
-        String className = "Foo";
-        String sourceCode = "public class " + className + " {" +
-                "    public void bar() {" +
-                "        System.out.println(\"Hello from bar !\");" +
-                "    }" +
-                "}";
-        Class<?> clazz = ByteCodeClassLoader.load(className, sourceCode);
-        Assert.assertEquals(className, clazz.getName());
-    }
+  @Test
+  public void test16() throws Exception {
+    String className = "Foo";
+    String sourceCode = "public class " + className + " {" +
+      "    public void bar() {" +
+      "        System.out.println(\"Hello from bar !\");" +
+      "    }" +
+      "}";
+    Class<?> clazz = ByteCodeClassLoader.load(className, sourceCode);
+    Assert.assertEquals(className, clazz.getName());
+  }
 }

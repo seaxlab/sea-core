@@ -12,18 +12,18 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class DefaultOrderCreateEvent implements OrderCreateEvent {
-    @Override
-    public String getEventType() {
-        return null;
-    }
+  @Override
+  public String getEventType() {
+    return null;
+  }
 
-    @Override
-    public String getOrderId() {
-        return null;
-    }
+  @Override
+  public String getOrderId() {
+    return null;
+  }
 
-    @Override
-    public boolean newCreate() {
-        return false;
-    }
+  @Override
+  public boolean newCreate() {
+    return false;
+  }
 }

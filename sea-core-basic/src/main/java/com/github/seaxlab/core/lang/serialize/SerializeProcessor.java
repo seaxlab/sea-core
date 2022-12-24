@@ -9,23 +9,23 @@ package com.github.seaxlab.core.lang.serialize;
  */
 public interface SerializeProcessor {
 
-    /**
-     * 序列化字节
-     *
-     * @param obj
-     * @param <T>
-     * @return
-     */
-    <T> byte[] serialize(T obj);
+  /**
+   * 序列化字节
+   *
+   * @param obj
+   * @param <T>
+   * @return
+   */
+  <T> byte[] serialize(T obj);
 
 
-    /**
-     * 反序列化
-     *
-     * @param bytes
-     * @param clazz
-     * @param <T>
-     * @return
-     */
-    <T> T deserialize(byte[] bytes, Class<T> clazz);
+  /**
+   * 反序列化
+   *
+   * @param bytes
+   * @param clazz
+   * @param <T>
+   * @return
+   */
+  <T> T deserialize(byte[] bytes, Class<T> clazz);
 }

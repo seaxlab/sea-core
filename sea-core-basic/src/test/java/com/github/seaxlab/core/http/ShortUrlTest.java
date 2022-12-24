@@ -18,16 +18,16 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 public class ShortUrlTest {
-    @Test
-    public void run47() throws Exception {
-        Stopwatch stopwatch = Stopwatch.createStarted();
-        for (int i = 0; i < 1000; i++) {
-            String target = "http://www.baidu.com/s?wd=" + new Random().nextInt(10000);
-            stopwatch.reset();
-            stopwatch.start();
-            String url = MessageUtil.format("http://tinyurl.com/api-create.php?url={}", target);
-            String ret = HttpClientUtil.get(url);
-            log.info("cost={}ms,ret={}", stopwatch.elapsed(TimeUnit.MILLISECONDS), ret);
-        }
+  @Test
+  public void run47() throws Exception {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    for (int i = 0; i < 1000; i++) {
+      String target = "http://www.baidu.com/s?wd=" + new Random().nextInt(10000);
+      stopwatch.reset();
+      stopwatch.start();
+      String url = MessageUtil.format("http://tinyurl.com/api-create.php?url={}", target);
+      String ret = HttpClientUtil.get(url);
+      log.info("cost={}ms,ret={}", stopwatch.elapsed(TimeUnit.MILLISECONDS), ret);
     }
+  }
 }

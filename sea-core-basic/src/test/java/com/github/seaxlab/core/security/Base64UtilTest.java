@@ -16,19 +16,19 @@ import org.junit.Test;
 @Slf4j
 public class Base64UtilTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        String str = "香港!@#$%^&*()_+abc123";
+  @Test
+  public void run17() throws Exception {
+    String str = "香港!@#$%^&*()_+abc123";
 
-        String base64Str = Base64Util.encode(str);
+    String base64Str = Base64Util.encode(str);
 
-        log.info("base64str={}", base64Str);
-        Assert.assertEquals("6aaZ5rivIUAjJCVeJiooKV8rYWJjMTIz", base64Str);
+    log.info("base64str={}", base64Str);
+    Assert.assertEquals("6aaZ5rivIUAjJCVeJiooKV8rYWJjMTIz", base64Str);
 
-        String decodeStr = Base64Util.decode(base64Str);
+    String decodeStr = Base64Util.decode(base64Str);
 
-        Assert.assertEquals(decodeStr, str);
+    Assert.assertEquals(decodeStr, str);
 
 
-    }
+  }
 }

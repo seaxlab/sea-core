@@ -18,56 +18,56 @@ import java.util.Optional;
 @Slf4j
 public class QueryCacheTest extends BaseCoreTest {
 
-    @Test
-    public void testQueryCache1() throws Exception {
-        IQueryCache<String, String> userQueryCache = new UserQueryCache();
-        IQueryCache<String, String> staffQueryCache = new StaffQueryCache();
+  @Test
+  public void testQueryCache1() throws Exception {
+    IQueryCache<String, String> userQueryCache = new UserQueryCache();
+    IQueryCache<String, String> staffQueryCache = new StaffQueryCache();
 
-        for (int i = 0; i < 5; i++) {
-            Optional<String> optional = userQueryCache.get("" + i);
-            log.info("id={}, user={}", i, optional.orElse("default"));
-        }
-        log.info("=======");
-        // query from cache.
-        for (int i = 0; i < 5; i++) {
-            Optional<String> optional = userQueryCache.get("" + i);
-            log.info("id={}, user={}", i, optional.orElse("default"));
-        }
-
-        log.info("load by batch {}", userQueryCache.getMap(Arrays.asList("1", "2", "3")));
-
+    for (int i = 0; i < 5; i++) {
+      Optional<String> optional = userQueryCache.get("" + i);
+      log.info("id={}, user={}", i, optional.orElse("default"));
+    }
+    log.info("=======");
+    // query from cache.
+    for (int i = 0; i < 5; i++) {
+      Optional<String> optional = userQueryCache.get("" + i);
+      log.info("id={}, user={}", i, optional.orElse("default"));
     }
 
-    public class UserQueryCache extends AbstractQueryCache<String, String> {
+    log.info("load by batch {}", userQueryCache.getMap(Arrays.asList("1", "2", "3")));
 
-        @Override
-        protected String getBizType() {
-            return "user";
-        }
+  }
 
-        @Override
-        protected Optional<String> fetchData(String key) {
-            log.info("try to get user info");
-            sleep(RandomUtil.nextInt(1, 3));
-            return Optional.of(RandomUtil.alphabetic(10));
-        }
+  public class UserQueryCache extends AbstractQueryCache<String, String> {
 
+    @Override
+    protected String getBizType() {
+      return "user";
     }
 
-    public class StaffQueryCache extends AbstractQueryCache<String, String> {
-
-        @Override
-        protected String getBizType() {
-            return "staff";
-        }
-
-        @Override
-        protected Optional<String> fetchData(String key) {
-            log.info("try to get staff info.");
-            sleep(RandomUtil.nextInt(1, 3));
-
-            return Optional.of(RandomUtil.alphabetic(10));
-        }
-
+    @Override
+    protected Optional<String> fetchData(String key) {
+      log.info("try to get user info");
+      sleep(RandomUtil.nextInt(1, 3));
+      return Optional.of(RandomUtil.alphabetic(10));
     }
+
+  }
+
+  public class StaffQueryCache extends AbstractQueryCache<String, String> {
+
+    @Override
+    protected String getBizType() {
+      return "staff";
+    }
+
+    @Override
+    protected Optional<String> fetchData(String key) {
+      log.info("try to get staff info.");
+      sleep(RandomUtil.nextInt(1, 3));
+
+      return Optional.of(RandomUtil.alphabetic(10));
+    }
+
+  }
 }

@@ -15,9 +15,9 @@ import org.junit.Test;
 @Slf4j
 public class StackManagerTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        log.info(StackManager.dumpStandard());
-    }
+  @Test
+  public void run17() throws Exception {
+    log.info(StackManager.dumpStandard());
+  }
 
 }

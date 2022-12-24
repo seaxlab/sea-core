@@ -14,10 +14,10 @@ import org.junit.Test;
 @Slf4j
 public class CronExpressionUtilTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        log.info("{}", CronExpressionUtil.isValid("12"));
-        log.info("{}", CronExpressionUtil.isValid("0/20 * * * * ?"));
+  @Test
+  public void run17() throws Exception {
+    log.info("{}", CronExpressionUtil.isValid("12"));
+    log.info("{}", CronExpressionUtil.isValid("0/20 * * * * ?"));
 
-    }
+  }
 }

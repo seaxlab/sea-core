@@ -14,27 +14,27 @@ import java.util.Optional;
  */
 public interface IQueryCache<K, V> {
 
-    /**
-     * 从缓存中获取单个数据
-     *
-     * @param key
-     * @return value
-     */
-    Optional<V> get(K key);
+  /**
+   * 从缓存中获取单个数据
+   *
+   * @param key
+   * @return value
+   */
+  Optional<V> get(K key);
 
-    /**
-     * 多个数据，并转成map
-     *
-     * @param keys
-     * @return
-     */
-    Map<K, Optional<V>> getMap(Collection<K> keys);
+  /**
+   * 多个数据，并转成map
+   *
+   * @param keys
+   * @return
+   */
+  Map<K, Optional<V>> getMap(Collection<K> keys);
 
-    /**
-     * 获取多个列表
-     *
-     * @param keys
-     * @return
-     */
-    List<V> getList(Collection<K> keys);
+  /**
+   * 获取多个列表
+   *
+   * @param keys
+   * @return
+   */
+  List<V> getList(Collection<K> keys);
 }

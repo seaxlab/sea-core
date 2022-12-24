@@ -19,22 +19,22 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class RateLimitTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
-        RateLimit rateLimit = new FixedWindowRateLimit(10, 30, TimeUnit.SECONDS);
+  @Test
+  public void test17() throws Exception {
+    RateLimit rateLimit = new FixedWindowRateLimit(10, 30, TimeUnit.SECONDS);
 
-        for (int i = 0; i < 1000; i++) {
-            log.info("index={},try require={}", i, rateLimit.tryRequire());
-            sleep(1);
-        }
+    for (int i = 0; i < 1000; i++) {
+      log.info("index={},try require={}", i, rateLimit.tryRequire());
+      sleep(1);
     }
+  }
 
-    @Test
-    public void test33() throws Exception {
-        RateLimit rateLimit = new SlidingWindowRateLimit(10, 100, 100, TimeUnit.SECONDS);
-        for (int i = 0; i < 1000; i++) {
-            log.info("index={},try require={}", i, rateLimit.tryRequire());
-            sleepMs(300);
-        }
+  @Test
+  public void test33() throws Exception {
+    RateLimit rateLimit = new SlidingWindowRateLimit(10, 100, 100, TimeUnit.SECONDS);
+    for (int i = 0; i < 1000; i++) {
+      log.info("index={},try require={}", i, rateLimit.tryRequire());
+      sleepMs(300);
     }
+  }
 }

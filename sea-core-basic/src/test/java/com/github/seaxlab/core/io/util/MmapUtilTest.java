@@ -21,23 +21,23 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class MmapUtilTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        File data = new File("/tmp/data_mmap_test.txt");
-        if (data.exists()) {
-            data.delete();
-        }
-        data.createNewFile();
-        FileChannel fileChannel = new RandomAccessFile(data, "rw").getChannel();
-        // 1M
-        // maybe change to 1024L*1024*1024（1G）
-        MappedByteBuffer map = fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, 1024 * 1024);
-
-        TimeUnit.SECONDS.sleep(10);
-
-        log.info("after 10s...");
-
-        MmapUtil.clean(map);
-        new CountDownLatch(1).await();
+  @Test
+  public void run17() throws Exception {
+    File data = new File("/tmp/data_mmap_test.txt");
+    if (data.exists()) {
+      data.delete();
     }
+    data.createNewFile();
+    FileChannel fileChannel = new RandomAccessFile(data, "rw").getChannel();
+    // 1M
+    // maybe change to 1024L*1024*1024（1G）
+    MappedByteBuffer map = fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, 1024 * 1024);
+
+    TimeUnit.SECONDS.sleep(10);
+
+    log.info("after 10s...");
+
+    MmapUtil.clean(map);
+    new CountDownLatch(1).await();
+  }
 }

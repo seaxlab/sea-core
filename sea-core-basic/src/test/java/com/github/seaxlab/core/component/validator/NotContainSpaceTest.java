@@ -18,22 +18,22 @@ import java.util.Set;
 @Slf4j
 public class NotContainSpaceTest extends BaseValidatorTest {
 
-    @Test
-    public void test1() throws Exception {
-        UserAddRequestDTO dto = new UserAddRequestDTO();
-        dto.setName(" abc");
+  @Test
+  public void test1() throws Exception {
+    UserAddRequestDTO dto = new UserAddRequestDTO();
+    dto.setName(" abc");
 
-        Set<ConstraintViolation<UserAddRequestDTO>> set = ValidationUtil.validate(dto);
-        checkValidator(set);
-    }
+    Set<ConstraintViolation<UserAddRequestDTO>> set = ValidationUtil.validate(dto);
+    checkValidator(set);
+  }
 
-    @Test
-    public void test31() throws Exception {
-        UserAddRequestDTO dto = new UserAddRequestDTO();
+  @Test
+  public void test31() throws Exception {
+    UserAddRequestDTO dto = new UserAddRequestDTO();
 
-        Set<ConstraintViolation<UserAddRequestDTO>> set = ValidationUtil.validate(dto);
-        checkValidator(set);
-    }
+    Set<ConstraintViolation<UserAddRequestDTO>> set = ValidationUtil.validate(dto);
+    checkValidator(set);
+  }
 
 
 }

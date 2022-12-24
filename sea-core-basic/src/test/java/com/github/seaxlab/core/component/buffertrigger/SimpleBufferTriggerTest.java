@@ -3,9 +3,10 @@ package com.github.seaxlab.core.component.buffertrigger;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.component.buffertrigger.simple.SimpleBufferTrigger;
 import com.github.seaxlab.core.util.RandomUtil;
-import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * buffer trigger test
@@ -20,12 +21,12 @@ public class SimpleBufferTriggerTest extends BaseCoreTest {
   @Test
   public void test36() throws Exception {
     BufferTrigger<Long> bufferTrigger = SimpleBufferTrigger.newBuilder()//
-      .interval(2, TimeUnit.SECONDS) //
-      .consumer(set -> {
+                                                           .interval(2, TimeUnit.SECONDS) //
+                                                           .consumer(set -> {
 //        sleepMs(700);
-        log.info("set={}", set);
-      }) //
-      .build();
+                                                             log.info("set={}", set);
+                                                           }) //
+                                                           .build();
 
     //
     for (int i = 0; i < 50; i++) {

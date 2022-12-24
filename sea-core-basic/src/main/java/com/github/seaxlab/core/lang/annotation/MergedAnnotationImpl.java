@@ -17,14 +17,14 @@ import java.util.Map;
 @Slf4j
 public class MergedAnnotationImpl implements MergedAnnotation {
 
-    private final Map<Class<? extends Annotation>, List<Annotation>> annotations;
+  private final Map<Class<? extends Annotation>, List<Annotation>> annotations;
 
-    public MergedAnnotationImpl(final AnnotatedElement element) {
-        this.annotations = AnnotationUtil.mergeAnnotation(element);
-    }
+  public MergedAnnotationImpl(final AnnotatedElement element) {
+    this.annotations = AnnotationUtil.mergeAnnotation(element);
+  }
 
-    @Override
-    public Map<Class<? extends Annotation>, List<Annotation>> annotations() {
-        return this.annotations;
-    }
+  @Override
+  public Map<Class<? extends Annotation>, List<Annotation>> annotations() {
+    return this.annotations;
+  }
 }

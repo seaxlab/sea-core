@@ -14,19 +14,19 @@ import org.junit.Test;
 @Slf4j
 public class MultiValueMapTest extends BaseCoreTest {
 
-    @Test
-    public void ArrayListMapTest() throws Exception {
-        MultiValueMap<String, String> map = new DefaultMultiValueMap<>();
-        map.add("aa", "abc");
-        map.add("aa", "def");
-        log.info("map={}", map);
-    }
+  @Test
+  public void ArrayListMapTest() throws Exception {
+    MultiValueMap<String, String> map = new DefaultMultiValueMap<>();
+    map.add("aa", "abc");
+    map.add("aa", "def");
+    log.info("map={}", map);
+  }
 
-    @Test
-    public void test17() throws Exception {
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("aa", "abc");
-        map.add("aa", "def");
-        log.info("map={}", map);
-    }
+  @Test
+  public void test17() throws Exception {
+    MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+    map.add("aa", "abc");
+    map.add("aa", "def");
+    log.info("map={}", map);
+  }
 }

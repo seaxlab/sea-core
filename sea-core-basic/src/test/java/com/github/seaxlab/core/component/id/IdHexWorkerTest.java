@@ -20,42 +20,42 @@ import java.util.concurrent.Executors;
 @Slf4j
 public class IdHexWorkerTest {
 
-    @Test
-    public void run() {
-        final long idepo = System.currentTimeMillis() / 1000 - 3600;
+  @Test
+  public void run() {
+    final long idepo = System.currentTimeMillis() / 1000 - 3600;
 
-        IdHexWorker worker = new IdHexWorker(1, 1, 0, idepo);
+    IdHexWorker worker = new IdHexWorker(1, 1, 0, idepo);
 
-        for (int i = 0; i < 100000; i++) {
-            System.out.println(worker.next());
-        }
-
-        System.out.println(worker);
-
-        long nextId = worker.next();
-        System.out.println(nextId);
-        long time = worker.getIdTime(nextId);
-        System.out.println(time + "->" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(time * 1000)));
+    for (int i = 0; i < 100000; i++) {
+      System.out.println(worker.next());
     }
 
-    @Test
-    public void test2() throws Exception {
+    System.out.println(worker);
 
-        IdHexWorker worker = new IdHexWorker(1, 1, 0);
-        ExecutorService executor = Executors.newFixedThreadPool(8);
+    long nextId = worker.next();
+    System.out.println(nextId);
+    long time = worker.getIdTime(nextId);
+    System.out.println(time + "->" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(time * 1000)));
+  }
 
-        CountDownLatch countDownLatch = new CountDownLatch(1000000);
-        Runnable run = () -> {
-            System.out.println(worker.next());
-            countDownLatch.countDown();
-        };
+  @Test
+  public void test2() throws Exception {
 
-        long startTime = System.currentTimeMillis();
-        for (int i = 0; i < 1000000; i++) {
-            executor.execute(run);
-        }
-        countDownLatch.await();
-        System.out.println(System.currentTimeMillis() - startTime);
-        executor.shutdown();
+    IdHexWorker worker = new IdHexWorker(1, 1, 0);
+    ExecutorService executor = Executors.newFixedThreadPool(8);
+
+    CountDownLatch countDownLatch = new CountDownLatch(1000000);
+    Runnable run = () -> {
+      System.out.println(worker.next());
+      countDownLatch.countDown();
+    };
+
+    long startTime = System.currentTimeMillis();
+    for (int i = 0; i < 1000000; i++) {
+      executor.execute(run);
     }
+    countDownLatch.await();
+    System.out.println(System.currentTimeMillis() - startTime);
+    executor.shutdown();
+  }
 }

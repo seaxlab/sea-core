@@ -16,73 +16,73 @@ import java.net.Socket;
  */
 @Slf4j
 public class SocketRequest implements Runnable {
-    /**
-     * It stores the socket with the request to process
-     */
-    private Socket socket;
-    private BufferedReader input;
-    private BufferedWriter output;
+  /**
+   * It stores the socket with the request to process
+   */
+  private Socket socket;
+  private BufferedReader input;
+  private BufferedWriter output;
 
-    /**
-     * Private to hide it
-     */
-    private SocketRequest() {
+  /**
+   * Private to hide it
+   */
+  private SocketRequest() {
+  }
+
+  /**
+   * Constructor
+   *
+   * @param socket Socket with the request
+   */
+  public SocketRequest(Socket socket) {
+    this.socket = socket;
+
+    try {
+      if (socket != null) {
+        this.input = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+        this.output = new BufferedWriter(new OutputStreamWriter(this.socket.getOutputStream()));
+      }
+    } catch (IOException ex) {
+      log.error("socket error", ex);
     }
+  }
 
-    /**
-     * Constructor
-     *
-     * @param socket Socket with the request
-     */
-    public SocketRequest(Socket socket) {
-        this.socket = socket;
+  /**
+   * Processes the request.
+   */
+  @Override
+  public void run() {
+    try {
+      while (this.socket.isConnected()) {
+        log.info("SOCKET SERVER: read...");
+        String line = this.input.readLine();
+        log.info("SOCKET SERVER: read {}", line);
 
-        try {
-            if (socket != null) {
-                this.input = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-                this.output = new BufferedWriter(new OutputStreamWriter(this.socket.getOutputStream()));
-            }
-        } catch (IOException ex) {
-            log.error("socket error", ex);
+        if (line != null) {
+          String response = DateUtil.toString(DateUtil.nowDate(), DateFormatEnum.yyyyMMddHHmmss);
+          this.output.write(response);
+          this.output.newLine();
+          this.output.flush();
         }
+
+      }
+    } catch (IOException ex) {
+      log.error("SOCKET SERVER: Error.", ex);
+    } catch (Exception ex) {
+      log.error("SOCKET SERVER: Error.", ex);
+    } finally {
+      this.closeSocket();
     }
+  }
 
-    /**
-     * Processes the request.
-     */
-    @Override
-    public void run() {
-        try {
-            while (this.socket.isConnected()) {
-                log.info("SOCKET SERVER: read...");
-                String line = this.input.readLine();
-                log.info("SOCKET SERVER: read {}", line);
-
-                if (line != null) {
-                    String response = DateUtil.toString(DateUtil.nowDate(), DateFormatEnum.yyyyMMddHHmmss);
-                    this.output.write(response);
-                    this.output.newLine();
-                    this.output.flush();
-                }
-
-            }
-        } catch (IOException ex) {
-            log.error("SOCKET SERVER: Error.", ex);
-        } catch (Exception ex) {
-            log.error("SOCKET SERVER: Error.", ex);
-        } finally {
-            this.closeSocket();
-        }
+  /**
+   * Closes the Socket connection
+   */
+  private void closeSocket() {
+    try {
+      this.socket.close();
+    } catch (IOException ex) {
+      log.error("SOCKET SERVER: Error cerrando el socket server", ex);
     }
-
-    /**
-     * Closes the Socket connection
-     */
-    private void closeSocket() {
-        try {
-            this.socket.close();
-        } catch (IOException ex) {
-            log.error("SOCKET SERVER: Error cerrando el socket server", ex);
-        }
-    }
+  }
 }

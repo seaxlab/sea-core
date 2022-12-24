@@ -9,5 +9,5 @@ package com.github.seaxlab.core.pattern.plugin;
  */
 public interface PluginChain {
 
-    void execute(PluginContext context);
+  void execute(PluginContext context);
 }

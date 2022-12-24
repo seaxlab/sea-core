@@ -14,17 +14,17 @@ import org.junit.Test;
 @Slf4j
 public class ByteUnitUtilTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
+  @Test
+  public void run17() throws Exception {
 
-        String ret = ByteUnitUtil.format(1024);
+    String ret = ByteUnitUtil.format(1024);
 
-        log.info("ret={}", ret);
+    log.info("ret={}", ret);
 
-        long total = DiskUtil.getTotalSpace(USER_HOME);
+    long total = DiskUtil.getTotalSpace(USER_HOME);
 
-        log.info("total space={}", ByteUnitUtil.format(total));
-        log.info("total space={}", ByteUnitUtil.format(total, 5));
-    }
+    log.info("total space={}", ByteUnitUtil.format(total));
+    log.info("total space={}", ByteUnitUtil.format(total, 5));
+  }
 
 }

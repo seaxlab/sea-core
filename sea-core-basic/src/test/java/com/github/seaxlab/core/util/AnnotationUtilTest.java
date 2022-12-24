@@ -21,65 +21,65 @@ import java.util.Map;
 @InnerTesting
 public class AnnotationUtilTest extends BaseCoreTest {
 
-    @Test
-    public void getMap() throws Exception {
-        Greet greet = Demo.class.getAnnotation(Greet.class);
+  @Test
+  public void getMap() throws Exception {
+    Greet greet = Demo.class.getAnnotation(Greet.class);
 
-        Map<String, Object> map = AnnotationUtil.getMap(greet);
-        log.info("map={}", map);
-    }
+    Map<String, Object> map = AnnotationUtil.getMap(greet);
+    log.info("map={}", map);
+  }
 
-    @Test
-    public void changeTest() throws Exception {
-        Greet greet = Demo.class.getAnnotation(Greet.class);
-        log.info("Hello there [{}]", greet.name());
+  @Test
+  public void changeTest() throws Exception {
+    Greet greet = Demo.class.getAnnotation(Greet.class);
+    log.info("Hello there [{}]", greet.name());
 
-        // new annotation value.
-        DynamicGreetings altered = new DynamicGreetings("KungFu Panda");
-        AnnotationUtil.change(Demo.class, Greet.class, altered);
-        greet = Demo.class.getAnnotation(Greet.class);
-        log.info("After alteration...Hello there [{}]", greet.name());
-    }
-
-
-    @Test
-    public void testFind() throws Exception {
-        // 这里不能用@Slf4j,这个注解会在编译时，生成其他代码
-        InnerTesting anno = AnnotationUtil.findClassAnnotation(AnnotationUtilTest.class, InnerTesting.class);
-        log.info("anno={}", anno);
-    }
+    // new annotation value.
+    DynamicGreetings altered = new DynamicGreetings("KungFu Panda");
+    AnnotationUtil.change(Demo.class, Greet.class, altered);
+    greet = Demo.class.getAnnotation(Greet.class);
+    log.info("After alteration...Hello there [{}]", greet.name());
+  }
 
 
-    @Retention(RetentionPolicy.RUNTIME)
-    public @interface Greet {
-        /**
-         * @return - The name of the person to greet.
-         */
-        String name() default "";
-    }
+  @Test
+  public void testFind() throws Exception {
+    // 这里不能用@Slf4j,这个注解会在编译时，生成其他代码
+    InnerTesting anno = AnnotationUtil.findClassAnnotation(AnnotationUtilTest.class, InnerTesting.class);
+    log.info("anno={}", anno);
+  }
 
-    @Greet(name = "Dragon Warrior")
-    public static class Demo {
-    }
 
+  @Retention(RetentionPolicy.RUNTIME)
+  public @interface Greet {
     /**
-     * 注意这个地方的实现，很是巧妙,实现了Greet接口
+     * @return - The name of the person to greet.
      */
-    public class DynamicGreetings implements Greet {
-        private String name;
+    String name() default "";
+  }
 
-        public DynamicGreetings(String name) {
-            this.name = name;
-        }
+  @Greet(name = "Dragon Warrior")
+  public static class Demo {
+  }
 
-        @Override
-        public String name() {
-            return name;
-        }
+  /**
+   * 注意这个地方的实现，很是巧妙,实现了Greet接口
+   */
+  public class DynamicGreetings implements Greet {
+    private String name;
 
-        @Override
-        public Class<? extends Annotation> annotationType() {
-            return DynamicGreetings.class;
-        }
+    public DynamicGreetings(String name) {
+      this.name = name;
     }
+
+    @Override
+    public String name() {
+      return name;
+    }
+
+    @Override
+    public Class<? extends Annotation> annotationType() {
+      return DynamicGreetings.class;
+    }
+  }
 }

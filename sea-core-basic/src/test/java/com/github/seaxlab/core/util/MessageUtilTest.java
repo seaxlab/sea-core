@@ -14,13 +14,13 @@ import org.junit.Test;
  */
 @Slf4j
 public class MessageUtilTest extends BaseCoreTest {
-    @Test
-    public void testFormat() throws Exception {
-        Assert.assertEquals("1,2", MessageUtil.format("{},{}", 1, 2));
-    }
+  @Test
+  public void testFormat() throws Exception {
+    Assert.assertEquals("1,2", MessageUtil.format("{},{}", 1, 2));
+  }
 
-    @Test
-    public void testFormatByIndex() throws Exception {
-        Assert.assertEquals("2,1,1,1", MessageUtil.formatByIndex("{1},{0},{0},{0}", "1", "2"));
-    }
+  @Test
+  public void testFormatByIndex() throws Exception {
+    Assert.assertEquals("2,1,1,1", MessageUtil.formatByIndex("{1},{0},{0},{0}", "1", "2"));
+  }
 }

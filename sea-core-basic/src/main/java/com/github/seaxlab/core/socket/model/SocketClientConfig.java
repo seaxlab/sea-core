@@ -12,16 +12,16 @@ import lombok.Data;
 @Data
 public class SocketClientConfig {
 
-    private String host;
-    private Integer port;
+  private String host;
+  private Integer port;
 
-    /**
-     * connect timeout (ms)
-     */
-    private int connectTimeout = 30 * 1000;
+  /**
+   * connect timeout (ms)
+   */
+  private int connectTimeout = 30 * 1000;
 
-    /**
-     * socket timeout (ms)
-     */
-    private int socketTimeout = 30 * 1000;
+  /**
+   * socket timeout (ms)
+   */
+  private int socketTimeout = 30 * 1000;
 }

@@ -16,12 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Base62Util {
 
-    public static String encode(String val) {
-        return Base62.encode(val);
-    }
+  public static String encode(String val) {
+    return Base62.encode(val);
+  }
 
-    public static String decode(String val) {
-        return Base62.decodeStr(val);
-    }
+  public static String decode(String val) {
+    return Base62.decodeStr(val);
+  }
 
 }

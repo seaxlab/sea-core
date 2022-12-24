@@ -17,17 +17,17 @@ import java.io.File;
 @Slf4j
 public class BarCodeUtilTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
+  @Test
+  public void test17() throws Exception {
 
-        String filePath = getUserHome() + "/sea/core/bar-code.png";
-        File file = new File(filePath);
-        FileUtil.ensureDir(file.getParent());
+    String filePath = getUserHome() + "/sea/core/bar-code.png";
+    File file = new File(filePath);
+    FileUtil.ensureDir(file.getParent());
 
-        BarCodeUtil.encode(filePath, "978020137962");
+    BarCodeUtil.encode(filePath, "978020137962");
 
-        String content = BarCodeUtil.decode(filePath);
+    String content = BarCodeUtil.decode(filePath);
 
-        Assert.assertEquals(content, "978020137962");
-    }
+    Assert.assertEquals(content, "978020137962");
+  }
 }
