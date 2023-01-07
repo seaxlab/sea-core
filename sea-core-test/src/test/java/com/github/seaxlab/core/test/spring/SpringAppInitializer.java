@@ -21,25 +21,25 @@ import java.util.Map;
 @Slf4j
 public class SpringAppInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-    @Override
-    public void initialize(ConfigurableApplicationContext applicationContext) {
-        ConfigurableEnvironment env = applicationContext.getEnvironment();
-        log.info("env={}");
+  @Override
+  public void initialize(ConfigurableApplicationContext applicationContext) {
+    ConfigurableEnvironment env = applicationContext.getEnvironment();
+    log.info("env={}");
 
-        // resource property source
-        ResourcePropertySource propertySource = null;
-        try {
-            propertySource = new ResourcePropertySource("classpath:app.properties");
-        } catch (IOException e) {
-            log.error("io exception", e);
-        }
-        env.getPropertySources().addLast(propertySource);
-
-
-        // map property source
-        Map<String, Object> map = new HashMap<>();
-        map.put("sea.xxx", "xxx");
-        MapPropertySource mapPropertySource = new MapPropertySource("sea", map);
-        env.getPropertySources().addLast(mapPropertySource);
+    // resource property source
+    ResourcePropertySource propertySource = null;
+    try {
+      propertySource = new ResourcePropertySource("classpath:app.properties");
+    } catch (IOException e) {
+      log.error("io exception", e);
     }
+    env.getPropertySources().addLast(propertySource);
+
+
+    // map property source
+    Map<String, Object> map = new HashMap<>();
+    map.put("sea.xxx", "xxx");
+    MapPropertySource mapPropertySource = new MapPropertySource("sea", map);
+    env.getPropertySources().addLast(mapPropertySource);
+  }
 }

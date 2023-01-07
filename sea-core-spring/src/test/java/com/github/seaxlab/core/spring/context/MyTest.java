@@ -24,39 +24,39 @@ import java.util.Map;
 @Slf4j
 public class MyTest extends BaseSpringTest {
 
-    @Test
-    public void test17() throws Exception {
-        AntPathMatcher matcher = new AntPathMatcher();
-        log.info("{}", matcher.match("{uuid}", "xxxx"));
-        Map<String, String> result = matcher.extractUriTemplateVariables("{uuid}", "xxx");
-        log.info("{}", result);
+  @Test
+  public void test17() throws Exception {
+    AntPathMatcher matcher = new AntPathMatcher();
+    log.info("{}", matcher.match("{uuid}", "xxxx"));
+    Map<String, String> result = matcher.extractUriTemplateVariables("{uuid}", "xxx");
+    log.info("{}", result);
+  }
+
+  public static void main(String[] args) throws Exception {
+    BeanInfo beanInfo = Introspector.getBeanInfo(A.class);
+    MethodDescriptor[] methodDescriptors = beanInfo.getMethodDescriptors();
+    for (MethodDescriptor methodDescriptor : methodDescriptors) {
+      System.out.println("method:" + methodDescriptor.getName());
+      ParameterDescriptor[] params = methodDescriptor.getParameterDescriptors();
+      if (params != null) {
+        for (ParameterDescriptor param : params) {
+          System.out.println("param:" + param.getName());
+        }
+      }
     }
 
-    public static void main(String[] args) throws Exception {
-        BeanInfo beanInfo = Introspector.getBeanInfo(A.class);
-        MethodDescriptor[] methodDescriptors = beanInfo.getMethodDescriptors();
-        for (MethodDescriptor methodDescriptor : methodDescriptors) {
-            System.out.println("method:" + methodDescriptor.getName());
-            ParameterDescriptor[] params = methodDescriptor.getParameterDescriptors();
-            if (params != null) {
-                for (ParameterDescriptor param : params) {
-                    System.out.println("param:" + param.getName());
-                }
-            }
+    Method[] methods = A.class.getMethods();
+    for (Method method : methods) {
+      if (method.getName().equals("hello")) {
+        LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
+        String[] methodNames = discoverer.getParameterNames(method);
+        for (String methodName : methodNames) {
+          System.out.println(methodName);
         }
 
-        Method[] methods = A.class.getMethods();
-        for (Method method : methods) {
-            if (method.getName().equals("hello")) {
-                LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
-                String[] methodNames = discoverer.getParameterNames(method);
-                for (String methodName : methodNames) {
-                    System.out.println(methodName);
-                }
+      }
 
-            }
-
-        }
     }
+  }
 
 }

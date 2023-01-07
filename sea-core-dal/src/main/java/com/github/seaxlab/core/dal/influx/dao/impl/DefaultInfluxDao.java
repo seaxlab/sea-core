@@ -20,15 +20,12 @@ import com.influxdb.query.FluxTable;
 import com.influxdb.query.dsl.Flux;
 import com.influxdb.query.dsl.functions.RangeFlux;
 import com.influxdb.query.dsl.functions.restriction.Restrictions;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * module name
@@ -78,27 +75,27 @@ public class DefaultInfluxDao implements InfluxDao {
     try (WriteApi api = influxDBClient.getWriteApi()) {
 
       List<Point> points = dto.getData().stream()
-        .map(item -> {
-          Point point = Point.measurement(item.getMetric());
-          point.addField("value", Double.valueOf(item.getValue().toString()));
-          if (item.getTags() != null) {
-            Map<String, String> newTags = new HashMap<>();
-            item.getTags().forEach((key, value) -> {
-              newTags.put(key, value.toString());
-            });
-            point.addTags(newTags);
-          }
-          if (item.getTime() > 0) {
-            point.time(item.getTime(), WritePrecision.MS);
-          } else {
-            log.warn("time is null");
-          }
+                              .map(item -> {
+                                Point point = Point.measurement(item.getMetric());
+                                point.addField("value", Double.valueOf(item.getValue().toString()));
+                                if (item.getTags() != null) {
+                                  Map<String, String> newTags = new HashMap<>();
+                                  item.getTags().forEach((key, value) -> {
+                                    newTags.put(key, value.toString());
+                                  });
+                                  point.addTags(newTags);
+                                }
+                                if (item.getTime() > 0) {
+                                  point.time(item.getTime(), WritePrecision.MS);
+                                } else {
+                                  log.warn("time is null");
+                                }
 
-          if (item.getFields() != null) {
-            point.addFields(item.getFields());
-          }
-          return point;
-        }).collect(Collectors.toList());
+                                if (item.getFields() != null) {
+                                  point.addFields(item.getFields());
+                                }
+                                return point;
+                              }).collect(Collectors.toList());
 
       api.writePoints(finalBucket, finalOrg, points);
       api.flush();

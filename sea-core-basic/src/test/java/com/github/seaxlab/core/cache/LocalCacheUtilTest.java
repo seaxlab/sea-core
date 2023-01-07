@@ -23,57 +23,57 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class LocalCacheUtilTest extends BaseCoreTest {
 
-    @Test
-    public void testCache() throws Exception {
-        Cache<String, String> cache = LocalCacheUtil.getInstance("order");
+  @Test
+  public void testCache() throws Exception {
+    Cache<String, String> cache = LocalCacheUtil.getInstance("order");
 
-        //TODO 这里需要检测 execution exception
+    //TODO 这里需要检测 execution exception
 
-        String key = "order1";
-        runInMultiThread(() -> {
-            String orderInfo = null;
-            try {
-                orderInfo = cache.get(key, () -> {
-                    log.info("loading real data");
-                    return "---";
-                });
-            } catch (ExecutionException e) {
-            }
-            log.info("order={}", orderInfo);
+    String key = "order1";
+    runInMultiThread(() -> {
+      String orderInfo = null;
+      try {
+        orderInfo = cache.get(key, () -> {
+          log.info("loading real data");
+          return "---";
         });
-
-
-    }
-
-    private LoadingCache<String, Optional<String>> loadingCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).maximumSize(1000).build(new CacheLoader<String, Optional<String>>() {
-        @Override
-        public Optional<String> load(String key) throws Exception {
-            log.info("load from db, key={}", key);
-
-            //重点：here cannot return null;
-            return Optional.ofNullable("");
-        }
+      } catch (ExecutionException e) {
+      }
+      log.info("order={}", orderInfo);
     });
 
-    @Test
-    public void testLoadingCacheNull() throws Exception {
-        String key = "key1";
-        runInMultiThread(() -> {
-            Optional optional = loadingCache.getUnchecked(key);
-            log.info("value={}", optional.get());
-        });
-    }
 
-    @Test
-    public void test71() throws Exception {
-        Cache<String, String> cache = CacheBuilder.newBuilder() //
-                .expireAfterWrite(10, TimeUnit.MINUTES) //
-                .maximumSize(1000).build(); //
-        String value = cache.get("1", () -> {
-            return null; // error
-        });
-        log.info("value={}", value);
+  }
 
+  private LoadingCache<String, Optional<String>> loadingCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).maximumSize(1000).build(new CacheLoader<String, Optional<String>>() {
+    @Override
+    public Optional<String> load(String key) throws Exception {
+      log.info("load from db, key={}", key);
+
+      //重点：here cannot return null;
+      return Optional.ofNullable("");
     }
+  });
+
+  @Test
+  public void testLoadingCacheNull() throws Exception {
+    String key = "key1";
+    runInMultiThread(() -> {
+      Optional optional = loadingCache.getUnchecked(key);
+      log.info("value={}", optional.get());
+    });
+  }
+
+  @Test
+  public void test71() throws Exception {
+    Cache<String, String> cache = CacheBuilder.newBuilder() //
+                                              .expireAfterWrite(10, TimeUnit.MINUTES) //
+                                              .maximumSize(1000).build(); //
+    String value = cache.get("1", () -> {
+      return null; // error
+    });
+    log.info("value={}", value);
+
+  }
 
 }

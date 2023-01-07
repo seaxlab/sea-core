@@ -24,29 +24,29 @@ import java.net.URL;
 @Slf4j
 public class JSONPathUtilTest extends BaseCoreTest {
 
-    private String text;
-    private JSONObject jsonObj;
+  private String text;
+  private JSONObject jsonObj;
 
-    @Before
-    public void before() throws Exception {
-        super.before();
-        InputStream in = getClass().getClassLoader().getResourceAsStream("util/users.json");
+  @Before
+  public void before() throws Exception {
+    super.before();
+    InputStream in = getClass().getClassLoader().getResourceAsStream("util/users.json");
 
-        URL url = getClass().getClassLoader().getResource("util/users.json");
+    URL url = getClass().getClassLoader().getResource("util/users.json");
 
 //        file:/Users/.../sea-core/sea-core-basic/target/test-classes/util/users.json
-        log.info("url={}", url);
-        text = Files.toString(new File(url.getFile()), Charsets.UTF_8);
-        log.info("text={}", text);
+    log.info("url={}", url);
+    text = Files.toString(new File(url.getFile()), Charsets.UTF_8);
+    log.info("text={}", text);
 
-        jsonObj = JSON.parseObject(text);
-    }
+    jsonObj = JSON.parseObject(text);
+  }
 
-    @Test
-    public void run17() throws Exception {
+  @Test
+  public void run17() throws Exception {
 
-        Assert.assertEquals(true, JSONPathUtil.contains(jsonObj, "$.users"));
+    Assert.assertEquals(true, JSONPathUtil.contains(jsonObj, "$.users"));
 
-        log.info("{}", JSONPathUtil.get(jsonObj, "$.users"));
-    }
+    log.info("{}", JSONPathUtil.get(jsonObj, "$.users"));
+  }
 }

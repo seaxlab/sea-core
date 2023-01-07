@@ -17,27 +17,27 @@ import org.junit.Test;
 @Slf4j
 public class TransformTest extends BaseCoreTest {
 
-    @Test
-    public void testJSON() throws Exception {
-        JSONObject jsonObj = new JSONObject();
-        jsonObj.put("code", "1000");
-        jsonObj.put("name", "abc");
+  @Test
+  public void testJSON() throws Exception {
+    JSONObject jsonObj = new JSONObject();
+    jsonObj.put("code", "1000");
+    jsonObj.put("name", "abc");
 
-        Transform.execute(jsonObj, Lists.newArrayList(
-                FieldRule.create("code", "code1"),
-                FieldRule.create("code1", "code1", new CustomValueParser())
-        ), Mode.JSON);
+    Transform.execute(jsonObj, Lists.newArrayList(
+      FieldRule.create("code", "code1"),
+      FieldRule.create("code1", "code1", new CustomValueParser())
+    ), Mode.JSON);
 
-        log.info("json={}", jsonObj);
+    log.info("json={}", jsonObj);
+  }
+
+
+  private class CustomValueParser implements ValueParser {
+
+    @Override
+    public Object parse(Object value) {
+      return value + "__00";
     }
-
-
-    private class CustomValueParser implements ValueParser {
-
-        @Override
-        public Object parse(Object value) {
-            return value + "__00";
-        }
-    }
+  }
 
 }

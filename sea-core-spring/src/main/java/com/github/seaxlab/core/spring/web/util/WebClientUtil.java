@@ -19,16 +19,16 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public final class WebClientUtil {
 
-    private static final Map<String, WebClient> cache = new ConcurrentHashMap<>();
+  private static final Map<String, WebClient> cache = new ConcurrentHashMap<>();
 
-    public static WebClient getInstance(String bizType) {
+  public static WebClient getInstance(String bizType) {
 
-        cache.computeIfAbsent(bizType, key -> {
-            WebClientManager clientManager = new DefaultWebClientManager(bizType);
-            WebClientConfig config = new WebClientConfig();
-            return clientManager.init(config);
-        });
+    cache.computeIfAbsent(bizType, key -> {
+      WebClientManager clientManager = new DefaultWebClientManager(bizType);
+      WebClientConfig config = new WebClientConfig();
+      return clientManager.init(config);
+    });
 
-        return cache.get(bizType);
-    }
+    return cache.get(bizType);
+  }
 }

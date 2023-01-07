@@ -12,9 +12,9 @@ import org.springframework.web.server.ServerWebExchange;
 @LoadLevel(name = "requestMethod")
 public class RequestMethodParameterData implements ParameterData {
 
-    @Override
-    public String builder(final ConditionContext context, final String paramName) {
-        ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
-        return exchange.getRequest().getMethodValue();
-    }
+  @Override
+  public String builder(final ConditionContext context, final String paramName) {
+    ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
+    return exchange.getRequest().getMethodValue();
+  }
 }

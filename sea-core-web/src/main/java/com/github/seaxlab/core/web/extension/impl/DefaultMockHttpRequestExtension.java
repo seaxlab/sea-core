@@ -16,10 +16,10 @@ import java.util.Map;
  */
 @Slf4j
 public class DefaultMockHttpRequestExtension implements HttpRequestParseExtension {
-    @Override
-    public Map<String, String> get() {
-        Map<String, String> map = new HashMap<>(1);
-        map.put(CoreConst.DEFAULT_MOCK_KEY, CoreConst.DEFAULT_MOCK_KEY);
-        return map;
-    }
+  @Override
+  public Map<String, String> get() {
+    Map<String, String> map = new HashMap<>(1);
+    map.put(CoreConst.DEFAULT_MOCK_KEY, CoreConst.DEFAULT_MOCK_KEY);
+    return map;
+  }
 }

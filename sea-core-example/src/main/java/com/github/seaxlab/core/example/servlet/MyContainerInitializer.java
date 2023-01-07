@@ -11,6 +11,6 @@ import javax.servlet.ServletContext;
  */
 public interface MyContainerInitializer {
 
-    void onStartup(ServletContext context);
+  void onStartup(ServletContext context);
 
 }

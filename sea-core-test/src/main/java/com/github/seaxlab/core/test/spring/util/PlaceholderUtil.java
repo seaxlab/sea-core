@@ -15,30 +15,30 @@ import java.util.Map;
 @Slf4j
 public class PlaceholderUtil {
 
-    /**
-     * resolve simple placeholder.
-     *
-     * @param placeholder   p
-     * @param propertyName  ''
-     * @param propertyValue ''
-     * @return
-     */
-    public static String resolve(String placeholder, String propertyName, String propertyValue) {
-        MockEnvironment environment = new MockEnvironment();
-        environment.setProperty(propertyName, propertyValue);
-        return environment.resolvePlaceholders(placeholder);
-    }
+  /**
+   * resolve simple placeholder.
+   *
+   * @param placeholder   p
+   * @param propertyName  ''
+   * @param propertyValue ''
+   * @return
+   */
+  public static String resolve(String placeholder, String propertyName, String propertyValue) {
+    MockEnvironment environment = new MockEnvironment();
+    environment.setProperty(propertyName, propertyValue);
+    return environment.resolvePlaceholders(placeholder);
+  }
 
-    /**
-     * resolve placeholder.
-     *
-     * @param placeholder resolve
-     * @param param       map
-     * @return
-     */
-    public static String resolve(String placeholder, Map<String, String> param) {
-        MockEnvironment environment = new MockEnvironment();
-        param.forEach((key, value) -> environment.setProperty(key, value));
-        return environment.resolvePlaceholders(placeholder);
-    }
+  /**
+   * resolve placeholder.
+   *
+   * @param placeholder resolve
+   * @param param       map
+   * @return
+   */
+  public static String resolve(String placeholder, Map<String, String> param) {
+    MockEnvironment environment = new MockEnvironment();
+    param.forEach((key, value) -> environment.setProperty(key, value));
+    return environment.resolvePlaceholders(placeholder);
+  }
 }

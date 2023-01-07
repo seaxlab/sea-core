@@ -24,16 +24,16 @@ import com.github.seaxlab.core.lang.concurrent.exception.ConcurrentException;
  * @since 3.0
  */
 public interface ConcurrentInitializer<T> {
-    /**
-     * Returns the fully initialized object produced by this {@code
-     * ConcurrentInitializer}. A concrete implementation here returns the
-     * results of the initialization process. This method may block until
-     * results are available. Typically, once created the result object is
-     * always the same.
-     *
-     * @return the object created by this {@code ConcurrentException}
-     * @throws ConcurrentException if an error occurred during initialization of
-     *                             the object
-     */
-    T get() throws ConcurrentException;
+  /**
+   * Returns the fully initialized object produced by this {@code
+   * ConcurrentInitializer}. A concrete implementation here returns the
+   * results of the initialization process. This method may block until
+   * results are available. Typically, once created the result object is
+   * always the same.
+   *
+   * @return the object created by this {@code ConcurrentException}
+   * @throws ConcurrentException if an error occurred during initialization of
+   *                             the object
+   */
+  T get() throws ConcurrentException;
 }

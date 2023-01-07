@@ -18,19 +18,19 @@ import java.io.IOException;
 @Slf4j
 public class FileUploadController {
 
-    /**
-     * upload file
-     *
-     * @param uploadFile
-     * @return
-     */
-    public Result upload(MultipartFile uploadFile) throws IOException {
-        log.info("original file name={}, name={}", uploadFile.getOriginalFilename(), uploadFile.getName());
-        log.info("file size={}", uploadFile.getSize());
+  /**
+   * upload file
+   *
+   * @param uploadFile
+   * @return
+   */
+  public Result upload(MultipartFile uploadFile) throws IOException {
+    log.info("original file name={}, name={}", uploadFile.getOriginalFilename(), uploadFile.getName());
+    log.info("file size={}", uploadFile.getSize());
 
-        // save file
-        uploadFile.transferTo(new File(PathUtil.getSeaHome(), "test/abc.txt"));
+    // save file
+    uploadFile.transferTo(new File(PathUtil.getSeaHome(), "test/abc.txt"));
 
-        return Result.success();
-    }
+    return Result.success();
+  }
 }

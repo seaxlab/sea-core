@@ -9,19 +9,19 @@ package com.github.seaxlab.core.thread;
  */
 public class NamedThreadLocal<T> extends ThreadLocal<T> {
 
-    private String name;
+  private String name;
 
-    private NamedThreadLocal() {
-    }
+  private NamedThreadLocal() {
+  }
 
-    public NamedThreadLocal(String name) {
-        super();
-        this.name = name;
-    }
+  public NamedThreadLocal(String name) {
+    super();
+    this.name = name;
+  }
 
 
-    @Override
-    public String toString() {
-        return this.name;
-    }
+  @Override
+  public String toString() {
+    return this.name;
+  }
 }

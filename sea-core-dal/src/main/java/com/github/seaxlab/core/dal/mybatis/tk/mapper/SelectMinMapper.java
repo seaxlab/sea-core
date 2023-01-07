@@ -1,9 +1,10 @@
 package com.github.seaxlab.core.dal.mybatis.tk.mapper;
 
 import com.github.seaxlab.core.dal.mybatis.tk.mapper.provider.SelectMinProviderExt;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
+
+import java.util.List;
 
 /**
  * module name

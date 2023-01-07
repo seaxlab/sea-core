@@ -14,8 +14,8 @@ import org.junit.Test;
 @Slf4j
 public class SpringContextHolderTest extends BaseSpringTest {
 
-    @Test
-    public void run17() throws Exception {
+  @Test
+  public void run17() throws Exception {
 
-    }
+  }
 }

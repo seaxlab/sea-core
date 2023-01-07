@@ -22,111 +22,111 @@ import java.util.concurrent.locks.Lock;
 @Slf4j
 public class FileLock implements Lock {
 
-    private String prefix;
+  private String prefix;
 
-    private File file;
+  private File file;
 
-    private FileChannel fileChannel;
+  private FileChannel fileChannel;
 
-    // https://docs.oracle.com/javase/8/docs/api/java/nio/channels/FileLock.html
-    //File locks are held on behalf of the entire Java virtual machine. They are not suitable for controlling access to a file by multiple threads within the same virtual machine.
-    //File-lock objects are safe for use by multiple concurrent threads.
-    private java.nio.channels.FileLock innerFileLock;
+  // https://docs.oracle.com/javase/8/docs/api/java/nio/channels/FileLock.html
+  //File locks are held on behalf of the entire Java virtual machine. They are not suitable for controlling access to a file by multiple threads within the same virtual machine.
+  //File-lock objects are safe for use by multiple concurrent threads.
+  private java.nio.channels.FileLock innerFileLock;
 
 
-    private FileLock() {
+  private FileLock() {
+  }
+
+  public FileLock(String prefix) {
+    if (prefix == null || prefix.isEmpty()) {
+      throw new RuntimeException("FileLock [prefix] cannot be null");
+    }
+    this.prefix = prefix;
+    init();
+  }
+
+  private void init() {
+    String userHome = System.getProperty("user.home");
+    String path = userHome + "/sea/lock";
+    File lockDir = new File(path);
+    if (!lockDir.exists()) {
+      lockDir.mkdirs();
     }
 
-    public FileLock(String prefix) {
-        if (prefix == null || prefix.isEmpty()) {
-            throw new RuntimeException("FileLock [prefix] cannot be null");
-        }
-        this.prefix = prefix;
-        init();
+    file = new File(path + "/" + prefix + ".lock");
+    try {
+      if (!file.exists()) {
+        file.createNewFile();
+      }
+    } catch (IOException e) {
+      log.error("io exception.", e);
     }
+  }
 
-    private void init() {
-        String userHome = System.getProperty("user.home");
-        String path = userHome + "/sea/lock";
-        File lockDir = new File(path);
-        if (!lockDir.exists()) {
-            lockDir.mkdirs();
-        }
+  @Override
+  public void lock() {
+    try {
+      fileChannel = new RandomAccessFile(file, "rw").getChannel();
+      innerFileLock = fileChannel.lock();
+    } catch (OverlappingFileLockException e) {
+      log.warn("has OverlappingFileLockException, so loop");
+      try {
+        boolean hasException = false;
+        do {
+          Thread.sleep(ThreadLocalRandom.current().nextInt(1000));
+          try {
+            fileChannel.lock();
+          } catch (OverlappingFileLockException exx) {
+            hasException = true;
+          }
+        } while (hasException);
+      } catch (Exception ex) {
+        log.warn("has other exception.");
+      }
 
-        file = new File(path + "/" + prefix + ".lock");
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-        } catch (IOException e) {
-            log.error("io exception.", e);
-        }
+    } catch (IOException e) {
     }
+  }
 
-    @Override
-    public void lock() {
-        try {
-            fileChannel = new RandomAccessFile(file, "rw").getChannel();
-            innerFileLock = fileChannel.lock();
-        } catch (OverlappingFileLockException e) {
-            log.warn("has OverlappingFileLockException, so loop");
-            try {
-                boolean hasException = false;
-                do {
-                    Thread.sleep(ThreadLocalRandom.current().nextInt(1000));
-                    try {
-                        fileChannel.lock();
-                    } catch (OverlappingFileLockException exx) {
-                        hasException = true;
-                    }
-                } while (hasException);
-            } catch (Exception ex) {
-                log.warn("has other exception.");
-            }
+  @Override
+  public void lockInterruptibly() throws InterruptedException {
+    throw new UnsupportedOperationException();
+  }
 
-        } catch (IOException e) {
-        }
+  @Override
+  public boolean tryLock() {
+    boolean hasLock;
+    try {
+      innerFileLock = fileChannel.tryLock();
+      hasLock = innerFileLock != null;
+    } catch (Exception e) {
+      hasLock = false;
     }
+    return hasLock;
+  }
 
-    @Override
-    public void lockInterruptibly() throws InterruptedException {
-        throw new UnsupportedOperationException();
-    }
+  @Override
+  public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
+    log.error("unsupported operation.");
+    return false;
+  }
 
-    @Override
-    public boolean tryLock() {
-        boolean hasLock;
-        try {
-            innerFileLock = fileChannel.tryLock();
-            hasLock = innerFileLock != null;
-        } catch (Exception e) {
-            hasLock = false;
-        }
-        return hasLock;
+  @Override
+  public void unlock() {
+    try {
+      if (innerFileLock != null) {
+        innerFileLock.release();
+      }
+      if (fileChannel != null) {
+        fileChannel.close();
+      }
+    } catch (IOException e) {
     }
+  }
 
-    @Override
-    public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
-        log.error("unsupported operation.");
-        return false;
-    }
-
-    @Override
-    public void unlock() {
-        try {
-            if (innerFileLock != null) {
-                innerFileLock.release();
-            }
-            if (fileChannel != null) {
-                fileChannel.close();
-            }
-        } catch (IOException e) {
-        }
-    }
-
-    @Override
-    public Condition newCondition() {
-        log.error("unsupported operation.");
-        return null;
-    }
+  @Override
+  public Condition newCondition() {
+    log.error("unsupported operation.");
+    return null;
+  }
 }

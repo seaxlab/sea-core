@@ -16,17 +16,17 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class CleanFileThreadTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        String dir = getUserHome() + "/logs/arthas";
-        CleanFileThread thread = new CleanFileThread(dir, 10, TimeUnit.SECONDS, 30, TimeUnit.DAYS);
-        thread.setFilenameFilter((dir1, name) -> {
-            log.info("dir={},name={}", dir1, name);
-            return false;
-        });
-        thread.start();
+  @Test
+  public void run17() throws Exception {
+    String dir = getUserHome() + "/logs/arthas";
+    CleanFileThread thread = new CleanFileThread(dir, 10, TimeUnit.SECONDS, 30, TimeUnit.DAYS);
+    thread.setFilenameFilter((dir1, name) -> {
+      log.info("dir={},name={}", dir1, name);
+      return false;
+    });
+    thread.start();
 
-        sleep(1000);
-    }
+    sleep(1000);
+  }
 
 }

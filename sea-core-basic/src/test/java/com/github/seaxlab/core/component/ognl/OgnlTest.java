@@ -21,59 +21,59 @@ import static org.junit.Assert.assertEquals;
 @Slf4j
 public class OgnlTest extends BaseCoreTest {
 
-    OgnlContext context;
+  OgnlContext context;
 
-    @Before
-    public void before() {
-        // 创建上下文环境
-        ClassResolver classResolver = new DefaultClassResolver();
-        MemberAccess memberAccess = new DefaultMemberAccess(true);
+  @Before
+  public void before() {
+    // 创建上下文环境
+    ClassResolver classResolver = new DefaultClassResolver();
+    MemberAccess memberAccess = new DefaultMemberAccess(true);
 
-        context = new OgnlContext(classResolver, null, memberAccess);
-    }
+    context = new OgnlContext(classResolver, null, memberAccess);
+  }
 
-    @Test
-    public void run26() throws Exception {
-        Object value = Ognl.getValue("substring(0,4)", context, "ognl3.2.6MemeberAccess");
+  @Test
+  public void run26() throws Exception {
+    Object value = Ognl.getValue("substring(0,4)", context, "ognl3.2.6MemeberAccess");
 
-        assertEquals("ognl", value);
-    }
+    assertEquals("ognl", value);
+  }
 
-    @Test
-    public void basicTest() throws Exception {
-        // 创建Root对象
-        User user = new User();
-        user.setId(1L);
-        user.setName("downpour");
+  @Test
+  public void basicTest() throws Exception {
+    // 创建Root对象
+    User user = new User();
+    user.setId(1L);
+    user.setName("downpour");
 
-        // 赋值
-        context.put("introduction", "My name is ");
+    // 赋值
+    context.put("introduction", "My name is ");
 
-        // mybatis中封装成了OgnlCache
+    // mybatis中封装成了OgnlCache
 
-        // 测试从上下文环境中进行表达式计算并获取结果
-        Object contextValue = Ognl.getValue(Ognl.parseExpression("#introduction"), context, user);
-        assertEquals("My name is ", contextValue);
+    // 测试从上下文环境中进行表达式计算并获取结果
+    Object contextValue = Ognl.getValue(Ognl.parseExpression("#introduction"), context, user);
+    assertEquals("My name is ", contextValue);
 
-        // 测试同时从将Root对象和上下文环境作为表达式的一部分进行计算
-        Object hello = Ognl.getValue(Ognl.parseExpression("#introduction + name"), context, user);
-        assertEquals("My name is downpour", hello);
-    }
+    // 测试同时从将Root对象和上下文环境作为表达式的一部分进行计算
+    Object hello = Ognl.getValue(Ognl.parseExpression("#introduction + name"), context, user);
+    assertEquals("My name is downpour", hello);
+  }
 
-    @Test
-    public void testSetValue() throws Exception {
-        // 创建Root对象
-        User user = new User();
-        user.setId(1L);
-        user.setName("downpour");
-        //重要 这里必须是赋值对象，否则报 setValue target is null
-        user.setGroup(new Group());
+  @Test
+  public void testSetValue() throws Exception {
+    // 创建Root对象
+    User user = new User();
+    user.setId(1L);
+    user.setName("downpour");
+    //重要 这里必须是赋值对象，否则报 setValue target is null
+    user.setGroup(new Group());
 
-        // 对Root对象进行写值操作
-        //如果没有noSuchProperty.
-        Ognl.setValue("age", context, user, "18");
-        Ognl.setValue("group.name", context, user, "dev");
+    // 对Root对象进行写值操作
+    //如果没有noSuchProperty.
+    Ognl.setValue("age", context, user, "18");
+    Ognl.setValue("group.name", context, user, "dev");
 
-        assertEquals("dev", user.getGroup().getName());
-    }
+    assertEquals("dev", user.getGroup().getName());
+  }
 }

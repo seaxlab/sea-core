@@ -31,91 +31,91 @@ import static org.mockserver.model.HttpResponse.response;
 @Slf4j
 public class MockServerTest extends AbstractCoreTest {
 
-    private ClientAndServer mockServer;
+  private ClientAndServer mockServer;
 
-    @Before
-    public void setUp() {
-        mockServer = ClientAndServer.startClientAndServer(1080);
+  @Before
+  public void setUp() {
+    mockServer = ClientAndServer.startClientAndServer(1080);
+  }
+
+  @Test
+  public void simple() throws Exception {
+    mockServer
+      .when(
+        request()
+          .withPath("/test")
+      )
+      .respond(
+        response()
+          .withHeaders(
+            new Header("Content-Type", "application/json; charset=utf-8"),
+            new Header("Cache-Control", "public, max-age=86400"))
+          .withBody("{ message: 'incorrect username and password combination' }")
+          .withDelay(TimeUnit.SECONDS, 1)
+      );
+
+    // plz visit http://localhost:1080/test
+  }
+
+  @Test
+  public void createExpectationForForward() {
+    mockServer
+      .when(
+        request()
+          .withMethod("GET")
+          .withPath("/index.html"),
+        exactly(1))
+      .forward(
+        forward()
+          .withHost("www.mock-server.com")
+          .withPort(80)
+          .withScheme(HttpForward.Scheme.HTTP)
+      );
+  }
+
+  @Test
+  public void createExpectationForCallBack() {
+    mockServer
+      .when(request().withPath("/callback"))
+      .respond(
+        callback()
+          .withCallbackClass(TestExpectationCallback.class)
+      );
+  }
+
+
+  @Test
+  public void forwardClassCallback() {
+    mockServer
+      .when(
+        request()
+          .withPath("/some.*"))
+      .forward(
+        callback()
+          .withCallbackClass(TestExpectationForwardCallback.class)
+      );
+  }
+
+  private static class TestExpectationForwardCallback implements ExpectationForwardCallback {
+
+    @Override
+    public HttpRequest handle(HttpRequest httpRequest) {
+      log.info("----handle");
+      return request()
+        .withPath(httpRequest.getPath())
+        .withMethod("GET")
+        .withHeaders(
+          header("x-callback", "test_callback_header"),
+          header("Content-Length", "a_callback_request".getBytes(UTF_8).length),
+          header("Connection", "keep-alive")
+        )
+        .withBody("a_callback_request");
     }
+  }
 
-    @Test
-    public void simple() throws Exception {
-        mockServer
-                .when(
-                        request()
-                                .withPath("/test")
-                )
-                .respond(
-                        response()
-                                .withHeaders(
-                                        new Header("Content-Type", "application/json; charset=utf-8"),
-                                        new Header("Cache-Control", "public, max-age=86400"))
-                                .withBody("{ message: 'incorrect username and password combination' }")
-                                .withDelay(TimeUnit.SECONDS, 1)
-                );
-
-        // plz visit http://localhost:1080/test
-    }
-
-    @Test
-    public void createExpectationForForward() {
-        mockServer
-                .when(
-                        request()
-                                .withMethod("GET")
-                                .withPath("/index.html"),
-                        exactly(1))
-                .forward(
-                        forward()
-                                .withHost("www.mock-server.com")
-                                .withPort(80)
-                                .withScheme(HttpForward.Scheme.HTTP)
-                );
-    }
-
-    @Test
-    public void createExpectationForCallBack() {
-        mockServer
-                .when(request().withPath("/callback"))
-                .respond(
-                        callback()
-                                .withCallbackClass(TestExpectationCallback.class)
-                );
-    }
-
-
-    @Test
-    public void forwardClassCallback() {
-        mockServer
-                .when(
-                        request()
-                                .withPath("/some.*"))
-                .forward(
-                        callback()
-                                .withCallbackClass(TestExpectationForwardCallback.class)
-                );
-    }
-
-    private static class TestExpectationForwardCallback implements ExpectationForwardCallback {
-
-        @Override
-        public HttpRequest handle(HttpRequest httpRequest) {
-            log.info("----handle");
-            return request()
-                    .withPath(httpRequest.getPath())
-                    .withMethod("GET")
-                    .withHeaders(
-                            header("x-callback", "test_callback_header"),
-                            header("Content-Length", "a_callback_request".getBytes(UTF_8).length),
-                            header("Connection", "keep-alive")
-                    )
-                    .withBody("a_callback_request");
-        }
-    }
-
-    @After
-    public void destroy() {
-        sleepMinute(3);
-        mockServer.stop();
-    }
+  @After
+  public void destroy() {
+    sleepMinute(3);
+    mockServer.stop();
+  }
 }

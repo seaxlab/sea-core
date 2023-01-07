@@ -10,11 +10,6 @@ import feign.Client;
 import feign.Request;
 import feign.Response;
 import feign.Util;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerProperties;
@@ -25,6 +20,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * mock load balance feign client
  */
@@ -34,8 +35,8 @@ public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient
   private FeignMockProperties apiMockProperties;
 
   public MockLoadBalancerFeignClient(Client delegate, LoadBalancerClient loadBalancerClient,
-      LoadBalancerProperties properties, LoadBalancerClientFactory clientFactory,
-      FeignMockProperties apiMockProperties) {
+                                     LoadBalancerProperties properties, LoadBalancerClientFactory clientFactory,
+                                     FeignMockProperties apiMockProperties) {
     super(delegate, loadBalancerClient, properties, clientFactory);
     this.apiMockProperties = apiMockProperties;
   }
@@ -75,7 +76,7 @@ public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient
    * @return
    */
   private Response parseProtocol(Request request, Request.Options options, String mockApi)
-      throws IOException {
+    throws IOException {
     String[] mockArray = mockApi.split("\\|");
     if (mockArray.length != 2) {
       ExceptionHandler.publishMsg("mock api format is illegal. [protocol|url]");
@@ -94,17 +95,17 @@ public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient
         if (FileUtil.exist(path)) {
           Map<String, Collection<String>> headers = new HashMap<>();
           headers.put(HttpHeaders.CONTENT_TYPE,
-              Lists.newArrayList(MediaType.APPLICATION_JSON_VALUE));
+            Lists.newArrayList(MediaType.APPLICATION_JSON_VALUE));
 
           return Response.builder() //
-              .headers(headers) //
-              .status(HttpStatus.OK.value()) //
-              .request(request) //
-              .body(FileUtil.readFileToBytes(path))//
-              .build();
+                         .headers(headers) //
+                         .status(HttpStatus.OK.value()) //
+                         .request(request) //
+                         .body(FileUtil.readFileToBytes(path))//
+                         .build();
         } else {
           ExceptionHandler.publishMsg("feign mock local file is not exist [{}], so invoke default.",
-              path);
+            path);
         }
       case "remote":
         log.info("====");
@@ -112,7 +113,7 @@ public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient
         log.info("====");
 
         Request newRequest = Request.create(Request.HttpMethod.GET, realUri.trim(),
-            Collections.emptyMap(), null, Util.UTF_8, null);
+          Collections.emptyMap(), null, Util.UTF_8, null);
         return this.getDelegate().execute(newRequest, options);
       default:
         ExceptionHandler.publishMsg("unsupported feign mock protocol, so do origin remote call.");

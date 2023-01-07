@@ -1,11 +1,12 @@
 package com.github.seaxlab.core.model.layer.encrypt;
 
 import com.github.seaxlab.core.model.Result;
-import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * 加密请求
@@ -61,10 +62,12 @@ public class EncryptRequestDTO implements Serializable {
       return result;
     }
 
+
     if (isEmpty(version)) {
       result.setMsg("version不能为空");
       return result;
     }
+
 
     if (isEmpty(timestamp)) {
       result.setMsg("timestamp不能为空");

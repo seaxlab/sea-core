@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <users>
-        <user>
-            <id>1</id>
-            <name>joe</name>
-        </user>
-        <user>
-            <id>2</id>
-            <name>abc</name>
-        </user>
-    </users>
-    <config>
-        <open>true</open>
-        <close>false</close>
-    </config>
+  <users>
+    <user>
+      <id>1</id>
+      <name>joe</name>
+    </user>
+    <user>
+      <id>2</id>
+      <name>abc</name>
+    </user>
+  </users>
+  <config>
+    <open>true</open>
+    <close>false</close>
+  </config>
 
-    <content>hello world!</content>
-    <count>100</count>
+  <content>hello world!</content>
+  <count>100</count>
 
-    <keys>
-        <key>11</key>
-        <key>22</key>
-        <key>33</key>
-    </keys>
+  <keys>
+    <key>11</key>
+    <key>22</key>
+    <key>33</key>
+  </keys>
 </root>

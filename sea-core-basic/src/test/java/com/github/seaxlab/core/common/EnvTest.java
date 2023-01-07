@@ -13,9 +13,9 @@ import org.junit.Test;
 @Slf4j
 public class EnvTest {
 
-    @Test
-    public void run16() throws Exception {
-        log.info("is local model={}", Env.isLocalMode());
-    }
+  @Test
+  public void run16() throws Exception {
+    log.info("is local model={}", Env.isLocalMode());
+  }
 
 }

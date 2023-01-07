@@ -16,8 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = SampleApp.class)
 public class SpringBootAppTest extends AbstractCoreSpringBootTest {
 
-    @Test
-    public void test18() throws Exception {
-        log.info("ctx={}", ctx);
-    }
+  @Test
+  public void test18() throws Exception {
+    log.info("ctx={}", ctx);
+  }
 }

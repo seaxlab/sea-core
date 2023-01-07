@@ -20,13 +20,13 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class CarDTO {
-    //属性名称相同，但属性类型不同
-    private Integer id;
-    private String carName;
-    private String make;
-    private int seatCount;
-    private String type;
-    private List<String> names;
-    private List<String> wheels;
+  //属性名称相同，但属性类型不同
+  private Integer id;
+  private String carName;
+  private String make;
+  private int seatCount;
+  private String type;
+  private List<String> names;
+  private List<String> wheels;
 
 }

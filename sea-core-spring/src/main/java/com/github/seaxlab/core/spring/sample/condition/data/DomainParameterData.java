@@ -1,4 +1,3 @@
-
 package com.github.seaxlab.core.spring.sample.condition.data;
 
 import com.github.seaxlab.core.component.condition.data.ParameterData;
@@ -12,10 +11,10 @@ import org.springframework.web.server.ServerWebExchange;
 @LoadLevel(name = "domain")
 public class DomainParameterData implements ParameterData {
 
-    @Override
-    public String builder(final ConditionContext context, final String paramName) {
-        ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
+  @Override
+  public String builder(final ConditionContext context, final String paramName) {
+    ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
 
-        return exchange.getRequest().getURI().getHost();
-    }
+    return exchange.getRequest().getURI().getHost();
+  }
 }

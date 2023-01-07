@@ -15,14 +15,14 @@ import org.junit.Test;
 @Slf4j
 public class ResultTest extends BaseCoreTest {
 
-    @Test
-    public void testFieldOrder() throws Exception {
-        Result ret = Result.success("abc");
-        log.info("{}", JSONUtil.toStr(ret));
-    }
+  @Test
+  public void testFieldOrder() throws Exception {
+    Result ret = Result.success("abc");
+    log.info("{}", JSONUtil.toStr(ret));
+  }
 
-    @Test
-    public void testNullInstanceOf() throws Exception {
-        log.info("{}", null instanceof Result);
-    }
+  @Test
+  public void testNullInstanceOf() throws Exception {
+    log.info("{}", null instanceof Result);
+  }
 }

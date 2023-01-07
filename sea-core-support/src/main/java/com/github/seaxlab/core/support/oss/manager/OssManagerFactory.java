@@ -16,34 +16,34 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OssManagerFactory {
 
-    public static OssManager get(OssTypeEnum ossTypeEnum) {
-        Precondition.checkNotNull(ossTypeEnum);
+  public static OssManager get(OssTypeEnum ossTypeEnum) {
+    Precondition.checkNotNull(ossTypeEnum);
 
-        OssManager ossManager;
-        switch (ossTypeEnum) {
-            case ALI_YUN:
-                ossManager = new AliyunOssManager();
-                break;
-            case HUAWEI_CLOUD:
-                ossManager = new HuaWeiCloudOssManager();
-                break;
-            case MINIO:
-                ossManager = new MinioOssManager();
-                break;
-            case QINIU_CLOUD:
-                ossManager = new QiNiuOssManager();
-                break;
-            case TENCENT_CLOUD:
-                ossManager = new TencentOssManager();
-                break;
-            case UNKNOWN:
-            default:
-                log.warn("unsupported oss={}", ossTypeEnum);
-                ossManager = null;
-                ExceptionHandler.publishMsg("不支持的oss");
-                break;
-        }
-
-        return ossManager;
+    OssManager ossManager;
+    switch (ossTypeEnum) {
+      case ALI_YUN:
+        ossManager = new AliyunOssManager();
+        break;
+      case HUAWEI_CLOUD:
+        ossManager = new HuaWeiCloudOssManager();
+        break;
+      case MINIO:
+        ossManager = new MinioOssManager();
+        break;
+      case QINIU_CLOUD:
+        ossManager = new QiNiuOssManager();
+        break;
+      case TENCENT_CLOUD:
+        ossManager = new TencentOssManager();
+        break;
+      case UNKNOWN:
+      default:
+        log.warn("unsupported oss={}", ossTypeEnum);
+        ossManager = null;
+        ExceptionHandler.publishMsg("不支持的oss");
+        break;
     }
+
+    return ossManager;
+  }
 }

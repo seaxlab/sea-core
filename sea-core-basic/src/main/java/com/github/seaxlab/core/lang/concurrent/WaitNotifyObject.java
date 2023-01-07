@@ -12,89 +12,89 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Slf4j
 public class WaitNotifyObject {
 
-    private final ConcurrentHashMap<Long/* thread id */, AtomicBoolean/* notified */> waitingThreadTable =
-            new ConcurrentHashMap<Long, AtomicBoolean>(16);
+  private final ConcurrentHashMap<Long/* thread id */, AtomicBoolean/* notified */> waitingThreadTable =
+    new ConcurrentHashMap<Long, AtomicBoolean>(16);
 
-    private AtomicBoolean hasNotified = new AtomicBoolean(false);
+  private AtomicBoolean hasNotified = new AtomicBoolean(false);
 
-    public void wakeup() {
-        boolean needNotify = hasNotified.compareAndSet(false, true);
-        if (needNotify) {
-            synchronized (this) {
-                this.notify();
-            }
-        }
+  public void wakeup() {
+    boolean needNotify = hasNotified.compareAndSet(false, true);
+    if (needNotify) {
+      synchronized (this) {
+        this.notify();
+      }
     }
+  }
 
-    protected void waitForRunning(long interval) {
+  protected void waitForRunning(long interval) {
+    if (this.hasNotified.compareAndSet(true, false)) {
+      this.onWaitEnd();
+      return;
+    }
+    synchronized (this) {
+      try {
         if (this.hasNotified.compareAndSet(true, false)) {
-            this.onWaitEnd();
-            return;
+          this.onWaitEnd();
+          return;
         }
-        synchronized (this) {
-            try {
-                if (this.hasNotified.compareAndSet(true, false)) {
-                    this.onWaitEnd();
-                    return;
-                }
-                this.wait(interval);
-            } catch (InterruptedException e) {
-                log.error("Interrupted", e);
-            } finally {
-                this.hasNotified.set(false);
-                this.onWaitEnd();
-            }
-        }
+        this.wait(interval);
+      } catch (InterruptedException e) {
+        log.error("Interrupted", e);
+      } finally {
+        this.hasNotified.set(false);
+        this.onWaitEnd();
+      }
     }
+  }
 
-    protected void onWaitEnd() {
+  protected void onWaitEnd() {
+  }
+
+  public void wakeupAll() {
+    boolean needNotify = false;
+    for (Map.Entry<Long, AtomicBoolean> entry : this.waitingThreadTable.entrySet()) {
+      if (entry.getValue().compareAndSet(false, true)) {
+        needNotify = true;
+      }
     }
-
-    public void wakeupAll() {
-        boolean needNotify = false;
-        for (Map.Entry<Long, AtomicBoolean> entry : this.waitingThreadTable.entrySet()) {
-            if (entry.getValue().compareAndSet(false, true)) {
-                needNotify = true;
-            }
-        }
-        if (needNotify) {
-            synchronized (this) {
-                this.notifyAll();
-            }
-        }
+    if (needNotify) {
+      synchronized (this) {
+        this.notifyAll();
+      }
     }
+  }
 
-    public void allWaitForRunning(long interval) {
-        long currentThreadId = Thread.currentThread().getId();
-        AtomicBoolean notified = this.waitingThreadTable.computeIfAbsent(currentThreadId, k -> new AtomicBoolean(false));
+  public void allWaitForRunning(long interval) {
+    long currentThreadId = Thread.currentThread().getId();
+    AtomicBoolean notified = this.waitingThreadTable.computeIfAbsent(currentThreadId, k -> new AtomicBoolean(false));
+    if (notified.compareAndSet(true, false)) {
+      this.onWaitEnd();
+      return;
+    }
+    synchronized (this) {
+      try {
         if (notified.compareAndSet(true, false)) {
-            this.onWaitEnd();
-            return;
+          this.onWaitEnd();
+          return;
         }
-        synchronized (this) {
-            try {
-                if (notified.compareAndSet(true, false)) {
-                    this.onWaitEnd();
-                    return;
-                }
-                this.wait(interval);
-            } catch (InterruptedException e) {
-                log.error("Interrupted", e);
-            } finally {
-                notified.set(false);
-                this.onWaitEnd();
-            }
-        }
+        this.wait(interval);
+      } catch (InterruptedException e) {
+        log.error("Interrupted", e);
+      } finally {
+        notified.set(false);
+        this.onWaitEnd();
+      }
     }
+  }
 
-    public void removeFromWaitingThreadTable() {
-        long currentThreadId = Thread.currentThread().getId();
-        synchronized (this) {
-            this.waitingThreadTable.remove(currentThreadId);
-        }
+  public void removeFromWaitingThreadTable() {
+    long currentThreadId = Thread.currentThread().getId();
+    synchronized (this) {
+      this.waitingThreadTable.remove(currentThreadId);
     }
+  }
 
-    public int getWaitingSize() {
-        return this.waitingThreadTable.size();
-    }
+  public int getWaitingSize() {
+    return this.waitingThreadTable.size();
+  }
 }

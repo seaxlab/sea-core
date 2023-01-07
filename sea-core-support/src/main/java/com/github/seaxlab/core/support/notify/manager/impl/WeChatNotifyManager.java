@@ -15,8 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WeChatNotifyManager implements NotifyManager<WeChatNotifyDTO> {
 
-    @Override
-    public Result send(WeChatNotifyDTO dto) {
-        return null;
-    }
+  @Override
+  public Result send(WeChatNotifyDTO dto) {
+    return null;
+  }
 }

@@ -16,18 +16,18 @@ import java.io.IOException;
  */
 @Slf4j
 public class EmptyCallback implements Callback {
-    @Override
-    public void onFailure(Call call, IOException e) {
-        log.error("empty callback fail", e);
+  @Override
+  public void onFailure(Call call, IOException e) {
+    log.error("empty callback fail", e);
+  }
+
+  @Override
+  public void onResponse(Call call, Response response) throws IOException {
+    log.info("empty callback success");
+
+    if (response != null && response.body() != null) {
+      log.info("response body={}", response.body().toString());
     }
 
-    @Override
-    public void onResponse(Call call, Response response) throws IOException {
-        log.info("empty callback success");
-
-        if (response != null && response.body() != null) {
-            log.info("response body={}", response.body().toString());
-        }
-
-    }
+  }
 }

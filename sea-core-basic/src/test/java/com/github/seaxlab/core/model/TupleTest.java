@@ -14,15 +14,15 @@ import org.junit.Test;
 @Slf4j
 public class TupleTest extends BaseCoreTest {
 
-    @Test
-    public void run16() throws Exception {
-        Tuple tuple = new Tuple("11", "2");
-        log.info("{}", tuple);
-    }
+  @Test
+  public void run16() throws Exception {
+    Tuple tuple = new Tuple("11", "2");
+    log.info("{}", tuple);
+  }
 
-    @Test
-    public void ofTest() throws Exception {
-        Tuple tuple = Tuple.of("11", "2");
-        log.info("{}", tuple);
-    }
+  @Test
+  public void ofTest() throws Exception {
+    Tuple tuple = Tuple.of("11", "2");
+    log.info("{}", tuple);
+  }
 }

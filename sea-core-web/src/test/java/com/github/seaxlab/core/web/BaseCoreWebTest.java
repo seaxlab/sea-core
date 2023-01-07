@@ -14,8 +14,8 @@ import org.junit.Test;
 @Slf4j
 public class BaseCoreWebTest extends AbstractCoreTest {
 
-    @Test
-    public void run16() throws Exception {
-        log.info("----");
-    }
+  @Test
+  public void run16() throws Exception {
+    log.info("----");
+  }
 }

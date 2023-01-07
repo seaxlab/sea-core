@@ -21,35 +21,35 @@ import java.io.File;
 @Slf4j
 public class PlexusZipArchiverTest extends BaseCoreTest {
 
-    // plexus zip archiver
-    @Test
-    public void archiverTest() throws Exception {
-        String sourceDir = getUserHome() + "/logs/sea";
-        String destFile = getUserHome() + "/logs/sea.zip";
+  // plexus zip archiver
+  @Test
+  public void archiverTest() throws Exception {
+    String sourceDir = getUserHome() + "/logs/sea";
+    String destFile = getUserHome() + "/logs/sea.zip";
 
-        FileUtil.deleteFiles(destFile);
+    FileUtil.deleteFiles(destFile);
 
-        Archiver archiver = new ZipArchiver();
+    Archiver archiver = new ZipArchiver();
 
-        archiver.addDirectory(new File(sourceDir));
-        archiver.setDestFile(new File(destFile));
+    archiver.addDirectory(new File(sourceDir));
+    archiver.setDestFile(new File(destFile));
 
-        archiver.createArchive();
+    archiver.createArchive();
 
-        log.info("zip file create={}", FileUtil.exist(destFile));
-    }
+    log.info("zip file create={}", FileUtil.exist(destFile));
+  }
 
-    @Test
-    public void unArchiverTest() throws Exception {
+  @Test
+  public void unArchiverTest() throws Exception {
 
-        String sourceFile = getUserHome() + "/logs/sea.zip";
-        String destDir = getUserHome() + "/logs/sea2";
-        FileUtil.ensureDir(destDir);
+    String sourceFile = getUserHome() + "/logs/sea.zip";
+    String destDir = getUserHome() + "/logs/sea2";
+    FileUtil.ensureDir(destDir);
 
-        ZipUnArchiver unArchiver = new ZipUnArchiver(new File(sourceFile));
-        unArchiver.enableLogging(new ConsoleLogger(org.codehaus.plexus.logging.Logger.LEVEL_INFO, "console"));
-        unArchiver.setDestDirectory(new File(destDir));
-        unArchiver.extract();
-    }
+    ZipUnArchiver unArchiver = new ZipUnArchiver(new File(sourceFile));
+    unArchiver.enableLogging(new ConsoleLogger(org.codehaus.plexus.logging.Logger.LEVEL_INFO, "console"));
+    unArchiver.setDestDirectory(new File(destDir));
+    unArchiver.extract();
+  }
 
 }

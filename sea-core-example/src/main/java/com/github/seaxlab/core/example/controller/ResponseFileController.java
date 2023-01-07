@@ -21,12 +21,12 @@ import java.io.File;
 @RequestMapping("/api/param/responseFile")
 public class ResponseFileController {
 
-    @PostMapping("/download")
-    public ResponseFile download() throws Exception {
-        ResponseFile responseFile = new ResponseFile();
+  @PostMapping("/download")
+  public ResponseFile download() throws Exception {
+    ResponseFile responseFile = new ResponseFile();
 
-        responseFile.setAttachmentName("文件名");
-        responseFile.setFile(new File(PathUtil.getSeaHome() + "/test/file.txt"));
-        return responseFile;
-    }
+    responseFile.setAttachmentName("文件名");
+    responseFile.setFile(new File(PathUtil.getSeaHome() + "/test/file.txt"));
+    return responseFile;
+  }
 }

@@ -18,42 +18,42 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 @Slf4j
 public class LogCostMethodInterceptor implements MethodInterceptor {
 
-    @Override
-    public Object invoke(MethodInvocation invocation) throws Throwable {
+  @Override
+  public Object invoke(MethodInvocation invocation) throws Throwable {
 
-        if (!AopGlobalConfig.getLogCostFlag()) {
-            return invocation.proceed();
-        }
-
-        //boolean hasFlag = AnnotatedElementUtils.hasAnnotation(invocation.getMethod(), LogCost.class);
-        //LogCost anno = invocation.getMethod().getAnnotation(LogCost.class);
-
-        LogCost anno = AnnotatedElementUtils.findMergedAnnotation(invocation.getMethod(), LogCost.class);
-        if (anno == null) {
-            return invocation.proceed();
-        }
-
-        long start = System.currentTimeMillis();
-        try {
-            return invocation.proceed();
-        } finally {
-            log.info("{}, cost={}ms", getPrefix(invocation, anno), System.currentTimeMillis() - start);
-        }
-
+    if (!AopGlobalConfig.getLogCostFlag()) {
+      return invocation.proceed();
     }
 
-    //--------------------private
-    private String getPrefix(MethodInvocation invocation, LogCost anno) {
-        String prefix = "";
-        try {
-            if (StringUtil.isBlank(anno.type())) {
-                prefix = invocation.getMethod().getDeclaringClass().getSimpleName() + "." + invocation.getMethod().getName();
-            } else {
-                prefix = anno.type();
-            }
-        } catch (Exception e) {
-            log.error("fail to get class and method name info", e);
-        }
-        return prefix;
+    //boolean hasFlag = AnnotatedElementUtils.hasAnnotation(invocation.getMethod(), LogCost.class);
+    //LogCost anno = invocation.getMethod().getAnnotation(LogCost.class);
+
+    LogCost anno = AnnotatedElementUtils.findMergedAnnotation(invocation.getMethod(), LogCost.class);
+    if (anno == null) {
+      return invocation.proceed();
     }
+
+    long start = System.currentTimeMillis();
+    try {
+      return invocation.proceed();
+    } finally {
+      log.info("{}, cost={}ms", getPrefix(invocation, anno), System.currentTimeMillis() - start);
+    }
+
+  }
+
+  //--------------------private
+  private String getPrefix(MethodInvocation invocation, LogCost anno) {
+    String prefix = "";
+    try {
+      if (StringUtil.isBlank(anno.type())) {
+        prefix = invocation.getMethod().getDeclaringClass().getSimpleName() + "." + invocation.getMethod().getName();
+      } else {
+        prefix = anno.type();
+      }
+    } catch (Exception e) {
+      log.error("fail to get class and method name info", e);
+    }
+    return prefix;
+  }
 }

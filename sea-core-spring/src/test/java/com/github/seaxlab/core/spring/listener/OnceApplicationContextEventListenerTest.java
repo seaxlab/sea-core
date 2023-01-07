@@ -38,75 +38,75 @@ import static org.junit.Assert.assertEquals;
  */
 public class OnceApplicationContextEventListenerTest {
 
-    @Test
-    public void test() {
+  @Test
+  public void test() {
 
-        for (int levels = 1; levels < 10; levels++) {
-            testOnceApplicationContextEventListener(levels, true);
-            testOnceApplicationContextEventListener(levels, false);
-        }
+    for (int levels = 1; levels < 10; levels++) {
+      testOnceApplicationContextEventListener(levels, true);
+      testOnceApplicationContextEventListener(levels, false);
+    }
+  }
+
+  private void testOnceApplicationContextEventListener(int levels, boolean listenersAsBean) {
+
+    ConfigurableApplicationContext context = createContext(levels, listenersAsBean);
+
+    context.start();
+
+    context.stop();
+
+    context.close();
+
+  }
+
+  private ConfigurableApplicationContext createContext(int levels, boolean listenersAsBean) {
+
+    if (levels < 1) {
+      return null;
     }
 
-    private void testOnceApplicationContextEventListener(int levels, boolean listenersAsBean) {
+    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 
-        ConfigurableApplicationContext context = createContext(levels, listenersAsBean);
+    if (listenersAsBean) {
+      context.register(MyContextEventListener.class);
+    } else {
+      context.addApplicationListener(new MyContextEventListener(context));
+    }
 
-        context.start();
+    context.setParent(createContext(levels - 1, listenersAsBean));
 
-        context.stop();
+    context.refresh();
 
-        context.close();
+    return context;
+  }
+
+  static class MyContextEventListener extends OnceApplicationContextEventListener {
+
+    public MyContextEventListener() {
 
     }
 
-    private ConfigurableApplicationContext createContext(int levels, boolean listenersAsBean) {
-
-        if (levels < 1) {
-            return null;
-        }
-
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-
-        if (listenersAsBean) {
-            context.register(MyContextEventListener.class);
-        } else {
-            context.addApplicationListener(new MyContextEventListener(context));
-        }
-
-        context.setParent(createContext(levels - 1, listenersAsBean));
-
-        context.refresh();
-
-        return context;
+    public MyContextEventListener(ApplicationContext applicationContext) {
+      super(applicationContext);
     }
 
-    static class MyContextEventListener extends OnceApplicationContextEventListener {
 
-        public MyContextEventListener() {
+    private Map<EventObject, AtomicInteger> eventsHandledCount = new LinkedHashMap<EventObject, AtomicInteger>();
 
-        }
+    @Override
+    protected void onApplicationContextEvent(ApplicationContextEvent event) {
 
-        public MyContextEventListener(ApplicationContext applicationContext) {
-            super(applicationContext);
-        }
+      assertEquals(getApplicationContext(), event.getApplicationContext());
 
+      AtomicInteger count = eventsHandledCount.get(event);
 
-        private Map<EventObject, AtomicInteger> eventsHandledCount = new LinkedHashMap<EventObject, AtomicInteger>();
+      if (count == null) {
+        count = new AtomicInteger();
+        eventsHandledCount.put(event, count);
+      }
 
-        @Override
-        protected void onApplicationContextEvent(ApplicationContextEvent event) {
-
-            assertEquals(getApplicationContext(), event.getApplicationContext());
-
-            AtomicInteger count = eventsHandledCount.get(event);
-
-            if (count == null) {
-                count = new AtomicInteger();
-                eventsHandledCount.put(event, count);
-            }
-
-            assertEquals(0, count.getAndIncrement());
-        }
+      assertEquals(0, count.getAndIncrement());
     }
+  }
 
 }

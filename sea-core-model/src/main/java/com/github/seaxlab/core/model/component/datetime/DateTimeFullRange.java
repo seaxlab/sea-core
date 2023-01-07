@@ -2,8 +2,9 @@ package com.github.seaxlab.core.model.component.datetime;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.github.seaxlab.core.model.layer.dto.DTO;
-import java.util.Date;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * module name
@@ -14,7 +15,6 @@ import lombok.Data;
  */
 @Data
 public class DateTimeFullRange extends DTO {
-
   @JSONField(format = "yyyy-MM-dd HH:mm:ss")
   private Date begin;
 

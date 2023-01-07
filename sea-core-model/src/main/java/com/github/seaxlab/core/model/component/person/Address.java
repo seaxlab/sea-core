@@ -50,9 +50,11 @@ public class Address extends DTO {
    * @return string
    */
   public String getFullAddress() {
-    String address =
-      contact(provinceName) + contact(cityName, "") + contact(countryName, "") + contact(streetName, "") + contact(
-        detail, "");
+    String address = contact(provinceName)
+      + contact(cityName, "")
+      + contact(countryName, "")
+      + contact(streetName, "")
+      + contact(detail, "");
 
     return address.trim();
   }

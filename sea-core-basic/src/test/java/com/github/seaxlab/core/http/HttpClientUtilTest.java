@@ -22,48 +22,48 @@ import java.util.Map;
 @Slf4j
 public class HttpClientUtilTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        String result = HttpClientUtil.get(IP_URL);
+  @Test
+  public void run17() throws Exception {
+    String result = HttpClientUtil.get(IP_URL);
 
-        log.info("result={}", result);
-    }
+    log.info("result={}", result);
+  }
 
-    String str = "[{\"endpoint\": \"user-service\", \"metric\": \"test-metric\", \"timestamp\": 1, \"step\": 60, \"value\": 1, \"counterType\": \"GAUGE\", \"tags\": \"idc=lg,loc=beijing\"}]";
+  String str = "[{\"endpoint\": \"user-service\", \"metric\": \"test-metric\", \"timestamp\": 1, \"step\": 60, \"value\": 1, \"counterType\": \"GAUGE\", \"tags\": \"idc=lg,loc=beijing\"}]";
 
-    @Test
-    public void run27() throws Exception {
-        Result ret = HttpClientUtil.postJSONSafe("http://127.0.0.1:1988/v1/push", str);
+  @Test
+  public void run27() throws Exception {
+    Result ret = HttpClientUtil.postJSONSafe("http://127.0.0.1:1988/v1/push", str);
 
-        log.info("ret={}", ret);
-    }
+    log.info("ret={}", ret);
+  }
 
-    @Test
-    public void run36() throws Exception {
-        byte[] by = str.getBytes(StandardCharsets.UTF_8);
+  @Test
+  public void run36() throws Exception {
+    byte[] by = str.getBytes(StandardCharsets.UTF_8);
 
-        String str = new String(by, StandardCharsets.UTF_8);
+    String str = new String(by, StandardCharsets.UTF_8);
 
-        log.info("str={}", str);
-    }
+    log.info("str={}", str);
+  }
 
 
-    @Test
-    public void uploadTet() throws Exception {
-        String userHome = getUserHome();
+  @Test
+  public void uploadTet() throws Exception {
+    String userHome = getUserHome();
 
-        HttpUploadDTO uploadDTO = new HttpUploadDTO();
-        uploadDTO.setUrl("http://httpbin.org/post");
+    HttpUploadDTO uploadDTO = new HttpUploadDTO();
+    uploadDTO.setUrl("http://httpbin.org/post");
 
-        File testFile = new File(userHome + "/test/qr.png");
+    File testFile = new File(userHome + "/test/qr.png");
 
-        Map<String, File> fileMap = new HashMap<>();
-        fileMap.put("abc", testFile);
+    Map<String, File> fileMap = new HashMap<>();
+    fileMap.put("abc", testFile);
 
-        uploadDTO.setFileFieldMap(fileMap);
+    uploadDTO.setFileFieldMap(fileMap);
 
-        Result result = HttpClientUtil.upload(uploadDTO);
-        log.info("result={}", result);
-    }
+    Result result = HttpClientUtil.upload(uploadDTO);
+    log.info("result={}", result);
+  }
 
 }

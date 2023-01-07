@@ -14,97 +14,97 @@ import org.apache.commons.lang3.StringUtils;
 @Slf4j
 public final class IntegerUtil {
 
-    private IntegerUtil() {
+  private IntegerUtil() {
+  }
+
+  public static Integer parse(Object obj) {
+    if (obj == null) {
+      return null;
     }
 
-    public static Integer parse(Object obj) {
-        if (obj == null) {
-            return null;
-        }
-
-        try {
-            return Integer.parseInt(obj.toString());
-        } catch (Exception e) {
-            log.error("fail to parse obj to integer", e);
-        }
-
-        return null;
+    try {
+      return Integer.parseInt(obj.toString());
+    } catch (Exception e) {
+      log.error("fail to parse obj to integer", e);
     }
 
-    /**
-     * 如果value为空则返回默认值
-     *
-     * @param value
-     * @param defaultValue
-     * @return
-     */
-    public static Integer defaultIfNull(Integer value, Integer defaultValue) {
-        Preconditions.checkNotNull(defaultValue, "defaultValue不能为空");
+    return null;
+  }
 
-        if (value == null) {
-            return defaultValue;
-        }
-        return value;
+  /**
+   * 如果value为空则返回默认值
+   *
+   * @param value
+   * @param defaultValue
+   * @return
+   */
+  public static Integer defaultIfNull(Integer value, Integer defaultValue) {
+    Preconditions.checkNotNull(defaultValue, "defaultValue不能为空");
+
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
+  }
+
+  /**
+   * 如果value为空，则返回默认值
+   *
+   * @param value
+   * @param defaultValue
+   * @return
+   */
+  public static Integer defaultIfNull(String value, Integer defaultValue) {
+    if (value == null || value.trim().isEmpty()) {
+      log.warn("value is empty.");
+      return defaultValue;
     }
 
-    /**
-     * 如果value为空，则返回默认值
-     *
-     * @param value
-     * @param defaultValue
-     * @return
-     */
-    public static Integer defaultIfNull(String value, Integer defaultValue) {
-        if (value == null || value.trim().isEmpty()) {
-            log.warn("value is empty.");
-            return defaultValue;
-        }
-
-        try {
-            return Integer.parseInt(value);
-        } catch (Exception e) {
-            log.error("fail to parse value to integer", e);
-        }
-
-        return defaultValue;
+    try {
+      return Integer.parseInt(value);
+    } catch (Exception e) {
+      log.error("fail to parse value to integer", e);
     }
 
+    return defaultValue;
+  }
 
-    /**
-     * 非0数字
-     *
-     * @param value
-     * @return
-     */
-    public static boolean isNotZero(Integer value) {
-        if (value == null) {
-            return false;
-        }
-        return value.intValue() != 0L;
-    }
 
-    /**
-     * 分割成Integer[]
-     *
-     * @param arrayStr
-     * @param splitChar
-     * @return
-     */
-    public static Integer[] split(String arrayStr, char splitChar) {
-        String[] array = StringUtils.split(arrayStr, splitChar);
-        if (array == null || array.length == 0) {
-            return ArrayUtil.emptyArray(Integer.class);
-        }
-        Integer[] values = new Integer[array.length];
-        for (int i = 0; i < array.length; i++) {
-            String item = array[i];
-            if (StringUtil.isBlank(item)) {
-                values[i] = 0;
-            } else {
-                values[i] = Integer.valueOf(item.trim());
-            }
-        }
-        return values;
+  /**
+   * 非0数字
+   *
+   * @param value
+   * @return
+   */
+  public static boolean isNotZero(Integer value) {
+    if (value == null) {
+      return false;
     }
+    return value.intValue() != 0L;
+  }
+
+  /**
+   * 分割成Integer[]
+   *
+   * @param arrayStr
+   * @param splitChar
+   * @return
+   */
+  public static Integer[] split(String arrayStr, char splitChar) {
+    String[] array = StringUtils.split(arrayStr, splitChar);
+    if (array == null || array.length == 0) {
+      return ArrayUtil.emptyArray(Integer.class);
+    }
+    Integer[] values = new Integer[array.length];
+    for (int i = 0; i < array.length; i++) {
+      String item = array[i];
+      if (StringUtil.isBlank(item)) {
+        values[i] = 0;
+      } else {
+        values[i] = Integer.valueOf(item.trim());
+      }
+    }
+    return values;
+  }
 
 }

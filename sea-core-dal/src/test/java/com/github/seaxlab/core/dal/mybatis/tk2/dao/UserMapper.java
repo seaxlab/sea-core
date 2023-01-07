@@ -13,7 +13,7 @@ import java.util.List;
  * @since 1.0
  */
 public interface UserMapper extends Mapper<User> {
-    List<User> queryAll();
+  List<User> queryAll();
 
-    User queryById(Long id);
+  User queryById(Long id);
 }

@@ -29,419 +29,419 @@ import static java.util.concurrent.TimeUnit.*;
 @Slf4j
 public final class TimeUtil {
 
-    private TimeUtil() {
+  private TimeUtil() {
+  }
+
+  /**
+   * create time, and convert to date.
+   *
+   * @param hour   时
+   * @param minute 分
+   * @return Date
+   */
+  public static Date of(int hour, int minute) {
+    return of(hour, minute, 0);
+  }
+
+  /**
+   * create time, and convert to date
+   *
+   * @param hour   时
+   * @param minute 分
+   * @param second 秒
+   * @return Date
+   */
+  public static Date of(int hour, int minute, int second) {
+    ZoneId zone = ZoneId.systemDefault();
+    return of(hour, minute, second, zone);
+  }
+
+  /**
+   * create time, and convert to date
+   *
+   * @param hour   时
+   * @param minute 分
+   * @param second 秒
+   * @param zoneId 时区
+   * @return Date
+   */
+  public static Date of(int hour, int minute, int second, ZoneId zoneId) {
+    if (zoneId == null) {
+      zoneId = ZoneId.systemDefault();
     }
 
-    /**
-     * create time, and convert to date.
-     *
-     * @param hour   时
-     * @param minute 分
-     * @return Date
-     */
-    public static Date of(int hour, int minute) {
-        return of(hour, minute, 0);
+    LocalDate localDate = LocalDate.now();
+    LocalTime localTime = LocalTime.of(hour, minute, second);
+
+    LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
+    Instant instant = localDateTime.atZone(zoneId).toInstant();
+
+    return Date.from(instant);
+  }
+
+
+  /**
+   * format time str to date
+   *
+   * @param timeStr
+   * @return
+   */
+  public static Date format(String timeStr) {
+    return format(timeStr, DateFormatEnum.HH_mm.getValue());
+  }
+
+  /**
+   * format time str to date.
+   *
+   * @param timeStr time str
+   * @param format  format
+   * @return
+   */
+  public static Date format(String timeStr, String format) {
+    SimpleDateFormat sdf = new SimpleDateFormat(format);
+    try {
+      return sdf.parse(timeStr);
+    } catch (ParseException e) {
+      log.error("fail to parse exception", e);
+      ExceptionHandler.publishMsg("parse date time error");
+      return null;
+    }
+  }
+
+  /**
+   * 判断当前时间是否在指定范围内，注意指定时间格式HH:mm
+   *
+   * @param beginTime
+   * @param endTime
+   * @return
+   */
+  public static boolean nowIsInRange(String beginTime, String endTime) {
+    return nowIsInRange(beginTime, endTime, DateFormatEnum.HH_mm.getValue());
+  }
+
+  /**
+   * 判断当前时间是否在指定范围内，注意指定时间格式
+   *
+   * @param beginTime
+   * @param endTime
+   * @param timeFormatStr
+   * @return
+   */
+  public static boolean nowIsInRange(String beginTime, String endTime, String timeFormatStr) {
+    if (StringUtil.isEmpty(timeFormatStr)) {
+      timeFormatStr = DateFormatEnum.HH_mm.getValue();
+    }
+    try {
+      // now
+      Calendar calendar = Calendar.getInstance();
+      calendar.set(Calendar.HOUR_OF_DAY, 24);
+      calendar.setTime(new Date());
+
+      int hour = calendar.get(Calendar.HOUR_OF_DAY);
+      int minute = calendar.get(Calendar.MINUTE);
+      int second = calendar.get(Calendar.SECOND);
+
+      String now;
+      if (EqualUtil.isEq(timeFormatStr, DateFormatEnum.HH_mm_ss.getValue())) {
+        now = (hour < 10 ? "0" : "") + hour + ":" + minute + ":" + second;
+      } else {
+        now = (hour < 10 ? "0" : "") + hour + ":" + minute;
+      }
+      return isInRange(now, beginTime, endTime, timeFormatStr, RangeModeEnum.CLOSE_CLOSE);
+    } catch (Exception e) {
+      log.error("fail to parse time", e);
     }
 
-    /**
-     * create time, and convert to date
-     *
-     * @param hour   时
-     * @param minute 分
-     * @param second 秒
-     * @return Date
-     */
-    public static Date of(int hour, int minute, int second) {
-        ZoneId zone = ZoneId.systemDefault();
-        return of(hour, minute, second, zone);
+    return false;
+  }
+
+  /**
+   * 判断是否在时间范围内
+   *
+   * @param targetTime
+   * @param timeList
+   * @param timeFormatStr
+   * @param rangeMode
+   * @return
+   */
+  public static boolean isInRange(String targetTime, List<Tuple2<String, String>> timeList,
+                                  String timeFormatStr, RangeModeEnum rangeMode) {
+
+    Precondition.checkNotNull(targetTime, "target time cannot be null");
+    if (timeList == null || timeList.isEmpty()) {
+      return false;
     }
 
-    /**
-     * create time, and convert to date
-     *
-     * @param hour   时
-     * @param minute 分
-     * @param second 秒
-     * @param zoneId 时区
-     * @return Date
-     */
-    public static Date of(int hour, int minute, int second, ZoneId zoneId) {
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
-
-        LocalDate localDate = LocalDate.now();
-        LocalTime localTime = LocalTime.of(hour, minute, second);
-
-        LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
-        Instant instant = localDateTime.atZone(zoneId).toInstant();
-
-        return Date.from(instant);
+    for (int i = 0; i < timeList.size(); i++) {
+      Tuple2<String, String> tuple = timeList.get(i);
+      boolean ret = isInRange(targetTime, tuple.getFirst(), tuple.getSecond(), timeFormatStr, rangeMode);
+      if (ret) {
+        return true;
+      }
     }
 
+    return false;
+  }
 
-    /**
-     * format time str to date
-     *
-     * @param timeStr
-     * @return
-     */
-    public static Date format(String timeStr) {
-        return format(timeStr, DateFormatEnum.HH_mm.getValue());
+  /**
+   * 判断时间是否在指定范围内
+   *
+   * @param targetTime    目标时间
+   * @param beginTime     开始时间
+   * @param endTime       结束时间
+   * @param timeFormatStr 时间格式
+   * @param rangeMode     区间范围
+   * @return
+   */
+  public static boolean isInRange(String targetTime, String beginTime, String endTime,
+                                  String timeFormatStr, RangeModeEnum rangeMode) {
+    Precondition.checkNotNull(targetTime, "target time cannot be null");
+    Precondition.checkNotNull(beginTime, "begin time cannot be null");
+    Precondition.checkNotNull(endTime, "end time cannot be null");
+    Precondition.checkNotNull(rangeMode, "区间模式不能为空");
+
+    if (StringUtil.isEmpty(timeFormatStr)) {
+      timeFormatStr = DateFormatEnum.HH_mm.getValue();
     }
 
-    /**
-     * format time str to date.
-     *
-     * @param timeStr time str
-     * @param format  format
-     * @return
-     */
-    public static Date format(String timeStr, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        try {
-            return sdf.parse(timeStr);
-        } catch (ParseException e) {
-            log.error("fail to parse exception", e);
-            ExceptionHandler.publishMsg("parse date time error");
-            return null;
-        }
-    }
+    SimpleDateFormat format = new SimpleDateFormat(timeFormatStr);
 
-    /**
-     * 判断当前时间是否在指定范围内，注意指定时间格式HH:mm
-     *
-     * @param beginTime
-     * @param endTime
-     * @return
-     */
-    public static boolean nowIsInRange(String beginTime, String endTime) {
-        return nowIsInRange(beginTime, endTime, DateFormatEnum.HH_mm.getValue());
-    }
+    try {
+      // 1970
+      Date now = format.parse(targetTime);
+      Date beginDate = format.parse(beginTime);
+      Date endDate = format.parse(endTime);
 
-    /**
-     * 判断当前时间是否在指定范围内，注意指定时间格式
-     *
-     * @param beginTime
-     * @param endTime
-     * @param timeFormatStr
-     * @return
-     */
-    public static boolean nowIsInRange(String beginTime, String endTime, String timeFormatStr) {
-        if (StringUtil.isEmpty(timeFormatStr)) {
-            timeFormatStr = DateFormatEnum.HH_mm.getValue();
-        }
-        try {
-            // now
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 24);
-            calendar.setTime(new Date());
-
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int minute = calendar.get(Calendar.MINUTE);
-            int second = calendar.get(Calendar.SECOND);
-
-            String now;
-            if (EqualUtil.isEq(timeFormatStr, DateFormatEnum.HH_mm_ss.getValue())) {
-                now = (hour < 10 ? "0" : "") + hour + ":" + minute + ":" + second;
-            } else {
-                now = (hour < 10 ? "0" : "") + hour + ":" + minute;
-            }
-            return isInRange(now, beginTime, endTime, timeFormatStr, RangeModeEnum.CLOSE_CLOSE);
-        } catch (Exception e) {
-            log.error("fail to parse time", e);
-        }
-
-        return false;
-    }
-
-    /**
-     * 判断是否在时间范围内
-     *
-     * @param targetTime
-     * @param timeList
-     * @param timeFormatStr
-     * @param rangeMode
-     * @return
-     */
-    public static boolean isInRange(String targetTime, List<Tuple2<String, String>> timeList,
-                                    String timeFormatStr, RangeModeEnum rangeMode) {
-
-        Precondition.checkNotNull(targetTime, "target time cannot be null");
-        if (timeList == null || timeList.isEmpty()) {
-            return false;
-        }
-
-        for (int i = 0; i < timeList.size(); i++) {
-            Tuple2<String, String> tuple = timeList.get(i);
-            boolean ret = isInRange(targetTime, tuple.getFirst(), tuple.getSecond(), timeFormatStr, rangeMode);
-            if (ret) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * 判断时间是否在指定范围内
-     *
-     * @param targetTime    目标时间
-     * @param beginTime     开始时间
-     * @param endTime       结束时间
-     * @param timeFormatStr 时间格式
-     * @param rangeMode     区间范围
-     * @return
-     */
-    public static boolean isInRange(String targetTime, String beginTime, String endTime,
-                                    String timeFormatStr, RangeModeEnum rangeMode) {
-        Precondition.checkNotNull(targetTime, "target time cannot be null");
-        Precondition.checkNotNull(beginTime, "begin time cannot be null");
-        Precondition.checkNotNull(endTime, "end time cannot be null");
-        Precondition.checkNotNull(rangeMode, "区间模式不能为空");
-
-        if (StringUtil.isEmpty(timeFormatStr)) {
-            timeFormatStr = DateFormatEnum.HH_mm.getValue();
-        }
-
-        SimpleDateFormat format = new SimpleDateFormat(timeFormatStr);
-
-        try {
-            // 1970
-            Date now = format.parse(targetTime);
-            Date beginDate = format.parse(beginTime);
-            Date endDate = format.parse(endTime);
-
-            //这个没有区间包含
+      //这个没有区间包含
 //            now.before(endDate) && now.after(beginDate);
 
-            switch (rangeMode) {
-                case OPEN_OPEN:
-                    return beginDate.getTime() < now.getTime() && now.getTime() < endDate.getTime();
+      switch (rangeMode) {
+        case OPEN_OPEN:
+          return beginDate.getTime() < now.getTime() && now.getTime() < endDate.getTime();
 
-                case OPEN_CLOSE:
-                    return beginDate.getTime() < now.getTime() && now.getTime() <= endDate.getTime();
+        case OPEN_CLOSE:
+          return beginDate.getTime() < now.getTime() && now.getTime() <= endDate.getTime();
 
-                case CLOSE_OPEN:
-                    return beginDate.getTime() <= now.getTime() && now.getTime() < endDate.getTime();
+        case CLOSE_OPEN:
+          return beginDate.getTime() <= now.getTime() && now.getTime() < endDate.getTime();
 
-                case CLOSE_CLOSE:
-                    return beginDate.getTime() <= now.getTime() && now.getTime() <= endDate.getTime();
-            }
+        case CLOSE_CLOSE:
+          return beginDate.getTime() <= now.getTime() && now.getTime() <= endDate.getTime();
+      }
 
-        } catch (Exception e) {
-            log.error("fail to parse time", e);
-        }
-
-        return false;
+    } catch (Exception e) {
+      log.error("fail to parse time", e);
     }
 
-    /**
-     * 判断当前时间是否在指定时间范围内
-     *
-     * @param timeList
-     * @param timeFormatStr
-     * @return
-     */
-    public static boolean nowIsInRange(List<Tuple2<String, String>> timeList, String timeFormatStr) {
-        if (ListUtil.isEmpty(timeList)) {
-            log.warn("timeList is empty.");
-            return false;
-        }
+    return false;
+  }
 
-        for (int i = 0; i < timeList.size(); i++) {
-            Tuple2<String, String> tuple = timeList.get(i);
-            boolean isIn = nowIsInRange(tuple.getFirst(), tuple.getSecond(), timeFormatStr);
-            if (isIn) {
-                return true;
-            }
-        }
-
-        return false;
+  /**
+   * 判断当前时间是否在指定时间范围内
+   *
+   * @param timeList
+   * @param timeFormatStr
+   * @return
+   */
+  public static boolean nowIsInRange(List<Tuple2<String, String>> timeList, String timeFormatStr) {
+    if (ListUtil.isEmpty(timeList)) {
+      log.warn("timeList is empty.");
+      return false;
     }
 
-    /**
-     * compare two time part only.
-     *
-     * @param date1 datetime
-     * @param date2 datetime
-     * @return
-     */
-    public static int compare(Date date1, Date date2) {
+    for (int i = 0; i < timeList.size(); i++) {
+      Tuple2<String, String> tuple = timeList.get(i);
+      boolean isIn = nowIsInRange(tuple.getFirst(), tuple.getSecond(), timeFormatStr);
+      if (isIn) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * compare two time part only.
+   *
+   * @param date1 datetime
+   * @param date2 datetime
+   * @return
+   */
+  public static int compare(Date date1, Date date2) {
 //        DateTimeComparator comparator = DateTimeComparator.getTimeOnlyInstance();
 //        return comparator.compare(date1, date2);
-        Calendar calendar1 = Calendar.getInstance();
-        calendar1.setTime(date1);
-        setBeginDate(calendar1);
+    Calendar calendar1 = Calendar.getInstance();
+    calendar1.setTime(date1);
+    setBeginDate(calendar1);
 
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.setTime(date2);
-        setBeginDate(calendar2);
+    Calendar calendar2 = Calendar.getInstance();
+    calendar2.setTime(date2);
+    setBeginDate(calendar2);
 
-        return calendar1.getTime().compareTo(calendar2.getTime());
+    return calendar1.getTime().compareTo(calendar2.getTime());
+  }
+
+  /**
+   * 比较时间,默认格式HH:mm
+   * 如果time1<time2,返回-1
+   * 如果time1=time2,返回0
+   * 如果time1>time2,返回1
+   *
+   * @param time1
+   * @param time2
+   * @return
+   */
+  public static int compare(String time1, String time2) {
+    return compare(time1, time2, DateFormatEnum.HH_mm.getValue());
+  }
+
+  /**
+   * 比较时间
+   * 如果time1<time2,返回-1
+   * 如果time1=time2,返回0
+   * 如果time1>time2,返回1
+   *
+   * @param time1         time2
+   * @param time2         time2
+   * @param timeFormatStr time format
+   * @return
+   */
+  public static int compare(String time1, String time2, String timeFormatStr) {
+    Precondition.checkNotNull(time1);
+    Precondition.checkNotNull(time2);
+    Precondition.checkNotNull(timeFormatStr);
+    SimpleDateFormat format = new SimpleDateFormat(timeFormatStr);
+
+    try {
+      Date date1 = format.parse(time1);
+      Date date2 = format.parse(time2);
+
+      return date1.compareTo(date2);
+    } catch (ParseException e) {
+      log.error("date parse exception", e);
     }
 
-    /**
-     * 比较时间,默认格式HH:mm
-     * 如果time1<time2,返回-1
-     * 如果time1=time2,返回0
-     * 如果time1>time2,返回1
-     *
-     * @param time1
-     * @param time2
-     * @return
-     */
-    public static int compare(String time1, String time2) {
-        return compare(time1, time2, DateFormatEnum.HH_mm.getValue());
+    throw new IllegalStateException();
+  }
+
+  /**
+   * 增加时间
+   *
+   * @param timeStr
+   * @param timeFormatStr
+   * @param delta
+   * @param timeUnit
+   * @return
+   */
+  public static String add(String timeStr, String timeFormatStr, int delta, TimeUnit timeUnit) {
+    Precondition.checkNotNull(timeStr);
+    Precondition.checkNotNull(timeFormatStr);
+    Precondition.checkNotNull(timeUnit);
+
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(timeFormatStr);
+    LocalTime time = LocalTime.parse(timeStr, timeFormatter);
+
+    LocalTime newTime = add(time, delta, timeUnit);
+    return newTime.format(timeFormatter);
+  }
+
+  /**
+   * 增加时间
+   *
+   * @param time
+   * @param delta
+   * @param timeUnit
+   * @return
+   */
+  public static LocalTime add(LocalTime time, int delta, TimeUnit timeUnit) {
+    Precondition.checkNotNull(time);
+    Precondition.checkNotNull(timeUnit);
+
+    LocalTime newTime;
+    switch (timeUnit) {
+      case HOURS:
+        newTime = time.plusHours(delta);
+        break;
+      case MINUTES:
+        newTime = time.plusMinutes(delta);
+        break;
+      case SECONDS:
+        newTime = time.plusSeconds(delta);
+        break;
+      default:
+        throw new UnsupportedOperationException();
     }
 
-    /**
-     * 比较时间
-     * 如果time1<time2,返回-1
-     * 如果time1=time2,返回0
-     * 如果time1>time2,返回1
-     *
-     * @param time1         time2
-     * @param time2         time2
-     * @param timeFormatStr time format
-     * @return
-     */
-    public static int compare(String time1, String time2, String timeFormatStr) {
-        Precondition.checkNotNull(time1);
-        Precondition.checkNotNull(time2);
-        Precondition.checkNotNull(timeFormatStr);
-        SimpleDateFormat format = new SimpleDateFormat(timeFormatStr);
+    return newTime;
+  }
 
-        try {
-            Date date1 = format.parse(time1);
-            Date date2 = format.parse(time2);
 
-            return date1.compareTo(date2);
-        } catch (ParseException e) {
-            log.error("date parse exception", e);
-        }
+  /**
+   * to string with time unit. eg: 100 ns; 120ms
+   *
+   * @param nanos
+   * @return
+   */
+  public static String toTimeUnit(long nanos) {
+    TimeUnit unit = chooseUnit(nanos);
+    double value = (double) nanos / NANOSECONDS.convert(1, unit);
 
-        throw new IllegalStateException();
+    return String.format(Locale.ROOT, "%.4g", value) + " " + abbreviate(unit);
+  }
+
+
+  //---------------------private ---------------------------------
+  private static TimeUnit chooseUnit(long nanos) {
+    if (DAYS.convert(nanos, NANOSECONDS) > 0) {
+      return DAYS;
     }
-
-    /**
-     * 增加时间
-     *
-     * @param timeStr
-     * @param timeFormatStr
-     * @param delta
-     * @param timeUnit
-     * @return
-     */
-    public static String add(String timeStr, String timeFormatStr, int delta, TimeUnit timeUnit) {
-        Precondition.checkNotNull(timeStr);
-        Precondition.checkNotNull(timeFormatStr);
-        Precondition.checkNotNull(timeUnit);
-
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(timeFormatStr);
-        LocalTime time = LocalTime.parse(timeStr, timeFormatter);
-
-        LocalTime newTime = add(time, delta, timeUnit);
-        return newTime.format(timeFormatter);
+    if (HOURS.convert(nanos, NANOSECONDS) > 0) {
+      return HOURS;
     }
-
-    /**
-     * 增加时间
-     *
-     * @param time
-     * @param delta
-     * @param timeUnit
-     * @return
-     */
-    public static LocalTime add(LocalTime time, int delta, TimeUnit timeUnit) {
-        Precondition.checkNotNull(time);
-        Precondition.checkNotNull(timeUnit);
-
-        LocalTime newTime;
-        switch (timeUnit) {
-            case HOURS:
-                newTime = time.plusHours(delta);
-                break;
-            case MINUTES:
-                newTime = time.plusMinutes(delta);
-                break;
-            case SECONDS:
-                newTime = time.plusSeconds(delta);
-                break;
-            default:
-                throw new UnsupportedOperationException();
-        }
-
-        return newTime;
+    if (MINUTES.convert(nanos, NANOSECONDS) > 0) {
+      return MINUTES;
     }
-
-
-    /**
-     * to string with time unit. eg: 100 ns; 120ms
-     *
-     * @param nanos
-     * @return
-     */
-    public static String toTimeUnit(long nanos) {
-        TimeUnit unit = chooseUnit(nanos);
-        double value = (double) nanos / NANOSECONDS.convert(1, unit);
-
-        return String.format(Locale.ROOT, "%.4g", value) + " " + abbreviate(unit);
+    if (SECONDS.convert(nanos, NANOSECONDS) > 0) {
+      return SECONDS;
     }
-
-
-    //---------------------private ---------------------------------
-    private static TimeUnit chooseUnit(long nanos) {
-        if (DAYS.convert(nanos, NANOSECONDS) > 0) {
-            return DAYS;
-        }
-        if (HOURS.convert(nanos, NANOSECONDS) > 0) {
-            return HOURS;
-        }
-        if (MINUTES.convert(nanos, NANOSECONDS) > 0) {
-            return MINUTES;
-        }
-        if (SECONDS.convert(nanos, NANOSECONDS) > 0) {
-            return SECONDS;
-        }
-        if (MILLISECONDS.convert(nanos, NANOSECONDS) > 0) {
-            return MILLISECONDS;
-        }
-        if (MICROSECONDS.convert(nanos, NANOSECONDS) > 0) {
-            return MICROSECONDS;
-        }
-        return NANOSECONDS;
+    if (MILLISECONDS.convert(nanos, NANOSECONDS) > 0) {
+      return MILLISECONDS;
     }
-
-    private static String abbreviate(TimeUnit unit) {
-        switch (unit) {
-            case NANOSECONDS:
-                return "ns";
-            case MICROSECONDS:
-                return "\u03bcs"; // μs
-            case MILLISECONDS:
-                return "ms";
-            case SECONDS:
-                return "s";
-            case MINUTES:
-                return "min";
-            case HOURS:
-                return "h";
-            case DAYS:
-                return "d";
-            default:
-                throw new AssertionError();
-        }
+    if (MICROSECONDS.convert(nanos, NANOSECONDS) > 0) {
+      return MICROSECONDS;
     }
+    return NANOSECONDS;
+  }
 
-    /**
-     * 将日期部分设置成1970-1-1
-     *
-     * @param calendar
-     */
-    private static void setBeginDate(final Calendar calendar) {
-        calendar.set(Calendar.YEAR, 1970);
-        calendar.set(Calendar.MONTH, 0);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
+  private static String abbreviate(TimeUnit unit) {
+    switch (unit) {
+      case NANOSECONDS:
+        return "ns";
+      case MICROSECONDS:
+        return "\u03bcs"; // μs
+      case MILLISECONDS:
+        return "ms";
+      case SECONDS:
+        return "s";
+      case MINUTES:
+        return "min";
+      case HOURS:
+        return "h";
+      case DAYS:
+        return "d";
+      default:
+        throw new AssertionError();
     }
+  }
+
+  /**
+   * 将日期部分设置成1970-1-1
+   *
+   * @param calendar
+   */
+  private static void setBeginDate(final Calendar calendar) {
+    calendar.set(Calendar.YEAR, 1970);
+    calendar.set(Calendar.MONTH, 0);
+    calendar.set(Calendar.DAY_OF_MONTH, 1);
+  }
 }

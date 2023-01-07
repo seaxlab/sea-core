@@ -15,24 +15,24 @@ import org.junit.Test;
 @Slf4j
 public class AtomicSafeInitializerTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
-        UserInitializer initializer = new UserInitializer();
+  @Test
+  public void test17() throws Exception {
+    UserInitializer initializer = new UserInitializer();
 
-        log.info("obj={}", initializer.get());
-        log.info("obj={}", initializer.get());
+    log.info("obj={}", initializer.get());
+    log.info("obj={}", initializer.get());
 
-        initializer = new UserInitializer();
-        log.info("obj2={}", initializer.get());
-        log.info("obj2={}", initializer.get());
+    initializer = new UserInitializer();
+    log.info("obj2={}", initializer.get());
+    log.info("obj2={}", initializer.get());
+  }
+
+  public class UserInitializer extends AtomicSafeInitializer<Object> {
+
+    @Override
+    protected Object initialize() throws ConcurrentException {
+
+      return new Object();
     }
-
-    public class UserInitializer extends AtomicSafeInitializer<Object> {
-
-        @Override
-        protected Object initialize() throws ConcurrentException {
-
-            return new Object();
-        }
-    }
+  }
 }

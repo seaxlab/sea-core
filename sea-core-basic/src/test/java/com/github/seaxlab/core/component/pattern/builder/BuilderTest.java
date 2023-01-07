@@ -16,15 +16,15 @@ import java.util.concurrent.ThreadFactory;
 @Slf4j
 public class BuilderTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
+  @Test
+  public void test17() throws Exception {
 
-        // builder 中设置属性不推荐使用set方法
-        ThreadFactory threadFactory = ThreadFactoryBuilder.create()
-                                                          .setNamePrefix("abc")
-                                                          .setDaemon(true)
-                                                          .build();
+    // builder 中设置属性不推荐使用set方法
+    ThreadFactory threadFactory = ThreadFactoryBuilder.create()
+                                                      .setNamePrefix("abc")
+                                                      .setDaemon(true)
+                                                      .build();
 
-        log.info("thread factory={}", threadFactory);
-    }
+    log.info("thread factory={}", threadFactory);
+  }
 }

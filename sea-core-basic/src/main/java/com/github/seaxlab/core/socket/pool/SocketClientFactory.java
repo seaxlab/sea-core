@@ -18,57 +18,57 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
 @Slf4j
 public class SocketClientFactory implements PooledObjectFactory<SocketClient> {
 
-    private SocketClientConfig socketClientConfig;
+  private SocketClientConfig socketClientConfig;
 
-    private String host;
-    private int port;
+  private String host;
+  private int port;
 
-    public SocketClientFactory(SocketClientConfig socketClientConfig) {
-        this.socketClientConfig = socketClientConfig;
-        this.host = socketClientConfig.getHost();
-        this.port = socketClientConfig.getPort();
-    }
+  public SocketClientFactory(SocketClientConfig socketClientConfig) {
+    this.socketClientConfig = socketClientConfig;
+    this.host = socketClientConfig.getHost();
+    this.port = socketClientConfig.getPort();
+  }
 
-    private SocketClient create() throws Exception {
-        SocketClient socket = new DefaultSocketClient();
-        socket.init(socketClientConfig);
-        return socket;
-    }
+  private SocketClient create() throws Exception {
+    SocketClient socket = new DefaultSocketClient();
+    socket.init(socketClientConfig);
+    return socket;
+  }
 
-    private PooledObject<SocketClient> wrap(SocketClient t) {
-        return new DefaultPooledObject<>(t);
-    }
+  private PooledObject<SocketClient> wrap(SocketClient t) {
+    return new DefaultPooledObject<>(t);
+  }
 
-    @Override
-    public PooledObject<SocketClient> makeObject() throws Exception {
-        return this.wrap(this.create());
-    }
+  @Override
+  public PooledObject<SocketClient> makeObject() throws Exception {
+    return this.wrap(this.create());
+  }
 
-    @Override
-    public void destroyObject(PooledObject<SocketClient> p) throws Exception {
-        p.getObject().close();
-    }
+  @Override
+  public void destroyObject(PooledObject<SocketClient> p) throws Exception {
+    p.getObject().close();
+  }
 
-    @Override
-    public boolean validateObject(PooledObject<SocketClient> p) {
-        return p.getObject().isValid();
-    }
+  @Override
+  public boolean validateObject(PooledObject<SocketClient> p) {
+    return p.getObject().isValid();
+  }
 
-    @Override
-    public void activateObject(PooledObject<SocketClient> p) throws Exception {
-        p.getObject().activate();
-    }
+  @Override
+  public void activateObject(PooledObject<SocketClient> p) throws Exception {
+    p.getObject().activate();
+  }
 
-    @Override
-    public void passivateObject(PooledObject<SocketClient> p) throws Exception {
-        p.getObject().inActivate();
-    }
+  @Override
+  public void passivateObject(PooledObject<SocketClient> p) throws Exception {
+    p.getObject().inActivate();
+  }
 
-    public String getHost() {
-        return host;
-    }
+  public String getHost() {
+    return host;
+  }
 
-    public int getPort() {
-        return port;
-    }
+  public int getPort() {
+    return port;
+  }
 }

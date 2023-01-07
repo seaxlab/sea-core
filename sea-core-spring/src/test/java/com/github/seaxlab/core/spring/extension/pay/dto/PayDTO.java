@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class PayDTO {
 
-    private String orderNo;
+  private String orderNo;
 
-    private BizScenario bizScenario;
+  private BizScenario bizScenario;
 }

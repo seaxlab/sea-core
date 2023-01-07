@@ -1,11 +1,12 @@
 package com.github.seaxlab.core.boot.autoconfigure;
 
 import com.github.seaxlab.core.common.Env;
-import java.util.Properties;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+
+import java.util.Properties;
 
 /**
  * yml配置文件

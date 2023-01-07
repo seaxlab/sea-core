@@ -17,16 +17,16 @@ import java.util.concurrent.ScheduledExecutorService;
 @Slf4j
 public class NamedThreadFactoryTest extends BaseCoreTest {
 
-    @Test
-    public void test18() throws Exception {
-        final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("DiskCheckScheduledThread"));
+  @Test
+  public void test18() throws Exception {
+    final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("DiskCheckScheduledThread"));
 
-        executorService.submit((Runnable) () -> {
-            while (true) {
-                log.info("----look thread name.");
-                sleep(2);
-            }
-        });
-        sleepMinute(5);
-    }
+    executorService.submit((Runnable) () -> {
+      while (true) {
+        log.info("----look thread name.");
+        sleep(2);
+      }
+    });
+    sleepMinute(5);
+  }
 }

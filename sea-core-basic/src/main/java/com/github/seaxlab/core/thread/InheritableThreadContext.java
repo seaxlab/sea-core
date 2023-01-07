@@ -14,9 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 @Deprecated
 public class InheritableThreadContext {
 
-    private InheritableThreadContext() {
-    }
+  private InheritableThreadContext() {
+  }
 
-    private static final TransmittableThreadLocal<String> parentCtx = new TransmittableThreadLocal<>();
+  private static final TransmittableThreadLocal<String> parentCtx = new TransmittableThreadLocal<>();
 
 }

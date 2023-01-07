@@ -14,13 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginRSADecryptor implements JsonParamFieldConvertor<String, String> {
 
-    //@Resource
-    //private RSAService rsaService;
+  //@Resource
+  //private RSAService rsaService;
 
-    @Override
-    public String convert(JSON json, String[] paths, String value) throws Exception {
-        String privateKey = "xx";
+  @Override
+  public String convert(JSON json, String[] paths, String value) throws Exception {
+    String privateKey = "xx";
 
-        return "xxx";
-    }
+    return "xxx";
+  }
 }

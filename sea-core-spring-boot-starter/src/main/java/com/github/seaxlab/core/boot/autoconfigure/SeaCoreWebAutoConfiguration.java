@@ -30,37 +30,37 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class SeaCoreWebAutoConfiguration implements WebMvcConfigurer {
 
-    private final SeaProperties seaProperties;
+  private final SeaProperties seaProperties;
 
-    @Bean
-    @ConditionalOnProperty(name = "sea.web.filter.enabled", havingValue = "true")
-    @ConditionalOnMissingBean(name = "seaGlobalFilter")
-    public FilterRegistrationBean seaGlobalFilter() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new SeaGlobalFilter());
+  @Bean
+  @ConditionalOnProperty(name = "sea.web.filter.enabled", havingValue = "true")
+  @ConditionalOnMissingBean(name = "seaGlobalFilter")
+  public FilterRegistrationBean seaGlobalFilter() {
+    FilterRegistrationBean registration = new FilterRegistrationBean();
+    registration.setFilter(new SeaGlobalFilter());
 
-        SeaProperties.Filter filter = seaProperties.getWeb().getFilter();
+    SeaProperties.Filter filter = seaProperties.getWeb().getFilter();
 
-        String[] urlPatterns;
-        if (StringUtil.isNotBlank(filter.getUrlPattern())) {
-            urlPatterns = StringUtil.split(filter.getUrlPattern(), ',');
-        } else {
-            urlPatterns = new String[]{"/api/*"};
-        }
-        registration.addUrlPatterns(urlPatterns);
-
-        if (StringUtil.isNotBlank(filter.getLogMode())) {
-            registration.addInitParameter(WebConst.FILTER_CONFIG_LOG_MODE, filter.getLogMode().trim());
-        }
-
-        //        registration.addInitParameter("filter", "/api/,/restapi/"); //添加默认参数
-//        registration.addInitParameter("noFilter", "");
-        registration.setName("SeaGlobalFilter");
-        if (ObjectUtil.isNotNull(filter.getOrder())) {
-            registration.setOrder(filter.getOrder());//设置优先级
-        }
-        return registration;
+    String[] urlPatterns;
+    if (StringUtil.isNotBlank(filter.getUrlPattern())) {
+      urlPatterns = StringUtil.split(filter.getUrlPattern(), ',');
+    } else {
+      urlPatterns = new String[]{"/api/*"};
     }
+    registration.addUrlPatterns(urlPatterns);
+
+    if (StringUtil.isNotBlank(filter.getLogMode())) {
+      registration.addInitParameter(WebConst.FILTER_CONFIG_LOG_MODE, filter.getLogMode().trim());
+    }
+
+    //        registration.addInitParameter("filter", "/api/,/restapi/"); //添加默认参数
+//        registration.addInitParameter("noFilter", "");
+    registration.setName("SeaGlobalFilter");
+    if (ObjectUtil.isNotNull(filter.getOrder())) {
+      registration.setOrder(filter.getOrder());//设置优先级
+    }
+    return registration;
+  }
 
 //    @Bean
 //    @ConditionalOnClass(SeaMockDisableInterceptor.class)

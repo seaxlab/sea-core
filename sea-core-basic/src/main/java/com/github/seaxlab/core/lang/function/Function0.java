@@ -13,6 +13,6 @@ package com.github.seaxlab.core.lang.function;
  */
 public interface Function0 {
 
-    void execute();
+  void execute();
 
 }

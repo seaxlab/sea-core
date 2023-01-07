@@ -12,15 +12,15 @@ import java.io.FileFilter;
  */
 public class SimpleFileFilter implements FileFilter {
 
-    private final String fileExtension;
+  private final String fileExtension;
 
-    public SimpleFileFilter(String fileExtension) {
-        this.fileExtension = fileExtension;
-    }
+  public SimpleFileFilter(String fileExtension) {
+    this.fileExtension = fileExtension;
+  }
 
-    @Override
-    public boolean accept(File pathname) {
-        return pathname.getName().endsWith(fileExtension);
-    }
+  @Override
+  public boolean accept(File pathname) {
+    return pathname.getName().endsWith(fileExtension);
+  }
 
 }

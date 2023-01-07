@@ -23,17 +23,17 @@ import javax.annotation.Resource;
 @Rollback(false)
 public class HintTest extends AbstractCoreSpringTest {
 
-    /**
-     * tk
-     */
-    @Resource
-    private User1Mapper user1Mapper;
+  /**
+   * tk
+   */
+  @Resource
+  private User1Mapper user1Mapper;
 
-    @Test
-    public void testHint() throws Exception {
-        HintContext.put("/*mycat:schema=test000*/");
-        User1 user = user1Mapper.selectByPrimaryKey(1);
-        log.info("user={}", user);
-    }
+  @Test
+  public void testHint() throws Exception {
+    HintContext.put("/*mycat:schema=test000*/");
+    User1 user = user1Mapper.selectByPrimaryKey(1);
+    log.info("user={}", user);
+  }
 
 }

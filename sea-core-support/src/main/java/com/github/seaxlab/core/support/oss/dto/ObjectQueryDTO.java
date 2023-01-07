@@ -12,9 +12,9 @@ import lombok.Data;
 @Data
 public class ObjectQueryDTO {
 
-    private String bucket;
+  private String bucket;
 
-    private String prefix;
+  private String prefix;
 
-    private int maxKeys;
+  private int maxKeys;
 }

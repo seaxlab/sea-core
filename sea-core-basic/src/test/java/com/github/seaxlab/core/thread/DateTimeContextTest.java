@@ -17,15 +17,15 @@ import java.text.SimpleDateFormat;
 @Slf4j
 public class DateTimeContextTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
-        SimpleDateFormat sdf = DateTimeContext.get(DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
-        SimpleDateFormat sdf1 = DateTimeContext.get(DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
-        SimpleDateFormat sdf2 = DateTimeContext.get(DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
+  @Test
+  public void test17() throws Exception {
+    SimpleDateFormat sdf = DateTimeContext.get(DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
+    SimpleDateFormat sdf1 = DateTimeContext.get(DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
+    SimpleDateFormat sdf2 = DateTimeContext.get(DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
 
-        log.info("sdf={}", sdf);
-        log.info("sdf=sdf1? {}", sdf == sdf1);
-        log.info("sdf=sdf2? {}", sdf == sdf2);
+    log.info("sdf={}", sdf);
+    log.info("sdf=sdf1? {}", sdf == sdf1);
+    log.info("sdf=sdf2? {}", sdf == sdf2);
 
-    }
+  }
 }

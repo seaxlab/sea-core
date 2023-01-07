@@ -15,11 +15,11 @@ import java.sql.Blob;
 @Slf4j
 public class BlobUtilTest {
 
-    @Test
-    public void run16() throws Exception {
+  @Test
+  public void run16() throws Exception {
 
-        Blob blob = BlobUtil.string2blob("abc123");
+    Blob blob = BlobUtil.string2blob("abc123");
 
-        log.info("{}", blob);
-    }
+    log.info("{}", blob);
+  }
 }

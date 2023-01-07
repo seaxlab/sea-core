@@ -12,23 +12,23 @@ import lombok.Data;
 @Data
 public class MailNotifyDTO extends BaseNotifyDTO {
 
-    private MailServerConfigDTO mailServerConfigDTO;
+  private MailServerConfigDTO mailServerConfigDTO;
 
-    /**
-     * 收件人
-     */
-    private String to;
+  /**
+   * 收件人
+   */
+  private String to;
 
-    /**
-     * 抄送人
-     */
-    private String cc;
+  /**
+   * 抄送人
+   */
+  private String cc;
 
-    /**
-     * 密送
-     */
-    private String bcc;
+  /**
+   * 密送
+   */
+  private String bcc;
 
 
-    private Boolean isHtml;
+  private Boolean isHtml;
 }

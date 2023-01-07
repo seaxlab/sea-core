@@ -6,9 +6,10 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.github.seaxlab.core.common.CoreConst;
 import com.github.seaxlab.core.model.common.ModelConst;
 import com.github.seaxlab.core.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Collection;
 import java.util.Date;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * wrapper util
@@ -203,7 +204,7 @@ public final class WrapperUtil {
    * @param endDate
    */
   public static <T> void setRangeDate(final QueryWrapper<T> wrapper, String propertyName, Date beginDate,
-    Date endDate) {
+                                      Date endDate) {
     if (beginDate != null) {
       wrapper.ge(propertyName, new java.sql.Date(beginDate.getTime()));
     }
@@ -221,7 +222,7 @@ public final class WrapperUtil {
    * @param endDate
    */
   public static <T> void setRangeDate(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Date beginDate,
-    Date endDate) {
+                                      Date endDate) {
     if (beginDate != null) {
       wrapper.ge(func, new java.sql.Date(beginDate.getTime()));
     }
@@ -239,7 +240,7 @@ public final class WrapperUtil {
    * @param endDate
    */
   public static <T> void setRangeDateTime(final QueryWrapper<T> wrapper, String propertyName, Date beginDate,
-    Date endDate) {
+                                          Date endDate) {
     if (beginDate != null) {
       wrapper.ge(propertyName, beginDate);
     }
@@ -258,7 +259,7 @@ public final class WrapperUtil {
    * @param endDate
    */
   public static <T> void setRangeDateTime(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Date beginDate,
-    Date endDate) {
+                                          Date endDate) {
     if (beginDate != null) {
       wrapper.ge(func, beginDate);
     }

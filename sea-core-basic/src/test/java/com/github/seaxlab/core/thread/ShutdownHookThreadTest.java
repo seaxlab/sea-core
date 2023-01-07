@@ -15,14 +15,14 @@ import java.util.concurrent.Callable;
 @Slf4j
 public class ShutdownHookThreadTest {
 
-    @Test
-    public void test16() throws Exception {
-        Runtime.getRuntime().addShutdownHook(new ShutdownHookThread(log, new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                log.info("shutdown...");
-                return null;
-            }
-        }));
-    }
+  @Test
+  public void test16() throws Exception {
+    Runtime.getRuntime().addShutdownHook(new ShutdownHookThread(log, new Callable<Void>() {
+      @Override
+      public Void call() throws Exception {
+        log.info("shutdown...");
+        return null;
+      }
+    }));
+  }
 }

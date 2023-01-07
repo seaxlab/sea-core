@@ -11,7 +11,6 @@ import lombok.Data;
  */
 @Data
 public class SimpleVO extends VO {
-
   private Long id;
   private String code;
   private String name;

@@ -22,101 +22,101 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {
-        AnnotationInjectedBeanPostProcessorTest.TestConfiguration.class,
-        AbstractAnnotationBeanPostProcessorTest.ReferencedAnnotationInjectedBeanPostProcessor.class,
-        AbstractAnnotationBeanPostProcessorTest.GenericConfiguration.class,
+  AnnotationInjectedBeanPostProcessorTest.TestConfiguration.class,
+  AbstractAnnotationBeanPostProcessorTest.ReferencedAnnotationInjectedBeanPostProcessor.class,
+  AbstractAnnotationBeanPostProcessorTest.GenericConfiguration.class,
 })
 @SuppressWarnings({"deprecation", "unchecked"})
 public class AbstractAnnotationBeanPostProcessorTest {
 
-    @Autowired
-    @Qualifier("parent")
-    private AnnotationInjectedBeanPostProcessorTest.TestConfiguration.Parent parent;
+  @Autowired
+  @Qualifier("parent")
+  private AnnotationInjectedBeanPostProcessorTest.TestConfiguration.Parent parent;
 
-    @Autowired
-    @Qualifier("child")
-    private AnnotationInjectedBeanPostProcessorTest.TestConfiguration.Child child;
+  @Autowired
+  @Qualifier("child")
+  private AnnotationInjectedBeanPostProcessorTest.TestConfiguration.Child child;
 
-    @Autowired
-    private AnnotationInjectedBeanPostProcessorTest.TestConfiguration.UserHolder userHolder;
+  @Autowired
+  private AnnotationInjectedBeanPostProcessorTest.TestConfiguration.UserHolder userHolder;
 
-    @Autowired
-    private AbstractAnnotationBeanPostProcessor processor;
+  @Autowired
+  private AbstractAnnotationBeanPostProcessor processor;
 
-    @Autowired
-    private Environment environment;
+  @Autowired
+  private Environment environment;
 
-    @Autowired
-    private ConfigurableListableBeanFactory beanFactory;
+  @Autowired
+  private ConfigurableListableBeanFactory beanFactory;
 
-    @Autowired
-    private GenericConfiguration.GenericChild genericChild;
+  @Autowired
+  private GenericConfiguration.GenericChild genericChild;
 
-    @Test
-    public void testCustomizedAnnotationBeanPostProcessor() {
+  @Test
+  public void testCustomizedAnnotationBeanPostProcessor() {
 
-        Assert.assertEquals(environment, processor.getEnvironment());
-        Assert.assertEquals(beanFactory.getBeanClassLoader(), processor.getClassLoader());
-        Assert.assertEquals(beanFactory, processor.getBeanFactory());
+    Assert.assertEquals(environment, processor.getEnvironment());
+    Assert.assertEquals(beanFactory.getBeanClassLoader(), processor.getClassLoader());
+    Assert.assertEquals(beanFactory, processor.getBeanFactory());
 
-        Assert.assertEquals(AnnotationInjectedBeanPostProcessorTest.Referenced.class, processor.getAnnotationType());
-        Assert.assertEquals(1, processor.getInjectedObjects().size());
-        Assert.assertTrue(processor.getInjectedObjects().contains(parent.parentUser));
-        Assert.assertEquals(3, processor.getInjectedFieldObjectsMap().size());
-        Assert.assertEquals(1, processor.getInjectedMethodObjectsMap().size());
-        Assert.assertEquals(Ordered.LOWEST_PRECEDENCE - 3, processor.getOrder());
+    Assert.assertEquals(AnnotationInjectedBeanPostProcessorTest.Referenced.class, processor.getAnnotationType());
+    Assert.assertEquals(1, processor.getInjectedObjects().size());
+    Assert.assertTrue(processor.getInjectedObjects().contains(parent.parentUser));
+    Assert.assertEquals(3, processor.getInjectedFieldObjectsMap().size());
+    Assert.assertEquals(1, processor.getInjectedMethodObjectsMap().size());
+    Assert.assertEquals(Ordered.LOWEST_PRECEDENCE - 3, processor.getOrder());
+  }
+
+  @Test
+  public void testReferencedUser() {
+    Assert.assertEquals("mercyblitz", parent.user.getName());
+    Assert.assertEquals(32, parent.user.getAge());
+    Assert.assertEquals(parent.user, parent.parentUser);
+    Assert.assertEquals(parent.user, child.childUser);
+    Assert.assertEquals(parent.user, userHolder.user);
+    Assert.assertEquals(parent.user, genericChild.getS());
+  }
+
+  public static class ReferencedAnnotationInjectedBeanPostProcessor extends AbstractAnnotationBeanPostProcessor {
+
+    public ReferencedAnnotationInjectedBeanPostProcessor() {
+      super(AnnotationInjectedBeanPostProcessorTest.Referenced.class);
     }
 
-    @Test
-    public void testReferencedUser() {
-        Assert.assertEquals("mercyblitz", parent.user.getName());
-        Assert.assertEquals(32, parent.user.getAge());
-        Assert.assertEquals(parent.user, parent.parentUser);
-        Assert.assertEquals(parent.user, child.childUser);
-        Assert.assertEquals(parent.user, userHolder.user);
-        Assert.assertEquals(parent.user, genericChild.getS());
+    @Override
+    protected Object doGetInjectedBean(AnnotationAttributes attributes, Object bean, String beanName,
+                                       Class<?> injectedType, InjectionMetadata.InjectedElement injectedElement) throws Exception {
+      return getBeanFactory().getBean(injectedType);
     }
 
-    public static class ReferencedAnnotationInjectedBeanPostProcessor extends AbstractAnnotationBeanPostProcessor {
+    @Override
+    protected String buildInjectedObjectCacheKey(AnnotationAttributes attributes, Object bean, String beanName,
+                                                 Class<?> injectedType, InjectionMetadata.InjectedElement injectedElement) {
+      return injectedType.getName();
+    }
+  }
 
-        public ReferencedAnnotationInjectedBeanPostProcessor() {
-            super(AnnotationInjectedBeanPostProcessorTest.Referenced.class);
-        }
+  public static class GenericConfiguration {
 
-        @Override
-        protected Object doGetInjectedBean(AnnotationAttributes attributes, Object bean, String beanName,
-                                           Class<?> injectedType, InjectionMetadata.InjectedElement injectedElement) throws Exception {
-            return getBeanFactory().getBean(injectedType);
-        }
 
-        @Override
-        protected String buildInjectedObjectCacheKey(AnnotationAttributes attributes, Object bean, String beanName,
-                                                     Class<?> injectedType, InjectionMetadata.InjectedElement injectedElement) {
-            return injectedType.getName();
-        }
+    static abstract class GenericParent<S> {
+
+      @AnnotationInjectedBeanPostProcessorTest.Referenced
+      S s;
+
+      public S getS() {
+        return s;
+      }
     }
 
-    public static class GenericConfiguration {
-
-
-        static abstract class GenericParent<S> {
-
-            @AnnotationInjectedBeanPostProcessorTest.Referenced
-            S s;
-
-            public S getS() {
-                return s;
-            }
-        }
-
-        static class GenericChild extends GenericParent<User> {
-        }
-
-        @Bean
-        public GenericChild genericChild() {
-            return new GenericChild();
-        }
-
+    static class GenericChild extends GenericParent<User> {
     }
+
+    @Bean
+    public GenericChild genericChild() {
+      return new GenericChild();
+    }
+
+  }
 
 }

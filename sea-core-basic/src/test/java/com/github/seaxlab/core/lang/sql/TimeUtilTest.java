@@ -20,12 +20,12 @@ import java.util.Date;
 @Slf4j
 public class TimeUtilTest extends BaseCoreTest {
 
-    @Test
-    public void test18() throws Exception {
-        Date date = new Date();
-        Time time = TimeUtil.of(date);
+  @Test
+  public void test18() throws Exception {
+    Date date = new Date();
+    Time time = TimeUtil.of(date);
 
-        log.info("{}", DateUtil.toString(time, DateFormatEnum.DEFAULT));
-        log.info("{}", DateUtil.toString(time, DateFormatEnum.HH_mm_ss));
-    }
+    log.info("{}", DateUtil.toString(time, DateFormatEnum.DEFAULT));
+    log.info("{}", DateUtil.toString(time, DateFormatEnum.HH_mm_ss));
+  }
 }

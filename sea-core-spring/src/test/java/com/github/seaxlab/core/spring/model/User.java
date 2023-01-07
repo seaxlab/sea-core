@@ -14,15 +14,15 @@ import lombok.Data;
 @Data
 public class User implements EntityKey {
 
-    private String code;
-    private String name;
+  private String code;
+  private String name;
 
-    private int age;
+  private int age;
 
-    @Override
-    @JSONField(serialize = false, deserialize = false)
-    @JsonIgnore
-    public String getEntityKey() {
-        return code;
-    }
+  @Override
+  @JSONField(serialize = false, deserialize = false)
+  @JsonIgnore
+  public String getEntityKey() {
+    return code;
+  }
 }

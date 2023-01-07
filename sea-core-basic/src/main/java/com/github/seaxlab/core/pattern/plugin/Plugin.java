@@ -12,39 +12,39 @@ import com.github.seaxlab.core.model.annotation.Beta;
 @Beta
 public interface Plugin {
 
-    /**
-     * execute biz
-     *
-     * @param context
-     * @param chain
-     */
-    void execute(PluginContext context, PluginChain chain);
+  /**
+   * execute biz
+   *
+   * @param context
+   * @param chain
+   */
+  void execute(PluginContext context, PluginChain chain);
 
-    /**
-     * return plugin order .
-     * This attribute To determine the plugin execution order in the same type plugin.
-     *
-     * @return int order
-     */
-    int getOrder();
+  /**
+   * return plugin order .
+   * This attribute To determine the plugin execution order in the same type plugin.
+   *
+   * @return int order
+   */
+  int getOrder();
 
-    /**
-     * acquire plugin name.
-     *
-     * @return plugin name.
-     */
-    default String named() {
-        return "";
-    }
+  /**
+   * acquire plugin name.
+   *
+   * @return plugin name.
+   */
+  default String named() {
+    return "";
+  }
 
-    /**
-     * plugin is execute.
-     * if return true this plugin can not execute.
-     *
-     * @param context the current server exchange
-     * @return default false.
-     */
-    default boolean skip(PluginContext context) {
-        return false;
-    }
+  /**
+   * plugin is execute.
+   * if return true this plugin can not execute.
+   *
+   * @param context the current server exchange
+   * @return default false.
+   */
+  default boolean skip(PluginContext context) {
+    return false;
+  }
 }

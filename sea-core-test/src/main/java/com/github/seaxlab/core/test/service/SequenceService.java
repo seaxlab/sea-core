@@ -9,5 +9,5 @@ package com.github.seaxlab.core.test.service;
  */
 public interface SequenceService {
 
-    long next(String namespace);
+  long next(String namespace);
 }

@@ -11,5 +11,5 @@ import lombok.Data;
  */
 @Data
 public class SocketClientSendData {
-    private byte[] playLoad;
+  private byte[] playLoad;
 }

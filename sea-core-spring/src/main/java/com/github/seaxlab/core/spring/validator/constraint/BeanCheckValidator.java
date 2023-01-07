@@ -18,20 +18,20 @@ import javax.validation.ConstraintValidatorContext;
 @Slf4j
 public class BeanCheckValidator implements ConstraintValidator<BeanCheck, Object> {
 
-    private String beanName;
+  private String beanName;
 
-    @Override
-    public void initialize(BeanCheck annotation) {
-        this.beanName = annotation.value();
+  @Override
+  public void initialize(BeanCheck annotation) {
+    this.beanName = annotation.value();
+  }
+
+  @Override
+  public boolean isValid(Object value, ConstraintValidatorContext constraintValidatorContext) {
+    if (value == null) {
+      return true;
     }
 
-    @Override
-    public boolean isValid(Object value, ConstraintValidatorContext constraintValidatorContext) {
-        if (value == null) {
-            return true;
-        }
-
-        SimpleArgumentValidator<Object> simpleArgumentValidator = SpringContextHolder.getBean(this.beanName);
-        return simpleArgumentValidator.check(value);
-    }
+    SimpleArgumentValidator<Object> simpleArgumentValidator = SpringContextHolder.getBean(this.beanName);
+    return simpleArgumentValidator.check(value);
+  }
 }

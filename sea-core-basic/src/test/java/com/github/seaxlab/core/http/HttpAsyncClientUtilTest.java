@@ -16,20 +16,20 @@ import org.junit.Test;
 public class HttpAsyncClientUtilTest extends BaseCoreTest {
 
 
-    @Test
-    public void run18() throws Exception {
+  @Test
+  public void run18() throws Exception {
 
-        String result = HttpAsyncClientUtil.get(IP_URL);
-        log.info("result={}", result);
+    String result = HttpAsyncClientUtil.get(IP_URL);
+    log.info("result={}", result);
 
+  }
+
+
+  @Test
+  public void run29() throws Exception {
+    for (int i = 0; i < 100; i++) {
+      run18();
     }
-
-
-    @Test
-    public void run29() throws Exception {
-        for (int i = 0; i < 100; i++) {
-            run18();
-        }
-    }
+  }
 
 }

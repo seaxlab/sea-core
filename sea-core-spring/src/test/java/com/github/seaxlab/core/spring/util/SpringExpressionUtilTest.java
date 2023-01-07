@@ -15,18 +15,18 @@ import org.junit.Test;
 @Slf4j
 public class SpringExpressionUtilTest extends BaseSpringTest {
 
-    @Test
-    public void testSimple() throws Exception {
-        String content = SpringExpressionUtil.parse("name", "test", "#name", String.class);
-        log.info("content={}", content);
-    }
+  @Test
+  public void testSimple() throws Exception {
+    String content = SpringExpressionUtil.parse("name", "test", "#name", String.class);
+    log.info("content={}", content);
+  }
 
-    @Test
-    public void testComplexObj() throws Exception {
-        User user = new User();
-        user.setName("abc");
+  @Test
+  public void testComplexObj() throws Exception {
+    User user = new User();
+    user.setName("abc");
 
-        String content = SpringExpressionUtil.parse("user", user, "#user.name", String.class);
-        log.info("content={}", content);
-    }
+    String content = SpringExpressionUtil.parse("user", user, "#user.name", String.class);
+    log.info("content={}", content);
+  }
 }

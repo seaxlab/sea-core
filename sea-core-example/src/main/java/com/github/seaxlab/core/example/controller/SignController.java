@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/sign")
 public class SignController {
 
-    @PostMapping("/test")
-    public Result test(@RequestBody UserSaveDTO dto) {
-        log.info("dto={}", dto);
+  @PostMapping("/test")
+  public Result test(@RequestBody UserSaveDTO dto) {
+    log.info("dto={}", dto);
 
-        return Result.success();
-    }
+    return Result.success();
+  }
 
 }

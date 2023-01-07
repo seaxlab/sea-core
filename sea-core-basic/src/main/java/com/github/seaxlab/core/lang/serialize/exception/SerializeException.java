@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SerializeException extends BaseAppException {
 
-    public SerializeException() {
-        super(ErrorMessageEnum.SERIAL_ERROR);
-    }
+  public SerializeException() {
+    super(ErrorMessageEnum.SERIAL_ERROR);
+  }
 }

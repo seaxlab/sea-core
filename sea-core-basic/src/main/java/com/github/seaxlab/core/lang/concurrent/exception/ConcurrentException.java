@@ -17,38 +17,38 @@ package com.github.seaxlab.core.lang.concurrent.exception;
  * @since 3.0
  */
 public class ConcurrentException extends Exception {
-    /**
-     * The serial version UID.
-     */
-    private static final long serialVersionUID = 6622707671812226130L;
+  /**
+   * The serial version UID.
+   */
+  private static final long serialVersionUID = 6622707671812226130L;
 
-    /**
-     * Creates a new, uninitialized instance of {@code ConcurrentException}.
-     */
-    protected ConcurrentException() {
-        super();
-    }
+  /**
+   * Creates a new, uninitialized instance of {@code ConcurrentException}.
+   */
+  protected ConcurrentException() {
+    super();
+  }
 
-    /**
-     * Creates a new instance of {@code ConcurrentException} and initializes it
-     * with the given cause.
-     *
-     * @param cause the cause of this exception
-     * @throws IllegalArgumentException if the cause is not a checked exception
-     */
-    public ConcurrentException(final Throwable cause) {
-        super(ConcurrentUtil.checkedException(cause));
-    }
+  /**
+   * Creates a new instance of {@code ConcurrentException} and initializes it
+   * with the given cause.
+   *
+   * @param cause the cause of this exception
+   * @throws IllegalArgumentException if the cause is not a checked exception
+   */
+  public ConcurrentException(final Throwable cause) {
+    super(ConcurrentUtil.checkedException(cause));
+  }
 
-    /**
-     * Creates a new instance of {@code ConcurrentException} and initializes it
-     * with the given message and cause.
-     *
-     * @param msg   the error message
-     * @param cause the cause of this exception
-     * @throws IllegalArgumentException if the cause is not a checked exception
-     */
-    public ConcurrentException(final String msg, final Throwable cause) {
-        super(msg, ConcurrentUtil.checkedException(cause));
-    }
+  /**
+   * Creates a new instance of {@code ConcurrentException} and initializes it
+   * with the given message and cause.
+   *
+   * @param msg   the error message
+   * @param cause the cause of this exception
+   * @throws IllegalArgumentException if the cause is not a checked exception
+   */
+  public ConcurrentException(final String msg, final Throwable cause) {
+    super(msg, ConcurrentUtil.checkedException(cause));
+  }
 }

@@ -30,39 +30,39 @@ import java.util.stream.Stream;
 @Slf4j
 public class EncryptPropertiesBeanFactoryPostProcessor implements BeanFactoryPostProcessor, Ordered {
 
-    private final ConfigurableEnvironment environment;
+  private final ConfigurableEnvironment environment;
 
-    public EncryptPropertiesBeanFactoryPostProcessor(ConfigurableEnvironment environment) {
-        this.environment = environment;
+  public EncryptPropertiesBeanFactoryPostProcessor(ConfigurableEnvironment environment) {
+    this.environment = environment;
+  }
+
+  @Override
+  public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    MutablePropertySources propertySources = environment.getPropertySources();
+    propertySources.stream()
+                   .filter(ps -> !(ps instanceof PropertySourceWrapper))//
+                   .map(item -> wrapperProperSource(item))
+                   .collect(Collectors.toList())//
+                   .forEach(ps -> propertySources.replace(ps.getName(), ps));
+  }
+
+  @Override
+  public int getOrder() {
+    return Ordered.LOWEST_PRECEDENCE;
+  }
+
+  //----------------- private ---------------------
+
+  private <T> PropertySource<T> wrapperProperSource(PropertySource<T> propertySource) {
+    if (Stream.of("ConfigurationPropertySourcesPropertySource", "ConfigFileApplicationListener$ConfigurationPropertySources")
+              .anyMatch(propertySource.getClass().getName()::endsWith)) {
+      return propertySource;
+    } else if (propertySource instanceof MapPropertySourceWrapper) {
+      return (PropertySource<T>) new MapPropertySourceWrapper((MapPropertySource) propertySource);
+    } else if (propertySource instanceof EnumerablePropertySourceWrapper) {
+      return (PropertySource<T>) new EnumerablePropertySourceWrapper<T>((EnumerablePropertySource) propertySource);
     }
 
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        MutablePropertySources propertySources = environment.getPropertySources();
-        propertySources.stream()
-                       .filter(ps -> !(ps instanceof PropertySourceWrapper))//
-                       .map(item -> wrapperProperSource(item))
-                       .collect(Collectors.toList())//
-                       .forEach(ps -> propertySources.replace(ps.getName(), ps));
-    }
-
-    @Override
-    public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE;
-    }
-
-    //----------------- private ---------------------
-
-    private <T> PropertySource<T> wrapperProperSource(PropertySource<T> propertySource) {
-        if (Stream.of("ConfigurationPropertySourcesPropertySource", "ConfigFileApplicationListener$ConfigurationPropertySources")
-                  .anyMatch(propertySource.getClass().getName()::endsWith)) {
-            return propertySource;
-        } else if (propertySource instanceof MapPropertySourceWrapper) {
-            return (PropertySource<T>) new MapPropertySourceWrapper((MapPropertySource) propertySource);
-        } else if (propertySource instanceof EnumerablePropertySourceWrapper) {
-            return (PropertySource<T>) new EnumerablePropertySourceWrapper<T>((EnumerablePropertySource) propertySource);
-        }
-
-        return new NormalPropertySourceWrapper<>(propertySource);
-    }
+    return new NormalPropertySourceWrapper<>(propertySource);
+  }
 }

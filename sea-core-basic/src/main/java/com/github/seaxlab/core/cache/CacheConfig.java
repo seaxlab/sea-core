@@ -12,10 +12,10 @@ import lombok.Data;
  */
 @Data
 public class CacheConfig extends DTO {
-    private String type;
+  private String type;
 
-    private String url;
-    private Integer timeout = 5000;
-    private int maxIdle = 100;
-    private int poolSize = 200;
+  private String url;
+  private Integer timeout = 5000;
+  private int maxIdle = 100;
+  private int poolSize = 200;
 }

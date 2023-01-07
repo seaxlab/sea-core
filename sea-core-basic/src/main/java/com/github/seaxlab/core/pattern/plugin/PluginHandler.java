@@ -9,6 +9,6 @@ package com.github.seaxlab.core.pattern.plugin;
  */
 public interface PluginHandler {
 
-    void handle(PluginContext context);
+  void handle(PluginContext context);
 
 }

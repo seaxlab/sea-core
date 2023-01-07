@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 @Controller("seaPingController")
 public class SeaPingController {
 
-    @RequestMapping("/api/sea/ping")
-    public void ping(HttpServletResponse response) {
-        ResponseUtil.toText(response, "pong");
-    }
+  @RequestMapping("/api/sea/ping")
+  public void ping(HttpServletResponse response) {
+    ResponseUtil.toText(response, "pong");
+  }
 }

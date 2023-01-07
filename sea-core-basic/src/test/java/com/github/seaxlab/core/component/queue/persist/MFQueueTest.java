@@ -16,52 +16,52 @@ import org.junit.Test;
 @Slf4j
 public class MFQueueTest extends BaseCoreTest {
 
-    public static MFQueue consumeRecordQueue;
+  public static MFQueue consumeRecordQueue;
 
-    @Before
-    public void before() {
-        MFQueuePool.init(getUserHome() + "/logs/queue_persist");
-        consumeRecordQueue = MFQueuePool.getFQueue("my-test-queue");
+  @Before
+  public void before() {
+    MFQueuePool.init(getUserHome() + "/logs/queue_persist");
+    consumeRecordQueue = MFQueuePool.getFQueue("my-test-queue");
+  }
+
+  @Test
+  public void addTest() throws Exception {
+    new Thread(() -> consumeTest()).start();
+
+    for (int i = 0; i < 10; i++) {
+      consumeRecordQueue.add((i + "sss").getBytes());
+      log.info("add msg");
     }
+    sleep(10000);
+  }
 
-    @Test
-    public void addTest() throws Exception {
-        new Thread(() -> consumeTest()).start();
-
-        for (int i = 0; i < 10; i++) {
-            consumeRecordQueue.add((i + "sss").getBytes());
-            log.info("add msg");
-        }
-        sleep(10000);
+  private void consumeTest() {
+    while (true) {
+      log.info("poll msg");
+      byte[] item = consumeRecordQueue.poll();
+      if (item != null) {
+        log.info("msg={}", new String(item));
+      }
+      sleep(1);
     }
+  }
 
-    private void consumeTest() {
-        while (true) {
-            log.info("poll msg");
-            byte[] item = consumeRecordQueue.poll();
-            if (item != null) {
-                log.info("msg={}", new String(item));
-            }
-            sleep(1);
-        }
+  /**
+   * 不支持
+   */
+  private void consume2Test() {
+    while (true) {
+      log.info("poll msg");
+      byte[] item = consumeRecordQueue.peek();
+      if (item != null) {
+        log.info("msg={}", new String(item));
+      }
+      sleep(1);
     }
+  }
 
-    /**
-     * 不支持
-     */
-    private void consume2Test() {
-        while (true) {
-            log.info("poll msg");
-            byte[] item = consumeRecordQueue.peek();
-            if (item != null) {
-                log.info("msg={}", new String(item));
-            }
-            sleep(1);
-        }
-    }
-
-    @After
-    public void destory() {
-        MFQueuePool.destory();
-    }
+  @After
+  public void destory() {
+    MFQueuePool.destory();
+  }
 }

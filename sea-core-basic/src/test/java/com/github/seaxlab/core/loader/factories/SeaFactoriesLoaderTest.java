@@ -18,9 +18,9 @@ import java.util.List;
 @Slf4j
 public class SeaFactoriesLoaderTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
-        List<IdGenerator> list = SeaFactoriesLoader.loadFactories(IdGenerator.class, this.getClass().getClassLoader());
-        log.info("id impl list={}", list);
-    }
+  @Test
+  public void test17() throws Exception {
+    List<IdGenerator> list = SeaFactoriesLoader.loadFactories(IdGenerator.class, this.getClass().getClassLoader());
+    log.info("id impl list={}", list);
+  }
 }

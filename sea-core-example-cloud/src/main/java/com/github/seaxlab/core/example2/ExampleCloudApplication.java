@@ -19,7 +19,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication(scanBasePackages = {"com.github.seaxlab.core.example2"})
 public class ExampleCloudApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(ExampleCloudApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(ExampleCloudApplication.class, args);
+  }
 }

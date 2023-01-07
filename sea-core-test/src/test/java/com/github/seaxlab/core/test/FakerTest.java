@@ -16,11 +16,11 @@ import java.util.Locale;
 @Slf4j
 public class FakerTest extends BaseTest {
 
-    @Test
-    public void test16() throws Exception {
-        Faker faker = new Faker(Locale.CHINA);
+  @Test
+  public void test16() throws Exception {
+    Faker faker = new Faker(Locale.CHINA);
 
-        log.info("{}", faker.phoneNumber().cellPhone());
-        log.info("{}", faker.name().fullName());
-    }
+    log.info("{}", faker.phoneNumber().cellPhone());
+    log.info("{}", faker.name().fullName());
+  }
 }

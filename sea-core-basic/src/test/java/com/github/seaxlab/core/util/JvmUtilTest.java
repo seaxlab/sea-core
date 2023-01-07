@@ -16,29 +16,29 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class JvmUtilTest extends BaseCoreTest {
 
-    @Test
-    public void getPidTest() throws Exception {
-        log.info(JvmUtil.getPID());
-    }
+  @Test
+  public void getPidTest() throws Exception {
+    log.info(JvmUtil.getPID());
+  }
 
-    @Test
-    public void run30() throws Exception {
-        JvmUtil.dumpStack();
-    }
+  @Test
+  public void run30() throws Exception {
+    JvmUtil.dumpStack();
+  }
 
-    @Test
-    public void dumpStackTest() throws Exception {
-        JvmUtil.dumpStack(getUserHome() + "/logs/jsdump.log");
+  @Test
+  public void dumpStackTest() throws Exception {
+    JvmUtil.dumpStack(getUserHome() + "/logs/jsdump.log");
 
-        TimeUnit.MINUTES.sleep(2);
-    }
+    TimeUnit.MINUTES.sleep(2);
+  }
 
 
-    @Test
-    public void run47() throws Exception {
-        JvmUtil.dumpHeap();
-        TimeUnit.MINUTES.sleep(1);
-    }
+  @Test
+  public void run47() throws Exception {
+    JvmUtil.dumpHeap();
+    TimeUnit.MINUTES.sleep(1);
+  }
 
 
 }

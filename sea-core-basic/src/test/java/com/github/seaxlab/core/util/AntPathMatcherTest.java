@@ -14,21 +14,21 @@ import org.junit.Test;
 @Slf4j
 public class AntPathMatcherTest extends BaseCoreTest {
 
-    PathMatcher pathMatcher = new AntPathMatcher();
+  PathMatcher pathMatcher = new AntPathMatcher();
 
-    @Test
-    public void testCombine() throws Exception {
-        String result = pathMatcher.combine("", null);
-        log.info("{}", result);
-    }
+  @Test
+  public void testCombine() throws Exception {
+    String result = pathMatcher.combine("", null);
+    log.info("{}", result);
+  }
 
-    @Test
-    public void testMatch() throws Exception {
-        log.info("{}", pathMatcher.match("/api/**/ab", "/api/1/2/ab"));
-        log.info("{}", pathMatcher.match("/api/*/ab", "/api/12/ab"));
-        log.info("{}", pathMatcher.match("/api/*/ab", "/api/12/34/ab"));
-        log.info("{}", pathMatcher.match("/abc", "/abc"));
-    }
+  @Test
+  public void testMatch() throws Exception {
+    log.info("{}", pathMatcher.match("/api/**/ab", "/api/1/2/ab"));
+    log.info("{}", pathMatcher.match("/api/*/ab", "/api/12/ab"));
+    log.info("{}", pathMatcher.match("/api/*/ab", "/api/12/34/ab"));
+    log.info("{}", pathMatcher.match("/abc", "/abc"));
+  }
 
 
 }

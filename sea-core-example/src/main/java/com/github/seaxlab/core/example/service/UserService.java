@@ -11,8 +11,8 @@ import com.github.seaxlab.core.spring.annotation.LogCost;
  */
 public interface UserService {
 
-    @LogCost
-    String queryName();
+  @LogCost
+  String queryName();
 
-    String queryName2();
+  String queryName2();
 }

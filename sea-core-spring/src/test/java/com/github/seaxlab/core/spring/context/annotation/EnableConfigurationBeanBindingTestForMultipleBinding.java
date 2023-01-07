@@ -24,44 +24,44 @@ import static org.junit.Assert.assertNotNull;
         multiple = true, ignoreUnknownFields = false, ignoreInvalidFields = false)
 public class EnableConfigurationBeanBindingTestForMultipleBinding extends AbstractEnableConfigurationBeanBindingTest {
 
-    @Bean
-    public ConfigurationBeanBindingPostProcessor configurationBeanBindingPostProcessor() {
-        ConfigurationBeanBindingPostProcessor processor = new ConfigurationBeanBindingPostProcessor();
-        processor.setConfigurationBeanBinder(new DefaultConfigurationBeanBinder());
-        return processor;
-    }
+  @Bean
+  public ConfigurationBeanBindingPostProcessor configurationBeanBindingPostProcessor() {
+    ConfigurationBeanBindingPostProcessor processor = new ConfigurationBeanBindingPostProcessor();
+    processor.setConfigurationBeanBinder(new DefaultConfigurationBeanBinder());
+    return processor;
+  }
 
-    private User aUser;
+  private User aUser;
 
-    private User bUser;
+  private User bUser;
 
-    private User mUser;
+  private User mUser;
 
-    private Collection<User> users;
+  private Collection<User> users;
 
-    private ConfigurationBeanBindingPostProcessor configurationBeanBindingPostProcessor;
+  private ConfigurationBeanBindingPostProcessor configurationBeanBindingPostProcessor;
 
-    @Before
-    public void init() {
-        aUser = context.getBean("a", User.class);
-        bUser = context.getBean("b", User.class);
-        users = BeanUtil.getSortedBeans(context, User.class);
-        configurationBeanBindingPostProcessor = context.getBean("configurationBeanBindingPostProcessor", ConfigurationBeanBindingPostProcessor.class);
-    }
+  @Before
+  public void init() {
+    aUser = context.getBean("a", User.class);
+    bUser = context.getBean("b", User.class);
+    users = BeanUtil.getSortedBeans(context, User.class);
+    configurationBeanBindingPostProcessor = context.getBean("configurationBeanBindingPostProcessor", ConfigurationBeanBindingPostProcessor.class);
+  }
 
-    @Test
-    public void testUser() {
+  @Test
+  public void testUser() {
 
-        assertEquals(2, users.size());
-        assertTrue(users.contains(aUser));
-        assertTrue(users.contains(bUser));
+    assertEquals(2, users.size());
+    assertTrue(users.contains(aUser));
+    assertTrue(users.contains(bUser));
 
-        assertEquals("name-a", aUser.getName());
-        assertEquals(1, aUser.getAge());
+    assertEquals("name-a", aUser.getName());
+    assertEquals(1, aUser.getAge());
 
-        assertEquals("name-b", bUser.getName());
-        assertEquals(2, bUser.getAge());
+    assertEquals("name-b", bUser.getName());
+    assertEquals(2, bUser.getAge());
 
-        assertNotNull(configurationBeanBindingPostProcessor.getConfigurationBeanBinder());
-    }
+    assertNotNull(configurationBeanBindingPostProcessor.getConfigurationBeanBinder());
+  }
 }

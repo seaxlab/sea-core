@@ -21,32 +21,32 @@ import java.util.concurrent.Executors;
 @Slf4j
 public class SocketServerTest extends BaseCoreTest {
 
-    private int port = 9001;
-    private ExecutorService executor;
-    private boolean loopFlag = true;
+  private int port = 9001;
+  private ExecutorService executor;
+  private boolean loopFlag = true;
 
-    @Test
-    public void serverStartTest() throws Exception {
-        ServerSocket serverSocket = new ServerSocket(port);
-        executor = Executors.newSingleThreadExecutor();
-        executor.submit(() -> {
-            // create an open ended thread-pool
-            ExecutorService threadPool = Executors.newCachedThreadPool();
-            try {
+  @Test
+  public void serverStartTest() throws Exception {
+    ServerSocket serverSocket = new ServerSocket(port);
+    executor = Executors.newSingleThreadExecutor();
+    executor.submit(() -> {
+      // create an open ended thread-pool
+      ExecutorService threadPool = Executors.newCachedThreadPool();
+      try {
 
-                while (loopFlag) {
-                    // wait for a client to connect
-                    Socket clientSocket = serverSocket.accept();
-                    // create a new Service Request object for that socket, and fork it in a background thread
-                    threadPool.submit(new SocketRequest(clientSocket));
-                }
-            } catch (IOException ex) {
-                log.error("io exception ", ex);
-            } finally {
-                threadPool.shutdown();
-            }
-        });
+        while (loopFlag) {
+          // wait for a client to connect
+          Socket clientSocket = serverSocket.accept();
+          // create a new Service Request object for that socket, and fork it in a background thread
+          threadPool.submit(new SocketRequest(clientSocket));
+        }
+      } catch (IOException ex) {
+        log.error("io exception ", ex);
+      } finally {
+        threadPool.shutdown();
+      }
+    });
 
-        sleepMinute(10);
-    }
+    sleepMinute(10);
+  }
 }

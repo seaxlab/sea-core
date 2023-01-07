@@ -18,33 +18,33 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AllocateAveragelyTest extends AllocateStrategyTest {
 
-    @Test
-    public void testAllocate() throws Exception {
+  @Test
+  public void testAllocate() throws Exception {
 
-        // 平均分配
-        AllocateStrategy strategy = new AllocateAveragely();
-        String topic = "topic_test";
-        String currentCID = "CID";
-        int queueSize = 19;
-        int consumerSize = 5;
+    // 平均分配
+    AllocateStrategy strategy = new AllocateAveragely();
+    String topic = "topic_test";
+    String currentCID = "CID";
+    int queueSize = 19;
+    int consumerSize = 5;
 
-        List<Node> mqAll = new ArrayList<>();
-        for (int i = 0; i < queueSize; i++) {
-            Node mq = new Node(topic, "brokerName", i);
-            mqAll.add(mq);
-        }
-        // consumer id.
-        List<String> cidAll = new ArrayList<>();
-        for (int j = 0; j < consumerSize; j++) {
-            cidAll.add("CID" + j);
-        }
-
-        log.info("nodes={}", mqAll.stream().map(item -> item.getNodeId()).collect(Collectors.toList()));
-        log.info("consumer ids={}", cidAll);
-
-        for (int i = 0; i < consumerSize; i++) {
-            List<Node> rs = strategy.allocate("", currentCID + i, mqAll, cidAll);
-            log.info("rs[{}]:{}", currentCID + i, rs.stream().map(item -> item.getNodeId()).collect(Collectors.toList()));
-        }
+    List<Node> mqAll = new ArrayList<>();
+    for (int i = 0; i < queueSize; i++) {
+      Node mq = new Node(topic, "brokerName", i);
+      mqAll.add(mq);
     }
+    // consumer id.
+    List<String> cidAll = new ArrayList<>();
+    for (int j = 0; j < consumerSize; j++) {
+      cidAll.add("CID" + j);
+    }
+
+    log.info("nodes={}", mqAll.stream().map(item -> item.getNodeId()).collect(Collectors.toList()));
+    log.info("consumer ids={}", cidAll);
+
+    for (int i = 0; i < consumerSize; i++) {
+      List<Node> rs = strategy.allocate("", currentCID + i, mqAll, cidAll);
+      log.info("rs[{}]:{}", currentCID + i, rs.stream().map(item -> item.getNodeId()).collect(Collectors.toList()));
+    }
+  }
 }

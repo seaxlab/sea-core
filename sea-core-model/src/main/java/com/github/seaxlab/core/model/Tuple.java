@@ -12,7 +12,6 @@ import java.util.Iterator;
  * @since 1.0
  */
 public class Tuple implements Iterable<Object>, Serializable {
-
   /**
    * field
    */

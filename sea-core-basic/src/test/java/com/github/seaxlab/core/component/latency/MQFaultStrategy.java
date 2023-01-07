@@ -5,36 +5,36 @@ import lombok.extern.slf4j.Slf4j;
 // copy from org.apache.rocketmq.client.latency
 @Slf4j
 public class MQFaultStrategy {
-    private final LatencyFaultTolerance<String> latencyFaultTolerance = new LatencyFaultToleranceImpl();
+  private final LatencyFaultTolerance<String> latencyFaultTolerance = new LatencyFaultToleranceImpl();
 
-    private boolean sendLatencyFaultEnable = false;
+  private boolean sendLatencyFaultEnable = false;
 
-    private long[] latencyMax = {50L, 100L, 550L, 1000L, 2000L, 3000L, 15000L};
-    private long[] notAvailableDuration = {0L, 0L, 30000L, 60000L, 120000L, 180000L, 600000L};
+  private long[] latencyMax = {50L, 100L, 550L, 1000L, 2000L, 3000L, 15000L};
+  private long[] notAvailableDuration = {0L, 0L, 30000L, 60000L, 120000L, 180000L, 600000L};
 
-    public long[] getNotAvailableDuration() {
-        return notAvailableDuration;
-    }
+  public long[] getNotAvailableDuration() {
+    return notAvailableDuration;
+  }
 
-    public void setNotAvailableDuration(final long[] notAvailableDuration) {
-        this.notAvailableDuration = notAvailableDuration;
-    }
+  public void setNotAvailableDuration(final long[] notAvailableDuration) {
+    this.notAvailableDuration = notAvailableDuration;
+  }
 
-    public long[] getLatencyMax() {
-        return latencyMax;
-    }
+  public long[] getLatencyMax() {
+    return latencyMax;
+  }
 
-    public void setLatencyMax(final long[] latencyMax) {
-        this.latencyMax = latencyMax;
-    }
+  public void setLatencyMax(final long[] latencyMax) {
+    this.latencyMax = latencyMax;
+  }
 
-    public boolean isSendLatencyFaultEnable() {
-        return sendLatencyFaultEnable;
-    }
+  public boolean isSendLatencyFaultEnable() {
+    return sendLatencyFaultEnable;
+  }
 
-    public void setSendLatencyFaultEnable(final boolean sendLatencyFaultEnable) {
-        this.sendLatencyFaultEnable = sendLatencyFaultEnable;
-    }
+  public void setSendLatencyFaultEnable(final boolean sendLatencyFaultEnable) {
+    this.sendLatencyFaultEnable = sendLatencyFaultEnable;
+  }
 
 //    public MessageQueue selectOneMessageQueue(final TopicPublishInfo tpInfo, final String lastBrokerName) {
 //        if (this.sendLatencyFaultEnable) {
@@ -71,19 +71,20 @@ public class MQFaultStrategy {
 //        return tpInfo.selectOneMessageQueue(lastBrokerName);
 //    }
 
-    public void updateFaultItem(final String brokerName, final long currentLatency, boolean isolation) {
-        if (this.sendLatencyFaultEnable) {
-            long duration = computeNotAvailableDuration(isolation ? 30000 : currentLatency);
-            this.latencyFaultTolerance.updateFaultItem(brokerName, currentLatency, duration);
-        }
+  public void updateFaultItem(final String brokerName, final long currentLatency, boolean isolation) {
+    if (this.sendLatencyFaultEnable) {
+      long duration = computeNotAvailableDuration(isolation ? 30000 : currentLatency);
+      this.latencyFaultTolerance.updateFaultItem(brokerName, currentLatency, duration);
+    }
+  }
+
+  private long computeNotAvailableDuration(final long currentLatency) {
+    for (int i = latencyMax.length - 1; i >= 0; i--) {
+      if (currentLatency >= latencyMax[i]) {
+        return this.notAvailableDuration[i];
+      }
     }
 
-    private long computeNotAvailableDuration(final long currentLatency) {
-        for (int i = latencyMax.length - 1; i >= 0; i--) {
-            if (currentLatency >= latencyMax[i])
-                return this.notAvailableDuration[i];
-        }
-
-        return 0;
-    }
+    return 0;
+  }
 }

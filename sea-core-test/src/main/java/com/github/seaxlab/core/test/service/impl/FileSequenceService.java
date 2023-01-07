@@ -18,48 +18,48 @@ import java.io.File;
 @Slf4j
 public class FileSequenceService implements SequenceService {
 
-    @Override
-    public long next(String namespace) {
-        String lockKey = "seq_" + namespace;
+  @Override
+  public long next(String namespace) {
+    String lockKey = "seq_" + namespace;
 
-        FileLock lock = new FileLock(lockKey);
+    FileLock lock = new FileLock(lockKey);
+    try {
+      lock.lock();
+
+      String userHome = System.getProperty("user.home");
+      String path = userHome + "/sea/sequence";
+      File file = new File(path);
+      if (!file.exists()) {
+        file.mkdirs();
+      }
+      long nextValue;
+      File seqFile = new File(path + "/" + namespace);
+      if (!seqFile.exists()) {
+        seqFile.createNewFile();
+        nextValue = 1;
+      } else {
+        //++
+
+        String content = Files.asCharSource(seqFile, Charsets.UTF_8).read();
+
         try {
-            lock.lock();
-
-            String userHome = System.getProperty("user.home");
-            String path = userHome + "/sea/sequence";
-            File file = new File(path);
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-            long nextValue;
-            File seqFile = new File(path + "/" + namespace);
-            if (!seqFile.exists()) {
-                seqFile.createNewFile();
-                nextValue = 1;
-            } else {
-                //++
-
-                String content = Files.asCharSource(seqFile, Charsets.UTF_8).read();
-
-                try {
-                    nextValue = Long.valueOf(content) + 1;
-                } catch (Exception e) {
-                    log.error("read file fail, reset to zero.");
-                    nextValue = 0;
-                }
-
-            }
-            //write to file
-            Files.write("" + nextValue, seqFile, Charsets.UTF_8);
-            return nextValue;
+          nextValue = Long.valueOf(content) + 1;
         } catch (Exception e) {
-            log.error("exception.", e);
-        } finally {
-            lock.unlock();
+          log.error("read file fail, reset to zero.");
+          nextValue = 0;
         }
 
-
-        return 0;
+      }
+      //write to file
+      Files.write("" + nextValue, seqFile, Charsets.UTF_8);
+      return nextValue;
+    } catch (Exception e) {
+      log.error("exception.", e);
+    } finally {
+      lock.unlock();
     }
+
+
+    return 0;
+  }
 }

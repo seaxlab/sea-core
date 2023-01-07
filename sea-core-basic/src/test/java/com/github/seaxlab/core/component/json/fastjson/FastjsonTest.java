@@ -17,14 +17,14 @@ import org.junit.Test;
 public class FastjsonTest extends BaseCoreTest {
 
 
-    @Test
-    public void testSerialize() throws Exception {
-        A a = new A();
-        a.setId(1L);
-        a.setName("tt");
-        a.setPassword("123456");
-        log.info("a={}", JSON.toJSONString(a));
-    }
+  @Test
+  public void testSerialize() throws Exception {
+    A a = new A();
+    a.setId(1L);
+    a.setName("tt");
+    a.setPassword("123456");
+    log.info("a={}", JSON.toJSONString(a));
+  }
 
 
 }

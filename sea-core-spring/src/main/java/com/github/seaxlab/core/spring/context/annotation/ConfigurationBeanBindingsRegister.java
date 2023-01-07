@@ -17,28 +17,28 @@ import org.springframework.util.Assert;
  */
 public class ConfigurationBeanBindingsRegister implements ImportBeanDefinitionRegistrar, EnvironmentAware {
 
-    private ConfigurableEnvironment environment;
+  private ConfigurableEnvironment environment;
 
-    @Override
-    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+  @Override
+  public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
 
-        AnnotationAttributes attributes = AnnotationAttributes.fromMap(
-                importingClassMetadata.getAnnotationAttributes(EnableConfigurationBeanBindings.class.getName()));
+    AnnotationAttributes attributes = AnnotationAttributes.fromMap(
+      importingClassMetadata.getAnnotationAttributes(EnableConfigurationBeanBindings.class.getName()));
 
-        AnnotationAttributes[] annotationAttributes = attributes.getAnnotationArray("value");
+    AnnotationAttributes[] annotationAttributes = attributes.getAnnotationArray("value");
 
-        ConfigurationBeanBindingRegister registrar = new ConfigurationBeanBindingRegister();
+    ConfigurationBeanBindingRegister registrar = new ConfigurationBeanBindingRegister();
 
-        registrar.setEnvironment(environment);
+    registrar.setEnvironment(environment);
 
-        for (AnnotationAttributes element : annotationAttributes) {
-            registrar.registerConfigurationBeanDefinitions(element, registry);
-        }
+    for (AnnotationAttributes element : annotationAttributes) {
+      registrar.registerConfigurationBeanDefinitions(element, registry);
     }
+  }
 
-    @Override
-    public void setEnvironment(Environment environment) {
-        Assert.isInstanceOf(ConfigurableEnvironment.class, environment);
-        this.environment = (ConfigurableEnvironment) environment;
-    }
+  @Override
+  public void setEnvironment(Environment environment) {
+    Assert.isInstanceOf(ConfigurableEnvironment.class, environment);
+    this.environment = (ConfigurableEnvironment) environment;
+  }
 }

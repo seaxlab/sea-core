@@ -15,9 +15,9 @@ import org.junit.Test;
 @Slf4j
 public class HeapDumpManagerTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        HeapDumpManager heapDumpManager = new HeapDumpManager();
-        heapDumpManager.heapDump(true);
-    }
+  @Test
+  public void run17() throws Exception {
+    HeapDumpManager heapDumpManager = new HeapDumpManager();
+    heapDumpManager.heapDump(true);
+  }
 }

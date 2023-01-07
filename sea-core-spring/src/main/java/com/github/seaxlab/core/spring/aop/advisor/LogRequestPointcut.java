@@ -14,8 +14,8 @@ import java.lang.reflect.Method;
  * @since 1.0
  */
 public class LogRequestPointcut extends StaticMethodMatcherPointcut {
-    @Override
-    public boolean matches(Method method, Class<?> targetClass) {
-        return AnnotatedElementUtils.hasAnnotation(method, LogRequest.class);
-    }
+  @Override
+  public boolean matches(Method method, Class<?> targetClass) {
+    return AnnotatedElementUtils.hasAnnotation(method, LogRequest.class);
+  }
 }

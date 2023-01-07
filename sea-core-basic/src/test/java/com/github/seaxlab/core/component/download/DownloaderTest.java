@@ -18,36 +18,36 @@ import org.junit.Test;
 @Slf4j
 public class DownloaderTest extends BaseCoreTest {
 
-    String file1 = "https://download.jetbrains.8686c.com/idea/ideaIU-2020.3.dmg";
-    String file2 = "https://downloads.gradle-dn.com/distributions/gradle-6.7.1-bin.zip";
+  String file1 = "https://download.jetbrains.8686c.com/idea/ideaIU-2020.3.dmg";
+  String file2 = "https://downloads.gradle-dn.com/distributions/gradle-6.7.1-bin.zip";
 
-    @Before
-    public void before() throws Exception {
-        super.before();
-    }
+  @Before
+  public void before() throws Exception {
+    super.before();
+  }
 
-    @Test
-    public void simpleDownloaderTest() throws Exception {
-        DownloaderDTO dto = new DownloaderDTO();
-        dto.setRemoteFileUrl(file2);
-        dto.setNewDir(getUserHome() + "/sea");
-        dto.setNewFileName("download-simple.zip");
-        dto.setOverwrite(true);
+  @Test
+  public void simpleDownloaderTest() throws Exception {
+    DownloaderDTO dto = new DownloaderDTO();
+    dto.setRemoteFileUrl(file2);
+    dto.setNewDir(getUserHome() + "/sea");
+    dto.setNewFileName("download-simple.zip");
+    dto.setOverwrite(true);
 
-        Downloader downloader = new SimpleDownloader();
-        downloader.execute(dto);
-    }
+    Downloader downloader = new SimpleDownloader();
+    downloader.execute(dto);
+  }
 
-    @Test
-    public void multiThreadDownloadTest() throws Exception {
+  @Test
+  public void multiThreadDownloadTest() throws Exception {
 
-        DownloaderDTO dto = new DownloaderDTO();
-        dto.setRemoteFileUrl(file2);
-        dto.setNewDir(getUserHome() + "/sea");
-        dto.setNewFileName("download-bigfile.zip");
-        dto.setOverwrite(true);
+    DownloaderDTO dto = new DownloaderDTO();
+    dto.setRemoteFileUrl(file2);
+    dto.setNewDir(getUserHome() + "/sea");
+    dto.setNewFileName("download-bigfile.zip");
+    dto.setOverwrite(true);
 
-        Downloader downloader = new MultiThreadDownloader();
-        downloader.execute(dto);
-    }
+    Downloader downloader = new MultiThreadDownloader();
+    downloader.execute(dto);
+  }
 }

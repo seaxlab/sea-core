@@ -14,10 +14,10 @@ import org.junit.Test;
 @Slf4j
 public class Function0Test extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
-        Function0 function0 = () -> log.info("function0 execute.");
-        function0.execute();
+  @Test
+  public void test17() throws Exception {
+    Function0 function0 = () -> log.info("function0 execute.");
+    function0.execute();
 
-    }
+  }
 }

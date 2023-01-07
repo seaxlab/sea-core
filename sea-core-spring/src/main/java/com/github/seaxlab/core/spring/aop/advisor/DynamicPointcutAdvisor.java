@@ -14,24 +14,24 @@ import org.springframework.aop.support.AbstractBeanFactoryPointcutAdvisor;
  */
 @Slf4j
 public class DynamicPointcutAdvisor extends AbstractBeanFactoryPointcutAdvisor {
-    /**
-     * 表达式
-     */
-    private String expression;
+  /**
+   * 表达式
+   */
+  private String expression;
 
-    public DynamicPointcutAdvisor(String expression) {
-        this.expression = expression;
-    }
+  public DynamicPointcutAdvisor(String expression) {
+    this.expression = expression;
+  }
 
-    public Pointcut aspectJExpressionPointcut() {
-        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        pointcut.setExpression(this.expression);
-        return pointcut;
-    }
+  public Pointcut aspectJExpressionPointcut() {
+    AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+    pointcut.setExpression(this.expression);
+    return pointcut;
+  }
 
-    @Override
-    public Pointcut getPointcut() {
-        return aspectJExpressionPointcut();
-    }
+  @Override
+  public Pointcut getPointcut() {
+    return aspectJExpressionPointcut();
+  }
 
 }

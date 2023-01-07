@@ -1,14 +1,15 @@
 package com.github.seaxlab.core.component.buffertrigger;
 
-import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import com.github.seaxlab.core.BaseCoreTest;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
+
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * module name
@@ -23,10 +24,10 @@ public class BatchBlockingBufferTriggerTest extends BaseCoreTest {
   private volatile boolean check = true;
   private volatile boolean failed;
   private final BufferTrigger<Integer> trigger = BufferTrigger.<Integer>batchBlocking()//
-    .batchSize(100) //
-    .bufferSize(1000) //
-    .setConsumerEx(this::consumer) //
-    .linger(3, SECONDS).build();
+                                                              .batchSize(100) //
+                                                              .bufferSize(1000) //
+                                                              .setConsumerEx(this::consumer) //
+                                                              .linger(3, SECONDS).build();
 
   @Test
   public void test() {

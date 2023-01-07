@@ -19,13 +19,13 @@ import java.util.concurrent.TimeUnit;
 @DisallowConcurrentExecution
 public class MyJob implements Job {
 
-    public void execute(JobExecutionContext jobExecutionContext) {
-        JobDetail jobDetail = jobExecutionContext.getJobDetail();
-        log.info("job={},doing something.", jobDetail.getJobDataMap().getString("jobId"));
-        try {
-            TimeUnit.SECONDS.sleep(10);
-        } catch (Exception e) {
+  public void execute(JobExecutionContext jobExecutionContext) {
+    JobDetail jobDetail = jobExecutionContext.getJobDetail();
+    log.info("job={},doing something.", jobDetail.getJobDataMap().getString("jobId"));
+    try {
+      TimeUnit.SECONDS.sleep(10);
+    } catch (Exception e) {
 
-        }
     }
+  }
 }

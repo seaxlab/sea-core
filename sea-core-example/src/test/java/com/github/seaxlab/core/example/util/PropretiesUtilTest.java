@@ -16,9 +16,9 @@ import java.util.Properties;
 @Slf4j
 public class PropretiesUtilTest {
 
-    @Test
-    public void run16() throws Exception {
-        Properties props = PropertiesUtil.load("my.properties");
-        log.info("props={}", props);
-    }
+  @Test
+  public void run16() throws Exception {
+    Properties props = PropertiesUtil.load("my.properties");
+    log.info("props={}", props);
+  }
 }

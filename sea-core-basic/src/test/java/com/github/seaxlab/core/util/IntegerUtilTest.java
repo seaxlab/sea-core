@@ -14,17 +14,17 @@ import org.junit.Test;
 @Slf4j
 public class IntegerUtilTest extends BaseCoreTest {
 
-    @Test
-    public void testSplit() throws Exception {
-        String str = "1, 2, 3,, ,";
-        Integer[] values = IntegerUtil.split(str, ',');
-        log.info("values={}", ListUtil.toList(values));
-    }
+  @Test
+  public void testSplit() throws Exception {
+    String str = "1, 2, 3,, ,";
+    Integer[] values = IntegerUtil.split(str, ',');
+    log.info("values={}", ListUtil.toList(values));
+  }
 
-    @Test
-    public void testParse() throws Exception {
-        String number = "0x1b";
-        log.info("{}={}", number, Integer.valueOf(number));
+  @Test
+  public void testParse() throws Exception {
+    String number = "0x1b";
+    log.info("{}={}", number, Integer.valueOf(number));
 //        log.info("{}={}", number, Integer.parseInt(number));
-    }
+  }
 }

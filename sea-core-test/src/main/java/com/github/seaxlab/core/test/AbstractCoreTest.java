@@ -13,26 +13,26 @@ import org.junit.BeforeClass;
  */
 public abstract class AbstractCoreTest extends AbstractCoreSuperTest {
 
-    private static Stopwatch _stopwatch;
+  private static Stopwatch _stopwatch;
 
-    /**
-     * you can use it, anywhere.
-     */
-    protected Stopwatch stopwatch = Stopwatch.createStarted();
+  /**
+   * you can use it, anywhere.
+   */
+  protected Stopwatch stopwatch = Stopwatch.createStarted();
 
 
-    @BeforeClass
-    public static void testBefore() {
-        _stopwatch = Stopwatch.createStarted();
-        System.out.println("-------------------- test begin ------------------");
-    }
+  @BeforeClass
+  public static void testBefore() {
+    _stopwatch = Stopwatch.createStarted();
+    System.out.println("-------------------- test begin ------------------");
+  }
 
-    @AfterClass
-    public static void testEnd() {
-        _stopwatch.stop();
-        System.out.println("\ncost: " + _stopwatch.toString());
-        System.out.println("-------------------- test  end  ------------------");
-    }
+  @AfterClass
+  public static void testEnd() {
+    _stopwatch.stop();
+    System.out.println("\ncost: " + _stopwatch.toString());
+    System.out.println("-------------------- test  end  ------------------");
+  }
 
 
 }

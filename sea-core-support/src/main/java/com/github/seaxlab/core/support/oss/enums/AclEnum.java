@@ -8,6 +8,6 @@ package com.github.seaxlab.core.support.oss.enums;
  * @since 1.0
  */
 public enum AclEnum {
-    PUBLIC,
-    PRIVATE;
+  PUBLIC,
+  PRIVATE;
 }

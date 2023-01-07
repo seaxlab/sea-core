@@ -9,8 +9,8 @@ package com.github.seaxlab.core.loader;
  */
 public interface Initialize {
 
-    /**
-     * 初始化方法
-     */
-    void init();
+  /**
+   * 初始化方法
+   */
+  void init();
 }

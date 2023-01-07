@@ -20,9 +20,9 @@ import org.springframework.test.context.ContextConfiguration;
 @Rollback(false)
 public class BasePlusTest extends AbstractCoreSpringTest {
 
-    @Bean
-    public ISqlInjector EnhanceSqlInjector() {
-        return new EnhanceSqlInjector();
-    }
+  @Bean
+  public ISqlInjector EnhanceSqlInjector() {
+    return new EnhanceSqlInjector();
+  }
 
 }

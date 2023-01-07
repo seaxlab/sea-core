@@ -13,11 +13,11 @@ import java.util.Map;
 @Component("seaCoreExtensionRepository")
 public class ExtensionRepository {
 
-    public Map<ExtensionCoordinate, IExtensionPoint> getExtensionRepo() {
-        return extensionRepo;
-    }
+  public Map<ExtensionCoordinate, IExtensionPoint> getExtensionRepo() {
+    return extensionRepo;
+  }
 
-    private Map<ExtensionCoordinate, IExtensionPoint> extensionRepo = new HashMap<>();
+  private Map<ExtensionCoordinate, IExtensionPoint> extensionRepo = new HashMap<>();
 
 
 }

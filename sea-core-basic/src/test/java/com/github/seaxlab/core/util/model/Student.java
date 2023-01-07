@@ -13,5 +13,5 @@ import java.io.Serializable;
  */
 @Data
 public class Student implements Serializable {
-    private Long id;
+  private Long id;
 }

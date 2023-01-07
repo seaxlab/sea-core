@@ -14,6 +14,6 @@ import java.util.List;
  */
 @Data
 public class Teacher implements Serializable {
-    private String name;
-    private List<Student> students;
+  private String name;
+  private List<Student> students;
 }

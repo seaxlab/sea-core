@@ -17,30 +17,30 @@ import java.io.IOException;
 @Slf4j
 public class CorsFilter implements Filter {
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("cors filter init");
-    }
+  @Override
+  public void init(FilterConfig filterConfig) throws ServletException {
+    log.info("cors filter init");
+  }
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        String originHeader = ((HttpServletRequest) request).getHeader("Origin");
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+    String originHeader = ((HttpServletRequest) request).getHeader("Origin");
+    HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-        // 必须放在chain.doFilter之前，否则会出现header设置不生效问题
-        // 若有端口需写全（协议+域名+端口）
-        httpServletResponse.setHeader("Access-Control-Allow-Origin", originHeader);
-        httpServletResponse.addHeader("Access-Control-Allow-Methods", "GET,HEAD,POST,PUT,DELETE,OPTIONS,PATCH");
-        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-        httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Sea-Mock,access_token,sea-token,token,x-requested-with,Content-Type");
+    // 必须放在chain.doFilter之前，否则会出现header设置不生效问题
+    // 若有端口需写全（协议+域名+端口）
+    httpServletResponse.setHeader("Access-Control-Allow-Origin", originHeader);
+    httpServletResponse.addHeader("Access-Control-Allow-Methods", "GET,HEAD,POST,PUT,DELETE,OPTIONS,PATCH");
+    httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+    httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
+    httpServletResponse.setHeader("Access-Control-Allow-Headers", "Sea-Mock,access_token,sea-token,token,x-requested-with,Content-Type");
 
-        chain.doFilter(request, response);
-    }
+    chain.doFilter(request, response);
+  }
 
-    @Override
-    public void destroy() {
+  @Override
+  public void destroy() {
 
-    }
+  }
 }

@@ -31,181 +31,181 @@ import static org.springframework.util.ObjectUtils.nullSafeEquals;
 @SuppressWarnings("unchecked")
 public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor, BeanFactoryAware, PriorityOrdered {
 
-    /**
-     * The bean name of {@link ConfigurationBeanBindingPostProcessor}
-     */
-    public static final String BEAN_NAME = "configurationBeanBindingPostProcessor";
+  /**
+   * The bean name of {@link ConfigurationBeanBindingPostProcessor}
+   */
+  public static final String BEAN_NAME = "configurationBeanBindingPostProcessor";
 
-    static final String CONFIGURATION_PROPERTIES_ATTRIBUTE_NAME = "configurationProperties";
+  static final String CONFIGURATION_PROPERTIES_ATTRIBUTE_NAME = "configurationProperties";
 
-    static final String IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME = "ignoreUnknownFields";
+  static final String IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME = "ignoreUnknownFields";
 
-    static final String IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME = "ignoreInvalidFields";
+  static final String IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME = "ignoreInvalidFields";
 
-    private final Log log = LogFactory.getLog(getClass());
+  private final Log log = LogFactory.getLog(getClass());
 
-    private ConfigurableListableBeanFactory beanFactory = null;
+  private ConfigurableListableBeanFactory beanFactory = null;
 
-    private ConfigurationBeanBinder configurationBeanBinder = null;
+  private ConfigurationBeanBinder configurationBeanBinder = null;
 
-    private List<ConfigurationBeanCustomizer> configurationBeanCustomizers = null;
+  private List<ConfigurationBeanCustomizer> configurationBeanCustomizers = null;
 
-    private int order = LOWEST_PRECEDENCE;
+  private int order = LOWEST_PRECEDENCE;
 
-    @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+  @Override
+  public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 
-        BeanDefinition beanDefinition = getNullableBeanDefinition(beanName);
+    BeanDefinition beanDefinition = getNullableBeanDefinition(beanName);
 
-        if (isConfigurationBean(bean, beanDefinition)) {
-            bindConfigurationBean(bean, beanDefinition);
-            customize(beanName, bean);
-        }
-
-        return bean;
+    if (isConfigurationBean(bean, beanDefinition)) {
+      bindConfigurationBean(bean, beanDefinition);
+      customize(beanName, bean);
     }
 
-    @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
+    return bean;
+  }
+
+  @Override
+  public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    return bean;
+  }
+
+  /**
+   * Set the order for current instance
+   *
+   * @param order the order
+   */
+  public void setOrder(int order) {
+    this.order = order;
+  }
+
+  public ConfigurationBeanBinder getConfigurationBeanBinder() {
+    if (configurationBeanBinder == null) {
+      initConfigurationBeanBinder();
     }
+    return configurationBeanBinder;
+  }
 
-    /**
-     * Set the order for current instance
-     *
-     * @param order the order
-     */
-    public void setOrder(int order) {
-        this.order = order;
+  public void setConfigurationBeanBinder(ConfigurationBeanBinder configurationBeanBinder) {
+    this.configurationBeanBinder = configurationBeanBinder;
+  }
+
+  /**
+   * Get the {@link List} of {@link ConfigurationBeanCustomizer ConfigurationBeanCustomizers}
+   *
+   * @return non-null
+   * @since 1.0.6
+   */
+  public List<ConfigurationBeanCustomizer> getConfigurationBeanCustomizers() {
+    if (configurationBeanCustomizers == null) {
+      initBindConfigurationBeanCustomizers();
     }
+    return configurationBeanCustomizers;
+  }
 
-    public ConfigurationBeanBinder getConfigurationBeanBinder() {
-        if (configurationBeanBinder == null) {
-            initConfigurationBeanBinder();
-        }
-        return configurationBeanBinder;
+  public void setConfigurationBeanCustomizers(Collection<ConfigurationBeanCustomizer> configurationBeanCustomizers) {
+    List<ConfigurationBeanCustomizer> customizers =
+      new ArrayList<ConfigurationBeanCustomizer>(configurationBeanCustomizers);
+    sort(customizers);
+    this.configurationBeanCustomizers = Collections.unmodifiableList(customizers);
+  }
+
+  private BeanDefinition getNullableBeanDefinition(String beanName) {
+    return beanFactory.containsBeanDefinition(beanName) ? beanFactory.getBeanDefinition(beanName) : null;
+  }
+
+  private boolean isConfigurationBean(Object bean, BeanDefinition beanDefinition) {
+    return beanDefinition != null &&
+      ConfigurationBeanBindingRegister.ENABLE_CONFIGURATION_BINDING_CLASS.equals(beanDefinition.getSource())
+      && nullSafeEquals(getBeanClassName(bean), beanDefinition.getBeanClassName());
+  }
+
+  private String getBeanClassName(Object bean) {
+    return getUserClass(bean.getClass()).getName();
+  }
+
+  private void bindConfigurationBean(Object configurationBean, BeanDefinition beanDefinition) {
+
+    Map<String, Object> configurationProperties = getConfigurationProperties(beanDefinition);
+
+    boolean ignoreUnknownFields = getIgnoreUnknownFields(beanDefinition);
+
+    boolean ignoreInvalidFields = getIgnoreInvalidFields(beanDefinition);
+
+    getConfigurationBeanBinder().bind(configurationProperties, ignoreUnknownFields, ignoreInvalidFields, configurationBean);
+
+    if (log.isInfoEnabled()) {
+      log.info("The configuration bean [" + configurationBean + "] have been binding by the " +
+        "configuration properties [" + configurationProperties + "]");
     }
+  }
 
-    public void setConfigurationBeanBinder(ConfigurationBeanBinder configurationBeanBinder) {
-        this.configurationBeanBinder = configurationBeanBinder;
-    }
-
-    /**
-     * Get the {@link List} of {@link ConfigurationBeanCustomizer ConfigurationBeanCustomizers}
-     *
-     * @return non-null
-     * @since 1.0.6
-     */
-    public List<ConfigurationBeanCustomizer> getConfigurationBeanCustomizers() {
-        if (configurationBeanCustomizers == null) {
-            initBindConfigurationBeanCustomizers();
-        }
-        return configurationBeanCustomizers;
-    }
-
-    public void setConfigurationBeanCustomizers(Collection<ConfigurationBeanCustomizer> configurationBeanCustomizers) {
-        List<ConfigurationBeanCustomizer> customizers =
-                new ArrayList<ConfigurationBeanCustomizer>(configurationBeanCustomizers);
-        sort(customizers);
-        this.configurationBeanCustomizers = Collections.unmodifiableList(customizers);
-    }
-
-    private BeanDefinition getNullableBeanDefinition(String beanName) {
-        return beanFactory.containsBeanDefinition(beanName) ? beanFactory.getBeanDefinition(beanName) : null;
-    }
-
-    private boolean isConfigurationBean(Object bean, BeanDefinition beanDefinition) {
-        return beanDefinition != null &&
-                ConfigurationBeanBindingRegister.ENABLE_CONFIGURATION_BINDING_CLASS.equals(beanDefinition.getSource())
-                && nullSafeEquals(getBeanClassName(bean), beanDefinition.getBeanClassName());
-    }
-
-    private String getBeanClassName(Object bean) {
-        return getUserClass(bean.getClass()).getName();
-    }
-
-    private void bindConfigurationBean(Object configurationBean, BeanDefinition beanDefinition) {
-
-        Map<String, Object> configurationProperties = getConfigurationProperties(beanDefinition);
-
-        boolean ignoreUnknownFields = getIgnoreUnknownFields(beanDefinition);
-
-        boolean ignoreInvalidFields = getIgnoreInvalidFields(beanDefinition);
-
-        getConfigurationBeanBinder().bind(configurationProperties, ignoreUnknownFields, ignoreInvalidFields, configurationBean);
-
+  private void initConfigurationBeanBinder() {
+    if (configurationBeanBinder == null) {
+      try {
+        configurationBeanBinder = beanFactory.getBean(ConfigurationBeanBinder.class);
+      } catch (BeansException ignored) {
         if (log.isInfoEnabled()) {
-            log.info("The configuration bean [" + configurationBean + "] have been binding by the " +
-                    "configuration properties [" + configurationProperties + "]");
+          log.info("configurationBeanBinder Bean can't be found in ApplicationContext.");
         }
+        // Use Default implementation
+        configurationBeanBinder = defaultConfigurationBeanBinder();
+      }
     }
+  }
 
-    private void initConfigurationBeanBinder() {
-        if (configurationBeanBinder == null) {
-            try {
-                configurationBeanBinder = beanFactory.getBean(ConfigurationBeanBinder.class);
-            } catch (BeansException ignored) {
-                if (log.isInfoEnabled()) {
-                    log.info("configurationBeanBinder Bean can't be found in ApplicationContext.");
-                }
-                // Use Default implementation
-                configurationBeanBinder = defaultConfigurationBeanBinder();
-            }
-        }
-    }
+  private void initBindConfigurationBeanCustomizers() {
+    Collection<ConfigurationBeanCustomizer> customizers =
+      beansOfTypeIncludingAncestors(beanFactory, ConfigurationBeanCustomizer.class).values();
+    setConfigurationBeanCustomizers(customizers);
+  }
 
-    private void initBindConfigurationBeanCustomizers() {
-        Collection<ConfigurationBeanCustomizer> customizers =
-                beansOfTypeIncludingAncestors(beanFactory, ConfigurationBeanCustomizer.class).values();
-        setConfigurationBeanCustomizers(customizers);
+  private void customize(String beanName, Object configurationBean) {
+    for (ConfigurationBeanCustomizer customizer : getConfigurationBeanCustomizers()) {
+      customizer.customize(beanName, configurationBean);
     }
+  }
 
-    private void customize(String beanName, Object configurationBean) {
-        for (ConfigurationBeanCustomizer customizer : getConfigurationBeanCustomizers()) {
-            customizer.customize(beanName, configurationBean);
-        }
-    }
+  /**
+   * Create {@link ConfigurationBeanBinder} instance.
+   *
+   * @return {@link DefaultConfigurationBeanBinder}
+   */
+  private ConfigurationBeanBinder defaultConfigurationBeanBinder() {
+    return new DefaultConfigurationBeanBinder();
+  }
 
-    /**
-     * Create {@link ConfigurationBeanBinder} instance.
-     *
-     * @return {@link DefaultConfigurationBeanBinder}
-     */
-    private ConfigurationBeanBinder defaultConfigurationBeanBinder() {
-        return new DefaultConfigurationBeanBinder();
-    }
+  static void initBeanMetadataAttributes(AbstractBeanDefinition beanDefinition,
+                                         Map<String, Object> configurationProperties,
+                                         boolean ignoreUnknownFields, boolean ignoreInvalidFields) {
+    beanDefinition.setAttribute(CONFIGURATION_PROPERTIES_ATTRIBUTE_NAME, configurationProperties);
+    beanDefinition.setAttribute(IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME, ignoreUnknownFields);
+    beanDefinition.setAttribute(IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME, ignoreInvalidFields);
+  }
 
-    static void initBeanMetadataAttributes(AbstractBeanDefinition beanDefinition,
-                                           Map<String, Object> configurationProperties,
-                                           boolean ignoreUnknownFields, boolean ignoreInvalidFields) {
-        beanDefinition.setAttribute(CONFIGURATION_PROPERTIES_ATTRIBUTE_NAME, configurationProperties);
-        beanDefinition.setAttribute(IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME, ignoreUnknownFields);
-        beanDefinition.setAttribute(IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME, ignoreInvalidFields);
-    }
+  private static <T> T getAttribute(BeanDefinition beanDefinition, String attributeName) {
+    return (T) beanDefinition.getAttribute(attributeName);
+  }
 
-    private static <T> T getAttribute(BeanDefinition beanDefinition, String attributeName) {
-        return (T) beanDefinition.getAttribute(attributeName);
-    }
+  private static Map<String, Object> getConfigurationProperties(BeanDefinition beanDefinition) {
+    return getAttribute(beanDefinition, CONFIGURATION_PROPERTIES_ATTRIBUTE_NAME);
+  }
 
-    private static Map<String, Object> getConfigurationProperties(BeanDefinition beanDefinition) {
-        return getAttribute(beanDefinition, CONFIGURATION_PROPERTIES_ATTRIBUTE_NAME);
-    }
+  private static boolean getIgnoreUnknownFields(BeanDefinition beanDefinition) {
+    return getAttribute(beanDefinition, IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME);
+  }
 
-    private static boolean getIgnoreUnknownFields(BeanDefinition beanDefinition) {
-        return getAttribute(beanDefinition, IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME);
-    }
+  private static boolean getIgnoreInvalidFields(BeanDefinition beanDefinition) {
+    return getAttribute(beanDefinition, IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME);
+  }
 
-    private static boolean getIgnoreInvalidFields(BeanDefinition beanDefinition) {
-        return getAttribute(beanDefinition, IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME);
-    }
+  @Override
+  public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+    this.beanFactory = WrapperUtil.unwrap(beanFactory);
+  }
 
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = WrapperUtil.unwrap(beanFactory);
-    }
-
-    @Override
-    public int getOrder() {
-        return order;
-    }
+  @Override
+  public int getOrder() {
+    return order;
+  }
 }

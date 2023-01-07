@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 public class MyService extends BaseSpringTest {
 
-    @Test
-    public void run17() throws Exception {
-        log.error("----");
-    }
+  @Test
+  public void run17() throws Exception {
+    log.error("----");
+  }
 }

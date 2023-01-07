@@ -17,63 +17,63 @@ import java.util.Properties;
 @Slf4j
 public final class MessageUtil {
 
-    private MessageUtil() {
-    }
+  private MessageUtil() {
+  }
 
-    /**
-     * 使用{}格式化信息
-     *
-     * @param messagePattern 模板字符串，使用{}作为占位符
-     * @param args           参数列表
-     * @return
-     */
-    public static String format(String messagePattern, Object... args) {
-        return MessageFormatter.arrayFormat(messagePattern, args).getMessage();
-    }
+  /**
+   * 使用{}格式化信息
+   *
+   * @param messagePattern 模板字符串，使用{}作为占位符
+   * @param args           参数列表
+   * @return
+   */
+  public static String format(String messagePattern, Object... args) {
+    return MessageFormatter.arrayFormat(messagePattern, args).getMessage();
+  }
 
-    public static String append(String str, String str2) {
-        return append(str, str2, ";");
-    }
+  public static String append(String str, String str2) {
+    return append(str, str2, ";");
+  }
 
-    public static String append(String str, String str2, String splitChar) {
-        if (StringUtil.isEmpty(str)) {
-            return str2;
-        }
-        return new StringBuilder(str).append(splitChar).append(str2).toString();
+  public static String append(String str, String str2, String splitChar) {
+    if (StringUtil.isEmpty(str)) {
+      return str2;
     }
+    return new StringBuilder(str).append(splitChar).append(str2).toString();
+  }
 
-    /**
-     * 使用索引{N}进行格式化信息
-     *
-     * @param messagePattern 模板字符串，使用{N}作为占位符,N从0开始
-     * @param args           参数列表
-     * @return
-     */
-    public static String formatByIndex(String messagePattern, Object... args) {
-        return MessageFormat.format(messagePattern, args);
-    }
+  /**
+   * 使用索引{N}进行格式化信息
+   *
+   * @param messagePattern 模板字符串，使用{N}作为占位符,N从0开始
+   * @param args           参数列表
+   * @return
+   */
+  public static String formatByIndex(String messagePattern, Object... args) {
+    return MessageFormat.format(messagePattern, args);
+  }
 
-    /**
-     * 支持${xx}替换
-     *
-     * @param messagePattern message pattern
-     * @param params         params
-     * @return
-     */
-    public static String replace(String messagePattern, Map<String, String> params) {
-        return PlaceholderUtil.INSTANCE.replace(messagePattern, params);
-    }
+  /**
+   * 支持${xx}替换
+   *
+   * @param messagePattern message pattern
+   * @param params         params
+   * @return
+   */
+  public static String replace(String messagePattern, Map<String, String> params) {
+    return PlaceholderUtil.INSTANCE.replace(messagePattern, params);
+  }
 
-    /**
-     * ${xxx}替换
-     *
-     * @param messagePattern message pattern
-     * @param properties     properties
-     * @return
-     */
-    public static String replace(String messagePattern, Properties properties) {
-        return PlaceholderUtil.INSTANCE.replace(messagePattern, properties);
-    }
+  /**
+   * ${xxx}替换
+   *
+   * @param messagePattern message pattern
+   * @param properties     properties
+   * @return
+   */
+  public static String replace(String messagePattern, Properties properties) {
+    return PlaceholderUtil.INSTANCE.replace(messagePattern, properties);
+  }
 
 
 }

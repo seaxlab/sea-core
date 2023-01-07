@@ -11,23 +11,23 @@ import com.github.seaxlab.core.lang.concurrent.ConcurrentReferenceHashMap;
  */
 public class SoftCache<K, V> extends ConcurrentReferenceHashMap<K, V> {
 
-    public SoftCache() {
-        super();
-    }
+  public SoftCache() {
+    super();
+  }
 
-    public SoftCache(int initialCapacity) {
-        super(initialCapacity);
-    }
+  public SoftCache(int initialCapacity) {
+    super(initialCapacity);
+  }
 
-    public SoftCache(int initialCapacity, float loadFactor) {
-        super(initialCapacity, loadFactor);
-    }
+  public SoftCache(int initialCapacity, float loadFactor) {
+    super(initialCapacity, loadFactor);
+  }
 
-    public SoftCache(int initialCapacity, int concurrencyLevel) {
-        super(initialCapacity, concurrencyLevel);
-    }
+  public SoftCache(int initialCapacity, int concurrencyLevel) {
+    super(initialCapacity, concurrencyLevel);
+  }
 
-    public SoftCache(int initialCapacity, float loadFactor, int concurrencyLevel) {
-        super(initialCapacity, loadFactor, concurrencyLevel);
-    }
+  public SoftCache(int initialCapacity, float loadFactor, int concurrencyLevel) {
+    super(initialCapacity, loadFactor, concurrencyLevel);
+  }
 }

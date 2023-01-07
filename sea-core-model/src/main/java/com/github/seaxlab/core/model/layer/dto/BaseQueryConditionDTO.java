@@ -1,12 +1,14 @@
 package com.github.seaxlab.core.model.layer.dto;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.List;
-import lombok.Data;
 
 /**
  * <p>
- * 扁平的查询语句<br/> and a=1 and c=2 or d=1
+ * 扁平的查询语句<br/>
+ * and a=1 and c=2 or d=1
  * </p>
  * <p>
  * 支持复杂条件：a=1 or (a=1 and b=1)
@@ -24,7 +26,6 @@ public class BaseQueryConditionDTO implements Serializable {
 
   @Data
   public static class ConditionDTO {
-
     // and/or
     private String mode;
     // 左右括号

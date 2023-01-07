@@ -24,43 +24,43 @@ public class HashedWheelTimerTest {
 //①：此时需要调度一个3s后执行的任务，显然应该加入到(2+3=5)的方格中，指针再走3次就可以执行了；
 //②：如果任务要在10s后执行，应该等指针走完一个round零2格再执行，因此应放入4，同时将round(1)保存到任务中。检查到期任务时应当只执行round为0的，格子上其他任务的round应减1。
 
-    @Test
-    public void test1() throws Exception {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+  @Test
+  public void test1() throws Exception {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        HashedWheelTimer hashedWheelTimer = new HashedWheelTimer(100, TimeUnit.MILLISECONDS);
+    HashedWheelTimer hashedWheelTimer = new HashedWheelTimer(100, TimeUnit.MILLISECONDS);
 
-        System.out.println("start:" + LocalDateTime.now().format(formatter));
+    System.out.println("start:" + LocalDateTime.now().format(formatter));
 
-        hashedWheelTimer.newTimeout(timeout -> {
-            System.out.println("task :" + LocalDateTime.now().format(formatter));
-        }, 3, TimeUnit.SECONDS);
+    hashedWheelTimer.newTimeout(timeout -> {
+      System.out.println("task :" + LocalDateTime.now().format(formatter));
+    }, 3, TimeUnit.SECONDS);
 
-        Thread.sleep(30 * 1000);
-    }
+    Thread.sleep(30 * 1000);
+  }
 
-    //可以看到，当前一个任务执行时间过长的时候，会影响后续任务的到期执行时间的。也就是说其中的任务是串行执行的。所以，要求里面的任务都要短平快。
-    @Test
-    public void test2() throws Exception {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        HashedWheelTimer hashedWheelTimer = new HashedWheelTimer(100, TimeUnit.MILLISECONDS);
+  //可以看到，当前一个任务执行时间过长的时候，会影响后续任务的到期执行时间的。也就是说其中的任务是串行执行的。所以，要求里面的任务都要短平快。
+  @Test
+  public void test2() throws Exception {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    HashedWheelTimer hashedWheelTimer = new HashedWheelTimer(100, TimeUnit.MILLISECONDS);
 
-        System.out.println("start:" + LocalDateTime.now().format(formatter));
+    System.out.println("start:" + LocalDateTime.now().format(formatter));
 
-        // 执行加延迟3+3=6s
-        hashedWheelTimer.newTimeout(timeout -> {
-            log.info("timeout={}", timeout);
-            Thread.sleep(3000);
-            System.out.println("task1:" + LocalDateTime.now().format(formatter));
-        }, 3, TimeUnit.SECONDS);
+    // 执行加延迟3+3=6s
+    hashedWheelTimer.newTimeout(timeout -> {
+      log.info("timeout={}", timeout);
+      Thread.sleep(3000);
+      System.out.println("task1:" + LocalDateTime.now().format(formatter));
+    }, 3, TimeUnit.SECONDS);
 
-        hashedWheelTimer.newTimeout(timeout -> System.out.println("task2:" + LocalDateTime.now().format(formatter)), 5, TimeUnit.SECONDS);
+    hashedWheelTimer.newTimeout(timeout -> System.out.println("task2:" + LocalDateTime.now().format(formatter)), 5, TimeUnit.SECONDS);
 
-        Thread.sleep(30 * 1000);
+    Thread.sleep(30 * 1000);
 
 //        start:2020-10-15 09:53:27
 //        task1:2020-10-15 09:53:33
 //        task2:2020-10-15 09:53:33
 
-    }
+  }
 }

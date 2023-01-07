@@ -15,14 +15,14 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class Crc32Util {
 
-    /**
-     * hash crc32
-     *
-     * @param data
-     * @return
-     */
-    public static final int hash(String data) {
-        return Hashing.crc32().hashString(data, StandardCharsets.UTF_8).hashCode();
-    }
+  /**
+   * hash crc32
+   *
+   * @param data
+   * @return
+   */
+  public static final int hash(String data) {
+    return Hashing.crc32().hashString(data, StandardCharsets.UTF_8).hashCode();
+  }
 
 }

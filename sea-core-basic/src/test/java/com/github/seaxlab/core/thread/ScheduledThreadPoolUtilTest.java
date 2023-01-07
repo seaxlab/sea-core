@@ -18,21 +18,21 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class ScheduledThreadPoolUtilTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
+  @Test
+  public void test17() throws Exception {
 
-        ScheduledThreadPoolExecutor stpe = ScheduledThreadPoolUtil.get("sea-test-sch");
+    ScheduledThreadPoolExecutor stpe = ScheduledThreadPoolUtil.get("sea-test-sch");
 
-        // 只执行一次
-        stpe.schedule(() -> {
-            log.info("----run");
-        }, 5, TimeUnit.SECONDS);
+    // 只执行一次
+    stpe.schedule(() -> {
+      log.info("----run");
+    }, 5, TimeUnit.SECONDS);
 
-        // 周期性执行
-        stpe.scheduleAtFixedRate(() -> {
-            log.info("zzzz");
-        }, 5, 5, TimeUnit.SECONDS);
-        sleepSecond(30);
-    }
+    // 周期性执行
+    stpe.scheduleAtFixedRate(() -> {
+      log.info("zzzz");
+    }, 5, 5, TimeUnit.SECONDS);
+    sleepSecond(30);
+  }
 
 }

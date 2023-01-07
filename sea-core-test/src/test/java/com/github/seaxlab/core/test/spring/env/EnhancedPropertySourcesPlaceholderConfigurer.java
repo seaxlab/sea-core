@@ -20,40 +20,40 @@ import java.util.List;
  */
 @Slf4j
 public class EnhancedPropertySourcesPlaceholderConfigurer extends PropertySourcesPlaceholderConfigurer
-        implements EnvironmentAware, InitializingBean {
+  implements EnvironmentAware, InitializingBean {
 
-    private Environment environment;
-    private List<PropertySource> sourceList;
+  private Environment environment;
+  private List<PropertySource> sourceList;
 
-    // Allow setting property sources as a List for easier XML configuration
-    public void setPropertySources(List<PropertySource> propertySources) {
+  // Allow setting property sources as a List for easier XML configuration
+  public void setPropertySources(List<PropertySource> propertySources) {
 
-        this.sourceList = propertySources;
-        MutablePropertySources sources = new MutablePropertySources();
-        copyListToPropertySources(this.sourceList, sources);
-        super.setPropertySources(sources);
+    this.sourceList = propertySources;
+    MutablePropertySources sources = new MutablePropertySources();
+    copyListToPropertySources(this.sourceList, sources);
+    super.setPropertySources(sources);
+  }
+
+  @Override
+  public void setEnvironment(Environment environment) {
+    // save off Environment for later use
+    this.environment = environment;
+    super.setEnvironment(environment);
+  }
+
+  @Override
+  public void afterPropertiesSet() throws Exception {
+
+    // Copy property sources to Environment
+    MutablePropertySources envPropSources = ((ConfigurableEnvironment) environment).getPropertySources();
+    copyListToPropertySources(this.sourceList, envPropSources);
+  }
+
+  private void copyListToPropertySources(List<PropertySource> list, MutablePropertySources sources) {
+
+    // iterate in reverse order to insure ordering in property sources object
+    for (int i = list.size() - 1; i >= 0; i--) {
+      sources.addFirst(list.get(i));
     }
-
-    @Override
-    public void setEnvironment(Environment environment) {
-        // save off Environment for later use
-        this.environment = environment;
-        super.setEnvironment(environment);
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-
-        // Copy property sources to Environment
-        MutablePropertySources envPropSources = ((ConfigurableEnvironment) environment).getPropertySources();
-        copyListToPropertySources(this.sourceList, envPropSources);
-    }
-
-    private void copyListToPropertySources(List<PropertySource> list, MutablePropertySources sources) {
-
-        // iterate in reverse order to insure ordering in property sources object
-        for (int i = list.size() - 1; i >= 0; i--) {
-            sources.addFirst(list.get(i));
-        }
-    }
+  }
 }

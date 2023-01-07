@@ -18,30 +18,30 @@ import java.io.IOException;
  */
 public abstract class AbstractEnableConfigurationBeanBindingTest {
 
-    protected AnnotationConfigApplicationContext context;
+  protected AnnotationConfigApplicationContext context;
 
-    @Before
-    public void setUp() {
-        context = new AnnotationConfigApplicationContext();
-        context.register(getClass());
-        context.setEnvironment(new AbstractEnvironment() {
-            @Override
-            protected void customizePropertySources(MutablePropertySources propertySources) {
-                ResourceLoader resourceLoader = new DefaultResourceLoader();
-                ResourcePropertySource propertySource = null;
-                try {
-                    propertySource = new ResourcePropertySource("temp",
-                            resourceLoader.getResource("classpath:/enable-configuration-bean-binding.properties"));
-                } catch (IOException e) {
-                }
-                propertySources.addFirst(propertySource);
-            }
-        });
-        context.refresh();
-    }
+  @Before
+  public void setUp() {
+    context = new AnnotationConfigApplicationContext();
+    context.register(getClass());
+    context.setEnvironment(new AbstractEnvironment() {
+      @Override
+      protected void customizePropertySources(MutablePropertySources propertySources) {
+        ResourceLoader resourceLoader = new DefaultResourceLoader();
+        ResourcePropertySource propertySource = null;
+        try {
+          propertySource = new ResourcePropertySource("temp",
+                  resourceLoader.getResource("classpath:/enable-configuration-bean-binding.properties"));
+        } catch (IOException e) {
+        }
+        propertySources.addFirst(propertySource);
+      }
+    });
+    context.refresh();
+  }
 
-    @After
-    public void tearDown() {
-        context.close();
-    }
+  @After
+  public void tearDown() {
+    context.close();
+  }
 }

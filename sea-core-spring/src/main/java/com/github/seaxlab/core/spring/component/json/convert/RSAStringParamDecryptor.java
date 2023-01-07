@@ -13,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class RSAStringParamDecryptor implements JsonParamFieldConvertor<String, String> {
-    @Override
-    public String convert(JSON json, String[] paths, String value) throws Exception {
-        //TODO
-        return value;
-    }
+  @Override
+  public String convert(JSON json, String[] paths, String value) throws Exception {
+    //TODO
+    return value;
+  }
 }

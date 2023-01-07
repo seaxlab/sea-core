@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class Demo3Task {
 
-    //@Scheduled(cron = "*/10 * * * * *")
-    //public void queryFailTask() {
-    //    log.info("query fail task...");
-    //    ThreadUtil.sleepSecond(15);
-    //}
+  //@Scheduled(cron = "*/10 * * * * *")
+  //public void queryFailTask() {
+  //    log.info("query fail task...");
+  //    ThreadUtil.sleepSecond(15);
+  //}
 
 }

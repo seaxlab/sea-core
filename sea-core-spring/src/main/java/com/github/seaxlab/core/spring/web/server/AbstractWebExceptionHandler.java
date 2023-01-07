@@ -18,10 +18,10 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public abstract class AbstractWebExceptionHandler implements WebExceptionHandler {
 
-    @Override
-    public Mono<Void> handle(ServerWebExchange exchange, Throwable t) {
-        log.error("web exception", t);
-        ServerHttpResponse resp = exchange.getResponse();
+  @Override
+  public Mono<Void> handle(ServerWebExchange exchange, Throwable t) {
+    log.error("web exception", t);
+    ServerHttpResponse resp = exchange.getResponse();
 //        if (t instanceof StopAndResponseException) {
 //            StopAndResponseException ex = (StopAndResponseException) t;
 //            if (ex.getData() != null) {
@@ -38,8 +38,8 @@ public abstract class AbstractWebExceptionHandler implements WebExceptionHandler
 //            }
 //        }
 
-        Result result = Result.failMsg("service error, please contact administrator.");
+    Result result = Result.failMsg("service error, please contact administrator.");
 
-        return ResponseUtil.toJSON(resp, result);
-    }
+    return ResponseUtil.toJSON(resp, result);
+  }
 }

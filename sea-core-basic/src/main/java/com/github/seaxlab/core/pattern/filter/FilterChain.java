@@ -12,49 +12,49 @@ import java.util.List;
  */
 public class FilterChain<Request, Response> {
 
-    private final int index;
+  private final int index;
 
-    private final List<Filter> filters;
-    private final Delegate delegate;
+  private final List<Filter> filters;
+  private final Delegate delegate;
 
-    public FilterChain(List<Filter> filters, Delegate delegate) {
-        this.filters = filters;
-        this.delegate = delegate;
-        this.index = 0;
+  public FilterChain(List<Filter> filters, Delegate delegate) {
+    this.filters = filters;
+    this.delegate = delegate;
+    this.index = 0;
+  }
+
+  private FilterChain(FilterChain parent, int index) {
+    this.filters = parent.getFilters();
+    this.delegate = parent.getDelegate();
+    this.index = index;
+  }
+
+  public List<Filter> getFilters() {
+    return filters;
+  }
+
+  public Delegate getDelegate() {
+    return delegate;
+  }
+
+  public Response doFilter(Request request) throws Exception {
+    if (this.index < filters.size()) {
+      Filter filter = filters.get(this.index);
+      FilterChain chain = new FilterChain(this, this.index + 1);
+      return (Response) filter.doFilter(request, chain);
+    } else {
+      return (Response) delegate.invoke(request);
     }
+  }
 
-    private FilterChain(FilterChain parent, int index) {
-        this.filters = parent.getFilters();
-        this.delegate = parent.getDelegate();
-        this.index = index;
-    }
-
-    public List<Filter> getFilters() {
-        return filters;
-    }
-
-    public Delegate getDelegate() {
-        return delegate;
-    }
-
-    public Response doFilter(Request request) throws Exception {
-        if (this.index < filters.size()) {
-            Filter filter = filters.get(this.index);
-            FilterChain chain = new FilterChain(this, this.index + 1);
-            return (Response) filter.doFilter(request, chain);
-        } else {
-            return (Response) delegate.invoke(request);
-        }
-    }
-
-    public interface Delegate<Request, Response> {
-        /**
-         * invoke
-         *
-         * @param request
-         * @return
-         * @throws Exception
-         */
-        Response invoke(Request request) throws Exception;
-    }
+  public interface Delegate<Request, Response> {
+    /**
+     * invoke
+     *
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    Response invoke(Request request) throws Exception;
+  }
 }

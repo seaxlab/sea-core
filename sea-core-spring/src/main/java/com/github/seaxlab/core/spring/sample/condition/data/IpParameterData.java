@@ -12,10 +12,10 @@ import org.springframework.web.server.ServerWebExchange;
 @LoadLevel(name = "ip")
 public class IpParameterData implements ParameterData {
 
-    @Override
-    public String builder(final ConditionContext context, final String paramName) {
-        ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
-        return RequestUtil.getClientIpAddress(exchange.getRequest());
+  @Override
+  public String builder(final ConditionContext context, final String paramName) {
+    ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
+    return RequestUtil.getClientIpAddress(exchange.getRequest());
 //        return HostAddressUtils.acquireIp(exchange);
-    }
+  }
 }

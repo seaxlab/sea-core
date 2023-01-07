@@ -12,13 +12,13 @@ package com.github.seaxlab.core.pattern.filter;
  */
 public interface Filter<Request, Response> {
 
-    /**
-     * rpc filter
-     *
-     * @param request
-     * @param filterChain
-     * @return
-     * @throws Exception
-     */
-    Response doFilter(Request request, FilterChain filterChain) throws Exception;
+  /**
+   * rpc filter
+   *
+   * @param request
+   * @param filterChain
+   * @return
+   * @throws Exception
+   */
+  Response doFilter(Request request, FilterChain filterChain) throws Exception;
 }

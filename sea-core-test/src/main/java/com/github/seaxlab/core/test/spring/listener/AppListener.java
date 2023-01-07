@@ -18,15 +18,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class AppListener implements ApplicationListener<ContextRefreshedEvent>, InitializingBean {
 
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-        log.info("refreshed event.");
-    }
+  public void onApplicationEvent(ContextRefreshedEvent event) {
+    log.info("refreshed event.");
+  }
 
-    public void init() {
-    }
+  public void init() {
+  }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        log.info("-----");
-    }
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    log.info("-----");
+  }
 }

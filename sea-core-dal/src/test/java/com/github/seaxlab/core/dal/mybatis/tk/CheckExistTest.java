@@ -17,23 +17,23 @@ import java.util.List;
 @Slf4j
 public class CheckExistTest extends BaseSpringTest {
 
-    @Resource
-    private User1Mapper user1Mapper;
+  @Resource
+  private User1Mapper user1Mapper;
 
-    @Test
-    public void testCheckExist() throws Exception {
-        List<User1> users = user1Mapper.selectAll();
-        log.info("users={}", users);
+  @Test
+  public void testCheckExist() throws Exception {
+    List<User1> users = user1Mapper.selectAll();
+    log.info("users={}", users);
 
-        User1 user = new User1();
-        user.setId(1L);
-        boolean exist = user1Mapper.checkExist(user);
-        log.info("exist={}", exist);
+    User1 user = new User1();
+    user.setId(1L);
+    boolean exist = user1Mapper.checkExist(user);
+    log.info("exist={}", exist);
 
-        user.setId(100L);
-        exist = user1Mapper.checkExist(user);
-        log.info("exist={}", exist);
+    user.setId(100L);
+    exist = user1Mapper.checkExist(user);
+    log.info("exist={}", exist);
 
-        //user1Mapper.selectByExampleAndRowBounds()
-    }
+    //user1Mapper.selectByExampleAndRowBounds()
+  }
 }

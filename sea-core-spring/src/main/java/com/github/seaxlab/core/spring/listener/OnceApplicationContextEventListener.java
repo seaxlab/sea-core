@@ -20,62 +20,62 @@ import static org.springframework.util.ObjectUtils.nullSafeEquals;
  */
 public abstract class OnceApplicationContextEventListener implements ApplicationListener, ApplicationContextAware {
 
-    protected final Log log = LogFactory.getLog(getClass());
+  protected final Log log = LogFactory.getLog(getClass());
 
-    private ApplicationContext applicationContext;
+  private ApplicationContext applicationContext;
 
-    public OnceApplicationContextEventListener() {
+  public OnceApplicationContextEventListener() {
 
+  }
+
+  public OnceApplicationContextEventListener(ApplicationContext applicationContext) {
+    setApplicationContext(applicationContext);
+  }
+
+  @Override
+  public final void onApplicationEvent(ApplicationEvent event) {
+    if (isOriginalEventSource(event) && event instanceof ApplicationContextEvent) {
+      onApplicationContextEvent((ApplicationContextEvent) event);
+    }
+  }
+
+  /**
+   * The subclass overrides this method to handle {@link ApplicationContextEvent}
+   *
+   * @param event {@link ApplicationContextEvent}
+   */
+  protected abstract void onApplicationContextEvent(ApplicationContextEvent event);
+
+  /**
+   * Is original {@link ApplicationContext} as the event source
+   *
+   * @param event {@link ApplicationEvent}
+   * @return if original, return <code>true</code>, or <code>false</code>
+   */
+  private boolean isOriginalEventSource(ApplicationEvent event) {
+
+    boolean originalEventSource = nullSafeEquals(getApplicationContext(), event.getSource());
+
+    if (!originalEventSource) {
+      if (log.isDebugEnabled()) {
+        log.debug("The source of event[" + event.getSource() + "] is not original!");
+      }
     }
 
-    public OnceApplicationContextEventListener(ApplicationContext applicationContext) {
-        setApplicationContext(applicationContext);
+    return originalEventSource;
+  }
+
+  @Override
+  public final void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    this.applicationContext = applicationContext;
+  }
+
+  public ApplicationContext getApplicationContext() {
+    if (applicationContext == null) {
+      throw new NullPointerException("applicationContext must be not null, it has to invoke " +
+        "setApplicationContext(ApplicationContext) method first if "
+        + ClassUtils.getShortName(getClass()) + " instance is not a Spring Bean");
     }
-
-    @Override
-    public final void onApplicationEvent(ApplicationEvent event) {
-        if (isOriginalEventSource(event) && event instanceof ApplicationContextEvent) {
-            onApplicationContextEvent((ApplicationContextEvent) event);
-        }
-    }
-
-    /**
-     * The subclass overrides this method to handle {@link ApplicationContextEvent}
-     *
-     * @param event {@link ApplicationContextEvent}
-     */
-    protected abstract void onApplicationContextEvent(ApplicationContextEvent event);
-
-    /**
-     * Is original {@link ApplicationContext} as the event source
-     *
-     * @param event {@link ApplicationEvent}
-     * @return if original, return <code>true</code>, or <code>false</code>
-     */
-    private boolean isOriginalEventSource(ApplicationEvent event) {
-
-        boolean originalEventSource = nullSafeEquals(getApplicationContext(), event.getSource());
-
-        if (!originalEventSource) {
-            if (log.isDebugEnabled()) {
-                log.debug("The source of event[" + event.getSource() + "] is not original!");
-            }
-        }
-
-        return originalEventSource;
-    }
-
-    @Override
-    public final void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
-    public ApplicationContext getApplicationContext() {
-        if (applicationContext == null) {
-            throw new NullPointerException("applicationContext must be not null, it has to invoke " +
-                    "setApplicationContext(ApplicationContext) method first if "
-                    + ClassUtils.getShortName(getClass()) + " instance is not a Spring Bean");
-        }
-        return applicationContext;
-    }
+    return applicationContext;
+  }
 }

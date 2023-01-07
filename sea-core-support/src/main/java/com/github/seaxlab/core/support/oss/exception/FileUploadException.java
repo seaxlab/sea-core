@@ -12,16 +12,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FileUploadException extends RuntimeException {
 
-    public FileUploadException() {
-        super("File upload exception.");
-    }
+  public FileUploadException() {
+    super("File upload exception.");
+  }
 
-    public FileUploadException(String errorMsg) {
-        super(errorMsg);
-    }
+  public FileUploadException(String errorMsg) {
+    super(errorMsg);
+  }
 
-    public FileUploadException(Throwable cause) {
-        super(cause);
-    }
+  public FileUploadException(Throwable cause) {
+    super(cause);
+  }
 
 }

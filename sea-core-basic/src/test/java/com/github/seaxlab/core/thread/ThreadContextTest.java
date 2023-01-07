@@ -14,17 +14,17 @@ import org.junit.Test;
 @Slf4j
 public class ThreadContextTest extends AbstractCoreTest {
 
-    @Test
-    public void run17() throws Exception {
+  @Test
+  public void run17() throws Exception {
 
-        Boolean hit = ThreadContext.get("abc"); //ok
-        boolean hit2 = ThreadContext.get("abc"); // throw NPE
-    }
+    Boolean hit = ThreadContext.get("abc"); //ok
+    boolean hit2 = ThreadContext.get("abc"); // throw NPE
+  }
 
-    @Test
-    public void run25() throws Exception {
+  @Test
+  public void run25() throws Exception {
 
-    }
+  }
 
 
 }

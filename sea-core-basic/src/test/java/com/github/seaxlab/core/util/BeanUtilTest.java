@@ -19,29 +19,29 @@ import java.util.Map;
  */
 @Slf4j
 public class BeanUtilTest extends BaseCoreTest {
-    User user;
+  User user;
 
-    @Before
-    public void before() {
-        user = new User();
-        user.setId(1L);
-        user.setName("abc");
-    }
+  @Before
+  public void before() {
+    user = new User();
+    user.setId(1L);
+    user.setName("abc");
+  }
 
-    @Test
-    public void testBeanToMap() throws Exception {
+  @Test
+  public void testBeanToMap() throws Exception {
 
-        Map<String, Object> map = BeanMap.create(user);
-        log.info("map={}", map);
-        map.put("newKey", "value");
-        log.info("map={}", map);
-    }
+    Map<String, Object> map = BeanMap.create(user);
+    log.info("map={}", map);
+    map.put("newKey", "value");
+    log.info("map={}", map);
+  }
 
-    @Test
-    public void testJackson() throws Exception {
-        Map<String, Object> map = JacksonUtil.beanToMap(user);
-        log.info("map2={}", map);
-        map.put("newKey", "value");
-        log.info("map={}", map);
-    }
+  @Test
+  public void testJackson() throws Exception {
+    Map<String, Object> map = JacksonUtil.beanToMap(user);
+    log.info("map2={}", map);
+    map.put("newKey", "value");
+    log.info("map={}", map);
+  }
 }

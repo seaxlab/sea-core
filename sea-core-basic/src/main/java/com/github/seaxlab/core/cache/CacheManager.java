@@ -11,99 +11,99 @@ import java.util.concurrent.locks.Lock;
  * @since 1.0
  */
 public interface CacheManager {
-    // common
+  // common
 
-    /**
-     * start cache.
-     *
-     * @param cacheConfig
-     */
-    void start(CacheConfig cacheConfig);
+  /**
+   * start cache.
+   *
+   * @param cacheConfig
+   */
+  void start(CacheConfig cacheConfig);
 
-    /**
-     * stop cache.
-     */
-    void stop();
+  /**
+   * stop cache.
+   */
+  void stop();
 
-    /**
-     * get cache type.
-     *
-     * @return
-     */
-    String getType();
+  /**
+   * get cache type.
+   *
+   * @return
+   */
+  String getType();
 
-    /**
-     * get cache config.
-     *
-     * @return
-     */
-    CacheConfig getCacheConfig();
-
-
-    // basic ops
-
-    /**
-     * get cache key.
-     *
-     * @param key
-     * @return
-     */
-    Optional<Object> get(String key);
-
-    /**
-     * add obj to cache.
-     *
-     * @param key
-     * @param object
-     * @return
-     */
-    boolean add(String key, Object object);
-
-    /**
-     * add obj to cache.
-     *
-     * @param key
-     * @param object
-     * @param expired
-     * @return
-     */
-    boolean add(String key, Object object, int expired);
-
-    /**
-     * del cache key.
-     *
-     * @param keys
-     * @return
-     */
-    boolean del(String... keys);
+  /**
+   * get cache config.
+   *
+   * @return
+   */
+  CacheConfig getCacheConfig();
 
 
-    // high level ops.
+  // basic ops
 
-    /**
-     * set json obj
-     *
-     * @param key
-     * @param obj
-     */
-    boolean setJSON(String key, Object obj);
+  /**
+   * get cache key.
+   *
+   * @param key
+   * @return
+   */
+  Optional<Object> get(String key);
 
-    /**
-     * get obj from json format obj.
-     *
-     * @param key
-     * @param clazz
-     * @param <T>
-     * @return
-     */
-    <T> Optional<T> getJSON(String key, Class<T> clazz);
+  /**
+   * add obj to cache.
+   *
+   * @param key
+   * @param object
+   * @return
+   */
+  boolean add(String key, Object object);
 
-    /**
-     * get lock.
-     *
-     * @param lock
-     * @return
-     */
-    Lock getLock(String lock);
+  /**
+   * add obj to cache.
+   *
+   * @param key
+   * @param object
+   * @param expired
+   * @return
+   */
+  boolean add(String key, Object object, int expired);
+
+  /**
+   * del cache key.
+   *
+   * @param keys
+   * @return
+   */
+  boolean del(String... keys);
+
+
+  // high level ops.
+
+  /**
+   * set json obj
+   *
+   * @param key
+   * @param obj
+   */
+  boolean setJSON(String key, Object obj);
+
+  /**
+   * get obj from json format obj.
+   *
+   * @param key
+   * @param clazz
+   * @param <T>
+   * @return
+   */
+  <T> Optional<T> getJSON(String key, Class<T> clazz);
+
+  /**
+   * get lock.
+   *
+   * @param lock
+   * @return
+   */
+  Lock getLock(String lock);
 
 }

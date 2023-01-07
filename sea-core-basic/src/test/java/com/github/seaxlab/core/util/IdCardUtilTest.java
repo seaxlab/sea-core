@@ -14,10 +14,10 @@ import org.junit.Test;
 @Slf4j
 public class IdCardUtilTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        String idNo = "320902198812016079";
+  @Test
+  public void run17() throws Exception {
+    String idNo = "320902198812016079";
 
-        log.info("{}", IdCardUtil.parse(idNo));
-    }
+    log.info("{}", IdCardUtil.parse(idNo));
+  }
 }

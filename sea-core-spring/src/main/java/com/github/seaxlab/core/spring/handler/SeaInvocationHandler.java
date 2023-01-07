@@ -14,8 +14,8 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 public class SeaInvocationHandler implements InvocationHandler {
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        return null;
-    }
+  @Override
+  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    return null;
+  }
 }

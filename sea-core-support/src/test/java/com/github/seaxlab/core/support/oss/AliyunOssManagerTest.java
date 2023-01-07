@@ -18,33 +18,33 @@ import org.junit.Test;
 @Slf4j
 public class AliyunOssManagerTest extends BaseOssManagerTest {
 
-    @Before
-    public void before() {
-        OSS_TYPE = OssTypeEnum.ALI_YUN;
-        ENDPOINT = "http://oss-cn-hangzhou.aliyuncs.com";
-        ACCESS_KEY = "8PIhaKLfrSBFvK1f";
-        SECRET_KEY = "uK1uKmOtX2HP91kpVWRixWEiCh933J";
+  @Before
+  public void before() {
+    OSS_TYPE = OssTypeEnum.ALI_YUN;
+    ENDPOINT = "http://oss-cn-hangzhou.aliyuncs.com";
+    ACCESS_KEY = "8PIhaKLfrSBFvK1f";
+    SECRET_KEY = "uK1uKmOtX2HP91kpVWRixWEiCh933J";
 
-        super.before();
-    }
+    super.before();
+  }
 
-    // test biz
-    @Test
-    public void testCreateBucketIfNeed() {
-        //if (!ossManager.checkBucketExist(BUCKET)) {
-        ossManager.createBucket(BUCKET);
-        //}
-    }
+  // test biz
+  @Test
+  public void testCreateBucketIfNeed() {
+    //if (!ossManager.checkBucketExist(BUCKET)) {
+    ossManager.createBucket(BUCKET);
+    //}
+  }
 
-    @Test
-    public void testUploadObj() {
-        Result ret = ossManager.uploadObj(BUCKET, "abcdef", PathUtil.getUserHome() + "/test/gc1.log");
-        log.info("ret={}", ret);
-    }
+  @Test
+  public void testUploadObj() {
+    Result ret = ossManager.uploadObj(BUCKET, "abcdef", PathUtil.getUserHome() + "/test/gc1.log");
+    log.info("ret={}", ret);
+  }
 
 
-    @After
-    public void after() {
-        ossManager.destroy();
-    }
+  @After
+  public void after() {
+    ossManager.destroy();
+  }
 }

@@ -1,9 +1,10 @@
 package com.github.seaxlab.core.dal.mybatis.common.handler;
 
-import java.util.Set;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
 import org.apache.ibatis.type.MappedTypes;
+
+import java.util.Set;
 
 /**
  * string set json

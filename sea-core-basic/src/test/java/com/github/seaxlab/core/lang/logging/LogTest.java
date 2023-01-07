@@ -15,13 +15,13 @@ import org.junit.Test;
 @Slf4j
 public class LogTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
-        Object[] args = {"1", "2", "3"};
+  @Test
+  public void test17() throws Exception {
+    Object[] args = {"1", "2", "3"};
 
-        log.info(" args={}", JSONUtil.toStr(args));
-        log.info(" args={}", JSONUtil.toStr(null));
-        NullPointerException exception = new NullPointerException();
-        log.warn("abc", exception);
-    }
+    log.info(" args={}", JSONUtil.toStr(args));
+    log.info(" args={}", JSONUtil.toStr(null));
+    NullPointerException exception = new NullPointerException();
+    log.warn("abc", exception);
+  }
 }

@@ -23,44 +23,44 @@ import java.util.SortedMap;
 @Slf4j
 public class SignAuthFilter implements Filter {
 
-    private static final String FAVICON = "/favicon.ico";
+  private static final String FAVICON = "/favicon.ico";
 
-    @Override
-    public void init(FilterConfig filterConfig) {
-        log.info("init SignAuthFilter");
-    }
+  @Override
+  public void init(FilterConfig filterConfig) {
+    log.info("init SignAuthFilter");
+  }
 
-    @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-        HttpServletResponse response = (HttpServletResponse) res;
-        // 防止流读取一次后就没有了, 所以需要将流继续写出去
-        HttpServletRequest request = (HttpServletRequest) req;
+  @Override
+  public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+    HttpServletResponse response = (HttpServletResponse) res;
+    // 防止流读取一次后就没有了, 所以需要将流继续写出去
+    HttpServletRequest request = (HttpServletRequest) req;
+    // TODO 重点
+    HttpServletRequest wrapperRequest = new BodyReaderHttpServletRequestWrapper(request);
+    //获取图标不需要验证签名
+    if (FAVICON.equals(wrapperRequest.getRequestURI())) {
+      chain.doFilter(request, response);
+    } else {
+      //获取全部参数(包括URL和body上的)
+      SortedMap<String, String> allParams = HttpUtils.getAllParams(wrapperRequest);
+      //对参数进行签名验证
+      boolean isSigned = SignUtil.verifySign(allParams);
+      if (isSigned) {
+        log.info("签名通过");
         // TODO 重点
-        HttpServletRequest wrapperRequest = new BodyReaderHttpServletRequestWrapper(request);
-        //获取图标不需要验证签名
-        if (FAVICON.equals(wrapperRequest.getRequestURI())) {
-            chain.doFilter(request, response);
-        } else {
-            //获取全部参数(包括URL和body上的)
-            SortedMap<String, String> allParams = HttpUtils.getAllParams(wrapperRequest);
-            //对参数进行签名验证
-            boolean isSigned = SignUtil.verifySign(allParams);
-            if (isSigned) {
-                log.info("签名通过");
-                // TODO 重点
-                chain.doFilter(wrapperRequest, response);
-            } else {
-                log.info("参数校验出错");
-                //校验失败返回前端
-                response.setCharacterEncoding("UTF-8");
-                response.setContentType("application/json; charset=utf-8");
-                PrintWriter out = response.getWriter();
-                JSONObject resParam = new JSONObject();
-                resParam.put("msg", "参数校验出错");
-                resParam.put("success", "false");
-                out.append(resParam.toJSONString());
-            }
-        }
-
+        chain.doFilter(wrapperRequest, response);
+      } else {
+        log.info("参数校验出错");
+        //校验失败返回前端
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        PrintWriter out = response.getWriter();
+        JSONObject resParam = new JSONObject();
+        resParam.put("msg", "参数校验出错");
+        resParam.put("success", "false");
+        out.append(resParam.toJSONString());
+      }
     }
+
+  }
 }

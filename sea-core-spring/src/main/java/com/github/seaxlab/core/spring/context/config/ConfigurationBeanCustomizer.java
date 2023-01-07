@@ -17,12 +17,12 @@ import org.springframework.core.Ordered;
  */
 public interface ConfigurationBeanCustomizer extends Ordered {
 
-    /**
-     * Customize the configuration bean
-     *
-     * @param beanName          the name of the configuration bean
-     * @param configurationBean the configuration bean
-     */
-    void customize(String beanName, Object configurationBean);
+  /**
+   * Customize the configuration bean
+   *
+   * @param beanName          the name of the configuration bean
+   * @param configurationBean the configuration bean
+   */
+  void customize(String beanName, Object configurationBean);
 
 }

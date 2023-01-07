@@ -19,22 +19,22 @@ import java.util.Set;
 @Slf4j
 @Beta
 public class SeaExampleServletContainerInitializer implements ServletContainerInitializer {
-    @Override
-    public void onStartup(Set<Class<?>> c, ServletContext ctx) throws ServletException {
-        // this is not work
-        for (Class<?> clazz : c) {
-            if (!clazz.isInterface()) {
-                try {
-                    System.out.println(clazz);
-                    Constructor<?> constructor = clazz.getConstructor();
-                    Object instance = constructor.newInstance();
-                    MyContainerInitializer containerInitializer = (MyContainerInitializer) instance;
-                    containerInitializer.onStartup(ctx);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+  @Override
+  public void onStartup(Set<Class<?>> c, ServletContext ctx) throws ServletException {
+    // this is not work
+    for (Class<?> clazz : c) {
+      if (!clazz.isInterface()) {
+        try {
+          System.out.println(clazz);
+          Constructor<?> constructor = clazz.getConstructor();
+          Object instance = constructor.newInstance();
+          MyContainerInitializer containerInitializer = (MyContainerInitializer) instance;
+          containerInitializer.onStartup(ctx);
+        } catch (Exception e) {
+          e.printStackTrace();
         }
-        System.out.println(">>>>>>");
+      }
     }
+    System.out.println(">>>>>>");
+  }
 }

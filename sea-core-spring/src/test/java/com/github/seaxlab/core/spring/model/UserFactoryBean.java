@@ -11,42 +11,42 @@ import org.springframework.beans.factory.FactoryBean;
  */
 public class UserFactoryBean implements FactoryBean<User> {
 
-    private String name;
+  private String name;
 
-    private int age;
+  private int age;
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public int getAge() {
-        return age;
-    }
+  public int getAge() {
+    return age;
+  }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+  public void setAge(int age) {
+    this.age = age;
+  }
 
-    @Override
-    public User getObject() throws Exception {
-        User user = new User();
-        user.setName(name);
-        user.setAge(age);
-        return user;
-    }
+  @Override
+  public User getObject() throws Exception {
+    User user = new User();
+    user.setName(name);
+    user.setAge(age);
+    return user;
+  }
 
-    @Override
-    public Class<?> getObjectType() {
-        return User.class;
-    }
+  @Override
+  public Class<?> getObjectType() {
+    return User.class;
+  }
 
-    @Override
-    public boolean isSingleton() {
-        return true;
-    }
+  @Override
+  public boolean isSingleton() {
+    return true;
+  }
 
 }

@@ -12,29 +12,29 @@ import com.github.seaxlab.core.socket.model.SocketClientSendData;
  */
 public interface SocketClient {
 
-    /**
-     * init
-     *
-     * @param clientConfig
-     */
-    void init(SocketClientConfig clientConfig);
+  /**
+   * init
+   *
+   * @param clientConfig
+   */
+  void init(SocketClientConfig clientConfig);
 
-    /**
-     * send data
-     *
-     * @param data
-     * @return
-     */
-    byte[] send(SocketClientSendData data);
+  /**
+   * send data
+   *
+   * @param data
+   * @return
+   */
+  byte[] send(SocketClientSendData data);
 
-    /**
-     * close socket client.
-     */
-    void close();
+  /**
+   * close socket client.
+   */
+  void close();
 
-    boolean isValid();
+  boolean isValid();
 
-    void activate();
+  void activate();
 
-    void inActivate();
+  void inActivate();
 }

@@ -21,27 +21,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/user")
 public class UserController {
 
-    @Autowired
-    @Qualifier("user1Service")
-    private UserService user1Service;
+  @Autowired
+  @Qualifier("user1Service")
+  private UserService user1Service;
 
-    @Autowired
-    @Qualifier("user2Service")
-    private UserService user2Service;
+  @Autowired
+  @Qualifier("user2Service")
+  private UserService user2Service;
 
-    @GetMapping("/1")
-    public Result queryUser1() {
-        return Result.success(user1Service.queryName());
-    }
+  @GetMapping("/1")
+  public Result queryUser1() {
+    return Result.success(user1Service.queryName());
+  }
 
-    @GetMapping("/2")
-    public Result queryUser2() {
-        return Result.success(user2Service.queryName());
-    }
+  @GetMapping("/2")
+  public Result queryUser2() {
+    return Result.success(user2Service.queryName());
+  }
 
-    @GetMapping("/3")
-    public Result queryUser3() {
-        return Result.success(user1Service.queryName2());
-    }
+  @GetMapping("/3")
+  public Result queryUser3() {
+    return Result.success(user1Service.queryName2());
+  }
 
 }

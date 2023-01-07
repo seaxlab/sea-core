@@ -14,11 +14,11 @@ import org.junit.Test;
 @Slf4j
 public class HtmlUtilTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
+  @Test
+  public void run17() throws Exception {
 
-        log.info("{}", HtmlUtil.cleanHtmlTag("<a>a</a>"));
-        log.info("{}", HtmlUtil.escape("<a>a</a>"));
-        log.info("{}", HtmlUtil.unescape("&lt;a&gt;a&lt;/a&gt;"));
-    }
+    log.info("{}", HtmlUtil.cleanHtmlTag("<a>a</a>"));
+    log.info("{}", HtmlUtil.escape("<a>a</a>"));
+    log.info("{}", HtmlUtil.unescape("&lt;a&gt;a&lt;/a&gt;"));
+  }
 }

@@ -2,10 +2,11 @@ package com.github.seaxlab.core.component.validator;
 
 import com.github.seaxlab.core.component.validator.dto.UserAddRequestDTO;
 import com.github.seaxlab.core.util.ValidationUtil;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+
+import javax.validation.ConstraintViolation;
+import java.util.Set;
 
 /**
  * module name

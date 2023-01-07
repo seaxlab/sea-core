@@ -9,8 +9,8 @@ package com.github.seaxlab.core.boot.autoconfigure;
  */
 public interface ApplicationInitBean {
 
-    /**
-     * 初始化
-     */
-    void init();
+  /**
+   * 初始化
+   */
+  void init();
 }

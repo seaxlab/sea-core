@@ -13,20 +13,20 @@ import org.springframework.core.env.EnumerablePropertySource;
 @Slf4j
 public class EnumerablePropertySourceWrapper<T> extends EnumerablePropertySource<T> {
 
-    private final PropertySourceWrapper<T> delegate;
+  private final PropertySourceWrapper<T> delegate;
 
-    public EnumerablePropertySourceWrapper(EnumerablePropertySource<T> delegate) {
-        super(delegate.getName(), delegate.getSource());
-        this.delegate = new PropertySourceWrapper(delegate);
-    }
+  public EnumerablePropertySourceWrapper(EnumerablePropertySource<T> delegate) {
+    super(delegate.getName(), delegate.getSource());
+    this.delegate = new PropertySourceWrapper(delegate);
+  }
 
-    @Override
-    public Object getProperty(String name) {
-        return delegate.getProperty(name);
-    }
+  @Override
+  public Object getProperty(String name) {
+    return delegate.getProperty(name);
+  }
 
-    @Override
-    public String[] getPropertyNames() {
-        return ((EnumerablePropertySource) delegate.getDelegate()).getPropertyNames();
-    }
+  @Override
+  public String[] getPropertyNames() {
+    return ((EnumerablePropertySource) delegate.getDelegate()).getPropertyNames();
+  }
 }

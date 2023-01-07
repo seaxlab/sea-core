@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 public class A {
-    private Long id;
-    private String name;
-    private transient String password;
+  private Long id;
+  private String name;
+  private transient String password;
 }

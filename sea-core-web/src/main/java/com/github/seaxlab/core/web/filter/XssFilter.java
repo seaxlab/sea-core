@@ -18,31 +18,31 @@ import java.io.IOException;
 public class XssFilter extends BaseWebFilter implements Filter {
 
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("xss filter init");
-        initExcludeConfig(filterConfig);
+  @Override
+  public void init(FilterConfig filterConfig) throws ServletException {
+    log.info("xss filter init");
+    initExcludeConfig(filterConfig);
 
+  }
+
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    //TODO other config
+    HttpServletRequest req = (HttpServletRequest) request;
+
+    if (isExcludePath(req.getRequestURI())) {
+      chain.doFilter(request, response);
+      return;
     }
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        //TODO other config
-        HttpServletRequest req = (HttpServletRequest) request;
+    // do xss filter
+    XssHttpServletRequestWrapper wrapper = new XssHttpServletRequestWrapper(req);
+    chain.doFilter(wrapper, response);
+  }
 
-        if (isExcludePath(req.getRequestURI())) {
-            chain.doFilter(request, response);
-            return;
-        }
-
-        // do xss filter
-        XssHttpServletRequestWrapper wrapper = new XssHttpServletRequestWrapper(req);
-        chain.doFilter(wrapper, response);
-    }
-
-    @Override
-    public void destroy() {
-        //no-op
-        log.info("xss filter destroy");
-    }
+  @Override
+  public void destroy() {
+    //no-op
+    log.info("xss filter destroy");
+  }
 }

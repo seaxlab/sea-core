@@ -15,14 +15,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class DemoTask implements InitializingBean {
 
-    //@Scheduled(cron = "*/10 * * * * *")
-    //public void queryFailTask() {
-    //    log.info("query fail task...");
-    //    ThreadUtil.sleepSecond(25);
-    //}
+  //@Scheduled(cron = "*/10 * * * * *")
+  //public void queryFailTask() {
+  //    log.info("query fail task...");
+  //    ThreadUtil.sleepSecond(25);
+  //}
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        log.info("abc");
-    }
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    log.info("abc");
+  }
 }

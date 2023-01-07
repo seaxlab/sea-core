@@ -15,11 +15,11 @@ import java.io.InputStream;
  */
 @Data
 public class ObjectUploadDTO {
-    private String bucket;
-    private String key;
+  private String bucket;
+  private String key;
 
-    private File file;
-    private InputStream inputStream;
+  private File file;
+  private InputStream inputStream;
 
-    private AclEnum aclEnum;
+  private AclEnum aclEnum;
 }

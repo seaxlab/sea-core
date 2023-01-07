@@ -15,13 +15,13 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Slf4j
 @EnableScheduling
 @SpringBootApplication(
-        scanBasePackages = {"com.github.seaxlab.core.example", "com.abc"}
+  scanBasePackages = {"com.github.seaxlab.core.example", "com.abc"}
 )
 public class ExampleApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(ExampleApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(ExampleApplication.class, args);
+  }
 
 }
 

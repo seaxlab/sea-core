@@ -57,266 +57,266 @@ import static org.springframework.util.CollectionUtils.isEmpty;
  */
 @SuppressWarnings("unchecked")
 public abstract class AnnotationBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor,
-        BeanFactoryAware, EnvironmentAware, ResourceLoaderAware, BeanClassLoaderAware {
+  BeanFactoryAware, EnvironmentAware, ResourceLoaderAware, BeanClassLoaderAware {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final Set<Class<? extends Annotation>> supportedAnnotationTypes;
+  private final Set<Class<? extends Annotation>> supportedAnnotationTypes;
 
-    private final Set<String> packagesToScan;
+  private final Set<String> packagesToScan;
 
-    private ConfigurableListableBeanFactory beanFactory;
+  private ConfigurableListableBeanFactory beanFactory;
 
-    private ConfigurableEnvironment environment;
+  private ConfigurableEnvironment environment;
 
-    private ResourceLoader resourceLoader;
+  private ResourceLoader resourceLoader;
 
-    private ClassLoader classLoader;
+  private ClassLoader classLoader;
 
-    public AnnotationBeanDefinitionRegistryPostProcessor(Class<? extends Annotation> primaryAnnotationType,
-                                                         Class<?>... basePackageClasses) {
-        this(primaryAnnotationType, resolveBasePackages(basePackageClasses));
+  public AnnotationBeanDefinitionRegistryPostProcessor(Class<? extends Annotation> primaryAnnotationType,
+                                                       Class<?>... basePackageClasses) {
+    this(primaryAnnotationType, resolveBasePackages(basePackageClasses));
+  }
+
+  public AnnotationBeanDefinitionRegistryPostProcessor(Class<? extends Annotation> primaryAnnotationType,
+                                                       String... packagesToScan) {
+    this(primaryAnnotationType, asList(packagesToScan));
+  }
+
+  public AnnotationBeanDefinitionRegistryPostProcessor(Class<? extends Annotation> primaryAnnotationType,
+                                                       Iterable<String> packagesToScan) {
+    this.supportedAnnotationTypes = new LinkedHashSet<Class<? extends Annotation>>();
+    addSupportedAnnotationType(primaryAnnotationType);
+    this.packagesToScan = new LinkedHashSet<String>();
+    Iterator<String> iterator = packagesToScan.iterator();
+    while (iterator.hasNext()) {
+      this.packagesToScan.add(iterator.next());
+    }
+  }
+
+  public void addSupportedAnnotationType(Class<? extends Annotation>... annotationTypes) {
+    Assert.notEmpty(annotationTypes, "The argument of annotation types can't be empty");
+    Assert.noNullElements(annotationTypes, "Any element of annotation types can't be null");
+    this.supportedAnnotationTypes.addAll(asList(annotationTypes));
+  }
+
+  private static String[] resolveBasePackages(Class<?>... basePackageClasses) {
+    int size = basePackageClasses.length;
+    String[] basePackages = new String[size];
+    for (int i = 0; i < size; i++) {
+      basePackages[i] = basePackageClasses[i].getPackage().getName();
+    }
+    return basePackages;
+  }
+
+  protected static Annotation getAnnotation(AnnotatedElement annotatedElement, Class<? extends Annotation> annotationType) {
+    Annotation annotation = AnnotationUtil.tryGetMergedAnnotation(annotatedElement, annotationType);
+    if (annotation == null) {
+      annotation = annotatedElement.getAnnotation(annotationType);
+    }
+    return annotation;
+  }
+
+  @Override
+  public final void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+
+    String[] basePackages = resolveBasePackages(getPackagesToScan());
+
+    if (!ObjectUtils.isEmpty(basePackages)) {
+      registerBeanDefinitions(registry, basePackages);
+    } else {
+      if (logger.isWarnEnabled()) {
+        logger.warn("packagesToScan is empty , The BeanDefinition's registry will be ignored!");
+      }
+    }
+  }
+
+  private void registerBeanDefinitions(BeanDefinitionRegistry registry, String[] basePackages) {
+
+    ExposingClassPathBeanDefinitionScanner scanner = new ExposingClassPathBeanDefinitionScanner(registry, false,
+      getEnvironment(), getResourceLoader());
+
+    BeanNameGenerator beanNameGenerator = AnnotatedBeanDefinitionRegistryUtil.resolveAnnotatedBeanNameGenerator(registry);
+    // Set the BeanNameGenerator
+    scanner.setBeanNameGenerator(beanNameGenerator);
+    // Add the AnnotationTypeFilter for annotationTypes
+    for (Class<? extends Annotation> supportedAnnotationType : getSupportedAnnotationTypes()) {
+      scanner.addIncludeFilter(new AnnotationTypeFilter(supportedAnnotationType));
+    }
+    // Register the primary BeanDefinitions
+    Map<String, AnnotatedBeanDefinition> primaryBeanDefinitions = registerPrimaryBeanDefinitions(scanner, basePackages);
+    // Register the secondary BeanDefinitions
+    registerSecondaryBeanDefinitions(scanner, primaryBeanDefinitions, basePackages);
+  }
+
+  /**
+   * Scan and register the primary {@link BeanDefinition BeanDefinitions} that were annotated by
+   * {@link #getSupportedAnnotationTypes() the supported annotation types}, and then return the {@link Map} with bean name plus
+   * aliases if present and primary {@link AnnotatedBeanDefinition AnnotatedBeanDefinitions}.
+   * <p>
+   * Current method is allowed to be override by the sub-class to change the registration logic
+   *
+   * @param scanner      {@link ExposingClassPathBeanDefinitionScanner}
+   * @param basePackages the base packages to scan
+   * @return the {@link Map} with bean name plus aliases if present and primary
+   * {@link AnnotatedBeanDefinition AnnotatedBeanDefinitions}
+   */
+  protected Map<String, AnnotatedBeanDefinition> registerPrimaryBeanDefinitions(ExposingClassPathBeanDefinitionScanner scanner,
+                                                                                String[] basePackages) {
+    // Scan and register
+    Set<BeanDefinitionHolder> primaryBeanDefinitionHolders = scanner.doScan(basePackages);
+    // Log the primary BeanDefinitions
+    logPrimaryBeanDefinitions(primaryBeanDefinitionHolders, basePackages);
+
+    Map<String, AnnotatedBeanDefinition> primaryBeanDefinitions = new LinkedHashMap<String, AnnotatedBeanDefinition>();
+
+    for (BeanDefinitionHolder beanDefinitionHolder : primaryBeanDefinitionHolders) {
+      putPrimaryBeanDefinitions(primaryBeanDefinitions, beanDefinitionHolder);
     }
 
-    public AnnotationBeanDefinitionRegistryPostProcessor(Class<? extends Annotation> primaryAnnotationType,
-                                                         String... packagesToScan) {
-        this(primaryAnnotationType, asList(packagesToScan));
+    // return
+    return primaryBeanDefinitions;
+  }
+
+  private void putPrimaryBeanDefinitions(Map<String, AnnotatedBeanDefinition> primaryBeanDefinitions,
+                                         BeanDefinitionHolder beanDefinitionHolder) {
+    BeanDefinition beanDefinition = beanDefinitionHolder.getBeanDefinition();
+
+    if (beanDefinition instanceof AnnotatedBeanDefinition) {
+      AnnotatedBeanDefinition annotatedBeanDefinition = (AnnotatedBeanDefinition) beanDefinition;
+      putPrimaryBeanDefinition(primaryBeanDefinitions, annotatedBeanDefinition, beanDefinitionHolder.getBeanName());
+      putPrimaryBeanDefinition(primaryBeanDefinitions, annotatedBeanDefinition, beanDefinitionHolder.getAliases());
+    } else {
+      if (logger.isErrorEnabled()) {
+        logger.error("What's the problem? Please investigate " + beanDefinitionHolder);
+      }
     }
+  }
 
-    public AnnotationBeanDefinitionRegistryPostProcessor(Class<? extends Annotation> primaryAnnotationType,
-                                                         Iterable<String> packagesToScan) {
-        this.supportedAnnotationTypes = new LinkedHashSet<Class<? extends Annotation>>();
-        addSupportedAnnotationType(primaryAnnotationType);
-        this.packagesToScan = new LinkedHashSet<String>();
-        Iterator<String> iterator = packagesToScan.iterator();
-        while (iterator.hasNext()) {
-            this.packagesToScan.add(iterator.next());
-        }
+  private void putPrimaryBeanDefinition(Map<String, AnnotatedBeanDefinition> primaryBeanDefinitions,
+                                        AnnotatedBeanDefinition annotatedBeanDefinition,
+                                        String... keys) {
+    if (!ObjectUtils.isEmpty(keys)) {
+      for (String key : keys) {
+        primaryBeanDefinitions.put(key, annotatedBeanDefinition);
+      }
     }
+  }
 
-    public void addSupportedAnnotationType(Class<? extends Annotation>... annotationTypes) {
-        Assert.notEmpty(annotationTypes, "The argument of annotation types can't be empty");
-        Assert.noNullElements(annotationTypes, "Any element of annotation types can't be null");
-        this.supportedAnnotationTypes.addAll(asList(annotationTypes));
+  /**
+   * Register the secondary {@link BeanDefinition BeanDefinitions}
+   * <p>
+   * Current method is allowed to be override by the sub-class to change the registration logic
+   *
+   * @param scanner                the {@link ExposingClassPathBeanDefinitionScanner} instance
+   * @param primaryBeanDefinitions the {@link Map} with bean name plus aliases if present and primary
+   *                               {@link AnnotatedBeanDefinition AnnotatedBeanDefinitions}, which may be empty
+   * @param basePackages           the base packages to scan
+   */
+  protected abstract void registerSecondaryBeanDefinitions(ExposingClassPathBeanDefinitionScanner scanner,
+                                                           Map<String, AnnotatedBeanDefinition> primaryBeanDefinitions,
+                                                           String[] basePackages);
+
+  @Override
+  public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    // DO NOTHING
+  }
+
+  private void logPrimaryBeanDefinitions(Set<BeanDefinitionHolder> beanDefinitionHolders, String[] basePackages) {
+    if (isEmpty(beanDefinitionHolders)) {
+      if (logger.isWarnEnabled()) {
+        logger.warn("No Spring Bean annotation @" + getSupportedAnnotationTypeNames() + " was found under base packages"
+          + asList(basePackages));
+      }
+    } else {
+      if (logger.isInfoEnabled()) {
+        logger.info(beanDefinitionHolders.size() + " annotations " + getSupportedAnnotationTypeNames() + " components { " +
+          beanDefinitionHolders + " } were scanned under packages" + asList(basePackages));
+      }
     }
+  }
 
-    private static String[] resolveBasePackages(Class<?>... basePackageClasses) {
-        int size = basePackageClasses.length;
-        String[] basePackages = new String[size];
-        for (int i = 0; i < size; i++) {
-            basePackages[i] = basePackageClasses[i].getPackage().getName();
-        }
-        return basePackages;
+  /**
+   * Resolve the placeholders for the raw scanned packages to scan
+   *
+   * @param packagesToScan the raw scanned packages to scan
+   * @return non-null
+   */
+  protected String[] resolveBasePackages(Set<String> packagesToScan) {
+    Set<String> resolvedPackagesToScan = new LinkedHashSet<String>(packagesToScan.size());
+    for (String packageToScan : packagesToScan) {
+      if (StringUtils.hasText(packageToScan)) {
+        String resolvedPackageToScan = getEnvironment().resolvePlaceholders(packageToScan.trim());
+        resolvedPackagesToScan.add(resolvedPackageToScan);
+      }
     }
+    // Set to Array
+    return packagesToScan.toArray(new String[packagesToScan.size()]);
+  }
 
-    protected static Annotation getAnnotation(AnnotatedElement annotatedElement, Class<? extends Annotation> annotationType) {
-        Annotation annotation = AnnotationUtil.tryGetMergedAnnotation(annotatedElement, annotationType);
-        if (annotation == null) {
-            annotation = annotatedElement.getAnnotation(annotationType);
-        }
-        return annotation;
+  protected final Class<?> resolveBeanClass(BeanDefinitionHolder beanDefinitionHolder) {
+    BeanDefinition beanDefinition = beanDefinitionHolder.getBeanDefinition();
+    return resolveBeanClass(beanDefinition);
+  }
+
+  protected final Class<?> resolveBeanClass(BeanDefinition beanDefinition) {
+    String beanClassName = beanDefinition.getBeanClassName();
+    return resolveClassName(beanClassName, getClassLoader());
+  }
+
+  @Override
+  public void setBeanClassLoader(ClassLoader classLoader) {
+    this.classLoader = classLoader;
+  }
+
+  public Set<Class<? extends Annotation>> getSupportedAnnotationTypes() {
+    return unmodifiableSet(supportedAnnotationTypes);
+  }
+
+  protected Set<String> getSupportedAnnotationTypeNames() {
+    Set<String> supportedAnnotationTypeNames = new LinkedHashSet<String>();
+    for (Class<? extends Annotation> supportedAnnotationType : supportedAnnotationTypes) {
+      supportedAnnotationTypeNames.add(supportedAnnotationType.getName());
     }
+    return unmodifiableSet(supportedAnnotationTypeNames);
+  }
 
-    @Override
-    public final void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+  public Set<String> getPackagesToScan() {
+    return packagesToScan;
+  }
 
-        String[] basePackages = resolveBasePackages(getPackagesToScan());
+  public ConfigurableListableBeanFactory getBeanFactory() {
+    return beanFactory;
+  }
 
-        if (!ObjectUtils.isEmpty(basePackages)) {
-            registerBeanDefinitions(registry, basePackages);
-        } else {
-            if (logger.isWarnEnabled()) {
-                logger.warn("packagesToScan is empty , The BeanDefinition's registry will be ignored!");
-            }
-        }
-    }
+  @Override
+  public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+    this.beanFactory = WrapperUtil.unwrap(beanFactory);
+  }
 
-    private void registerBeanDefinitions(BeanDefinitionRegistry registry, String[] basePackages) {
+  public ConfigurableEnvironment getEnvironment() {
+    return environment;
+  }
 
-        ExposingClassPathBeanDefinitionScanner scanner = new ExposingClassPathBeanDefinitionScanner(registry, false,
-                getEnvironment(), getResourceLoader());
+  @Override
+  public void setEnvironment(Environment environment) {
+    this.environment = WrapperUtil.unwrap(environment);
+  }
 
-        BeanNameGenerator beanNameGenerator = AnnotatedBeanDefinitionRegistryUtil.resolveAnnotatedBeanNameGenerator(registry);
-        // Set the BeanNameGenerator
-        scanner.setBeanNameGenerator(beanNameGenerator);
-        // Add the AnnotationTypeFilter for annotationTypes
-        for (Class<? extends Annotation> supportedAnnotationType : getSupportedAnnotationTypes()) {
-            scanner.addIncludeFilter(new AnnotationTypeFilter(supportedAnnotationType));
-        }
-        // Register the primary BeanDefinitions
-        Map<String, AnnotatedBeanDefinition> primaryBeanDefinitions = registerPrimaryBeanDefinitions(scanner, basePackages);
-        // Register the secondary BeanDefinitions
-        registerSecondaryBeanDefinitions(scanner, primaryBeanDefinitions, basePackages);
-    }
+  public ResourceLoader getResourceLoader() {
+    return resourceLoader;
+  }
 
-    /**
-     * Scan and register the primary {@link BeanDefinition BeanDefinitions} that were annotated by
-     * {@link #getSupportedAnnotationTypes() the supported annotation types}, and then return the {@link Map} with bean name plus
-     * aliases if present and primary {@link AnnotatedBeanDefinition AnnotatedBeanDefinitions}.
-     * <p>
-     * Current method is allowed to be override by the sub-class to change the registration logic
-     *
-     * @param scanner      {@link ExposingClassPathBeanDefinitionScanner}
-     * @param basePackages the base packages to scan
-     * @return the {@link Map} with bean name plus aliases if present and primary
-     * {@link AnnotatedBeanDefinition AnnotatedBeanDefinitions}
-     */
-    protected Map<String, AnnotatedBeanDefinition> registerPrimaryBeanDefinitions(ExposingClassPathBeanDefinitionScanner scanner,
-                                                                                  String[] basePackages) {
-        // Scan and register
-        Set<BeanDefinitionHolder> primaryBeanDefinitionHolders = scanner.doScan(basePackages);
-        // Log the primary BeanDefinitions
-        logPrimaryBeanDefinitions(primaryBeanDefinitionHolders, basePackages);
+  @Override
+  public void setResourceLoader(ResourceLoader resourceLoader) {
+    this.resourceLoader = resourceLoader;
+  }
 
-        Map<String, AnnotatedBeanDefinition> primaryBeanDefinitions = new LinkedHashMap<String, AnnotatedBeanDefinition>();
+  public ClassLoader getClassLoader() {
+    return classLoader;
+  }
 
-        for (BeanDefinitionHolder beanDefinitionHolder : primaryBeanDefinitionHolders) {
-            putPrimaryBeanDefinitions(primaryBeanDefinitions, beanDefinitionHolder);
-        }
-
-        // return
-        return primaryBeanDefinitions;
-    }
-
-    private void putPrimaryBeanDefinitions(Map<String, AnnotatedBeanDefinition> primaryBeanDefinitions,
-                                           BeanDefinitionHolder beanDefinitionHolder) {
-        BeanDefinition beanDefinition = beanDefinitionHolder.getBeanDefinition();
-
-        if (beanDefinition instanceof AnnotatedBeanDefinition) {
-            AnnotatedBeanDefinition annotatedBeanDefinition = (AnnotatedBeanDefinition) beanDefinition;
-            putPrimaryBeanDefinition(primaryBeanDefinitions, annotatedBeanDefinition, beanDefinitionHolder.getBeanName());
-            putPrimaryBeanDefinition(primaryBeanDefinitions, annotatedBeanDefinition, beanDefinitionHolder.getAliases());
-        } else {
-            if (logger.isErrorEnabled()) {
-                logger.error("What's the problem? Please investigate " + beanDefinitionHolder);
-            }
-        }
-    }
-
-    private void putPrimaryBeanDefinition(Map<String, AnnotatedBeanDefinition> primaryBeanDefinitions,
-                                          AnnotatedBeanDefinition annotatedBeanDefinition,
-                                          String... keys) {
-        if (!ObjectUtils.isEmpty(keys)) {
-            for (String key : keys) {
-                primaryBeanDefinitions.put(key, annotatedBeanDefinition);
-            }
-        }
-    }
-
-    /**
-     * Register the secondary {@link BeanDefinition BeanDefinitions}
-     * <p>
-     * Current method is allowed to be override by the sub-class to change the registration logic
-     *
-     * @param scanner                the {@link ExposingClassPathBeanDefinitionScanner} instance
-     * @param primaryBeanDefinitions the {@link Map} with bean name plus aliases if present and primary
-     *                               {@link AnnotatedBeanDefinition AnnotatedBeanDefinitions}, which may be empty
-     * @param basePackages           the base packages to scan
-     */
-    protected abstract void registerSecondaryBeanDefinitions(ExposingClassPathBeanDefinitionScanner scanner,
-                                                             Map<String, AnnotatedBeanDefinition> primaryBeanDefinitions,
-                                                             String[] basePackages);
-
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        // DO NOTHING
-    }
-
-    private void logPrimaryBeanDefinitions(Set<BeanDefinitionHolder> beanDefinitionHolders, String[] basePackages) {
-        if (isEmpty(beanDefinitionHolders)) {
-            if (logger.isWarnEnabled()) {
-                logger.warn("No Spring Bean annotation @" + getSupportedAnnotationTypeNames() + " was found under base packages"
-                        + asList(basePackages));
-            }
-        } else {
-            if (logger.isInfoEnabled()) {
-                logger.info(beanDefinitionHolders.size() + " annotations " + getSupportedAnnotationTypeNames() + " components { " +
-                        beanDefinitionHolders + " } were scanned under packages" + asList(basePackages));
-            }
-        }
-    }
-
-    /**
-     * Resolve the placeholders for the raw scanned packages to scan
-     *
-     * @param packagesToScan the raw scanned packages to scan
-     * @return non-null
-     */
-    protected String[] resolveBasePackages(Set<String> packagesToScan) {
-        Set<String> resolvedPackagesToScan = new LinkedHashSet<String>(packagesToScan.size());
-        for (String packageToScan : packagesToScan) {
-            if (StringUtils.hasText(packageToScan)) {
-                String resolvedPackageToScan = getEnvironment().resolvePlaceholders(packageToScan.trim());
-                resolvedPackagesToScan.add(resolvedPackageToScan);
-            }
-        }
-        // Set to Array
-        return packagesToScan.toArray(new String[packagesToScan.size()]);
-    }
-
-    protected final Class<?> resolveBeanClass(BeanDefinitionHolder beanDefinitionHolder) {
-        BeanDefinition beanDefinition = beanDefinitionHolder.getBeanDefinition();
-        return resolveBeanClass(beanDefinition);
-    }
-
-    protected final Class<?> resolveBeanClass(BeanDefinition beanDefinition) {
-        String beanClassName = beanDefinition.getBeanClassName();
-        return resolveClassName(beanClassName, getClassLoader());
-    }
-
-    @Override
-    public void setBeanClassLoader(ClassLoader classLoader) {
-        this.classLoader = classLoader;
-    }
-
-    public Set<Class<? extends Annotation>> getSupportedAnnotationTypes() {
-        return unmodifiableSet(supportedAnnotationTypes);
-    }
-
-    protected Set<String> getSupportedAnnotationTypeNames() {
-        Set<String> supportedAnnotationTypeNames = new LinkedHashSet<String>();
-        for (Class<? extends Annotation> supportedAnnotationType : supportedAnnotationTypes) {
-            supportedAnnotationTypeNames.add(supportedAnnotationType.getName());
-        }
-        return unmodifiableSet(supportedAnnotationTypeNames);
-    }
-
-    public Set<String> getPackagesToScan() {
-        return packagesToScan;
-    }
-
-    public ConfigurableListableBeanFactory getBeanFactory() {
-        return beanFactory;
-    }
-
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = WrapperUtil.unwrap(beanFactory);
-    }
-
-    public ConfigurableEnvironment getEnvironment() {
-        return environment;
-    }
-
-    @Override
-    public void setEnvironment(Environment environment) {
-        this.environment = WrapperUtil.unwrap(environment);
-    }
-
-    public ResourceLoader getResourceLoader() {
-        return resourceLoader;
-    }
-
-    @Override
-    public void setResourceLoader(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
-    }
-
-    public ClassLoader getClassLoader() {
-        return classLoader;
-    }
-
-    public void setClassLoader(ClassLoader classLoader) {
-        this.classLoader = classLoader;
-    }
+  public void setClassLoader(ClassLoader classLoader) {
+    this.classLoader = classLoader;
+  }
 }

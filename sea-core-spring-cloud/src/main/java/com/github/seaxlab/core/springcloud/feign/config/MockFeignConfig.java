@@ -19,12 +19,12 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @ConditionalOnProperty(prefix = "sea.spring.cloud.feign", name = {"enabled",
-    "mock.enabled"}, havingValue = "true")
+        "mock.enabled"}, havingValue = "true")
 public class MockFeignConfig {
 
   @Bean
   public MockFeignObjectWrapper mockFeignObjectWrapper(BeanFactory beanFactory,
-      FeignMockProperties apiMockProperties) {
+                                                       FeignMockProperties apiMockProperties) {
     return new MockFeignObjectWrapper(beanFactory, apiMockProperties);
   }
 

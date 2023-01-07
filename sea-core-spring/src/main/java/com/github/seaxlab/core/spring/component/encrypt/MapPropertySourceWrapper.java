@@ -15,15 +15,15 @@ import java.util.Map;
 @Slf4j
 public class MapPropertySourceWrapper extends MapPropertySource {
 
-    private final PropertySourceWrapper<Map<String, Object>> delegate;
+  private final PropertySourceWrapper<Map<String, Object>> delegate;
 
-    public MapPropertySourceWrapper(MapPropertySource delegate) {
-        super(delegate.getName(), delegate.getSource());
-        this.delegate = new PropertySourceWrapper<>(delegate);
-    }
+  public MapPropertySourceWrapper(MapPropertySource delegate) {
+    super(delegate.getName(), delegate.getSource());
+    this.delegate = new PropertySourceWrapper<>(delegate);
+  }
 
-    @Override
-    public Object getProperty(String name) {
-        return delegate.getProperty(name);
-    }
+  @Override
+  public Object getProperty(String name) {
+    return delegate.getProperty(name);
+  }
 }

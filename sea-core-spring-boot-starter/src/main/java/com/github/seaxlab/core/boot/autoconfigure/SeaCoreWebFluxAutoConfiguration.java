@@ -22,15 +22,15 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureAfter(WebFluxAutoConfiguration.class)
 public class SeaCoreWebFluxAutoConfiguration {
 
-    // so sadly
-    // if web config in spring.factories, business project cannot return value in controller normally
+  // so sadly
+  // if web config in spring.factories, business project cannot return value in controller normally
 
-    //TODO order、urlPattern field
+  //TODO order、urlPattern field
 
-    @Bean
-    @ConditionalOnMissingBean(name = "seaGlobalSpringWebFilter")
-    public SeaGlobalSpringWebFilter seaGlobalSpringWebFilter() {
-        return new SeaGlobalSpringWebFilter();
-    }
+  @Bean
+  @ConditionalOnMissingBean(name = "seaGlobalSpringWebFilter")
+  public SeaGlobalSpringWebFilter seaGlobalSpringWebFilter() {
+    return new SeaGlobalSpringWebFilter();
+  }
 
 }

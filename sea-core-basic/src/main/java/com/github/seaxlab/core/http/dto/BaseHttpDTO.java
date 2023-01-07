@@ -12,5 +12,5 @@ import lombok.Data;
 
 @Data
 public class BaseHttpDTO {
-    private String url;
+  private String url;
 }

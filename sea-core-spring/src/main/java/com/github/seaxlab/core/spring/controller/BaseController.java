@@ -17,13 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 public class BaseController {
 
 
-    protected HttpServletRequest getRequest() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-                .currentRequestAttributes())
-                .getRequest();
+  protected HttpServletRequest getRequest() {
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+      .currentRequestAttributes())
+      .getRequest();
 
-        return request;
-    }
+    return request;
+  }
 
 
 }

@@ -14,30 +14,30 @@ import org.redisson.api.RLock;
 @Slf4j
 public class LockUtil {
 
-    private LockUtil() {
-    }
+  private LockUtil() {
+  }
 
-    /**
-     * unlock
-     *
-     * @param lock
-     */
-    public static void unlock(RLock lock) {
-        if (lock == null) {
-            return;
-        }
-        try {
-            // multi lock has no isLocked and isHeldByCurrentThread() method.
-            if (lock instanceof RedissonMultiLock) {
-                lock.unlock();
-            } else {
-                if (lock.isLocked() && lock.isHeldByCurrentThread()) {
-                    lock.unlock();
-                }
-            }
-        } catch (Exception e) {
-            log.error("fail to unlock", e);
-        }
+  /**
+   * unlock
+   *
+   * @param lock
+   */
+  public static void unlock(RLock lock) {
+    if (lock == null) {
+      return;
     }
+    try {
+      // multi lock has no isLocked and isHeldByCurrentThread() method.
+      if (lock instanceof RedissonMultiLock) {
+        lock.unlock();
+      } else {
+        if (lock.isLocked() && lock.isHeldByCurrentThread()) {
+          lock.unlock();
+        }
+      }
+    } catch (Exception e) {
+      log.error("fail to unlock", e);
+    }
+  }
 
 }

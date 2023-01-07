@@ -14,7 +14,7 @@ import org.junit.Test;
 @Slf4j
 public class TemplateUtilTest extends BaseCoreTest {
 
-    @Test
-    public void run18() throws Exception {
-    }
+  @Test
+  public void run18() throws Exception {
+  }
 }

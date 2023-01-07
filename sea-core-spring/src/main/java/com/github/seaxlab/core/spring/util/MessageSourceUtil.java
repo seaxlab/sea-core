@@ -16,35 +16,35 @@ import java.util.Locale;
 @Slf4j
 public class MessageSourceUtil {
 
-    private MessageSourceUtil() {
+  private MessageSourceUtil() {
 
-    }
+  }
 
-    /**
-     * 获取资源文件
-     *
-     * @param messageSource
-     * @param errorCode
-     * @return
-     */
-    public static String getErrorMsg(MessageSource messageSource, String errorCode) {
-        return getErrorMsg(messageSource, errorCode, null);
-    }
+  /**
+   * 获取资源文件
+   *
+   * @param messageSource
+   * @param errorCode
+   * @return
+   */
+  public static String getErrorMsg(MessageSource messageSource, String errorCode) {
+    return getErrorMsg(messageSource, errorCode, null);
+  }
 
-    /**
-     * 获取资源文件
-     *
-     * @param messageSource
-     * @param errorCode
-     * @param errorMessage
-     * @return
-     */
-    public static String getErrorMsg(MessageSource messageSource, String errorCode, String errorMessage) {
-        String desc = errorMessage;
-        if (Strings.isNullOrEmpty(errorMessage)) {
-            desc = messageSource.getMessage(errorCode, null, errorCode, Locale.CHINESE);
-        }
-        return desc;
+  /**
+   * 获取资源文件
+   *
+   * @param messageSource
+   * @param errorCode
+   * @param errorMessage
+   * @return
+   */
+  public static String getErrorMsg(MessageSource messageSource, String errorCode, String errorMessage) {
+    String desc = errorMessage;
+    if (Strings.isNullOrEmpty(errorMessage)) {
+      desc = messageSource.getMessage(errorCode, null, errorCode, Locale.CHINESE);
     }
+    return desc;
+  }
 
 }

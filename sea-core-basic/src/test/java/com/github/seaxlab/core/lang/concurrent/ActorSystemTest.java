@@ -13,10 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ActorSystemTest extends BaseCoreTest {
 
-    // void pull(PullMessageProcessor.PullEntry pullEntry) {
-    //        final String actorPath = ConsumerGroupUtils.buildConsumerGroupKey(pullEntry.subject, pullEntry.group);
-    //        actorSystem.dispatch(actorPath, pullEntry, this);
-    //    }
+  // void pull(PullMessageProcessor.PullEntry pullEntry) {
+  //        final String actorPath = ConsumerGroupUtils.buildConsumerGroupKey(pullEntry.subject, pullEntry.group);
+  //        actorSystem.dispatch(actorPath, pullEntry, this);
+  //    }
 //    @Test
 //    public void test15() throws Exception {
 //        MyProcessor processor = new MyProcessor();

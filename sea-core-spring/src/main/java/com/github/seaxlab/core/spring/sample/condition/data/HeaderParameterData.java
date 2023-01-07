@@ -14,14 +14,14 @@ import java.util.List;
 @LoadLevel(name = "header")
 public class HeaderParameterData implements ParameterData {
 
-    @Override
-    public String builder(final ConditionContext context, final String paramName) {
-        ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
+  @Override
+  public String builder(final ConditionContext context, final String paramName) {
+    ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
 
-        List<String> headers = exchange.getRequest().getHeaders().get(paramName);
-        if (CollectionUtils.isEmpty(headers)) {
-            return "";
-        }
-        return headers.get(0);
+    List<String> headers = exchange.getRequest().getHeaders().get(paramName);
+    if (CollectionUtils.isEmpty(headers)) {
+      return "";
     }
+    return headers.get(0);
+  }
 }

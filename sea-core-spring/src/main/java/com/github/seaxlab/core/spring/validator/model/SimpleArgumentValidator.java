@@ -9,11 +9,11 @@ package com.github.seaxlab.core.spring.validator.model;
  */
 public interface SimpleArgumentValidator<T> {
 
-    /**
-     * 通过返回true,不通过返回false
-     *
-     * @param arg 校验参数
-     * @return true/false
-     */
-    boolean check(T arg);
+  /**
+   * 通过返回true,不通过返回false
+   *
+   * @param arg 校验参数
+   * @return true/false
+   */
+  boolean check(T arg);
 }

@@ -1,9 +1,10 @@
 package com.github.seaxlab.core.model.util;
 
 import com.github.seaxlab.core.enums.IBaseEnum;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Arrays;
 import java.util.Optional;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Base Enum util
@@ -14,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public final class BaseEnumUtil {
-
   private BaseEnumUtil() {
   }
 
@@ -56,8 +56,8 @@ public final class BaseEnumUtil {
    */
   public static <T extends IBaseEnum<Integer>> Optional<T> toEnum(int code, Class<T> clazz) {
     return Arrays.stream(clazz.getEnumConstants()) //
-      .filter(baseEnum -> baseEnum.getCode().intValue() == code) //
-      .findAny();
+                 .filter(baseEnum -> baseEnum.getCode().intValue() == code) //
+                 .findAny();
   }
 
   /**
@@ -71,9 +71,9 @@ public final class BaseEnumUtil {
    */
   public static <T extends IBaseEnum<Integer>> T toEnum(int code, Class<T> clazz, T defaultValue) {
     return Arrays.stream(clazz.getEnumConstants()) //
-      .filter(baseEnum -> baseEnum.getCode().intValue() == code) //
-      .findAny() //
-      .orElse(defaultValue);
+                 .filter(baseEnum -> baseEnum.getCode().intValue() == code) //
+                 .findAny() //
+                 .orElse(defaultValue);
   }
 
   /**
@@ -86,8 +86,8 @@ public final class BaseEnumUtil {
    */
   public static <T extends IBaseEnum<String>> Optional<T> toEnum(String code, Class<T> clazz) {
     return Arrays.stream(clazz.getEnumConstants()) //
-      .filter(baseEnum -> baseEnum.getCode().equalsIgnoreCase(code)) //
-      .findAny();
+                 .filter(baseEnum -> baseEnum.getCode().equalsIgnoreCase(code)) //
+                 .findAny();
   }
 
   /**
@@ -101,9 +101,9 @@ public final class BaseEnumUtil {
    */
   public static <T extends IBaseEnum<String>> T toEnum(String code, Class<T> clazz, T defaultValue) {
     return Arrays.stream(clazz.getEnumConstants()) //
-      .filter(baseEnum -> baseEnum.getCode().equalsIgnoreCase(code)) //
-      .findAny() //
-      .orElse(defaultValue);
+                 .filter(baseEnum -> baseEnum.getCode().equalsIgnoreCase(code)) //
+                 .findAny() //
+                 .orElse(defaultValue);
   }
 
 }

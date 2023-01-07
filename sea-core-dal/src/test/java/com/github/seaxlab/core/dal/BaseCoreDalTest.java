@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
  * @since 1.0
  */
 public abstract class BaseCoreDalTest extends AbstractCoreTest {
-    private Logger logger = LoggerFactory.getLogger(BaseCoreDalTest.class);
+  private Logger logger = LoggerFactory.getLogger(BaseCoreDalTest.class);
 
-    @Test
-    public void test17() throws Exception {
-        logger.info("a");
-    }
+  @Test
+  public void test17() throws Exception {
+    logger.info("a");
+  }
 }

@@ -9,20 +9,20 @@ package com.github.seaxlab.core.thread;
  */
 public class NamedInheritableThreadLocal<T> extends InheritableThreadLocal<T> {
 
-    private final String name;
+  private final String name;
 
-    /**
-     * specified name.
-     *
-     * @param name name
-     */
-    public NamedInheritableThreadLocal(String name) {
-        this.name = name;
-    }
+  /**
+   * specified name.
+   *
+   * @param name name
+   */
+  public NamedInheritableThreadLocal(String name) {
+    this.name = name;
+  }
 
-    @Override
-    public String toString() {
-        return this.name;
-    }
+  @Override
+  public String toString() {
+    return this.name;
+  }
 
 }

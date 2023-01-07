@@ -12,9 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class FeiShuUtil {
 
-    private FeiShuUtil() {
-    }
+  private FeiShuUtil() {
+  }
 
-    public static final String URL_SIMPLE = "https://open.feishu.cn/open-apis/bot/v2/hook/{}";
+  public static final String URL_SIMPLE = "https://open.feishu.cn/open-apis/bot/v2/hook/{}";
 
 }

@@ -16,11 +16,11 @@ import java.io.File;
 @Slf4j
 public class PathTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        // web app root.
-        String path = new File(".").getCanonicalPath();
-        // /Users/xxx/xx/sea-core/sea-core-basic
-        log.info("path={}", path);
-    }
+  @Test
+  public void run17() throws Exception {
+    // web app root.
+    String path = new File(".").getCanonicalPath();
+    // /Users/xxx/xx/sea-core/sea-core-basic
+    log.info("path={}", path);
+  }
 }

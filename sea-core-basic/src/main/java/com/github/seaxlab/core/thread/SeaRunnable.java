@@ -14,25 +14,25 @@ import java.util.Map;
 @Slf4j
 @Deprecated
 public class SeaRunnable implements Runnable {
-    private long tid = Thread.currentThread().getId();
-    private Runnable wrappedRunnable;
-    private Map<String, Object> threadContext;
+  private long tid = Thread.currentThread().getId();
+  private Runnable wrappedRunnable;
+  private Map<String, Object> threadContext;
 
-    public SeaRunnable(Runnable wrappedRunnable) {
-        this.initRunnable(wrappedRunnable, ThreadContext.getContext());
+  public SeaRunnable(Runnable wrappedRunnable) {
+    this.initRunnable(wrappedRunnable, ThreadContext.getContext());
+  }
+
+  private void initRunnable(Runnable wrappedRunnable, Map<String, Object> threadContext) {
+    this.wrappedRunnable = wrappedRunnable;
+    this.threadContext = threadContext;
+  }
+
+  @Override
+  public void run() {
+    try {
+      wrappedRunnable.run();
+    } finally {
+
     }
-
-    private void initRunnable(Runnable wrappedRunnable, Map<String, Object> threadContext) {
-        this.wrappedRunnable = wrappedRunnable;
-        this.threadContext = threadContext;
-    }
-
-    @Override
-    public void run() {
-        try {
-            wrappedRunnable.run();
-        } finally {
-
-        }
-    }
+  }
 }

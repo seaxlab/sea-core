@@ -1,10 +1,11 @@
 package com.github.seaxlab.core.dal.mybatis.tk.mapper;
 
 import com.github.seaxlab.core.dal.mybatis.tk.mapper.provider.InsertOrUpdateProviderExt;
-import java.util.List;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.annotation.RegisterMapper;
+
+import java.util.List;
 
 /**
  * insert or update.
@@ -26,6 +27,6 @@ public interface InsertOrUpdateMapper<T> {
    */
   @InsertProvider(type = InsertOrUpdateProviderExt.class, method = "dynamicSQL")
   int insertOrUpdateSelective(@Param("records") List<T> records,
-    @Param("insertColumns") String[] insertColumns,
-    @Param("updateColumns") String[] updateColumns);
+                              @Param("insertColumns") String[] insertColumns,
+                              @Param("updateColumns") String[] updateColumns);
 }

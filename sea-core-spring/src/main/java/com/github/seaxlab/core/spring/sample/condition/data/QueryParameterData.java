@@ -11,9 +11,9 @@ import org.springframework.web.server.ServerWebExchange;
 @LoadLevel(name = "query")
 public class QueryParameterData implements ParameterData {
 
-    @Override
-    public String builder(final ConditionContext context, final String paramName) {
-        ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
-        return exchange.getRequest().getQueryParams().getFirst(paramName);
-    }
+  @Override
+  public String builder(final ConditionContext context, final String paramName) {
+    ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
+    return exchange.getRequest().getQueryParams().getFirst(paramName);
+  }
 }

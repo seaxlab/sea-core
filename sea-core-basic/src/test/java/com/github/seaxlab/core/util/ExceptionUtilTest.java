@@ -18,43 +18,43 @@ import java.net.SocketTimeoutException;
 @Slf4j
 public class ExceptionUtilTest extends BaseCoreTest {
 
-    @Test
-    public void run17() throws Exception {
-        InvocationTargetException e = new InvocationTargetException(new RuntimeException("abc"));
+  @Test
+  public void run17() throws Exception {
+    InvocationTargetException e = new InvocationTargetException(new RuntimeException("abc"));
 
-        log.info("e.msg={}", e.getMessage());
-        log.info("error msg={}", ExceptionUtil.getStackTrace(e));
+    log.info("e.msg={}", e.getMessage());
+    log.info("error msg={}", ExceptionUtil.getStackTrace(e));
 
-        e = new InvocationTargetException(new RuntimeException("abc"), "cc");
+    e = new InvocationTargetException(new RuntimeException("abc"), "cc");
 
-        log.info("e.msg={}", e.getMessage());
-        log.info("error msg={}", ExceptionUtil.getStackTrace(e));
-    }
-
-
-    @Test
-    public void run34() throws Exception {
-        log.info("{}", ExceptionUtils.getStackTrace(new NullPointerException()));
-    }
-
-    @Test
-    public void test40() throws Exception {
-        String str = "";
-
-        String[] values = str.split(",", 10);
-        log.info("values={}", values);
-    }
+    log.info("e.msg={}", e.getMessage());
+    log.info("error msg={}", ExceptionUtil.getStackTrace(e));
+  }
 
 
-    @Test
-    public void testGetMsgN() throws Exception {
+  @Test
+  public void run34() throws Exception {
+    log.info("{}", ExceptionUtils.getStackTrace(new NullPointerException()));
+  }
 
-        SocketTimeoutException e = new SocketTimeoutException("This is socket timeout");
+  @Test
+  public void test40() throws Exception {
+    String str = "";
 
-        String msg = ExceptionUtil.getMsgN(e, 10);
-        log.info("msg={}", msg);
+    String[] values = str.split(",", 10);
+    log.info("values={}", values);
+  }
 
-        log.info("msg={}", ExceptionUtil.getMsg1(e));
 
-    }
+  @Test
+  public void testGetMsgN() throws Exception {
+
+    SocketTimeoutException e = new SocketTimeoutException("This is socket timeout");
+
+    String msg = ExceptionUtil.getMsgN(e, 10);
+    log.info("msg={}", msg);
+
+    log.info("msg={}", ExceptionUtil.getMsg1(e));
+
+  }
 }

@@ -14,14 +14,14 @@ import org.springframework.aop.support.AbstractBeanFactoryPointcutAdvisor;
 @Slf4j
 public class DefaultPointCutAdvisor extends AbstractBeanFactoryPointcutAdvisor {
 
-    private Pointcut pointcut;
+  private Pointcut pointcut;
 
-    public DefaultPointCutAdvisor(Pointcut pointcut) {
-        this.pointcut = pointcut;
-    }
+  public DefaultPointCutAdvisor(Pointcut pointcut) {
+    this.pointcut = pointcut;
+  }
 
-    @Override
-    public Pointcut getPointcut() {
-        return this.pointcut;
-    }
+  @Override
+  public Pointcut getPointcut() {
+    return this.pointcut;
+  }
 }

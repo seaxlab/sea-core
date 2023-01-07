@@ -17,35 +17,35 @@ import java.io.IOException;
 @Slf4j
 public abstract class AbstractCorsFilter implements Filter {
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("abstract cors filter init");
+  @Override
+  public void init(FilterConfig filterConfig) throws ServletException {
+    log.info("abstract cors filter init");
+  }
+
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+
+    String originHeader = ((HttpServletRequest) request).getHeader("Origin");
+    HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+
+    if (isTrustOrigin(originHeader)) {
+      // 若有端口需写全（协议+域名+端口）
+      httpServletResponse.setHeader("Access-Control-Allow-Origin", originHeader);
+      httpServletResponse.addHeader("Access-Control-Allow-Methods", "GET,HEAD,POST,PUT,DELETE,OPTIONS,PATCH");
+      httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+      httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
+      httpServletResponse.setHeader("Access-Control-Allow-Headers", "sea-token,token,x-requested-with,Content-Type");
+    } else {
+      log.error("origin={} is not trusted.", originHeader);
     }
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    chain.doFilter(request, response);
+  }
 
-        String originHeader = ((HttpServletRequest) request).getHeader("Origin");
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+  @Override
+  public void destroy() {
 
-        if (isTrustOrigin(originHeader)) {
-            // 若有端口需写全（协议+域名+端口）
-            httpServletResponse.setHeader("Access-Control-Allow-Origin", originHeader);
-            httpServletResponse.addHeader("Access-Control-Allow-Methods", "GET,HEAD,POST,PUT,DELETE,OPTIONS,PATCH");
-            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-            httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
-            httpServletResponse.setHeader("Access-Control-Allow-Headers", "sea-token,token,x-requested-with,Content-Type");
-        } else {
-            log.error("origin={} is not trusted.", originHeader);
-        }
+  }
 
-        chain.doFilter(request, response);
-    }
-
-    @Override
-    public void destroy() {
-
-    }
-
-    abstract boolean isTrustOrigin(String origin);
+  abstract boolean isTrustOrigin(String origin);
 }

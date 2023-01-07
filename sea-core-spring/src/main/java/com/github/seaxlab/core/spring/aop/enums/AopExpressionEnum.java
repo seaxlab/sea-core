@@ -12,18 +12,18 @@ import lombok.Getter;
  */
 @Getter
 public enum AopExpressionEnum implements IBaseEnum<String> {
-    //
-    EXECUTION_PACKAGE("execution(public * {}.*.*(..))", "包中public方法"), //
-    EXECUTION_PACKAGE_AND_SUB("execution(public * {}..*.*(..))", "包及子包中public方法"),
-    //
-    ;
-    private final String code;
-    private final String desc;
+  //
+  EXECUTION_PACKAGE("execution(public * {}.*.*(..))", "包中public方法"), //
+  EXECUTION_PACKAGE_AND_SUB("execution(public * {}..*.*(..))", "包及子包中public方法"),
+  //
+  ;
+  private final String code;
+  private final String desc;
 
-    AopExpressionEnum(String code, String desc) {
-        this.code = code;
-        this.desc = desc;
-    }
+  AopExpressionEnum(String code, String desc) {
+    this.code = code;
+    this.desc = desc;
+  }
 
 
 }

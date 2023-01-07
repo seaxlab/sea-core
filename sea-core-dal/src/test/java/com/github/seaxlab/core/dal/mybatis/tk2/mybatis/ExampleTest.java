@@ -20,18 +20,18 @@ import tk.mybatis.mapper.mapperhelper.EntityHelper;
 @Slf4j
 public class ExampleTest extends BaseMybatisTest {
 
-    @Before
-    public void testUp() throws Exception {
-        EntityHelper.initEntityNameMap(User.class, new Config());
-        this.setUp();
-    }
+  @Before
+  public void testUp() throws Exception {
+    EntityHelper.initEntityNameMap(User.class, new Config());
+    this.setUp();
+  }
 
-    @Test
-    public void test16() throws Exception {
-        Example example = new Example(User.class);
+  @Test
+  public void test16() throws Exception {
+    Example example = new Example(User.class);
 
-        ExampleUtil.setValueAll(example, "id", 1, "name", "cc");
+    ExampleUtil.setValueAll(example, "id", 1, "name", "cc");
 
-        log.info("{}", example);
-    }
+    log.info("{}", example);
+  }
 }

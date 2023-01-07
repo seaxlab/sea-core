@@ -21,41 +21,41 @@ import javax.annotation.Nullable;
 @Slf4j
 public class LogRequestMethodInterceptor implements MethodInterceptor {
 
-    @Nullable
-    @Override
-    public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
-        if (!AopGlobalConfig.getLogRequestFlag()) {
-            return invocation.proceed();
-        }
-
-        LogRequest anno = AnnotatedElementUtils.findMergedAnnotation(invocation.getMethod(), LogRequest.class);
-        if (anno == null) {
-            return invocation.proceed();
-        }
-
-        Object returnValue = null;
-        try {
-            returnValue = invocation.proceed();
-        } finally {
-            log.info("{}, args=[{}],return={}", getPrefix(invocation, anno), invocation.getArguments(), returnValue);
-        }
-        //
-        return returnValue;
+  @Nullable
+  @Override
+  public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
+    if (!AopGlobalConfig.getLogRequestFlag()) {
+      return invocation.proceed();
     }
 
-    //--------------------------------private
-    private String getPrefix(MethodInvocation invocation, LogRequest anno) {
-        String prefix = "";
-        try {
-            if (StringUtil.isBlank(anno.type())) {
-                prefix = invocation.getMethod().getDeclaringClass().getSimpleName() + "." + invocation.getMethod().getName();
-            } else {
-                prefix = anno.type();
-            }
-        } catch (Exception e) {
-            log.error("fail to get class and method name info", e);
-        }
-        //
-        return prefix;
+    LogRequest anno = AnnotatedElementUtils.findMergedAnnotation(invocation.getMethod(), LogRequest.class);
+    if (anno == null) {
+      return invocation.proceed();
     }
+
+    Object returnValue = null;
+    try {
+      returnValue = invocation.proceed();
+    } finally {
+      log.info("{}, args=[{}],return={}", getPrefix(invocation, anno), invocation.getArguments(), returnValue);
+    }
+    //
+    return returnValue;
+  }
+
+  //--------------------------------private
+  private String getPrefix(MethodInvocation invocation, LogRequest anno) {
+    String prefix = "";
+    try {
+      if (StringUtil.isBlank(anno.type())) {
+        prefix = invocation.getMethod().getDeclaringClass().getSimpleName() + "." + invocation.getMethod().getName();
+      } else {
+        prefix = anno.type();
+      }
+    } catch (Exception e) {
+      log.error("fail to get class and method name info", e);
+    }
+    //
+    return prefix;
+  }
 }

@@ -18,30 +18,30 @@ import java.util.List;
 @Data
 public class DingDingRobotSendRequest implements Serializable {
 
-    private String msgtype;
-    private Text text;
-    private Markdown markdown;
-    private At at;
+  private String msgtype;
+  private Text text;
+  private Markdown markdown;
+  private At at;
 
-    @Data
-    public static class Text {
-        private String content;
-    }
+  @Data
+  public static class Text {
+    private String content;
+  }
 
-    @Data
-    public static class Markdown {
-        private String title;
-        private String text;
-    }
+  @Data
+  public static class Markdown {
+    private String title;
+    private String text;
+  }
 
-    @Data
-    public static class At {
-        private List<String> atMobiles;
+  @Data
+  public static class At {
+    private List<String> atMobiles;
 
-        @JSONField(name = "isAtAll")
-        @JsonProperty("isAtAll")
-        private Boolean atAll;
-    }
+    @JSONField(name = "isAtAll")
+    @JsonProperty("isAtAll")
+    private Boolean atAll;
+  }
 
 
 }

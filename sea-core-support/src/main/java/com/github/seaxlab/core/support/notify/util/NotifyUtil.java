@@ -17,22 +17,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class NotifyUtil {
 
-    private NotifyUtil() {
+  private NotifyUtil() {
+  }
+
+  public static String getContent(BaseNotifyDTO dto) {
+    Precondition.checkNotNull(dto);
+
+    if (StringUtil.isNotBlank(dto.getContent())) {
+      return dto.getContent();
     }
 
-    public static String getContent(BaseNotifyDTO dto) {
-        Precondition.checkNotNull(dto);
-
-        if (StringUtil.isNotBlank(dto.getContent())) {
-            return dto.getContent();
-        }
-
-        if (ObjectUtil.isNotEmpty(dto.getTemplate(), dto.getParam())) {
-            return PlaceholderUtil.INSTANCE.replace(dto.getTemplate(), dto.getParam());
-        }
-
-        log.warn("can not determine message content.");
-        return StringUtil.empty();
+    if (ObjectUtil.isNotEmpty(dto.getTemplate(), dto.getParam())) {
+      return PlaceholderUtil.INSTANCE.replace(dto.getTemplate(), dto.getParam());
     }
+
+    log.warn("can not determine message content.");
+    return StringUtil.empty();
+  }
 
 }

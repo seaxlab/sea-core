@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="SIMPLE_LOG_FORMAT"
-              value="%d{HH:mm:ss.SSS} %level [%thread] [%class{36}.%M:%line] - %m %n"/>
-    <property name="DEFAULT_LOG_FORMAT"
-              value="%d{HH:mm:ss.SSS} %level [%thread] [%class{36}.%M:%line] [%X{SOFA-TraceId},%X{SOFA-SpanId}] - %m %n"/>
-    <property name="FILE_LOG_FORMAT"
-              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] [%class{36}.%M:%line] [%X{SOFA-TraceId},%X{SOFA-SpanId}] - %m %n"/>
+  <property name="SIMPLE_LOG_FORMAT"
+            value="%d{HH:mm:ss.SSS} %level [%thread] [%class{36}.%M:%line] - %m %n"/>
+  <property name="DEFAULT_LOG_FORMAT"
+            value="%d{HH:mm:ss.SSS} %level [%thread] [%class{36}.%M:%line] [%X{SOFA-TraceId},%X{SOFA-SpanId}] - %m %n"/>
+  <property name="FILE_LOG_FORMAT"
+            value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] [%class{36}.%M:%line] [%X{SOFA-TraceId},%X{SOFA-SpanId}] - %m %n"/>
 
-    <logger name="com.github.seaxlab" level="DEBUG"/>
+  <logger name="com.github.seaxlab" level="DEBUG"/>
 
-    <logger name="org.springframework" level="INFO"/>
-    <logger name="org.springboot.sample" level="TRACE"/>
-    <logger name="com.zaxxer.hikari" level="INFO"/>
-    <logger name="org.mybatis" level="INFO"/>
-    <logger name="java.sql" level="INFO"/>
-    <logger name="druid.sql" level="DEBUG"/>
-    <logger name="org.apache.juli" level="WARN"/>
-    <logger name="org.apache.http" level="INFO"/>
-    <logger name="org.apache.ibatis" level="INFO"/>
-    <logger name="org.apache.dubbo" level="DEBUG"/>
+  <logger name="org.springframework" level="INFO"/>
+  <logger name="org.springboot.sample" level="TRACE"/>
+  <logger name="com.zaxxer.hikari" level="INFO"/>
+  <logger name="org.mybatis" level="INFO"/>
+  <logger name="java.sql" level="INFO"/>
+  <logger name="druid.sql" level="DEBUG"/>
+  <logger name="org.apache.juli" level="WARN"/>
+  <logger name="org.apache.http" level="INFO"/>
+  <logger name="org.apache.ibatis" level="INFO"/>
+  <logger name="org.apache.dubbo" level="DEBUG"/>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <!--yyyy-MM-dd -->
-            <pattern>${DEFAULT_LOG_FORMAT}</pattern>
-        </encoder>
-    </appender>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <!--yyyy-MM-dd -->
+      <pattern>${DEFAULT_LOG_FORMAT}</pattern>
+    </encoder>
+  </appender>
 
 
-    <root level="DEBUG">
-        <appender-ref ref="STDOUT"/>
-    </root>
+  <root level="DEBUG">
+    <appender-ref ref="STDOUT"/>
+  </root>
 </configuration>

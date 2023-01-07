@@ -10,10 +10,10 @@ import java.util.Map;
  * @since 1.0
  */
 public interface HttpCookieParseExtension {
-    /**
-     * get specified key
-     *
-     * @return Map, key:out-key, value:inner-key
-     */
-    Map<String, String> get();
+  /**
+   * get specified key
+   *
+   * @return Map, key:out-key, value:inner-key
+   */
+  Map<String, String> get();
 }

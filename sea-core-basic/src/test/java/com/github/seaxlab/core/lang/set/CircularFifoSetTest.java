@@ -14,17 +14,17 @@ import org.junit.Test;
 @Slf4j
 public class CircularFifoSetTest {
 
-    @Test
-    public void test17() throws Exception {
-        CircularFifoSet<Integer> set = new CircularFifoSet<>(3);
+  @Test
+  public void test17() throws Exception {
+    CircularFifoSet<Integer> set = new CircularFifoSet<>(3);
 
-        set.add(1);
-        set.add(1);
-        set.add(2);
-        log.info("{}", set);
-        set.add(3);
-        log.info("{}", set);
-        set.add(4);
-        log.info("{}", set);
-    }
+    set.add(1);
+    set.add(1);
+    set.add(2);
+    log.info("{}", set);
+    set.add(3);
+    log.info("{}", set);
+    set.add(4);
+    log.info("{}", set);
+  }
 }

@@ -15,33 +15,33 @@ import java.util.Map;
 @Slf4j
 public final class ParamUtil {
 
-    private ParamUtil() {
+  private ParamUtil() {
+  }
+
+  /**
+   * generate param str
+   * <p>
+   * key1=v1&key2=v2
+   * </p>
+   *
+   * @param map
+   * @return
+   */
+  public static String getStr(Map<String, String> map) {
+
+    if (map == null || map.isEmpty()) {
+      return "";
     }
 
-    /**
-     * generate param str
-     * <p>
-     * key1=v1&key2=v2
-     * </p>
-     *
-     * @param map
-     * @return
-     */
-    public static String getStr(Map<String, String> map) {
+    StringBuilder strBuilder = new StringBuilder();
 
-        if (map == null || map.isEmpty()) {
-            return "";
-        }
-
-        StringBuilder strBuilder = new StringBuilder();
-
-        Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
-        while (it.hasNext()) {
-            Object key = it.next();
-            strBuilder.append(key + "=" + map.get(key) + "&");
-        }
-
-        return strBuilder.substring(0, strBuilder.length() - 1);
+    Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
+    while (it.hasNext()) {
+      Object key = it.next();
+      strBuilder.append(key + "=" + map.get(key) + "&");
     }
+
+    return strBuilder.substring(0, strBuilder.length() - 1);
+  }
 
 }

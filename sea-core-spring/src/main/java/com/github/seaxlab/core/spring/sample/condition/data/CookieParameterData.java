@@ -15,14 +15,14 @@ import java.util.List;
 @LoadLevel(name = "cookie")
 public class CookieParameterData implements ParameterData {
 
-    @Override
-    public String builder(final ConditionContext context, final String paramName) {
-        ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
+  @Override
+  public String builder(final ConditionContext context, final String paramName) {
+    ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
 
-        List<HttpCookie> cookies = exchange.getRequest().getCookies().get(paramName);
-        if (CollectionUtils.isEmpty(cookies)) {
-            return "";
-        }
-        return cookies.get(0).getValue();
+    List<HttpCookie> cookies = exchange.getRequest().getCookies().get(paramName);
+    if (CollectionUtils.isEmpty(cookies)) {
+      return "";
     }
+    return cookies.get(0).getValue();
+  }
 }

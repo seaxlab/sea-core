@@ -16,27 +16,27 @@ import java.util.List;
 @Data
 public class DingDingNotifyDTO extends BaseNotifyDTO {
 
-    private MsgTypeEnum msgTypeEnum;
-    // at one/all
-    private At at;
+  private MsgTypeEnum msgTypeEnum;
+  // at one/all
+  private At at;
 
 
-    @Data
-    public static class At {
+  @Data
+  public static class At {
 
-        private List<String> atMobiles;
-        private boolean atAll;
+    private List<String> atMobiles;
+    private boolean atAll;
 
-        //extend
-        public void addMobile(String mobile) {
-            if (atMobiles == null) {
-                atMobiles = new ArrayList<>();
-            }
-            if (mobile == null || mobile.trim().isEmpty()) {
-                return;
-            }
+    //extend
+    public void addMobile(String mobile) {
+      if (atMobiles == null) {
+        atMobiles = new ArrayList<>();
+      }
+      if (mobile == null || mobile.trim().isEmpty()) {
+        return;
+      }
 
-            atMobiles.add(mobile);
-        }
+      atMobiles.add(mobile);
     }
+  }
 }

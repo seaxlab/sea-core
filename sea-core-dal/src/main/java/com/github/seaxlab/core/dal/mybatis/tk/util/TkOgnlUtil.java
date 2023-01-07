@@ -3,17 +3,14 @@ package com.github.seaxlab.core.dal.mybatis.tk.util;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.util.ListUtil;
 import com.google.common.base.Preconditions;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import tk.mybatis.mapper.entity.EntityColumn;
 import tk.mybatis.mapper.entity.EntityTable;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.mapperhelper.EntityHelper;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * module name
@@ -47,7 +44,7 @@ public class TkOgnlUtil {
     Set<EntityColumn> allColumns = EntityHelper.getColumns(record.getClass());
     // to db column
     Map<String, String> columnMap = allColumns.stream()
-      .collect(Collectors.toMap(EntityColumn::getProperty, EntityColumn::getColumn));
+                                              .collect(Collectors.toMap(EntityColumn::getProperty, EntityColumn::getColumn));
 
     if (parameter instanceof String[]) {
       String[] columns = (String[]) parameter;
@@ -68,8 +65,8 @@ public class TkOgnlUtil {
     if (parameter instanceof String[]) {
       String[] columns = (String[]) parameter;
       List<String> list = Arrays.stream(columns)
-        .map(column -> "#{item." + column + "}")
-        .collect(Collectors.toList());
+                                .map(column -> "#{item." + column + "}")
+                                .collect(Collectors.toList());
       return "(" + String.join(",", list) + ")";
     }
 
@@ -91,7 +88,7 @@ public class TkOgnlUtil {
     Set<EntityColumn> allColumns = EntityHelper.getColumns(record.getClass());
     // to db column
     Map<String, String> columnMap = allColumns.stream()
-      .collect(Collectors.toMap(EntityColumn::getProperty, EntityColumn::getColumn));
+                                              .collect(Collectors.toMap(EntityColumn::getProperty, EntityColumn::getColumn));
 
     if (parameter instanceof String[]) {
       String[] columns = (String[]) parameter;
@@ -130,7 +127,7 @@ public class TkOgnlUtil {
     //    where id=1
     StringBuilder sql = new StringBuilder();
     sql.append("SELECT MAX(").append(maxColumnName.replaceAll("`", "")).append(") AS ").append("'")
-      .append(DynamicSqlUtil.DEFAULT_MAX_SUB_QUERY_FILED).append("' ");
+       .append(DynamicSqlUtil.DEFAULT_MAX_SUB_QUERY_FILED).append("' ");
     sql.append("FROM ").append(entityTable.getName()).append(" ");
 
     return sql.toString();
@@ -162,8 +159,8 @@ public class TkOgnlUtil {
 
     StringBuilder sql = new StringBuilder();
     sql.append(" WHERE ")
-      .append("a.").append(maxColumnName.replaceAll("`", ""))
-      .append("=").append("b.").append(DynamicSqlUtil.DEFAULT_MAX_SUB_QUERY_FILED);
+       .append("a.").append(maxColumnName.replaceAll("`", ""))
+       .append("=").append("b.").append(DynamicSqlUtil.DEFAULT_MAX_SUB_QUERY_FILED);
 
     return sql.toString();
   }
@@ -177,7 +174,7 @@ public class TkOgnlUtil {
    */
   private static Map<String, String> getColumnMap(Set<EntityColumn> allColumns) {
     return allColumns.stream()
-      .collect(Collectors.toMap(EntityColumn::getProperty, EntityColumn::getColumn));
+                     .collect(Collectors.toMap(EntityColumn::getProperty, EntityColumn::getColumn));
   }
 
 

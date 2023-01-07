@@ -20,34 +20,34 @@ import java.util.Set;
 @Slf4j
 public class ClassScanTest extends BaseCoreTest {
 
-    @Test
-    public void test17() throws Exception {
-        ClassScan scanner = new DefaultClassScan();
+  @Test
+  public void test17() throws Exception {
+    ClassScan scanner = new DefaultClassScan();
 
-        Set<String> classSet = scanner.get("com.github.seaxlab.core.function");
+    Set<String> classSet = scanner.get("com.github.seaxlab.core.function");
 
-        classSet.stream().forEach(item -> log.info("{}", item));
-    }
+    classSet.stream().forEach(item -> log.info("{}", item));
+  }
 
-    @Test
-    public void test31() throws Exception {
-        ClassScan scanner = new DefaultClassScan();
+  @Test
+  public void test31() throws Exception {
+    ClassScan scanner = new DefaultClassScan();
 
-        List<String> packages = new ArrayList<>();
-        packages.add("com.github.seaxlab.core.function");
-        Set<String> classSet = scanner.get(packages);
+    List<String> packages = new ArrayList<>();
+    packages.add("com.github.seaxlab.core.function");
+    Set<String> classSet = scanner.get(packages);
 
-        classSet.stream().forEach(item -> log.info("{}", item));
-    }
+    classSet.stream().forEach(item -> log.info("{}", item));
+  }
 
-    @Test
-    public void test44() throws Exception {
-        ClassScan scanner = new DefaultClassScan();
+  @Test
+  public void test44() throws Exception {
+    ClassScan scanner = new DefaultClassScan();
 
-        List<String> packages = new ArrayList<>();
-        packages.add("com.github.seaxlab.core.function");
-        Set<Class<?>> classSet = scanner.get(packages, Beta.class);
+    List<String> packages = new ArrayList<>();
+    packages.add("com.github.seaxlab.core.function");
+    Set<Class<?>> classSet = scanner.get(packages, Beta.class);
 
-        classSet.stream().forEach(item -> log.info("{}", item));
-    }
+    classSet.stream().forEach(item -> log.info("{}", item));
+  }
 }

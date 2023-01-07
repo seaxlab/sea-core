@@ -16,9 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomGenerator implements IdGenerator {
 
 
-    @Override
-    public String getId() {
+  @Override
+  public String getId() {
 
-        return "0001";
-    }
+    return "0001";
+  }
 }

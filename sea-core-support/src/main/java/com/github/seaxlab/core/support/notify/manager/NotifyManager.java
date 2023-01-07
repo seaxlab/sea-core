@@ -12,11 +12,11 @@ import com.github.seaxlab.core.support.notify.dto.BaseNotifyDTO;
  */
 public interface NotifyManager<T extends BaseNotifyDTO> {
 
-    /**
-     * 发送消息
-     *
-     * @param dto
-     * @return
-     */
-    Result send(T dto);
+  /**
+   * 发送消息
+   *
+   * @param dto
+   * @return
+   */
+  Result send(T dto);
 }

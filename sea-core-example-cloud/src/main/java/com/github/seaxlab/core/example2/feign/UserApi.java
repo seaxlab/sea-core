@@ -18,9 +18,9 @@ import java.util.List;
 @FeignClient(name = "user-service", path = "/api/user", fallback = UserApiFallback.class)
 public interface UserApi {
 
-    @GetMapping("/detail")
-    Result<UserRespDTO> getUserInfo(Long userId);
+  @GetMapping("/detail")
+  Result<UserRespDTO> getUserInfo(Long userId);
 
-    @PostMapping("/search")
-    Result<List<UserRespDTO>> search(Long userId);
+  @PostMapping("/search")
+  Result<List<UserRespDTO>> search(Long userId);
 }

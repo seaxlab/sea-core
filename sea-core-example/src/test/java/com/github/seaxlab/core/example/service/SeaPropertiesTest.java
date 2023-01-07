@@ -16,11 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 public class SeaPropertiesTest extends BaseSpringTest {
 
-    @Autowired
-    SeaProperties seaProperties;
+  @Autowired
+  SeaProperties seaProperties;
 
-    @Test
-    public void run17() throws Exception {
-        log.info("properties={}", seaProperties.getProperties());
-    }
+  @Test
+  public void run17() throws Exception {
+    log.info("properties={}", seaProperties.getProperties());
+  }
 }

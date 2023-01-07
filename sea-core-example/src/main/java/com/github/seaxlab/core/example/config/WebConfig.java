@@ -18,15 +18,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebConfig {
 
-    @Bean
-    public FilterRegistrationBean registerMyFilter() {
-        FilterRegistrationBean<SignAuthFilter> bean = new FilterRegistrationBean<>();
-        bean.setOrder(1);
-        bean.setFilter(new SignAuthFilter());
-        // 匹配"/hello/"下面的所有url
-        bean.addUrlPatterns("/api/sign/*");
-        return bean;
-    }
+  @Bean
+  public FilterRegistrationBean registerMyFilter() {
+    FilterRegistrationBean<SignAuthFilter> bean = new FilterRegistrationBean<>();
+    bean.setOrder(1);
+    bean.setFilter(new SignAuthFilter());
+    // 匹配"/hello/"下面的所有url
+    bean.addUrlPatterns("/api/sign/*");
+    return bean;
+  }
 
 
 //    @Bean
@@ -41,8 +41,8 @@ public class WebConfig {
 //        return registration;
 //    }
 
-    @Bean
-    public WebApplicationListener webApplicationListener() {
-        return new WebApplicationListener();
-    }
+  @Bean
+  public WebApplicationListener webApplicationListener() {
+    return new WebApplicationListener();
+  }
 }

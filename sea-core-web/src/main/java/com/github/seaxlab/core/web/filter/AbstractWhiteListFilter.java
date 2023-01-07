@@ -26,55 +26,55 @@ import java.util.List;
 @Beta
 public abstract class AbstractWhiteListFilter implements Filter {
 
-    private List<String> ips;
-    private List<String> userAgents;
+  private List<String> ips;
+  private List<String> userAgents;
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        ips = getIps();
-        userAgents = getUserAgents();
+  @Override
+  public void init(FilterConfig filterConfig) throws ServletException {
+    ips = getIps();
+    userAgents = getUserAgents();
+  }
+
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    HttpServletRequest req = (HttpServletRequest) request;
+    HttpServletResponse resp = (HttpServletResponse) response;
+    boolean access = false;
+
+    String ip = RequestUtil.getClientIpAddress(req);
+    if (ListUtil.isNotEmpty(ips)) {
+      access = EqualUtil.isIn(ip, ips);
     }
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
-        boolean access = false;
-
-        String ip = RequestUtil.getClientIpAddress(req);
-        if (ListUtil.isNotEmpty(ips)) {
-            access = EqualUtil.isIn(ip, ips);
-        }
-
-        if (access) {
-            log.info("ip={} access system", ip);
-            chain.doFilter(request, response);
-            return;
-        }
-
-        String userAgent = RequestUtil.getUserAgent(req);
-        if (ListUtil.isNotEmpty(userAgents)) {
-            access = EqualUtil.isIn(userAgent, userAgents);
-        }
-
-        if (access) {
-            log.info("user agent={} access system", userAgent);
-            chain.doFilter(request, response);
-            return;
-        }
-
-        log.warn("client[ip={}, client={}] is forbidden access", ip, userAgent);
-        Result result = Result.fail(ErrorMessageEnum.SYS_FORBIDDEN_ACCESS);
-        ResponseUtil.toJSON(resp, result);
+    if (access) {
+      log.info("ip={} access system", ip);
+      chain.doFilter(request, response);
+      return;
     }
 
-    @Override
-    public void destroy() {
-        ips.clear();
-        userAgents.clear();
+    String userAgent = RequestUtil.getUserAgent(req);
+    if (ListUtil.isNotEmpty(userAgents)) {
+      access = EqualUtil.isIn(userAgent, userAgents);
     }
 
-    abstract List<String> getIps();
+    if (access) {
+      log.info("user agent={} access system", userAgent);
+      chain.doFilter(request, response);
+      return;
+    }
 
-    abstract List<String> getUserAgents();
+    log.warn("client[ip={}, client={}] is forbidden access", ip, userAgent);
+    Result result = Result.fail(ErrorMessageEnum.SYS_FORBIDDEN_ACCESS);
+    ResponseUtil.toJSON(resp, result);
+  }
+
+  @Override
+  public void destroy() {
+    ips.clear();
+    userAgents.clear();
+  }
+
+  abstract List<String> getIps();
+
+  abstract List<String> getUserAgents();
 }

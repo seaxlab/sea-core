@@ -8,10 +8,10 @@ import java.io.Serializable;
  * @param <T> 建造对象类型
  */
 public interface Builder<T> extends Serializable {
-    /**
-     * 构建
-     *
-     * @return 被构建的对象
-     */
-    T build();
+  /**
+   * 构建
+   *
+   * @return 被构建的对象
+   */
+  T build();
 }

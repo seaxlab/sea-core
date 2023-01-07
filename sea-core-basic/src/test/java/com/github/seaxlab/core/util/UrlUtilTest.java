@@ -14,22 +14,22 @@ import org.junit.Test;
  */
 @Slf4j
 public class UrlUtilTest extends BaseCoreTest {
-    @Test
-    public void parseTest() throws Exception {
+  @Test
+  public void parseTest() throws Exception {
 
-        String url = "www.baidu.com?a=1&b=2&password=%26abcd";
-        log.info("props={}", UrlUtil.parse(url));
+    String url = "www.baidu.com?a=1&b=2&password=%26abcd";
+    log.info("props={}", UrlUtil.parse(url));
 
-        url = "https://www.baidu.com:1000?a=1";
-        log.info("props={}", UrlUtil.parse(url));
-    }
+    url = "https://www.baidu.com:1000?a=1";
+    log.info("props={}", UrlUtil.parse(url));
+  }
 
-    @Test
-    public void joinTest() throws Exception {
-        Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com", "abc", "csd"));
-        Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com", "/abc", "csd"));
-        Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com/", "/abc", "csd"));
-        Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com/", "/abc", "/csd"));
-        Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com/", "/abc/", "/csd"));
-    }
+  @Test
+  public void joinTest() throws Exception {
+    Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com", "abc", "csd"));
+    Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com", "/abc", "csd"));
+    Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com/", "/abc", "csd"));
+    Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com/", "/abc", "/csd"));
+    Assert.assertEquals("http://www.a.com/abc/csd", UrlUtil.join("http://www.a.com/", "/abc/", "/csd"));
+  }
 }

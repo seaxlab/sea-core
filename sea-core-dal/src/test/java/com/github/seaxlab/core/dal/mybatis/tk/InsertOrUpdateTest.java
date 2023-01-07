@@ -19,32 +19,32 @@ import java.util.List;
 @Slf4j
 public class InsertOrUpdateTest extends BaseSpringTest {
 
-    @Resource
-    private User1Mapper user1Mapper;
+  @Resource
+  private User1Mapper user1Mapper;
 
-    @Test
-    public void testInsert() throws Exception {
-        User1 user1 = new User1();
-        user1.setName("abc");
-        user1Mapper.insertSelective(user1);
+  @Test
+  public void testInsert() throws Exception {
+    User1 user1 = new User1();
+    user1.setName("abc");
+    user1Mapper.insertSelective(user1);
+  }
+
+  @Test
+  public void testInsertOrUpdate() throws Exception {
+    List<User1> data = new ArrayList<>();
+
+    for (int i = 0; i < 3; i++) {
+      String random = RandomUtil.numeric(6);
+      log.info("random={}", random);
+      User1 user1 = new User1();
+      user1.setId(Long.valueOf(i));
+      user1.setName("name" + random);
+      user1.setCardNo(random);
+      data.add(user1);
     }
 
-    @Test
-    public void testInsertOrUpdate() throws Exception {
-        List<User1> data = new ArrayList<>();
 
-        for (int i = 0; i < 3; i++) {
-            String random = RandomUtil.numeric(6);
-            log.info("random={}", random);
-            User1 user1 = new User1();
-            user1.setId(Long.valueOf(i));
-            user1.setName("name" + random);
-            user1.setCardNo(random);
-            data.add(user1);
-        }
-
-
-        int dbCount = user1Mapper.insertOrUpdateSelective(data, new String[]{"name", "cardNo"}, new String[]{"name", "cardNo"});
-        log.info("db count={}", dbCount);
-    }
+    int dbCount = user1Mapper.insertOrUpdateSelective(data, new String[]{"name", "cardNo"}, new String[]{"name", "cardNo"});
+    log.info("db count={}", dbCount);
+  }
 }

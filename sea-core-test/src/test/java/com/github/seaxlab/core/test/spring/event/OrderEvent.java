@@ -11,9 +11,9 @@ import lombok.Data;
  */
 @Data
 public class OrderEvent {
-    private String orderNo;
+  private String orderNo;
 
-    public OrderEvent(String orderNo) {
-        this.orderNo = orderNo;
-    }
+  public OrderEvent(String orderNo) {
+    this.orderNo = orderNo;
+  }
 }

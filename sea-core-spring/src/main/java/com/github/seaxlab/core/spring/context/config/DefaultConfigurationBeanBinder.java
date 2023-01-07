@@ -14,17 +14,17 @@ import java.util.Map;
  */
 public class DefaultConfigurationBeanBinder implements ConfigurationBeanBinder {
 
-    @Override
-    public void bind(Map<String, Object> configurationProperties, boolean ignoreUnknownFields,
-                     boolean ignoreInvalidFields, Object configurationBean) {
-        DataBinder dataBinder = new DataBinder(configurationBean);
-        // Set ignored*
-        dataBinder.setIgnoreInvalidFields(ignoreUnknownFields);
-        dataBinder.setIgnoreUnknownFields(ignoreInvalidFields);
-        // Get properties under specified prefix from PropertySources
-        // Convert Map to MutablePropertyValues
-        MutablePropertyValues propertyValues = new MutablePropertyValues(configurationProperties);
-        // Bind
-        dataBinder.bind(propertyValues);
-    }
+  @Override
+  public void bind(Map<String, Object> configurationProperties, boolean ignoreUnknownFields,
+                   boolean ignoreInvalidFields, Object configurationBean) {
+    DataBinder dataBinder = new DataBinder(configurationBean);
+    // Set ignored*
+    dataBinder.setIgnoreInvalidFields(ignoreUnknownFields);
+    dataBinder.setIgnoreUnknownFields(ignoreInvalidFields);
+    // Get properties under specified prefix from PropertySources
+    // Convert Map to MutablePropertyValues
+    MutablePropertyValues propertyValues = new MutablePropertyValues(configurationProperties);
+    // Bind
+    dataBinder.bind(propertyValues);
+  }
 }

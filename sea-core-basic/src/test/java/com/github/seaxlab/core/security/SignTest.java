@@ -22,117 +22,117 @@ import java.util.Map;
  */
 @Slf4j
 public class SignTest {
-    String version;
-    String appId;
-    String appSecret;
+  String version;
+  String appId;
+  String appSecret;
 
-    @Before
-    public void before() {
-        // 服务提供商分配
-        version = "1.0";
-        // 服务提供商分配
-        appId = "10001";
-        // 服务提供商分配,16位
-        appSecret = "6898e14c6a184cf0";
-    }
-
-
-    @Test
-    public void requestTest() throws Exception {
-
-        // 请求时间戳 ，格式yyyyMMddHHmmss
-        String timestamp = "20190722100811";
-
-        // 业务请求参数
-        String bizContent = "{'hospCode':'0001'}";
+  @Before
+  public void before() {
+    // 服务提供商分配
+    version = "1.0";
+    // 服务提供商分配
+    appId = "10001";
+    // 服务提供商分配,16位
+    appSecret = "6898e14c6a184cf0";
+  }
 
 
-        Map<String, String> map = new HashMap<>();
+  @Test
+  public void requestTest() throws Exception {
 
-        map.put("appId", appId);
-        map.put("version", version);
-        map.put("timestamp", timestamp);
-        map.put("bizContent", bizContent);
+    // 请求时间戳 ，格式yyyyMMddHHmmss
+    String timestamp = "20190722100811";
 
-        // MD5签名，参数名按照升序排列，例如id=100&name=joy
-        String sign = SignUtil.getByMd5(map);
-        log.info("sign={}", sign);
-
-        // 加密
-        //加密方式 AES (AES/ECB/PKCS5Padding)
-        String encryptedBizContent = AESUtil.encrypt(bizContent, appSecret);
-
-        EncryptRequestDTO requestDTO = new EncryptRequestDTO();
-
-        requestDTO.setAppId(appId);
-        requestDTO.setVersion(version);
-        requestDTO.setTimestamp(timestamp);
-        requestDTO.setSign(sign);
-        requestDTO.setBizContent(encryptedBizContent);
-
-        log.info("encryptRequestDTO={}", JSONUtil.toStr(requestDTO));
+    // 业务请求参数
+    String bizContent = "{'hospCode':'0001'}";
 
 
-        // 解密
-        String decryptedBizContent = AESUtil.decrypt(encryptedBizContent, appSecret);
+    Map<String, String> map = new HashMap<>();
 
-        log.info("decryptebizContent={}", decryptedBizContent);
+    map.put("appId", appId);
+    map.put("version", version);
+    map.put("timestamp", timestamp);
+    map.put("bizContent", bizContent);
 
-        Map<String, String> map2 = new HashMap<>();
+    // MD5签名，参数名按照升序排列，例如id=100&name=joy
+    String sign = SignUtil.getByMd5(map);
+    log.info("sign={}", sign);
 
-        map2.put("appId", appId);
-        map2.put("version", version);
-        map2.put("timestamp", timestamp);
-        map2.put("bizContent", decryptedBizContent);
+    // 加密
+    //加密方式 AES (AES/ECB/PKCS5Padding)
+    String encryptedBizContent = AESUtil.encrypt(bizContent, appSecret);
 
-        String sign2 = SignUtil.getByMd5(map);
-        log.info("sign2={}", sign);
+    EncryptRequestDTO requestDTO = new EncryptRequestDTO();
 
-        Assert.assertEquals(sign, sign2);
-    }
+    requestDTO.setAppId(appId);
+    requestDTO.setVersion(version);
+    requestDTO.setTimestamp(timestamp);
+    requestDTO.setSign(sign);
+    requestDTO.setBizContent(encryptedBizContent);
 
-
-    @Test
-    public void responseTest() throws Exception {
-
-        // 响应
-        Map<String, String> retMap = new HashMap<>();
-
-        retMap.put("recipeId", "123456");
-        retMap.put("recipeStatus", "ok");
+    log.info("encryptRequestDTO={}", JSONUtil.toStr(requestDTO));
 
 
-        String timestamp = "20190722100911";
-        String bizContent = JSONUtil.toStr(retMap);
-        String msg = "成功";
+    // 解密
+    String decryptedBizContent = AESUtil.decrypt(encryptedBizContent, appSecret);
 
-        Map<String, String> map = new HashMap<>();
+    log.info("decryptebizContent={}", decryptedBizContent);
+
+    Map<String, String> map2 = new HashMap<>();
+
+    map2.put("appId", appId);
+    map2.put("version", version);
+    map2.put("timestamp", timestamp);
+    map2.put("bizContent", decryptedBizContent);
+
+    String sign2 = SignUtil.getByMd5(map);
+    log.info("sign2={}", sign);
+
+    Assert.assertEquals(sign, sign2);
+  }
 
 
-        map.put("success", "true");
-        map.put("message", msg);
-        map.put("appId", appId);
-        map.put("version", version);
-        map.put("timestamp", timestamp);
-        map.put("bizContent", bizContent);
+  @Test
+  public void responseTest() throws Exception {
 
-        String sign = SignUtil.getByMd5(map);
+    // 响应
+    Map<String, String> retMap = new HashMap<>();
+
+    retMap.put("recipeId", "123456");
+    retMap.put("recipeStatus", "ok");
 
 
-        String encryptBizContent = AESUtil.encrypt(bizContent, appSecret);
+    String timestamp = "20190722100911";
+    String bizContent = JSONUtil.toStr(retMap);
+    String msg = "成功";
 
-        EncryptResult result = new EncryptResult();
+    Map<String, String> map = new HashMap<>();
 
-        result.setSuccess(true);
-        result.setAppId(appId);
-        result.setBizContent(encryptBizContent);
-        result.setMessage(msg);
-        result.setSign(sign);
-        result.setVersion(version);
 
-        log.info("result={}", JSONUtil.toStr(result));
+    map.put("success", "true");
+    map.put("message", msg);
+    map.put("appId", appId);
+    map.put("version", version);
+    map.put("timestamp", timestamp);
+    map.put("bizContent", bizContent);
 
-    }
+    String sign = SignUtil.getByMd5(map);
+
+
+    String encryptBizContent = AESUtil.encrypt(bizContent, appSecret);
+
+    EncryptResult result = new EncryptResult();
+
+    result.setSuccess(true);
+    result.setAppId(appId);
+    result.setBizContent(encryptBizContent);
+    result.setMessage(msg);
+    result.setSign(sign);
+    result.setVersion(version);
+
+    log.info("result={}", JSONUtil.toStr(result));
+
+  }
 
 
 }

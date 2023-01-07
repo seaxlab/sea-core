@@ -16,27 +16,27 @@ import java.util.Map;
 @Data
 public class OssConfig {
 
-    private String endpoint;
+  private String endpoint;
 
-    private String accessKey;
+  private String accessKey;
 
-    private String secretKey;
+  private String secretKey;
 
-    private int socketTimeout;
+  private int socketTimeout;
 
-    private int connectionTimeout;
+  private int connectionTimeout;
 
 
-    // 非标准参数
-    private Map<String, String> extra;
+  // 非标准参数
+  private Map<String, String> extra;
 
-    public void addExtra(String key, String value) {
-        Preconditions.checkNotNull(key);
-        Preconditions.checkNotNull(value);
+  public void addExtra(String key, String value) {
+    Preconditions.checkNotNull(key);
+    Preconditions.checkNotNull(value);
 
-        if (extra == null) {
-            extra = new HashMap<>();
-        }
-        this.extra.put(key, value);
+    if (extra == null) {
+      extra = new HashMap<>();
     }
+    this.extra.put(key, value);
+  }
 }

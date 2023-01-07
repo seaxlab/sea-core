@@ -23,135 +23,135 @@ import java.util.Set;
 @Slf4j
 public class MockContext {
 
-    /**
-     * get raw data.
-     *
-     * @return
-     */
-    public static String getRaw() {
-        return ThreadContext.getSafe(CoreConst.DEFAULT_MOCK_KEY);
-    }
+  /**
+   * get raw data.
+   *
+   * @return
+   */
+  public static String getRaw() {
+    return ThreadContext.getSafe(CoreConst.DEFAULT_MOCK_KEY);
+  }
 
-    /**
-     * get mock data
-     *
-     * @return
-     */
-    public static final String getData() {
-        return StringUtil.defaultIfBlank(getRaw(), StringUtil.EMPTY);
-    }
+  /**
+   * get mock data
+   *
+   * @return
+   */
+  public static final String getData() {
+    return StringUtil.defaultIfBlank(getRaw(), StringUtil.EMPTY);
+  }
 
-    /**
-     * convert mock data to json.
-     *
-     * @return
-     */
-    public static final JSONObject getJSON() {
-        String value = getRaw();
-        if (StringUtil.isNotEmpty(value)) {
-            if (JSON.isValidObject(value)) {
-                return JSON.parseObject(value);
-            } else {
-                log.warn("mock data is not valid json object.");
-                return new JSONObject();
-            }
-        }
-
+  /**
+   * convert mock data to json.
+   *
+   * @return
+   */
+  public static final JSONObject getJSON() {
+    String value = getRaw();
+    if (StringUtil.isNotEmpty(value)) {
+      if (JSON.isValidObject(value)) {
+        return JSON.parseObject(value);
+      } else {
+        log.warn("mock data is not valid json object.");
         return new JSONObject();
+      }
     }
 
-    /**
-     * 扁平的获取
-     * <pre>
-     *     boolean mockFlag = MockContext.getFlag("mock_his_query_bill_list");
-     * </pre>
-     * please use getBool/get
-     *
-     * @param key mock key
-     * @return true/false.
-     */
-    @Deprecated
-    public static final boolean hasFlag(String key) {
-        Preconditions.checkNotNull(key, "mock key cannot be null");
-        key = processKey(key);
-        String value = getRaw();
-        if (StringUtil.isNotEmpty(value)) {
-            if (value.contains(",")) {
-                Set<String> keySet = SetUtil.toSet(value.split("\\,"));
-                return keySet.contains(key);
-            } else {
-                return EqualUtil.isEq(key, value, false);
-            }
-        }
+    return new JSONObject();
+  }
 
-        return false;
+  /**
+   * 扁平的获取
+   * <pre>
+   *     boolean mockFlag = MockContext.getFlag("mock_his_query_bill_list");
+   * </pre>
+   * please use getBool/get
+   *
+   * @param key mock key
+   * @return true/false.
+   */
+  @Deprecated
+  public static final boolean hasFlag(String key) {
+    Preconditions.checkNotNull(key, "mock key cannot be null");
+    key = processKey(key);
+    String value = getRaw();
+    if (StringUtil.isNotEmpty(value)) {
+      if (value.contains(",")) {
+        Set<String> keySet = SetUtil.toSet(value.split("\\,"));
+        return keySet.contains(key);
+      } else {
+        return EqualUtil.isEq(key, value, false);
+      }
     }
 
-    /**
-     * get mock value
-     *
-     * @param key mock key.
-     * @return
-     */
-    public static final int getInt(String key) {
-        return get(key, 0);
-    }
+    return false;
+  }
 
-    /**
-     * get mock data string
-     *
-     * @param key mock key.
-     * @return
-     */
-    public static final String getString(String key) {
-        return get(key, StringUtil.EMPTY);
-    }
+  /**
+   * get mock value
+   *
+   * @param key mock key.
+   * @return
+   */
+  public static final int getInt(String key) {
+    return get(key, 0);
+  }
 
-    /**
-     * get mock value
-     *
-     * @param key mock key.
-     * @return
-     */
-    public static final boolean getBool(String key) {
-        return get(key, false);
-    }
+  /**
+   * get mock data string
+   *
+   * @param key mock key.
+   * @return
+   */
+  public static final String getString(String key) {
+    return get(key, StringUtil.EMPTY);
+  }
+
+  /**
+   * get mock value
+   *
+   * @param key mock key.
+   * @return
+   */
+  public static final boolean getBool(String key) {
+    return get(key, false);
+  }
 
 
-    /**
-     * basic get
-     *
-     * @param key          mock key
-     * @param defaultValue default value.
-     * @param <T>
-     * @return
-     */
-    public static final <T> T get(String key, T defaultValue) {
-        Preconditions.checkNotNull(key, "mock key can not be null");
+  /**
+   * basic get
+   *
+   * @param key          mock key
+   * @param defaultValue default value.
+   * @param <T>
+   * @return
+   */
+  public static final <T> T get(String key, T defaultValue) {
+    Preconditions.checkNotNull(key, "mock key can not be null");
 
-        key = processKey(key);
-        String value = getRaw();
-        if (StringUtil.isNotEmpty(value)) {
-            if (JSONValidator.from(value).getType() == JSONValidator.Type.Object) {
-                JSONObject jsonObj = JSON.parseObject(value);
-                return (T) jsonObj.getOrDefault(key, defaultValue);
-            } else {
-                log.warn("mock data is not valida json object.");
-                return defaultValue;
-            }
-        }
+    key = processKey(key);
+    String value = getRaw();
+    if (StringUtil.isNotEmpty(value)) {
+      if (JSONValidator.from(value).getType() == JSONValidator.Type.Object) {
+        JSONObject jsonObj = JSON.parseObject(value);
+        return (T) jsonObj.getOrDefault(key, defaultValue);
+      } else {
+        log.warn("mock data is not valida json object.");
         return defaultValue;
+      }
     }
+    return defaultValue;
+  }
 
-    // TODO more complex method sign.
+  // TODO more complex method sign.
 
-    // default value
-    private static String processKey(String key) {
-        if (key.startsWith("sea.mock.")) {
-            key = key.replace("sea.mock.", "");
-        }
-        return key;
+  // default value
+  private static String processKey(String key) {
+    if (key.startsWith("sea.mock.")) {
+      key = key.replace("sea.mock.", "");
     }
+    return key;
+  }
 
 
 }

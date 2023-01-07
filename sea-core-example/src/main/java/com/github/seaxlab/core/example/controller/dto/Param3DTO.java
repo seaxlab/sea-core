@@ -13,6 +13,6 @@ import java.util.List;
  */
 @Data
 public class Param3DTO {
-    private String p31;
-    private List<String> p32;
+  private String p31;
+  private List<String> p32;
 }

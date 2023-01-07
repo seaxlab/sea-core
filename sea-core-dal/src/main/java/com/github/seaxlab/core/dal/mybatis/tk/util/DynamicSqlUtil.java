@@ -1,11 +1,12 @@
 package com.github.seaxlab.core.dal.mybatis.tk.util;
 
-import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import tk.mybatis.mapper.annotation.Version;
 import tk.mybatis.mapper.entity.EntityColumn;
 import tk.mybatis.mapper.mapperhelper.EntityHelper;
 import tk.mybatis.mapper.mapperhelper.SqlHelper;
+
+import java.util.Set;
 
 /**
  * module name

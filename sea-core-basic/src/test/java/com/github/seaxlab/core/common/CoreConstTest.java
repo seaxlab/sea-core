@@ -14,12 +14,12 @@ import org.junit.Test;
 @Slf4j
 public class CoreConstTest extends BaseCoreTest {
 
-    @Test
-    public void testCoreConst() throws Exception {
+  @Test
+  public void testCoreConst() throws Exception {
 
-        log.info("{}", CoreConst.SYS_OPERATOR);
-        log.info("{}", CoreConst.SYS_SESSION_CONSOLE);
-        log.info("{}", CoreConst.SYS_SESSION_APP);
+    log.info("{}", CoreConst.SYS_OPERATOR);
+    log.info("{}", CoreConst.SYS_SESSION_CONSOLE);
+    log.info("{}", CoreConst.SYS_SESSION_APP);
 
-    }
+  }
 }

@@ -16,27 +16,27 @@ import org.springframework.context.event.ContextRefreshedEvent;
 @Slf4j
 public class ApplicationStartListener implements ApplicationListener<ContextRefreshedEvent> {
 
-    @Autowired
-    private ApplicationContext ctx;
+  @Autowired
+  private ApplicationContext ctx;
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-        log.info("application context refresh event");
+  @Override
+  public void onApplicationEvent(ContextRefreshedEvent event) {
+    log.info("application context refresh event");
 
-        if (event.getApplicationContext().getParent() != null) {
-            return;
-        }
-
-        log.info("=======================================");
-        log.info("=         Application Ready           =");
-        log.info("=======================================");
-
-        log.info("Power by Sea Framework.");
-
-        doStatic();
+    if (event.getApplicationContext().getParent() != null) {
+      return;
     }
 
-    private void doStatic() {
-        log.info("bean definition count = {}", ctx.getBeanDefinitionCount());
-    }
+    log.info("=======================================");
+    log.info("=         Application Ready           =");
+    log.info("=======================================");
+
+    log.info("Power by Sea Framework.");
+
+    doStatic();
+  }
+
+  private void doStatic() {
+    log.info("bean definition count = {}", ctx.getBeanDefinitionCount());
+  }
 }

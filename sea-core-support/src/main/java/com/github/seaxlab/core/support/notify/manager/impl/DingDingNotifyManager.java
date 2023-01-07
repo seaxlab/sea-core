@@ -21,75 +21,75 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
 
-    @Getter
-    @Setter
-    private String endpoint;
+  @Getter
+  @Setter
+  private String endpoint;
 
-    @Override
-    public Result send(DingDingNotifyDTO dto) {
-        Result result = Result.fail();
-        try {
-            send0(dto);
-            result.setSuccess(true);
-        } catch (Exception e) {
-            log.warn("send ding ding msg error", e);
-            result.setMsg(e.getMessage());
-        }
-
-        return result;
+  @Override
+  public Result send(DingDingNotifyDTO dto) {
+    Result result = Result.fail();
+    try {
+      send0(dto);
+      result.setSuccess(true);
+    } catch (Exception e) {
+      log.warn("send ding ding msg error", e);
+      result.setMsg(e.getMessage());
     }
 
-    private void send0(DingDingNotifyDTO dto) {
-        log.info("send ding ding msg begin.");
-        if (log.isDebugEnabled()) {
-            log.debug("title={},msg={}", dto.getTitle(), dto.getContent());
-        }
+    return result;
+  }
 
-        //
-        DingDingRobotSendRequest request = new DingDingRobotSendRequest();
-
-        if (dto.getMsgTypeEnum() == null) {
-            dto.setMsgTypeEnum(MsgTypeEnum.TEXT);
-        }
-        request.setMsgtype(dto.getMsgTypeEnum().getCode());
-
-        switch (dto.getMsgTypeEnum()) {
-            case TEXT:
-                DingDingRobotSendRequest.Text text = new DingDingRobotSendRequest.Text();
-                text.setContent(NotifyUtil.getContent(dto));
-
-                request.setText(text);
-                break;
-            case MARKDOWN:
-
-                DingDingRobotSendRequest.Markdown markdown = new DingDingRobotSendRequest.Markdown();
-                markdown.setTitle(dto.getTitle());
-                markdown.setText(NotifyUtil.getContent(dto));
-
-                request.setMarkdown(markdown);
-                break;
-            default:
-                log.warn("unsupported dingding msg type={}", dto.getMsgTypeEnum());
-                break;
-        }
-
-
-        // check at
-        if (dto.getAt() != null) {
-            DingDingNotifyDTO.At at = dto.getAt();
-
-            DingDingRobotSendRequest.At finalAt = new DingDingRobotSendRequest.At();
-            if (at.getAtMobiles() != null) {
-                finalAt.setAtMobiles(at.getAtMobiles());
-            }
-            if (at.isAtAll()) {
-                finalAt.setAtAll(true);
-            }
-            request.setAt(finalAt);
-        }
-
-
-        String response = HttpClientUtil.postJSON(endpoint, request);
-        log.info("send ding ding msg end, response={}.", response);
+  private void send0(DingDingNotifyDTO dto) {
+    log.info("send ding ding msg begin.");
+    if (log.isDebugEnabled()) {
+      log.debug("title={},msg={}", dto.getTitle(), dto.getContent());
     }
+
+    //
+    DingDingRobotSendRequest request = new DingDingRobotSendRequest();
+
+    if (dto.getMsgTypeEnum() == null) {
+      dto.setMsgTypeEnum(MsgTypeEnum.TEXT);
+    }
+    request.setMsgtype(dto.getMsgTypeEnum().getCode());
+
+    switch (dto.getMsgTypeEnum()) {
+      case TEXT:
+        DingDingRobotSendRequest.Text text = new DingDingRobotSendRequest.Text();
+        text.setContent(NotifyUtil.getContent(dto));
+
+        request.setText(text);
+        break;
+      case MARKDOWN:
+
+        DingDingRobotSendRequest.Markdown markdown = new DingDingRobotSendRequest.Markdown();
+        markdown.setTitle(dto.getTitle());
+        markdown.setText(NotifyUtil.getContent(dto));
+
+        request.setMarkdown(markdown);
+        break;
+      default:
+        log.warn("unsupported dingding msg type={}", dto.getMsgTypeEnum());
+        break;
+    }
+
+
+    // check at
+    if (dto.getAt() != null) {
+      DingDingNotifyDTO.At at = dto.getAt();
+
+      DingDingRobotSendRequest.At finalAt = new DingDingRobotSendRequest.At();
+      if (at.getAtMobiles() != null) {
+        finalAt.setAtMobiles(at.getAtMobiles());
+      }
+      if (at.isAtAll()) {
+        finalAt.setAtAll(true);
+      }
+      request.setAt(finalAt);
+    }
+
+
+    String response = HttpClientUtil.postJSON(endpoint, request);
+    log.info("send ding ding msg end, response={}.", response);
+  }
 }

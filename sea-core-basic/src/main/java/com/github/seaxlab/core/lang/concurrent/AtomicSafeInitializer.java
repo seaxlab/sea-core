@@ -40,46 +40,46 @@ import java.util.concurrent.atomic.AtomicReference;
  * @since 3.0
  */
 public abstract class AtomicSafeInitializer<T> implements ConcurrentInitializer<T> {
-    /**
-     * A guard which ensures that initialize() is called only once.
-     */
-    private final AtomicReference<AtomicSafeInitializer<T>> factory = new AtomicReference<>();
+  /**
+   * A guard which ensures that initialize() is called only once.
+   */
+  private final AtomicReference<AtomicSafeInitializer<T>> factory = new AtomicReference<>();
 
-    /**
-     * Holds the reference to the managed object.
-     */
-    private final AtomicReference<T> reference = new AtomicReference<>();
+  /**
+   * Holds the reference to the managed object.
+   */
+  private final AtomicReference<T> reference = new AtomicReference<>();
 
-    /**
-     * Get (and initialize, if not initialized yet) the required object
-     *
-     * @return lazily initialized object
-     * @throws ConcurrentException if the initialization of the object causes an
-     *                             exception
-     */
-    @Override
-    public final T get() throws ConcurrentException {
-        T result;
+  /**
+   * Get (and initialize, if not initialized yet) the required object
+   *
+   * @return lazily initialized object
+   * @throws ConcurrentException if the initialization of the object causes an
+   *                             exception
+   */
+  @Override
+  public final T get() throws ConcurrentException {
+    T result;
 
-        while ((result = reference.get()) == null) {
-            if (factory.compareAndSet(null, this)) {
-                reference.set(initialize());
-            }
-        }
-
-        return result;
+    while ((result = reference.get()) == null) {
+      if (factory.compareAndSet(null, this)) {
+        reference.set(initialize());
+      }
     }
 
-    /**
-     * Creates and initializes the object managed by this
-     * {@code AtomicInitializer}. This method is called by {@link #get()} when
-     * the managed object is not available yet. An implementation can focus on
-     * the creation of the object. No synchronization is needed, as this is
-     * already handled by {@code get()}. This method is guaranteed to be called
-     * only once.
-     *
-     * @return the managed data object
-     * @throws ConcurrentException if an error occurs during object creation
-     */
-    protected abstract T initialize() throws ConcurrentException;
+    return result;
+  }
+
+  /**
+   * Creates and initializes the object managed by this
+   * {@code AtomicInitializer}. This method is called by {@link #get()} when
+   * the managed object is not available yet. An implementation can focus on
+   * the creation of the object. No synchronization is needed, as this is
+   * already handled by {@code get()}. This method is guaranteed to be called
+   * only once.
+   *
+   * @return the managed data object
+   * @throws ConcurrentException if an error occurs during object creation
+   */
+  protected abstract T initialize() throws ConcurrentException;
 }

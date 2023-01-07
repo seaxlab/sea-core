@@ -16,13 +16,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class PayService {
 
-    public int add(int a, int b) {
-        log.info("pay add.");
-        return a + b;
-    }
+  public int add(int a, int b) {
+    log.info("pay add.");
+    return a + b;
+  }
 
-    public void test() {
-        log.info("pay test execute.");
-    }
+  public void test() {
+    log.info("pay test execute.");
+  }
 
 }

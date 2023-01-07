@@ -14,26 +14,26 @@ import org.junit.Test;
 @Slf4j
 public class CircularFifoQueueTest extends BaseCoreTest {
 
-    @Test
-    public void testQueue() throws Exception {
-        CircularFifoQueue<Integer> queue = new CircularFifoQueue<>(5);
+  @Test
+  public void testQueue() throws Exception {
+    CircularFifoQueue<Integer> queue = new CircularFifoQueue<>(5);
 
-        queue.add(1);
-        queue.add(2);
-        queue.add(3);
-        queue.add(4);
-        queue.add(5);
-        log.info("{}", queue);
-        queue.add(6);
-        log.info("{}", queue);
+    queue.add(1);
+    queue.add(2);
+    queue.add(3);
+    queue.add(4);
+    queue.add(5);
+    log.info("{}", queue);
+    queue.add(6);
+    log.info("{}", queue);
 
-        queue.add(7);
-        log.info("{}", queue);
+    queue.add(7);
+    log.info("{}", queue);
 
-        queue.add(7);
-        log.info("{}", queue);
+    queue.add(7);
+    log.info("{}", queue);
 
-        queue.add(8);
-        log.info("{}", queue);
-    }
+    queue.add(8);
+    log.info("{}", queue);
+  }
 }

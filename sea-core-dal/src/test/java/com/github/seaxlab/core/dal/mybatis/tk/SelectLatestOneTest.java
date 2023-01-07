@@ -17,42 +17,42 @@ import javax.annotation.Resource;
 @Slf4j
 public class SelectLatestOneTest extends BaseSpringTest {
 
-    @Resource
-    private User1Mapper user1Mapper;
+  @Resource
+  private User1Mapper user1Mapper;
 
-    @Test
-    public void testSelectLatestOne() throws Exception {
-        User1 entity = new User1();
-        entity.setAge(12);
-        User1 user = user1Mapper.selectLatestOne(entity, "id");
-        log.info("user={}", user);
-    }
+  @Test
+  public void testSelectLatestOne() throws Exception {
+    User1 entity = new User1();
+    entity.setAge(12);
+    User1 user = user1Mapper.selectLatestOne(entity, "id");
+    log.info("user={}", user);
+  }
 
-    @Test
-    public void testSelectLatestOne2() throws Exception {
-        User1 entity = new User1();
-        entity.setAge(12);
-        User1 user = user1Mapper.selectLatestOne(entity, "createTime");
-        log.info("user={}", user);
-    }
+  @Test
+  public void testSelectLatestOne2() throws Exception {
+    User1 entity = new User1();
+    entity.setAge(12);
+    User1 user = user1Mapper.selectLatestOne(entity, "createTime");
+    log.info("user={}", user);
+  }
 
-    @Test
-    public void testSelectLatestOneByExample() throws Exception {
-        Example example = new Example(User1.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("age", 12);
+  @Test
+  public void testSelectLatestOneByExample() throws Exception {
+    Example example = new Example(User1.class);
+    Example.Criteria criteria = example.createCriteria();
+    criteria.andEqualTo("age", 12);
 
-        User1 user = user1Mapper.selectLatestOneByExample(example, "id");
-        log.info("user={}", user);
-    }
+    User1 user = user1Mapper.selectLatestOneByExample(example, "id");
+    log.info("user={}", user);
+  }
 
-    @Test
-    public void testSelectLatestOneByExample2() throws Exception {
-        Example example = new Example(User1.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("age", 12);
+  @Test
+  public void testSelectLatestOneByExample2() throws Exception {
+    Example example = new Example(User1.class);
+    Example.Criteria criteria = example.createCriteria();
+    criteria.andEqualTo("age", 12);
 
-        User1 user = user1Mapper.selectLatestOneByExample(example, "createTime");
-        log.info("user={}", user);
-    }
+    User1 user = user1Mapper.selectLatestOneByExample(example, "createTime");
+    log.info("user={}", user);
+  }
 }

@@ -20,19 +20,19 @@ package com.github.seaxlab.core.util;
 
 public class PlaceholderConfigureSupport {
 
-    /**
-     * Default placeholder prefix: {@value}
-     */
-    public static final String DEFAULT_PLACEHOLDER_PREFIX = "${";
+  /**
+   * Default placeholder prefix: {@value}
+   */
+  public static final String DEFAULT_PLACEHOLDER_PREFIX = "${";
 
-    /**
-     * Default placeholder suffix: {@value}
-     */
-    public static final String DEFAULT_PLACEHOLDER_SUFFIX = "}";
+  /**
+   * Default placeholder suffix: {@value}
+   */
+  public static final String DEFAULT_PLACEHOLDER_SUFFIX = "}";
 
-    /**
-     * Default value separator: {@value}
-     */
-    public static final String DEFAULT_VALUE_SEPARATOR = ":";
+  /**
+   * Default value separator: {@value}
+   */
+  public static final String DEFAULT_VALUE_SEPARATOR = ":";
 
 }
