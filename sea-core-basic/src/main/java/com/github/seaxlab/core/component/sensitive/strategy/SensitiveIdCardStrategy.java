@@ -12,13 +12,14 @@ import com.github.seaxlab.core.component.sensitive.util.SensitiveInfoUtils;
  **/
 public class SensitiveIdCardStrategy implements IStrategy {
 
-    @Override
-    public String desensitization(String idCardNum, int begin, int end) {
-        if (begin != SensitiveDefaultLengthEnum.ID_CARD_NUM.getBegin() && begin != 0 &&
-                end != SensitiveDefaultLengthEnum.ID_CARD_NUM.getEnd() && end != 0) {
-            return SensitiveInfoUtils.idCardNum(idCardNum, begin, end);
-        }
-        return SensitiveInfoUtils.idCardNum(idCardNum, SensitiveDefaultLengthEnum.ID_CARD_NUM.getBegin(), SensitiveDefaultLengthEnum.ID_CARD_NUM.getEnd());
+  @Override
+  public String desensitization(String idCardNum, int begin, int end) {
+    if (begin != SensitiveDefaultLengthEnum.ID_CARD_NUM.getBegin() && begin != 0 &&
+      end != SensitiveDefaultLengthEnum.ID_CARD_NUM.getEnd() && end != 0) {
+      return SensitiveInfoUtils.idCardNum(idCardNum, begin, end);
     }
+    return SensitiveInfoUtils.idCardNum(idCardNum, SensitiveDefaultLengthEnum.ID_CARD_NUM.getBegin(),
+      SensitiveDefaultLengthEnum.ID_CARD_NUM.getEnd());
+  }
 
 }

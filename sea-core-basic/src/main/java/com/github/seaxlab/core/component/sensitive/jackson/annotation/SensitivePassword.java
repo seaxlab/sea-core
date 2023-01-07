@@ -2,7 +2,6 @@ package com.github.seaxlab.core.component.sensitive.jackson.annotation;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.github.seaxlab.core.component.sensitive.strategy.SensitivePasswordStrategy;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

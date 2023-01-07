@@ -12,8 +12,8 @@ import com.github.seaxlab.core.component.sensitive.util.SensitiveInfoUtils;
  */
 public class DefaultSensitiveStrategy implements IStrategy {
 
-    @Override
-    public String desensitization(String source, int begin, int end) {
-        return SensitiveInfoUtils.password(source, SensitiveDefaultLengthEnum.DEFAULT_STRATEGY.getBegin());
-    }
+  @Override
+  public String desensitization(String source, int begin, int end) {
+    return SensitiveInfoUtils.password(source, SensitiveDefaultLengthEnum.DEFAULT_STRATEGY.getBegin());
+  }
 }

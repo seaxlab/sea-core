@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.component.service.lifecycle;
 
 /**
- * 模块
+ * destroy life cycle
  *
  * @author spy
  * @version 1.0 2019-08-03
@@ -9,8 +9,8 @@ package com.github.seaxlab.core.component.service.lifecycle;
  */
 public interface AbstractDestroyLifeCycle {
 
-    /**
-     * release resource
-     */
-    void destroy();
+  /**
+   * release resource
+   */
+  void destroy();
 }

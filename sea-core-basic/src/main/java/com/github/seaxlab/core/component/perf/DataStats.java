@@ -1,10 +1,9 @@
 package com.github.seaxlab.core.component.perf;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * common data collector for <font color='red'> system level, this is very important </font>
@@ -15,58 +14,59 @@ import java.util.concurrent.atomic.LongAdder;
  */
 @Slf4j
 public class DataStats {
-    private static DataStats current = null;
-    /**
-     * LongAdder比AtomicLong有更好的性能
-     */
-    private Map<String, LongAdder> cache = new ConcurrentHashMap<>();
 
-    private DataStats() {
-    }
+  private static DataStats current = null;
+  /**
+   * LongAdder比AtomicLong有更好的性能
+   */
+  private Map<String, LongAdder> cache = new ConcurrentHashMap<>();
 
-    public static DataStats currentStatsHolder() {
+  private DataStats() {
+  }
+
+  public static DataStats currentStatsHolder() {
+    if (null == current) {
+      synchronized (DataStats.class) {
         if (null == current) {
-            synchronized (DataStats.class) {
-                if (null == current) {
-                    current = new DataStats();
-                }
-            }
+          current = new DataStats();
         }
-        return current;
+      }
     }
+    return current;
+  }
 
-    /**
-     * increment
-     *
-     * @param metric
-     */
-    public void count(String metric) {
-        try {
-            cache.putIfAbsent(metric, new LongAdder());
-            cache.get(metric).increment();
-        } catch (Exception e) {
-            // ignore
-        }
+  /**
+   * increment
+   *
+   * @param metric
+   */
+  public void count(String metric) {
+    try {
+      cache.putIfAbsent(metric, new LongAdder());
+      cache.get(metric).increment();
+    } catch (Exception e) {
+      // ignore
     }
+  }
 
-    /**
-     * reset old and new one.
-     *
-     * @return old data stats holder.
-     */
-    public static synchronized DataStats getAndReset() {
-        DataStats tmp = new DataStats();
-        DataStats old = currentStatsHolder();
-        current = tmp;
-        return old;
-    }
+  /**
+   * reset old and new one.
+   *
+   * @return old data stats holder.
+   */
+  public static synchronized DataStats getAndReset() {
+    DataStats tmp = new DataStats();
+    DataStats old = currentStatsHolder();
+    current = tmp;
+    return old;
+  }
 
-    /**
-     * get cache.
-     *
-     * @return
-     */
-    public Map<String, LongAdder> getCache() {
-        return cache;
-    }
+  /**
+   * get cache.
+   *
+   * @return
+   */
+  public Map<String, LongAdder> getCache() {
+    return cache;
+  }
 }

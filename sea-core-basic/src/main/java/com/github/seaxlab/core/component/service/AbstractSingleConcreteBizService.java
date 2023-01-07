@@ -16,53 +16,51 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public abstract class AbstractSingleConcreteBizService<T>
-        implements AbstractService, AbstractValidateLifeCycle, AbstractExecuteLifeCycle, AbstractDestroyLifeCycle {
+  implements AbstractService, AbstractValidateLifeCycle, AbstractExecuteLifeCycle, AbstractDestroyLifeCycle {
 
-    /**
-     * 返回值
-     *
-     * @return
-     */
-    abstract <T> Result<T> doService();
-
-
-    @Override
-    public Result<T> execute() {
-        Result<T> ret;
-        try {
-            log.info("do service check");
-            Result checkResult = check();
-            Preconditions.checkNotNull(checkResult, "check result cannot null");
-            if (checkResult.isFail()) {
-                log.warn("check result is false. [{}]", checkResult);
-                return checkResult;
-            }
-            log.info("do service check=true");
+  /**
+   * 返回值
+   *
+   * @return
+   */
+  abstract <T> Result<T> doService();
 
 
-            log.info("do service validate");
-            Result validateResult = validate();
+  @Override
+  public Result<T> execute() {
+    Result<T> ret;
+    try {
+      log.info("do service check");
+      Result checkResult = check();
+      Preconditions.checkNotNull(checkResult, "check result cannot null");
+      if (checkResult.isFail()) {
+        log.warn("check result is false. [{}]", checkResult);
+        return checkResult;
+      }
+      log.info("do service check=true");
 
-            Preconditions.checkNotNull(checkResult, "validate result cannot null");
+      log.info("do service validate");
+      Result validateResult = validate();
 
-            if (!validateResult.getSuccess()) {
-                log.warn("validate result is false. [{}]", validateResult);
+      Preconditions.checkNotNull(checkResult, "validate result cannot null");
 
-                return validateResult;
-            }
-            log.info("do service validate=true");
+      if (!validateResult.getSuccess()) {
+        log.warn("validate result is false. [{}]", validateResult);
 
+        return validateResult;
+      }
+      log.info("do service validate=true");
 
-            log.info("do service begin");
-            ret = doService();
-            log.info("do service end");
+      log.info("do service begin");
+      ret = doService();
+      log.info("do service end");
 
-        } finally {
-            log.info("do service destroy begin");
-            destroy();
-            log.info("do service destroy end");
-        }
-
-        return ret;
+    } finally {
+      log.info("do service destroy begin");
+      destroy();
+      log.info("do service destroy end");
     }
+
+    return ret;
+  }
 }

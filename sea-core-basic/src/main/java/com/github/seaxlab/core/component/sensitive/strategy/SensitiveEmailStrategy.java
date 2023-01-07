@@ -12,12 +12,12 @@ import com.github.seaxlab.core.component.sensitive.util.SensitiveInfoUtils;
  **/
 public class SensitiveEmailStrategy implements IStrategy {
 
-    @Override
-    public String desensitization(String email, int begin, int end) {
-        if (begin != SensitiveDefaultLengthEnum.EMAIL.getBegin() && begin != 0) {
-            return SensitiveInfoUtils.email(email, begin);
-        }
-        return SensitiveInfoUtils.email(email, SensitiveDefaultLengthEnum.EMAIL.getBegin());
+  @Override
+  public String desensitization(String email, int begin, int end) {
+    if (begin != SensitiveDefaultLengthEnum.EMAIL.getBegin() && begin != 0) {
+      return SensitiveInfoUtils.email(email, begin);
     }
+    return SensitiveInfoUtils.email(email, SensitiveDefaultLengthEnum.EMAIL.getBegin());
+  }
 
 }

@@ -12,13 +12,14 @@ import com.github.seaxlab.core.component.sensitive.util.SensitiveInfoUtils;
  **/
 public class SensitiveBankCardStrategy implements IStrategy {
 
-    @Override
-    public String desensitization(String bankCard, int begin, int end) {
-        if (begin != SensitiveDefaultLengthEnum.BANKCARD.getBegin() && begin != 0 &&
-                end != SensitiveDefaultLengthEnum.BANKCARD.getEnd() && end != 0) {
-            return SensitiveInfoUtils.bankCard(bankCard, begin, end);
-        }
-        return SensitiveInfoUtils.bankCard(bankCard, SensitiveDefaultLengthEnum.BANKCARD.getBegin(), SensitiveDefaultLengthEnum.BANKCARD.getEnd());
+  @Override
+  public String desensitization(String bankCard, int begin, int end) {
+    if (begin != SensitiveDefaultLengthEnum.BANKCARD.getBegin() && begin != 0 &&
+      end != SensitiveDefaultLengthEnum.BANKCARD.getEnd() && end != 0) {
+      return SensitiveInfoUtils.bankCard(bankCard, begin, end);
     }
+    return SensitiveInfoUtils.bankCard(bankCard, SensitiveDefaultLengthEnum.BANKCARD.getBegin(),
+      SensitiveDefaultLengthEnum.BANKCARD.getEnd());
+  }
 
 }

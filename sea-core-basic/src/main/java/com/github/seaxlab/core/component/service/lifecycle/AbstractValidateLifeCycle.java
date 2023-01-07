@@ -3,7 +3,7 @@ package com.github.seaxlab.core.component.service.lifecycle;
 import com.github.seaxlab.core.model.Result;
 
 /**
- * 模块
+ * validate life cycle
  *
  * @author spy
  * @version 1.0 2019-08-03
@@ -11,18 +11,18 @@ import com.github.seaxlab.core.model.Result;
  */
 public interface AbstractValidateLifeCycle {
 
-    /**
-     * check resource
-     *
-     * @return
-     */
-    Result check();
+  /**
+   * check resource
+   *
+   * @return
+   */
+  Result check();
 
-    /**
-     * validate resource
-     *
-     * @return
-     */
-    Result validate();
+  /**
+   * validate resource
+   *
+   * @return
+   */
+  Result validate();
 
 }

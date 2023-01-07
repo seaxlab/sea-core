@@ -1,7 +1,6 @@
 package com.github.seaxlab.core.component.sensitive.fastjson.annotation;
 
 import com.github.seaxlab.core.component.sensitive.strategy.SensitivePasswordStrategy;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

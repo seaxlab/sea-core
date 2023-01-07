@@ -5,53 +5,53 @@ package com.github.seaxlab.core.component.perf;
  */
 public class ProfilerConfig {
 
-    private static ProfilerConfig instance = new ProfilerConfig();
+  private static ProfilerConfig instance = new ProfilerConfig();
 
-    public static ProfilerConfig getInstance() {
-        return instance;
-    }
+  public static ProfilerConfig getInstance() {
+    return instance;
+  }
 
 
-    /**
-     * 是否打开打印日志的开关
-     */
-    private boolean openProfilerTree = false;
+  /**
+   * 是否打开打印日志的开关
+   */
+  private boolean openProfilerTree = false;
 
-    /**
-     * 超时时间，单位ms，默认500ms，超过这个时间才会打印
-     */
-    private long invokeTimeout = 500;
+  /**
+   * 超时时间，单位ms，默认500ms，超过这个时间才会打印
+   */
+  private long invokeTimeout = 500;
 
-    /**
-     * 是否打印纳秒
-     *
-     * @return
-     */
-    private boolean openProfilerNanoTime = false;
+  /**
+   * 是否打印纳秒
+   *
+   * @return
+   */
+  private boolean openProfilerNanoTime = false;
 
-    public boolean isOpenProfilerTree() {
-        return openProfilerTree;
-    }
+  public boolean isOpenProfilerTree() {
+    return openProfilerTree;
+  }
 
-    public void setOpenProfilerTree(boolean openProfilerTree) {
-        this.openProfilerTree = openProfilerTree;
-    }
+  public void setOpenProfilerTree(boolean openProfilerTree) {
+    this.openProfilerTree = openProfilerTree;
+  }
 
-    public long getInvokeTimeout() {
-        return invokeTimeout;
-    }
+  public long getInvokeTimeout() {
+    return invokeTimeout;
+  }
 
-    public void setInvokeTimeout(long invokeTimeout) {
-        this.invokeTimeout = invokeTimeout;
-    }
+  public void setInvokeTimeout(long invokeTimeout) {
+    this.invokeTimeout = invokeTimeout;
+  }
 
-    public boolean isOpenProfilerNanoTime() {
-        return openProfilerNanoTime;
-    }
+  public boolean isOpenProfilerNanoTime() {
+    return openProfilerNanoTime;
+  }
 
-    public void setOpenProfilerNanoTime(boolean openProfilerNanoTime) {
-        this.openProfilerNanoTime = openProfilerNanoTime;
-    }
+  public void setOpenProfilerNanoTime(boolean openProfilerNanoTime) {
+    this.openProfilerNanoTime = openProfilerNanoTime;
+  }
 
 
 }

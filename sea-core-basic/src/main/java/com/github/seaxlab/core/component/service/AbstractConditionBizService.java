@@ -7,39 +7,37 @@ import com.github.seaxlab.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 模块
+ * abstract condition biz service
  *
  * @author spy
  * @version 1.0 2019-08-03
  * @since 1.0
  */
 @Slf4j
-public abstract class AbstractConditionBizService<Void>
-        implements AbstractService, AbstractValidateLifeCycle,
-        AbstractExecuteLifeCycle, AbstractDestroyLifeCycle {
+public abstract class AbstractConditionBizService<Void> implements AbstractService, AbstractValidateLifeCycle,
+  AbstractExecuteLifeCycle, AbstractDestroyLifeCycle {
 
-    /**
-     * 返回值
-     *
-     * @return
-     */
-    abstract <T> Result<T> doService();
+  /**
+   * 返回值
+   *
+   * @return
+   */
+  abstract <T> Result<T> doService();
 
-    /**
-     * @return
-     */
-    abstract Result success();
+  /**
+   * @return
+   */
+  abstract Result success();
 
-    /**
-     * @return
-     */
-    abstract Result failure();
-
-
-    @Override
-    public Result<Void> execute() {
+  /**
+   * @return
+   */
+  abstract Result failure();
 
 
-        return null;
-    }
+  @Override
+  public Result<Void> execute() {
+
+    return null;
+  }
 }

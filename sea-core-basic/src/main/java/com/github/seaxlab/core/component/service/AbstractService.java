@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.component.service;
 
 /**
- * 模块
+ * abstract service
  *
  * @author spy
  * @version 1.0 2019-08-03
@@ -9,10 +9,10 @@ package com.github.seaxlab.core.component.service;
  */
 public interface AbstractService {
 
-    /**
-     * service name
-     *
-     * @return
-     */
-    String getServiceName();
+  /**
+   * service name
+   *
+   * @return
+   */
+  String getServiceName();
 }

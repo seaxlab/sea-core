@@ -1,9 +1,14 @@
 package com.github.seaxlab.core.component.perf.anno;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * module name
+ * Profiler annotation
  *
  * @author spy
  * @version 1.0 2021/12/23
@@ -14,4 +19,5 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Inherited
 public @interface Profiler {
+
 }

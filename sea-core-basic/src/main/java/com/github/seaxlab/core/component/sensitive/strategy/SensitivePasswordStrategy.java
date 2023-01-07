@@ -12,12 +12,12 @@ import com.github.seaxlab.core.component.sensitive.util.SensitiveInfoUtils;
  **/
 public class SensitivePasswordStrategy implements IStrategy {
 
-    @Override
-    public String desensitization(String password, int begin, int end) {
-        if (begin != SensitiveDefaultLengthEnum.PASSWORD.getBegin() && begin != 0) {
-            return SensitiveInfoUtils.password(password, begin);
-        }
-        return SensitiveInfoUtils.password(password, SensitiveDefaultLengthEnum.PASSWORD.getBegin());
+  @Override
+  public String desensitization(String password, int begin, int end) {
+    if (begin != SensitiveDefaultLengthEnum.PASSWORD.getBegin() && begin != 0) {
+      return SensitiveInfoUtils.password(password, begin);
     }
+    return SensitiveInfoUtils.password(password, SensitiveDefaultLengthEnum.PASSWORD.getBegin());
+  }
 
 }

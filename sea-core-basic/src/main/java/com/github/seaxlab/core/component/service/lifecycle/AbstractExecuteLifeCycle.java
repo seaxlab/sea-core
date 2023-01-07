@@ -3,7 +3,7 @@ package com.github.seaxlab.core.component.service.lifecycle;
 import com.github.seaxlab.core.model.Result;
 
 /**
- * 模块
+ * execute life cycle
  *
  * @author spy
  * @version 1.0 2019-08-03
@@ -12,11 +12,11 @@ import com.github.seaxlab.core.model.Result;
 public interface AbstractExecuteLifeCycle<T> {
 
 
-    /**
-     * 可执行的服务
-     *
-     * @param <T>
-     * @return
-     */
-    <T> Result<T> execute();
+  /**
+   * 可执行的服务
+   *
+   * @param <T>
+   * @return
+   */
+  <T> Result<T> execute();
 }

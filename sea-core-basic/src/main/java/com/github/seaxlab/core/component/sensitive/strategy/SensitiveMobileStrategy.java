@@ -12,13 +12,14 @@ import com.github.seaxlab.core.component.sensitive.util.SensitiveInfoUtils;
  **/
 public class SensitiveMobileStrategy implements IStrategy {
 
-    @Override
-    public String desensitization(String mobile, int begin, int end) {
-        if (begin != SensitiveDefaultLengthEnum.MOBILE.getBegin() && begin != 0 &&
-                end != SensitiveDefaultLengthEnum.MOBILE.getEnd() && end != 0) {
-            return SensitiveInfoUtils.mobilePhone(mobile, begin, end);
-        }
-        return SensitiveInfoUtils.mobilePhone(mobile, SensitiveDefaultLengthEnum.MOBILE.getBegin(), SensitiveDefaultLengthEnum.MOBILE.getEnd());
+  @Override
+  public String desensitization(String mobile, int begin, int end) {
+    if (begin != SensitiveDefaultLengthEnum.MOBILE.getBegin() && begin != 0 &&
+      end != SensitiveDefaultLengthEnum.MOBILE.getEnd() && end != 0) {
+      return SensitiveInfoUtils.mobilePhone(mobile, begin, end);
     }
+    return SensitiveInfoUtils.mobilePhone(mobile, SensitiveDefaultLengthEnum.MOBILE.getBegin(),
+      SensitiveDefaultLengthEnum.MOBILE.getEnd());
+  }
 
 }
