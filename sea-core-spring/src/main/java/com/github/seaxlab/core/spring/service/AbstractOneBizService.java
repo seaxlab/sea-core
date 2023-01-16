@@ -31,7 +31,7 @@ public abstract class AbstractOneBizService<I, R> {
     try {
       check(input);
 
-      String lockKey = getDistributedLockKey();
+      String lockKey = getLockKey();
       if (StringUtil.isNotBlank(lockKey)) {
         DistributeLockKey lockBean = SpringContextHolder.getBean(DistributeLockKey.class);
         Lock lock = lockBean.get(lockKey);
@@ -45,7 +45,7 @@ public abstract class AbstractOneBizService<I, R> {
         try {
           data = handleAll(input);
         } finally {
-          lock.unlock();
+          unlock(lock);
         }
       } else {
         data = handleAll(input);
@@ -78,7 +78,7 @@ public abstract class AbstractOneBizService<I, R> {
 
   }
 
-  protected String getDistributedLockKey() {
+  protected String getLockKey() {
     return "";
   }
 
