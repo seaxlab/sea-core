@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.spring.extension;
+package com.github.seaxlab.core.spring.component.extension;
 
 import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;

@@ -1,8 +1,8 @@
-package com.github.seaxlab.core.spring.extension.pay;
+package com.github.seaxlab.core.spring.component.extension.pay;
 
-import com.github.seaxlab.core.spring.extension.ExtensionExecutor;
-import com.github.seaxlab.core.spring.extension.pay.dto.PayDTO;
-import com.github.seaxlab.core.spring.extension.pay.manager.PayManagerExtPt;
+import com.github.seaxlab.core.spring.component.extension.ExtensionExecutor;
+import com.github.seaxlab.core.spring.component.extension.pay.dto.PayDTO;
+import com.github.seaxlab.core.spring.component.extension.pay.manager.PayManagerExtPt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

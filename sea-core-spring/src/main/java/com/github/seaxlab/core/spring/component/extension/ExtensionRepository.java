@@ -1,9 +1,8 @@
-package com.github.seaxlab.core.spring.extension;
-
-import org.springframework.stereotype.Component;
+package com.github.seaxlab.core.spring.component.extension;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
 /**
  * ExtensionRepository

@@ -1,19 +1,18 @@
-package com.github.seaxlab.core.spring.extension;
+package com.github.seaxlab.core.spring.component.extension;
 
 import com.github.seaxlab.core.spring.TestSpringConfig;
-import com.github.seaxlab.core.spring.extension.pay.Constants;
-import com.github.seaxlab.core.spring.extension.pay.PayService;
-import com.github.seaxlab.core.spring.extension.pay.dto.PayDTO;
-import com.github.seaxlab.core.spring.extension.pay.manager.PayManagerExtPt;
+import com.github.seaxlab.core.spring.component.extension.pay.Constants;
+import com.github.seaxlab.core.spring.component.extension.pay.PayService;
+import com.github.seaxlab.core.spring.component.extension.pay.dto.PayDTO;
+import com.github.seaxlab.core.spring.component.extension.pay.manager.PayManagerExtPt;
+import java.util.concurrent.ThreadLocalRandom;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.annotation.Resource;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
 @RunWith(SpringRunner.class)

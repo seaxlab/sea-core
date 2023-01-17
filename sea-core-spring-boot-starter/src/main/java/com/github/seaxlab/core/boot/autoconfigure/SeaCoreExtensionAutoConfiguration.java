@@ -1,9 +1,9 @@
 package com.github.seaxlab.core.boot.autoconfigure;
 
-import com.github.seaxlab.core.spring.extension.ExtensionBootstrap;
-import com.github.seaxlab.core.spring.extension.ExtensionExecutor;
-import com.github.seaxlab.core.spring.extension.ExtensionRegister;
-import com.github.seaxlab.core.spring.extension.ExtensionRepository;
+import com.github.seaxlab.core.spring.component.extension.ExtensionBootstrap;
+import com.github.seaxlab.core.spring.component.extension.ExtensionExecutor;
+import com.github.seaxlab.core.spring.component.extension.ExtensionRegister;
+import com.github.seaxlab.core.spring.component.extension.ExtensionRepository;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

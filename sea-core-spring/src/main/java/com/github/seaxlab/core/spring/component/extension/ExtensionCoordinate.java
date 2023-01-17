@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.spring.extension;
+package com.github.seaxlab.core.spring.component.extension;
 
 /**
  * Extension Coordinate(扩展坐标) is used to uniquely position an Extension

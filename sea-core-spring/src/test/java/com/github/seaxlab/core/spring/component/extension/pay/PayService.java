@@ -1,6 +1,6 @@
-package com.github.seaxlab.core.spring.extension.pay;
+package com.github.seaxlab.core.spring.component.extension.pay;
 
-import com.github.seaxlab.core.spring.extension.pay.dto.PayDTO;
+import com.github.seaxlab.core.spring.component.extension.pay.dto.PayDTO;
 
 /**
  * module name

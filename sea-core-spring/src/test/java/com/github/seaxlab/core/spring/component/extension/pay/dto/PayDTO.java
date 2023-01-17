@@ -1,6 +1,6 @@
-package com.github.seaxlab.core.spring.extension.pay.dto;
+package com.github.seaxlab.core.spring.component.extension.pay.dto;
 
-import com.github.seaxlab.core.spring.extension.BizScenario;
+import com.github.seaxlab.core.spring.component.extension.BizScenario;
 import lombok.Data;
 
 /**

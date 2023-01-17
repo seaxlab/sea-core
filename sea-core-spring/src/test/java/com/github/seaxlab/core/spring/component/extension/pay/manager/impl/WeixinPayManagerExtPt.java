@@ -1,9 +1,9 @@
-package com.github.seaxlab.core.spring.extension.pay.manager.impl;
+package com.github.seaxlab.core.spring.component.extension.pay.manager.impl;
 
-import com.github.seaxlab.core.spring.extension.Extension;
-import com.github.seaxlab.core.spring.extension.pay.Constants;
-import com.github.seaxlab.core.spring.extension.pay.dto.PayDTO;
-import com.github.seaxlab.core.spring.extension.pay.manager.PayManagerExtPt;
+import com.github.seaxlab.core.spring.component.extension.Extension;
+import com.github.seaxlab.core.spring.component.extension.pay.Constants;
+import com.github.seaxlab.core.spring.component.extension.pay.dto.PayDTO;
+import com.github.seaxlab.core.spring.component.extension.pay.manager.PayManagerExtPt;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.spring.extension.pay;
+package com.github.seaxlab.core.spring.component.extension.pay;
 
 import lombok.extern.slf4j.Slf4j;
 

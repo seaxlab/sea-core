@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.spring.extension;
+package com.github.seaxlab.core.spring.component.extension;
 
 import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
@@ -19,7 +19,7 @@ public class ExtensionExecutor extends AbstractComponentExecutor {
   private ExtensionRepository extensionRepository;
 
   @Override
-  protected <C> C locateComponent(Class<C> targetClz, BizScenario bizScenario) {
+  public <C> C locateComponent(Class<C> targetClz, BizScenario bizScenario) {
     C extension = locateExtension(targetClz, bizScenario);
     log.debug("[Located Extension]: {}", extension.getClass().getSimpleName());
     return extension;
@@ -28,11 +28,9 @@ public class ExtensionExecutor extends AbstractComponentExecutor {
   /**
    * if the bizScenarioUniqueIdentity is "ali.tmall.88vip"
    * <p>
-   * the search path is as below:
-   * 1、first try to get extension by "ali.tmall.88vip", if get, return it.
-   * 2、second try to get extension by "ali.tmall.#defaultScenario#", if get, return it.
-   * 3、third try to get extension by "ali.#defaultUseCase#.#defaultScenario#", if get, return it.
-   * 4、if not found, try the default extension
+   * the search path is as below: 1、first try to get extension by "ali.tmall.88vip", if get, return it. 2、second try to
+   * get extension by "ali.tmall.#defaultScenario#", if get, return it. 3、third try to get extension by
+   * "ali.#defaultUseCase#.#defaultScenario#", if get, return it. 4、if not found, try the default extension
    *
    * @param targetClz
    */

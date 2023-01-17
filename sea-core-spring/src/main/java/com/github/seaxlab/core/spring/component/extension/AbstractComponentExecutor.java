@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.spring.extension;
+package com.github.seaxlab.core.spring.component.extension;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
