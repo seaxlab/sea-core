@@ -9,14 +9,13 @@ import com.github.seaxlab.core.util.StringUtil;
 import com.github.seaxlab.core.web.common.WebConst;
 import com.github.seaxlab.core.web.model.RequestDTO;
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * request util
@@ -26,7 +25,8 @@ import java.util.Map;
  * @since 1.0
  */
 @Slf4j
-public class RequestUtil {
+public final class RequestUtil {
+
   private RequestUtil() {
   }
 

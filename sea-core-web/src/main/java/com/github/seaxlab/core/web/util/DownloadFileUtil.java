@@ -1,8 +1,7 @@
 package com.github.seaxlab.core.web.util;
 
-import lombok.extern.slf4j.Slf4j;
-
 import javax.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * download file util
@@ -12,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0
  */
 @Slf4j
-public class DownloadFileUtil {
+public final class DownloadFileUtil {
 
   /**
    * 获取下载文件名称.

@@ -2,11 +2,10 @@ package com.github.seaxlab.core.web.util;
 
 import com.github.seaxlab.core.http.common.MediaType;
 import com.github.seaxlab.core.util.JSONUtil;
-import lombok.extern.slf4j.Slf4j;
-
+import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * response util
@@ -16,7 +15,7 @@ import java.io.IOException;
  * @since 1.0
  */
 @Slf4j
-public class ResponseUtil {
+public final class ResponseUtil {
 
   private ResponseUtil() {
   }
@@ -29,7 +28,8 @@ public class ResponseUtil {
    * @param innerProjectUrl 工程内url
    * @throws IOException
    */
-  public static void redirect(HttpServletRequest req, HttpServletResponse resp, String innerProjectUrl) throws IOException {
+  public static void redirect(HttpServletRequest req, HttpServletResponse resp, String innerProjectUrl)
+    throws IOException {
     resp.sendRedirect(req.getContextPath() + innerProjectUrl);
   }
 

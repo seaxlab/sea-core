@@ -1,14 +1,13 @@
 package com.github.seaxlab.core.web.util;
 
 import com.github.seaxlab.core.common.CoreConst;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * cookie util
@@ -18,7 +17,8 @@ import java.net.URLEncoder;
  * @since 1.0
  */
 @Slf4j
-public class CookieUtil {
+public final class CookieUtil {
+
   private CookieUtil() {
   }
 
