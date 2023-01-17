@@ -1,16 +1,15 @@
 package com.github.seaxlab.core.spring.util;
 
 import com.google.common.collect.Maps;
+import java.io.InputStream;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
-import java.io.InputStream;
-import java.util.Map;
-
 /**
- * module name
+ * Resource util.
  *
  * @author spy
  * @version 1.0 2022/1/26

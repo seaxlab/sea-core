@@ -1,18 +1,23 @@
 package com.github.seaxlab.core.spring.util;
 
-import com.github.seaxlab.core.util.ArrayUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.env.*;
+import static java.util.Collections.unmodifiableMap;
 
+import com.github.seaxlab.core.util.ArrayUtil;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
-
-import static java.util.Collections.unmodifiableMap;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.EnumerablePropertySource;
+import org.springframework.core.env.MutablePropertySources;
+import org.springframework.core.env.PropertyResolver;
+import org.springframework.core.env.PropertySource;
+import org.springframework.core.env.PropertySources;
+import org.springframework.core.env.PropertySourcesPropertyResolver;
 
 /**
- * module name
+ * property source util.
  *
  * @author spy
  * @version 1.0 2021/2/24
@@ -86,7 +91,8 @@ public class PropertySourceUtil {
    * @see Properties
    * @since 1.0.3
    */
-  public static Map<String, Object> getSubProperties(PropertySources propertySources, PropertyResolver propertyResolver, String prefix) {
+  public static Map<String, Object> getSubProperties(PropertySources propertySources, PropertyResolver propertyResolver,
+    String prefix) {
 
     Map<String, Object> subProperties = new LinkedHashMap<String, Object>();
 

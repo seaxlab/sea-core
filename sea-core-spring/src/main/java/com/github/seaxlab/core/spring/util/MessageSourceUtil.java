@@ -1,10 +1,9 @@
 package com.github.seaxlab.core.spring.util;
 
 import com.google.common.base.Strings;
+import java.util.Locale;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
-
-import java.util.Locale;
 
 /**
  * 资源文件辅助类（默认取中文）
@@ -24,25 +23,25 @@ public class MessageSourceUtil {
    * 获取资源文件
    *
    * @param messageSource
-   * @param errorCode
+   * @param code
    * @return
    */
-  public static String getErrorMsg(MessageSource messageSource, String errorCode) {
-    return getErrorMsg(messageSource, errorCode, null);
+  public static String get(MessageSource messageSource, String code) {
+    return get(messageSource, code, null);
   }
 
   /**
    * 获取资源文件
    *
    * @param messageSource
-   * @param errorCode
-   * @param errorMessage
+   * @param code
+   * @param message
    * @return
    */
-  public static String getErrorMsg(MessageSource messageSource, String errorCode, String errorMessage) {
-    String desc = errorMessage;
-    if (Strings.isNullOrEmpty(errorMessage)) {
-      desc = messageSource.getMessage(errorCode, null, errorCode, Locale.CHINESE);
+  public static String get(MessageSource messageSource, String code, String message) {
+    String desc = message;
+    if (Strings.isNullOrEmpty(message)) {
+      desc = messageSource.getMessage(code, null, code, Locale.CHINESE);
     }
     return desc;
   }

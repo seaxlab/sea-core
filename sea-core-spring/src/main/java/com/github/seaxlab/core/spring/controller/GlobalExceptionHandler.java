@@ -8,10 +8,15 @@ import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.web.model.FootPrintDTO;
 import com.github.seaxlab.core.web.util.RequestUtil;
 import com.google.common.base.Strings;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +35,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.Locale;
-
 
 /**
  * Global异常
@@ -44,14 +43,12 @@ import java.util.Locale;
  * @date 2019-03-15
  */
 @Slf4j
+@RequiredArgsConstructor
 //@ControllerAdvice
 public class GlobalExceptionHandler {
 
-  @Autowired
-  private MessageSource messageSource;
-
-  @Autowired
-  private HttpServletRequest request;
+  private final MessageSource messageSource;
+  private final HttpServletRequest request;
 
 
   @ExceptionHandler(value = BaseAppException.class)
@@ -86,21 +83,32 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(value = HttpMediaTypeNotAcceptableException.class)
   @ResponseBody
-  public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpServletRequest request, HttpMediaTypeNotAcceptableException be) {
+  public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpServletRequest request,
+    HttpMediaTypeNotAcceptableException be) {
     log.error("handle HttpMediaTypeNotAcceptableException", be);
 
-    return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+    return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)),
+      HttpStatus.UNSUPPORTED_MEDIA_TYPE);
   }
 
   @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
   @ResponseBody
-  public ResponseEntity<?> handleHttpRequestMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException be) {
+  public ResponseEntity<?> handleHttpRequestMethodNotSupportedException(HttpServletRequest request,
+    HttpRequestMethodNotSupportedException be) {
     log.error("handle HttpRequestMethodNotSupportedException", be);
 
-    return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)), HttpStatus.METHOD_NOT_ALLOWED);
+    return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)),
+      HttpStatus.METHOD_NOT_ALLOWED);
   }
 
-  @ExceptionHandler(value = {HttpMessageNotReadableException.class, MethodArgumentNotValidException.class, MissingServletRequestParameterException.class, MissingServletRequestPartException.class, TypeMismatchException.class, ServletRequestBindingException.class, BindException.class})
+  @ExceptionHandler(value = { //
+    HttpMessageNotReadableException.class, //
+    MethodArgumentNotValidException.class, //
+    MissingServletRequestParameterException.class, //
+    MissingServletRequestPartException.class, //
+    TypeMismatchException.class, //
+    ServletRequestBindingException.class, //
+    BindException.class})
   @ResponseBody
   public ResponseEntity<Result> handleExceptions(HttpServletRequest request, Exception e) {
 
@@ -123,13 +131,13 @@ public class GlobalExceptionHandler {
       msg = "缺少参数" + pe.getParameterName();
     }
 
-
     Result result = buildResult(request, ErrorMessageEnum.SYS_PARAM_INVALID, getMessage(e));
 
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
-  @ExceptionHandler(value = {ConversionNotSupportedException.class, HttpMessageNotWritableException.class, MultipartException.class,
+  @ExceptionHandler(value = {ConversionNotSupportedException.class, HttpMessageNotWritableException.class,
+    MultipartException.class,
 //            NoHandlerFoundException.class,
     Exception.class})
   @ResponseBody
