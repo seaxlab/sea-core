@@ -3,12 +3,18 @@ package com.github.seaxlab.core.util;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.domain.Role;
 import com.github.seaxlab.core.domain.User;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.*;
-import java.util.function.Predicate;
 
 /**
  * module name
@@ -147,9 +153,24 @@ public class ListUtilTest extends BaseCoreTest {
       users.add(user);
     }
 
-    Map<Long, User> userMap = ListUtil.toMap(users, user -> user.getId());
+    Map<Long, User> userMap = ListUtil.toMap(users, User::getId);
     log.info("{}", userMap);
   }
+
+  @Test
+  public void testToMapNew() throws Exception {
+    List<User> users = new ArrayList<>();
+    for (int i = 0; i < 10; i++) {
+      User user = new User();
+      user.setId((long) i);
+      user.setName("n" + i);
+      users.add(user);
+    }
+
+    Map<Long, String> userMap = ListUtil.toMapNew(users, User::getId, User::getName);
+    log.info("{}", userMap);
+  }
+
 
   @Test
   public void testToMapBinaryOperator() throws Exception {
