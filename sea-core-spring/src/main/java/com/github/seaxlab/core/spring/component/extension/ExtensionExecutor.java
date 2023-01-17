@@ -4,7 +4,6 @@ import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * ExtensionExecutor
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
  * @author fulan.zjf 2017-11-05
  */
 @Slf4j
-@Component("seaCoreExtensionExecutor")
 public class ExtensionExecutor extends AbstractComponentExecutor {
 
   @Autowired

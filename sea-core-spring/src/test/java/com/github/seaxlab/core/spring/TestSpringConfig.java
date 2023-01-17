@@ -1,7 +1,15 @@
 package com.github.seaxlab.core.spring;
 
+import com.github.seaxlab.core.spring.component.extension.ExtensionBootstrap;
+import com.github.seaxlab.core.spring.component.extension.ExtensionExecutor;
+import com.github.seaxlab.core.spring.component.extension.ExtensionRegister;
+import com.github.seaxlab.core.spring.component.extension.ExtensionRepository;
 import com.github.seaxlab.core.spring.context.SpringContextHolder;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.PropertySource;
 
 /**
  * TestSpringConfig
@@ -30,6 +38,26 @@ public class TestSpringConfig {
 //        ExtensionBootstrap bootstrap = new ExtensionBootstrap();
 //        return bootstrap;
 //    }
+
+  @Bean("seaCoreExtensionBootstrap")
+  public ExtensionBootstrap bootstrap() {
+    return new ExtensionBootstrap();
+  }
+
+  @Bean("seaCoreExtensionRepository")
+  public ExtensionRepository repository() {
+    return new ExtensionRepository();
+  }
+
+  @Bean("seaCoreExtensionExecutor")
+  public ExtensionExecutor executor() {
+    return new ExtensionExecutor();
+  }
+
+  @Bean("seaCoreExtensionRegister")
+  public ExtensionRegister register() {
+    return new ExtensionRegister();
+  }
 
 
 }

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 /**
  * SpringBootstrap
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
  * @date 2020-06-18 7:55 PM
  */
 @Slf4j
-@Component("seaCoreExtensionBootstrap")
 public class ExtensionBootstrap implements ApplicationContextAware, InitializingBean {
 
   @Autowired
@@ -33,7 +31,6 @@ public class ExtensionBootstrap implements ApplicationContextAware, Initializing
   @Override
   public void afterPropertiesSet() throws Exception {
     log.info("init sea core spring extension begin.");
-//        ApplicationContext applicationContext = SpringContextHolder.getApplicationContext();
     Map<String, Object> extensionBeans = applicationContext.getBeansWithAnnotation(Extension.class);
 
     log.info("spring extension size={}", extensionBeans.size());

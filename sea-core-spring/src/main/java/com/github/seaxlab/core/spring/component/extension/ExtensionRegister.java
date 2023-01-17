@@ -3,14 +3,12 @@ package com.github.seaxlab.core.spring.component.extension;
 import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * ExtensionRegister
  *
  * @author fulan.zjf 2017-11-05
  */
-@Component("seaCoreExtensionRegister")
 public class ExtensionRegister {
 
   @Autowired
