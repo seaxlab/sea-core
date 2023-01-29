@@ -7,11 +7,10 @@ import com.github.seaxlab.core.support.notify.manager.impl.DingDingNotifyManager
 import com.github.seaxlab.core.support.notify.util.DingDingUtil;
 import com.github.seaxlab.core.test.AbstractCore5Test;
 import com.github.seaxlab.core.util.MessageUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 
 /**
  * module name
@@ -31,8 +30,8 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
     Long timestamp = System.currentTimeMillis();
     String secret = "SECb8d39ac9513cfd90d248c55e6bfbd830b02da2260b9da6a96a550932585ad9ed";
 
-    String url = MessageUtil.format(DingDingUtil.URL_SIGN, accessToken, timestamp.toString(), DingDingUtil.getSign(timestamp, secret));
-
+    String url = MessageUtil.format(DingDingUtil.URL_SIGN, accessToken, timestamp.toString(),
+      DingDingUtil.getSign(timestamp, secret));
 
     DingDingNotifyManager notifyManager = new DingDingNotifyManager();
 
@@ -65,18 +64,18 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
 
   @Test
   public void testDingDingText() throws Exception {
+    String phone = getPassword("sea.phone");
     String accessToken = "899cd89c736c068e112a1f00882ba8fcd6abc5f8e5459cf82d7544efde4102f2";
     String url = MessageUtil.format(DingDingUtil.URL_SIMPLE, accessToken);
 
     DingDingNotifyManager notifyManager = new DingDingNotifyManager();
     notifyManager.setEndpoint(url);
 
-
     DingDingNotifyDTO dto = new DingDingNotifyDTO();
     dto.setContent("test报警");
 
     List<String> mobiles = new ArrayList<>();
-    mobiles.add("17626672199");
+    mobiles.add(phone);
 
     DingDingNotifyDTO.At at = new DingDingNotifyDTO.At();
 
@@ -88,6 +87,7 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
 
   @Test
   public void testDingDingMarkdown() throws Exception {
+    String phone = getPassword("sea.phone");
     StringBuilder sb = new StringBuilder();
     //sb.append("# test报警\n");
     //sb.append("## 二级标题\n");
@@ -95,7 +95,7 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
     //sb.append("- traceId=123456\n");
     //sb.append("\n\n");
     //// TODO 重点这里需要加入
-    //sb.append("@17626672199");
+    //sb.append("@"+phone);
 
     sb.append("#### <font color=\"#FF0000\">S3 - Triggered - http_request_error</font>\n" +
       "\n" +
@@ -115,8 +115,7 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
       "\n" +
       "Power By Sea Monitor Framework\n" +
       "\n" +
-      "@17626672199 ");
-
+      "@" + phone);
 
     String accessToken = "899cd89c736c068e112a1f00882ba8fcd6abc5f8e5459cf82d7544efde4102f2";
     String url = MessageUtil.format(DingDingUtil.URL_SIMPLE, accessToken);
@@ -124,14 +123,13 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
     DingDingNotifyManager notifyManager = new DingDingNotifyManager();
     notifyManager.setEndpoint(url);
 
-
     DingDingNotifyDTO dto = new DingDingNotifyDTO();
     dto.setMsgTypeEnum(MsgTypeEnum.MARKDOWN);
     dto.setTitle("test");
     dto.setContent(sb.toString());
 
     DingDingNotifyDTO.At at = new DingDingNotifyDTO.At();
-    at.addMobile("17626672199");
+    at.addMobile(phone);
     dto.setAt(at);
 
     notifyManager.send(dto);
