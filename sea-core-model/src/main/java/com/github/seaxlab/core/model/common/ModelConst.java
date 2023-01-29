@@ -26,7 +26,7 @@ public final class ModelConst {
 
   public static final String REF_BIZ_KEY = "refBizKey";
 
-  //外部订单号(商户订单号)
+  // 外部订单号(商户订单号)
   public static final String OUT_TRADE_NO = "outTradeNo";
   // 外部请求单号
   public static final String OUT_REQUEST_NO = "outRequestNo";
@@ -38,7 +38,7 @@ public final class ModelConst {
   public static final String SERIAL_NUMBER = "serialNumber";
   // 交易号
   public static final String TRANS_NO = "transNo";
-  // 行号
+  // 行号(多个条目时使用)
   public static final String ROW_NO = "rowNo";
 
 
@@ -183,11 +183,18 @@ public final class ModelConst {
   /*-------------共性字段-----------------*/
   public static final String REQUEST_ID = "requestId";
   public static final String TRACE_ID = "traceId";
-  /* 来源 */
+  // 来源
   public static final String SOURCE = "source";
-  /* 用户操作时系统渠道 */
+  public static final String FROM = "from";
+  //
+  public static final String TARGET = "target";
+  public static final String TO = "to";
+  public static final String DESTINATION = "destination";
+
+  // 用户操作时系统渠道
   public static final String CHANNEL = "channel";
-  /*场景*/
+  public static final String TERMINAL = "terminal";
+  // 场景
   public static final String SCENE = "scene";
   public static final String SCENE_NAME = "sceneName";
   public static final String ACTION = "action";
@@ -208,6 +215,8 @@ public final class ModelConst {
   public static final String PAYLOAD = "payload";
   public static final String RESULT = "result";
   public static final String SUCCESS = "success";
+  public static final String FAIL = "fail";
+
   // 耗时
   public static final String COST = "cost";
   public static final String TIME = "time";
@@ -219,6 +228,13 @@ public final class ModelConst {
 
   public static final String COUNT = "count";
   public static final String SIZE = "size";
+  public static final String TOTAL = "total";
+  public static final String RECORD = "record";
+  public static final String RECORDS = "records";
+
+  //page
+  public static final String PAGE_NUM = "pageNum";
+  public static final String PAGE_SIZE = "pageSize";
 
   public static final String TOKEN = "token";
   public static final String ACCESS_TOKEN = "accessToken";
