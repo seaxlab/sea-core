@@ -26,9 +26,9 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
   public void testSign() throws Exception {
 
     //签名方式
-    String accessToken = "96ad13be7b5e8fdd86f8b7c1c089b799127abf6e6c558458cce722187a0c4c1f";
+    String accessToken = getPassword("sea.dingding.sign.access_token");
     Long timestamp = System.currentTimeMillis();
-    String secret = "SECb8d39ac9513cfd90d248c55e6bfbd830b02da2260b9da6a96a550932585ad9ed";
+    String secret = getPassword("sea.dingding.sign.secret");
 
     String url = MessageUtil.format(DingDingUtil.URL_SIGN, accessToken, timestamp.toString(),
       DingDingUtil.getSign(timestamp, secret));
@@ -65,7 +65,7 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
   @Test
   public void testDingDingText() throws Exception {
     String phone = getPassword("sea.phone");
-    String accessToken = "899cd89c736c068e112a1f00882ba8fcd6abc5f8e5459cf82d7544efde4102f2";
+    String accessToken = getPassword("sea.dingding.access_token");
     String url = MessageUtil.format(DingDingUtil.URL_SIMPLE, accessToken);
 
     DingDingNotifyManager notifyManager = new DingDingNotifyManager();
@@ -117,7 +117,7 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
       "\n" +
       "@" + phone);
 
-    String accessToken = "899cd89c736c068e112a1f00882ba8fcd6abc5f8e5459cf82d7544efde4102f2";
+    String accessToken = getPassword("sea.dingding.access_token");
     String url = MessageUtil.format(DingDingUtil.URL_SIMPLE, accessToken);
 
     DingDingNotifyManager notifyManager = new DingDingNotifyManager();
