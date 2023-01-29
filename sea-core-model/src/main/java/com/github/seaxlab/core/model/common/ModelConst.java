@@ -15,6 +15,9 @@ public final class ModelConst {
   // field
   // ID
   public static final String ID = "id";
+  public static final String PARENT_ID = "parentId";
+  public static final String OUT_ID = "outId";
+  public static final String OUT_PARENT_ID = "outParentId";
   // 关联id
   public static final String REF_ID = "refId";
   // 关联code
@@ -38,7 +41,7 @@ public final class ModelConst {
   public static final String SERIAL_NUMBER = "serialNumber";
   // 交易号
   public static final String TRANS_NO = "transNo";
-  // 行号(多个条目时使用)
+  // 行号(主子明细中，明细是多个条目时使用)
   public static final String ROW_NO = "rowNo";
 
 
@@ -126,6 +129,7 @@ public final class ModelConst {
   // 删除标识
   public static final String IS_DELETED = "isDeleted";
   public static final String DEL_FLAG = "delFlag";
+  public static final String DELETE_FLAG = "DELETE_FLAG";
   public static final String DELETED = "deleted";
 
   // 版本号
@@ -211,6 +215,8 @@ public final class ModelConst {
   public static final String REQUEST = "request";
   public static final String RESPONSE = "response";
   public static final String PARAMETER = "parameter";
+  // 承载
+  public static final String CONTENT = "content";
   public static final String BODY = "body";
   public static final String PAYLOAD = "payload";
   public static final String RESULT = "result";
