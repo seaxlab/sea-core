@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 统一异常定义
+ * base exception
  *
  * @author spy
  * @version 1.0 2019/4/11
