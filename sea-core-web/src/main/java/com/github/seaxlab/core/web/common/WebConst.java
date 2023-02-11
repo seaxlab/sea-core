@@ -27,6 +27,9 @@ public class WebConst {
 
   // log mode in filter init config
   public static final String FILTER_CONFIG_LOG_MODE = "logMode";
+  public static final String FILTER_CONFIG_PARSE_HEADER_FLAG = "PARSE_HEADER_FLAG";
+  public static final String FILTER_CONFIG_PARSE_COOKIE_FLAG = "PARSE_COOKIE_FLAG";
+  public static final String FILTER_CONFIG_PARSE_REQUEST_FLAG = "PARSE_REQUEST_FLAG";
 
   public static final String LOG_MODE_1 = "1";
   public static final String LOG_MODE_2 = "2";

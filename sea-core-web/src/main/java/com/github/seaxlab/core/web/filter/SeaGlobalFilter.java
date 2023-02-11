@@ -2,6 +2,7 @@ package com.github.seaxlab.core.web.filter;
 
 import com.github.seaxlab.core.loader.EnhancedServiceLoader;
 import com.github.seaxlab.core.thread.ThreadContext;
+import com.github.seaxlab.core.util.BooleanUtil;
 import com.github.seaxlab.core.util.ListUtil;
 import com.github.seaxlab.core.util.MapUtil;
 import com.github.seaxlab.core.util.StringUtil;
@@ -11,14 +12,18 @@ import com.github.seaxlab.core.web.extension.HttpHeaderParseExtension;
 import com.github.seaxlab.core.web.extension.HttpRequestParseExtension;
 import com.github.seaxlab.core.web.util.CookieUtil;
 import com.github.seaxlab.core.web.util.RequestUtil;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Sea global filter
@@ -31,6 +36,10 @@ import java.util.Map;
 public class SeaGlobalFilter implements Filter {
 
   private static String logMode;
+  private static boolean parseHeaderFlag = false;
+  private static boolean parseCookieFlag = false;
+  private static boolean parseRequestFlag = false;
+  //
   private static Map<String, String> httpHeaderMap;
   private static Map<String, String> httpCookieMap;
   private static Map<String, String> httpRequestMap;
@@ -39,7 +48,11 @@ public class SeaGlobalFilter implements Filter {
   public void init(FilterConfig filterConfig) throws ServletException {
     log.info("sea global filter init");
 
-    logMode = StringUtil.defaultIfBlank(filterConfig.getInitParameter(WebConst.FILTER_CONFIG_LOG_MODE), WebConst.LOG_MODE_1);
+    logMode = StringUtil.defaultIfBlank(filterConfig.getInitParameter(WebConst.FILTER_CONFIG_LOG_MODE),
+      WebConst.LOG_MODE_1);
+    parseHeaderFlag = BooleanUtil.isTrue(filterConfig.getInitParameter(WebConst.FILTER_CONFIG_PARSE_HEADER_FLAG));
+    parseCookieFlag = BooleanUtil.isTrue(filterConfig.getInitParameter(WebConst.FILTER_CONFIG_PARSE_COOKIE_FLAG));
+    parseRequestFlag = BooleanUtil.isTrue(filterConfig.getInitParameter(WebConst.FILTER_CONFIG_PARSE_REQUEST_FLAG));
 
     initHttpHeaderParse();
     initHttpCookieParse();
@@ -47,7 +60,8 @@ public class SeaGlobalFilter implements Filter {
   }
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
     try {
       logRequest(req);
@@ -86,7 +100,9 @@ public class SeaGlobalFilter implements Filter {
    * which key should parse.
    */
   private void initHttpHeaderParse() {
-
+    if (!parseHeaderFlag) {
+      return;
+    }
     List<HttpHeaderParseExtension> extensionList = EnhancedServiceLoader.loadAll(HttpHeaderParseExtension.class);
     log.info("Http header parse extension count={}", extensionList.size());
 
@@ -105,6 +121,9 @@ public class SeaGlobalFilter implements Filter {
    * parse cookie extension.
    */
   private void initHttpCookieParse() {
+    if (!parseCookieFlag) {
+      return;
+    }
     List<HttpCookieParseExtension> extensionList = EnhancedServiceLoader.loadAll(HttpCookieParseExtension.class);
     log.info("Http cookie parse extension count={}", extensionList.size());
 
@@ -123,6 +142,9 @@ public class SeaGlobalFilter implements Filter {
    * which key parameter should parse.
    */
   private void initHttpRequestParse() {
+    if (!parseRequestFlag) {
+      return;
+    }
     List<HttpRequestParseExtension> extensionList = EnhancedServiceLoader.loadAll(HttpRequestParseExtension.class);
     log.info("Http request parse extension count={}", extensionList.size());
 
@@ -144,6 +166,9 @@ public class SeaGlobalFilter implements Filter {
    * @param request
    */
   private void parseHttpHeader(HttpServletRequest request) {
+    if (!parseHeaderFlag) {
+      return;
+    }
     if (MapUtil.isEmpty(httpHeaderMap)) {
       return;
     }
@@ -168,6 +193,9 @@ public class SeaGlobalFilter implements Filter {
    * @param request
    */
   private void parseHttpCookie(HttpServletRequest request) {
+    if (!parseCookieFlag) {
+      return;
+    }
     if (MapUtil.isEmpty(httpCookieMap)) {
       return;
     }
@@ -192,6 +220,9 @@ public class SeaGlobalFilter implements Filter {
    * @param request
    */
   private void parseHttpRequest(HttpServletRequest request) {
+    if (!parseRequestFlag) {
+      return;
+    }
     if (MapUtil.isEmpty(httpRequestMap)) {
       return;
     }
