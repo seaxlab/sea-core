@@ -1,13 +1,11 @@
-package com.github.seaxlab.core.thread;
+package com.github.seaxlab.core.thread.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
-import com.github.seaxlab.core.thread.util.ThreadPoolUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
 /**
  * module name

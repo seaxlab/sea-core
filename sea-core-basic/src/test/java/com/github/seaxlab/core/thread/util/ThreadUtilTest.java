@@ -1,12 +1,10 @@
-package com.github.seaxlab.core.thread;
+package com.github.seaxlab.core.thread.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.lang.jvm.manager.StackManager;
-import com.github.seaxlab.core.thread.util.ThreadUtil;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * module name
