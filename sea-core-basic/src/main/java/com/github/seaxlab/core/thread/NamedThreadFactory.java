@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * 指定名称的thread factory
+ * thread factory create new thread
  *
  * @author spy
  * @version 1.0 2020-04-23
