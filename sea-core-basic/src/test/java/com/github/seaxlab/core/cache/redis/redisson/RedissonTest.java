@@ -1,6 +1,10 @@
 package com.github.seaxlab.core.cache.redis.redisson;
 
 import com.github.seaxlab.core.BaseCoreTest;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReadWriteLock;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,11 +14,6 @@ import org.redisson.api.RBuckets;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReadWriteLock;
 
 /**
  * module name
@@ -49,6 +48,31 @@ public class RedissonTest extends BaseCoreTest {
       log.info("inner lock end ");
 
     });
+
+  }
+
+  @Test
+  public void testReadWriteLock2() throws Exception {
+    String key = "lock1";
+    RLock lock = client.getLock(key);
+    boolean flag = lock.tryLock();
+    if (!flag) {
+      return;
+    }
+    try {
+      // 此模式下会存在读，无法释放
+      for (int i = 0; i < 3; i++) {
+        ReadWriteLock innerLock = client.getReadWriteLock(key);
+        log.info("inner lock begin ");
+        innerLock.writeLock().lock(); // 第二次加锁时会一直阻塞
+        log.info("inner lock biz ");
+        sleepSecond(1);
+        innerLock.writeLock().unlock();
+        log.info("inner lock end ");
+      }
+    } finally {
+      lock.unlock();
+    }
 
   }
 
