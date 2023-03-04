@@ -15,14 +15,14 @@ import lombok.extern.slf4j.Slf4j;
 public enum StatPeriodTypeEnum implements IBaseEnum<Integer> {
   UNKNOWN(0, "未知"),
 
-  DAY(1, "天"),
-  WEEK(2, "周"),
+  DAY(10, "天"),
+  WEEK(20, "周"),
   WEEK_CURRENT(21, "本周"),
-  MONTH(3, "月"),
+  MONTH(30, "月"),
   MONTH_CURRENT(31, "本月"),
-  YEAR(4, "年"),
+  YEAR(40, "年"),
   YEAR_CURRENT(41, "本年"),
-  TIME_SEGMENT(5, "时间段"),
+  TIME_SEGMENT(50, "时间段"),
   ;
 
   private final Integer code;
