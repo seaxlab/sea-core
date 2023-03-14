@@ -6,16 +6,19 @@ import com.github.seaxlab.core.enums.RegExpEnum;
 import com.github.seaxlab.core.exception.Precondition;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.helpers.MessageFormatter;
-
-import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.StringTokenizer;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import javax.annotation.Nullable;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.helpers.MessageFormatter;
 
 /**
  * String Util
@@ -255,6 +258,28 @@ public final class StringUtil {
       return str1.equals(str2);
     }
     return false;
+  }
+
+  /**
+   * use default EMPTY value if blank
+   *
+   * @param str
+   * @param <T>
+   * @return
+   */
+  public static <T extends CharSequence> T defaultIfBlank(final T str) {
+    return (T) defaultIfBlank(str, EMPTY);
+  }
+
+  /**
+   * use default EMPTY value if empty.
+   *
+   * @param str
+   * @param <T>
+   * @return
+   */
+  public static <T extends CharSequence> T defaultIfEmpty(final T str) {
+    return (T) defaultIfEmpty(str, EMPTY);
   }
 
   /**

@@ -1,12 +1,11 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 模块
@@ -51,6 +50,13 @@ public class StringUtilTest extends BaseCoreTest {
   @Test
   public void testDefaultIfBlank() throws Exception {
     Assert.assertEquals("", StringUtil.defaultIfBlank(null, ""));
+    Assert.assertEquals("", StringUtil.defaultIfBlank(null));
+  }
+
+  @Test
+  public void testDefaultIfEmpty() throws Exception {
+    Assert.assertEquals("", StringUtil.defaultIfEmpty(null, ""));
+    Assert.assertEquals("", StringUtil.defaultIfEmpty(null));
   }
 
   @Test
