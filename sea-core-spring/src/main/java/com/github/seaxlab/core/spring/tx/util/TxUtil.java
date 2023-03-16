@@ -27,7 +27,7 @@ public final class TxUtil {
   }
 
   /**
-   * return whether has active transaction
+   * return whether it has active transaction
    *
    * @return
    */
@@ -64,6 +64,16 @@ public final class TxUtil {
   }
 
   /**
+   * begin nested trans
+   *
+   * @param transactionManager
+   * @return
+   */
+  public static TransactionStatus beginNested(DataSourceTransactionManager transactionManager) {
+    return begin(transactionManager, DefaultTransactionDefinition.PROPAGATION_NESTED);
+  }
+
+  /**
    * begin new trans.
    *
    * @param transactionManager
@@ -86,7 +96,8 @@ public final class TxUtil {
    * @param txDefinition
    * @return
    */
-  public static TransactionStatus begin(DataSourceTransactionManager transactionManager, TransactionDefinition txDefinition) {
+  public static TransactionStatus begin(DataSourceTransactionManager transactionManager,
+    TransactionDefinition txDefinition) {
     Precondition.checkNotNull(txDefinition, "transaction definition cannot be null.");
 
     return transactionManager.getTransaction(txDefinition);
@@ -147,6 +158,7 @@ public final class TxUtil {
   }
 
   public interface Callback {
+
     void execute();
   }
 
