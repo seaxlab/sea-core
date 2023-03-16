@@ -1,8 +1,6 @@
 package com.github.seaxlab.core.model;
 
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.annotation.JSONType;
 import com.github.seaxlab.core.enums.IErrorEnum;
 import java.io.Serializable;
 import lombok.Data;
@@ -20,7 +18,7 @@ import org.slf4j.helpers.MessageFormatter;
  * @since 1.0
  */
 @Data
-@JSONType(orders = {"success", "traceId", "code", "msg", "data"})
+//@JSONType(orders = {"success", "traceId", "code", "msg", "data"})
 public class Result<T> implements Serializable {
 
   /**
@@ -186,7 +184,6 @@ public class Result<T> implements Serializable {
    *
    * @return true/false
    */
-  @JSONField(serialize = false, deserialize = false)
   public boolean isOk() {
     if (success != null) {
       return success;
@@ -200,7 +197,6 @@ public class Result<T> implements Serializable {
    *
    * @return true/false
    */
-  @JSONField(serialize = false, deserialize = false)
   public boolean isFail() {
     if (success != null) {
       return !success;

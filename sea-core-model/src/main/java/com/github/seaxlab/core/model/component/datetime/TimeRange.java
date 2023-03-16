@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.model.component.datetime;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.github.seaxlab.core.model.checker.SimpleValidator;
 import com.github.seaxlab.core.model.layer.dto.DTO;
 import java.util.Date;
@@ -16,14 +15,14 @@ import lombok.Data;
 @Data
 public class TimeRange extends DTO implements SimpleValidator {
 
-  @JSONField(format = "HH:mm")
+  //  @JSONField(format = "HH:mm")
   private Date begin;
 
-  @JSONField(format = "HH:mm")
+  //  @JSONField(format = "HH:mm")
   private Date end;
 
   @Override
-  @JSONField(serialize = false)
+//  @JSONField(serialize = false)
   public boolean isValid() {
     //TODO
     return false;

@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.model.layer.event;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -34,7 +33,7 @@ public interface Event extends Serializable {
    *
    * @return
    */
-  @JSONField(format = "yyyy-HH-mm MM:dd:ss")
+//  @JSONField(format = "yyyy-HH-mm MM:dd:ss")
   default Date getCreateTime() {
     return new Date();
   }
