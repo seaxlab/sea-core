@@ -7,9 +7,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.seaxlab.core.enums.IBaseEnum;
 import com.github.seaxlab.core.util.ReflectUtil;
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * module name
@@ -21,19 +20,20 @@ import java.io.IOException;
 @Slf4j
 public class BaseEnumDeserializer extends JsonDeserializer<IBaseEnum> {
 
-    @Override
-    public IBaseEnum deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException, JsonProcessingException {
-        JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-        String currentName = jsonParser.currentName();
-        Object currentValue = jsonParser.getCurrentValue();
+  @Override
+  public IBaseEnum deserialize(JsonParser jsonParser, DeserializationContext context)
+    throws IOException, JsonProcessingException {
+    JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+    String currentName = jsonParser.currentName();
+    Object currentValue = jsonParser.getCurrentValue();
 
-        Class fieldType = ReflectUtil.getField(currentValue.getClass(), currentName).getClass();
-        //Class findPropertyType = BeanUtils.findPropertyType(currentName, currentValue.getClass());
+    Class fieldType = ReflectUtil.getField(currentValue.getClass(), currentName).getClass();
+    //Class findPropertyType = BeanUtils.findPropertyType(currentName, currentValue.getClass());
 
-        //IBaseEnum<Integer> baseEnum = BaseEnumUtil.toEnum(node.intValue(), fieldType).get();
-        //IBaseEnum baseEnum = EnumUtil.getEnumByValue(fieldType, node.intValue());
+    //IBaseEnum<Integer> baseEnum = BaseEnumUtil.toEnum(node.intValue(), fieldType).get();
+    //IBaseEnum baseEnum = EnumUtil.getEnumByValue(fieldType, node.intValue());
 
-        //return baseEnum;
-        return null;
-    }
+    //return baseEnum;
+    return null;
+  }
 }
