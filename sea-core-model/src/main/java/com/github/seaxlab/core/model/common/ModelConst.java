@@ -129,7 +129,7 @@ public final class ModelConst {
   // 删除标识
   public static final String IS_DELETED = "isDeleted";
   public static final String DEL_FLAG = "delFlag";
-  public static final String DELETE_FLAG = "DELETE_FLAG";
+  public static final String DELETE_FLAG = "deleteFlag";
   public static final String DELETED = "deleted";
 
   // 版本号
