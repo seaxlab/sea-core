@@ -1,14 +1,13 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.exception.Precondition;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * module name
+ * time out
  *
  * @author spy
  * @version 1.0 2021/10/15
