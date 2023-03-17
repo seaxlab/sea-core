@@ -29,7 +29,9 @@ public class StringUtilTest extends BaseCoreTest {
 
   @Test
   public void testUniqueKey() throws Exception {
+    log.info("{}", StringUtil.uniqueKey());
     Assert.assertEquals("1:s", StringUtil.uniqueKey(1, "s"));
+    Assert.assertEquals("1:::s", StringUtil.uniqueKey(1, null, "", "s"));
     Assert.assertEquals("1-s", StringUtil.uniqueKey("-", 1, "s"));
   }
 

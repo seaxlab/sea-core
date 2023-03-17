@@ -398,8 +398,7 @@ public final class StringUtil {
 //    }
 
   /**
-   * 将驼峰式命名的字符串转换为下划线方式。如果转换前的驼峰式命名的字符串为空，则返回空字符串。<br>
-   * 例如：
+   * 将驼峰式命名的字符串转换为下划线方式。如果转换前的驼峰式命名的字符串为空，则返回空字符串。<br> 例如：
    *
    * <pre>
    * HelloWorld=》hello_world
@@ -466,8 +465,7 @@ public final class StringUtil {
   }
 
   /**
-   * 将下划线方式命名的字符串转换为驼峰式。如果转换前的下划线大写方式命名的字符串为空，则返回空字符串。<br>
-   * 例如：hello_world=》helloWorld
+   * 将下划线方式命名的字符串转换为驼峰式。如果转换前的下划线大写方式命名的字符串为空，则返回空字符串。<br> 例如：hello_world=》helloWorld
    *
    * @param name 转换前的下划线大写方式命名的字符串
    * @return 转换后的驼峰式命名的字符串
@@ -506,16 +504,16 @@ public final class StringUtil {
    * @return
    */
   public static String uniqueKey(Object... args) {
-    return uniqueKey(":", args);
+    return uniqueKey(SymbolConst.COLON, args);
   }
 
   public static String uniqueKey(String separatorStr, Object... args) {
     if (args == null) {
-      return null;
+      return empty();
     }
 
     if (separatorStr == null || separatorStr.trim().length() == 0) {
-      separatorStr = ":";
+      separatorStr = SymbolConst.COLON;
     }
 
     StringBuilder builder = new StringBuilder();
@@ -525,7 +523,15 @@ public final class StringUtil {
       if (i != 0) {
         builder.append(separatorStr);
       }
-      builder.append(item);
+      if (Objects.isNull(item)) {
+        builder.append(empty());
+        continue;
+      }
+      if (item instanceof String) {
+        builder.append(((String) item).trim());
+      } else {
+        builder.append(item);
+      }
     }
 
     return builder.toString();
@@ -602,8 +608,7 @@ public final class StringUtil {
   }
 
   /**
-   * split str
-   * return value maybe null, plz note!!
+   * split str return value maybe null, plz note!!
    *
    * @param str
    * @return
@@ -617,8 +622,7 @@ public final class StringUtil {
   }
 
   /**
-   * split to Iterable
-   * return value not null
+   * split to Iterable return value not null
    *
    * @param str
    * @param separatorChar
@@ -632,8 +636,7 @@ public final class StringUtil {
   }
 
   /**
-   * split to List
-   * return value not null
+   * split to List return value not null
    *
    * @param str
    * @param separatorChar
@@ -648,25 +651,24 @@ public final class StringUtil {
 
 
   /**
-   * Tokenize the given {@code String} into a {@code String} array via a
-   * {@link StringTokenizer}.
+   * Tokenize the given {@code String} into a {@code String} array via a {@link StringTokenizer}.
    * <p>The given {@code delimiters} string can consist of any number of
-   * delimiter characters. Each of those characters can be used to separate
-   * tokens. A delimiter is always a single character; for multi-character
-   * delimiters, consider using delimitedListToStringArray.
+   * delimiter characters. Each of those characters can be used to separate tokens. A delimiter is always a single
+   * character; for multi-character delimiters, consider using delimitedListToStringArray.
    *
    * @param str               the {@code String} to tokenize (potentially {@code null} or empty)
-   * @param delimiters        the delimiter characters, assembled as a {@code String}
-   *                          (each of the characters is individually considered as a delimiter)
+   * @param delimiters        the delimiter characters, assembled as a {@code String} (each of the characters is
+   *                          individually considered as a delimiter)
    * @param trimTokens        trim the tokens via {@link String#trim()}
-   * @param ignoreEmptyTokens omit empty tokens from the result array
-   *                          (only applies to tokens that are empty after trimming; StringTokenizer
-   *                          will not consider subsequent delimiters as token in the first place).
+   * @param ignoreEmptyTokens omit empty tokens from the result array (only applies to tokens that are empty after
+   *                          trimming; StringTokenizer will not consider subsequent delimiters as token in the first
+   *                          place).
    * @return an array of the tokens
    * @see java.util.StringTokenizer
    * @see String#trim()
    */
-  public static String[] tokenizeToStringArray(@Nullable String str, String delimiters, boolean trimTokens, boolean ignoreEmptyTokens) {
+  public static String[] tokenizeToStringArray(@Nullable String str, String delimiters, boolean trimTokens,
+    boolean ignoreEmptyTokens) {
 
     if (str == null) {
       return EMPTY_STRING_ARRAY;
@@ -750,8 +752,7 @@ public final class StringUtil {
    * Copy the given {@link Collection} into a {@code String} array.
    * <p>The {@code Collection} must contain {@code String} elements only.
    *
-   * @param collection the {@code Collection} to copy
-   *                   (potentially {@code null} or empty)
+   * @param collection the {@code Collection} to copy (potentially {@code null} or empty)
    * @return the resulting {@code String} array
    */
   public static String[] toStringArray(@Nullable Collection<String> collection) {
@@ -866,9 +867,8 @@ public final class StringUtil {
   /**
    * check str contains part or not.
    * <p>
-   * contains("abcdef", "xyz") //false
-   * contains("abcdef", null) //true //IMPORTANT
-   * contains("abcdef", "") //true //IMPORTANT
+   * contains("abcdef", "xyz") //false contains("abcdef", null) //true //IMPORTANT contains("abcdef", "") //true
+   * //IMPORTANT
    *
    * @param str  string
    * @param part string
@@ -899,7 +899,8 @@ public final class StringUtil {
    * @return
    */
   public static boolean startsWith(String str, boolean caseSensitive, String... prefixArray) {
-    return Stream.of(prefixArray).anyMatch(item -> caseSensitive ? str.startsWith(item) : str.toLowerCase().startsWith(item.toLowerCase()));
+    return Stream.of(prefixArray)
+      .anyMatch(item -> caseSensitive ? str.startsWith(item) : str.toLowerCase().startsWith(item.toLowerCase()));
   }
 
   /**
@@ -922,7 +923,8 @@ public final class StringUtil {
    * @return boolean
    */
   public static boolean endsWith(String str, boolean caseSensitive, String... suffixArray) {
-    return Stream.of(suffixArray).anyMatch(item -> caseSensitive ? str.endsWith(item) : str.toLowerCase().endsWith(item.toLowerCase()));
+    return Stream.of(suffixArray)
+      .anyMatch(item -> caseSensitive ? str.endsWith(item) : str.toLowerCase().endsWith(item.toLowerCase()));
   }
 
   /**
