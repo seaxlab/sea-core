@@ -2,23 +2,19 @@ package com.github.seaxlab.core.model;
 
 
 import com.github.seaxlab.core.enums.IErrorEnum;
-import java.io.Serializable;
 import lombok.Data;
 import org.slf4j.helpers.MessageFormatter;
 
+import java.io.Serializable;
+
 /**
  * Result model
- * <pre>
- *     <p>if use jackson</p>
- *      {@literal @}JsonPropertyOrder({"success", "traceId", "code", "msg", "data", "extra"})
- * </pre>
  *
  * @author spy
  * @version 1.0 2022/01/20
  * @since 1.0
  */
 @Data
-//@JSONType(orders = {"success", "traceId", "code", "msg", "data"})
 public class Result<T> implements Serializable {
 
   /**
@@ -45,12 +41,6 @@ public class Result<T> implements Serializable {
    * 默认返回结果
    */
   private T data;
-
-  ///**
-  // * 扩展参数，如果data中无法存放时才使用此参数
-  // */
-  //private Object extra;
-
 
   public Result() {
     this(true, null);
@@ -82,16 +72,6 @@ public class Result<T> implements Serializable {
     this.msg = "";
     this.data = data;
   }
-
-  // wrong api.
-  /**
-   * extra obj for special case
-   *
-   * @param obj extra obj.
-   */
-  //public void extra(Object obj) {
-  //    this.extra = obj;
-  //}
 
   /**
    * 直接返回true
@@ -134,11 +114,6 @@ public class Result<T> implements Serializable {
   public static <T> Result<T> fail() {
     return fail("", "");
   }
-
-  // wrong api.
-  //public static <T> Result<T> fail(String code) {
-  //    return fail(code, null);
-  //}
 
   public static <T> Result<T> failMsg(String msg) {
     return fail(null, msg);
