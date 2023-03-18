@@ -1,5 +1,6 @@
-package com.github.seaxlab.core.util;
+package com.github.seaxlab.core.lang.sql;
 
+import com.github.seaxlab.core.lang.sql.util.BlobUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
