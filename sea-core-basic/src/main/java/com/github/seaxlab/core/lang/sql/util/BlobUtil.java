@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.util;
+package com.github.seaxlab.core.lang.sql.util;
 
 import com.github.seaxlab.core.common.CoreConst;
 import com.github.seaxlab.core.exception.ShouldNeverHappenException;
