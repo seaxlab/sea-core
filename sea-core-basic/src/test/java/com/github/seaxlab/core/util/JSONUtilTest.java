@@ -5,11 +5,11 @@ import com.alibaba.fastjson.TypeReference;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.domain.User;
 import com.github.seaxlab.core.model.Result;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * module name
@@ -21,12 +21,23 @@ import java.util.List;
 @Slf4j
 public class JSONUtilTest extends BaseCoreTest {
 
+
+  @Test
+  public void testIsSimpleValid() throws Exception {
+    Assert.assertEquals(false, JSONUtil.isSimpleValid(""));
+    Assert.assertEquals(false, JSONUtil.isSimpleValid("{"));
+    Assert.assertEquals(true, JSONUtil.isSimpleValid("{}"));
+    Assert.assertEquals(false, JSONUtil.isSimpleValid("["));
+    Assert.assertEquals(true, JSONUtil.isSimpleValid("[]"));
+    Assert.assertEquals(true, JSONUtil.isSimpleValid("[x]"));
+  }
+
   @Test
   public void testIsValid() throws Exception {
-    log.info("{}", JSONUtil.isValid("a"));
-    log.info("{}", JSONUtil.isValid("{\"a\":1}"));
-    log.info("{}", JSONUtil.isValid("[]"));
-    log.info("{}", JSONUtil.isValid("["));
+    Assert.assertEquals(false, JSONUtil.isValid("a"));
+    Assert.assertEquals(true, JSONUtil.isValid("{\"a\":1}"));
+    Assert.assertEquals(true, JSONUtil.isValid("[]"));
+    Assert.assertEquals(false, JSONUtil.isValid("["));
   }
 
   @Test

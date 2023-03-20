@@ -1,12 +1,15 @@
 package com.github.seaxlab.core.util;
 
-import com.alibaba.fastjson.*;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONValidator;
+import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.seaxlab.core.model.Result;
-import lombok.extern.slf4j.Slf4j;
-
 import java.lang.reflect.Type;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * JSON util
@@ -20,6 +23,28 @@ public final class JSONUtil {
 
   private JSONUtil() {
   }
+
+  /**
+   * simple check for fast
+   *
+   * @param str
+   * @return
+   */
+  public static boolean isSimpleValid(String str) {
+    if (StringUtil.isBlank(str)) {
+      return false;
+    }
+
+    if (str.startsWith("{") && str.endsWith("}")) {
+      return true;
+    }
+
+    if (str.startsWith("[") && str.endsWith("]")) {
+      return true;
+    }
+    return false;
+  }
+
 
   /**
    * check is valid json str
