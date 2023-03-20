@@ -201,7 +201,7 @@ public final class StringUtil {
   /**
    * join the string by separator.
    *
-   * @param separator str
+   * @param separator separator
    * @param strs      str
    * @return boolean
    */
@@ -500,13 +500,10 @@ public final class StringUtil {
   /**
    * 生成唯一标识,默认分号隔开
    *
+   * @param separatorStr 分割符
    * @param args
    * @return
    */
-  public static String uniqueKey(Object... args) {
-    return uniqueKey(SymbolConst.COLON, args);
-  }
-
   public static String uniqueKey(String separatorStr, Object... args) {
     if (args == null) {
       return empty();

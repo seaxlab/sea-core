@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.common.SymbolConst;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -29,14 +30,15 @@ public class StringUtilTest extends BaseCoreTest {
 
   @Test
   public void testUniqueKey() throws Exception {
-    log.info("{}", StringUtil.uniqueKey());
-    Assert.assertEquals("1:s", StringUtil.uniqueKey(1, "s"));
-    Assert.assertEquals("1:::s", StringUtil.uniqueKey(1, null, "", "s"));
+    // 全量
+    Assert.assertEquals("1:s", StringUtil.uniqueKey(SymbolConst.COLON, 1, "s"));
+    Assert.assertEquals("1:::s", StringUtil.uniqueKey(SymbolConst.COLON, 1, "", "", "s"));
     Assert.assertEquals("1-s", StringUtil.uniqueKey("-", 1, "s"));
   }
 
   @Test
   public void testJoin() throws Exception {
+    // 按需
     Assert.assertEquals("1:s", StringUtil.join(":", "1", "s"));
     Assert.assertEquals("1:s", StringUtil.join(":", "1", "", "s"));
     Assert.assertEquals("1:s", StringUtil.join(":", "1", null, "s", null));
