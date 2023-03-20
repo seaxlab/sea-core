@@ -41,6 +41,12 @@ public class SeaController {
     ResponseUtil.toText(response, "pong");
   }
 
+  /**
+   * invoke public method of any bean service
+   *
+   * @param dto
+   * @return
+   */
   @PostMapping("/execute")
   public Result execute(@RequestBody InvokeReqDTO dto) {
     log.info("try to execute simple dto={}", dto);
@@ -54,13 +60,17 @@ public class SeaController {
         Method methodObj = Arrays.stream(methods) //
           .filter(item -> EqualUtil.isEq(item.getName(), dto.getMethod())) //
           .findFirst().get();
-        Class<?> parameterType = methodObj.getParameterTypes()[0];
-        String args = dto.getArgument();
 
-        if (JSONUtil.isSimpleValid(args)) {
-          MethodUtils.invokeMethod(bean, dto.getMethod(), JacksonUtil.toObject(dto.getArgument(), parameterType));
+        if (methodObj.getParameterCount() > 0) {
+          Class<?> parameterType = methodObj.getParameterTypes()[0];
+          if (JSONUtil.isSimpleValid(dto.getArgument())) {
+            obj = MethodUtils.invokeMethod(bean, dto.getMethod(),
+              JacksonUtil.toObject(dto.getArgument(), parameterType));
+          } else {
+            obj = MethodUtils.invokeMethod(bean, dto.getMethod(), dto.getArgument());
+          }
         } else {
-          MethodUtils.invokeMethod(bean, dto.getMethod(), dto.getArgument());
+          obj = MethodUtils.invokeMethod(bean, dto.getMethod(), dto.getArgument());
         }
       } else {
         obj = ReflectUtil.invokeMethod(bean, dto.getMethod());
