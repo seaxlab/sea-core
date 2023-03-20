@@ -4,6 +4,7 @@ import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.component.ssh.dto.SshConfig;
 import com.github.seaxlab.core.component.ssh.resp.SshResp;
 import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.model.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -32,7 +33,7 @@ public class SshUtilTest extends BaseCoreTest {
     cfg.setRemotePort(3306);
 
     Result<SshResp> result = SshUtil.setUpPortForwarding(cfg);
-    if (result.isOk()) {
+    if (ResultUtil.isOk(result)) {
       log.info("result assigned port={}", result.getData().getAssignedPort());
     } else {
       log.info("fail result={}", result);

@@ -9,17 +9,17 @@ import cn.smallbun.screw.core.process.ProcessConfig;
 import com.github.seaxlab.core.dal.screw.dto.DBModelCreateDTO;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.model.util.ResultUtil;
 import com.github.seaxlab.core.util.ObjectUtil;
 import com.github.seaxlab.core.util.PathUtil;
 import com.github.seaxlab.core.util.SshUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.Collections;
+import javax.sql.DataSource;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * screw util
@@ -43,9 +43,9 @@ public final class ScrewUtil {
     // 创建 screw 的配置
     EngineConfig engineConfig = buildEngineConfig(dto);
     Configuration.ConfigurationBuilder builder = Configuration.builder().version(dto.getVersion())  // 版本
-                                                              .description(dto.getDescription()) // 描述
-                                                              .dataSource(buildDataSource(dto)) // 数据源
-                                                              .engineConfig(engineConfig); // 引擎配置
+      .description(dto.getDescription()) // 描述
+      .dataSource(buildDataSource(dto)) // 数据源
+      .engineConfig(engineConfig); // 引擎配置
     if (dto.getProcessConfig() != null) {
       builder.produceConfig(dto.getProcessConfig());
     }
@@ -64,7 +64,7 @@ public final class ScrewUtil {
     String url = dto.getUrl();
     if (dto.getSshConfig() != null) {
       Result result = SshUtil.setUpPortForwarding(dto.getSshConfig());
-      if (result.isFail()) {
+      if (ResultUtil.isFail(result)) {
         ExceptionHandler.publishMsg("fail to build ssh connection");
       }
       String endStr = dto.getUrl().substring(dto.getUrl().lastIndexOf("/"));
@@ -88,12 +88,12 @@ public final class ScrewUtil {
   private static EngineConfig buildEngineConfig(DBModelCreateDTO dto) {
     String fileOutputDir = StringUtil.defaultIfBlank(dto.getOutPutDir(), PathUtil.getUserHome() + "/screw");
     return EngineConfig.builder()//
-                       .fileOutputDir(fileOutputDir) // 生成文件路径
-                       .openOutputDir(false) // 打开目录
-                       .fileType(ObjectUtil.defaultIfNull(dto.getEngineFileType(), EngineFileType.HTML)) // 文件类型
-                       .produceType(EngineTemplateType.freemarker) // 文件类型
-                       .fileName(StringUtil.defaultIfBlank(dto.getOutPutFileName(), "db-model")) // 自定义文件名称
-                       .build();
+      .fileOutputDir(fileOutputDir) // 生成文件路径
+      .openOutputDir(false) // 打开目录
+      .fileType(ObjectUtil.defaultIfNull(dto.getEngineFileType(), EngineFileType.HTML)) // 文件类型
+      .produceType(EngineTemplateType.freemarker) // 文件类型
+      .fileName(StringUtil.defaultIfBlank(dto.getOutPutFileName(), "db-model")) // 自定义文件名称
+      .build();
   }
 
   /**
@@ -101,13 +101,13 @@ public final class ScrewUtil {
    */
   private static ProcessConfig buildProcessConfig() {
     return ProcessConfig.builder() //
-                        .designatedTableName(Collections.emptyList())  // 根据名称指定表生成
-                        .designatedTablePrefix(Collections.emptyList()) //根据表前缀生成
-                        .designatedTableSuffix(Collections.emptyList()) // 根据表后缀生成
-                        .ignoreTableName(Arrays.asList("test_user", "test_group")) // 忽略表名
-                        .ignoreTablePrefix(Collections.singletonList("test_")) // 忽略表前缀
-                        .ignoreTableSuffix(Collections.singletonList("_test")) // 忽略表后缀
-                        .build();
+      .designatedTableName(Collections.emptyList())  // 根据名称指定表生成
+      .designatedTablePrefix(Collections.emptyList()) //根据表前缀生成
+      .designatedTableSuffix(Collections.emptyList()) // 根据表后缀生成
+      .ignoreTableName(Arrays.asList("test_user", "test_group")) // 忽略表名
+      .ignoreTablePrefix(Collections.singletonList("test_")) // 忽略表前缀
+      .ignoreTableSuffix(Collections.singletonList("_test")) // 忽略表后缀
+      .build();
   }
 
 
