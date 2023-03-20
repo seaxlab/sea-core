@@ -79,9 +79,9 @@ public class CheckerExecutor {
     }
     for (Future<Result> future : resultList) {
       try {
-        Result sr = future.get();
-        if (!sr.isOk()) {
-          return sr;
+        Result result = future.get();
+        if (ResultUtil.isFail(result)) {
+          return result;
         }
       } catch (Exception e) {
         log.error("parallelCheck executor.submit error.", e);

@@ -2,10 +2,9 @@ package com.github.seaxlab.core.model;
 
 
 import com.github.seaxlab.core.enums.IErrorEnum;
+import java.io.Serializable;
 import lombok.Data;
 import org.slf4j.helpers.MessageFormatter;
-
-import java.io.Serializable;
 
 /**
  * Result model
@@ -152,31 +151,6 @@ public class Result<T> implements Serializable {
    */
   public void setMsgF(String format, Object... args) {
     this.setMsg(MessageFormatter.arrayFormat(format, args).getMessage());
-  }
-
-  /**
-   * check is ok.
-   *
-   * @return true/false
-   */
-  public boolean isOk() {
-    if (success != null) {
-      return success;
-    }
-    // warning!! default is false.
-    return false;
-  }
-
-  /**
-   * check is fail.
-   *
-   * @return true/false
-   */
-  public boolean isFail() {
-    if (success != null) {
-      return !success;
-    }
-    return true;
   }
 
   public void from(Result<T> otherResult) {
