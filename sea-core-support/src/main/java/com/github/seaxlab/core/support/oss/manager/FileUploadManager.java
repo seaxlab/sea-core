@@ -1,8 +1,7 @@
 package com.github.seaxlab.core.support.oss.manager;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * module name

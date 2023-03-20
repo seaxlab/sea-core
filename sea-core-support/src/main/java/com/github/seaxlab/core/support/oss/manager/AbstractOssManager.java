@@ -2,19 +2,23 @@ package com.github.seaxlab.core.support.oss.manager;
 
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
-import com.github.seaxlab.core.model.Result;
-import com.github.seaxlab.core.support.oss.dto.*;
+import com.github.seaxlab.core.support.oss.dto.BucketCreateDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectQueryDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectSignUrlDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectUploadDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectUrlDTO;
+import com.github.seaxlab.core.support.oss.dto.OssConfig;
 import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
 import com.github.seaxlab.core.support.oss.enums.AclEnum;
 import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * module name
@@ -59,50 +63,35 @@ public abstract class AbstractOssManager implements OssManager {
   }
 
   @Override
-  public Result createBucket(String bucket) {
+  public void createBucket(String bucket) {
     Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
     log.info("create bucket={}", bucket);
-
-    Result result = _createBucket(bucket);
-
-    if (result.isOk()) {
-      log.info("create bucket successfully");
-    }
-
-    return result;
+    _createBucket(bucket);
+    log.info("create bucket successfully");
   }
 
   @Override
-  public Result<Boolean> createBucket(BucketCreateDTO dto) {
+  public void createBucket(BucketCreateDTO dto) {
     Precondition.checkNotEmpty(dto.getName(), "bucket cannot be empty");
     log.info("create bucket={}", dto.getName());
     if (dto.getAclEnum() == null) {
       dto.setAclEnum(AclEnum.PRIVATE);
     }
-    Result result = _createBucket(dto);
-
-    if (result.isOk()) {
-      log.info("create bucket successfully");
-    }
-
-    return result;
+    _createBucket(dto);
+    log.info("create bucket successfully");
   }
 
   @Override
-  public Result deleteBucket(String bucket) {
+  public void deleteBucket(String bucket) {
     Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
     log.info("try to delete bucket={}", bucket);
 
-    Result result = _deleteBucket(bucket);
-    if (result.isOk()) {
-      log.info("delete bucket successfully");
-    }
-
-    return result;
+    _deleteBucket(bucket);
+    log.info("delete bucket successfully");
   }
 
   @Override
-  public Result<List<BucketRespDTO>> queryBuckets() {
+  public List<BucketRespDTO> queryBuckets() {
     return _queryBuckets();
   }
 
@@ -115,49 +104,38 @@ public abstract class AbstractOssManager implements OssManager {
   }
 
   @Override
-  public Result<ObjectPutRespDTO> uploadObj(String bucket, String key, String filePath) {
+  public ObjectPutRespDTO uploadObj(String bucket, String key, String filePath) {
     Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
     Precondition.checkNotEmpty(key, "key cannot be empty");
     Precondition.checkNotEmpty(filePath, "filePath cannot be empty");
     log.info("upload obj bucket={},key={},filePath={}", bucket, key, filePath);
 
-    Result result = _uploadObj(bucket, key, filePath);
-    if (result.isOk()) {
-      log.info("upload obj successfully");
-    }
-    return result;
+    ObjectPutRespDTO dto = _uploadObj(bucket, key, filePath);
+    log.info("upload obj successfully");
+    return dto;
   }
 
   @Override
-  public Result<ObjectPutRespDTO> uploadObj(String bucket, String key, File file) {
+  public ObjectPutRespDTO uploadObj(String bucket, String key, File file) {
     Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
     Precondition.checkNotEmpty(key, "key cannot be empty");
     Precondition.checkNotNull(file, "file cannot be empty");
     log.info("upload obj bucket={},key={} by file", bucket, key);
 
-    Result result = _uploadObj(bucket, key, file);
-    if (result.isOk()) {
-      log.info("upload obj successfully");
-    }
-    return result;
+    return _uploadObj(bucket, key, file);
   }
 
   @Override
-  public Result<ObjectPutRespDTO> uploadObj(String bucket, String key, InputStream inputStream) {
+  public ObjectPutRespDTO uploadObj(String bucket, String key, InputStream inputStream) {
     Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
     Precondition.checkNotEmpty(key, "key cannot be empty");
     Precondition.checkNotNull(inputStream, "inputStream cannot be empty");
     log.info("upload obj bucket={},key={} by file", bucket, key);
-
-    Result result = _uploadObj(bucket, key, inputStream);
-    if (result.isOk()) {
-      log.info("upload obj successfully");
-    }
-    return result;
+    return _uploadObj(bucket, key, inputStream);
   }
 
   @Override
-  public Result<ObjectPutRespDTO> uploadObj(ObjectUploadDTO dto) {
+  public ObjectPutRespDTO uploadObj(ObjectUploadDTO dto) {
     Precondition.checkNotEmpty(dto.getBucket(), "bucket cannot be empty");
     Precondition.checkNotEmpty(dto.getKey(), "key cannot be empty");
     if (dto.getFile() == null && dto.getInputStream() == null) {
@@ -168,15 +146,11 @@ public abstract class AbstractOssManager implements OssManager {
     }
     log.info("upload obj bucket={},key={} by file", dto.getBucket(), dto.getKey());
 
-    Result result = _uploadObj(dto);
-    if (result.isOk()) {
-      log.info("upload obj successfully");
-    }
-    return result;
+    return _uploadObj(dto);
   }
 
   @Override
-  public Result<String> getObjUrl(ObjectUrlDTO dto) {
+  public String getObjUrl(ObjectUrlDTO dto) {
     Precondition.checkNotNull(dto);
     Precondition.checkNotEmpty(dto.getBucket(), "bucket cannot be empty");
     Precondition.checkNotEmpty(dto.getKey(), "key cannot be empty");
@@ -185,7 +159,7 @@ public abstract class AbstractOssManager implements OssManager {
   }
 
   @Override
-  public Result<String> getObjSignedUrl(String bucket, String key, long expireSeconds) {
+  public String getObjSignedUrl(String bucket, String key, long expireSeconds) {
     Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
     Precondition.checkNotEmpty(key, "key cannot be empty");
 
@@ -195,7 +169,7 @@ public abstract class AbstractOssManager implements OssManager {
   }
 
   @Override
-  public Result<String> getObjSignedUrl(ObjectSignUrlDTO dto) {
+  public String getObjSignedUrl(ObjectSignUrlDTO dto) {
     Precondition.checkNotEmpty(dto.getBucket(), "bucket cannot be empty");
     Precondition.checkNotEmpty(dto.getKey(), "key cannot be empty");
 
@@ -207,46 +181,37 @@ public abstract class AbstractOssManager implements OssManager {
   }
 
   @Override
-  public Result<Boolean> downloadObj(String bucket, String key, String filePath) {
+  public void downloadObj(String bucket, String key, String filePath) {
     Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
     Precondition.checkNotEmpty(key, "key cannot be empty");
     log.info("download obj bucket={},key={},filePath={}", bucket, key, filePath);
 
-    Result result = _downloadObj(bucket, key, filePath);
-    if (result.isOk()) {
-      log.info("download obj successfully");
-    }
-    return result;
+    _downloadObj(bucket, key, filePath);
+    log.info("download obj successfully");
   }
 
   @Override
-  public Result<Boolean> deleteObj(String bucket, String key) {
+  public void deleteObj(String bucket, String key) {
     Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
     Precondition.checkNotEmpty(key, "key cannot be empty");
     log.info("delete obj bucket={},key={}", bucket, key);
 
-    Result result = _deleteObj(bucket, key);
-    if (result.isOk()) {
-      log.info("delete obj successfully");
-    }
-    return result;
+    _deleteObj(bucket, key);
+    log.info("delete obj successfully");
   }
 
   @Override
-  public Result<Boolean> deleteObjs(String bucket, List<String> keys) {
+  public void deleteObjs(String bucket, List<String> keys) {
     Precondition.checkNotEmpty(bucket, "bucket cannot be empty");
     Precondition.checkNotEmpty(keys, "keys cannot be empty");
     log.info("delete objs bucket={},keys={}", bucket, keys);
 
-    Result result = _deleteObjs(bucket, keys);
-    if (result.isOk()) {
-      log.info("delete objs successfully");
-    }
-    return result;
+    _deleteObjs(bucket, keys);
+    log.info("delete objs successfully");
   }
 
   @Override
-  public Result<List<ObjectRespDTO>> queryObjs(ObjectQueryDTO dto) {
+  public List<ObjectRespDTO> queryObjs(ObjectQueryDTO dto) {
     Precondition.checkNotEmpty(dto.getBucket(), "bucket cannot be empty");
     if (dto.getMaxKeys() <= 0 || dto.getMaxKeys() >= 1000) {
       log.warn("max keys[{}] is invalid", dto.getMaxKeys());
@@ -268,44 +233,40 @@ public abstract class AbstractOssManager implements OssManager {
     return false;
   }
 
-  public Result _createBucket(String bucket) {
-    return Result.failMsg("不支持的操作");
+  public void _createBucket(String bucket) {
   }
 
-  public Result _createBucket(BucketCreateDTO dto) {
-    return Result.failMsg("不支持的操作");
+  public void _createBucket(BucketCreateDTO dto) {
   }
 
-  public Result _deleteBucket(String bucket) {
-    return Result.failMsg("不支持的操作");
+  public void _deleteBucket(String bucket) {
   }
 
-  public Result<List<BucketRespDTO>> _queryBuckets() {
-    return Result.failMsg("不支持的操作");
+  public List<BucketRespDTO> _queryBuckets() {
+    return new ArrayList<>();
   }
 
   public boolean _checkObjExist(String bucket, String key) {
     return false;
   }
 
-  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, String filePath) {
-    return Result.failMsg("不支持的操作");
+  public ObjectPutRespDTO _uploadObj(String bucket, String key, String filePath) {
+    return null;
   }
 
-  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, File file) {
-    return Result.failMsg("不支持的操作");
+  public ObjectPutRespDTO _uploadObj(String bucket, String key, File file) {
+    return null;
   }
 
-  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, InputStream inputStream) {
-    return Result.failMsg("不支持的操作");
+  public ObjectPutRespDTO _uploadObj(String bucket, String key, InputStream inputStream) {
+    return null;
   }
 
-  public Result<ObjectPutRespDTO> _uploadObj(ObjectUploadDTO dto) {
-    return Result.failMsg("不支持的操作");
+  public ObjectPutRespDTO _uploadObj(ObjectUploadDTO dto) {
+    return null;
   }
 
-  public Result<String> _getObjUrl(ObjectUrlDTO dto) {
-    Result<String> result = Result.fail();
+  public String _getObjUrl(ObjectUrlDTO dto) {
     String url = "";
     if (dto.isCustomDomainFlag()) {
       url = ossConfig.getEndpoint() + "/" + dto.getKey();
@@ -315,32 +276,28 @@ public abstract class AbstractOssManager implements OssManager {
       url = bucketUrl + "/" + dto.getKey();
     }
 
-    result.value(url);
-    return result;
+    return url;
   }
 
-  public Result<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
-    return Result.failMsg("不支持的操作");
+  public String _getObjSignedUrl(String bucket, String key, long expireSeconds) {
+    return "";
   }
 
-  public Result<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
-    return Result.failMsg("不支持的操作");
+  public String _getObjSignedUrl(ObjectSignUrlDTO dto) {
+    return "";
   }
 
-  public Result<Boolean> _downloadObj(String bucket, String key, String filePath) {
-    return Result.failMsg("不支持的操作");
+  public void _downloadObj(String bucket, String key, String filePath) {
   }
 
-  public Result<Boolean> _deleteObj(String bucket, String key) {
-    return Result.failMsg("不支持的操作");
+  public void _deleteObj(String bucket, String key) {
   }
 
-  public Result<Boolean> _deleteObjs(String bucket, List<String> keys) {
-    return Result.failMsg("不支持的操作");
+  public void _deleteObjs(String bucket, List<String> keys) {
   }
 
-  public Result<List<ObjectRespDTO>> _queryObjs(ObjectQueryDTO dto) {
-    return Result.failMsg("不支持的操作");
+  public List<ObjectRespDTO> _queryObjs(ObjectQueryDTO dto) {
+    return new ArrayList<>();
   }
 
 }

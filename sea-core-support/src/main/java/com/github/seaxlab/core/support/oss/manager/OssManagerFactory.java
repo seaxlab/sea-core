@@ -3,7 +3,11 @@ package com.github.seaxlab.core.support.oss.manager;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
-import com.github.seaxlab.core.support.oss.manager.impl.*;
+import com.github.seaxlab.core.support.oss.manager.impl.AliyunOssManager;
+import com.github.seaxlab.core.support.oss.manager.impl.HuaWeiCloudOssManager;
+import com.github.seaxlab.core.support.oss.manager.impl.MinioOssManager;
+import com.github.seaxlab.core.support.oss.manager.impl.QiNiuOssManager;
+import com.github.seaxlab.core.support.oss.manager.impl.TencentOssManager;
 import lombok.extern.slf4j.Slf4j;
 
 /**

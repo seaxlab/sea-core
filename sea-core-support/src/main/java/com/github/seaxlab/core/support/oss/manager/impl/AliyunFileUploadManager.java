@@ -9,14 +9,13 @@ import com.github.seaxlab.core.common.CoreConst;
 import com.github.seaxlab.core.support.oss.exception.FileUploadException;
 import com.github.seaxlab.core.support.oss.manager.FileUploadManager;
 import com.github.seaxlab.core.util.PathUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * aliyun file upload manager

@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.support.oss;
 
-import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.support.oss.dto.ObjectUrlDTO;
+import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
 import com.github.seaxlab.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -46,8 +46,8 @@ public class QiNiuOssManagerTest extends BaseOssManagerTest {
 
   @Test
   public void testUploadObj() {
-    Result ret = ossManager.uploadObj(BUCKET, "abcdef", PathUtil.getUserHome() + "/test/gc1.log");
-    log.info("ret={}", ret);
+    ObjectPutRespDTO dto = ossManager.uploadObj(BUCKET, "abcdef", PathUtil.getUserHome() + "/test/gc1.log");
+    log.info("dto={}", dto);
   }
 
   @Test
@@ -56,14 +56,14 @@ public class QiNiuOssManagerTest extends BaseOssManagerTest {
     dto.setBucket(BUCKET);
     dto.setKey("abcdef");
     dto.setCustomDomainFlag(true);
-    Result<String> ret = ossManager.getObjUrl(dto);
-    log.info("url={}", ret.getData());
+    String url = ossManager.getObjUrl(dto);
+    log.info("url={}", url);
   }
 
   @Test
   public void testGetObjSignedUrl() throws Exception {
-    Result<String> ret = ossManager.getObjSignedUrl("spy-private-bucket", "gc1.log", 100);
-    log.info("url={}", ret.getData());
+    String url = ossManager.getObjSignedUrl("spy-private-bucket", "gc1.log", 100);
+    log.info("url={}", url);
 
   }
 

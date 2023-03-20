@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.support.oss.manager.impl;
 
-import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
+import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.support.oss.dto.BucketCreateDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectSignUrlDTO;
 import com.github.seaxlab.core.support.oss.dto.OssConfig;
@@ -9,17 +10,27 @@ import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.enums.HttpMethodEnum;
 import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
 import com.github.seaxlab.core.support.oss.manager.AbstractOssManager;
+import com.github.seaxlab.core.util.CollectionUtil;
 import com.github.seaxlab.core.util.ListUtil;
-import io.minio.*;
+import io.minio.BucketExistsArgs;
+import io.minio.GetObjectArgs;
+import io.minio.GetObjectResponse;
+import io.minio.GetPresignedObjectUrlArgs;
+import io.minio.MakeBucketArgs;
+import io.minio.MinioClient;
+import io.minio.RemoveBucketArgs;
+import io.minio.RemoveObjectArgs;
+import io.minio.RemoveObjectsArgs;
+import io.minio.SetBucketPolicyArgs;
+import io.minio.UploadObjectArgs;
 import io.minio.http.Method;
 import io.minio.messages.Bucket;
 import io.minio.messages.DeleteObject;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * minio oss manager
@@ -40,22 +51,32 @@ public class MinioOssManager extends AbstractOssManager {
   /**
    * bucket权限-只读
    */
-  private static final String READ_ONLY = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "/*\"]}]}";
+  private static final String READ_ONLY =
+    "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\"],\"Resource\":[\"arn:aws:s3:::"
+      + BUCKET_PARAM
+      + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::"
+      + BUCKET_PARAM + "/*\"]}]}";
   /**
    * bucket权限-只写
    */
-  private static final String WRITE_ONLY = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:AbortMultipartUpload\",\"s3:DeleteObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "/*\"]}]}";
+  private static final String WRITE_ONLY =
+    "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::"
+      + BUCKET_PARAM
+      + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:AbortMultipartUpload\",\"s3:DeleteObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\"],\"Resource\":[\"arn:aws:s3:::"
+      + BUCKET_PARAM + "/*\"]}]}";
   /**
    * bucket权限-读写
    */
-  private static final String READ_WRITE = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:DeleteObject\",\"s3:GetObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\",\"s3:AbortMultipartUpload\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "/*\"]}]}";
+  private static final String READ_WRITE =
+    "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::"
+      + BUCKET_PARAM
+      + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:DeleteObject\",\"s3:GetObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\",\"s3:AbortMultipartUpload\"],\"Resource\":[\"arn:aws:s3:::"
+      + BUCKET_PARAM + "/*\"]}]}";
 
   @Override
   public void _init(OssConfig config) {
-    client = MinioClient.builder()
-                        .endpoint(config.getEndpoint())
-                        .credentials(config.getAccessKey(), config.getSecretKey())
-                        .build();
+    client = MinioClient.builder().endpoint(config.getEndpoint())
+      .credentials(config.getAccessKey(), config.getSecretKey()).build();
   }
 
   @Override
@@ -70,9 +91,7 @@ public class MinioOssManager extends AbstractOssManager {
 
   @Override
   public boolean _checkBucketExist(String bucket) {
-    BucketExistsArgs args = BucketExistsArgs.builder()
-                                            .bucket(bucket)
-                                            .build();
+    BucketExistsArgs args = BucketExistsArgs.builder().bucket(bucket).build();
     try {
       return client.bucketExists(args);
     } catch (Exception e) {
@@ -82,31 +101,23 @@ public class MinioOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result _createBucket(String bucket) {
-    Result result = Result.fail();
-    MakeBucketArgs args = MakeBucketArgs.builder()
-                                        .bucket(bucket)
-                                        .build();
+  public void _createBucket(String bucket) {
+    MakeBucketArgs args = MakeBucketArgs.builder().bucket(bucket).build();
     try {
       client.makeBucket(args);
-      result.value(true);
     } catch (Exception e) {
       log.error("fail to create bucket", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
   }
 
   @Override
-  public Result _createBucket(BucketCreateDTO dto) {
-    Result result = Result.fail();
-    MakeBucketArgs args = MakeBucketArgs.builder()
-                                        .bucket(dto.getName())
-                                        .build();
+  public void _createBucket(BucketCreateDTO dto) {
+    MakeBucketArgs args = MakeBucketArgs.builder().bucket(dto.getName()).build();
     //TODO test
     try {
       client.makeBucket(args);
-      SetBucketPolicyArgs.Builder policyArgsBuilder = SetBucketPolicyArgs.builder()
-                                                                         .bucket(dto.getName());
+      SetBucketPolicyArgs.Builder policyArgsBuilder = SetBucketPolicyArgs.builder().bucket(dto.getName());
       switch (dto.getAclEnum()) {
         case PUBLIC:
           policyArgsBuilder.config(READ_ONLY.replace(BUCKET_PARAM, dto.getName()));
@@ -116,61 +127,51 @@ public class MinioOssManager extends AbstractOssManager {
           break;
       }
       client.setBucketPolicy(policyArgsBuilder.build());
-      result.value(true);
     } catch (Exception e) {
       log.error("fail to create bucket", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
   }
 
   @Override
-  public Result _deleteBucket(String bucket) {
-    Result result = Result.fail();
-    RemoveBucketArgs args = RemoveBucketArgs.builder()
-                                            .bucket(bucket)
-                                            .build();
+  public void _deleteBucket(String bucket) {
+    RemoveBucketArgs args = RemoveBucketArgs.builder().bucket(bucket).build();
     try {
       client.removeBucket(args);
-      result.value(true);
     } catch (Exception e) {
       log.error("fail to create bucket", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
-
   }
 
   @Override
-  public Result<List<BucketRespDTO>> _queryBuckets() {
-    Result<List<BucketRespDTO>> result = Result.fail();
-
+  public List<BucketRespDTO> _queryBuckets() {
     try {
       List<Bucket> buckets = client.listBuckets();
       if (ListUtil.isEmpty(buckets)) {
-        result.value(ListUtil.empty());
-        return result;
+        return ListUtil.empty();
       }
 
-      List<BucketRespDTO> vos = buckets.stream()
-                                       .map(item -> {
-                                         BucketRespDTO vo = new BucketRespDTO();
-                                         vo.setName(item.name());
-                                         return vo;
-                                       }).collect(Collectors.toList());
-      result.value(vos);
+      List<BucketRespDTO> respDTOs = buckets.stream().map(item -> {
+        BucketRespDTO respDTO = new BucketRespDTO();
+        respDTO.setName(item.name());
+        return respDTO;
+      }).collect(Collectors.toList());
+
+      return respDTOs;
     } catch (Exception e) {
       log.error("fail to query buckets", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
+
+    return ListUtil.empty();
   }
 
   @Override
   public boolean _checkObjExist(String bucket, String key) {
 
     try {
-      GetObjectArgs args = GetObjectArgs.builder()
-                                        .bucket(bucket)
-                                        .object(key)
-                                        .build();
+      GetObjectArgs args = GetObjectArgs.builder().bucket(bucket).object(key).build();
 
       GetObjectResponse resp = client.getObject(args);
       return resp != null;
@@ -181,123 +182,90 @@ public class MinioOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, String filePath) {
-    Result<ObjectPutRespDTO> result = Result.fail();
+  public ObjectPutRespDTO _uploadObj(String bucket, String key, String filePath) {
+    ObjectPutRespDTO respDTO = null;
     try {
-      UploadObjectArgs args = UploadObjectArgs.builder()
-                                              .bucket(bucket)
-                                              .object(key)
-                                              .filename(filePath)
-                                              .build();
+      UploadObjectArgs args = UploadObjectArgs.builder().bucket(bucket).object(key).filename(filePath).build();
       client.uploadObject(args);
 
-      ObjectPutRespDTO vo = new ObjectPutRespDTO();
-      vo.setKey(key);
-
-      result.value(vo);
+      respDTO = new ObjectPutRespDTO();
+      respDTO.setKey(key);
     } catch (Exception e) {
       log.error("fail to upload obj", e);
-      result.setMsg(e.getMessage());
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
+    return respDTO;
   }
 
   @Override
-  public Result<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
-    Result<String> result = Result.fail();
+  public String _getObjSignedUrl(String bucket, String key, long expireSeconds) {
 
-    GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
-                                                              .bucket(bucket)
-                                                              .object(key)
-                                                              .expiry((int) expireSeconds, TimeUnit.SECONDS)
-                                                              .build();
+    GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder().bucket(bucket).object(key)
+      .expiry((int) expireSeconds, TimeUnit.SECONDS).build();
     try {
-      result.value(client.getPresignedObjectUrl(args));
+      return client.getPresignedObjectUrl(args);
     } catch (Exception e) {
       log.error("fail to get obj signed url", e);
-      result.setMsg("获取签名数据失败");
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
+    return "";
   }
 
   @Override
-  public Result<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
-    Result<String> result = Result.fail();
-
-    GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
-                                                              .bucket(dto.getBucket())
-                                                              .object(dto.getKey())
-                                                              .expiry((int) dto.getExpireSeconds(), TimeUnit.SECONDS)
-                                                              .method(toMethod(dto.getHttpMethod()))
-                                                              .build();
+  public String _getObjSignedUrl(ObjectSignUrlDTO dto) {
+    GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder() //
+      .bucket(dto.getBucket()) //
+      .object(dto.getKey()) //
+      .expiry((int) dto.getExpireSeconds(), TimeUnit.SECONDS)//
+      .method(toMethod(dto.getHttpMethod()))//
+      .build();
     try {
-      result.value(client.getPresignedObjectUrl(args));
+      return client.getPresignedObjectUrl(args);
     } catch (Exception e) {
       log.error("fail to get obj signed url", e);
-      result.setMsg("获取签名数据失败");
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
+    return "";
   }
 
   @Override
-  public Result<Boolean> _downloadObj(String bucket, String key, String filePath) {
-    Result<Boolean> result = Result.fail();
+  public void _downloadObj(String bucket, String key, String filePath) {
     try {
-      GetObjectArgs args = GetObjectArgs.builder()
-                                        .bucket(bucket)
-                                        .object(key)
-                                        .build();
-      GetObjectResponse response = client.getObject(args);
-
-      result.value(true);
+      GetObjectArgs args = GetObjectArgs.builder().bucket(bucket).object(key).build();
+      client.getObject(args);
     } catch (Exception e) {
       log.error("fail to download obj", e);
-      result.setMsg(e.getMessage());
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
   }
 
   @Override
-  public Result<Boolean> _deleteObj(String bucket, String key) {
-    Result<Boolean> result = Result.fail();
+  public void _deleteObj(String bucket, String key) {
     try {
-      RemoveObjectArgs args = RemoveObjectArgs.builder()
-                                              .bucket(bucket)
-                                              .object(key)
-                                              .build();
+      RemoveObjectArgs args = RemoveObjectArgs.builder().bucket(bucket).object(key).build();
       client.removeObject(args);
-      result.setData(true);
     } catch (Exception e) {
       log.error("fail to delete obj", e);
-      result.setMsg(e.getMessage());
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
   }
 
   @Override
-  public Result<Boolean> _deleteObjs(String bucket, List<String> keys) {
-    Result<Boolean> result = Result.fail();
-
+  public void _deleteObjs(String bucket, List<String> keys) {
+    if (CollectionUtil.isEmpty(keys)) {
+      log.warn("keys is empty, plz check.");
+      return;
+    }
     try {
       List<DeleteObject> list = new ArrayList<>();
       keys.forEach(key -> list.add(new DeleteObject(key)));
 
-      if (list.isEmpty()) {
-        result.setMsg("keys is empty.");
-        return result;
-      }
-
-      RemoveObjectsArgs args = RemoveObjectsArgs.builder()
-                                                .bucket(bucket)
-                                                .objects(list)
-                                                .build();
+      RemoveObjectsArgs args = RemoveObjectsArgs.builder().bucket(bucket).objects(list).build();
       client.removeObjects(args);
-      result.setData(true);
     } catch (Exception e) {
       log.error("fail to delete objs", e);
-      result.setMsg(e.getMessage());
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
   }
 
   // --------------------private

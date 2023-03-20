@@ -1,11 +1,14 @@
 package com.github.seaxlab.core.support.oss.manager;
 
-import com.github.seaxlab.core.model.Result;
-import com.github.seaxlab.core.support.oss.dto.*;
+import com.github.seaxlab.core.support.oss.dto.BucketCreateDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectQueryDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectSignUrlDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectUploadDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectUrlDTO;
+import com.github.seaxlab.core.support.oss.dto.OssConfig;
 import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
-
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
@@ -55,7 +58,7 @@ public interface OssManager {
    * @param bucket
    * @return
    */
-  Result createBucket(String bucket);
+  void createBucket(String bucket);
 
 
   /**
@@ -64,7 +67,7 @@ public interface OssManager {
    * @param dto
    * @return
    */
-  Result<Boolean> createBucket(BucketCreateDTO dto);
+  void createBucket(BucketCreateDTO dto);
 
   /**
    * 删除bucket
@@ -72,14 +75,14 @@ public interface OssManager {
    * @param bucket
    * @return
    */
-  Result deleteBucket(String bucket);
+  void deleteBucket(String bucket);
 
   /**
    * 查询所有bucket
    *
    * @return
    */
-  Result<List<BucketRespDTO>> queryBuckets();
+  List<BucketRespDTO> queryBuckets();
 
   /**
    * check obj exist
@@ -98,7 +101,7 @@ public interface OssManager {
    * @param filePath
    * @return
    */
-  Result<ObjectPutRespDTO> uploadObj(String bucket, String key, String filePath);
+  ObjectPutRespDTO uploadObj(String bucket, String key, String filePath);
 
   /**
    * upload obj by file
@@ -108,7 +111,7 @@ public interface OssManager {
    * @param file
    * @return
    */
-  Result<ObjectPutRespDTO> uploadObj(String bucket, String key, File file);
+  ObjectPutRespDTO uploadObj(String bucket, String key, File file);
 
   /**
    * upload obj by stream
@@ -118,7 +121,7 @@ public interface OssManager {
    * @param inputStream
    * @return
    */
-  Result<ObjectPutRespDTO> uploadObj(String bucket, String key, InputStream inputStream);
+  ObjectPutRespDTO uploadObj(String bucket, String key, InputStream inputStream);
 
   /**
    * update obj
@@ -129,7 +132,7 @@ public interface OssManager {
    * @param dto
    * @return
    */
-  Result<ObjectPutRespDTO> uploadObj(ObjectUploadDTO dto);
+  ObjectPutRespDTO uploadObj(ObjectUploadDTO dto);
 
   /**
    * get object url.
@@ -137,7 +140,7 @@ public interface OssManager {
    * @param dto
    * @return
    */
-  Result<String> getObjUrl(ObjectUrlDTO dto);
+  String getObjUrl(ObjectUrlDTO dto);
 
   /**
    * get obj signed url
@@ -147,7 +150,7 @@ public interface OssManager {
    * @param expireSeconds
    * @return
    */
-  Result<String> getObjSignedUrl(String bucket, String key, long expireSeconds);
+  String getObjSignedUrl(String bucket, String key, long expireSeconds);
 
   /**
    * get obj signed url
@@ -155,7 +158,7 @@ public interface OssManager {
    * @param dto
    * @return
    */
-  Result<String> getObjSignedUrl(ObjectSignUrlDTO dto);
+  String getObjSignedUrl(ObjectSignUrlDTO dto);
 
   /**
    * 下载文件
@@ -165,7 +168,7 @@ public interface OssManager {
    * @param filePath 文件路径
    * @return
    */
-  Result<Boolean> downloadObj(String bucket, String key, String filePath);
+  void downloadObj(String bucket, String key, String filePath);
 
   /**
    * 删除对象
@@ -174,16 +177,15 @@ public interface OssManager {
    * @param key
    * @return
    */
-  Result<Boolean> deleteObj(String bucket, String key);
+  void deleteObj(String bucket, String key);
 
   /**
    * 批量删除对象
    *
    * @param bucket
    * @param keys
-   * @return
    */
-  Result<Boolean> deleteObjs(String bucket, List<String> keys);
+  void deleteObjs(String bucket, List<String> keys);
 
   /**
    * query objs
@@ -191,5 +193,5 @@ public interface OssManager {
    * @param dto
    * @return
    */
-  Result<List<ObjectRespDTO>> queryObjs(ObjectQueryDTO dto);
+  List<ObjectRespDTO> queryObjs(ObjectQueryDTO dto);
 }

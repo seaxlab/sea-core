@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.support.oss;
 
-import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
 import com.github.seaxlab.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -38,8 +38,8 @@ public class AliyunOssManagerTest extends BaseOssManagerTest {
 
   @Test
   public void testUploadObj() {
-    Result ret = ossManager.uploadObj(BUCKET, "abcdef", PathUtil.getUserHome() + "/test/gc1.log");
-    log.info("ret={}", ret);
+    ObjectPutRespDTO dto = ossManager.uploadObj(BUCKET, "abcdef", PathUtil.getUserHome() + "/test/gc1.log");
+    log.info("ret={}", dto);
   }
 
 

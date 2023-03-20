@@ -1,13 +1,25 @@
 package com.github.seaxlab.core.support.oss.manager.impl;
 
-import com.github.seaxlab.core.model.Result;
-import com.github.seaxlab.core.support.oss.dto.*;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
+import com.github.seaxlab.core.exception.ExceptionHandler;
+import com.github.seaxlab.core.support.oss.dto.BucketCreateDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectQueryDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectSignUrlDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectUploadDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectUrlDTO;
+import com.github.seaxlab.core.support.oss.dto.OssConfig;
 import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
 import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
 import com.github.seaxlab.core.support.oss.manager.AbstractOssManager;
-import com.github.seaxlab.core.util.*;
+import com.github.seaxlab.core.util.ArrayUtil;
+import com.github.seaxlab.core.util.EqualUtil;
+import com.github.seaxlab.core.util.FileUtil;
+import com.github.seaxlab.core.util.IOUtil;
+import com.github.seaxlab.core.util.IdUtil;
+import com.github.seaxlab.core.util.ListUtil;
+import com.github.seaxlab.core.util.PathUtil;
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Configuration;
@@ -16,11 +28,6 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.FileInfo;
 import com.qiniu.storage.model.FileListing;
 import com.qiniu.util.Auth;
-import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.ResponseBody;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,6 +35,10 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.ResponseBody;
 
 /**
  * qiniu oss manager
@@ -77,66 +88,59 @@ public class QiNiuOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result _createBucket(String bucket) {
-    Result result = Result.fail();
+  public void _createBucket(String bucket) {
     BucketManager bucketManager = new BucketManager(auth, cfg);
     try {
       Response resp = bucketManager.createBucket(bucket, DEFAULT_REGION);
-      result.value(true);
     } catch (Exception e) {
       log.error("fail to create get bucket info", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
   }
 
   @Override
-  public Result _createBucket(BucketCreateDTO dto) {
-    //TODO test
-    Result result = Result.fail();
+  public void _createBucket(BucketCreateDTO dto) {
     BucketManager bucketManager = new BucketManager(auth, cfg);
     try {
       Response resp = bucketManager.createBucket(dto.getName(), DEFAULT_REGION);
-      result.value(true);
     } catch (Exception e) {
       log.error("fail to create get bucket info", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
-
   }
 
   @Override
-  public Result _deleteBucket(String bucket) {
-    Result result = Result.fail();
+  public void _deleteBucket(String bucket) {
     //BucketManager bucketManager = new BucketManager(auth, cfg);
     try {
       //TODO
       log.warn("delete bucket is not supported by qiniu oss");
     } catch (Exception e) {
       log.error("fail to create get bucket info", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
   }
 
   @Override
-  public Result<List<BucketRespDTO>> _queryBuckets() {
-    Result<List<BucketRespDTO>> result = Result.fail();
+  public List<BucketRespDTO> _queryBuckets() {
     BucketManager bucketManager = new BucketManager(auth, cfg);
     try {
       String[] buckets = bucketManager.buckets();
       if (ArrayUtil.isEmpty(buckets)) {
-        result.value(ListUtil.empty());
-      } else {
-        List<BucketRespDTO> vos = Arrays.stream(buckets).map(item -> {
-          BucketRespDTO vo = new BucketRespDTO();
-          vo.setName(item);
-          return vo;
-        }).collect(Collectors.toList());
-        result.value(vos);
+        return ListUtil.empty();
       }
+      List<BucketRespDTO> respDTOs = Arrays.stream(buckets).map(item -> {
+        BucketRespDTO respDTO = new BucketRespDTO();
+        respDTO.setName(item);
+        return respDTO;
+      }).collect(Collectors.toList());
+      return respDTOs;
     } catch (Exception e) {
       log.error("fail to create get bucket info", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
+
+    return ListUtil.empty();
   }
 
   @Override
@@ -152,74 +156,70 @@ public class QiNiuOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, String filePath) {
-    Result<ObjectPutRespDTO> result = Result.fail();
-
+  public ObjectPutRespDTO _uploadObj(String bucket, String key, String filePath) {
+    ObjectPutRespDTO respDTO = null;
     try {
       String upToken = auth.uploadToken(bucket);
       UploadManager uploadManager = new UploadManager(cfg);
       Response res = uploadManager.put(filePath, key, upToken);
 
-      ObjectPutRespDTO vo = new ObjectPutRespDTO();
-      vo.setKey(key);
-      result.value(vo);
+      respDTO = new ObjectPutRespDTO();
+      respDTO.setKey(key);
     } catch (Exception e) {
       log.error("fail to put obj", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-
-    return result;
+    return respDTO;
   }
 
   @Override
-  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, File file) {
-    Result<ObjectPutRespDTO> result = Result.fail();
-
+  public ObjectPutRespDTO _uploadObj(String bucket, String key, File file) {
+    ObjectPutRespDTO respDTO = null;
     try {
       String upToken = auth.uploadToken(bucket);
       UploadManager uploadManager = new UploadManager(cfg);
       Response res = uploadManager.put(file, key, upToken);
 
-      ObjectPutRespDTO vo = new ObjectPutRespDTO();
-      vo.setKey(key);
-      result.value(vo);
+      respDTO = new ObjectPutRespDTO();
+      respDTO.setKey(key);
     } catch (Exception e) {
       log.error("fail to put obj", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
 
-    return result;
+    return respDTO;
   }
 
   @Override
-  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, InputStream inputStream) {
-    Result<ObjectPutRespDTO> result = Result.fail();
-
+  public ObjectPutRespDTO _uploadObj(String bucket, String key, InputStream inputStream) {
+    ObjectPutRespDTO respDTO = null;
     try {
       String filePath = PathUtil.getUserHome() + "/logs/" + IdUtil.shortUUID();
       log.info("try to write temp file[{}]", filePath);
       boolean flag = FileUtil.writeFileFromInputStream(inputStream, filePath);
       if (!flag) {
         log.error("fail to write file");
-        result.setMsg("写入临时文件失败");
-        return result;
+        ExceptionHandler.publishMsg("写入临时文件失败");
+        return respDTO;
       }
 
       String upToken = auth.uploadToken(bucket);
       UploadManager uploadManager = new UploadManager(cfg);
       Response res = uploadManager.put(filePath, key, upToken);
 
-      ObjectPutRespDTO vo = new ObjectPutRespDTO();
-      vo.setKey(key);
-      result.value(vo);
+      respDTO = new ObjectPutRespDTO();
+      respDTO.setKey(key);
       FileUtil.deleteFiles(filePath);
     } catch (Exception e) {
       log.error("fail to put obj", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
 
-    return result;
+    return respDTO;
   }
 
   @Override
-  public Result<ObjectPutRespDTO> _uploadObj(ObjectUploadDTO dto) {
+  public ObjectPutRespDTO _uploadObj(ObjectUploadDTO dto) {
     if (dto.getFile() != null) {
       return _uploadObj(dto.getBucket(), dto.getKey(), dto.getFile());
     } else {
@@ -228,55 +228,48 @@ public class QiNiuOssManager extends AbstractOssManager {
   }
 
   @Override
-  public Result<String> _getObjUrl(ObjectUrlDTO dto) {
+  public String _getObjUrl(ObjectUrlDTO dto) {
     return super._getObjUrl(dto);
   }
 
   @Override
-  public Result<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
-    Result<String> result = Result.fail();
-
+  public String _getObjSignedUrl(String bucket, String key, long expireSeconds) {
     try {
       ObjectUrlDTO urlDTO = new ObjectUrlDTO();
       urlDTO.setBucket(bucket);
       urlDTO.setKey(key);
       urlDTO.setCustomDomainFlag(true);
-      String url = auth.privateDownloadUrl(getObjUrl(urlDTO).getData(), expireSeconds);
-      result.value(url);
+      return auth.privateDownloadUrl(getObjUrl(urlDTO), expireSeconds);
     } catch (Exception e) {
       log.error("fail to get obj signed url", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
 
-    return result;
+    return "";
   }
 
   @Override
-  public Result<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
-    Result<String> result = Result.fail();
+  public String _getObjSignedUrl(ObjectSignUrlDTO dto) {
 
     try {
       ObjectUrlDTO urlDTO = new ObjectUrlDTO();
       urlDTO.setBucket(dto.getBucket());
       urlDTO.setKey(dto.getKey());
       urlDTO.setCustomDomainFlag(true);
-      String url = auth.privateDownloadUrl(getObjUrl(urlDTO).getData(), dto.getExpireSeconds());
-      result.value(url);
+      return auth.privateDownloadUrl(getObjUrl(urlDTO), dto.getExpireSeconds());
     } catch (Exception e) {
       log.error("fail to get obj signed url", e);
     }
-
-    return result;
+    return "";
   }
 
   @Override
-  public Result<Boolean> _downloadObj(String bucket, String key, String filePath) {
-    Result<Boolean> result = Result.fail();
-
+  public void _downloadObj(String bucket, String key, String filePath) {
     ObjectUrlDTO urlDTO = new ObjectUrlDTO();
     urlDTO.setBucket(bucket);
     urlDTO.setKey(key);
     urlDTO.setCustomDomainFlag(true);
-    String url = getObjUrl(urlDTO).getData();
+    String url = getObjUrl(urlDTO);
 
     OkHttpClient client = new OkHttpClient();
     Request req = new Request.Builder().url(url).build();
@@ -297,32 +290,26 @@ public class QiNiuOssManager extends AbstractOssManager {
       } else {
         log.warn("get file error");
       }
-      result.value(true);
     } catch (IOException e) {
       log.error("fail to download obj", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-    return result;
   }
 
   @Override
-  public Result<Boolean> _deleteObj(String bucket, String key) {
-    Result<Boolean> result = Result.fail();
-
+  public void _deleteObj(String bucket, String key) {
     BucketManager bucketManager = new BucketManager(auth, cfg);
     try {
       bucketManager.delete(bucket, key);
-      result.value(true);
     } catch (Exception e) {
       log.error("fail to delete obj", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
 
-    return result;
   }
 
   @Override
-  public Result<Boolean> _deleteObjs(String bucket, List<String> keys) {
-    Result<Boolean> result = Result.fail();
-
+  public void _deleteObjs(String bucket, List<String> keys) {
     BucketManager bucketManager = new BucketManager(auth, cfg);
     try {
 
@@ -331,33 +318,29 @@ public class QiNiuOssManager extends AbstractOssManager {
       //for (String key : keys) {
       //    bucketManager.delete(bucket, key);
       //}
-      result.value(true);
     } catch (Exception e) {
       log.error("fail to delete objs", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-
-    return result;
   }
 
   @Override
-  public Result<List<ObjectRespDTO>> _queryObjs(ObjectQueryDTO dto) {
-    Result<List<ObjectRespDTO>> result = Result.fail();
+  public List<ObjectRespDTO> _queryObjs(ObjectQueryDTO dto) {
     BucketManager bucketManager = new BucketManager(auth, cfg);
 
     try {
       FileListing fileListing = bucketManager.listFiles(dto.getBucket(), dto.getPrefix(), null, dto.getMaxKeys(), null);
       FileInfo[] items = fileListing.items;
-      List<ObjectRespDTO> vos = Arrays.stream(items)
-                                      .map(item -> {
-                                        ObjectRespDTO vo = new ObjectRespDTO();
-                                        vo.setKey(item.key);
-                                        return vo;
-                                      }).collect(Collectors.toList());
-      result.value(vos);
+      List<ObjectRespDTO> respDTOs = Arrays.stream(items).map(item -> {
+        ObjectRespDTO respDTO = new ObjectRespDTO();
+        respDTO.setKey(item.key);
+        return respDTO;
+      }).collect(Collectors.toList());
+      return respDTOs;
     } catch (Exception e) {
       log.error("fail to query objs", e);
     }
 
-    return result;
+    return ListUtil.empty();
   }
 }

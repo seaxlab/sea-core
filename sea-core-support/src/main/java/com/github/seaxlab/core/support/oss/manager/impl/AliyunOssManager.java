@@ -4,10 +4,25 @@ import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.auth.CredentialsProvider;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
-import com.aliyun.oss.model.*;
+import com.aliyun.oss.model.Bucket;
+import com.aliyun.oss.model.CannedAccessControlList;
+import com.aliyun.oss.model.CreateBucketRequest;
+import com.aliyun.oss.model.DeleteObjectsRequest;
+import com.aliyun.oss.model.ListObjectsRequest;
+import com.aliyun.oss.model.OSSObject;
+import com.aliyun.oss.model.OSSObjectSummary;
+import com.aliyun.oss.model.ObjectListing;
+import com.aliyun.oss.model.ObjectMetadata;
+import com.aliyun.oss.model.PutObjectRequest;
+import com.aliyun.oss.model.PutObjectResult;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
+import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
-import com.github.seaxlab.core.model.Result;
-import com.github.seaxlab.core.support.oss.dto.*;
+import com.github.seaxlab.core.support.oss.dto.BucketCreateDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectQueryDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectSignUrlDTO;
+import com.github.seaxlab.core.support.oss.dto.ObjectUploadDTO;
+import com.github.seaxlab.core.support.oss.dto.OssConfig;
 import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
@@ -17,12 +32,11 @@ import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
 import com.github.seaxlab.core.support.oss.manager.AbstractOssManager;
 import com.github.seaxlab.core.util.CollectionUtil;
 import com.github.seaxlab.core.util.ListUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.time.DateUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,6 +44,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateUtils;
 
 /**
  * aliyun oss manager
@@ -45,7 +61,8 @@ public class AliyunOssManager extends AbstractOssManager {
 
   @Override
   public void _init(OssConfig config) {
-    CredentialsProvider credentialsProvider = new DefaultCredentialProvider(config.getAccessKey(), config.getSecretKey());
+    CredentialsProvider credentialsProvider = new DefaultCredentialProvider(config.getAccessKey(),
+      config.getSecretKey());
     client = new OSSClient(config.getEndpoint(), credentialsProvider, null);
   }
 
@@ -70,189 +87,131 @@ public class AliyunOssManager extends AbstractOssManager {
     return client.doesBucketExist(bucket);
   }
 
-  public Result _createBucket(String bucket) {
-    Result result = Result.fail();
+  public void _createBucket(String bucket) {
     try {
       client.createBucket(bucket);
-      result.value(true);
     } catch (Exception e) {
       log.error("fail to create bucket", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-
-    return result;
   }
 
   @Override
-  public Result _createBucket(BucketCreateDTO dto) {
-    Result result = Result.fail();
+  public void _createBucket(BucketCreateDTO dto) {
     try {
       CreateBucketRequest request = new CreateBucketRequest(dto.getName());
       request.setCannedACL(toACL(dto.getAclEnum()));
       client.createBucket(request);
-      result.value(true);
-      result.value(true);
     } catch (Exception e) {
       log.error("fail to create bucket", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-
-    return result;
   }
 
-  public Result _deleteBucket(String bucket) {
-    Result result = Result.fail();
+  public void _deleteBucket(String bucket) {
     try {
       client.deleteBucket(bucket);
-      result.value(true);
     } catch (Exception e) {
       log.error("fail to delete bucket", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_REQUEST_INVALID);
     }
-
-    return result;
   }
 
-  public Result<List<BucketRespDTO>> _queryBuckets() {
-    Result result = Result.fail();
-    try {
-      List<Bucket> buckets = client.listBuckets();
-      if (ListUtil.isEmpty(buckets)) {
-        result.value(ListUtil.empty());
-        return result;
-      }
-      List<BucketRespDTO> respDTOS = buckets.stream().map(item -> {
-        BucketRespDTO respDTO = new BucketRespDTO();
-        respDTO.setName(item.getName());
-        return respDTO;
-      }).collect(Collectors.toList());
-      result.value(respDTOS);
-    } catch (Exception e) {
-      log.error("fail to query buckets", e);
+  public List<BucketRespDTO> _queryBuckets() {
+    List<Bucket> buckets = client.listBuckets();
+    if (ListUtil.isEmpty(buckets)) {
+      return ListUtil.empty();
     }
+    List<BucketRespDTO> respDTOS = buckets.stream().map(item -> {
+      BucketRespDTO respDTO = new BucketRespDTO();
+      respDTO.setName(item.getName());
+      return respDTO;
+    }).collect(Collectors.toList());
 
-    return result;
+    return respDTOS;
   }
 
   public boolean _checkObjExist(String bucket, String key) {
     return client.doesObjectExist(bucket, key);
   }
 
-  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, String filePath) {
-    Result<ObjectPutRespDTO> result = Result.fail();
+  public ObjectPutRespDTO _uploadObj(String bucket, String key, String filePath) {
 
+    InputStream inputStream = null;
     try {
-      InputStream inputStream = new FileInputStream(filePath);
-      PutObjectResult ret = client.putObject(bucket, key, inputStream);
-
-      ObjectPutRespDTO respDTO = new ObjectPutRespDTO();
-      respDTO.setKey(key);
-      result.value(respDTO);
-    } catch (Exception e) {
-      log.error("fail to upload obj", e);
+      inputStream = new FileInputStream(filePath);
+    } catch (FileNotFoundException e) {
+      log.warn("fail not found", e);
     }
-    return result;
+    PutObjectResult ret = client.putObject(bucket, key, inputStream);
+
+    ObjectPutRespDTO respDTO = new ObjectPutRespDTO();
+    respDTO.setKey(key);
+    return respDTO;
   }
 
 
-  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, File file) {
-    Result<ObjectPutRespDTO> result = Result.fail();
+  public ObjectPutRespDTO _uploadObj(String bucket, String key, File file) {
 
-    try {
-      PutObjectRequest request = new PutObjectRequest(bucket, key, file);
-      client.putObject(request);
+    PutObjectRequest request = new PutObjectRequest(bucket, key, file);
+    client.putObject(request);
 
-      ObjectPutRespDTO respDTO = new ObjectPutRespDTO();
-      respDTO.setKey(key);
-      result.value(respDTO);
-    } catch (Exception e) {
-      log.error("fail to put obj", e);
-      result.setMsg("上传文件失败");
-    }
+    ObjectPutRespDTO respDTO = new ObjectPutRespDTO();
+    respDTO.setKey(key);
 
-    return result;
+    return respDTO;
   }
 
-  public Result<ObjectPutRespDTO> _uploadObj(String bucket, String key, InputStream inputStream) {
-    Result<ObjectPutRespDTO> result = Result.fail();
+  public ObjectPutRespDTO _uploadObj(String bucket, String key, InputStream inputStream) {
+    PutObjectRequest request = new PutObjectRequest(bucket, key, inputStream);
+    client.putObject(request);
 
-    try {
-      PutObjectRequest request = new PutObjectRequest(bucket, key, inputStream);
-      client.putObject(request);
+    ObjectPutRespDTO respDTO = new ObjectPutRespDTO();
+    respDTO.setKey(key);
 
-      ObjectPutRespDTO respDTO = new ObjectPutRespDTO();
-      respDTO.setKey(key);
-      result.value(respDTO);
-    } catch (Exception e) {
-      log.error("fail to put obj", e);
-      result.setMsg("上传文件失败");
-    }
-
-    return result;
+    return respDTO;
   }
 
   @Override
-  public Result<ObjectPutRespDTO> _uploadObj(ObjectUploadDTO dto) {
-    Result<ObjectPutRespDTO> result = Result.fail();
+  public ObjectPutRespDTO _uploadObj(ObjectUploadDTO dto) {
 
-    try {
-      PutObjectRequest request = null;
-      if (dto.getFile() != null) {
-        request = new PutObjectRequest(dto.getBucket(), dto.getKey(), dto.getFile());
-      } else {
-        request = new PutObjectRequest(dto.getBucket(), dto.getKey(), dto.getInputStream());
-      }
-      ObjectMetadata metadata = new ObjectMetadata();
-      metadata.setObjectAcl(toACL(dto.getAclEnum()));
-      request.setMetadata(metadata);
-
-      client.putObject(request);
-
-      ObjectPutRespDTO respDTO = new ObjectPutRespDTO();
-      respDTO.setKey(dto.getKey());
-      result.value(respDTO);
-    } catch (Exception e) {
-      log.error("fail to put obj", e);
-      result.setMsg("上传文件失败");
+    PutObjectRequest request = null;
+    if (dto.getFile() != null) {
+      request = new PutObjectRequest(dto.getBucket(), dto.getKey(), dto.getFile());
+    } else {
+      request = new PutObjectRequest(dto.getBucket(), dto.getKey(), dto.getInputStream());
     }
+    ObjectMetadata metadata = new ObjectMetadata();
+    metadata.setObjectAcl(toACL(dto.getAclEnum()));
+    request.setMetadata(metadata);
 
-    return result;
+    client.putObject(request);
+
+    ObjectPutRespDTO respDTO = new ObjectPutRespDTO();
+    respDTO.setKey(dto.getKey());
+
+    return respDTO;
   }
 
-  public Result<String> _getObjSignedUrl(String bucket, String key, long expireSeconds) {
-    Result<String> result = Result.fail();
-    try {
-      Date now = new Date();
-      Date expireDate = DateUtils.addSeconds(now, (int) expireSeconds);
-      URL url = client.generatePresignedUrl(bucket, key, expireDate, HttpMethod.GET);
-      result.value(url.toString());
-    } catch (Exception e) {
-      log.error("fail to get security url", e);
-    }
-    return result;
+  public String _getObjSignedUrl(String bucket, String key, long expireSeconds) {
+    Date now = new Date();
+    Date expireDate = DateUtils.addSeconds(now, (int) expireSeconds);
+    URL url = client.generatePresignedUrl(bucket, key, expireDate, HttpMethod.GET);
+    return url.toString();
   }
 
-  public Result<String> _getObjSignedUrl(ObjectSignUrlDTO dto) {
-    Result<String> result = Result.fail();
-    try {
-      Date now = new Date();
-      Date expireDate = DateUtils.addSeconds(now, (int) dto.getExpireSeconds());
-      URL url = client.generatePresignedUrl(dto.getBucket(), dto.getKey(), expireDate, toHttpMethodEnum(dto.getHttpMethod()));
-      result.value(url.toString());
-    } catch (Exception e) {
-      log.error("fail to get security url", e);
-    }
-
-    return result;
+  public String _getObjSignedUrl(ObjectSignUrlDTO dto) {
+    Date now = new Date();
+    Date expireDate = DateUtils.addSeconds(now, (int) dto.getExpireSeconds());
+    URL url = client.generatePresignedUrl(dto.getBucket(), dto.getKey(), expireDate,
+      toHttpMethodEnum(dto.getHttpMethod()));
+    return url.toString();
   }
 
-  public Result<Boolean> _downloadObj(String bucket, String key, String newFilePath) {
-    Result<Boolean> result = Result.fail();
-
+  public void _downloadObj(String bucket, String key, String newFilePath) {
+    OSSObject object = client.getObject(bucket, key);
+    ExceptionHandler.publishMsg("对象不存在");
     try {
-      OSSObject object = client.getObject(bucket, key);
-      if (object == null) {
-        result.setMsg("对象不存在");
-        return result;
-      }
-
       InputStream input = object.getObjectContent();
       byte[] b = new byte[1024];
       FileOutputStream fos = new FileOutputStream(newFilePath);
@@ -262,84 +221,53 @@ public class AliyunOssManager extends AbstractOssManager {
       }
       fos.close();
       input.close();
-      result.value(true);
-    } catch (Exception e) {
-      log.error("fail to download object from oss", e);
-      result.setMsg("下载文件失败");
+    } catch (IOException e) {
+      log.error("io io exception", e);
+      ExceptionHandler.publishMsg("请求异常");
     }
-
-    return result;
   }
 
-  public Result<Boolean> _deleteObj(String bucket, String key) {
-    Result<Boolean> result = Result.fail();
-    try {
-      client.deleteObject(bucket, key);
-      result.value(true);
-    } catch (Exception e) {
-      log.error("fail to delete obj", e);
-      result.setMsg("删除对象失败");
-    }
-    return result;
+  public void _deleteObj(String bucket, String key) {
+    client.deleteObject(bucket, key);
   }
 
-  public Result<Boolean> _deleteObjs(String bucket, List<String> keys) {
+  public void _deleteObjs(String bucket, List<String> keys) {
     Precondition.checkNotNull(bucket);
 
-    Result<Boolean> result = Result.fail();
-
-    try {
-      DeleteObjectsRequest request = new DeleteObjectsRequest(bucket);
-      request.setKeys(keys);
-      client.deleteObjects(request);
-      result.value(true);
-    } catch (Exception e) {
-      log.error("fail to delete objs", e);
-    }
-
-    return result;
+    DeleteObjectsRequest request = new DeleteObjectsRequest(bucket);
+    request.setKeys(keys);
+    client.deleteObjects(request);
   }
 
-  public Result<List<ObjectRespDTO>> _queryObjs(ObjectQueryDTO dto) {
+  public List<ObjectRespDTO> _queryObjs(ObjectQueryDTO dto) {
     Precondition.checkNotNull(dto.getBucket());
 
-    Result<List<ObjectRespDTO>> result = Result.fail();
     ListObjectsRequest request = new ListObjectsRequest(dto.getBucket());
     request.setMaxKeys(dto.getMaxKeys());
     request.setPrefix(dto.getPrefix());
 
-    try {
-      ObjectListing data = client.listObjects(request);
-      if (data == null) {
-        log.warn("data is null");
-        result.value(Collections.EMPTY_LIST);
-        return result;
-      }
-
-      if (CollectionUtil.isEmpty(data.getObjectSummaries())) {
-        log.info("objects count is 0");
-        result.value(Collections.EMPTY_LIST);
-        return result;
-      }
-
-      List<ObjectRespDTO> respDTOS = new ArrayList<>();
-      log.info("objects count is {}", data.getObjectSummaries().size());
-
-      for (OSSObjectSummary objectSummary : data.getObjectSummaries()) {
-
-        ObjectRespDTO respDTO = new ObjectRespDTO();
-        respDTO.setKey(objectSummary.getKey());
-        respDTOS.add(respDTO);
-      }
-
-      result.value(respDTOS);
-    } catch (Exception e) {
-      log.error("fail to query objs from oss", e);
-      result.setMsg("查询对象列表失败");
+    ObjectListing data = client.listObjects(request);
+    if (data == null) {
+      log.warn("data is null");
+      return Collections.EMPTY_LIST;
     }
 
+    if (CollectionUtil.isEmpty(data.getObjectSummaries())) {
+      log.info("objects count is 0");
+      return Collections.EMPTY_LIST;
+    }
 
-    return result;
+    List<ObjectRespDTO> respDTOS = new ArrayList<>();
+    log.info("objects count is {}", data.getObjectSummaries().size());
+
+    for (OSSObjectSummary objectSummary : data.getObjectSummaries()) {
+
+      ObjectRespDTO respDTO = new ObjectRespDTO();
+      respDTO.setKey(objectSummary.getKey());
+      respDTOS.add(respDTO);
+    }
+
+    return respDTOS;
   }
 
 
