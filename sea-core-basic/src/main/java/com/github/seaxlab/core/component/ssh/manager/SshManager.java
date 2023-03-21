@@ -1,7 +1,6 @@
 package com.github.seaxlab.core.component.ssh.manager;
 
 import com.github.seaxlab.core.component.ssh.dto.SshConfig;
-import com.github.seaxlab.core.model.Result;
 
 /**
  * module name
@@ -12,19 +11,19 @@ import com.github.seaxlab.core.model.Result;
  */
 public interface SshManager {
 
-    void init(SshConfig config);
+  void init(SshConfig config);
 
-    void connect();
+  void connect();
 
-    //TODO create port forwarding??
+  //TODO create port forwarding??
 
-    Result<String> executeCmd(String cmd);
+  String executeCmd(String cmd);
 
-    Result<Boolean> rename(String oldPath, String newPath);
+  boolean rename(String oldPath, String newPath);
 
-    Result<Boolean> upload(String localFilePath, String remoteDir);
+  boolean upload(String localFilePath, String remoteDir);
 
-    Result<Boolean> download(String remoteFilePath, String localDir);
+  boolean download(String remoteFilePath, String localDir);
 
-    void destroy();
+  void destroy();
 }

@@ -3,7 +3,6 @@ package com.github.seaxlab.core.component.ssh.manager.impl;
 import com.github.seaxlab.core.component.ssh.dto.SshConfig;
 import com.github.seaxlab.core.component.ssh.manager.SshManager;
 import com.github.seaxlab.core.loader.LoadLevel;
-import com.github.seaxlab.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -17,38 +16,38 @@ import lombok.extern.slf4j.Slf4j;
 @LoadLevel(name = "default")
 public class DefaultSshManager implements SshManager {
 
-    @Override
-    public void init(SshConfig config) {
+  @Override
+  public void init(SshConfig config) {
 
-    }
+  }
 
-    @Override
-    public void connect() {
+  @Override
+  public void connect() {
 
-    }
+  }
 
-    @Override
-    public Result<String> executeCmd(String cmd) {
-        return null;
-    }
+  @Override
+  public String executeCmd(String cmd) {
+    return "";
+  }
 
-    @Override
-    public Result<Boolean> rename(String oldPath, String newPath) {
-        return null;
-    }
+  @Override
+  public boolean rename(String oldPath, String newPath) {
+    return false;
+  }
 
-    @Override
-    public Result<Boolean> upload(String localFilePath, String remoteDir) {
-        return null;
-    }
+  @Override
+  public boolean upload(String localFilePath, String remoteDir) {
+    return false;
+  }
 
-    @Override
-    public Result<Boolean> download(String remoteFilePath, String localDir) {
-        return null;
-    }
+  @Override
+  public boolean download(String remoteFilePath, String localDir) {
+    return false;
+  }
 
-    @Override
-    public void destroy() {
+  @Override
+  public void destroy() {
 
-    }
+  }
 }
