@@ -1,15 +1,13 @@
 package com.github.seaxlab.core.util;
 
-import com.github.seaxlab.core.model.Result;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.net.telnet.TelnetClient;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.net.telnet.TelnetClient;
 
 /**
  * module name
@@ -94,9 +92,8 @@ public final class TelnetUtil {
    *
    * @return Result<StatusEnum>
    */
-  public Result<StatusEnum> connectTest() {
+  public StatusEnum connectTest() {
     log.info("check [{}:{}]available", this.hostname, this.port);
-    Result result = Result.fail();
     StatusEnum status;
     try {
       client.connect(this.hostname, this.port);
@@ -112,8 +109,7 @@ public final class TelnetUtil {
       log.error("Error connecting to server: {},exception={}", this.hostname, e);
       status = StatusEnum.UNKNOWN;
     }
-    result.value(status);
-    return result;
+    return status;
   }
 
   /**

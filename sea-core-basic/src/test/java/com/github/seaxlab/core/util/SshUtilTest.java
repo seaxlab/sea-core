@@ -2,9 +2,7 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.component.ssh.dto.SshConfig;
-import com.github.seaxlab.core.component.ssh.resp.SshResp;
-import com.github.seaxlab.core.model.Result;
-import com.github.seaxlab.core.model.util.ResultUtil;
+import com.github.seaxlab.core.component.ssh.dto.response.SshRespDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -32,12 +30,8 @@ public class SshUtilTest extends BaseCoreTest {
     cfg.setRemoteHost("192.168.60.21");
     cfg.setRemotePort(3306);
 
-    Result<SshResp> result = SshUtil.setUpPortForwarding(cfg);
-    if (ResultUtil.isOk(result)) {
-      log.info("result assigned port={}", result.getData().getAssignedPort());
-    } else {
-      log.info("fail result={}", result);
-    }
+    SshRespDTO response = SshUtil.setUpPortForwarding(cfg);
+    log.info("response={}", response);
   }
 
   @Test
@@ -47,8 +41,8 @@ public class SshUtilTest extends BaseCoreTest {
     cfg.setSshPort(2222);
     cfg.setSshUserName("root");
     cfg.setSshPassword(getPassword("qd_jmzy_ssh_pwd"));
-    Result<String> result = SshUtil.executeCmd(cfg, "pwd; ls -l");
-    log.info("result={}", result);
+    String data = SshUtil.executeCmd(cfg, "pwd; ls -l");
+    log.info("result={}", data);
   }
 
   @Test
@@ -58,8 +52,8 @@ public class SshUtilTest extends BaseCoreTest {
     cfg.setSshPort(2222);
     cfg.setSshUserName("root");
     cfg.setSshPassword(getPassword("qd_jmzy_ssh_pwd"));
-    Result result = SshUtil.upload(cfg, getUserHome() + "/test/gc/gc1.log", "/root");
-    log.info("result={}", result);
+    boolean flag = SshUtil.upload(cfg, getUserHome() + "/test/gc/gc1.log", "/root");
+    log.info("flag={}", flag);
   }
 
   @Test
@@ -69,8 +63,8 @@ public class SshUtilTest extends BaseCoreTest {
     cfg.setSshPort(2222);
     cfg.setSshUserName("root");
     cfg.setSshPassword(getPassword("qd_jmzy_ssh_pwd"));
-    Result result = SshUtil.download(cfg, "/root/gc1.log", getUserHome() + "/test/");
-    log.info("result={}", result);
+    boolean flag = SshUtil.download(cfg, "/root/gc1.log", getUserHome() + "/test/");
+    log.info("flag={}", flag);
   }
 
 

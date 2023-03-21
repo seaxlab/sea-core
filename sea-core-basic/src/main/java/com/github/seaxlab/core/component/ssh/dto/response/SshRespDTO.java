@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.component.ssh.resp;
+package com.github.seaxlab.core.component.ssh.dto.response;
 
 import com.jcraft.jsch.Session;
 import lombok.Data;
@@ -11,7 +11,8 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
-public class SshResp {
-    private Session session;
-    private int assignedPort;
+public class SshRespDTO {
+
+  private Session session;
+  private int assignedPort;
 }

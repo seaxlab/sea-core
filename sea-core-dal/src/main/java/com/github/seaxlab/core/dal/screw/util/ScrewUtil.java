@@ -7,9 +7,6 @@ import cn.smallbun.screw.core.engine.EngineTemplateType;
 import cn.smallbun.screw.core.execute.DocumentationExecute;
 import cn.smallbun.screw.core.process.ProcessConfig;
 import com.github.seaxlab.core.dal.screw.dto.DBModelCreateDTO;
-import com.github.seaxlab.core.exception.ExceptionHandler;
-import com.github.seaxlab.core.model.Result;
-import com.github.seaxlab.core.model.util.ResultUtil;
 import com.github.seaxlab.core.util.ObjectUtil;
 import com.github.seaxlab.core.util.PathUtil;
 import com.github.seaxlab.core.util.SshUtil;
@@ -63,10 +60,8 @@ public final class ScrewUtil {
   private static DataSource buildDataSource(DBModelCreateDTO dto) {
     String url = dto.getUrl();
     if (dto.getSshConfig() != null) {
-      Result result = SshUtil.setUpPortForwarding(dto.getSshConfig());
-      if (ResultUtil.isFail(result)) {
-        ExceptionHandler.publishMsg("fail to build ssh connection");
-      }
+      SshUtil.setUpPortForwarding(dto.getSshConfig());
+      //
       String endStr = dto.getUrl().substring(dto.getUrl().lastIndexOf("/"));
       url = "jdbc:mysql://localhost:" + dto.getSshConfig().getLocalPort() + endStr;
     }

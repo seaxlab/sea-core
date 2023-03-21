@@ -1,16 +1,20 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.component.ssh.dto.SshConfig;
-import com.github.seaxlab.core.component.ssh.resp.SshResp;
-import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.component.ssh.dto.response.SshRespDTO;
+import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.google.common.base.Charsets;
-import com.jcraft.jsch.*;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
-
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 
 /**
  * ssh util (jsch)
@@ -32,26 +36,26 @@ public final class SshUtil {
    * @param config
    * @return
    */
-  public static Result<SshResp> setUpPortForwarding(SshConfig config) {
-    Result<SshResp> result = Result.fail();
+  public static SshRespDTO setUpPortForwarding(SshConfig config) {
+    SshRespDTO resp = new SshRespDTO();
 
     try {
       Session session = buildSession(config);
 
       // here assigned port is equal local port
-      int assignedPort = session.setPortForwardingL(config.getLocalPort(), config.getRemoteHost(), config.getRemotePort());
-      log.info("localhost:{} -> {}:{} connection established.", assignedPort, config.getRemoteHost(), config.getRemotePort());
+      int assignedPort = session.setPortForwardingL(config.getLocalPort(), config.getRemoteHost(),
+        config.getRemotePort());
+      log.info("localhost:{} -> {}:{} connection established.", assignedPort, config.getRemoteHost(),
+        config.getRemotePort());
 
-      SshResp resp = new SshResp();
       resp.setSession(session);
       resp.setAssignedPort(assignedPort);
-      result.value(resp);
-    } catch (Exception e) {
+    } catch (JSchException e) {
       log.error("fail to connect remote ssh", e);
-      result.setMsg("fail to build local port forwarding ssh");
+      ExceptionHandler.publishMsg("fail to build local port forwarding ssh");
     }
 
-    return result;
+    return resp;
   }
 
 
@@ -62,17 +66,15 @@ public final class SshUtil {
    * @param command
    * @return
    */
-  public static Result<String> executeCmd(SshConfig config, String command) {
-    Result<String> result = Result.fail();
-
+  public static String executeCmd(SshConfig config, String command) {
     Session session = null;
     ChannelExec channel = null;
 
     try {
       session = buildSession(config);
 
-      try (PipedOutputStream errPipe = new PipedOutputStream();
-           PipedInputStream errIs = new PipedInputStream(errPipe)) {
+      try (PipedOutputStream errPipe = new PipedOutputStream(); PipedInputStream errIs = new PipedInputStream(
+        errPipe)) {
 
         channel = (ChannelExec) session.openChannel("exec");
         channel.setInputStream(null);
@@ -91,21 +93,22 @@ public final class SshUtil {
 
         if (channel.getExitStatus() == 0) {
           log.info("exec cmd successfully.");
-          result.value(output);
+          return output;
         } else {
           String msg = IOUtils.toString(errIs, Charsets.UTF_8);
           log.warn("fail to exit status={}, msg={}", channel.getExitStatus(), msg);
-          result.setMsg(msg);
+          ExceptionHandler.publishMsg(msg);
         }
       }
     } catch (Exception e) {
       log.error("fail to connect remote ssh", e);
-      result.setMsg("fail to build local port forwarding ssh");
+      ExceptionHandler.publishMsg("执行异常");
     } finally {
       close(channel);
       close(session);
     }
-    return result;
+    //
+    return "";
   }
 
   /**
@@ -116,8 +119,7 @@ public final class SshUtil {
    * @param newPath
    * @return
    */
-  public static Result<Boolean> rename(SshConfig config, String oldPath, String newPath) {
-    Result<Boolean> result = Result.fail();
+  public static boolean rename(SshConfig config, String oldPath, String newPath) {
     Session session = null;
     ChannelSftp channel = null;
 
@@ -129,15 +131,15 @@ public final class SshUtil {
       channel.connect();
       channel.rename(oldPath, newPath);
 
-      result.value(true);
+      return true;
     } catch (Exception e) {
       log.error("fail to connect remote ssh", e);
-      result.setMsg("fail to build local port forwarding ssh");
+      ExceptionHandler.publishMsg("重命名异常");
     } finally {
       close(channel);
       close(session);
     }
-    return result;
+    return false;
   }
 
   /**
@@ -148,9 +150,7 @@ public final class SshUtil {
    * @param remoteDir
    * @return
    */
-  public static Result<Boolean> upload(SshConfig config, String localFilePath, String remoteDir) {
-    Result<Boolean> result = Result.fail();
-
+  public static boolean upload(SshConfig config, String localFilePath, String remoteDir) {
     Session session = null;
     ChannelSftp channel = null;
 
@@ -162,15 +162,15 @@ public final class SshUtil {
       channel.connect();
       channel.put(localFilePath, remoteDir);
 
-      result.value(true);
+      return true;
     } catch (Exception e) {
       log.error("fail to connect remote ssh", e);
-      result.setMsg("fail to build local port forwarding ssh");
+      ExceptionHandler.publishMsg("上传异常");
     } finally {
       close(channel);
       close(session);
     }
-    return result;
+    return false;
   }
 
   /**
@@ -181,9 +181,7 @@ public final class SshUtil {
    * @param localDir
    * @return
    */
-  public static Result<Boolean> download(SshConfig config, String remoteFilePath, String localDir) {
-    Result<Boolean> result = Result.fail();
-
+  public static boolean download(SshConfig config, String remoteFilePath, String localDir) {
     Session session = null;
     ChannelSftp channel = null;
 
@@ -195,17 +193,16 @@ public final class SshUtil {
       channel.connect();
       channel.get(remoteFilePath, localDir);
 
-      result.value(true);
+      return true;
     } catch (Exception e) {
       log.error("fail to connect remote ssh", e);
-      result.setMsg("fail to build local port forwarding ssh");
+      ExceptionHandler.publishMsg("下载异常");
     } finally {
       close(channel);
       close(session);
     }
-    return result;
+    return false;
   }
-
 
   // --------private method.
 
