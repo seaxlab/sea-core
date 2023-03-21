@@ -1,17 +1,17 @@
 package com.github.seaxlab.core.security;
 
+import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.model.layer.encrypt.EncryptRequestDTO;
 import com.github.seaxlab.core.model.layer.encrypt.EncryptResult;
 import com.github.seaxlab.core.security.util.AESUtil;
 import com.github.seaxlab.core.security.util.SignUtil;
 import com.github.seaxlab.core.util.JSONUtil;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 模块
@@ -21,7 +21,8 @@ import java.util.Map;
  * @since 1.0
  */
 @Slf4j
-public class SignTest {
+public class SignTest extends BaseCoreTest {
+
   String version;
   String appId;
   String appSecret;
@@ -45,7 +46,6 @@ public class SignTest {
 
     // 业务请求参数
     String bizContent = "{'hospCode':'0001'}";
-
 
     Map<String, String> map = new HashMap<>();
 
@@ -71,7 +71,6 @@ public class SignTest {
     requestDTO.setBizContent(encryptedBizContent);
 
     log.info("encryptRequestDTO={}", JSONUtil.toStr(requestDTO));
-
 
     // 解密
     String decryptedBizContent = AESUtil.decrypt(encryptedBizContent, appSecret);
@@ -101,13 +100,11 @@ public class SignTest {
     retMap.put("recipeId", "123456");
     retMap.put("recipeStatus", "ok");
 
-
     String timestamp = "20190722100911";
     String bizContent = JSONUtil.toStr(retMap);
     String msg = "成功";
 
     Map<String, String> map = new HashMap<>();
-
 
     map.put("success", "true");
     map.put("message", msg);
@@ -117,7 +114,6 @@ public class SignTest {
     map.put("bizContent", bizContent);
 
     String sign = SignUtil.getByMd5(map);
-
 
     String encryptBizContent = AESUtil.encrypt(bizContent, appSecret);
 

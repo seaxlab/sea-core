@@ -1,11 +1,10 @@
 package com.github.seaxlab.core.model.layer.encrypt;
 
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * 加密后的响应
@@ -19,6 +18,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EncryptResult implements Serializable {
+
   /**
    * 响应成功与否
    */
@@ -27,7 +27,7 @@ public class EncryptResult implements Serializable {
   /**
    * 错误码
    */
-  private String errorCode;
+  private String code;
 
   /**
    * 消息
