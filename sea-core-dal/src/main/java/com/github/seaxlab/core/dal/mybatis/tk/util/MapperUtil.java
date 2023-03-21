@@ -8,15 +8,14 @@ import com.github.seaxlab.core.model.common.ModelConst;
 import com.github.seaxlab.core.model.util.PageUtil;
 import com.github.seaxlab.core.util.ListUtil;
 import com.github.seaxlab.core.util.ReflectUtil;
+import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.binding.MapperProxy;
 import org.apache.ibatis.session.RowBounds;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
-
-import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * module name
@@ -64,8 +63,8 @@ public final class MapperUtil {
    */
   public static <T> void checkCode(Class<?> clazz, Mapper<T> mapper, String code) {
     Example example = new Example(clazz);
-    ExampleUtil.setValue(example, "code", code);
-    ExampleUtil.setIsDeletedFlag(example);
+    ExampleUtil.set(example, "code", code);
+    ExampleUtil.set(example, ModelConst.DELETE_FLAG, false);
 
     int count = mapper.selectCountByExample(example);
     if (count > 0) {
@@ -101,8 +100,8 @@ public final class MapperUtil {
    */
   public static <T> T baseQueryById(Class<?> clazz, Mapper<T> mapper, Long id) {
     Example example = new Example(clazz);
-    ExampleUtil.setValue(example, "id", id);
-    ExampleUtil.setIsDeletedFlag(example);
+    ExampleUtil.set(example, "id", id);
+    ExampleUtil.set(example, ModelConst.DELETE_FLAG, false);
 
     T entity = mapper.selectOneByExample(example);
     if (entity == null) {
@@ -158,8 +157,8 @@ public final class MapperUtil {
    */
   public static <T> T baseQuery(Class<?> clazz, Mapper<T> mapper, String key, String value) {
     Example example = new Example(clazz);
-    ExampleUtil.setValue(example, key, value);
-    ExampleUtil.setIsDeletedFlag(example);
+    ExampleUtil.set(example, key, value);
+    ExampleUtil.set(example, ModelConst.DELETE_FLAG, false);
 
     T entity = mapper.selectOneByExample(example);
     if (entity == null) {
@@ -194,8 +193,8 @@ public final class MapperUtil {
    */
   public static <T> int baseUpdateSelective(T entity, Mapper<T> mapper, String key, String value) {
     Example example = new Example(entity.getClass());
-    ExampleUtil.setValue(example, key, value);
-    ExampleUtil.setIsDeletedFlag(example);
+    ExampleUtil.set(example, key, value);
+    ExampleUtil.set(example, ModelConst.DELETE_FLAG, false);
 
     return mapper.updateByExampleSelective(entity, example);
   }
@@ -225,8 +224,8 @@ public final class MapperUtil {
    */
   public static <T> int baseUpdate(T entity, Mapper<T> mapper, String key, String value) {
     Example example = new Example(entity.getClass());
-    ExampleUtil.setValue(example, key, value);
-    ExampleUtil.setIsDeletedFlag(example);
+    ExampleUtil.set(example, key, value);
+    ExampleUtil.set(example, ModelConst.DELETE_FLAG, false);
 
     return mapper.updateByExample(entity, example);
   }
@@ -267,7 +266,7 @@ public final class MapperUtil {
     ExampleUtil.set(criteria, ModelConst.ID, id);
     ExampleUtil.set(criteria, ModelConst.VERSION, version);
     if (isDeletedFlag) {
-      ExampleUtil.setIsDeletedFlag(example);
+      ExampleUtil.set(example, ModelConst.DELETE_FLAG, false);
     }
 
     int rowCount = mapper.updateByExampleSelective(updateRecord, example);
@@ -325,7 +324,7 @@ public final class MapperUtil {
       ExampleUtil.set(criteria, ModelConst.ID, idObj);
       ExampleUtil.set(criteria, ModelConst.VERSION, versionObj);
       if (isDeletedFlag) {
-        ExampleUtil.setIsDeletedFlag(example);
+        ExampleUtil.set(example, ModelConst.DELETE_FLAG, false);
       }
 
       int rowCount = mapper.updateByExampleSelective(updateRecord, example);

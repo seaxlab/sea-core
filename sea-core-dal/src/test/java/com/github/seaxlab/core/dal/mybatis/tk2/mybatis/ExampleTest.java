@@ -30,7 +30,7 @@ public class ExampleTest extends BaseMybatisTest {
   public void test16() throws Exception {
     Example example = new Example(User.class);
 
-    ExampleUtil.setValueAll(example, "id", 1, "name", "cc");
+    ExampleUtil.setAll(example, "id", 1, "name", "cc");
 
     log.info("{}", example);
   }

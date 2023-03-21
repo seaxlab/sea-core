@@ -3,13 +3,11 @@ package com.github.seaxlab.core.dal.mybatis.plus.util;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.github.seaxlab.core.common.CoreConst;
-import com.github.seaxlab.core.model.common.ModelConst;
 import com.github.seaxlab.core.util.StringUtil;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * wrapper util
@@ -32,7 +30,7 @@ public final class WrapperUtil {
    * @param value
    */
   public static <T> void set(final QueryWrapper<T> wrapper, String propertyName, Object value) {
-    if (value == null) {
+    if (Objects.isNull(value)) {
       return;
     }
     if (value instanceof String) {
@@ -59,7 +57,7 @@ public final class WrapperUtil {
    * @param value
    */
   public static <T> void set(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> column, Object value) {
-    if (value == null) {
+    if (Objects.isNull(value)) {
       return;
     }
     if (value instanceof String) {
@@ -86,7 +84,7 @@ public final class WrapperUtil {
    * @param value
    */
   public static <T> void setNot(final QueryWrapper<T> wrapper, String propertyName, Object value) {
-    if (value == null) {
+    if (Objects.isNull(value)) {
       return;
     }
     if (value instanceof String) {
@@ -113,7 +111,7 @@ public final class WrapperUtil {
    * @param value
    */
   public static <T> void setNot(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Object value) {
-    if (value == null) {
+    if (Objects.isNull(value)) {
       return;
     }
     if (value instanceof String) {
@@ -141,7 +139,7 @@ public final class WrapperUtil {
    * @param <T>
    */
   public static <T> void setLike(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Object value) {
-    if (value == null) {
+    if (Objects.isNull(value)) {
       return;
     }
     if (value instanceof String) {
@@ -162,7 +160,7 @@ public final class WrapperUtil {
    * @param <T>
    */
   public static <T> void setLikeLeft(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Object value) {
-    if (value == null) {
+    if (Objects.isNull(value)) {
       return;
     }
     if (value instanceof String) {
@@ -183,7 +181,7 @@ public final class WrapperUtil {
    * @param <T>
    */
   public static <T> void setLikeRight(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Object value) {
-    if (value == null) {
+    if (Objects.isNull(value)) {
       return;
     }
     if (value instanceof String) {
@@ -266,84 +264,6 @@ public final class WrapperUtil {
     if (endDate != null) {
       wrapper.le(func, endDate);
     }
-  }
-
-  /**
-   * 同时设置status,isDeleted 过滤有效数据
-   *
-   * @param wrapper wrapper
-   */
-  public static <T> void setStatusAndIsDeletedFlag(final QueryWrapper<T> wrapper) {
-    wrapper.eq("status", CoreConst.YES);
-    wrapper.eq(ModelConst.IS_DELETED, CoreConst.NO);
-
-  }
-
-  /**
-   * set status=1
-   *
-   * @param wrapper wrapper
-   */
-  public static <T> void setStatusFlag(final QueryWrapper<T> wrapper) {
-    wrapper.eq("status", CoreConst.YES);
-  }
-
-  /**
-   * set isDeleted=0
-   *
-   * @param wrapper wrapper
-   */
-  public static <T> void setIsDeletedFlag(final QueryWrapper<T> wrapper) {
-    wrapper.eq(ModelConst.IS_DELETED, CoreConst.NO);
-  }
-
-  /**
-   * set del_flag=0
-   *
-   * @param wrapper
-   * @param <T>
-   */
-  public static <T> void setDelFlag(final QueryWrapper<T> wrapper) {
-    wrapper.eq(ModelConst.DEL_FLAG, CoreConst.NO);
-  }
-
-  /**
-   * set isEnabled=1
-   *
-   * @param wrapper wrapper
-   */
-  public static <T> void setIsEnabled(final QueryWrapper<T> wrapper) {
-    wrapper.eq(ModelConst.IS_ENABLED, CoreConst.YES);
-  }
-
-  /**
-   * set enable_flag=1
-   *
-   * @param wrapper
-   * @param <T>
-   */
-  public static <T> void setEnableFlag(final QueryWrapper<T> wrapper) {
-    wrapper.eq(ModelConst.ENABLE_FLAG, CoreConst.YES);
-  }
-
-  /**
-   * set stop flag = 0
-   *
-   * @param wrapper
-   * @param <T>
-   */
-  public static <T> void setStopFlag(final QueryWrapper<T> wrapper) {
-    wrapper.eq(ModelConst.STOP_FLAG, CoreConst.NO);
-  }
-
-  /**
-   * 同时设置isEnabled,isDeleted.
-   *
-   * @param wrapper wrapper
-   */
-  public static <T> void setIsEnabledAndIsDeletedFlag(final QueryWrapper<T> wrapper) {
-    wrapper.eq("isEnabled", CoreConst.YES);
-    wrapper.eq(ModelConst.IS_DELETED, CoreConst.NO);
   }
 
 }

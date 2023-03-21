@@ -1,21 +1,19 @@
 package com.github.seaxlab.core.dal.mybatis.tk.util;
 
-import com.github.seaxlab.core.common.CoreConst;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.util.EqualUtil;
 import com.github.seaxlab.core.util.MapUtil;
 import com.github.seaxlab.core.util.ReflectUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import tk.mybatis.mapper.entity.Example;
-
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
 /**
  * Example util 注意： 推荐使用Criteria参数，不在推荐使用example参数，因为example方式会多一层括号
@@ -31,88 +29,13 @@ public final class ExampleUtil {
   }
 
   /**
-   * 设置primary字段值
-   * <p>
-   * int,long,string,boolean Integer,Long,String,Boolean,Double
-   * </p>
-   *
-   * @param example
-   * @param obj
-   */
-  public static void setPrimaryFieldValue(final Example example, final Object obj) {
-    Preconditions.checkNotNull(example, "example can't be null.");
-    Preconditions.checkNotNull(obj, "Object can't be null.");
-
-    List<Field> fieldList = ReflectUtil.getAllFieldsList(obj.getClass());
-
-    for (int i = 0; i < fieldList.size(); i++) {
-      Field field = fieldList.get(i);
-      if (EqualUtil.isEq("serialVersionUID", field.getName())) {
-        continue;
-      }
-
-      switch (field.getType().getName()) {
-        case "int":
-        case "long":
-        case "boolean":
-        case "java.lang.Integer":
-        case "java.lang.Long":
-        case "java.lang.Double":
-        case "java.lang.Boolean":
-        case "java.lang.String":
-          setValue(example, field.getName(), ReflectUtil.read(obj, field.getName()));
-          break;
-      }
-      continue;
-    }
-  }
-
-  /**
-   * 赋值
-   *
-   * @param example
-   * @param propertyName
-   * @param value
-   */
-  public static void setValue(Example example, String propertyName, Object value) {
-    if (value == null) {
-      return;
-    }
-    if (value instanceof String) {
-      if (StringUtil.isNotEmpty(value)) {
-        example.and().andEqualTo(propertyName, value);
-      }
-    } else if (value instanceof Collection) {
-      Collection data = (Collection) value;
-      if (data.isEmpty()) {
-        log.warn("collection [value] is empty.");
-      } else {
-        example.and().andIn(propertyName, data);
-      }
-    } else {
-      example.and().andEqualTo(propertyName, value);
-    }
-  }
-
-  /**
-   * set all value.
-   *
-   * @param example -
-   * @param args    -
-   */
-  public static void setValueAll(Example example, Object... args) {
-    Example.Criteria criteria = example.and();
-    setAll(criteria, args);
-  }
-
-  /**
    * set value
    *
    * @param criteria     条件语句
    * @param propertyName 属性名称
    * @param value        值，null值会跳过
    */
-  public static void set(Example.Criteria criteria, String propertyName, Object value) {
+  public static void set(final Example.Criteria criteria, String propertyName, Object value) {
     if (value == null) {
       return;
     }
@@ -139,7 +62,7 @@ public final class ExampleUtil {
    * @param propertyName
    * @param date
    */
-  public static void setDate(Example.Criteria criteria, String propertyName, Date date) {
+  public static void setDate(final Example.Criteria criteria, String propertyName, Date date) {
     if (date == null) {
       return;
     }
@@ -153,7 +76,7 @@ public final class ExampleUtil {
    * @param propertyName
    * @param dateTime
    */
-  public static void setDateTime(Example.Criteria criteria, String propertyName, Date dateTime) {
+  public static void setDateTime(final Example.Criteria criteria, String propertyName, Date dateTime) {
     if (dateTime == null) {
       return;
     }
@@ -167,7 +90,7 @@ public final class ExampleUtil {
    * @param propertyName property name
    * @param date         date
    */
-  public static void setTime(Example.Criteria criteria, String propertyName, Date date) {
+  public static void setTime(final Example.Criteria criteria, String propertyName, Date date) {
     if (date == null) {
       return;
     }
@@ -181,7 +104,7 @@ public final class ExampleUtil {
    * @param propertyName property name
    * @param value        value
    */
-  public static void setNot(Example.Criteria criteria, String propertyName, Object value) {
+  public static void setNot(final Example.Criteria criteria, String propertyName, Object value) {
     if (value == null) {
       return;
     }
@@ -202,7 +125,7 @@ public final class ExampleUtil {
   }
 
 
-  public static void setLikeValue(Example.Criteria criteria, String propertyName, Object value) {
+  public static void setLike(final Example.Criteria criteria, String propertyName, Object value) {
     if (value == null) {
       return;
     }
@@ -216,7 +139,7 @@ public final class ExampleUtil {
    * @param criteria criteria
    * @param map
    */
-  public static void setAndOrLikeValue(final Example.Criteria criteria, Map<String, String> map) {
+  public static void setAndOrLike(final Example.Criteria criteria, Map<String, String> map) {
     if (MapUtil.isEmpty(map)) {
       return;
     }
@@ -232,7 +155,7 @@ public final class ExampleUtil {
    * @param propertyName property name
    * @param value        value
    */
-  public static void setLikeLeftValue(Example.Criteria criteria, String propertyName, String value) {
+  public static void setLikeLeft(final Example.Criteria criteria, String propertyName, String value) {
     if (StringUtils.isNotEmpty(value)) {
       criteria.andLike(propertyName, "%" + value);
     }
@@ -243,9 +166,9 @@ public final class ExampleUtil {
    *
    * @param criteria     criteria
    * @param propertyName property name
-   * @param value        vlaue
+   * @param value        value
    */
-  public static void setLikeRightValue(Example.Criteria criteria, String propertyName, String value) {
+  public static void setLikeRight(final Example.Criteria criteria, String propertyName, String value) {
     if (StringUtils.isNotEmpty(value)) {
       criteria.andLike(propertyName, value + "%");
     }
@@ -362,56 +285,83 @@ public final class ExampleUtil {
     }
   }
 
-
-  /**
-   * 同时设置status,isDeleted 过滤有效数据
-   *
-   * @param criteria criteria
-   */
-  public static void setStatusAndIsDeletedFlag(final Example.Criteria criteria) {
-    criteria.andEqualTo("status", CoreConst.YES)
-            .andEqualTo("isDeleted", CoreConst.NO);
-
-  }
-
-  /**
-   * set status=1
-   *
-   * @param criteria criteria
-   */
-  public static void setStatusFlag(final Example.Criteria criteria) {
-    criteria.andEqualTo("status", CoreConst.YES);
-  }
-
-  /**
-   * set isDeleted=0
-   *
-   * @param criteria criteria
-   */
-  public static void setIsDeletedFlag(final Example.Criteria criteria) {
-    criteria.andEqualTo("isDeleted", CoreConst.NO);
-  }
-
-  /**
-   * set isEnabled=1
-   *
-   * @param criteria criteria
-   */
-  public static void setIsEnabled(final Example.Criteria criteria) {
-    criteria.andEqualTo("isEnabled", CoreConst.YES);
-  }
-
-  /**
-   * 同时设置isEnabled,isDeleted.
-   *
-   * @param criteria criteria
-   */
-  public static void setIsEnabledAndIsDeletedFlag(final Example.Criteria criteria) {
-    criteria.andEqualTo("isEnabled", CoreConst.YES)
-            .andEqualTo("isDeleted", CoreConst.NO);
-  }
-
   // ---------------------example util
+
+  /**
+   * 设置primary字段值
+   * <p>
+   * int,long,string,boolean Integer,Long,String,Boolean,Double
+   * </p>
+   *
+   * @param example
+   * @param obj
+   */
+  public static void setPrimaryFieldValue(final Example example, final Object obj) {
+    Preconditions.checkNotNull(example, "example can't be null.");
+    Preconditions.checkNotNull(obj, "Object can't be null.");
+
+    List<Field> fieldList = ReflectUtil.getAllFieldsList(obj.getClass());
+
+    for (int i = 0; i < fieldList.size(); i++) {
+      Field field = fieldList.get(i);
+      if (EqualUtil.isEq("serialVersionUID", field.getName())) {
+        continue;
+      }
+
+      switch (field.getType().getName()) {
+        case "int":
+        case "long":
+        case "boolean":
+        case "java.lang.Integer":
+        case "java.lang.Long":
+        case "java.lang.Double":
+        case "java.lang.Boolean":
+        case "java.lang.String":
+          set(example, field.getName(), ReflectUtil.read(obj, field.getName()));
+          break;
+      }
+      continue;
+    }
+  }
+
+  /**
+   * 赋值
+   *
+   * @param example
+   * @param propertyName
+   * @param value
+   */
+  public static void set(Example example, String propertyName, Object value) {
+    if (value == null) {
+      return;
+    }
+    if (value instanceof String) {
+      if (StringUtil.isNotEmpty(value)) {
+        example.and().andEqualTo(propertyName, value);
+      }
+    } else if (value instanceof Collection) {
+      Collection data = (Collection) value;
+      if (data.isEmpty()) {
+        log.warn("collection [value] is empty.");
+      } else {
+        example.and().andIn(propertyName, data);
+      }
+    } else {
+      example.and().andEqualTo(propertyName, value);
+    }
+  }
+
+  /**
+   * set all value.
+   *
+   * @param example -
+   * @param args    -
+   */
+  public static void setAll(Example example, Object... args) {
+    Example.Criteria criteria = example.and();
+    setAll(criteria, args);
+  }
+
 
   /**
    * 设置 反向值
@@ -456,7 +406,7 @@ public final class ExampleUtil {
    * @param propertyName
    * @param value
    */
-  public static void setLikeValue(Example example, String propertyName, String value) {
+  public static void setLike(Example example, String propertyName, String value) {
     if (StringUtils.isNotEmpty(value)) {
       example.and().andLike(propertyName, "%" + value + "%");
     }
@@ -468,7 +418,7 @@ public final class ExampleUtil {
    * @param example
    * @param map
    */
-  public static void setAndOrLikeValue(Example example, Map<String, String> map) {
+  public static void setAndOrLike(Example example, Map<String, String> map) {
     if (MapUtil.isEmpty(map)) {
       return;
     }
@@ -485,7 +435,7 @@ public final class ExampleUtil {
    * @param propertyName
    * @param value
    */
-  public static void setLikeLeftValue(Example example, String propertyName, String value) {
+  public static void setLikeLeft(Example example, String propertyName, String value) {
     if (StringUtils.isNotEmpty(value)) {
       example.and().andLike(propertyName, "%" + value);
     }
@@ -498,7 +448,7 @@ public final class ExampleUtil {
    * @param propertyName
    * @param value
    */
-  public static void setLikeRightValue(Example example, String propertyName, String value) {
+  public static void setLikeRight(Example example, String propertyName, String value) {
     if (StringUtils.isNotEmpty(value)) {
       example.and().andLike(propertyName, value + "%");
     }
@@ -520,60 +470,6 @@ public final class ExampleUtil {
     if (endDate != null) {
       example.and().andLessThanOrEqualTo(propertyName, endDate);
     }
-  }
-
-  /**
-   * 同时设置status,isDeleted 过滤有效数据
-   *
-   * @param example
-   */
-  public static void setStatusAndIsDeletedFlag(Example example) {
-    example.and()
-           .andEqualTo("status", CoreConst.YES)
-           .andEqualTo("isDeleted", CoreConst.NO);
-
-  }
-
-  /**
-   * set status=1
-   *
-   * @param example
-   */
-  public static void setStatusFlag(Example example) {
-    example.and()
-           .andEqualTo("status", CoreConst.YES);
-
-  }
-
-  /**
-   * set isDeleted=0
-   *
-   * @param example
-   */
-  public static void setIsDeletedFlag(Example example) {
-    example.and()
-           .andEqualTo("isDeleted", CoreConst.NO);
-  }
-
-  /**
-   * set isEnabled=1
-   *
-   * @param example
-   */
-  public static void setIsEnabled(Example example) {
-    example.and()
-           .andEqualTo("isEnabled", CoreConst.YES);
-  }
-
-  /**
-   * 同时设置isEnabled,isDeleted.
-   *
-   * @param example
-   */
-  public static void setIsEnabledAndIsDeletedFlag(Example example) {
-    example.and()
-           .andEqualTo("isEnabled", CoreConst.YES)
-           .andEqualTo("isDeleted", CoreConst.NO);
   }
 
 }
