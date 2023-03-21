@@ -1,11 +1,11 @@
 package com.github.seaxlab.core.component.download;
 
-import com.github.seaxlab.core.component.download.model.DownloaderDTO;
-import com.github.seaxlab.core.component.download.model.DownloaderVO;
+import com.github.seaxlab.core.component.download.dto.DownloaderReqDTO;
+import com.github.seaxlab.core.component.download.dto.response.DownloaderRespDTO;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.http.common.HttpHeaderConst;
 import com.github.seaxlab.core.http.simple.HttpClientUtil;
-import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.BooleanUtil;
 import com.github.seaxlab.core.util.FileUtil;
 import com.github.seaxlab.core.util.StringUtil;
@@ -27,12 +27,11 @@ import org.apache.http.client.methods.HttpHead;
  * @since 1.0
  */
 @Slf4j
-public abstract class AbstractDownloader<A extends DownloaderDTO> implements Downloader {
+public abstract class AbstractDownloader<A extends DownloaderReqDTO> implements Downloader {
 
   @Override
-  public Result<DownloaderVO> execute(DownloaderDTO dto) {
+  public DownloaderRespDTO execute(DownloaderReqDTO dto) {
     log.info("download dto={}", dto);
-    Result<DownloaderVO> result = Result.fail();
     Stopwatch stopwatch = Stopwatch.createStarted();
 
     String fileUrl = parseUrl(dto.getRemoteFileUrl());
@@ -46,27 +45,23 @@ public abstract class AbstractDownloader<A extends DownloaderDTO> implements Dow
         FileUtil.deleteFiles(localFilePath);
       }
     }
+    DownloaderRespDTO respDTO = new DownloaderRespDTO();
 
     try {
       log.info("download file begin.");
       download(dto);
-      DownloaderVO vo = new DownloaderVO();
-      vo.setFileUrl(getLocalFileAbsolutePath(dto));
-      vo.setFileName(dto.getNewFileName());
-
-      result.setSuccess(true);
-      result.setData(vo);
+      respDTO.setFileUrl(getLocalFileAbsolutePath(dto));
+      respDTO.setFileName(dto.getNewFileName());
     } catch (Exception e) {
-      log.error("download exception.", e);
-      result.setMsg(e.getMessage());
+      log.warn("download exception", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_EXCEPTION);
     } finally {
-      log.info("download file completely.");
+      stopwatch.stop();
+      log.info("download file completely, file={} ,cost={}ms", dto.getRemoteFileUrl(),
+        stopwatch.elapsed(TimeUnit.MILLISECONDS));
     }
-    stopwatch.stop();
-    log.info("download file={} ,cost={}ms", dto.getRemoteFileUrl(),
-      stopwatch.elapsed(TimeUnit.MILLISECONDS));
 
-    return result;
+    return respDTO;
   }
 
   /**
@@ -74,7 +69,7 @@ public abstract class AbstractDownloader<A extends DownloaderDTO> implements Dow
    *
    * @param dto
    */
-  public abstract void download(DownloaderDTO dto) throws Exception;
+  public abstract void download(DownloaderReqDTO dto) throws Exception;
 
   /**
    * 获取新文件全路径
@@ -82,7 +77,7 @@ public abstract class AbstractDownloader<A extends DownloaderDTO> implements Dow
    * @param dto downloaderDTO
    * @return
    */
-  protected String getLocalFileAbsolutePath(DownloaderDTO dto) {
+  protected String getLocalFileAbsolutePath(DownloaderReqDTO dto) {
     return dto.getNewDir() + File.separator + dto.getNewFileName();
   }
 
@@ -93,7 +88,7 @@ public abstract class AbstractDownloader<A extends DownloaderDTO> implements Dow
    * @return
    * @throws Exception
    */
-  protected long getRemoteFileContentLength(DownloaderDTO dto) throws Exception {
+  protected long getRemoteFileContentLength(DownloaderReqDTO dto) throws Exception {
     HttpHead httpHead = new HttpHead(dto.getRemoteFileUrl());
     CloseableHttpResponse response = HttpClientUtil.getHttpClient().execute(httpHead);
 

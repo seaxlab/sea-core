@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.component.download.impl;
 
 import com.github.seaxlab.core.component.download.AbstractDownloader;
-import com.github.seaxlab.core.component.download.model.DownloaderDTO;
+import com.github.seaxlab.core.component.download.dto.DownloaderReqDTO;
 import com.github.seaxlab.core.http.common.HttpHeaderConst;
 import com.github.seaxlab.core.http.simple.HttpClientUtil;
 import com.github.seaxlab.core.util.FileUtil;
@@ -38,7 +38,7 @@ import org.apache.http.client.methods.HttpGet;
 public class MultiThreadDownloader extends AbstractDownloader {
 
   @Override
-  public void download(DownloaderDTO dto) throws Exception {
+  public void download(DownloaderReqDTO dto) throws Exception {
     int cpuCount = Runtime.getRuntime().availableProcessors();
     int threadNum = ObjectUtil.defaultIfNull(dto.getThreadCount(), cpuCount);
     threadNum = threadNum > cpuCount ? cpuCount : threadNum;

@@ -1,8 +1,7 @@
 package com.github.seaxlab.core.component.download;
 
-import com.github.seaxlab.core.component.download.model.DownloaderDTO;
-import com.github.seaxlab.core.component.download.model.DownloaderVO;
-import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.component.download.dto.DownloaderReqDTO;
+import com.github.seaxlab.core.component.download.dto.response.DownloaderRespDTO;
 
 /**
  * module name
@@ -11,7 +10,7 @@ import com.github.seaxlab.core.model.Result;
  * @version 1.0 2021/2/25
  * @since 1.0
  */
-public interface Downloader<A extends DownloaderDTO> {
+public interface Downloader<A extends DownloaderReqDTO> {
 
   /**
    * download file
@@ -19,5 +18,5 @@ public interface Downloader<A extends DownloaderDTO> {
    * @param dto
    * @return
    */
-  Result<DownloaderVO> execute(A dto);
+  DownloaderRespDTO execute(A dto);
 }

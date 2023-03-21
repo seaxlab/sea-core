@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.component.download.model;
+package com.github.seaxlab.core.component.download.dto;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
-public class DownloaderDTO {
+public class DownloaderReqDTO {
 
   /**
    * remote file url

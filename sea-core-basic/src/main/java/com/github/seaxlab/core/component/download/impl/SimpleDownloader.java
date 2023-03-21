@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.component.download.impl;
 
 import com.github.seaxlab.core.component.download.AbstractDownloader;
-import com.github.seaxlab.core.component.download.model.DownloaderDTO;
+import com.github.seaxlab.core.component.download.dto.DownloaderReqDTO;
 import com.github.seaxlab.core.http.simple.HttpClientUtil;
 import com.github.seaxlab.core.util.IOUtil;
 import java.io.BufferedInputStream;
@@ -24,7 +24,7 @@ import org.apache.http.client.methods.HttpGet;
 public class SimpleDownloader extends AbstractDownloader {
 
   @Override
-  public void download(DownloaderDTO dto) throws Exception {
+  public void download(DownloaderReqDTO dto) throws Exception {
     HttpGet httpget = new HttpGet(dto.getRemoteFileUrl());
     try (CloseableHttpResponse response = HttpClientUtil.getHttpClient().execute(httpget)) {
       HttpEntity entity = response.getEntity();
