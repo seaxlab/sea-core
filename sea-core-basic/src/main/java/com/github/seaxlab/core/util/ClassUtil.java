@@ -2,17 +2,18 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ClassUtils;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ClassUtils;
 
 /**
  * class util
@@ -26,6 +27,40 @@ public final class ClassUtil {
 
   private ClassUtil() {
   }
+
+
+  /**
+   * Maps primitive {@code Class}es to their corresponding wrapper {@code Class}.
+   */
+  private static final Map<Class<?>, Class<?>> primitiveWrapperMap = new HashMap<>();
+
+  static {
+    primitiveWrapperMap.put(Boolean.TYPE, Boolean.class);
+    primitiveWrapperMap.put(Byte.TYPE, Byte.class);
+    primitiveWrapperMap.put(Character.TYPE, Character.class);
+    primitiveWrapperMap.put(Short.TYPE, Short.class);
+    primitiveWrapperMap.put(Integer.TYPE, Integer.class);
+    primitiveWrapperMap.put(Long.TYPE, Long.class);
+    primitiveWrapperMap.put(Double.TYPE, Double.class);
+    primitiveWrapperMap.put(Float.TYPE, Float.class);
+    primitiveWrapperMap.put(Void.TYPE, Void.TYPE);
+  }
+
+  /**
+   * Maps wrapper {@code Class}es to their corresponding primitive types.
+   */
+  private static final Map<Class<?>, Class<?>> wrapperPrimitiveMap = new HashMap<>();
+
+  static {
+    for (final Map.Entry<Class<?>, Class<?>> entry : primitiveWrapperMap.entrySet()) {
+      final Class<?> primitiveClass = entry.getKey();
+      final Class<?> wrapperClass = entry.getValue();
+      if (!primitiveClass.equals(wrapperClass)) {
+        wrapperPrimitiveMap.put(wrapperClass, primitiveClass);
+      }
+    }
+  }
+
 
   /**
    * <p>
@@ -144,8 +179,7 @@ public final class ClassUtil {
   }
 
   /**
-   * 获得class loader<br>
-   * 若当前线程class loader不存在，取当前类的class loader
+   * 获得class loader<br> 若当前线程class loader不存在，取当前类的class loader
    *
    * @return
    */
@@ -327,6 +361,32 @@ public final class ClassUtil {
     }
 
     return false;
+  }
+
+  /**
+   * check it is a primitive wrapper
+   *
+   * @param type
+   * @return
+   */
+  public static boolean isPrimitiveOrWrapper(final Class<?> type) {
+    if (type == null) {
+      return false;
+    }
+    return type.isPrimitive() || isPrimitiveWrapper(type);
+  }
+
+  /**
+   * Returns whether the given {@code type} is a primitive wrapper ({@link Boolean}, {@link Byte}, {@link Character},
+   * {@link Short}, {@link Integer}, {@link Long}, {@link Double}, {@link Float}).
+   *
+   * @param type The class to query or null.
+   * @return true if the given {@code type} is a primitive wrapper ({@link Boolean}, {@link Byte}, {@link Character},
+   * {@link Short}, {@link Integer}, {@link Long}, {@link Double}, {@link Float}).
+   * @since 3.1
+   */
+  public static boolean isPrimitiveWrapper(final Class<?> type) {
+    return wrapperPrimitiveMap.containsKey(type);
   }
 
 

@@ -4,13 +4,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.domain.User;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 /**
  * 模块
@@ -41,6 +41,15 @@ public class ClassUtilTest extends BaseCoreTest {
     User user = new User();
     log.info("{}", ClassUtil.getClassName(user));
   }
+
+  @Test
+  public void testIsPrimitiveOrWrapper() throws Exception {
+    Assert.assertTrue(ClassUtil.isPrimitiveOrWrapper(Boolean.FALSE.getClass()));
+    Assert.assertTrue(ClassUtil.isPrimitiveOrWrapper(boolean.class));
+    //
+    Assert.assertFalse(ClassUtil.isPrimitiveOrWrapper(StringUtils.EMPTY.getClass()));
+  }
+
 
   @Test
   public void resolveGenericTypeTest() throws Exception {
@@ -96,6 +105,7 @@ public class ClassUtilTest extends BaseCoreTest {
   }
 
   private class Student extends Person<Integer, Boolean> {
+
   }
 
 
@@ -108,5 +118,6 @@ public class ClassUtilTest extends BaseCoreTest {
   }
 
   private class AA extends A1<String> {
+
   }
 }
