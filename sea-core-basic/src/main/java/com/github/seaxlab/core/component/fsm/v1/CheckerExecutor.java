@@ -1,12 +1,13 @@
 package com.github.seaxlab.core.component.fsm.v1;
 
-import com.github.seaxlab.core.model.Result;
-import com.github.seaxlab.core.model.util.ResultUtil;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
+import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.thread.util.ThreadPoolUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import lombok.extern.slf4j.Slf4j;
@@ -33,26 +34,20 @@ public class CheckerExecutor {
    *
    * @param context
    * @param checkers
-   * @param <T>
    * @return
    */
-  public <T> Result<T> serialCheck(FsmContext context, List<Checker> checkers) {
+  public void serialCheck(FsmContext context, List<Checker> checkers) {
 
     if (CollectionUtils.isEmpty(checkers)) {
-      return Result.success();
+      return;
     }
 
     Collections.sort(checkers, ORDER_BY_ORDER_ASC);
 
     for (int i = 0; i < checkers.size(); i++) {
       Checker checker = checkers.get(i);
-      Result checkResult = checker.check(context);
-
-      if (ResultUtil.isFail(checkResult)) {
-        return checkResult;
-      }
+      checker.check(context);
     }
-    return Result.success();
   }
 
   /**
@@ -60,35 +55,42 @@ public class CheckerExecutor {
    *
    * @param context  ctx
    * @param checkers checker
-   * @param <T>
    * @return
    */
-  public <T> Result<T> parallelCheck(FsmContext context, List<Checker> checkers) {
+  public void parallelCheck(FsmContext context, List<Checker> checkers) {
     if (CollectionUtils.isEmpty(checkers)) {
-      return Result.success();
+      return;
     }
 
     if (checkers.size() == 1) {
-      return checkers.get(0).check(context);
+      checkers.get(0).check(context);
+      return;
     }
-    List<Future<Result>> resultList = Collections.synchronizedList(new ArrayList<>(checkers.size()));
+    List<Future<Boolean>> resultList = Collections.synchronizedList(new ArrayList<>(checkers.size()));
     checkers.sort(Comparator.comparingInt(Checker::order));
     for (Checker c : checkers) {
-      Future<Result> future = executor.submit(() -> c.check(context));
+      Future<Boolean> future = executor.submit(() -> {
+        try {
+          c.check(context);
+        } catch (Exception e) {
+          log.warn("fail to execute check", e);
+          return false;
+        }
+        return true;
+      });
       resultList.add(future);
     }
-    for (Future<Result> future : resultList) {
+    for (Future<Boolean> future : resultList) {
       try {
-        Result result = future.get();
-        if (ResultUtil.isFail(result)) {
-          return result;
+        Boolean flag = future.get();
+        if (!flag) {
+          ExceptionHandler.publish(ErrorMessageEnum.SYS_EXCEPTION);
         }
-      } catch (Exception e) {
+      } catch (InterruptedException | ExecutionException e) {
         log.error("parallelCheck executor.submit error.", e);
         throw new RuntimeException(e);
       }
     }
 
-    return Result.success();
   }
 }

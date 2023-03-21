@@ -1,7 +1,6 @@
 package com.github.seaxlab.core.component.fsm.v1;
 
 import com.github.seaxlab.core.component.fsm.v1.impl.DefaultCheckable;
-import com.github.seaxlab.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -12,29 +11,28 @@ import lombok.extern.slf4j.Slf4j;
  * @since 1.0
  */
 @Slf4j
-public class FsmProcessorAdapter extends AbstractFsmProcessor {
-    @Override
-    public Checkable getCheckable(FsmContext context) {
-        return new DefaultCheckable();
-    }
+public class FsmProcessorAdapter<T> extends AbstractFsmProcessor<T> {
 
-    @Override
-    public String getNextState(FsmContext context) {
-        return null;
-    }
+  @Override
+  public Checkable getCheckable(FsmContext context) {
+    return new DefaultCheckable();
+  }
 
-    @Override
-    public Result action(FsmContext context, String nextState) {
-        return Result.success();
-    }
+  @Override
+  public String getNextState(FsmContext context) {
+    return null;
+  }
 
-    @Override
-    public Result save(FsmContext context, String nextState) {
-        return Result.success();
-    }
+  @Override
+  public void action(FsmContext context, String nextState) {
+  }
 
-    @Override
-    public void after(FsmContext context) {
+  @Override
+  public void save(FsmContext context, String nextState) {
+  }
 
-    }
+  @Override
+  public T after(FsmContext context) {
+    return null;
+  }
 }

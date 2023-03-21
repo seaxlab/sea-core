@@ -1,7 +1,6 @@
 package com.github.seaxlab.core.component.fsm.v1;
 
 import com.github.seaxlab.core.exception.BaseAppException;
-import com.github.seaxlab.core.model.Result;
 
 /**
  * 状态机处理器接口
@@ -15,5 +14,5 @@ public interface FsmProcessor<T> {
     /**
      * 执行状态迁移的入口
      */
-    Result<T> action(FsmContext context) throws BaseAppException;
+    T action(FsmContext context) throws BaseAppException;
 }
