@@ -1,17 +1,15 @@
 package com.github.seaxlab.core.lang.math;
 
 import cn.hutool.core.math.Combination;
-import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.ArrayUtil;
 import com.github.seaxlab.core.util.SetUtil;
-import lombok.extern.slf4j.Slf4j;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * complex operation of math
@@ -110,7 +108,6 @@ public final class MathUtil {
     return value <= 0 ? 1 : value >= 0x40000000 ? 0x40000000 : findNextPositivePowerOfTwo(value);
   }
 
-
   //--------------------------------------------------------------------------------------------- Arrangement
 
   /**
@@ -192,14 +189,7 @@ public final class MathUtil {
   /**
    * 全组合后，无序
    * <p>
-   * 待组合列表：1,2,3
-   * (1),(2,3)
-   * (2),(1,3)
-   * (3),(1,2)
-   * (1,2),(3) // 重复
-   * (1,3),(2) // 重复
-   * (2,3),(1)
-   * (1,2,3)
+   * 待组合列表：1,2,3 (1),(2,3) (2),(1,3) (3),(1,2) (1,2),(3) // 重复 (1,3),(2) // 重复 (2,3),(1) (1,2,3)
    * </p>
    *
    * @param data
@@ -238,13 +228,12 @@ public final class MathUtil {
    *
    * @param array
    * @param count
-   * @return
+   * @return -1 不存在
    */
-  public static Result<Integer> findContinuousIndex(int[] array, int count) {
-    Result<Integer> result = Result.fail();
+  public static int findContinuousIndex(int[] array, int count) {
     if (array.length < count) {
-      result.setMsg("数据太少");
-      return result;
+      log.warn("count is large than array,count={},array={}", count, array.length);
+      return -1;
     }
 
     boolean flag;
@@ -252,12 +241,12 @@ public final class MathUtil {
       int[] subArray = ArrayUtil.sub(array, i - count, i);
       flag = isContinuous(subArray);
       if (flag) {
-        result.value(i - count);
-        break;
+        return i - count;
+//        break;
       }
     }
 
-    return result;
+    return -1;
   }
 
   /**

@@ -3,11 +3,10 @@ package com.github.seaxlab.core.lang.math;
 import cn.hutool.core.math.Combination;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.util.StringUtil;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.List;
 
 /**
  * module name
@@ -111,8 +110,8 @@ public class MathUtilTest extends BaseCoreTest {
 
   @Test
   public void testIsContinuous2() throws Exception {
-    log.info("{}", MathUtil.findContinuousIndex(new int[]{1, 2, 3, 4, 5, 6}, 3).getData());
-    log.info("{}", MathUtil.findContinuousIndex(new int[]{1, 2, 5, 6, 7, 8}, 3).getData());
+    log.info("{}", MathUtil.findContinuousIndex(new int[]{1, 2, 3, 4, 5, 6}, 3));
+    log.info("{}", MathUtil.findContinuousIndex(new int[]{1, 2, 5, 6, 7, 8}, 3));
 
   }
 
