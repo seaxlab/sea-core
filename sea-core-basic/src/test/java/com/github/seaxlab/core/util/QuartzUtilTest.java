@@ -2,12 +2,12 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.domain.MyJob;
-import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.util.QuartzUtil.SysJob;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * module name
@@ -46,8 +46,8 @@ public class QuartzUtilTest extends BaseCoreTest {
   public void run42() throws Exception {
     QuartzUtil.addJob(JOB_NAME, JOB_GROUP_NAME, TRIGGER_NAME, TRIGGER_GROUP_NAME, MyJob.class, "0/1 * * * * ?");
 
-    Result result = QuartzUtil.queryAllJobs();
-    log.info("result={}", result);
+    List<SysJob> jobs = QuartzUtil.queryAllJobs();
+    log.info("jobs={}", jobs);
   }
 
   @Test
@@ -62,8 +62,7 @@ public class QuartzUtilTest extends BaseCoreTest {
 
   @Test
   public void run58() throws Exception {
-    Result ret = QuartzUtil.removeJob(JOB_NAME, TRIGGER_NAME);
-    log.info("ret={}", ret);
+    QuartzUtil.removeJob(JOB_NAME, TRIGGER_NAME);
   }
 
   @Test

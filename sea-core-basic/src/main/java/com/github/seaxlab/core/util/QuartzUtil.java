@@ -1,15 +1,28 @@
 package com.github.seaxlab.core.util;
 
-import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
+import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.google.common.base.Preconditions;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.*;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.matchers.GroupMatcher;
-
-import java.io.Serializable;
-import java.util.*;
 
 /**
  * quartz util
@@ -53,8 +66,8 @@ public final class QuartzUtil {
    * @param jobClass
    * @param cron
    */
-  public static Result addJob(String jobName, String triggerName, Class jobClass, String cron) {
-    return addJob(jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, jobClass, cron);
+  public static void addJob(String jobName, String triggerName, Class jobClass, String cron) {
+    addJob(jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, jobClass, cron);
   }
 
   /**
@@ -67,8 +80,10 @@ public final class QuartzUtil {
    * @param dataMap     额外参数
    * @return
    */
-  public static Result addJob(String jobName, String triggerName, Class jobClass, String cron, Map<String, Object> dataMap) {
-    return addJob(getScheduler(), jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, jobClass, cron, dataMap);
+  public static void addJob(String jobName, String triggerName, Class jobClass, String cron,
+    Map<String, Object> dataMap) {
+    addJob(getScheduler(), jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, jobClass, cron,
+      dataMap);
   }
 
   /**
@@ -82,18 +97,10 @@ public final class QuartzUtil {
    * @param cron             时间设置，参考quartz说明文档
    * @return Result
    */
-  public static Result addJob(String jobName, String jobGroupName, String triggerName, String triggerGroupName, Class jobClass, String cron) {
-    Result result = Result.fail();
-
-    try {
-      Scheduler scheduler = getScheduler();
-      return addJob(scheduler, jobName, jobGroupName, triggerName, triggerGroupName, jobClass, cron);
-    } catch (Exception e) {
-      log.error("quartz add job error ", e);
-      result.setMsg("添加任务失败");
-    }
-
-    return result;
+  public static void addJob(String jobName, String jobGroupName, String triggerName, String triggerGroupName,
+    Class jobClass, String cron) {
+    Scheduler scheduler = getScheduler();
+    addJob(scheduler, jobName, jobGroupName, triggerName, triggerGroupName, jobClass, cron);
   }
 
   /**
@@ -106,8 +113,8 @@ public final class QuartzUtil {
    * @param cron
    * @return
    */
-  public static Result addJob(Scheduler scheduler, String jobName, String triggerName, Class jobClass, String cron) {
-    return addJob(scheduler, jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, jobClass, cron);
+  public static void addJob(Scheduler scheduler, String jobName, String triggerName, Class jobClass, String cron) {
+    addJob(scheduler, jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, jobClass, cron);
   }
 
   /**
@@ -122,8 +129,9 @@ public final class QuartzUtil {
    * @param cron
    * @return
    */
-  public static Result addJob(Scheduler scheduler, String jobName, String jobGroupName, String triggerName, String triggerGroupName, Class jobClass, String cron) {
-    return addJob(scheduler, jobName, jobGroupName, triggerName, triggerGroupName, jobClass, cron, null);
+  public static void addJob(Scheduler scheduler, String jobName, String jobGroupName, String triggerName,
+    String triggerGroupName, Class jobClass, String cron) {
+    addJob(scheduler, jobName, jobGroupName, triggerName, triggerGroupName, jobClass, cron, null);
   }
 
   /**
@@ -139,36 +147,29 @@ public final class QuartzUtil {
    * @param dataMap          额外数据
    * @return
    */
-  public static Result addJob(Scheduler scheduler, String jobName, String jobGroupName, String triggerName, String triggerGroupName, Class jobClass, String cron, Map<String, Object> dataMap) {
-    log.info("[add job] jobName={},jobGroupName={},triggerName={},triggerGroupName={}", jobName, jobGroupName, triggerName, triggerGroupName);
+  public static void addJob(Scheduler scheduler, String jobName, String jobGroupName, String triggerName,
+    String triggerGroupName, Class jobClass, String cron, Map<String, Object> dataMap) {
+    log.info("[add job] jobName={},jobGroupName={},triggerName={},triggerGroupName={}", jobName, jobGroupName,
+      triggerName, triggerGroupName);
 
     Preconditions.checkNotNull(scheduler, "scheduler cannot be null");
 
-    Result result = Result.fail();
-
-    try {
-      // 任务名，任务组，任务执行类
-      JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(jobName, jobGroupName).build();
-      if (dataMap != null) {
-        jobDetail.getJobDataMap().putAll(dataMap);
-      }
-      // 触发器
-      TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
-      // 触发器名,触发器组
-      triggerBuilder.withIdentity(triggerName, triggerGroupName);
-      triggerBuilder.startNow();
-      // 触发器时间设定
-      triggerBuilder.withSchedule(CronScheduleBuilder.cronSchedule(cron));
-      // 创建Trigger对象
-      CronTrigger trigger = (CronTrigger) triggerBuilder.build();
-
-      Result ret = addJob(scheduler, jobDetail, trigger);
-      result.setSuccess(ret.getSuccess());
-    } catch (Exception e) {
-      log.error("quartz add job error ", e);
-      result.setMsg("添加任务失败");
+    // 任务名，任务组，任务执行类
+    JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(jobName, jobGroupName).build();
+    if (dataMap != null) {
+      jobDetail.getJobDataMap().putAll(dataMap);
     }
-    return result;
+    // 触发器
+    TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
+    // 触发器名,触发器组
+    triggerBuilder.withIdentity(triggerName, triggerGroupName);
+    triggerBuilder.startNow();
+    // 触发器时间设定
+    triggerBuilder.withSchedule(CronScheduleBuilder.cronSchedule(cron));
+    // 创建Trigger对象
+    CronTrigger trigger = (CronTrigger) triggerBuilder.build();
+
+    addJob(scheduler, jobDetail, trigger);
   }
 
   /**
@@ -178,8 +179,8 @@ public final class QuartzUtil {
    * @param trigger   trigger
    * @return
    */
-  public static Result addJob(JobDetail jobDetail, Trigger trigger) {
-    return addJob(getScheduler(), jobDetail, trigger);
+  public static void addJob(JobDetail jobDetail, Trigger trigger) {
+    addJob(getScheduler(), jobDetail, trigger);
   }
 
   /**
@@ -190,8 +191,7 @@ public final class QuartzUtil {
    * @param trigger   trigger
    * @return
    */
-  public static Result addJob(Scheduler scheduler, JobDetail jobDetail, Trigger trigger) {
-    Result result = Result.fail();
+  public static void addJob(Scheduler scheduler, JobDetail jobDetail, Trigger trigger) {
     try {
       // 调度容器设置JobDetail和Trigger
       scheduler.scheduleJob(jobDetail, trigger);
@@ -200,11 +200,10 @@ public final class QuartzUtil {
       if (!scheduler.isShutdown()) {
         scheduler.start();
       }
-      result.setSuccess(true);
     } catch (Exception e) {
       log.error("fail to add job.", e);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_EXCEPTION);
     }
-    return result;
   }
 
 
@@ -215,8 +214,8 @@ public final class QuartzUtil {
    * @param triggerName
    * @param cron
    */
-  public static Result modifyJobTime(String jobName, String triggerName, String cron) {
-    return modifyJobTime(jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, cron);
+  public static void modifyJobTime(String jobName, String triggerName, String cron) {
+    modifyJobTime(jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, cron);
   }
 
   /**
@@ -229,17 +228,10 @@ public final class QuartzUtil {
    * @param cron             时间设置，参考quartz说明文档
    * @return result
    */
-  public static Result modifyJobTime(String jobName, String jobGroupName, String triggerName, String triggerGroupName, String cron) {
+  public static void modifyJobTime(String jobName, String jobGroupName, String triggerName, String triggerGroupName,
+    String cron) {
 
-    Result result = Result.fail();
-    try {
-      return modifyJobTime(getScheduler(), jobName, jobGroupName, triggerName, triggerGroupName, cron);
-    } catch (Exception e) {
-      log.error("fail to modify Job Time error ", e);
-      result.setMsg("修改定时任务时间异常");
-    }
-
-    return result;
+    modifyJobTime(getScheduler(), jobName, jobGroupName, triggerName, triggerGroupName, cron);
   }
 
   /**
@@ -251,8 +243,8 @@ public final class QuartzUtil {
    * @param cron
    * @return
    */
-  public static Result modifyJobTime(Scheduler scheduler, String jobName, String triggerName, String cron) {
-    return modifyJobTime(scheduler, jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, cron);
+  public static void modifyJobTime(Scheduler scheduler, String jobName, String triggerName, String cron) {
+    modifyJobTime(scheduler, jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME, cron);
   }
 
   /**
@@ -266,16 +258,15 @@ public final class QuartzUtil {
    * @param cron
    * @return
    */
-  public static Result modifyJobTime(Scheduler scheduler, String jobName, String jobGroupName, String triggerName, String triggerGroupName, String cron) {
+  public static void modifyJobTime(Scheduler scheduler, String jobName, String jobGroupName, String triggerName,
+    String triggerGroupName, String cron) {
     Preconditions.checkNotNull(scheduler, "scheduler cannot be null");
 
-    Result result = Result.fail();
     try {
       TriggerKey triggerKey = TriggerKey.triggerKey(triggerName, triggerGroupName);
       CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
       if (trigger == null) {
-        result.setMsg("job不存在");
-        return result;
+        ExceptionHandler.publishMsg("触发器不存在");
       }
 
       String oldTime = trigger.getCronExpression();
@@ -303,13 +294,10 @@ public final class QuartzUtil {
       } else {
         log.info("cron expression are the same.");
       }
-      result.setSuccess(true);
-    } catch (Exception e) {
+    } catch (SchedulerException e) {
       log.error("fail to modify Job Time error ", e);
-      result.setMsg("修改定时任务时间异常");
+      ExceptionHandler.publishMsg("修改定时任务时间异常");
     }
-
-    return result;
   }
 
   /**
@@ -319,8 +307,8 @@ public final class QuartzUtil {
    * @param triggerName
    * @return
    */
-  public static Result removeJob(String jobName, String triggerName) {
-    return removeJob(jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME);
+  public static void removeJob(String jobName, String triggerName) {
+    removeJob(jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME);
   }
 
   /**
@@ -331,18 +319,8 @@ public final class QuartzUtil {
    * @param triggerName
    * @param triggerGroupName
    */
-  public static Result removeJob(String jobName, String jobGroupName, String triggerName, String triggerGroupName) {
-
-    Result result = Result.fail();
-
-    try {
-      return removeJob(getScheduler(), jobName, jobGroupName, triggerName, triggerGroupName);
-    } catch (Exception e) {
-      log.error("fail to remove job", e);
-      result.setMsg("fail to remove job");
-    }
-
-    return result;
+  public static void removeJob(String jobName, String jobGroupName, String triggerName, String triggerGroupName) {
+    removeJob(getScheduler(), jobName, jobGroupName, triggerName, triggerGroupName);
   }
 
   /**
@@ -353,8 +331,8 @@ public final class QuartzUtil {
    * @param triggerName
    * @return
    */
-  public static Result removeJob(Scheduler scheduler, String jobName, String triggerName) {
-    return removeJob(scheduler, jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME);
+  public static void removeJob(Scheduler scheduler, String jobName, String triggerName) {
+    removeJob(scheduler, jobName, DEFAULT_JOB_GROUP_NAME, triggerName, DEFAULT_TRIGGER_GROUP_NAME);
   }
 
   /**
@@ -367,11 +345,12 @@ public final class QuartzUtil {
    * @param triggerGroupName
    * @return
    */
-  public static Result removeJob(Scheduler scheduler, String jobName, String jobGroupName, String triggerName, String triggerGroupName) {
+  public static void removeJob(Scheduler scheduler, String jobName, String jobGroupName, String triggerName,
+    String triggerGroupName) {
     Preconditions.checkNotNull(scheduler, "scheduler cannot be null");
 
-    log.info("[remove job] jobName={},jobGroupName={},triggerName={},triggerGroupName={}", jobName, jobGroupName, triggerName, triggerGroupName);
-    Result result = Result.fail();
+    log.info("[remove job] jobName={},jobGroupName={},triggerName={},triggerGroupName={}", jobName, jobGroupName,
+      triggerName, triggerGroupName);
 
     try {
       TriggerKey triggerKey = TriggerKey.triggerKey(triggerName, triggerGroupName);
@@ -379,13 +358,11 @@ public final class QuartzUtil {
       scheduler.pauseTrigger(triggerKey);// 停止触发器
       scheduler.unscheduleJob(triggerKey);// 移除触发器
       scheduler.deleteJob(JobKey.jobKey(jobName, jobGroupName));// 删除任务
-      result.setSuccess(true);
-    } catch (Exception e) {
+    } catch (SchedulerException e) {
       log.error("fail to remove job", e);
-      result.setMsg("fail to remove job");
+      ExceptionHandler.publishMsg("移除任务失败");
     }
 
-    return result;
   }
 
   /**
@@ -394,8 +371,8 @@ public final class QuartzUtil {
    * @param jobName
    * @return
    */
-  public static Result trigger(String jobName) {
-    return trigger(getScheduler(), jobName, DEFAULT_JOB_GROUP_NAME);
+  public static void trigger(String jobName) {
+    trigger(getScheduler(), jobName, DEFAULT_JOB_GROUP_NAME);
   }
 
   /**
@@ -405,8 +382,8 @@ public final class QuartzUtil {
    * @param jobGroupName
    * @return
    */
-  public static Result trigger(String jobName, String jobGroupName) {
-    return trigger(getScheduler(), jobName, jobGroupName);
+  public static void trigger(String jobName, String jobGroupName) {
+    trigger(getScheduler(), jobName, jobGroupName);
   }
 
   /**
@@ -417,20 +394,16 @@ public final class QuartzUtil {
    * @param jobGroupName
    * @return
    */
-  public static Result trigger(Scheduler scheduler, String jobName, String jobGroupName) {
+  public static void trigger(Scheduler scheduler, String jobName, String jobGroupName) {
     Preconditions.checkNotNull(scheduler, "scheduler cannot be null");
-    Result result = Result.fail();
-
     JobKey jobKey = JobKey.jobKey(jobName, jobGroupName);
 
     try {
       scheduler.triggerJob(jobKey);
-      result.setSuccess(true);
     } catch (SchedulerException e) {
       log.error("trigger job exception", e);
-      result.setMsg("fail to trigger job");
+      ExceptionHandler.publishMsg("触发失败");
     }
-    return result;
   }
 
   /**
@@ -438,7 +411,7 @@ public final class QuartzUtil {
    *
    * @return
    */
-  public static Result queryAllJobs() {
+  public static List<SysJob> queryAllJobs() {
     return queryAllJobs(getScheduler());
   }
 
@@ -448,15 +421,13 @@ public final class QuartzUtil {
    * @param scheduler
    * @return
    */
-  public static Result queryAllJobs(Scheduler scheduler) {
-    Result result = Result.fail();
+  public static List<SysJob> queryAllJobs(Scheduler scheduler) {
 
     try {
 
       GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
       Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
       List<SysJob> jobList = new ArrayList<>();
-
 
       for (JobKey jobKey : jobKeys) {
         List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
@@ -476,14 +447,13 @@ public final class QuartzUtil {
         }
       }
 
-      result.setData(jobList);
-      result.setSuccess(true);
+      return jobList;
     } catch (SchedulerException e) {
       log.error("get job detail exception", e);
-      result.setMsg("get job detail exception");
+      ExceptionHandler.publishMsg("获取job信息异常");
     }
 
-    return result;
+    return ListUtil.empty();
   }
 
 
