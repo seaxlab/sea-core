@@ -123,10 +123,12 @@ public final class ModelConst {
   public static final String SYNC_FLAG = "syncFlag";
 
   // 启停标识
+  @Deprecated
   public static final String IS_ENABLED = "isEnabled";
   public static final String ENABLE_FLAG = "enableFlag";
 
   // 删除标识
+  @Deprecated
   public static final String IS_DELETED = "isDeleted";
   public static final String DEL_FLAG = "delFlag";
   public static final String DELETE_FLAG = "deleteFlag";
