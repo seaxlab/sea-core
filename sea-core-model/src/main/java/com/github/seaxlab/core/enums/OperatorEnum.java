@@ -19,10 +19,13 @@ public enum OperatorEnum implements IBaseEnum<Integer> {
   GREATER_THAN_OR_EQUAL(4, "大于等于", ">=", "{}>={}"),
   LESS_THAN(5, "小于", "<", "{}<{}"),
   LESS_THAN_OR_EQUAL(6, "小于等于", "<=", "{}<={}"),
-  RANGE(7, "在此范围（含边界）", "[,]", "[{},{}]"),
-  RANGE_OPEN_OPEN(8, "在此范围（左开右开）", "(,)", "({},{})"),
-  RANGE_OPEN_CLOSE(9, "在此范围（左开右闭）", "(,]", "({},{}]"),
-  RANGE_CLOSE_OPEN(10, "在此范围（左闭右开）", "[,)", "[{},{})"),
+  CONTAINS(7, "包含", "contains", "{} contains {}"),
+  NOT_CONTAINS(8, "不包含", "not contains", "{} not contains {}"),
+  //
+  RANGE(20, "在此范围（含边界）", "[,]", "[{},{}]"),
+  RANGE_OPEN_OPEN(21, "在此范围（左开右开）", "(,)", "({},{})"),
+  RANGE_OPEN_CLOSE(22, "在此范围（左开右闭）", "(,]", "({},{}]"),
+  RANGE_CLOSE_OPEN(23, "在此范围（左闭右开）", "[,)", "[{},{})"),
 
   ;
   private final Integer code;
