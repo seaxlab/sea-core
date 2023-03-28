@@ -4,7 +4,6 @@ import com.github.seaxlab.core.component.condition.data.ParameterDataFactory;
 import com.github.seaxlab.core.component.condition.dto.ConditionContext;
 import com.github.seaxlab.core.component.condition.dto.ConditionData;
 import com.github.seaxlab.core.exception.Precondition;
-
 import java.util.List;
 
 /**
@@ -15,7 +14,7 @@ public abstract class AbstractMatchStrategy {
     /**
      * Build real data string.
      *
-     * @param exchange  the exchange
+     * @param context   the context
      * @param condition the condition
      * @return the string
      */
