@@ -9,6 +9,7 @@ import com.github.seaxlab.core.util.JSONUtil;
 import com.github.seaxlab.core.util.ReflectUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.github.seaxlab.core.web.util.ResponseUtil;
+import io.swagger.annotations.Api;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("seaController")
 @RequestMapping("/api/sea")
 @RequiredArgsConstructor
+@Api(hidden = true)
 public class SeaController {
 
   private final ApplicationContext ctx;
@@ -46,7 +48,7 @@ public class SeaController {
   /**
    * invoke public method of any bean service
    *
-   * @param params params
+   * @param params params(service,method,argument)
    * @return
    */
   @PostMapping("/execute")

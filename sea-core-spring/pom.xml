@@ -124,6 +124,13 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${io.swagger.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
 
