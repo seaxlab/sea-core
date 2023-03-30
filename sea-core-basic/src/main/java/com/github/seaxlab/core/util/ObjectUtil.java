@@ -1,12 +1,11 @@
 package com.github.seaxlab.core.util;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * object util
@@ -126,8 +125,7 @@ public final class ObjectUtil {
   }
 
   /**
-   * check all objects are empty.
-   * 支持字符串、对象、集合混合检测
+   * check all objects are empty.<br/> 支持字符串、对象、集合混合检测
    *
    * @param objects
    * @return
@@ -197,8 +195,13 @@ public final class ObjectUtil {
           return true;
         }
       } else if (obj instanceof Collection) {
-        Collection collection = (Collection) obj;
+        Collection<?> collection = (Collection<?>) obj;
         if (collection.isEmpty()) {
+          return true;
+        }
+      } else if (obj instanceof Map) {
+        Map<?, ?> map = (Map<?, ?>) obj;
+        if (map.isEmpty()) {
           return true;
         }
       } else if (ArrayUtil.isArray(obj)) {
