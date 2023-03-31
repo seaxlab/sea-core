@@ -1,12 +1,12 @@
 package com.github.seaxlab.core.util;
 
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomStringUtils;
-
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * random util
@@ -76,6 +76,15 @@ public final class RandomUtil {
   public static String numeric(int count) {
 
     return RandomStringUtils.randomNumeric(count);
+  }
+
+  /**
+   * next boolean
+   *
+   * @return
+   */
+  public static boolean nextBoolean() {
+    return new Random().nextBoolean();
   }
 
   /**
