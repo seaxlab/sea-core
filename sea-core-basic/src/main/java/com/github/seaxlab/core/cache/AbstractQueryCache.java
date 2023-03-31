@@ -9,12 +9,17 @@ import com.github.seaxlab.core.util.MapUtil;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * abstract query cache
@@ -37,7 +42,7 @@ public abstract class AbstractQueryCache<K, V> implements IQueryCache<K, V> {
   /**
    * 从缓存中获取数据（第一次自动调用fetchData从外部获取数据），并处理异常
    *
-   * @param key
+   * @param key biz key.
    * @return Value
    */
   @Override
@@ -82,22 +87,22 @@ public abstract class AbstractQueryCache<K, V> implements IQueryCache<K, V> {
     }
 
     return map.values().stream()//
-              .filter(Optional::isPresent) //
-              .map(Optional::get) //
-              .collect(Collectors.toList());
+      .filter(Optional::isPresent) //
+      .map(Optional::get) //
+      .collect(Collectors.toList());
   }
 
   /**
    * 业务类型
    *
-   * @return
+   * @return biz type info
    */
   protected abstract String getBizType();
 
   /**
    * 根据key从数据库或其他数据源中获取一个value，并被自动保存到缓存中。
    *
-   * @param key
+   * @param key key
    * @return value, 连同key一起被加载到缓存中的。
    */
   protected abstract Optional<V> fetchData(K key);
@@ -105,14 +110,14 @@ public abstract class AbstractQueryCache<K, V> implements IQueryCache<K, V> {
   /**
    * fetch multi data
    *
-   * @param keys
-   * @return
+   * @param keys keys
+   * @return map
    */
   protected Map<K, Optional<V>> fetchMultiData(Iterable<? extends K> keys) {
     Map<K, Optional<V>> map = new HashMap<>();
     for (K key : keys) {
       Optional<V> value = fetchData(key);
-      map.put(key, value == null ? Optional.empty() : value);
+      map.put(key, Objects.isNull(value) ? Optional.empty() : value);
     }
     return map;
   }
@@ -152,7 +157,6 @@ public abstract class AbstractQueryCache<K, V> implements IQueryCache<K, V> {
   public boolean getRecordStatFlag() {
     return false;
   }
-
 
   //-------------------private
 
