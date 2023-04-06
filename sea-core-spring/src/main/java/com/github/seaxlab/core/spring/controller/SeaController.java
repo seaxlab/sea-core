@@ -75,7 +75,7 @@ public class SeaController {
         return (Result) obj;
       }
     } catch (Exception e) {
-      log.error("fail to invoke ", e);
+      log.warn("fail to invoke ", e);
       return Result.failMsg(e.getMessage());
     }
     return Result.success(obj);
