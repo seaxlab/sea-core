@@ -10,6 +10,7 @@ import com.github.seaxlab.core.util.ReflectUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.github.seaxlab.core.web.util.ResponseUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -35,11 +36,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("seaController")
 @RequestMapping("/api/sea")
 @RequiredArgsConstructor
-@Api(hidden = true)
+@Api(value = "SeaController", hidden = true)
 public class SeaController {
 
   private final ApplicationContext ctx;
 
+  @ApiOperation(value = "ping", hidden = true)
   @RequestMapping("/ping")
   public void ping(HttpServletResponse response) {
     ResponseUtil.toText(response, "pong");
@@ -51,6 +53,7 @@ public class SeaController {
    * @param params params(service,method,argument)
    * @return
    */
+  @ApiOperation(value = "execute", hidden = true)
   @PostMapping("/execute")
   public Result execute(@RequestBody Map<String, Object> params) {
     log.info("try to execute, params={}", params);
