@@ -1,11 +1,10 @@
 package com.github.seaxlab.core.http.okhttp.callback;
 
+import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-
-import java.io.IOException;
 
 /**
  * module name
@@ -25,8 +24,8 @@ public class EmptyCallback implements Callback {
   public void onResponse(Call call, Response response) throws IOException {
     log.info("empty callback success");
 
-    if (response != null && response.body() != null) {
-      log.info("response body={}", response.body().toString());
+    if (response != null) {
+      log.info("response body={}", response.body());
     }
 
   }
