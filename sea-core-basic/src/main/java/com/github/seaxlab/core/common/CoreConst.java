@@ -2,11 +2,10 @@ package com.github.seaxlab.core.common;
 
 import com.github.seaxlab.core.util.ClassUtil;
 import com.github.seaxlab.core.util.JvmUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * sea core const
@@ -122,6 +121,10 @@ public class CoreConst {
    * default page size
    */
   public static final int DEFAULT_PAGE_SIZE = 200;
+
+  public static final int PAGE_SIZE_200 = 200;
+  public static final int PAGE_SIZE_500 = 500;
+  public static final int PAGE_SIZE_1000 = 1000;
 
   /**
    * 当前程序运行模式, 不要使用sea.dev.mode,太长了
