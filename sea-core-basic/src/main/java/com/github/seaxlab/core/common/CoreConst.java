@@ -125,6 +125,7 @@ public class CoreConst {
   public static final int PAGE_SIZE_200 = 200;
   public static final int PAGE_SIZE_500 = 500;
   public static final int PAGE_SIZE_1000 = 1000;
+  public static final int PAGE_SIZE_2000 = 2000;
 
   /**
    * 当前程序运行模式, 不要使用sea.dev.mode,太长了
@@ -240,7 +241,14 @@ public class CoreConst {
   public static final int NUMBER_90 = 90;
   public static final int NUMBER_180 = 180;
   public static final int NUMBER_365 = 365;
-
+  //
+  public static final int NUMBER_100 = 100;
+  public static final int NUMBER_200 = 200;
+  public static final int NUMBER_500 = 500;
+  public static final int NUMBER_1000 = 1000;
+  public static final int NUMBER_2000 = 2000;
+  public static final int NUMBER_5000 = 5000;
+  public static final int NUMBER_10000 = 10000;
 
   // lock time
   public static final long LOCK_TIME_30_SECOND = 30 * 1000L;
