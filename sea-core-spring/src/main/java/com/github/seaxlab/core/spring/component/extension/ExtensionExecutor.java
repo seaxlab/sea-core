@@ -19,7 +19,9 @@ public class ExtensionExecutor extends AbstractComponentExecutor {
   @Override
   public <C> C locateComponent(Class<C> targetClz, BizScenario bizScenario) {
     C extension = locateExtension(targetClz, bizScenario);
-    log.debug("[Located Extension]: {}", extension.getClass().getSimpleName());
+    if (log.isDebugEnabled()) {
+      log.debug("[Located Extension]: {}", extension.getClass().getSimpleName());
+    }
     return extension;
   }
 
@@ -36,9 +38,9 @@ public class ExtensionExecutor extends AbstractComponentExecutor {
     checkNull(bizScenario);
 
     Ext extension;
-
-    log.debug("BizScenario in locateExtension is : " + bizScenario.getUniqueIdentity());
-
+    if (log.isDebugEnabled()) {
+      log.debug("BizScenario in locateExtension is : {}", bizScenario.getUniqueIdentity());
+    }
     // first try with full namespace
     extension = firstTry(targetClz, bizScenario);
     if (extension != null) {
@@ -67,7 +69,9 @@ public class ExtensionExecutor extends AbstractComponentExecutor {
    * example:  biz1.useCase1.scenario1
    */
   private <Ext> Ext firstTry(Class<Ext> targetClz, BizScenario bizScenario) {
-    log.debug("First trying with " + bizScenario.getUniqueIdentity());
+    if (log.isDebugEnabled()) {
+      log.debug("First trying with {}", bizScenario.getUniqueIdentity());
+    }
     return locate(targetClz.getName(), bizScenario.getUniqueIdentity());
   }
 
@@ -77,7 +81,9 @@ public class ExtensionExecutor extends AbstractComponentExecutor {
    * example:  biz1.useCase1.#defaultScenario#
    */
   private <Ext> Ext secondTry(Class<Ext> targetClz, BizScenario bizScenario) {
-    log.debug("Second trying with " + bizScenario.getIdentityWithDefaultScenario());
+    if (log.isDebugEnabled()) {
+      log.debug("Second trying with {}", bizScenario.getIdentityWithDefaultScenario());
+    }
     return locate(targetClz.getName(), bizScenario.getIdentityWithDefaultScenario());
   }
 
@@ -87,7 +93,9 @@ public class ExtensionExecutor extends AbstractComponentExecutor {
    * example:  biz1.#defaultUseCase#.#defaultScenario#
    */
   private <Ext> Ext defaultUseCaseTry(Class<Ext> targetClz, BizScenario bizScenario) {
-    log.debug("Third trying with " + bizScenario.getIdentityWithDefaultUseCase());
+    if (log.isDebugEnabled()) {
+      log.debug("Third trying with " + bizScenario.getIdentityWithDefaultUseCase());
+    }
     return locate(targetClz.getName(), bizScenario.getIdentityWithDefaultUseCase());
   }
 
