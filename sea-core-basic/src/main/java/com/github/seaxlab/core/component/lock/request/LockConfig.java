@@ -14,7 +14,7 @@ import java.util.Collection;
  * @since 1.0
  */
 @Data
-public class BaseLockRequest {
+public class LockConfig {
   private String bizName;
   //
   private String lockKey;

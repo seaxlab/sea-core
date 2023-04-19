@@ -1,9 +1,9 @@
 package com.github.seaxlab.core.component.lock;
 
-import com.github.seaxlab.core.component.lock.request.LockRequest;
-import com.github.seaxlab.core.component.lock.request.LockWithResultRequest;
+import com.github.seaxlab.core.component.lock.request.LockConfig;
 
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 /**
@@ -15,17 +15,18 @@ import java.util.function.Supplier;
  */
 public interface LockService {
 
-  void tryLock(LockRequest request);
+  void tryLock(LockConfig config, Runnable runnable);
 
-  <R> R tryLock(LockWithResultRequest<R> request);
+  <R> R tryLock(LockConfig config, Supplier<R> supplier);
 
   void tryLock(String lockKey, String bizName, Runnable runnable);
 
   <R> R tryLock(String lockKey, String bizName, Supplier<R> supplier);
 
-  void tryLock(Collection<String> lockKeyList, String bizName, Runnable runnable);
+  void tryLock(Collection<String> lockKeys, String bizName, Runnable runnable);
 
-  <R> R tryLock(Collection<String> lockKeyList, String bizName, Supplier<R> supplier);
+  <R> R tryLock(Collection<String> lockKeys, String bizName, Supplier<R> supplier);
 
+  <V> boolean trySet(String key, V value, long timeToLive, TimeUnit timeUnit);
 
 }

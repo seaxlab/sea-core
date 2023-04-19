@@ -2,9 +2,7 @@ package com.github.seaxlab.core.component.lock.impl;
 
 import com.github.seaxlab.core.cache.redis.redisson.util.LockUtil;
 import com.github.seaxlab.core.component.lock.BaseLockService;
-import com.github.seaxlab.core.component.lock.request.BaseLockRequest;
-import com.github.seaxlab.core.component.lock.request.LockRequest;
-import com.github.seaxlab.core.component.lock.request.LockWithResultRequest;
+import com.github.seaxlab.core.component.lock.request.LockConfig;
 import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
@@ -14,6 +12,7 @@ import com.github.seaxlab.core.util.StringUtil;
 import com.google.common.base.Stopwatch;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RBucket;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 
@@ -37,13 +36,13 @@ public class RedissonLockService extends BaseLockService {
   private final RedissonClient redissonClient;
 
   @Override
-  public void tryLock(LockRequest request) {
-    RLock lock = getLock(request);
+  public void tryLock(LockConfig config, Runnable runnable) {
+    RLock lock = getLock(config);
     boolean lockFlag = lock.tryLock();
-    log.info("{}, try to get lock, key={}, flag={}", request.getBizName(), request.getLockKeyString(), lockFlag);
+    log.info("{}, try to get lock, key={}, flag={}", config.getBizName(), config.getLockKeyString(), lockFlag);
     if (!lockFlag) {
-      log.warn("{} no get lock key, so end.", request.getBizName());
-      if (request.isThrowOnFailFlag()) {
+      log.warn("{} no get lock key, so end.", config.getBizName());
+      if (config.isThrowOnFailFlag()) {
         //TODO first from global config....
         ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
       } else {
@@ -53,23 +52,23 @@ public class RedissonLockService extends BaseLockService {
 
     Stopwatch stopwatch = Stopwatch.createStarted();
     try {
-      request.getRunnable().run();
+      runnable.run();
     } finally {
       stopwatch.stop();
       LockUtil.unlock(lock);
     }
     //
-    log.info("{} end, cost={}ms", request.getBizName(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
+    log.info("{} end, cost={}ms", config.getBizName(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
   }
 
   @Override
-  public <R> R tryLock(LockWithResultRequest<R> request) {
-    RLock lock = getLock(request);
+  public <R> R tryLock(LockConfig config, Supplier<R> supplier) {
+    RLock lock = getLock(config);
     boolean lockFlag = lock.tryLock();
-    log.info("{}, try to get lock, key={}, flag={}", request.getBizName(), request.getLockKeyString(), lockFlag);
+    log.info("{}, try to get lock, key={}, flag={}", config.getBizName(), config.getLockKeyString(), lockFlag);
     if (!lockFlag) {
-      log.warn("{} no get lock key, so end.", request.getBizName());
-      if (request.isThrowOnFailFlag()) {
+      log.warn("{} no get lock key, so end.", config.getBizName());
+      if (config.isThrowOnFailFlag()) {
         //TODO
         ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
       } else {
@@ -80,13 +79,13 @@ public class RedissonLockService extends BaseLockService {
     R response;
     Stopwatch stopwatch = Stopwatch.createStarted();
     try {
-      response = request.getSupplier().get();
+      response = supplier.get();
     } finally {
       stopwatch.stop();
       LockUtil.unlock(lock);
     }
     //
-    log.info("{} end, cost={}ms", request.getBizName(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
+    log.info("{} end, cost={}ms", config.getBizName(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
     return response;
   }
 
@@ -136,12 +135,12 @@ public class RedissonLockService extends BaseLockService {
   }
 
   @Override
-  public void tryLock(Collection<String> lockKeyList, String bizName, Runnable runnable) {
-    Set<RLock> locks = CollectionUtil.toSet(lockKeyList, item -> redissonClient.getLock(item));
+  public void tryLock(Collection<String> lockKeys, String bizName, Runnable runnable) {
+    Set<RLock> locks = CollectionUtil.toSet(lockKeys, item -> redissonClient.getLock(item));
 
     RLock lock = redissonClient.getMultiLock(ArrayUtil.toArray(locks, RLock.class));
     boolean lockFlag = lock.tryLock();
-    log.info("{}, try to get lock, key={}, flag={}", bizName, lockKeyList, lockFlag);
+    log.info("{}, try to get lock, key={}, flag={}", bizName, lockKeys, lockFlag);
     if (!lockFlag) {
       log.warn("{} no get lock key, so end.", bizName);
       ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
@@ -160,12 +159,12 @@ public class RedissonLockService extends BaseLockService {
   }
 
   @Override
-  public <R> R tryLock(Collection<String> lockKeyList, String bizName, Supplier<R> supplier) {
-    Set<RLock> locks = CollectionUtil.toSet(lockKeyList, item -> redissonClient.getLock(item));
+  public <R> R tryLock(Collection<String> lockKeys, String bizName, Supplier<R> supplier) {
+    Set<RLock> locks = CollectionUtil.toSet(lockKeys, item -> redissonClient.getLock(item));
 
     RLock lock = redissonClient.getMultiLock(ArrayUtil.toArray(locks, RLock.class));
     boolean lockFlag = lock.tryLock();
-    log.info("{}, try to get lock, key={}, flag={}", bizName, lockKeyList, lockFlag);
+    log.info("{}, try to get lock, key={}, flag={}", bizName, lockKeys, lockFlag);
     if (!lockFlag) {
       log.warn("{} no get lock key, so end.", bizName);
       ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
@@ -184,14 +183,24 @@ public class RedissonLockService extends BaseLockService {
     return response;
   }
 
+
+  @Override
+  public <V> boolean trySet(String key, V value, long timeToLive, TimeUnit timeUnit) {
+    RBucket<V> bucket = redissonClient.getBucket(key);
+    boolean flag = bucket.trySet(value, timeToLive, timeUnit);
+    log.info("try set key={},flag={}", key, flag);
+    return flag;
+  }
+
+
   //------------------------private--------------------
-  private RLock getLock(BaseLockRequest request) {
-    if (StringUtil.isNotBlank(request.getLockKey())) {
-      return redissonClient.getLock(request.getLockKey());
+  private RLock getLock(LockConfig config) {
+    if (StringUtil.isNotBlank(config.getLockKey())) {
+      return redissonClient.getLock(config.getLockKey());
     }
 
-    if (CollectionUtil.isEmpty(request.getLockKeys())) {
-      Set<RLock> locks = CollectionUtil.toSet(request.getLockKeys(), item -> redissonClient.getLock(item));
+    if (CollectionUtil.isEmpty(config.getLockKeys())) {
+      Set<RLock> locks = CollectionUtil.toSet(config.getLockKeys(), item -> redissonClient.getLock(item));
       return redissonClient.getMultiLock(ArrayUtil.toArray(locks, RLock.class));
     }
     throw new BaseAppException("lockKey or lockKeys cannot both empty.");
