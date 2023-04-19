@@ -18,7 +18,7 @@ import org.springframework.context.ApplicationContext;
  * @since 1.0
  */
 @Slf4j
-public abstract class BaseOneBizService<I> implements OneBizService<I> {
+public abstract class BaseOneBiz2Service<I, R> implements OneBiz2Service<I, R> {
 
   private ApplicationContext context;
 
@@ -29,15 +29,16 @@ public abstract class BaseOneBizService<I> implements OneBizService<I> {
   }
 
   @Override
-  public void execute(I bo) {
+  public R execute(I bo) {
     Checker<I> checker = getChecker();
     if (Objects.nonNull(checker)) {
       checker.check(bo);
     }
 
+    R response;
+
     String lockKey = getLockKey();
     if (StringUtil.isNotBlank(lockKey)) {
-      //DOC move to LockManager? it's common logic
       LockService lockService = context.getBean(LockService.class);
 
       SeaLock lock = lockService.getLock(lockKey);
@@ -48,13 +49,15 @@ public abstract class BaseOneBizService<I> implements OneBizService<I> {
       }
 
       try {
-        action(bo);
+        response = action(bo);
       } finally {
         lock.unlock();
       }
     } else {
-      action(bo);
+      response = action(bo);
     }
+
+    return response;
   }
 
   public abstract String getBizName();
@@ -71,5 +74,5 @@ public abstract class BaseOneBizService<I> implements OneBizService<I> {
     ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
   }
 
-  public abstract void action(I bo);
+  public abstract R action(I bo);
 }
