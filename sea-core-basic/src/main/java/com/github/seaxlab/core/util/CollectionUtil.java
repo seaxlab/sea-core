@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.util;
 
+import com.github.seaxlab.core.common.SymbolConst;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -123,11 +124,28 @@ public final class CollectionUtil {
     return collection.stream().map(func).collect(Collectors.toList());
   }
 
-  public static String join(Collection<String> collection) {
+  public static <T> String toString(Collection<T> collection) {
     if (collection == null || collection.isEmpty()) {
       return "";
     }
-    return String.join(",", collection);
+    T el = collection.stream().findAny().get();
+
+    if (el != null && ClassUtil.isSimpleType(el.getClass())) {
+      return toString(collection, item -> String.valueOf(item), SymbolConst.COMMA);
+    }
+    log.warn("first element is null, so no execute toString function.");
+    return StringUtil.EMPTY;
+  }
+
+  public static <T> String toString(Collection<T> collection, Function<T, String> fn) {
+    return toString(collection, fn, SymbolConst.COMMA);
+  }
+
+  public static <T> String toString(Collection<T> collection, Function<T, String> fn, String delimiter) {
+    if (isEmpty(collection)) {
+      return StringUtil.EMPTY;
+    }
+    return collection.stream().map(fn).collect(Collectors.joining(delimiter));
   }
 
 }
