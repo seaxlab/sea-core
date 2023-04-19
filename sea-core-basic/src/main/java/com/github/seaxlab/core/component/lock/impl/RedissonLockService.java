@@ -44,6 +44,7 @@ public class RedissonLockService extends BaseLockService {
     if (!lockFlag) {
       log.warn("{} no get lock key, so end.", request.getBizName());
       if (request.isThrowOnFailFlag()) {
+        //TODO first from global config....
         ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
       } else {
         return;
@@ -69,6 +70,7 @@ public class RedissonLockService extends BaseLockService {
     if (!lockFlag) {
       log.warn("{} no get lock key, so end.", request.getBizName());
       if (request.isThrowOnFailFlag()) {
+        //TODO
         ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
       } else {
         return null;
