@@ -122,4 +122,12 @@ public final class CollectionUtil {
 
     return collection.stream().map(func).collect(Collectors.toList());
   }
+
+  public static String join(Collection<String> collection) {
+    if (collection == null || collection.isEmpty()) {
+      return "";
+    }
+    return String.join(",", collection);
+  }
+
 }

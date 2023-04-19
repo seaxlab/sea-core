@@ -15,16 +15,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SeaGlobalConfig {
 
-    private SeaGlobalConfig() {
-    }
+  private SeaGlobalConfig() {
+  }
 
-    // set
-    public static void setTraceProvider(TracerProviderEnum provider) {
-        ConfigurationFactory.getInstance().putString(ConfigKeyEnum.TRACE_PROVIDER.getCode(), provider.getCode());
-    }
+  // set
+  public static void setTraceProvider(TracerProviderEnum provider) {
+    ConfigurationFactory.getInstance().putString(ConfigKeyEnum.TRACE_PROVIDER.getCode(), provider.getCode());
+  }
 
-    // get
-    public static TracerProviderEnum getTraceProvider() {
-        return TracerProviderEnum.NONE;
-    }
+  // get
+  public static TracerProviderEnum getTraceProvider() {
+    return TracerProviderEnum.NONE;
+  }
 }

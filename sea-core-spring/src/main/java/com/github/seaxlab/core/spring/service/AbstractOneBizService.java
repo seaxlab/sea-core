@@ -1,14 +1,13 @@
 package com.github.seaxlab.core.spring.service;
 
-import com.github.seaxlab.core.component.lock.model.DistributeLockKey;
-import com.github.seaxlab.core.exception.ErrorMessageEnum;
-import com.github.seaxlab.core.exception.ExceptionHandler;
+import com.github.seaxlab.core.component.lock.LockService;
 import com.github.seaxlab.core.model.checker.BaseSimpleChecker;
 import com.github.seaxlab.core.spring.context.SpringContextHolder;
 import com.github.seaxlab.core.util.StringUtil;
-import java.util.concurrent.locks.Lock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.support.TransactionTemplate;
+
+import java.util.concurrent.locks.Lock;
 
 /**
  * abstract service
@@ -18,6 +17,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  * @since 1.0
  */
 @Slf4j
+@Deprecated
 public abstract class AbstractOneBizService<I, R> {
 
   /**
@@ -33,20 +33,8 @@ public abstract class AbstractOneBizService<I, R> {
 
       String lockKey = getLockKey();
       if (StringUtil.isNotBlank(lockKey)) {
-        DistributeLockKey lockBean = SpringContextHolder.getBean(DistributeLockKey.class);
-        Lock lock = lockBean.get(lockKey);
-        boolean lockFlag = lock.tryLock();
-        log.info("{} lock flag={}, key={}", getScene(), lockFlag, lockKey);
-
-        if (!lockFlag) {
-          // how to integrate with business system ?
-          ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
-        }
-        try {
-          data = handleAll(input);
-        } finally {
-          unlock(lock);
-        }
+        LockService lockService = SpringContextHolder.getBean(LockService.class);
+        data = lockService.tryLock(lockKey, getScene(), () -> handleAll(input));
       } else {
         data = handleAll(input);
       }

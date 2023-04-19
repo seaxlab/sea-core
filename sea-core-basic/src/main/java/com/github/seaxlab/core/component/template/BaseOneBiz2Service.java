@@ -1,14 +1,14 @@
 package com.github.seaxlab.core.component.template;
 
-import com.github.seaxlab.core.component.template.model.LockService;
-import com.github.seaxlab.core.component.template.model.SeaLock;
+import com.github.seaxlab.core.component.lock.LockService;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.util.StringUtil;
-import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+
+import java.util.Objects;
 
 /**
  * base one biz service
@@ -40,19 +40,8 @@ public abstract class BaseOneBiz2Service<I, R> implements OneBiz2Service<I, R> {
     String lockKey = getLockKey();
     if (StringUtil.isNotBlank(lockKey)) {
       LockService lockService = context.getBean(LockService.class);
-
-      SeaLock lock = lockService.getLock(lockKey);
-      boolean hasLockFlag = lock.tryLock();
-      log.info("try to get lock, {}, lock key={},flag={}", getBizName(), lockKey, hasLockFlag);
-      if (!hasLockFlag) {
-        throwLockFailException();
-      }
-
-      try {
-        response = action(bo);
-      } finally {
-        lock.unlock();
-      }
+      //
+      response = lockService.tryLock(lockKey, getBizName(), () -> action(bo));
     } else {
       response = action(bo);
     }
