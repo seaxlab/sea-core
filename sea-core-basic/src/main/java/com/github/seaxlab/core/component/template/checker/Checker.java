@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.component.template;
+package com.github.seaxlab.core.component.template.checker;
 
 /**
  * simple checker
@@ -8,12 +8,12 @@ package com.github.seaxlab.core.component.template;
  * @version 1.0 2022/10/26
  * @since 1.0
  */
-public interface Checker<I> {
+public interface Checker {
 
   /**
    * check
    *
-   * @param input
+   * @param input bo
    */
-  void check(I input);
+  <I> void check(I input);
 }

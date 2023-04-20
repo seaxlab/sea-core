@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.component.template;
+package com.github.seaxlab.core.component.template.checker;
 
 /**
  * base simple checker
@@ -8,10 +8,10 @@ package com.github.seaxlab.core.component.template;
  * @version 1.0 2022/10/26
  * @since 1.0
  */
-public class BaseChecker<I> implements Checker<I> {
+public class BaseChecker implements Checker {
 
   @Override
-  public void check(I input) {
+  public <I> void check(I input) {
 
   }
 }
