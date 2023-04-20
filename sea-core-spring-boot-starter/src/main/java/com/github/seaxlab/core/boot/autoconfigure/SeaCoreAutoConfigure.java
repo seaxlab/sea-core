@@ -1,10 +1,5 @@
 package com.github.seaxlab.core.boot.autoconfigure;
 
-import com.github.seaxlab.core.boot.autoconfigure.config.LogCostConfig;
-import com.github.seaxlab.core.boot.autoconfigure.config.LogPublicConfig;
-import com.github.seaxlab.core.boot.autoconfigure.config.LogRequestConfig;
-import com.github.seaxlab.core.boot.autoconfigure.config.SeaCoreConfig;
-import com.github.seaxlab.core.boot.autoconfigure.schedule.SeaScheduleConfig;
 import com.github.seaxlab.core.spring.context.SpringContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -12,7 +7,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 /**
  * SeaCore 自动注册
@@ -23,10 +17,9 @@ import org.springframework.context.annotation.Import;
  */
 @Slf4j
 @Configuration
+@ComponentScan
 @ComponentScan({"com.github.seaxlab.core.spring.controller"})
 @EnableConfigurationProperties(SeaProperties.class)
-@Import({LogCostConfig.class, LogPublicConfig.class, LogRequestConfig.class, SeaCoreConfig.class,
-  SeaScheduleConfig.class})
 public class SeaCoreAutoConfigure {
 
   /**

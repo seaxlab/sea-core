@@ -88,6 +88,7 @@
     <freemarker.version>2.3.31</freemarker.version>
     <velocity.version>2.3</velocity.version>
     <quartz.version>2.3.2</quartz.version>
+    <xxl.job.version>2.3.0</xxl.job.version>
     <hibernate.validator.version>6.0.22.Final</hibernate.validator.version>
 
     <netty.version>4.1.58.Final</netty.version>
