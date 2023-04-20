@@ -1,9 +1,8 @@
 package com.github.seaxlab.core.thread;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 线程上下文
@@ -29,7 +28,7 @@ public class ThreadContext {
    * @param key
    * @param value
    */
-  public static final void put(String key, Object value) {
+  public static void put(String key, Object value) {
     init();
     Map<String, Object> ctx = CTX_HOLDER.get();
     if (ctx == null) {
@@ -44,7 +43,7 @@ public class ThreadContext {
    * @param key
    * @param value
    */
-  public static final void putIfAbsent(String key, Object value) {
+  public static void putIfAbsent(String key, Object value) {
     init();
     Map<String, Object> ctx = CTX_HOLDER.get();
     if (ctx == null) {
@@ -60,7 +59,7 @@ public class ThreadContext {
    *
    * @param key
    */
-  public static final <T extends Object> T get(String key) {
+  public static <T extends Object> T get(String key) {
     Map<String, Object> ctx = CTX_HOLDER.get();
     if (ctx == null) {
       return null;
@@ -76,7 +75,7 @@ public class ThreadContext {
    * @param <T>
    * @return
    */
-  public static final <T extends Object> T get(String key, T defaultValue) {
+  public static <T extends Object> T get(String key, T defaultValue) {
     T v = get(key);
     return v == null ? defaultValue : v;
   }
@@ -88,7 +87,7 @@ public class ThreadContext {
    * @param <T>
    * @return
    */
-  public static final <T extends Object> T getSafe(String key) {
+  public static <T extends Object> T getSafe(String key) {
     Map<String, Object> ctx = CTX_HOLDER.get();
     if (ctx == null) {
       return null;
@@ -109,7 +108,7 @@ public class ThreadContext {
    * @param <T>
    * @return
    */
-  public static final <T extends Object> T getSafe(String key, T defaultValue) {
+  public static <T extends Object> T getSafe(String key, T defaultValue) {
     T v = getSafe(key);
     return v == null ? defaultValue : v;
   }
@@ -117,7 +116,7 @@ public class ThreadContext {
   /**
    * 获取线程上下文
    */
-  public static final Map<String, Object> getContext() {
+  public static Map<String, Object> getContext() {
     Map<String, Object> ctx = CTX_HOLDER.get();
     if (ctx == null) {
       init();
@@ -131,7 +130,7 @@ public class ThreadContext {
    *
    * @param key
    */
-  public static final void remove(String key) {
+  public static void remove(String key) {
     Map<String, Object> ctx = CTX_HOLDER.get();
     if (ctx != null) {
       ctx.remove(key);
@@ -144,7 +143,7 @@ public class ThreadContext {
    * @param key
    * @return
    */
-  public static final boolean contains(String key) {
+  public static boolean contains(String key) {
     Map<String, Object> ctx = CTX_HOLDER.get();
     if (ctx != null) {
       return ctx.containsKey(key);
@@ -155,7 +154,7 @@ public class ThreadContext {
   /**
    * 清空线程上下文
    */
-  public static final void clean() {
+  public static void clean() {
     if (log.isDebugEnabled()) {
       log.debug("thread context clean");
     }
@@ -167,7 +166,7 @@ public class ThreadContext {
     CTX_HOLDER.remove();
   }
 
-  public static final void clean(boolean showLogFlag) {
+  public static void clean(boolean showLogFlag) {
     if (showLogFlag && log.isDebugEnabled()) {
       log.debug("thread context clean");
     }
@@ -183,7 +182,7 @@ public class ThreadContext {
   /**
    * 初始化线程上下文
    */
-  public static final void init() {
+  public static void init() {
     Map<String, Object> ctx = CTX_HOLDER.get();
     if (ctx == null) {
       CTX_HOLDER.set(new HashMap<>());
