@@ -8,12 +8,12 @@ package com.github.seaxlab.core.component.template.checker;
  * @version 1.0 2022/10/26
  * @since 1.0
  */
-public interface Checker {
+public interface Checker<I> {
 
   /**
    * check
    *
    * @param input bo
    */
-  <I> void check(I input);
+  void check(I input);
 }

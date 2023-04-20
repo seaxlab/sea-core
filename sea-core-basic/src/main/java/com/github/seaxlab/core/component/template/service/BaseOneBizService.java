@@ -18,7 +18,7 @@ import org.springframework.context.ApplicationContext;
  * @since 1.0
  */
 @Slf4j
-public abstract class BaseOneBizService implements OneBizService {
+public abstract class BaseOneBizService<I> implements OneBizService<I> {
 
   private ApplicationContext context;
 
@@ -29,8 +29,8 @@ public abstract class BaseOneBizService implements OneBizService {
   }
 
   @Override
-  public <I> void execute(I bo) {
-    Checker checker = getChecker();
+  public void execute(I bo) {
+    Checker<I> checker = getChecker();
     if (Objects.nonNull(checker)) {
       checker.check(bo);
     }
@@ -46,7 +46,7 @@ public abstract class BaseOneBizService implements OneBizService {
 
   public abstract String getBizName();
 
-  public Checker getChecker() {
+  public Checker<I> getChecker() {
     return null;
   }
 
@@ -58,5 +58,5 @@ public abstract class BaseOneBizService implements OneBizService {
     ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
   }
 
-  public abstract <I> void action(I bo);
+  public abstract void action(I bo);
 }
