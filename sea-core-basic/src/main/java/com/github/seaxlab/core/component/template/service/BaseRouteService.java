@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.component.template;
+package com.github.seaxlab.core.component.template.service;
 
 import lombok.extern.slf4j.Slf4j;
 

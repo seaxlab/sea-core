@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.component.template;
+package com.github.seaxlab.core.component.template.service;
 
 /**
  * base clean service

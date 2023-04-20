@@ -1,14 +1,14 @@
-package com.github.seaxlab.core.component.template;
+package com.github.seaxlab.core.component.template.service;
 
 import com.github.seaxlab.core.component.lock.LockService;
+import com.github.seaxlab.core.component.template.checker.Checker;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.util.StringUtil;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-
-import java.util.Objects;
 
 /**
  * base one biz service
@@ -18,7 +18,7 @@ import java.util.Objects;
  * @since 1.0
  */
 @Slf4j
-public abstract class BaseOneBizService<I> implements OneBizService<I> {
+public abstract class BaseOneBiz2Service implements OneBiz2Service {
 
   private ApplicationContext context;
 
@@ -29,24 +29,29 @@ public abstract class BaseOneBizService<I> implements OneBizService<I> {
   }
 
   @Override
-  public void execute(I bo) {
-    Checker<I> checker = getChecker();
+  public <I, R> R execute(I bo) {
+    Checker checker = getChecker();
     if (Objects.nonNull(checker)) {
       checker.check(bo);
     }
 
+    R response;
+
     String lockKey = getLockKey();
     if (StringUtil.isNotBlank(lockKey)) {
       LockService lockService = context.getBean(LockService.class);
-      lockService.tryLock(lockKey, getBizName(), () -> action(bo));
+      //
+      response = lockService.tryLock(lockKey, getBizName(), () -> action(bo));
     } else {
-      action(bo);
+      response = action(bo);
     }
+
+    return response;
   }
 
   public abstract String getBizName();
 
-  public Checker<I> getChecker() {
+  public Checker getChecker() {
     return null;
   }
 
@@ -58,5 +63,5 @@ public abstract class BaseOneBizService<I> implements OneBizService<I> {
     ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
   }
 
-  public abstract void action(I bo);
+  public abstract <I, R> R action(I bo);
 }
