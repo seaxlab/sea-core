@@ -28,8 +28,8 @@ import org.springframework.core.Ordered;
 public class SeaScheduleConfig {
 
   private final SeaProperties seaProperties;
-
-  public static final String DEFAULT_EXPRESSION_SCHEDULE = "@annotation(org.springframework.scheduling.annotation.Scheduled)";
+  //
+  private static final String DEFAULT_EXPRESSION = "@annotation(org.springframework.scheduling.annotation.Scheduled)";
 
   @Bean
   @ConditionalOnMissingBean(name = "seaScheduleThreadContextPointcutAdvisor")
@@ -39,11 +39,11 @@ public class SeaScheduleConfig {
 
     String basePackage = seaProperties.getScheduleThreadContextBasePackage();
 
-    String expression = DEFAULT_EXPRESSION_SCHEDULE;
+    String expression = DEFAULT_EXPRESSION;
     if (StringUtil.isNotBlank(basePackage)) {
       String condition = AopUtil.getByOr(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, basePackage);
       if (StringUtil.isNotBlank(condition)) {
-        expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION_SCHEDULE);
+        expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION);
       }
     }
 

@@ -29,18 +29,18 @@ public class LogCostConfig {
 
   private final SeaProperties seaProperties;
 
-  private static final String DEFAULT_EXPRESSION_LOG_COST = "@annotation(com.github.seaxlab.core.spring.annotation.LogCost)";
+  private static final String DEFAULT_EXPRESSION = "@annotation(com.github.seaxlab.core.spring.annotation.LogCost)";
 
   @Bean
   @ConditionalOnMissingBean(name = "seaLogCostPointcutAdvisor")
   public PointcutAdvisor seaLogCostAdvisor() {
     log.info("init sea log cost advisor bean");
 
-    String expression = DEFAULT_EXPRESSION_LOG_COST;
+    String expression = DEFAULT_EXPRESSION;
     if (StringUtil.isNotBlank(seaProperties.getBasePackage())) {
       String condition = AopUtil.getByOr(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, seaProperties.getBasePackage());
       if (StringUtil.isNotBlank(condition)) {
-        expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION_LOG_COST);
+        expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION);
       }
     }
     DynamicPointcutAdvisor advisor = new DynamicPointcutAdvisor(expression);

@@ -28,17 +28,18 @@ import org.springframework.context.annotation.Configuration;
 public class LogRequestConfig {
 
   private final SeaProperties seaProperties;
-  private static final String DEFAULT_EXPRESSION_LOG_REQUEST = "@annotation(com.github.seaxlab.core.spring.annotation.LogRequest)";
+  //
+  private static final String DEFAULT_EXPRESSION = "@annotation(com.github.seaxlab.core.spring.annotation.LogRequest)";
 
   @Bean
   @ConditionalOnMissingBean(name = "seaLogRequestPointcutAdvisor")
   public PointcutAdvisor seaLogRequestAdvisor() {
     log.info("init sea log request advisor bean");
-    String expression = DEFAULT_EXPRESSION_LOG_REQUEST;
+    String expression = DEFAULT_EXPRESSION;
     if (StringUtil.isNotBlank(seaProperties.getBasePackage())) {
       String condition = AopUtil.getByOr(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, seaProperties.getBasePackage());
       if (StringUtil.isNotBlank(condition)) {
-        expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION_LOG_REQUEST);
+        expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION);
       }
     }
 

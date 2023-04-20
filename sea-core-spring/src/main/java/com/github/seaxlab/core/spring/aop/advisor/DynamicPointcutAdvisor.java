@@ -14,10 +14,11 @@ import org.springframework.aop.support.AbstractBeanFactoryPointcutAdvisor;
  */
 @Slf4j
 public class DynamicPointcutAdvisor extends AbstractBeanFactoryPointcutAdvisor {
+
   /**
    * 表达式
    */
-  private String expression;
+  private final String expression;
 
   public DynamicPointcutAdvisor(String expression) {
     this.expression = expression;
