@@ -10,16 +10,15 @@ import com.github.seaxlab.core.util.ArrayUtil;
 import com.github.seaxlab.core.util.CollectionUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.google.common.base.Stopwatch;
+import java.util.Collection;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBucket;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-
-import java.util.Collection;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 /**
  * redisson lock service
@@ -30,7 +29,7 @@ import java.util.function.Supplier;
  */
 @Slf4j
 @RequiredArgsConstructor
-@SuppressWarnings("java:S2222")
+@SuppressWarnings({"java:S2222", "java:S1192"})
 public class RedissonLockService extends BaseLockService {
 
   private final RedissonClient redissonClient;
@@ -136,7 +135,7 @@ public class RedissonLockService extends BaseLockService {
 
   @Override
   public void tryLock(Collection<String> lockKeys, String bizName, Runnable runnable) {
-    Set<RLock> locks = CollectionUtil.toSet(lockKeys, item -> redissonClient.getLock(item));
+    Set<RLock> locks = CollectionUtil.toSet(lockKeys, redissonClient::getLock);
 
     RLock lock = redissonClient.getMultiLock(ArrayUtil.toArray(locks, RLock.class));
     boolean lockFlag = lock.tryLock();
@@ -160,7 +159,7 @@ public class RedissonLockService extends BaseLockService {
 
   @Override
   public <R> R tryLock(Collection<String> lockKeys, String bizName, Supplier<R> supplier) {
-    Set<RLock> locks = CollectionUtil.toSet(lockKeys, item -> redissonClient.getLock(item));
+    Set<RLock> locks = CollectionUtil.toSet(lockKeys, redissonClient::getLock);
 
     RLock lock = redissonClient.getMultiLock(ArrayUtil.toArray(locks, RLock.class));
     boolean lockFlag = lock.tryLock();
@@ -200,7 +199,7 @@ public class RedissonLockService extends BaseLockService {
     }
 
     if (CollectionUtil.isEmpty(config.getLockKeys())) {
-      Set<RLock> locks = CollectionUtil.toSet(config.getLockKeys(), item -> redissonClient.getLock(item));
+      Set<RLock> locks = CollectionUtil.toSet(config.getLockKeys(), redissonClient::getLock);
       return redissonClient.getMultiLock(ArrayUtil.toArray(locks, RLock.class));
     }
     throw new BaseAppException("lockKey or lockKeys cannot both empty.");

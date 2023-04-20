@@ -1,13 +1,12 @@
 package com.github.seaxlab.core.component.lock;
 
 import com.github.seaxlab.core.component.lock.request.LockConfig;
-
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 /**
- * module name
+ * lock service
  *
  * @author spy
  * @version 1.0 2023/4/19
