@@ -1,7 +1,11 @@
 package com.github.seaxlab.core.example.config;
 
+import com.github.seaxlab.core.component.lock.LockService;
+import com.github.seaxlab.core.component.lock.impl.RedissonLockService;
 import com.github.seaxlab.core.spring.component.encrypt.EncryptPropertiesBeanFactoryPostProcessor;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RedissonClient;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -17,7 +21,13 @@ import org.springframework.core.env.ConfigurableEnvironment;
 public class BeanConfig {
 
   //@Bean
-  public EncryptPropertiesBeanFactoryPostProcessor encryptPropertiesBeanFactoryPostProcessor(ConfigurableEnvironment environment) {
+  public EncryptPropertiesBeanFactoryPostProcessor encryptPropertiesBeanFactoryPostProcessor(
+    ConfigurableEnvironment environment) {
     return new EncryptPropertiesBeanFactoryPostProcessor(environment);
+  }
+
+  @Bean
+  public LockService seaRedissonLockService(RedissonClient redissonClient) {
+    return new RedissonLockService(redissonClient);
   }
 }

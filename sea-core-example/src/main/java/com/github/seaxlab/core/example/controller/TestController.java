@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.example.controller;
 
 import com.abc.service.PayService;
+import com.github.seaxlab.core.component.lock.LockService;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.spring.annotation.LogCost;
 import com.github.seaxlab.core.spring.annotation.LogRequest;
@@ -8,6 +9,9 @@ import com.github.seaxlab.core.thread.util.CallableUtil;
 import com.github.seaxlab.core.thread.util.ThreadPoolUtil;
 import com.github.seaxlab.core.thread.util.ThreadUtil;
 import com.github.seaxlab.core.web.util.RequestUtil;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ThreadPoolExecutor;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -16,10 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * module name
@@ -35,6 +35,17 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class TestController implements InitializingBean {
 
   private final PayService payService;
+  private final LockService lockService;
+
+  @GetMapping("/lock")
+  public Result lock() {
+    lockService.tryLock("test:11", "test", () -> {
+      log.info("abc");
+      log.info("abc2");
+    });
+
+    return Result.success();
+  }
 
   @LogCost
   @LogRequest
@@ -71,7 +82,6 @@ public class TestController implements InitializingBean {
 
   @PostMapping("/log/post_json")
   public Result postJSONTest(HttpServletRequest request) {
-
 
     log.info("my request body={}", RequestUtil.getRequestBody(request));
     return Result.success();

@@ -21,3 +21,13 @@ sea:
       enabled: true
       url-pattern: /api/*
       log-mode: 2
+spring:
+  redis:
+    redisson:
+      config: |
+        singleServerConfig:
+          address: "redis://redis:6379"
+          database: 1
+        threads: 0
+        nettyThreads: 0
+        transportMode: "NIO"
