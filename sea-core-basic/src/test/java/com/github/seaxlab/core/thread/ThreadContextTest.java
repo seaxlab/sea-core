@@ -1,18 +1,18 @@
 package com.github.seaxlab.core.thread;
 
-import com.github.seaxlab.core.test.AbstractCoreTest;
+import com.github.seaxlab.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 /**
- * module name
+ * thread context test
  *
  * @author spy
  * @version 1.0 2020/2/28
  * @since 1.0
  */
 @Slf4j
-public class ThreadContextTest extends AbstractCoreTest {
+public class ThreadContextTest extends BaseCoreTest {
 
   @Test
   public void run17() throws Exception {
@@ -23,8 +23,22 @@ public class ThreadContextTest extends AbstractCoreTest {
 
   @Test
   public void run25() throws Exception {
-
+    runInMultiThread(() -> {
+      try {
+        String obj = ThreadContext.get("abc");
+        log.info("obj={}", obj);
+      } finally {
+        ThreadContext.clean();
+      }
+    });
   }
 
+  @Test
+  public void test39() throws Exception {
+    ThreadLocal<String> local = new ThreadLocal<>();
+    local.remove();
+    local.remove();
+
+  }
 
 }
