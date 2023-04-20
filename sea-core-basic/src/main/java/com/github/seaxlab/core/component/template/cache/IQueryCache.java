@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.component.template;
+package com.github.seaxlab.core.component.template.cache;
 
 import java.util.Collection;
 import java.util.List;
