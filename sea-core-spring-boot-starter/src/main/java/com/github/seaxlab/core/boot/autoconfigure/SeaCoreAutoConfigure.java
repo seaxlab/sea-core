@@ -5,13 +5,8 @@ import com.github.seaxlab.core.boot.autoconfigure.config.LogPublicConfig;
 import com.github.seaxlab.core.boot.autoconfigure.config.LogRequestConfig;
 import com.github.seaxlab.core.boot.autoconfigure.config.SeaCoreConfig;
 import com.github.seaxlab.core.boot.autoconfigure.schedule.SeaScheduleConfig;
-import com.github.seaxlab.core.component.lock.LockService;
-import com.github.seaxlab.core.component.lock.impl.RedissonLockService;
 import com.github.seaxlab.core.spring.context.SpringContextHolder;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RedissonClient;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -28,9 +23,10 @@ import org.springframework.context.annotation.Import;
  */
 @Slf4j
 @Configuration
-@ComponentScan("com.github.seaxlab.core.spring.controller")
+@ComponentScan({"com.github.seaxlab.core.spring.controller"})
 @EnableConfigurationProperties(SeaProperties.class)
-@Import({LogCostConfig.class, LogPublicConfig.class, LogRequestConfig.class, SeaCoreConfig.class, SeaScheduleConfig.class})
+@Import({LogCostConfig.class, LogPublicConfig.class, LogRequestConfig.class, SeaCoreConfig.class,
+  SeaScheduleConfig.class})
 public class SeaCoreAutoConfigure {
 
   /**
@@ -55,12 +51,5 @@ public class SeaCoreAutoConfigure {
 //        System.out.println("hello world, I have just started up");
 //    }
 
-  @Bean("seaRedissonLockService")
-  @ConditionalOnMissingBean
-  @ConditionalOnClass(RedissonClient.class)
-  @ConditionalOnBean(RedissonClient.class)
-  public LockService seaRedissonLockService(RedissonClient redissonClient) {
-    return new RedissonLockService(redissonClient);
-  }
 
 }
