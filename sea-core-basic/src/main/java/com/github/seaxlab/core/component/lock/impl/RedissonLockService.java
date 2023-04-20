@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.component.lock.impl;
 
 import com.github.seaxlab.core.cache.redis.redisson.util.LockUtil;
+import com.github.seaxlab.core.common.SeaGlobalConfig;
 import com.github.seaxlab.core.component.lock.BaseLockService;
 import com.github.seaxlab.core.component.lock.request.LockConfig;
 import com.github.seaxlab.core.exception.BaseAppException;
@@ -42,7 +43,9 @@ public class RedissonLockService extends BaseLockService {
     if (!lockFlag) {
       log.warn("{} no get lock key, so end.", config.getBizName());
       if (config.isThrowOnFailFlag()) {
-        //TODO first from global config....
+        if (SeaGlobalConfig.EXCEPTION_LOCK_FAIL != null) {
+          throw SeaGlobalConfig.EXCEPTION_LOCK_FAIL;
+        }
         ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
       } else {
         return;
@@ -68,7 +71,9 @@ public class RedissonLockService extends BaseLockService {
     if (!lockFlag) {
       log.warn("{} no get lock key, so end.", config.getBizName());
       if (config.isThrowOnFailFlag()) {
-        //TODO
+        if (SeaGlobalConfig.EXCEPTION_LOCK_FAIL != null) {
+          throw SeaGlobalConfig.EXCEPTION_LOCK_FAIL;
+        }
         ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
       } else {
         return null;
@@ -95,6 +100,9 @@ public class RedissonLockService extends BaseLockService {
     log.info("{}, try to get lock, key={}, flag={}", bizName, lockKey, lockFlag);
     if (!lockFlag) {
       log.warn("{} no get lock key, so end.", bizName);
+      if (SeaGlobalConfig.EXCEPTION_LOCK_FAIL != null) {
+        throw SeaGlobalConfig.EXCEPTION_LOCK_FAIL;
+      }
       ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
     }
 
@@ -117,6 +125,9 @@ public class RedissonLockService extends BaseLockService {
     log.info("{}, try to get lock, key={}, flag={}", bizName, lockKey, lockFlag);
     if (!lockFlag) {
       log.warn("{} no get lock key, so end.", bizName);
+      if (SeaGlobalConfig.EXCEPTION_LOCK_FAIL != null) {
+        throw SeaGlobalConfig.EXCEPTION_LOCK_FAIL;
+      }
       ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
     }
 
@@ -142,6 +153,9 @@ public class RedissonLockService extends BaseLockService {
     log.info("{}, try to get lock, key={}, flag={}", bizName, lockKeys, lockFlag);
     if (!lockFlag) {
       log.warn("{} no get lock key, so end.", bizName);
+      if (SeaGlobalConfig.EXCEPTION_LOCK_FAIL != null) {
+        throw SeaGlobalConfig.EXCEPTION_LOCK_FAIL;
+      }
       ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
     }
 
@@ -166,6 +180,9 @@ public class RedissonLockService extends BaseLockService {
     log.info("{}, try to get lock, key={}, flag={}", bizName, lockKeys, lockFlag);
     if (!lockFlag) {
       log.warn("{} no get lock key, so end.", bizName);
+      if (SeaGlobalConfig.EXCEPTION_LOCK_FAIL != null) {
+        throw SeaGlobalConfig.EXCEPTION_LOCK_FAIL;
+      }
       ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
     }
 

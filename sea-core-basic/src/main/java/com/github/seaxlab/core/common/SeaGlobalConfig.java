@@ -27,4 +27,7 @@ public class SeaGlobalConfig {
   public static TracerProviderEnum getTraceProvider() {
     return TracerProviderEnum.NONE;
   }
+
+  // custom lock fail exception for project
+  public static RuntimeException EXCEPTION_LOCK_FAIL = null;
 }
