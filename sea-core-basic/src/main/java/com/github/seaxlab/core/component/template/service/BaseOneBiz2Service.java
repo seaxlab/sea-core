@@ -4,7 +4,10 @@ import com.github.seaxlab.core.component.lock.LockService;
 import com.github.seaxlab.core.component.template.checker.Checker;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
+import com.github.seaxlab.core.util.CollectionUtil;
+import com.github.seaxlab.core.util.SetUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import java.util.Collection;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,18 +38,19 @@ public abstract class BaseOneBiz2Service<I, R> implements OneBiz2Service<I, R> {
       checker.check(bo);
     }
 
-    R response;
-
-    String lockKey = getLockKey();
+    String lockKey = getLockKey(bo);
     if (StringUtil.isNotBlank(lockKey)) {
       LockService lockService = context.getBean(LockService.class);
-      //
-      response = lockService.tryLock(lockKey, getBizName(), () -> action(bo));
-    } else {
-      response = action(bo);
+      return lockService.tryLock(lockKey, getBizName(), () -> handle(bo));
     }
-
-    return response;
+    //
+    Collection<String> lockKeys = getLockKeys(bo);
+    if (CollectionUtil.isNotEmpty(lockKeys)) {
+      LockService lockService = context.getBean(LockService.class);
+      return lockService.tryLock(lockKeys, getBizName(), () -> handle(bo));
+    }
+    //
+    return handle(bo);
   }
 
   public abstract String getBizName();
@@ -55,13 +59,17 @@ public abstract class BaseOneBiz2Service<I, R> implements OneBiz2Service<I, R> {
     return null;
   }
 
-  public String getLockKey() {
+  public String getLockKey(I bo) {
     return StringUtil.empty();
+  }
+
+  public Collection<String> getLockKeys(I bo) {
+    return SetUtil.empty();
   }
 
   public void throwLockFailException() {
     ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
   }
 
-  public abstract R action(I bo);
+  public abstract R handle(I bo);
 }

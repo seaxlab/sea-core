@@ -1,7 +1,9 @@
 package com.github.seaxlab.core.component.template.service;
 
+import com.github.seaxlab.core.component.template.service.bo.MigrateReqBO;
+
 /**
- * migrate service
+ * 迁移服务
  *
  * @author spy
  * @version 1.0 2023/04/18
@@ -9,6 +11,6 @@ package com.github.seaxlab.core.component.template.service;
  */
 public interface MigrateService {
 
-  void execute();
+  void execute(MigrateReqBO bo);
 
 }
