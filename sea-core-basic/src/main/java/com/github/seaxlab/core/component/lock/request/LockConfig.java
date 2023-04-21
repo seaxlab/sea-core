@@ -20,7 +20,7 @@ public class LockConfig {
   private String lockKey;
   private Collection<String> lockKeys;
   //
-  private boolean throwOnFailFlag;
+  private boolean throwOnFailFlag = true;
 
 
   public String getLockKeyString() {
