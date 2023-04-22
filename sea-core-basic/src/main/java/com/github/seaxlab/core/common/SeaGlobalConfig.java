@@ -30,4 +30,5 @@ public class SeaGlobalConfig {
 
   // custom lock fail exception for project
   public static RuntimeException EXCEPTION_LOCK_FAIL = null;
+  public static RuntimeException EXCEPTION_DB_UPDATE_FAIL = null;
 }

@@ -25,4 +25,21 @@ public final class GlobalUtil {
     ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
   }
 
+  public static void checkDB(int rowCount, String remark) {
+    if (rowCount > 0) {
+      log.info("row count={}, {}", rowCount, remark);
+    } else {
+      log.warn("row count={}, {}", rowCount, remark);
+      throwCheckDBException();
+    }
+  }
+
+  public static void throwCheckDBException() {
+    if (SeaGlobalConfig.EXCEPTION_DB_UPDATE_FAIL != null) {
+      throw SeaGlobalConfig.EXCEPTION_DB_UPDATE_FAIL;
+    }
+    ExceptionHandler.publish(ErrorMessageEnum.DB_OPERATION_FAIL);
+
+  }
+
 }
