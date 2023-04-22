@@ -1,7 +1,6 @@
 package com.github.seaxlab.core.cache;
 
 import java.util.Optional;
-import java.util.concurrent.locks.Lock;
 
 /**
  * module name
@@ -11,35 +10,6 @@ import java.util.concurrent.locks.Lock;
  * @since 1.0
  */
 public interface CacheManager {
-  // common
-
-  /**
-   * start cache.
-   *
-   * @param cacheConfig
-   */
-  void start(CacheConfig cacheConfig);
-
-  /**
-   * stop cache.
-   */
-  void stop();
-
-  /**
-   * get cache type.
-   *
-   * @return
-   */
-  String getType();
-
-  /**
-   * get cache config.
-   *
-   * @return
-   */
-  CacheConfig getCacheConfig();
-
-
   // basic ops
 
   /**
@@ -97,13 +67,5 @@ public interface CacheManager {
    * @return
    */
   <T> Optional<T> getJSON(String key, Class<T> clazz);
-
-  /**
-   * get lock.
-   *
-   * @param lock
-   * @return
-   */
-  Lock getLock(String lock);
 
 }

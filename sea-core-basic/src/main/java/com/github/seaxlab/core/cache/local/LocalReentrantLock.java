@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.cache.local.domain;
+package com.github.seaxlab.core.cache.local;
 
 import lombok.extern.slf4j.Slf4j;
 

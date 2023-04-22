@@ -1,19 +1,13 @@
 package com.github.seaxlab.core.cache.redis.jedis;
 
 import com.alibaba.fastjson.JSON;
-import com.github.seaxlab.core.cache.CacheConfig;
 import com.github.seaxlab.core.cache.CacheManager;
-import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.util.SerializeUtil;
-import com.github.seaxlab.core.util.UrlUtil;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
 import java.util.Optional;
-import java.util.Properties;
-import java.util.concurrent.locks.Lock;
 
 /**
  * jedis cache manager
@@ -25,48 +19,9 @@ import java.util.concurrent.locks.Lock;
 @Slf4j
 public class JedisCacheManager implements CacheManager {
 
-  private CacheConfig cacheConfig;
 
   private JedisPool pool;
 
-  @Override
-  public void start(CacheConfig cacheConfig) {
-    this.cacheConfig = cacheConfig;
-
-    Properties props = UrlUtil.parse(cacheConfig.getUrl());
-
-    String host = props.getProperty("host", "127.0.0.1");
-    int port = Integer.valueOf(props.getProperty("port", "6379"));
-    String password = props.getProperty("password");
-    int database = Integer.valueOf(props.getProperty("database", "0"));
-
-
-    JedisPoolConfig config = new JedisPoolConfig();
-    config.setMaxIdle(cacheConfig.getMaxIdle());
-    config.setMaxTotal(cacheConfig.getPoolSize());
-    config.setTestOnBorrow(false);
-    config.setTestOnReturn(false);
-
-    pool = new JedisPool(config, host, port, cacheConfig.getTimeout(), password, database);
-    log.info("redis init success.");
-  }
-
-  @Override
-  public void stop() {
-    if (pool != null) {
-      pool.destroy();
-    }
-  }
-
-  @Override
-  public String getType() {
-    return cacheConfig.getType();
-  }
-
-  @Override
-  public CacheConfig getCacheConfig() {
-    return cacheConfig;
-  }
 
   @Override
   public Optional<Object> get(String key) {
@@ -135,15 +90,4 @@ public class JedisCacheManager implements CacheManager {
     }
   }
 
-  @Override
-  public Lock getLock(String lock) {
-    try {
-      //TODO
-      //return new RedisReentrantLock(pool, lock);
-    } catch (Exception e) {
-      log.error("fail to add to cache.", e);
-      ExceptionHandler.publishMsg("fail to create redis reenterlock.");
-    }
-    return null;
-  }
 }

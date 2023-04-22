@@ -1,15 +1,11 @@
-package com.github.seaxlab.core.cache.local.impl;
+package com.github.seaxlab.core.cache.local;
 
-import com.github.seaxlab.core.cache.CacheConfig;
 import com.github.seaxlab.core.cache.CacheManager;
-import com.github.seaxlab.core.cache.local.domain.LocalReentrantLock;
 import com.github.seaxlab.core.util.JSONUtil;
 import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
@@ -22,36 +18,10 @@ import java.util.concurrent.locks.Lock;
  * @since 1.0
  */
 @Slf4j
-public class LocalCacheManagerImpl implements CacheManager {
-  private CacheConfig cacheConfig;
+public class LocalCacheManager implements CacheManager {
   private Cache<String, Object> cache;
 
   private Map<String, Lock> lockCache;
-
-  @Override
-  public void start(CacheConfig cacheConfig) {
-    this.cacheConfig = cacheConfig;
-    cache = CacheBuilder.newBuilder().build();
-    lockCache = new HashMap<>();
-  }
-
-  @Override
-  public void stop() {
-    if (cache != null) {
-      cache.invalidateAll();
-      cache = null;
-    }
-  }
-
-  @Override
-  public String getType() {
-    return cacheConfig.getType();
-  }
-
-  @Override
-  public CacheConfig getCacheConfig() {
-    return cacheConfig;
-  }
 
   @Override
   public Optional<Object> get(String key) {
@@ -93,8 +63,4 @@ public class LocalCacheManagerImpl implements CacheManager {
     return Optional.of(JSONUtil.toObj(value.toString(), clazz));
   }
 
-  @Override
-  public Lock getLock(String lockKey) {
-    return lockCache.computeIfAbsent(lockKey, key -> new LocalReentrantLock(lockCache, lockKey));
-  }
 }
