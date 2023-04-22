@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.enums.DateFormatEnum;
+import com.github.seaxlab.core.thread.ThreadContext;
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.RateLimiter;
 import lombok.extern.slf4j.Slf4j;
@@ -117,6 +118,29 @@ public final class LogUtil {
     }
   }
 
+  //------------------log add prefix
+  public void infoR(String format, Object... arguments) {
+    log.info("{}," + format, ThreadContext.get("requestNo", ""), arguments);
+  }
+
+  public void warnR(String format, Object... arguments) {
+    log.warn("{}," + format, ThreadContext.get("requestNo", ""), arguments);
+  }
+
+  public void warnR(String msg, Throwable t) {
+    String content = MessageUtil.format("{}" + msg, ThreadContext.get("requestNo", ""));
+    log.warn(content, t);
+
+  }
+
+  public void errorR(String format, Object... arguments) {
+    log.error("{}," + format, ThreadContext.get("requestNo", ""), arguments);
+  }
+
+  public void errorR(String msg, Throwable t) {
+    String content = MessageUtil.format("{}" + msg, ThreadContext.get("requestNo", ""));
+    log.error(content, t);
+  }
   //---------------------------------custom log
 
   public static void info(Logger log, boolean flag, String info) {
