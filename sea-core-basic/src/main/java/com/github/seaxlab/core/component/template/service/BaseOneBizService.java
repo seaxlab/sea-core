@@ -1,17 +1,17 @@
 package com.github.seaxlab.core.component.template.service;
 
 import com.github.seaxlab.core.component.lock.LockService;
+import com.github.seaxlab.core.component.lock.request.LockConfig;
 import com.github.seaxlab.core.component.template.checker.Checker;
-import com.github.seaxlab.core.exception.ErrorMessageEnum;
-import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.util.CollectionUtil;
 import com.github.seaxlab.core.util.SetUtil;
 import com.github.seaxlab.core.util.StringUtil;
-import java.util.Collection;
-import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+
+import java.util.Collection;
+import java.util.Objects;
 
 /**
  * base one biz service
@@ -41,14 +41,26 @@ public abstract class BaseOneBizService<I> implements OneBizService<I> {
     String lockKey = getLockKey(bo);
     if (StringUtil.isNotBlank(lockKey)) {
       LockService lockService = context.getBean(LockService.class);
-      lockService.tryLock(lockKey, getBizName(), () -> handle(bo));
+      //
+      LockConfig lockConfig = new LockConfig();
+      lockConfig.setLockKey(lockKey);
+      lockConfig.setBizName(getBizName());
+      lockConfig.setThrowOnFailFlag(throwExceptionWhenLockFail());
+      //
+      lockService.tryLock(lockConfig, () -> handle(bo));
       return;
     }
     //
     Collection<String> lockKeys = getLockKeys(bo);
     if (CollectionUtil.isNotEmpty(lockKeys)) {
       LockService lockService = context.getBean(LockService.class);
-      lockService.tryLock(lockKeys, getBizName(), () -> handle(bo));
+      //
+      LockConfig lockConfig = new LockConfig();
+      lockConfig.setLockKeys(lockKeys);
+      lockConfig.setBizName(getBizName());
+      lockConfig.setThrowOnFailFlag(throwExceptionWhenLockFail());
+      //
+      lockService.tryLock(lockConfig, () -> handle(bo));
       return;
     }
     //
@@ -69,8 +81,8 @@ public abstract class BaseOneBizService<I> implements OneBizService<I> {
     return SetUtil.empty();
   }
 
-  public void throwLockFailException() {
-    ExceptionHandler.publish(ErrorMessageEnum.LOCK_FAIL);
+  public boolean throwExceptionWhenLockFail() {
+    return true;
   }
 
   public abstract void handle(I bo);
