@@ -19,9 +19,11 @@ import java.util.Optional;
 @Slf4j
 public class JedisCacheManager implements CacheManager {
 
+  private final JedisPool pool;
 
-  private JedisPool pool;
-
+  public JedisCacheManager(JedisPool pool) {
+    this.pool = pool;
+  }
 
   @Override
   public Optional<Object> get(String key) {
