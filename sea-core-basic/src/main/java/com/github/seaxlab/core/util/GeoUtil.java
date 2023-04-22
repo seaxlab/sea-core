@@ -1,8 +1,10 @@
 package com.github.seaxlab.core.util;
 
+import com.github.seaxlab.core.enums.RegExpEnum;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.RoundingMode;
+import java.util.regex.Pattern;
 
 /**
  * 位置工具
@@ -18,6 +20,31 @@ public final class GeoUtil {
    * 地球的半径 (m)
    */
   public static final double EARTH_RADIUS = 6378137;
+
+  //如把经纬度 (longitude，latitude) (205.395583333332，57.9323888888888)
+  //转换据成坐标(Degrees,minutes,seconds)(205°23’44.1″，57°55’56.6″)。
+
+
+  /**
+   * 校验经纬度是否合法
+   * <p>
+   * 经度： -180.0～+180.0（整数部分为0～180，必须输入1到8位小数）<br/>
+   * 纬度： -90.0～+90.0（整数部分为0～90，必须输入1到8位小数）
+   * </p>
+   *
+   * @param longitude
+   * @param latitude
+   * @return
+   */
+  public static boolean isValid(String longitude, String latitude) {
+    boolean longitudeMatch = Pattern.matches(RegExpEnum.LONGITUDE.getExpression(), longitude);
+    boolean latitudeMatch = Pattern.matches(RegExpEnum.LATITUDE.getExpression(), latitude);
+    if (longitudeMatch && latitudeMatch) {
+      return true;
+    }
+    return false;
+  }
+
 
   /**
    * 根据经纬度计算两点之间的距离 (m)
