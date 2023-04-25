@@ -6,12 +6,11 @@ import com.github.seaxlab.core.component.template.checker.Checker;
 import com.github.seaxlab.core.util.CollectionUtil;
 import com.github.seaxlab.core.util.SetUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import java.util.Collection;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-
-import java.util.Collection;
-import java.util.Objects;
 
 /**
  * base one biz service
@@ -33,6 +32,8 @@ public abstract class BaseOneBiz2Service<I, R> implements OneBiz2Service<I, R> {
 
   @Override
   public R execute(I bo) {
+    init(bo);
+    //
     Checker<I> checker = getChecker();
     if (Objects.nonNull(checker)) {
       checker.check(bo);
@@ -81,6 +82,9 @@ public abstract class BaseOneBiz2Service<I, R> implements OneBiz2Service<I, R> {
 
   public boolean throwExceptionWhenLockFail() {
     return true;
+  }
+
+  public void init(I bo) {
   }
 
   public abstract R handle(I bo);

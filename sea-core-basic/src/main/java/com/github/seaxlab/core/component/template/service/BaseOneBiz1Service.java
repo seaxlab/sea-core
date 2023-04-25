@@ -6,12 +6,11 @@ import com.github.seaxlab.core.component.template.checker.Checker;
 import com.github.seaxlab.core.util.CollectionUtil;
 import com.github.seaxlab.core.util.SetUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import java.util.Collection;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-
-import java.util.Collection;
-import java.util.Objects;
 
 /**
  * base one biz service
@@ -21,7 +20,7 @@ import java.util.Objects;
  * @since 1.0
  */
 @Slf4j
-public abstract class BaseOneBizService<I> implements OneBizService<I> {
+public abstract class BaseOneBiz1Service<I> implements OneBiz1Service<I> {
 
   private ApplicationContext context;
 
@@ -33,6 +32,8 @@ public abstract class BaseOneBizService<I> implements OneBizService<I> {
 
   @Override
   public void execute(I bo) {
+    init(bo);
+    //
     Checker<I> checker = getChecker();
     if (Objects.nonNull(checker)) {
       checker.check(bo);
@@ -83,6 +84,9 @@ public abstract class BaseOneBizService<I> implements OneBizService<I> {
 
   public boolean throwExceptionWhenLockFail() {
     return true;
+  }
+
+  public void init(I bo) {
   }
 
   public abstract void handle(I bo);
