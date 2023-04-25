@@ -531,6 +531,13 @@ public class ListUtilTest extends BaseCoreTest {
   }
 
   @Test
+  public void testSum3() throws Exception {
+    List<Integer> data = new ArrayList<>();
+    int sum = data.stream().map(item -> item).mapToInt(item -> item).sum();
+    log.info("sum={}", sum);
+  }
+
+  @Test
   public void testAddAllError() throws Exception {
     List<Integer> all = new ArrayList<>();
     all.add(1);
