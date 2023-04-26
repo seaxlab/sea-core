@@ -119,6 +119,7 @@ public final class LogUtil {
   }
 
   //------------------log add prefix
+  // 循环中，处理同种业务，但是是不同的主体
   public static void debugR(String format, Object... arguments) {
     if (log.isDebugEnabled()) {
       String message = MessageFormatter.arrayFormat(format, arguments).getMessage();
