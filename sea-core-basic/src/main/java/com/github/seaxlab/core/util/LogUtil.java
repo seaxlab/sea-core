@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
+import org.slf4j.helpers.MessageFormatter;
 
 /**
  * log util
@@ -118,27 +119,38 @@ public final class LogUtil {
   }
 
   //------------------log add prefix
-  public void infoR(String format, Object... arguments) {
-    log.info("{}," + format, ThreadContextUtil.getRequestNo(), arguments);
+  public static void debugR(String format, Object... arguments) {
+    if (log.isDebugEnabled()) {
+      String message = MessageFormatter.arrayFormat(format, arguments).getMessage();
+      log.debug("{},{}", ThreadContextUtil.getRequestNo(), message);
+    }
   }
 
-  public void warnR(String format, Object... arguments) {
-    log.warn("{}," + format, ThreadContextUtil.getRequestNo(), arguments);
+  public static void infoR(String format, Object... arguments) {
+    if (log.isInfoEnabled()) {
+      String message = MessageFormatter.arrayFormat(format, arguments).getMessage();
+      log.info("{},{}", ThreadContextUtil.getRequestNo(), message);
+    }
   }
 
-  public void warnR(String msg, Throwable t) {
-    String content = MessageUtil.format("{}" + msg, ThreadContextUtil.getRequestNo());
-    log.warn(content, t);
-
+  public static void warnR(String format, Object... arguments) {
+    String message = MessageFormatter.arrayFormat(format, arguments).getMessage();
+    log.info("{},{}", ThreadContextUtil.getRequestNo(), message);
   }
 
-  public void errorR(String format, Object... arguments) {
-    log.error("{}," + format, ThreadContextUtil.getRequestNo(), arguments);
+  public static void warnR(String message, Throwable t) {
+    String msg = MessageUtil.format("{},{}", ThreadContextUtil.getRequestNo(), message);
+    log.warn(msg, t);
   }
 
-  public void errorR(String msg, Throwable t) {
-    String content = MessageUtil.format("{}" + msg, ThreadContextUtil.getRequestNo());
-    log.error(content, t);
+  public static void errorR(String format, Object... arguments) {
+    String message = MessageFormatter.arrayFormat(format, arguments).getMessage();
+    log.error("{},{}", ThreadContextUtil.getRequestNo(), message);
+  }
+
+  public static void errorR(String message, Throwable t) {
+    String msg = MessageUtil.format("{},{}", ThreadContextUtil.getRequestNo(), message);
+    log.error(msg, t);
   }
   //---------------------------------custom log
 

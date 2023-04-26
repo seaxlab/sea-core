@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.thread.util;
 
-import com.github.seaxlab.core.model.common.ModelConst;
+import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.thread.ThreadContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,10 +14,27 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class ThreadContextUtil {
 
+  private static final String REQUEST_NO = "sea_request_no";
+
   private ThreadContextUtil() {
   }
 
+  /**
+   * set biz request no
+   *
+   * @param requestNo request no
+   */
+  public static void setRequestNo(String requestNo) {
+    Precondition.checkNotBlank(requestNo, "requestNo cannot be empty.");
+    ThreadContext.put(REQUEST_NO, requestNo);
+  }
+
+  /**
+   * get biz request no
+   *
+   * @return biz request no
+   */
   public static String getRequestNo() {
-    return ThreadContext.getSafe(ModelConst.REQUEST_NO, "");
+    return ThreadContext.getSafe(REQUEST_NO, "");
   }
 }
