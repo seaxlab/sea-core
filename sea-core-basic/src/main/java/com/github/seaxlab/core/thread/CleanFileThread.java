@@ -181,7 +181,6 @@ public class CleanFileThread {
         try {
           delFlag = Files.deleteIfExists(itemFile.toPath());
         } catch (Exception e) {
-          delFlag = false;
           log.error("fail to delete file", e);
         } finally {
           log.info("delete file={},success={}", itemFile.getAbsolutePath(), delFlag);
