@@ -33,6 +33,8 @@ public final class ModelConst {
   public static final String OUT_TRADE_NO = "outTradeNo";
   // 外部请求单号
   public static final String OUT_REQUEST_NO = "outRequestNo";
+  //
+  public static final String REQUEST_NO = "requestNo";
   // 单号
   public static final String ORDER_NO = "orderNo";
   // 子单号

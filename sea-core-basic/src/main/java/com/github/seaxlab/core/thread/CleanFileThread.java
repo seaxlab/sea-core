@@ -1,15 +1,14 @@
 package com.github.seaxlab.core.thread;
 
 import com.github.seaxlab.core.component.lock.impl.FileLock;
+import com.github.seaxlab.core.exception.Precondition;
+import com.github.seaxlab.core.thread.config.CleanFileConfig;
 import com.github.seaxlab.core.util.ListUtil;
 import com.github.seaxlab.core.util.MessageUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.github.seaxlab.core.util.TimeUnitUtil;
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Lock;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * clean file thread.
@@ -33,51 +33,8 @@ import java.util.stream.Collectors;
 public class CleanFileThread {
 
   private static final AtomicLong count = new AtomicLong(0);
-  /**
-   * 需要清理的目录，只清理一级目录
-   */
-  private List<String> dirs;
-  /**
-   * 线程启动延迟时间
-   */
-  private int delay;
-  /**
-   * 延迟时间单位
-   */
-  private TimeUnit delayTimeUnit;
-  /**
-   * 间隔时间
-   */
-  private int period;
-  /**
-   * 间隔时间单位
-   */
-  private TimeUnit periodTimeUnit;
 
-  /**
-   * 多长时间之前的文件被清理掉
-   */
-  private int maxLifeTime;
-  /**
-   * 最大文件有效期 时间单位
-   */
-  private TimeUnit maxLifeTimeUnit;
-
-  /**
-   * 文件过滤
-   */
-  private FilenameFilter filenameFilter;
-
-  /**
-   * 线程名称前缀
-   */
-  private String threadNamePrefix;
-
-  /**
-   * 文件锁，一台机器有多个jvm时，针对的是同一个dirs，建议加锁
-   */
-  private String lockNamePrefix;
-
+  private CleanFileConfig config;
   //inner field
   private Lock fileLock;
 
@@ -87,24 +44,24 @@ public class CleanFileThread {
   private CleanFileThread() {
   }
 
-  public CleanFileThread(String dir,
-                         int period, TimeUnit timeUnit,
-                         int maxLifeTime, TimeUnit maxLifeTimeUnit) {
+  public CleanFileThread(String dir, int period, TimeUnit timeUnit, int maxLifeTime, TimeUnit maxLifeTimeUnit) {
     this(Arrays.asList(dir), period, timeUnit, maxLifeTime, maxLifeTimeUnit);
   }
 
-  public CleanFileThread(List<String> dirs,
-                         int period, TimeUnit periodTimeUnit,
-                         int maxLifeTime, TimeUnit maxLifeTimeUnit) {
+  public CleanFileThread(List<String> dirs, int period, TimeUnit periodTimeUnit, int maxLifeTime,
+    TimeUnit maxLifeTimeUnit) {
     Preconditions.checkNotNull(dirs, "file dir cannot be null");
-    this.dirs = dirs;
+    CleanFileConfig config = new CleanFileConfig();
+    config.setDirs(dirs);
+    config.setPeriod(period);
+    config.setPeriodTimeUnit(periodTimeUnit);
+    config.setMaxLifeTime(maxLifeTime);
+    config.setMaxLifeTimeUnit(maxLifeTimeUnit);
+    this.config = config;
+  }
 
-    this.period = period < 0 ? 1 : period;
-    this.periodTimeUnit = periodTimeUnit == null ? TimeUnit.MINUTES : periodTimeUnit;
-
-    this.maxLifeTime = maxLifeTime < 0 ? 1 : maxLifeTime;
-    this.maxLifeTimeUnit = maxLifeTimeUnit == null ? TimeUnit.MINUTES : maxLifeTimeUnit;
-
+  public CleanFileThread(CleanFileConfig config) {
+    this.config = config;
   }
 
 
@@ -112,15 +69,14 @@ public class CleanFileThread {
    * 启动函数
    */
   public void start() {
-    delay = delay <= 0 ? 0 : delay;
-    delayTimeUnit = delayTimeUnit == null ? TimeUnit.MINUTES : delayTimeUnit;
+    Precondition.checkNotNull(config);
+    config.check();
 
     // create file lock
-    fileLock = new FileLock(StringUtil.defaultIfBlank(lockNamePrefix, getThreadNamePrefix(), "sea"));
+    fileLock = new FileLock(StringUtil.defaultIfBlank(config.getLockNamePrefix(), config.getThreadNamePrefix(), "sea"));
 
     String threadName = MessageUtil.format("{}-clean-file-thread-{}",
-      StringUtil.defaultIfEmpty(getThreadNamePrefix(), "sea")
-      , count.incrementAndGet());
+      StringUtil.defaultIfEmpty(config.getThreadNamePrefix(), "sea"), count.incrementAndGet());
     cleanRunnable = new CleanRunnable();
     Thread thread = new Thread(cleanRunnable);
     thread.setName(threadName);
@@ -139,48 +95,6 @@ public class CleanFileThread {
     }
   }
 
-  // get/set
-
-  public int getDelay() {
-    return delay;
-  }
-
-  public void setDelay(int delay) {
-    this.delay = delay;
-  }
-
-  public TimeUnit getDelayTimeUnit() {
-    return delayTimeUnit;
-  }
-
-  public void setDelayTimeUnit(TimeUnit delayTimeUnit) {
-    this.delayTimeUnit = delayTimeUnit;
-  }
-
-  public FilenameFilter getFilenameFilter() {
-    return filenameFilter;
-  }
-
-  public void setFilenameFilter(FilenameFilter filenameFilter) {
-    this.filenameFilter = filenameFilter;
-  }
-
-  public String getThreadNamePrefix() {
-    return threadNamePrefix;
-  }
-
-  public void setThreadNamePrefix(String threadNamePrefix) {
-    this.threadNamePrefix = threadNamePrefix;
-  }
-
-  public String getLockNamePrefix() {
-    return lockNamePrefix;
-  }
-
-  public void setLockNamePrefix(String lockNamePrefix) {
-    this.lockNamePrefix = lockNamePrefix;
-  }
-
   // ----
   private class CleanRunnable extends SuspendedLoopRunnable {
 
@@ -196,13 +110,14 @@ public class CleanFileThread {
 
     @Override
     public void loopRun() {
-      if (delay > 0) {
+      if (config.getDelay() > 0) {
         try {
-          Thread.sleep(TimeUnitUtil.toMills(delay, delayTimeUnit));
+          Thread.sleep(TimeUnitUtil.toMills(config.getDelay(), config.getDelayTimeUnit()));
         } catch (Exception e) {
-          log.error("fail to sleep");
+          log.error("fail to sleep for delay");
         }
       }
+      //
       boolean hasLockFlag = fileLock.tryLock();
       try {
         // file lock
@@ -214,10 +129,11 @@ public class CleanFileThread {
           fileLock.unlock();
         }
       }
+
       try {
-        Thread.sleep(TimeUnitUtil.toMills(period, periodTimeUnit));
+        Thread.sleep(TimeUnitUtil.toMills(config.getPeriod(), config.getPeriodTimeUnit()));
       } catch (Exception e) {
-        log.error("fail to sleep");
+        log.error("fail to sleep for after clean");
       }
     }
 
@@ -229,12 +145,12 @@ public class CleanFileThread {
 
   private void cleanFile() {
     log.info("clean file thread.");
-    List<File> files = this.dirs.stream()
-                                .map(dir -> new File(dir))
-                                .filter(file -> file.exists() && file.isDirectory())
-                                .flatMap(file -> Arrays.stream(file.listFiles(this.filenameFilter)))
-                                .filter(file -> file.exists() && file.isFile())
-                                .collect(Collectors.toList());
+    List<File> files = this.config.getDirs().stream() //
+      .map(File::new)//
+      .filter(file -> file.exists() && file.isDirectory()) //
+      .flatMap(file -> Arrays.stream(file.listFiles(this.config.getFilenameFilter()))) //
+      .filter(file -> file.exists() && file.isFile()) //
+      .collect(Collectors.toList());
 
     if (ListUtil.isEmpty(files)) {
       return;
@@ -258,7 +174,7 @@ public class CleanFileThread {
       FileTime creationTime = fileAttr.creationTime();
       long createMs = creationTime.to(TimeUnit.MILLISECONDS);
 
-      long maxMs = TimeUnit.MILLISECONDS.convert(maxLifeTime, maxLifeTimeUnit);
+      long maxMs = TimeUnit.MILLISECONDS.convert(config.getMaxLifeTime(), config.getMaxLifeTimeUnit());
 
       if ((nowMs - createMs) > maxMs) {
         boolean delFlag = false;
