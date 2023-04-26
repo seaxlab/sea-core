@@ -18,6 +18,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,32 +52,25 @@ public class SeaController {
    * invoke public method of any bean service
    *
    * @param params params(service,method,argument)
-   * @return
+   * @return result
    */
   @ApiOperation(value = "execute", hidden = true)
   @PostMapping("/execute")
-  public Result execute(@RequestBody Map<String, Object> params) {
+  public Result<Object> execute(@RequestBody Map<String, Object> params) {
     log.info("try to execute, params={}", params);
-    Object obj;
+    Object obj = null;
     try {
-      String argument = "";
-      Object argumentObj = params.get("argument");
-      if (argumentObj != null) {
-        if (argumentObj instanceof String) {
-          String value = (String) argumentObj;
-          if (StringUtil.isNotBlank(value)) {
-            argument = value;
-          }
-        } else {
-          argument = JacksonUtil.toString(argumentObj);
+      String field = (String) params.get("field");
+      if (StringUtil.isNotBlank(field)) {
+        obj = invokeField((String) params.get("service"), field);
+      } else {
+        String argument = parseArgument(params.get("argument"));
+        obj = invokeMethod((String) params.get("service"), (String) params.get("method"), argument);
+        if (obj instanceof Result) {
+          return (Result) obj;
         }
       }
-      log.info("final argument={}", argument);
 
-      obj = invokeMethod((String) params.get("service"), (String) params.get("method"), argument);
-      if (obj instanceof Result) {
-        return (Result) obj;
-      }
     } catch (Exception e) {
       log.warn("fail to invoke ", e);
       return Result.failMsg(e.getMessage());
@@ -86,6 +80,39 @@ public class SeaController {
 
 
   //-------------------------------------private
+  private String parseArgument(Object argumentObj) {
+    String argument = "";
+    if (argumentObj != null) {
+      if (argumentObj instanceof String) {
+        String value = (String) argumentObj;
+        if (StringUtil.isNotBlank(value)) {
+          argument = value;
+        }
+      } else {
+        argument = JacksonUtil.toString(argumentObj);
+      }
+    }
+    log.info("final argument={}", argument);
+    return argument;
+  }
+
+  private Object invokeField(String service, String field) {
+    Precondition.checkNotBlank(service, "service cannot be empty.");
+    Precondition.checkNotBlank(field, "field cannot be empty.");
+
+    Object obj = null;
+    Object bean = ctx.getBean(service);
+
+    //
+    try {
+      obj = FieldUtils.readField(bean, field, true);
+    } catch (Exception e) {
+      log.warn("fail to read field", e);
+    }
+
+    return obj;
+  }
+
   private Object invokeMethod(String service, String method, String argument)
     throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     Precondition.checkNotBlank(service, "service cannot be empty.");
