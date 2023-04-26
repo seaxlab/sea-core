@@ -1,19 +1,18 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.enums.DateFormatEnum;
-import com.github.seaxlab.core.thread.ThreadContext;
+import com.github.seaxlab.core.thread.util.ThreadContextUtil;
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.RateLimiter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.slf4j.Logger;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
+import org.slf4j.Logger;
 
 /**
  * log util
@@ -120,25 +119,25 @@ public final class LogUtil {
 
   //------------------log add prefix
   public void infoR(String format, Object... arguments) {
-    log.info("{}," + format, ThreadContext.get("requestNo", ""), arguments);
+    log.info("{}," + format, ThreadContextUtil.getRequestNo(), arguments);
   }
 
   public void warnR(String format, Object... arguments) {
-    log.warn("{}," + format, ThreadContext.get("requestNo", ""), arguments);
+    log.warn("{}," + format, ThreadContextUtil.getRequestNo(), arguments);
   }
 
   public void warnR(String msg, Throwable t) {
-    String content = MessageUtil.format("{}" + msg, ThreadContext.get("requestNo", ""));
+    String content = MessageUtil.format("{}" + msg, ThreadContextUtil.getRequestNo());
     log.warn(content, t);
 
   }
 
   public void errorR(String format, Object... arguments) {
-    log.error("{}," + format, ThreadContext.get("requestNo", ""), arguments);
+    log.error("{}," + format, ThreadContextUtil.getRequestNo(), arguments);
   }
 
   public void errorR(String msg, Throwable t) {
-    String content = MessageUtil.format("{}" + msg, ThreadContext.get("requestNo", ""));
+    String content = MessageUtil.format("{}" + msg, ThreadContextUtil.getRequestNo());
     log.error(content, t);
   }
   //---------------------------------custom log
