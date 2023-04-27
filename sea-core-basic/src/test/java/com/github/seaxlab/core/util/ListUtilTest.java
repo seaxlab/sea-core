@@ -5,6 +5,7 @@ import com.github.seaxlab.core.domain.Role;
 import com.github.seaxlab.core.domain.User;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -555,6 +558,41 @@ public class ListUtilTest extends BaseCoreTest {
     ListUtil.addAllIfNecessary(all, part);
     log.info("all={}", all);
   }
+
+  @Data
+  @AllArgsConstructor
+  public static class Tt {
+
+    private int id;
+    private int line;
+  }
+
+  @Test
+  public void testSortAsc() throws Exception {
+    List<Tt> list = new ArrayList<>();
+
+    list.add(new Tt(1, 2));
+    list.add(new Tt(2, 2));
+    list.add(new Tt(5, 2));
+    list.add(new Tt(5, 1));
+    list.add(new Tt(4, 2));
+    list.add(new Tt(7, 2));
+    list.add(new Tt(3, 2));
+
+    List<Tt> sortedList = ListUtil.sortAsc(list, Comparator.comparing(Tt::getId), Comparator.comparing(Tt::getLine));
+//      list.stream() //
+//      .sorted(Comparator.comparing(Tt::getId)) //
+//      .sorted(Comparator.comparing(Tt::getLine)) //
+//      .collect(Collectors.toList());
+
+    // 原生坑：按line再按id排序
+    sortedList.forEach(item -> {
+      log.info("id={},line={}", item.getId(), item.getLine());
+    });
+
+
+  }
+
 
   @Test
   public void testSortIntegerAsc() throws Exception {

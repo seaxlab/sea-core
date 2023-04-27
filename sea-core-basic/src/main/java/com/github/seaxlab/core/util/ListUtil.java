@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
@@ -613,15 +615,12 @@ public final class ListUtil {
   }
 
 
-  private static <T, U, A, R> Collector<T, ?, R> flatMapping(
-    Function<? super T, ? extends Stream<? extends U>> mapper,
+  private static <T, U, A, R> Collector<T, ?, R> flatMapping(Function<? super T, ? extends Stream<? extends U>> mapper,
     Collector<? super U, A, R> downstream) {
     BiConsumer<A, ? super U> downstreamAccumulator = downstream.accumulator();
     return Collector.of(downstream.supplier(),
-      (r, t) -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u)),
-      downstream.combiner(),
-      downstream.finisher(),
-      downstream.characteristics().stream().toArray(Collector.Characteristics[]::new));
+      (r, t) -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u)), downstream.combiner(),
+      downstream.finisher(), downstream.characteristics().stream().toArray(Collector.Characteristics[]::new));
   }
 
   /**
@@ -927,6 +926,53 @@ public final class ListUtil {
 
     return part;
   }
+
+  /**
+   * sort by asc
+   *
+   * @param data        data
+   * @param comparator1 first
+   * @param comparator2 second
+   * @param <T>         entity
+   * @return new sorted list.
+   */
+  public static <T> List<T> sortAsc(List<T> data, Comparator<T> comparator1, Comparator<T> comparator2) {
+    if (Objects.isNull(data) || data.isEmpty()) {
+      return new ArrayList<>();
+    }
+    Precondition.checkNotNull(comparator1);
+    Precondition.checkNotNull(comparator2);
+    // 解决方式2
+    return data.stream().sorted(comparator1.thenComparing(comparator2)).collect(Collectors.toList());
+    // 解决方式1
+    //  return data.stream().sorted(comparator2).sorted(comparator1).collect(Collectors.toList());
+    // 原生排序有问题
+    //  return data.stream().sorted(comparator1).sorted(comparator2).collect(Collectors.toList());
+  }
+
+  /**
+   * sort by asc
+   *
+   * @param data        data
+   * @param comparator1 first
+   * @param comparator2 second
+   * @param comparator3 third
+   * @param <T>         entity
+   * @return new sorted list
+   */
+  public static <T> List<T> sortAsc(List<T> data, Comparator<T> comparator1, Comparator<T> comparator2,
+    Comparator<T> comparator3) {
+    if (Objects.isNull(data) || data.isEmpty()) {
+      return new ArrayList<>();
+    }
+    Precondition.checkNotNull(comparator1);
+    Precondition.checkNotNull(comparator2);
+    Precondition.checkNotNull(comparator3);
+    return data.stream() //
+      .sorted(comparator1.thenComparing(comparator2).thenComparing(comparator3)) //
+      .collect(Collectors.toList());
+  }
+
 
   public static void sortIntegerAsc(List<Integer> data) {
     if (data == null) {
