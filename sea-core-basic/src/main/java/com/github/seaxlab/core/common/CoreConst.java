@@ -91,6 +91,10 @@ public class CoreConst {
    */
   public static final String TRACE_ID = "traceId";
 
+  /**
+   * not applicable
+   */
+  public static final String NOT_APPLICABLE = "N/A";
 
   /**
    * default charset name
