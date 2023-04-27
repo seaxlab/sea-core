@@ -1,9 +1,5 @@
 package com.github.seaxlab.core.thread;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,6 +9,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * file watcher.
@@ -24,17 +23,17 @@ public class FileWatchServiceThread extends ServiceThread {
   private final List<String> fileCurrentHash;
   private final Listener listener;
   private static final int WATCH_INTERVAL = 500;
-  private MessageDigest md = MessageDigest.getInstance("MD5");
+  private final MessageDigest md = MessageDigest.getInstance("MD5");
 
   public FileWatchServiceThread(final String[] watchFiles, final Listener listener) throws Exception {
     this.listener = listener;
     this.watchFiles = new ArrayList<>();
     this.fileCurrentHash = new ArrayList<>();
 
-    for (int i = 0; i < watchFiles.length; i++) {
-      if (StringUtils.isNotEmpty(watchFiles[i]) && new File(watchFiles[i]).exists()) {
-        this.watchFiles.add(watchFiles[i]);
-        this.fileCurrentHash.add(hash(watchFiles[i]));
+    for (String watchFile : watchFiles) {
+      if (StringUtils.isNotEmpty(watchFile) && new File(watchFile).exists()) {
+        this.watchFiles.add(watchFile);
+        this.fileCurrentHash.add(hash(watchFile));
       }
     }
   }
@@ -56,8 +55,8 @@ public class FileWatchServiceThread extends ServiceThread {
           String newHash;
           try {
             newHash = hash(watchFiles.get(i));
-          } catch (Exception ignored) {
-            log.warn(this.getServiceName() + " service has exception when calculate the file hash. ", ignored);
+          } catch (Exception e) {
+            log.warn(this.getServiceName() + " service has exception when calculate the file hash. ", e);
             continue;
           }
           if (!newHash.equals(fileCurrentHash.get(i))) {
@@ -81,6 +80,7 @@ public class FileWatchServiceThread extends ServiceThread {
   }
 
   public interface Listener {
+
     /**
      * Will be called when the target files are changed
      *
