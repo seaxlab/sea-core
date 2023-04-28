@@ -7,7 +7,7 @@ package com.github.seaxlab.core.component.template.service;
  * @version 1.0 2023/04/18
  * @since 1.0
  */
-public interface MigrateHistoryService {
+public interface HistoryMigrateService {
 
   void execute();
 }

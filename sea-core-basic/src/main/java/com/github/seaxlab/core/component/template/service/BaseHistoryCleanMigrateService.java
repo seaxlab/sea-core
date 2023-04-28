@@ -3,7 +3,7 @@ package com.github.seaxlab.core.component.template.service;
 import com.github.seaxlab.core.common.CoreConst;
 import com.github.seaxlab.core.common.GlobalUtil;
 import com.github.seaxlab.core.component.lock.LockService;
-import com.github.seaxlab.core.component.template.service.bo.MigrateHistoryReqBO;
+import com.github.seaxlab.core.component.template.service.bo.HistoryCleanReqBO;
 import com.github.seaxlab.core.model.PageInfo;
 import com.github.seaxlab.core.util.CollectionUtil;
 import com.github.seaxlab.core.util.MessageUtil;
@@ -13,7 +13,6 @@ import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * base clean service
@@ -24,27 +23,22 @@ import org.springframework.transaction.support.TransactionTemplate;
  */
 @Slf4j
 @SuppressWarnings("java:S2222")
-public abstract class BaseMigrateHistoryService implements MigrateHistoryService {
+public abstract class BaseHistoryCleanMigrateService implements HistoryMigrateService {
 
   private ApplicationContext context;
-  private TransactionTemplate transactionTemplate;
 
   @Autowired
   public void setContext(ApplicationContext context) {
     this.context = context;
   }
 
-  @Autowired
-  public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
-    this.transactionTemplate = transactionTemplate;
-  }
 
   private static final int DEFAULT_MAX_ERROR_COUNT = 20;
 
 
   @Override
   public void execute() {
-    log.info("migrate history begin, {}.", getBizType());
+    log.info("history clean begin, {}.", getBizType());
 
     String lockKey = getLockKey();
     if (StringUtil.isNotBlank(lockKey)) {
@@ -68,12 +62,12 @@ public abstract class BaseMigrateHistoryService implements MigrateHistoryService
     int errorCount = 0;
 
     boolean hasNextFlag;
-    MigrateHistoryReqBO bo = new MigrateHistoryReqBO();
+    HistoryCleanReqBO bo = new HistoryCleanReqBO();
     beforeLoop(bo);
 
     do {
       loopCount++;
-      log.info("try to move {}, loop count={}", getBizType(), loopCount);
+      log.info("try to clean {}, loop count={}", getBizType(), loopCount);
 
       int pageSize = getPageSize() <= 0 ? CoreConst.PAGE_SIZE_200 : getPageSize();
       PageInfo pageInfo = PageInfo.of(1, pageSize);
@@ -85,7 +79,7 @@ public abstract class BaseMigrateHistoryService implements MigrateHistoryService
       }
       Collection<Long> ids = bo.getExtend().getRecords();
 
-      if (!moveToHistory(ids)) {
+      if (!historyDelete(ids)) {
         errorCount++;
       }
       if (errorCount > DEFAULT_MAX_ERROR_COUNT) {
@@ -100,7 +94,7 @@ public abstract class BaseMigrateHistoryService implements MigrateHistoryService
   }
 
 
-  private boolean moveToHistory(Collection<Long> ids) {
+  private boolean historyDelete(Collection<Long> ids) {
     if (CollectionUtil.isEmpty(ids)) {
       log.warn("ids is empty.");
       return true;
@@ -109,21 +103,14 @@ public abstract class BaseMigrateHistoryService implements MigrateHistoryService
     boolean flag;
 
     try {
-      transactionTemplate.execute(txStatus -> {
-        log.info("try to delete {} ids={}", getBizType(), ids);
-        int rowCount = moveToHistoryByIds(ids);
-        GlobalUtil.checkDB(rowCount, MessageUtil.format("move to {} history", getBizType()));
-
-        rowCount = deleteByIds(ids);
-        GlobalUtil.checkDB(rowCount, MessageUtil.format("delete {}", getBizType()));
-
-        return null;
-      });
+      log.info("try to delete {} ids={}", getBizType(), ids);
+      int rowCount = deleteByIds(ids);
+      GlobalUtil.checkDB(rowCount, MessageUtil.format("delete {}", getBizType()));
       flag = true;
     } catch (Exception e) {
       flag = false;
-      log.error("fail to move to {} history, exception is ", getBizType(), e);
-      handleMoveToHistoryException(e);
+      log.error("fail to delete history, {}, exception is ", getBizType(), e);
+      handleDeleteException(e);
     }
 
     return flag;
@@ -134,11 +121,9 @@ public abstract class BaseMigrateHistoryService implements MigrateHistoryService
   protected abstract String getBizType();
 
 
-  protected abstract void beforeLoop(MigrateHistoryReqBO bo);
+  protected abstract void beforeLoop(HistoryCleanReqBO bo);
 
-  protected abstract void queryByPage(MigrateHistoryReqBO bo, PageInfo pageInfo);
-
-  protected abstract int moveToHistoryByIds(Collection<Long> ids);
+  protected abstract void queryByPage(HistoryCleanReqBO bo, PageInfo pageInfo);
 
   protected abstract int deleteByIds(Collection<Long> ids);
 
@@ -154,7 +139,7 @@ public abstract class BaseMigrateHistoryService implements MigrateHistoryService
     return CoreConst.PAGE_SIZE_200;
   }
 
-  public void handleMoveToHistoryException(Exception e) {
+  public void handleDeleteException(Exception e) {
 
   }
 

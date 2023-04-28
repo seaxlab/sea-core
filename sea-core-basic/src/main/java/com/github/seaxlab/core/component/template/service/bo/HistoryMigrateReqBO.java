@@ -13,7 +13,7 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
-public class MigrateHistoryReqBO {
+public class HistoryMigrateReqBO {
 
   private final Map<String, Object> params = new HashMap<>();
 
