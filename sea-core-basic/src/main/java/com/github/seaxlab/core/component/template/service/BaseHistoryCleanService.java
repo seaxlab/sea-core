@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 /**
- * base clean service
+ * base history clean service
  *
  * @author spy
  * @version 1.0 2023/04/18
@@ -23,7 +23,7 @@ import org.springframework.context.ApplicationContext;
  */
 @Slf4j
 @SuppressWarnings("java:S2222")
-public abstract class BaseHistoryCleanMigrateService implements HistoryMigrateService {
+public abstract class BaseHistoryCleanService implements HistoryMigrateService {
 
   private ApplicationContext context;
 

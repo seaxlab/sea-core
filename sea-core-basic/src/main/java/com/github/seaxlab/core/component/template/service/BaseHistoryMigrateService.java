@@ -16,7 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.support.TransactionTemplate;
 
 /**
- * base migrate history service
+ * base history migrate service
  *
  * @author spy
  * @version 1.0 2023/04/18
