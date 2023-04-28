@@ -58,26 +58,43 @@ public abstract class BaseHistoryCleanService implements HistoryCleanService {
   }
 
   private void handle() {
+    HistoryCleanReqBO bo = new HistoryCleanReqBO();
+    preHandle(bo);
+
+    try {
+      process(bo);
+      postHandle(bo);
+    } finally {
+      completeHandle(bo);
+    }
+  }
+
+  private void process(HistoryCleanReqBO bo) {
+    //
     int loopCount = 0;
     int errorCount = 0;
 
-    boolean hasNextFlag;
-    HistoryCleanReqBO bo = new HistoryCleanReqBO();
-    beforeLoop(bo);
+    boolean hasNextFlag = true;
+    int pageSize = getPageSize() <= 0 ? CoreConst.PAGE_SIZE_200 : getPageSize();
 
     do {
       loopCount++;
       log.info("try to clean {}, loop count={}", getBizType(), loopCount);
 
-      int pageSize = getPageSize() <= 0 ? CoreConst.PAGE_SIZE_200 : getPageSize();
       PageInfo pageInfo = PageInfo.of(1, pageSize);
       queryByPage(bo, pageInfo);
+      //
+      Collection<Long> ids = bo.getExtend().getRecords();
 
-      if (CollectionUtil.isEmpty(bo.getExtend().getRecords())) {
+      if (CollectionUtil.isEmpty(ids)) {
         log.warn("{} records is empty, so end.", getBizType());
         break;
       }
-      Collection<Long> ids = bo.getExtend().getRecords();
+
+      if (ids.size() < pageSize) {
+        log.info("ids size={}<{}, so end.", ids.size(), pageSize);
+        hasNextFlag = false;
+      }
 
       if (!historyDelete(ids)) {
         errorCount++;
@@ -87,8 +104,6 @@ public abstract class BaseHistoryCleanService implements HistoryCleanService {
         handleTooManyErrorException();
         break;
       }
-
-      hasNextFlag = bo.getExtend().hasNext();
       log.info("{} has next flag={}", getBizType(), hasNextFlag);
     } while (hasNextFlag);
   }
@@ -122,11 +137,18 @@ public abstract class BaseHistoryCleanService implements HistoryCleanService {
 
 
   /**
-   * 循环之前
+   * 处理之前
    *
    * @param bo biz object
    */
-  public void beforeLoop(HistoryCleanReqBO bo) {
+  public void preHandle(HistoryCleanReqBO bo) {
+  }
+
+  public void postHandle(HistoryCleanReqBO bo) {
+
+  }
+
+  public void completeHandle(HistoryCleanReqBO bo) {
   }
 
   /**

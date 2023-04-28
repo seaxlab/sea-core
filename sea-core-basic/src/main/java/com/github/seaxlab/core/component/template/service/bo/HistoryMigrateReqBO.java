@@ -33,11 +33,6 @@ public class HistoryMigrateReqBO {
   public static class Extend {
 
     private Collection<Long> records;
-    private boolean nextFlag;
-
-    public boolean hasNext() {
-      return nextFlag;
-    }
   }
 
 

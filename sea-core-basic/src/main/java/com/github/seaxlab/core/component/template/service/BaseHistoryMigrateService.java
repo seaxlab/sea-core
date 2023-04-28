@@ -64,26 +64,42 @@ public abstract class BaseHistoryMigrateService implements HistoryMigrateService
   }
 
   private void handle() {
+    HistoryMigrateReqBO bo = new HistoryMigrateReqBO();
+    preHandle(bo);
+    //
+    try {
+      process(bo);
+      postHandle(bo);
+    } finally {
+      completeHandle(bo);
+    }
+  }
+
+
+  private void process(HistoryMigrateReqBO bo) {
     int loopCount = 0;
     int errorCount = 0;
 
-    boolean hasNextFlag;
-    HistoryMigrateReqBO bo = new HistoryMigrateReqBO();
-    beforeLoop(bo);
+    boolean hasNextFlag = true;
+    int pageSize = getPageSize() <= 0 ? CoreConst.PAGE_SIZE_200 : getPageSize();
 
     do {
       loopCount++;
       log.info("try to move {}, loop count={}", getBizType(), loopCount);
 
-      int pageSize = getPageSize() <= 0 ? CoreConst.PAGE_SIZE_200 : getPageSize();
       PageInfo pageInfo = PageInfo.of(1, pageSize);
       queryByPage(bo, pageInfo);
+      //
+      Collection<Long> ids = bo.getExtend().getRecords();
 
-      if (CollectionUtil.isEmpty(bo.getExtend().getRecords())) {
+      if (CollectionUtil.isEmpty(ids)) {
         log.warn("{} records is empty, so end.", getBizType());
         break;
       }
-      Collection<Long> ids = bo.getExtend().getRecords();
+      if (ids.size() < pageSize) {
+        log.info("ids size={}<{}, so end.", ids.size(), pageSize);
+        hasNextFlag = false;
+      }
 
       if (!moveToHistory(ids)) {
         errorCount++;
@@ -94,7 +110,6 @@ public abstract class BaseHistoryMigrateService implements HistoryMigrateService
         break;
       }
 
-      hasNextFlag = bo.getExtend().hasNext();
       log.info("{} has next flag={}", getBizType(), hasNextFlag);
     } while (hasNextFlag);
   }
@@ -134,7 +149,13 @@ public abstract class BaseHistoryMigrateService implements HistoryMigrateService
   protected abstract String getBizType();
 
 
-  public void beforeLoop(HistoryMigrateReqBO bo) {
+  public void preHandle(HistoryMigrateReqBO bo) {
+  }
+
+  public void postHandle(HistoryMigrateReqBO bo) {
+  }
+
+  public void completeHandle(HistoryMigrateReqBO bo) {
   }
 
   protected abstract void queryByPage(HistoryMigrateReqBO bo, PageInfo pageInfo);
