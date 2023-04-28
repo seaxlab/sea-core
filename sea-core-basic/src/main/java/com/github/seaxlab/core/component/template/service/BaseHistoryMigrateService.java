@@ -97,7 +97,7 @@ public abstract class BaseHistoryMigrateService implements HistoryMigrateService
         break;
       }
       if (ids.size() < pageSize) {
-        log.info("ids size={}<{}, so end.", ids.size(), pageSize);
+        log.info("{}, {}<{}, so end.", getBizType(), ids.size(), pageSize);
         hasNextFlag = false;
       }
 
