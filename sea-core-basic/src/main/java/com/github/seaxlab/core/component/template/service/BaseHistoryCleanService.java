@@ -23,7 +23,7 @@ import org.springframework.context.ApplicationContext;
  */
 @Slf4j
 @SuppressWarnings("java:S2222")
-public abstract class BaseHistoryCleanService implements HistoryMigrateService {
+public abstract class BaseHistoryCleanService implements HistoryCleanService {
 
   private ApplicationContext context;
 
@@ -121,10 +121,28 @@ public abstract class BaseHistoryCleanService implements HistoryMigrateService {
   protected abstract String getBizType();
 
 
-  protected abstract void beforeLoop(HistoryCleanReqBO bo);
+  /**
+   * 循环之前
+   *
+   * @param bo biz object
+   */
+  public void beforeLoop(HistoryCleanReqBO bo) {
+  }
 
+  /**
+   * 分页查询
+   *
+   * @param bo
+   * @param pageInfo
+   */
   protected abstract void queryByPage(HistoryCleanReqBO bo, PageInfo pageInfo);
 
+  /**
+   * 删除数据
+   *
+   * @param ids
+   * @return
+   */
   protected abstract int deleteByIds(Collection<Long> ids);
 
   public String getLockKey() {

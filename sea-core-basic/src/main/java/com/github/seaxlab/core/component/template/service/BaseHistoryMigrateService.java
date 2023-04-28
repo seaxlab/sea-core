@@ -134,7 +134,8 @@ public abstract class BaseHistoryMigrateService implements HistoryMigrateService
   protected abstract String getBizType();
 
 
-  protected abstract void beforeLoop(HistoryMigrateReqBO bo);
+  public void beforeLoop(HistoryMigrateReqBO bo) {
+  }
 
   protected abstract void queryByPage(HistoryMigrateReqBO bo, PageInfo pageInfo);
 
