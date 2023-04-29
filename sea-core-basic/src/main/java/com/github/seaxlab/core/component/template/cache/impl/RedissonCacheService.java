@@ -1,71 +1,66 @@
 package com.github.seaxlab.core.component.template.cache.impl;
 
 import com.github.seaxlab.core.component.template.cache.BaseCacheService;
-import com.github.seaxlab.core.util.BooleanUtil;
+import com.github.seaxlab.core.util.ArrayUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.redisson.api.RedissonClient;
 
 import java.util.Collection;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
- * cache service base on redisTemplate.
+ * redisson cache service
  *
  * @author spy
- * @version 1.0 2023/4/20
+ * @version 1.0 2023/04/28
  * @since 1.0
  */
 @Slf4j
 @RequiredArgsConstructor
-public class RedisTemplateCacheService extends BaseCacheService {
+public class RedissonCacheService extends BaseCacheService {
 
-  private final RedisTemplate<String, Object> redisTemplate;
+  private final RedissonClient redissonClient;
 
   @Override
   public <V> V get(String key) {
-    return (V) redisTemplate.boundValueOps(key).get();
+    return (V) redissonClient.getBucket(key).get();
   }
 
   @Override
   public <V> void put(String key, V value) {
-    redisTemplate.boundValueOps(key).set(value);
+    redissonClient.getBucket(key).set(value);
   }
 
   @Override
   public <V> void put(String key, V value, long timeout, TimeUnit timeUnit) {
-    redisTemplate.boundValueOps(key).set(value, timeout, timeUnit);
+    redissonClient.getBucket(key).set(value, timeout, timeUnit);
   }
 
   @Override
   public <V> void putIfAbsent(String key, V value) {
-    redisTemplate.boundValueOps(key).setIfAbsent(value);
+    redissonClient.getBucket(key).trySet(value);
   }
 
   @Override
   public <V> void putIfAbsent(String key, V value, long timeout, TimeUnit timeUnit) {
-    redisTemplate.boundValueOps(key).setIfAbsent(value, timeout, timeUnit);
+    redissonClient.getBucket(key).trySet(value, timeout, timeUnit);
   }
 
   @Override
   public boolean contains(String key) {
-    Boolean flag = redisTemplate.hasKey(key);
-
-    return BooleanUtil.isTrue(flag);
+    return redissonClient.getKeys().countExists(key) > 0;
   }
 
   @Override
   public boolean delete(String key) {
-    return BooleanUtil.isTrue(redisTemplate.delete(key));
+    return redissonClient.getKeys().delete(key) > 0;
   }
 
   @Override
   public long delete(Collection<String> keys) {
     super.delete(keys);
     //
-    Long count = redisTemplate.delete(keys);
-    //
-    return Objects.isNull(count) ? 0L : count;
+    return redissonClient.getKeys().delete(ArrayUtil.toArray(keys, String.class));
   }
 }

@@ -9,17 +9,12 @@ import com.github.seaxlab.core.util.MapUtil;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * abstract query cache
@@ -32,9 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 public abstract class BaseQueryCache<K, V> implements IQueryCache<K, V> {
 
   //用于初始化cache的参数及其缺省值
-  private final int DEFAULT_MAX_POOL_SIZE = 500;
+  private static final int DEFAULT_MAX_POOL_SIZE = 500;
   // 写入10min后移除
-  private final int DEFAULT_EXPIRE_AFTER_WRITE_DURATION = 10;
+  private static final int DEFAULT_EXPIRE_AFTER_WRITE_DURATION = 10;
 
   // 缓存实例
   private volatile LoadingCache<K, Optional<V>> cache;

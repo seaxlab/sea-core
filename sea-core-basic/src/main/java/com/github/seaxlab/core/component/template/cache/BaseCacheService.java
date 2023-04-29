@@ -1,9 +1,11 @@
 package com.github.seaxlab.core.component.template.cache;
 
 import com.github.seaxlab.core.common.CoreConst;
+import com.github.seaxlab.core.util.CollectionUtil;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * module name
@@ -53,6 +55,11 @@ public abstract class BaseCacheService implements CacheService {
 
   @Override
   public long delete(Collection<String> keys) {
+    if (CollectionUtil.isNotEmpty(keys)) {
+      if (keys.size() > DEFAULT_DELETE_MAX_SIZE) {
+        log.warn("cache delete keys size more than {}, keys={}", DEFAULT_DELETE_MAX_SIZE, keys);
+      }
+    }
     return 0;
   }
 }
