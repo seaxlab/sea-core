@@ -93,17 +93,21 @@ public class CircularArray<E> implements Iterable<E> {
     return Collections.unmodifiableList(Arrays.asList(getArray())).iterator();
   }
 
+  public List<E> getList() {
+    List<E> data = new ArrayList<>();
+    // 依次获取环形数组内部所有元素并加入到新的list
+    for (int i = 0; i < size; i++) {
+      data.add(circularArray.get(convert(i)));
+    }
+    return data;
+  }
+
   /**
    * 获取环形数组中所有元素
    */
-  protected E[] getArray() {
-    List<E> array = new ArrayList<>();
-    // 依次获取环形数组内部所有元素并加入到新的list
-    for (int i = 0; i < size; i++) {
-      array.add(circularArray.get(convert(i)));
-    }
-
-    return (E[]) array.toArray();
+  public E[] getArray() {
+    List<E> data = getList();
+    return (E[]) data.toArray();
   }
 
   /**

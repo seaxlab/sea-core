@@ -21,42 +21,27 @@ public class CircularArrayTest extends BaseCoreTest {
     for (int i = 0; i < 10; i++) {
       circularArray.addLast(String.valueOf(i));
     }
+    log.info("{}", circularArray.getList());
 
-    for (String item : circularArray) {
-      log.info("item={}", item);
-    }
-
+    //
     circularArray.clear();
-    log.info("======================================");
-
     for (int i = 0; i < 5; i++) {
       circularArray.addLast(String.valueOf(i));
     }
+    log.info("{}", circularArray.getList());
 
-    for (String item : circularArray) {
-      log.info("item={}", item);
-    }
-
+    //
     circularArray.clear();
-    log.info("======================================");
-
     for (int i = 0; i < 3; i++) {
       circularArray.addLast(String.valueOf(i));
     }
+    log.info("{}", circularArray.getList());
 
-    for (String item : circularArray) {
-      log.info("item={}", item);
-    }
-
+    //
     circularArray.clear();
-    log.info("======================================");
-
     for (int i = 0; i < 500; i++) {
       circularArray.addLast(String.valueOf(i));
     }
-
-    for (String item : circularArray) {
-      log.info("item={}", item);
-    }
+    log.info("{}", circularArray.getList());
   }
 }
