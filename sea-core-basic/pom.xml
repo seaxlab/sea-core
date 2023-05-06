@@ -423,6 +423,12 @@
       <scope>provided</scope>
     </dependency> -->
 
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>easyexcel</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
 
@@ -502,6 +508,13 @@
         <artifactId>redisson</artifactId>
         <version>${redisson.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>easyexcel</artifactId>
+        <version>${easyexcel.version}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
