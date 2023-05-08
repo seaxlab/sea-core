@@ -1,16 +1,23 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.common.SymbolConst;
+import com.github.seaxlab.core.exception.Precondition;
 import com.google.common.collect.Sets;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.SetUtils;
-
 import java.io.Serializable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.SetUtils;
 
 /**
  * set util
@@ -79,8 +86,7 @@ public final class SetUtil {
   }
 
   /**
-   * list to set
-   * 注意：如果list中对象有相同的hashCode，则不会重复添加
+   * list to set 注意：如果list中对象有相同的hashCode，则不会重复添加
    *
    * @param list
    * @return
@@ -144,9 +150,10 @@ public final class SetUtil {
    * @return
    */
   public static String toString(Set set, String delimiter) {
-    if (set == null) {
+    if (Objects.isNull(set) || set.isEmpty()) {
       return StringUtil.EMPTY;
     }
+    Precondition.checkNotBlank(delimiter, "delimiter cannot be empty.");
     return String.join(delimiter, set);
   }
 
@@ -164,9 +171,11 @@ public final class SetUtil {
    * @return
    */
   public static <T> String toString(Set<T> set, Function<? super T, String> fn, String delimiter) {
-    if (set == null) {
+    if (Objects.isNull(set)) {
       return StringUtil.EMPTY;
     }
+    Precondition.checkNotBlank(delimiter, "delimiter cannot be empty.");
+
     return set.stream().map(fn).collect(Collectors.joining(delimiter));
   }
 
@@ -368,7 +377,6 @@ public final class SetUtil {
       log.warn("sets size is 1.");
       return sets.stream().findFirst().get();
     }
-
 
     return sets.stream().map(HashSet::new).reduce((s1, s2) -> {
       s1.addAll(s2);

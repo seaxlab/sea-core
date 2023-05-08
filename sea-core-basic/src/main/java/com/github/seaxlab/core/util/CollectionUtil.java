@@ -1,11 +1,16 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.common.SymbolConst;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.*;
+import com.github.seaxlab.core.exception.Precondition;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * module name
@@ -125,17 +130,24 @@ public final class CollectionUtil {
   }
 
   public static <T> String toString(Collection<T> collection) {
+    return toString(collection, SymbolConst.COMMA);
+  }
+
+  public static <T> String toString(Collection<T> collection, String delimiter) {
     if (collection == null || collection.isEmpty()) {
       return "";
     }
+    Precondition.checkNotBlank(delimiter, "delimiter cannot be empty.");
+
     T el = collection.stream().findAny().get();
 
     if (el != null && ClassUtil.isSimpleType(el.getClass())) {
-      return toString(collection, item -> String.valueOf(item), SymbolConst.COMMA);
+      return toString(collection, item -> String.valueOf(item), delimiter);
     }
     log.warn("first element is null, so no execute toString function.");
     return StringUtil.EMPTY;
   }
+
 
   public static <T> String toString(Collection<T> collection, Function<T, String> fn) {
     return toString(collection, fn, SymbolConst.COMMA);

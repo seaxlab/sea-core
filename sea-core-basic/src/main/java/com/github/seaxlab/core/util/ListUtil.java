@@ -697,18 +697,32 @@ public final class ListUtil {
    * @return string
    */
   public static <T> String toString(List<T> list) {
+    return toString(list, SymbolConst.COMMA);
+  }
+
+  /**
+   * toString
+   *
+   * @param list
+   * @param delimiter
+   * @param <T>
+   * @return
+   */
+  public static <T> String toString(List<T> list, String delimiter) {
     if (isEmpty(list)) {
       return StringUtil.EMPTY;
     }
+    Precondition.checkNotBlank(delimiter, "delimiter cannot be empty.");
 
     T el = list.get(0);
 
     if (el != null && ClassUtil.isSimpleType(el.getClass())) {
-      return toString(list, item -> String.valueOf(item), SymbolConst.COMMA);
+      return toString(list, item -> String.valueOf(item), delimiter);
     }
     log.warn("first element is null, so no execute toString function.");
     return StringUtil.EMPTY;
   }
+
 
   /**
    * to string

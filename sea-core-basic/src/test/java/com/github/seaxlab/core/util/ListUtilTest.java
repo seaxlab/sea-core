@@ -382,11 +382,13 @@ public class ListUtilTest extends BaseCoreTest {
     }
 
     log.info("{}", ListUtil.toString(users, User::getName, ","));
+    //
     List<String> strs = new ArrayList<>();
     strs.add("a");
     strs.add("b");
     strs.add("c");
     log.info("simple to string={}", ListUtil.toString(strs));
+    log.info("{}", ListUtil.toString(strs, "、"));
   }
 
   @Test
