@@ -7,6 +7,7 @@ import cn.smallbun.screw.core.engine.EngineTemplateType;
 import cn.smallbun.screw.core.execute.DocumentationExecute;
 import cn.smallbun.screw.core.process.ProcessConfig;
 import com.github.seaxlab.core.dal.screw.dto.DBModelCreateDTO;
+import com.github.seaxlab.core.util.ListUtil;
 import com.github.seaxlab.core.util.ObjectUtil;
 import com.github.seaxlab.core.util.PathUtil;
 import com.github.seaxlab.core.util.SshUtil;
@@ -15,6 +16,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +29,23 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public final class ScrewUtil {
+
+  public static final List<String> IGNORE_DATABASE = ListUtil.of("test", "mysql", "information_schema",
+    "apolloconfigdb", "apolloportaldb");
+  //
+  public static final List<String> IGNORE_TABLE_PREFIX = ListUtil.of("test_", "bak_", "backup_");
+
+  //
+  public static final List<String> IGNORE_TABLE_SUFFIX = ListUtil.of(
+    "_test", "_copy", "_bak", "_backup", "_prd", "_pro",
+    //"_0","_00" //这里保留_0,_00防止库中没有后缀的表
+    "_1", "_2", "_3", "_4", "_5", "_6", "_7", "_8", "_9", //
+    "_01", "_02", "_03", "_04", "_05", "_06", "_07", "_08", "_09", //
+    "_10", "_11", "_12", "_13", "_14", "_15", "_16", "_17", "_18", "_19", //
+    "_20", "_21", "_22", "_23", "_24", "_25", "_26", "_27", "_28", "_29", //
+    "_30", "_31", "_32", "_33", "_34", "_35", "_36", "_37", "_38", "_39" //
+  );
+
 
   public static void dump(DBModelCreateDTO dto) {
     // set default
