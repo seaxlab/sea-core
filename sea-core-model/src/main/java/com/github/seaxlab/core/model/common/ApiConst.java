@@ -23,6 +23,7 @@ public class ApiConst {
 
   // for console
   public static final String CONSOLE = "/api/console";
+  public static final String BOSS = "/api/boss";
 
   // for app
   public static final String APP = "/api/app";
