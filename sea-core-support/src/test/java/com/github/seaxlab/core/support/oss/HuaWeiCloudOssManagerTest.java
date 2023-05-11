@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.support.oss;
 
+import com.github.seaxlab.core.support.oss.manager.impl.HuaWeiCloudOssManager;
+import com.obs.services.ObsClient;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 
@@ -19,6 +21,10 @@ public class HuaWeiCloudOssManagerTest extends BaseOssManagerTest {
     ACCESS_KEY = "WZZJCCRGI08LKFVUW6CL";
     SECRET_KEY = "2mo3ntGirIaPbfZVDpqXbJmbKRzRWjwaJgC5qBxb";
     super.before();
+
+    ObsClient client = new ObsClient(ACCESS_KEY, SECRET_KEY, ENDPOINT);
+    ossManager = new HuaWeiCloudOssManager(client);
+
   }
 
 

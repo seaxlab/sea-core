@@ -1,5 +1,5 @@
 /**
- * aliyun
+ * core support
  *
  * @author spy
  * @version 1.0 2019-08-06

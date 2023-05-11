@@ -1,10 +1,12 @@
 package com.github.seaxlab.core.support.oss;
 
+import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.common.auth.CredentialsProvider;
+import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
-import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
+import com.github.seaxlab.core.support.oss.manager.impl.AliyunOssManager;
 import com.github.seaxlab.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,12 +22,13 @@ public class AliyunOssManagerTest extends BaseOssManagerTest {
 
   @Before
   public void before() {
-    OSS_TYPE = OssTypeEnum.ALI_YUN;
     ENDPOINT = "http://oss-cn-hangzhou.aliyuncs.com";
     ACCESS_KEY = "8PIhaKLfrSBFvK1f";
     SECRET_KEY = "uK1uKmOtX2HP91kpVWRixWEiCh933J";
 
-    super.before();
+    CredentialsProvider credentialsProvider = new DefaultCredentialProvider(ACCESS_KEY, SECRET_KEY);
+    OSSClient client = new OSSClient(ENDPOINT, credentialsProvider, null);
+    ossManager = new AliyunOssManager(client);
   }
 
   // test biz
@@ -43,8 +46,15 @@ public class AliyunOssManagerTest extends BaseOssManagerTest {
   }
 
 
-  @After
-  public void after() {
-    ossManager.destroy();
+  // test biz
+  public void createBucketIfNeed() {
+    if (!ossManager.checkBucketExist(BUCKET)) {
+      ossManager.createBucket(BUCKET);
+    }
   }
+
+  public void uploadObj(String bucket, String key, String filePath) {
+    ossManager.uploadObj(bucket, key, filePath);
+  }
+
 }

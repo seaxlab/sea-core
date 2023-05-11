@@ -7,7 +7,6 @@ import com.github.seaxlab.core.support.oss.dto.ObjectQueryDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectSignUrlDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectUploadDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectUrlDTO;
-import com.github.seaxlab.core.support.oss.dto.OssConfig;
 import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
@@ -23,7 +22,6 @@ import com.github.seaxlab.core.util.PathUtil;
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Configuration;
-import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.FileInfo;
 import com.qiniu.storage.model.FileListing;
@@ -54,21 +52,16 @@ import okhttp3.ResponseBody;
 @Slf4j
 public class QiNiuOssManager extends AbstractOssManager {
 
-  private Auth auth;
-  private Configuration cfg;
+  private final Auth auth;
+  private final Configuration cfg;
 
   private static final String DEFAULT_REGION = "z0";
 
-  @Override
-  public void _init(OssConfig config) {
-    auth = Auth.create(config.getAccessKey(), config.getSecretKey());
-    //注意这里是华东地区
-    cfg = new Configuration(Region.region0());
+  public QiNiuOssManager(Auth auth, Configuration cfg) {
+    this.auth = auth;
+    this.cfg = cfg;
   }
 
-  @Override
-  public void _destroy() {
-  }
 
   @Override
   public String getType() {

@@ -5,7 +5,6 @@ import com.github.seaxlab.core.support.oss.dto.BucketCreateDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectQueryDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectSignUrlDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectUploadDTO;
-import com.github.seaxlab.core.support.oss.dto.OssConfig;
 import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
@@ -39,8 +38,11 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * module name https://support.huaweicloud.com/sdk-java-devg-obs/obs_21_0404.html
- * https://github.com/huaweicloud/huaweicloud-sdk-java-obs/tree/master/app/src/test/java/samples_java
+ * huawei cloud oss
+ * <p>
+ * https://support.huaweicloud.com/sdk-java-devg-obs/obs_21_0404.html <br/>
+ * https://github.com/huaweicloud/huaweicloud-sdk-java-obs/tree/master/app/src/test/java/samples_java <br/>
+ * </p>
  *
  * @author spy
  * @version 1.0 2021/12/13
@@ -49,23 +51,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HuaWeiCloudOssManager extends AbstractOssManager {
 
-  private ObsClient client;
+  private final ObsClient client;
 
-  @Override
-  public void _init(OssConfig config) {
-    client = new ObsClient(config.getAccessKey(), config.getSecretKey(), config.getEndpoint());
-  }
-
-  @Override
-  public void _destroy() {
-    if (client != null) {
-      try {
-        client.close();
-      } catch (Exception e) {
-        log.error("fail to close obs client", e);
-        throw new RuntimeException(e);
-      }
-    }
+  public HuaWeiCloudOssManager(ObsClient client) {
+    this.client = client;
   }
 
   @Override

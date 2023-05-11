@@ -2,8 +2,6 @@ package com.github.seaxlab.core.support.oss.manager.impl;
 
 import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.common.auth.CredentialsProvider;
-import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.model.Bucket;
 import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.CreateBucketRequest;
@@ -22,7 +20,6 @@ import com.github.seaxlab.core.support.oss.dto.BucketCreateDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectQueryDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectSignUrlDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectUploadDTO;
-import com.github.seaxlab.core.support.oss.dto.OssConfig;
 import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
@@ -57,26 +54,12 @@ import org.apache.commons.lang3.time.DateUtils;
 @Slf4j
 public class AliyunOssManager extends AbstractOssManager {
 
-  private OSSClient client;
+  private final OSSClient client;
 
-  @Override
-  public void _init(OssConfig config) {
-    CredentialsProvider credentialsProvider = new DefaultCredentialProvider(config.getAccessKey(),
-      config.getSecretKey());
-    client = new OSSClient(config.getEndpoint(), credentialsProvider, null);
+  public AliyunOssManager(OSSClient client) {
+    this.client = client;
   }
 
-  @Override
-  public void _destroy() {
-    try {
-      if (client != null) {
-        client.shutdown();
-      }
-      client = null;
-    } catch (Exception e) {
-      log.error("fail to destroy oss client", e);
-    }
-  }
 
   @Override
   public String getType() {

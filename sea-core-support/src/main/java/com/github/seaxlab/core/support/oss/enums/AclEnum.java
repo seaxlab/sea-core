@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.support.oss.enums;
 
 /**
- * module name
+ * access level
  *
  * @author spy
  * @version 1.0 2021/12/17

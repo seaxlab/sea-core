@@ -7,7 +7,6 @@ import com.github.seaxlab.core.support.oss.dto.ObjectQueryDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectSignUrlDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectUploadDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectUrlDTO;
-import com.github.seaxlab.core.support.oss.dto.OssConfig;
 import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
@@ -29,27 +28,6 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Slf4j
 public abstract class AbstractOssManager implements OssManager {
-
-  protected OssConfig ossConfig;
-
-  @Override
-  public void init(OssConfig config) {
-    Precondition.checkNotNull(config);
-    Precondition.checkNotEmpty(config.getEndpoint(), "Endpoint cannot be empty");
-    Precondition.checkNotEmpty(config.getAccessKey(), "AccessKey cannot be empty");
-    Precondition.checkNotEmpty(config.getSecretKey(), "SecretKey cannot be empty");
-    log.info("init {} oss manager, config={}", getType(), config);
-
-    this.ossConfig = config;
-    _init(config);
-    log.info("init {} oss manager successfully", getType());
-  }
-
-  @Override
-  public void destroy() {
-    log.info("destroy {} oss manager", getType());
-    _destroy();
-  }
 
   @Override
   public String getType() {
@@ -223,12 +201,6 @@ public abstract class AbstractOssManager implements OssManager {
 
 
   // ------------- simple overwrite
-  public void _init(OssConfig config) {
-  }
-
-  public void _destroy() {
-  }
-
   public boolean _checkBucketExist(String bucket) {
     return false;
   }
@@ -267,12 +239,12 @@ public abstract class AbstractOssManager implements OssManager {
   }
 
   public String _getObjUrl(ObjectUrlDTO dto) {
-    String url = "";
+    String url;
     if (dto.isCustomDomainFlag()) {
-      url = ossConfig.getEndpoint() + "/" + dto.getKey();
+      url = dto.getEndpoint() + "/" + dto.getKey();
     } else {
       // default url format: http://bucket.xx.com/key
-      String bucketUrl = StringUtils.replace(ossConfig.getEndpoint(), "://", "://" + dto.getBucket() + ".");
+      String bucketUrl = StringUtils.replace(dto.getEndpoint(), "://", "://" + dto.getBucket() + ".");
       url = bucketUrl + "/" + dto.getKey();
     }
 

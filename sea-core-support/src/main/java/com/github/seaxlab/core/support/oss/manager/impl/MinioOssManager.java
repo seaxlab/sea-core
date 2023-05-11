@@ -4,7 +4,6 @@ import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.support.oss.dto.BucketCreateDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectSignUrlDTO;
-import com.github.seaxlab.core.support.oss.dto.OssConfig;
 import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.enums.HttpMethodEnum;
@@ -44,6 +43,10 @@ public class MinioOssManager extends AbstractOssManager {
 
   private MinioClient client;
 
+  public MinioOssManager(MinioClient client) {
+    this.client = client;
+  }
+
   /**
    * 桶占位符
    */
@@ -72,17 +75,6 @@ public class MinioOssManager extends AbstractOssManager {
       + BUCKET_PARAM
       + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:DeleteObject\",\"s3:GetObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\",\"s3:AbortMultipartUpload\"],\"Resource\":[\"arn:aws:s3:::"
       + BUCKET_PARAM + "/*\"]}]}";
-
-  @Override
-  public void _init(OssConfig config) {
-    client = MinioClient.builder().endpoint(config.getEndpoint())
-      .credentials(config.getAccessKey(), config.getSecretKey()).build();
-  }
-
-  @Override
-  public void _destroy() {
-    client = null;
-  }
 
   @Override
   public String getType() {

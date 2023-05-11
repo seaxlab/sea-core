@@ -5,7 +5,6 @@ import com.github.seaxlab.core.support.oss.dto.ObjectQueryDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectSignUrlDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectUploadDTO;
 import com.github.seaxlab.core.support.oss.dto.ObjectUrlDTO;
-import com.github.seaxlab.core.support.oss.dto.OssConfig;
 import com.github.seaxlab.core.support.oss.dto.response.BucketRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectRespDTO;
@@ -14,7 +13,7 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * module name
+ * oss manager
  *
  * @author spy
  * @version 1.0 2021/5/16
@@ -23,24 +22,9 @@ import java.util.List;
 public interface OssManager {
 
   /**
-   * init
+   * get current oss type
    *
-   * @param config
-   * @return
-   */
-  void init(OssConfig config);
-
-  /**
-   * destroy
-   *
-   * @return
-   */
-  void destroy();
-
-  /**
-   * return current oss type
-   *
-   * @return
+   * @return oss type
    */
   String getType();
 
@@ -48,7 +32,7 @@ public interface OssManager {
    * 校验bucket是否存在
    *
    * @param bucket
-   * @return
+   * @return boolean
    */
   boolean checkBucketExist(String bucket);
 
@@ -56,7 +40,6 @@ public interface OssManager {
    * 创建bucket，默认是私有的
    *
    * @param bucket
-   * @return
    */
   void createBucket(String bucket);
 
@@ -65,7 +48,6 @@ public interface OssManager {
    * create bucket
    *
    * @param dto
-   * @return
    */
   void createBucket(BucketCreateDTO dto);
 
@@ -73,7 +55,6 @@ public interface OssManager {
    * 删除bucket
    *
    * @param bucket
-   * @return
    */
   void deleteBucket(String bucket);
 
@@ -89,7 +70,7 @@ public interface OssManager {
    *
    * @param bucket
    * @param key
-   * @return
+   * @return boolean
    */
   boolean checkObjExist(String bucket, String key);
 
@@ -99,7 +80,7 @@ public interface OssManager {
    * @param bucket
    * @param key
    * @param filePath
-   * @return
+   * @return ObjectPutRespDTO
    */
   ObjectPutRespDTO uploadObj(String bucket, String key, String filePath);
 
@@ -109,7 +90,7 @@ public interface OssManager {
    * @param bucket
    * @param key
    * @param file
-   * @return
+   * @return ObjectPutRespDTO
    */
   ObjectPutRespDTO uploadObj(String bucket, String key, File file);
 
@@ -119,7 +100,7 @@ public interface OssManager {
    * @param bucket
    * @param key
    * @param inputStream
-   * @return
+   * @return ObjectPutRespDTO
    */
   ObjectPutRespDTO uploadObj(String bucket, String key, InputStream inputStream);
 
@@ -130,7 +111,7 @@ public interface OssManager {
    * </p>
    *
    * @param dto
-   * @return
+   * @return ObjectPutRespDTO
    */
   ObjectPutRespDTO uploadObj(ObjectUploadDTO dto);
 
@@ -166,7 +147,6 @@ public interface OssManager {
    * @param bucket
    * @param key
    * @param filePath 文件路径
-   * @return
    */
   void downloadObj(String bucket, String key, String filePath);
 
@@ -175,7 +155,6 @@ public interface OssManager {
    *
    * @param bucket
    * @param key
-   * @return
    */
   void deleteObj(String bucket, String key);
 

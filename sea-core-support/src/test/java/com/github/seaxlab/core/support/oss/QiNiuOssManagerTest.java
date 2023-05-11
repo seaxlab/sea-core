@@ -2,10 +2,12 @@ package com.github.seaxlab.core.support.oss;
 
 import com.github.seaxlab.core.support.oss.dto.ObjectUrlDTO;
 import com.github.seaxlab.core.support.oss.dto.response.ObjectPutRespDTO;
-import com.github.seaxlab.core.support.oss.enums.OssTypeEnum;
+import com.github.seaxlab.core.support.oss.manager.impl.QiNiuOssManager;
 import com.github.seaxlab.core.util.PathUtil;
+import com.qiniu.storage.Configuration;
+import com.qiniu.storage.Region;
+import com.qiniu.util.Auth;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,9 +27,12 @@ public class QiNiuOssManagerTest extends BaseOssManagerTest {
     //ENDPOINT = "http://r41l33vb4.hn-bkt.clouddn.com"; // for private test
     ACCESS_KEY = "4B6wjMVbaIrR5t5vGXaB1mB7NfGWWk_LrSUqMPaQ";
     SECRET_KEY = "WaK_ECcqIC_yy_lS4KT2_2ryGINo-U9vFhG7eLaq";
-    OSS_TYPE = OssTypeEnum.QINIU_CLOUD;
 
-    super.before();
+    Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
+    //注意这里是华东地区
+    Configuration cfg = new Configuration(Region.region0());
+    //
+    ossManager = new QiNiuOssManager(auth, cfg);
   }
 
   // test biz
@@ -67,9 +72,4 @@ public class QiNiuOssManagerTest extends BaseOssManagerTest {
 
   }
 
-
-  @After
-  public void after() {
-    ossManager.destroy();
-  }
 }
