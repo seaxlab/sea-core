@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * module name
+ * Long util
  *
  * @author spy
  * @version 1.0 2020/3/10

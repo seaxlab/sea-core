@@ -16,8 +16,8 @@ public final class CronExpressionUtil {
   /**
    * check recon is valid.
    *
-   * @param cronStr
-   * @return
+   * @param cronStr cron expression
+   * @return boolean
    */
   public static boolean isValid(String cronStr) {
     return CronExpression.isValidExpression(cronStr);

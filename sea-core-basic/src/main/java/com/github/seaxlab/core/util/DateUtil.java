@@ -5,10 +5,6 @@ import com.github.seaxlab.core.enums.RangeModeEnum;
 import com.github.seaxlab.core.enums.WeekEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
-import org.apache.commons.lang3.time.DateUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,6 +17,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Date util
@@ -84,6 +83,15 @@ public final class DateUtil {
     return toDate(localDateTime);
   }
 
+  /**
+   * create date
+   *
+   * @param milliseconds
+   * @return Date
+   */
+  public static Date toDate(long milliseconds) {
+    return new Date(milliseconds);
+  }
 
   /**
    * convert LocalDateTime to Date
@@ -804,9 +812,9 @@ public final class DateUtil {
       }
       case HOURS: {
         LocalDateTime l1 = beginDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withMinute(0)
-                                    .withSecond(0);
+          .withSecond(0);
         LocalDateTime l2 = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withMinute(0)
-                                  .withSecond(0);
+          .withSecond(0);
         return ChronoUnit.HOURS.between(l1, l2);
       }
       case DAYS: {
@@ -1417,7 +1425,7 @@ public final class DateUtil {
    * @return boolean
    */
   public static boolean hasIntersection(Date targetBeginDate, Date targetEndDate, Date totalBeginDate,
-                                        Date totalEndDate) {
+    Date totalEndDate) {
     Precondition.checkNotNull(targetBeginDate, "target begin date cannot be null");
     Precondition.checkNotNull(targetEndDate, "target end date cannot be null");
     Precondition.checkNotNull(totalBeginDate, "total begin date cannot be null");
@@ -1704,7 +1712,7 @@ public final class DateUtil {
    * @param millisecond
    */
   private static void set(final Calendar calendar, final int hour, final int minute, final int second,
-                          final int millisecond) {
+    final int millisecond) {
     calendar.set(Calendar.HOUR_OF_DAY, hour);
     calendar.set(Calendar.MINUTE, minute);
     calendar.set(Calendar.SECOND, second);

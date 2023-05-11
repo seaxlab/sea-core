@@ -1,23 +1,32 @@
 package com.github.seaxlab.core.util;
 
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MICROSECONDS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.enums.RangeModeEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.model.Tuple2;
-import lombok.extern.slf4j.Slf4j;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
-import static java.util.concurrent.TimeUnit.*;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 时间工具类
@@ -369,6 +378,7 @@ public final class TimeUtil {
         newTime = time.plusSeconds(delta);
         break;
       default:
+        log.warn("unsupported timeUnit={}", timeUnit);
         throw new UnsupportedOperationException();
     }
 
