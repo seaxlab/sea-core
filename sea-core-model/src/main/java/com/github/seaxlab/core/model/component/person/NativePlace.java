@@ -20,8 +20,8 @@ public class NativePlace implements Serializable {
   private String cityCode;
   private String cityName;
   //区/县
-  private String countyCode;
-  private String countyName;
+  private String countryCode;
+  private String countryName;
   //
   private String address;
 }

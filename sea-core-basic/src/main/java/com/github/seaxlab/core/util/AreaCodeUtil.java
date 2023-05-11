@@ -22,30 +22,31 @@ public class AreaCodeUtil {
   public static NativePlace getNativePlace(int nativePlaceCode) {
     NativePlace region = new NativePlace();
 
-    int shengCode = nativePlaceCode / 10000;
-    int shiCode = nativePlaceCode / 100;
-    int quxianCode = nativePlaceCode;
-    String sheng = getNameString(shengCode);
-    String shi = getNameString(shiCode);
-    String quxian = getNameString(quxianCode);
+    int provinceCode = nativePlaceCode / 10000;
+    int cityCode = nativePlaceCode / 100;
+    int countryCode = nativePlaceCode;
+    //
+    String provinceName = getNameString(provinceCode);
+    String cityName = getNameString(cityCode);
+    String countryName = getNameString(countryCode);
 
     String nativePlace = "";
-    if (sheng != null) {
-      nativePlace += sheng;
+    if (provinceName != null) {
+      nativePlace += provinceName;
     }
-    if (shi != null) {
-      nativePlace += shi;
+    if (cityName != null) {
+      nativePlace += cityName;
     }
-    if (quxian != null) {
-      nativePlace += quxian;
+    if (countryName != null) {
+      nativePlace += countryName;
     }
 
-    region.setProvinceCode("" + shengCode);
-    region.setProvinceName(sheng);
-    region.setCityCode("" + shiCode);
-    region.setCityName(shi);
-    region.setCountyCode("" + quxianCode);
-    region.setCountyName(quxian);
+    region.setProvinceCode("" + provinceCode);
+    region.setProvinceName(provinceName);
+    region.setCityCode("" + cityCode);
+    region.setCityName(cityName);
+    region.setCountryCode("" + countryCode);
+    region.setCountryName(countryName);
     region.setAddress(nativePlace);
     return region;
   }
