@@ -18,41 +18,41 @@ import org.apache.commons.lang3.StringUtils;
 @Slf4j
 public final class SofaTracerUtil {
 
-    private SofaTracerUtil() {
-    }
+  private SofaTracerUtil() {
+  }
 
-    public static String getTraceId() {
-        try {
-            return SofaTraceContextHolder.getSofaTraceContext()//
-                .getCurrentSpan()//
-                .getSofaTracerSpanContext()//
-                .getTraceId();
-        } catch (Exception e) {
-            log.warn("fail to get sofa tracer id.");
-        }
-        return "N/A1";
+  public static String getTraceId() {
+    try {
+      return SofaTraceContextHolder.getSofaTraceContext()//
+        .getCurrentSpan()//
+        .getSofaTracerSpanContext()//
+        .getTraceId();
+    } catch (Exception e) {
+      log.warn("fail to get sofa tracer id.");
     }
+    return "N/A1";
+  }
 
-    /**
-     * put tag
-     *
-     * @param key
-     * @param value
-     */
-    public static void putTag(String key, String value) {
-        try {
-            SofaTraceContext sofaTraceContext = SofaTraceContextHolder.getSofaTraceContext();
-            if (sofaTraceContext == null) {
-                return;
-            }
-            SofaTracerSpan sofaTracerSpan = sofaTraceContext.getCurrentSpan();
-            if (sofaTracerSpan == null) {
-                return;
-            }
-            sofaTracerSpan.setTag(key, StringUtils.defaultString(value, EMPTY));
+  /**
+   * put tag
+   *
+   * @param key
+   * @param value
+   */
+  public static void putTag(String key, String value) {
+    try {
+      SofaTraceContext sofaTraceContext = SofaTraceContextHolder.getSofaTraceContext();
+      if (sofaTraceContext == null) {
+        return;
+      }
+      SofaTracerSpan sofaTracerSpan = sofaTraceContext.getCurrentSpan();
+      if (sofaTracerSpan == null) {
+        return;
+      }
+      sofaTracerSpan.setTag(key, StringUtils.defaultString(value, EMPTY));
 
-        } catch (Exception e) {
-            log.error("fail to put tracer tag", e);
-        }
+    } catch (Exception e) {
+      log.error("fail to put tracer tag", e);
     }
+  }
 }

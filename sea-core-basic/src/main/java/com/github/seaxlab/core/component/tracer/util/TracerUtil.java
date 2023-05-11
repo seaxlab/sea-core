@@ -18,28 +18,29 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TracerUtil {
 
-    private TracerUtil() {
+  private TracerUtil() {
+  }
+
+  /**
+   * get trace id
+   *
+   * @return string
+   */
+  public static String getTraceId() {
+    String mode = ConfigurationFactory.getInstance().getString(ConfigKeyEnum.TRACE_PROVIDER.getCode(), "none");
+
+    if (EqualUtil.isEq(mode, TracerProviderEnum.SKYWALKING.getCode(), false)) {
+      return SkyWalkingUtil.getTraceId();
     }
-
-    /**
-     * get trace id
-     *
-     * @return
-     */
-    public static String getTraceId() {
-        String mode = ConfigurationFactory.getInstance().getString(ConfigKeyEnum.TRACE_PROVIDER.getCode(), "none");
-
-        if (EqualUtil.isEq(mode, TracerProviderEnum.SKYWALKING.getCode(), false)) {
-            return SkyWalkingUtil.getTraceId();
-        }
-        if (EqualUtil.isEq(mode, TracerProviderEnum.SOFA.getCode(), false)) {
-            return SofaTracerUtil.getTraceId();
-        }
-
-        return "NONE";
+    if (EqualUtil.isEq(mode, TracerProviderEnum.SOFA.getCode(), false)) {
+      return SofaTracerUtil.getTraceId();
     }
+    log.warn("tracer provider enum is not config!");
+    //
+    return "NONE";
+  }
 
-    //----------------------------------------
+  //----------------------------------------
 
 
 }

@@ -1,4 +1,3 @@
-/src/main/resources/rebel.xml
 /.idea
 /target
 ~/log/
@@ -54,6 +53,10 @@ nohup.out
 disconf/
 disconf/download
 deps_tree.log
+
+# jrebel
+src/main/resources/rebel.xml
 **/rebel.xml
 **/.rebel.xml.bak
+#
 *.jfr

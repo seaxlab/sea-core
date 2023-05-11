@@ -13,16 +13,16 @@ import org.apache.skywalking.apm.toolkit.trace.TraceContext;
 @Slf4j
 public class SkyWalkingUtil {
 
-    private SkyWalkingUtil() {
-    }
+  private SkyWalkingUtil() {
+  }
 
-    public static String getTraceId() {
-        try {
-            return TraceContext.traceId();
-        } catch (Exception e) {
-
-        }
-        return "N/A2";
+  public static String getTraceId() {
+    try {
+      return TraceContext.traceId();
+    } catch (Exception e) {
+      log.warn("fail to get skywalking traceId");
     }
+    return "N/A2";
+  }
 
 }

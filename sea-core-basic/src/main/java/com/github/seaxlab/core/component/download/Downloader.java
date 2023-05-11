@@ -4,7 +4,7 @@ import com.github.seaxlab.core.component.download.dto.DownloaderReqDTO;
 import com.github.seaxlab.core.component.download.dto.response.DownloaderRespDTO;
 
 /**
- * module name
+ * downloader
  *
  * @author spy
  * @version 1.0 2021/2/25

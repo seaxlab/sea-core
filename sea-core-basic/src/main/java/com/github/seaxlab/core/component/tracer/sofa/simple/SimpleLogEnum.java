@@ -9,28 +9,28 @@ package com.github.seaxlab.core.component.tracer.sofa.simple;
  */
 public enum SimpleLogEnum {
 
-    DIGEST("simple_digest_log_name", "simple-digest.log", "simple_digest_rolling"),
-    STAT("simple_stat_log_name", "simple-stat.log", "simple_stat_rolling");
+  DIGEST("simple_digest_log_name", "simple-digest.log", "simple_digest_rolling"),
+  STAT("simple_stat_log_name", "simple-stat.log", "simple_stat_rolling");
 
-    private String logNameKey;
-    private String defaultLogName;
-    private String rollingKey;
+  private String logNameKey;
+  private String defaultLogName;
+  private String rollingKey;
 
-    SimpleLogEnum(String logNameKey, String defaultLogName, String rollingKey) {
-        this.logNameKey = logNameKey;
-        this.defaultLogName = defaultLogName;
-        this.rollingKey = rollingKey;
-    }
+  SimpleLogEnum(String logNameKey, String defaultLogName, String rollingKey) {
+    this.logNameKey = logNameKey;
+    this.defaultLogName = defaultLogName;
+    this.rollingKey = rollingKey;
+  }
 
-    public String getLogNameKey() {
-        return logNameKey;
-    }
+  public String getLogNameKey() {
+    return logNameKey;
+  }
 
-    public String getDefaultLogName() {
-        return defaultLogName;
-    }
+  public String getDefaultLogName() {
+    return defaultLogName;
+  }
 
-    public String getRollingKey() {
-        return rollingKey;
-    }
+  public String getRollingKey() {
+    return rollingKey;
+  }
 }
