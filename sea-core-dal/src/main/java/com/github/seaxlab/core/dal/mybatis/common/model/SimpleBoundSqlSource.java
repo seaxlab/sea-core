@@ -4,7 +4,7 @@ import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.SqlSource;
 
 /**
- * module name
+ * simple bound sql source
  *
  * @author spy
  * @version 1.0 2021/4/15
@@ -12,7 +12,7 @@ import org.apache.ibatis.mapping.SqlSource;
  */
 public class SimpleBoundSqlSource implements SqlSource {
 
-  private BoundSql boundSql;
+  private final BoundSql boundSql;
 
   public SimpleBoundSqlSource(BoundSql boundSql) {
     this.boundSql = boundSql;

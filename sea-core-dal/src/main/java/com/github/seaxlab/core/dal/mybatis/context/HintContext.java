@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.dal.context;
+package com.github.seaxlab.core.dal.mybatis.context;
 
 import com.github.seaxlab.core.dal.common.DalConst;
 import com.github.seaxlab.core.thread.ThreadContext;
