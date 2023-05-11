@@ -25,23 +25,10 @@ public final class ExceptionHandler {
   public static final String OLD_CODE = "OLD_";
 
 
-  /**
-   * publish BaseAppException from IErrorException
-   *
-   * @param exception IErrorException
-   * @return
-   */
   public static BaseAppException publish(IErrorEnum exception) {
     throw new BaseAppException(exception);
   }
 
-  /**
-   * publish BaseAppException from IErrorException
-   *
-   * @param exception IErrorException
-   * @param args      arguments
-   * @return
-   */
   public static BaseAppException publish(IErrorEnum exception, Object... args) {
     throw new BaseAppException(exception, args);
   }
@@ -49,7 +36,6 @@ public final class ExceptionHandler {
   public static BaseAppException publish(String code, String msg) throws BaseAppException {
     return publish(code, msg, null);
   }
-
 
   public static BaseAppException publishMsg(String msg) throws BaseAppException {
     return publish(NO_ERROR_CODE, msg, null);
@@ -67,7 +53,7 @@ public final class ExceptionHandler {
    * @param msg  消息
    * @param t    Throwable
    * @return BaseAppException
-   * @throws BaseAppException
+   * @throws BaseAppException base app exception
    */
   public static BaseAppException publish(String code, String msg, Throwable t) throws BaseAppException {
 

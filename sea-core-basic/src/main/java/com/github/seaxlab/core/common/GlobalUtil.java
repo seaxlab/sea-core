@@ -5,7 +5,7 @@ import com.github.seaxlab.core.exception.ExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * global util
+ * global util for project customized
  *
  * @author spy
  * @version 1.0 2023/04/20
