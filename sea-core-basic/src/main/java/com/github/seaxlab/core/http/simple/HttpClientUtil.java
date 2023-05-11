@@ -8,10 +8,33 @@ import com.github.seaxlab.core.http.dto.response.HttpUploadRespDTO;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.JSONUtil;
 import com.github.seaxlab.core.util.StringUtil;
-import org.apache.http.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.*;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpHead;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -28,29 +51,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * Http client util
  */
+@Slf4j
 public class HttpClientUtil {
 
-  private static Logger log = LoggerFactory.getLogger(HttpClientUtil.class);
 
   public static CloseableHttpClient httpClient = null;
 
@@ -72,7 +79,7 @@ public class HttpClientUtil {
   public static int managerMaxTotal = 300;
 
   /**
-   * 3秒sokect无反应强制断开
+   * 3秒socket无反应强制断开
    */
   public static int socketTimeOut = 3000;
 
@@ -103,17 +110,20 @@ public class HttpClientUtil {
           }
         };
         ctx.init(null, new TrustManager[]{tm}, null);
-        SSLConnectionSocketFactory ssf = new SSLConnectionSocketFactory(ctx, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-        Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create().register("http", PlainConnectionSocketFactory.getSocketFactory()).register("https", ssf).build();
+        SSLConnectionSocketFactory ssf = new SSLConnectionSocketFactory(ctx,
+          SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+        Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()//
+          .register("http", PlainConnectionSocketFactory.getSocketFactory())//
+          .register("https", ssf) //
+          .build();
         //manager
         connectionManager = new PoolingHttpClientConnectionManager(registry);
         connectionManager.setMaxTotal(managerMaxTotal);
         //socketConfig
         SocketConfig socketConfig = SocketConfig.custom().setSoTimeout(socketTimeOut).build();
-        httpClient = HttpClients.custom()
-                                .setConnectionManager(connectionManager) //
-                                .setDefaultSocketConfig(socketConfig) //
-                                .build();
+        httpClient = HttpClients.custom().setConnectionManager(connectionManager) //
+          .setDefaultSocketConfig(socketConfig) //
+          .build();
       } catch (Exception ex) {
         log.error("httpClient——初始化——报错，错误信息", ex);
       }
@@ -127,7 +137,7 @@ public class HttpClientUtil {
   /**
    * get http client.
    *
-   * @return
+   * @return CloseableHttpClient
    */
   public static CloseableHttpClient getHttpClient() {
     init();
@@ -137,22 +147,21 @@ public class HttpClientUtil {
   /**
    * 发送post请求
    *
-   * @param url
-   * @param map
-   * @param charset
-   * @return
-   * @throws Exception
+   * @param url     url
+   * @param map     map
+   * @param charset charset
+   * @return string
    */
-  public static String post(String url, Map map, String charset) {
+  public static String post(String url, Map<String, Object> map, String charset) {
     init();//初始化检查
 
     HttpPost httpPost = new HttpPost(url);
 
     List<NameValuePair> list = new ArrayList<>();
-    Iterator iterator = map.entrySet().iterator();
+    Iterator<Entry<String, Object>> iterator = map.entrySet().iterator();
     while (iterator.hasNext()) {
-      Entry elem = (Entry) iterator.next();
-      list.add(new BasicNameValuePair(String.valueOf(elem.getKey()), String.valueOf(elem.getValue())));
+      Entry<String, Object> elem = iterator.next();
+      list.add(new BasicNameValuePair(elem.getKey(), String.valueOf(elem.getValue())));
     }
     String result = null;
 
@@ -162,7 +171,10 @@ public class HttpClientUtil {
         httpPost.setEntity(entity);
       }
       //requestConfig
-      RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout).setConnectTimeout(connectionTimeout).build();
+      RequestConfig requestConfig = RequestConfig.custom() //
+        .setConnectionRequestTimeout(connectionRequestTimeout) //
+        .setConnectTimeout(connectionTimeout) //
+        .build();
       httpPost.setConfig(requestConfig);
       try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
         result = getRespEntityStr(response);
@@ -177,12 +189,11 @@ public class HttpClientUtil {
   /**
    * 发送POST请求
    *
-   * @param url
-   * @param map
-   * @return
-   * @throws Exception
+   * @param url url
+   * @param map map
+   * @return String
    */
-  public static String post(String url, Map map) {
+  public static String post(String url, Map<String, Object> map) {
     return post(url, map, DEFAULT_CHARSET);
   }
 
@@ -190,9 +201,8 @@ public class HttpClientUtil {
   /**
    * 发送POST, application/json请求
    *
-   * @param url
-   * @return
-   * @throws Exception
+   * @param url url
+   * @return String
    */
   public static String postJSON(final String url) {
     return postJSON(url, null);
@@ -203,7 +213,7 @@ public class HttpClientUtil {
    *
    * @param url     remote url
    * @param payload payload.
-   * @return
+   * @return string
    */
   public static String postJSON(String url, Object payload) {
     return postJSON(url, payload, null);
@@ -215,8 +225,7 @@ public class HttpClientUtil {
    * @param url     remote url
    * @param payload payload
    * @param headers http headers
-   * @return
-   * @throws Exception
+   * @return string
    */
   public static String postJSON(String url, Object payload, Map<String, String> headers) {
     init();//初始化检查
@@ -225,7 +234,7 @@ public class HttpClientUtil {
     httpPost.addHeader("Content-Type", "application/json;charset=utf8");
 
     if (headers != null && !headers.isEmpty()) {
-      headers.forEach((key, value) -> httpPost.addHeader(key, value));
+      headers.forEach(httpPost::addHeader);
     }
 
     log.info("request url={}", url);
@@ -241,7 +250,8 @@ public class HttpClientUtil {
       httpPost.setEntity(entity);
     }
     //requestConfig
-    RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout).setConnectTimeout(connectionTimeout).build();
+    RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout)
+      .setConnectTimeout(connectionTimeout).build();
     httpPost.setConfig(requestConfig);
 
     String result = null;
@@ -257,12 +267,12 @@ public class HttpClientUtil {
   /**
    * post with no exception
    *
-   * @param url
-   * @param obj
-   * @return
+   * @param url url
+   * @param obj obj
+   * @return result
    */
-  public static Result postJSONSafe(String url, Object obj) {
-    Result result = Result.fail();
+  public static Result<String> postJSONSafe(String url, Object obj) {
+    Result<String> result = Result.fail();
 
     try {
       String response = postJSON(url, obj);
@@ -277,8 +287,8 @@ public class HttpClientUtil {
   }
 
 
-  public static Result getSafe(final String url, Map<String, Object> param) {
-    Result result = Result.fail();
+  public static Result<String> getSafe(final String url, Map<String, Object> param) {
+    Result<String> result = Result.fail();
 
     try {
       String content = get(url, param);
@@ -294,17 +304,17 @@ public class HttpClientUtil {
   /**
    * 发送GET请求
    *
-   * @param url
-   * @param param
-   * @return
+   * @param url   url
+   * @param param param
+   * @return string
    */
   public static String get(final String url, Map<String, Object> param) throws IOException {
 
     List<NameValuePair> list = new ArrayList<>();
-    Iterator iterator = param.entrySet().iterator();
+    Iterator<Entry<String, Object>> iterator = param.entrySet().iterator();
     while (iterator.hasNext()) {
-      Entry elem = (Entry) iterator.next();
-      list.add(new BasicNameValuePair(String.valueOf(elem.getKey()), String.valueOf(elem.getValue())));
+      Entry<String, Object> elem = iterator.next();
+      list.add(new BasicNameValuePair(elem.getKey(), String.valueOf(elem.getValue())));
     }
 
     String queryStr = URLEncodedUtils.format(list, DEFAULT_CHARSET);
@@ -314,8 +324,8 @@ public class HttpClientUtil {
     return get(finalUrl);
   }
 
-  public static Result getSafe(final String url) {
-    Result result = Result.fail();
+  public static Result<String> getSafe(final String url) {
+    Result<String> result = Result.fail();
 
     try {
       String content = get(url);
@@ -331,20 +341,19 @@ public class HttpClientUtil {
   /**
    * 发送GET请求
    *
-   * @param url
-   * @return
-   * @throws IOException
+   * @param url url
+   * @return string
    */
   public static String get(final String url) {
     log.info("http get method, url=[{}]", url);
     init();
 
-    RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout).setConnectTimeout(connectionTimeout).build();
+    RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout)
+      .setConnectTimeout(connectionTimeout).build();
 
     HttpGet request = new HttpGet(url);
     request.setConfig(requestConfig);
     request.setHeader("User-Agent", "Chrome/Sea");
-
 
     String result = null;
     try (CloseableHttpResponse response = httpClient.execute(request)) {
@@ -360,8 +369,8 @@ public class HttpClientUtil {
   /**
    * 获取远端文件大小
    *
-   * @param url
-   * @return
+   * @param url url
+   * @return long
    */
   public static long getContentLength(String url) {
     long contentLength = 0;
@@ -376,7 +385,7 @@ public class HttpClientUtil {
 
       Header header = response.getLastHeader(HttpHeaderConst.CONTENT_LENGTH);
 
-      contentLength = StringUtil.isEmpty(header.getValue()) ? 0 : Long.valueOf(header.getValue());
+      contentLength = StringUtil.isEmpty(header.getValue()) ? 0 : Long.parseLong(header.getValue());
     } catch (Exception e) {
       log.error("http exception.", e);
     }
@@ -387,8 +396,8 @@ public class HttpClientUtil {
   /**
    * upload file to remote server.
    *
-   * @param dto
-   * @return
+   * @param dto request
+   * @return result
    */
   public static Result<HttpUploadRespDTO> upload(HttpUploadDTO dto) {
     Result<HttpUploadRespDTO> result = Result.fail();
@@ -456,15 +465,14 @@ public class HttpClientUtil {
     return result;
   }
 
-
   //-------- private method -------
 
   /**
    * get response entity.
    *
-   * @param response
-   * @return
-   * @throws IOException
+   * @param response response
+   * @return string
+   * @throws IOException io exception
    */
   private static String getRespEntityStr(CloseableHttpResponse response) throws IOException {
     String result = "";
