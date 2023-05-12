@@ -44,12 +44,21 @@ public class RSAUtil {
    */
   public static final String RSA = "RSA";
 
+  public static final String SHA_256_WITH_RSA = "SHA256WithRSA";
+
   /**
    * 密钥大小
    */
   public static final int KEY_SIZE = 2048;
 
-  public static final String SHA_256_WITH_RSA = "SHA256WithRSA";
+  /**
+   * RSA2最大加密明文大小(2048/8-11=244)
+   */
+  private static final int MAX_ENCRYPT_BLOCK_SIZE = 244;
+  /**
+   * RSA2最大解密密文大小(2048/8=256)
+   */
+  private static final int MAX_DECRYPT_BLOCK_SIZE = 256;
 
 
   /**
@@ -230,7 +239,7 @@ public class RSAUtil {
    * @return 经过 base64 编码后的字符串
    */
   public static String encryptBySegment(String publicKeyBase64, String content) {
-    return encryptBySegment(publicKeyBase64, content, KEY_SIZE / 8 - 11);
+    return encryptBySegment(publicKeyBase64, content, MAX_ENCRYPT_BLOCK_SIZE);
   }
 
   /**
@@ -329,7 +338,7 @@ public class RSAUtil {
    * @segmentSize 分段大小
    */
   public static String decryptBySegment(String privateKeyBase64, String contentBase64) {
-    return decryptBySegment(privateKeyBase64, contentBase64, KEY_SIZE / 8);
+    return decryptBySegment(privateKeyBase64, contentBase64, MAX_DECRYPT_BLOCK_SIZE);
   }
 
   /**
