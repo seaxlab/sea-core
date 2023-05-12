@@ -1,9 +1,8 @@
 package com.github.seaxlab.core.security.util;
 
 import com.google.common.hash.Hashing;
-import lombok.extern.slf4j.Slf4j;
-
 import java.nio.charset.StandardCharsets;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * hash值，如果分成桶，数据分布是很均匀的，可以参考MurmurUtilTest
@@ -34,7 +33,7 @@ public final class MurmurUtil {
    * hash值，有正\负\0
    *
    * @param data 待加密数据
-   * @return
+   * @return hash
    */
   public static int hash3_32(String data) {
     return Hashing.murmur3_32().hashString(data, StandardCharsets.UTF_8).hashCode();
@@ -44,7 +43,7 @@ public final class MurmurUtil {
    * hash值，有正\负\0
    *
    * @param data 待加密数据
-   * @return
+   * @return hash
    */
   public static int hash3_128(String data) {
     return Hashing.murmur3_128().hashString(data, StandardCharsets.UTF_8).hashCode();
@@ -54,7 +53,7 @@ public final class MurmurUtil {
    * hash值，只有非负数
    *
    * @param data 待加密数据
-   * @return
+   * @return hash
    */
   public static int hash3_32_positive(String data) {
     return Math.abs(hash3_32(data));
@@ -64,7 +63,7 @@ public final class MurmurUtil {
    * hash值，只有非负数
    *
    * @param data 待加密数据
-   * @return
+   * @return hash
    */
   public static int hash3_128_positive(String data) {
     return Math.abs(hash3_128(data));

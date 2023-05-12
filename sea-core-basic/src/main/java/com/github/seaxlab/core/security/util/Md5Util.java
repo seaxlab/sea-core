@@ -19,8 +19,8 @@ public class Md5Util {
   /**
    * 获取MD5摘要
    *
-   * @param str
-   * @return
+   * @param str content
+   * @return sign
    */
   public static String getDigest(String str) {
     return DigestUtils.md5Hex(str);

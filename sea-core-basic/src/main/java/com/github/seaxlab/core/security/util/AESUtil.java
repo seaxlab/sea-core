@@ -1,16 +1,13 @@
 package com.github.seaxlab.core.security.util;
 
+import java.nio.charset.StandardCharsets;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
-
 /**
- * AES加密
- * 注意 加密key长度必须为16、24、32位
- * 注意：如要支持32位长度秘钥，需要JDK8u162以上版本
+ * AES加密 注意 加密key长度必须为16、24、32位 注意：如要支持32位长度秘钥，需要JDK8u162以上版本
  *
  * @author spy
  * @version 1.0 2019-07-22
@@ -62,7 +59,7 @@ public class AESUtil {
     try {
       Cipher cipher = Cipher.getInstance(DEFAULT_CIPHER_ALGORITHM);// 创建密码器
 
-      byte[] byteContent = content.getBytes("utf-8");
+      byte[] byteContent = content.getBytes(StandardCharsets.UTF_8);
 
       cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(secretKey));// 初始化为加密模式的密码器
 
@@ -95,14 +92,13 @@ public class AESUtil {
       //执行操作
       byte[] result = cipher.doFinal(Base64.decodeBase64(content));
 
-      return new String(result, "utf-8");
+      return new String(result, StandardCharsets.UTF_8);
     } catch (Exception ex) {
       log.error("decrypt error", ex);
     }
 
     return null;
   }
-
 
   // -------------private
 
@@ -113,13 +109,7 @@ public class AESUtil {
    */
   private static SecretKeySpec getSecretKey(final String secretKey) {
 
-    byte[] raw = new byte[0];
-    try {
-      raw = secretKey.getBytes("utf-8");
-    } catch (UnsupportedEncodingException e) {
-      log.error("fail to get secret key.", e);
-    }
-
+    byte[] raw = secretKey.getBytes(StandardCharsets.UTF_8);
     SecretKeySpec skeySpec = new SecretKeySpec(raw, KEY_ALGORITHM);
     return skeySpec;
   }

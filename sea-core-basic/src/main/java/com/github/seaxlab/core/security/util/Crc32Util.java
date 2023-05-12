@@ -1,12 +1,11 @@
 package com.github.seaxlab.core.security.util;
 
 import com.google.common.hash.Hashing;
+import java.nio.charset.StandardCharsets;
 import lombok.extern.slf4j.Slf4j;
 
-import java.nio.charset.StandardCharsets;
-
 /**
- * module name
+ * crc32util
  *
  * @author spy
  * @version 1.0 2021/3/5
@@ -18,10 +17,10 @@ public class Crc32Util {
   /**
    * hash crc32
    *
-   * @param data
-   * @return
+   * @param data data
+   * @return hash
    */
-  public static final int hash(String data) {
+  public static int hash(String data) {
     return Hashing.crc32().hashString(data, StandardCharsets.UTF_8).hashCode();
   }
 

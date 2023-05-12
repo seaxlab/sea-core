@@ -1,19 +1,10 @@
 package com.github.seaxlab.core.security;
 
 import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.model.Tuple2;
 import com.github.seaxlab.core.security.util.RSAUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
-
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * module name
@@ -26,86 +17,53 @@ import static org.junit.Assert.*;
 public class RSAUtilTest extends BaseCoreTest {
 
   @Test
-  public void testNormalRsa() {
-    final String givenString = "this is a test string";
+  public void test1024() throws Exception {
+    Tuple2<String, String> tuple = RSAUtil.generateKeyPair();
+    log.info("公钥：{}", tuple.getFirst());
+    log.info("私钥：{}", tuple.getSecond());
 
-    String encryptedString = RSAUtil.encryptString(givenString);
-    String decryptedString = RSAUtil.decryptString(encryptedString);
-
-    assertEquals(givenString, decryptedString);
+    String content = "hi,马克！----------------------------adfadfa-asdfasdf";
+    test1(tuple.getFirst(), tuple.getSecond(), content);
+    System.out.println("\n");
+    test2(tuple.getFirst(), tuple.getSecond(), content);
+    System.out.println("\n");
   }
 
-  private static KeyPair generateRandomRsaKeyPair() {
-    try {
-      KeyPairGenerator generator = KeyPairGenerator.getInstance(RSAUtil.ALGORITHM);
-      generator.initialize(RSAUtil.KEY_SIZE);
-      return generator.generateKeyPair();
-    } catch (NoSuchAlgorithmException e) {
-      throw new IllegalStateException(e);
+  @Test
+  public void test2048() throws Exception {
+    Tuple2<String, String> tuple = RSAUtil.generateKeyPair(2048);
+    log.info("公钥：{}", tuple.getFirst());
+    log.info("私钥：{}", tuple.getSecond());
+
+    String content = "hi,马克！----------------------------adfadfa-asdfasdf";
+    test1(tuple.getFirst(), tuple.getSecond(), content);
+    System.out.println("\n");
+    test2(tuple.getFirst(), tuple.getSecond(), content);
+    System.out.println("\n");
+  }
+
+  private static void test1(String publicKey, String privateKey, String source) throws Exception {
+    System.out.println("***************** 公钥加密私钥解密开始 *****************");
+    String text1 = RSAUtil.encrypt(publicKey, source);
+    String text2 = RSAUtil.decrypt(privateKey, text1);
+    System.out.println("加密前：" + source);
+    System.out.println("加密后：" + text1);
+    System.out.println("解密后：" + text2);
+    if (source.equals(text2)) {
+      System.out.println("解密字符串和原始字符串一致，解密成功");
+    } else {
+      System.out.println("解密字符串和原始字符串不一致，解密失败");
     }
+    System.out.println("***************** 公钥加密私钥解密结束 *****************");
   }
 
-  @Test
-  public void testRsaWithGivenByteModulusAndByteExponent() {
-    final KeyPair keyPair = generateRandomRsaKeyPair();
-    final RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-    final RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-    // 生成一组密钥对的模数和指数
-    final byte[] publicKeyModulus = publicKey.getModulus().toByteArray();
-    final byte[] publicKeyExponent = publicKey.getPublicExponent().toByteArray();
-    final byte[] privateKeyModulus = privateKey.getModulus().toByteArray();
-    final byte[] privateKeyExponent = privateKey.getPrivateExponent().toByteArray();
-    final String givenString = "the string to test";
-
-    // 重新生成一组密钥对
-    RSAPublicKey genPublicKey = RSAUtil.generateRSAPublicKey(publicKeyModulus, publicKeyExponent);
-    RSAPrivateKey genPrivateKey = RSAUtil.generateRSAPrivateKey(privateKeyModulus, privateKeyExponent);
-
-    // 根据指定密钥对生成的内容进行加解密验证
-    String encryptString = RSAUtil.encryptString(genPublicKey, givenString);
-    assertEquals(givenString, RSAUtil.decryptString(genPrivateKey, encryptString));
-
-    // 验证生成的公钥加密的内容是否可以使用原有私钥解密
-    assertEquals(givenString, RSAUtil.decryptString(privateKey, encryptString));
+  private static void test2(String publicKey, String privateKey, String source) throws Exception {
+    System.out.println("***************** 私钥加签，公钥验证 *****************");
+    String sign = RSAUtil.generateSign(privateKey, source);
+    boolean verifyFlag = RSAUtil.verifySign(publicKey, source, sign);
+    log.info("sign={}", sign);
+    log.info("verifyFlag={}", verifyFlag);
   }
 
-  @Test
-  public void testRsaWithGivenHexModulusAndHexExponent() {
-    final KeyPair keyPair = generateRandomRsaKeyPair();
-    final RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-    final RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-    // 生成一组密钥对的模数和指数
-    final String publicKeyModulus = new String(Hex.encodeHex(publicKey.getModulus().toByteArray()));
-    final String publicKeyExponent = new String(Hex.encodeHex(publicKey.getPublicExponent().toByteArray()));
-    final String privateKeyModulus = new String(Hex.encodeHex(privateKey.getModulus().toByteArray()));
-    final String privateKeyExponent = new String(Hex.encodeHex(privateKey.getPrivateExponent().toByteArray()));
-    final String givenString = "the string to test";
 
-    // 重新生成一组密钥对
-    RSAPublicKey genPublicKey = RSAUtil.getRSAPublicKey(publicKeyModulus, publicKeyExponent);
-    RSAPrivateKey genPrivateKey = RSAUtil.getRSAPrivateKey(privateKeyModulus, privateKeyExponent);
-
-    // 根据指定密钥对生成的内容进行加解密验证
-    String encryptString = RSAUtil.encryptString(genPublicKey, givenString);
-    assertEquals(givenString, RSAUtil.decryptString(genPrivateKey, encryptString));
-
-    // 验证生成的公钥加密的内容是否可以使用原有私钥解密
-    assertEquals(givenString, RSAUtil.decryptString(privateKey, encryptString));
-  }
-
-  @Test
-  public void testPublicKeyExportInfo() {
-    Map<String, String> publicKeyInfo = RSAUtil.publicKeyInfo();
-    Map<String, String> defaultPublicKeyInfo = RSAUtil.publicKeyInfo(RSAUtil.getDefaultPublicKey());
-    assertEquals(publicKeyInfo, defaultPublicKeyInfo);
-
-    try {
-      publicKeyInfo.put("any key", "any value");
-      fail("publicKey must be a immutable map");
-    } catch (UnsupportedOperationException ignore) {
-    }
-
-    assertNotNull(publicKeyInfo.get(RSAUtil.MODULUS_NAME));
-    assertNotNull(publicKeyInfo.get(RSAUtil.EXPONENT_NAME));
-  }
 }
