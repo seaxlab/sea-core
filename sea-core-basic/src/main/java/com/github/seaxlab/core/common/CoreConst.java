@@ -130,6 +130,7 @@ public class CoreConst {
   public static final int PAGE_SIZE_500 = 500;
   public static final int PAGE_SIZE_1000 = 1000;
   public static final int PAGE_SIZE_2000 = 2000;
+  public static final int PAGE_SIZE_5000 = 5000;
 
   /**
    * 当前程序运行模式, 不要使用sea.dev.mode,太长了
