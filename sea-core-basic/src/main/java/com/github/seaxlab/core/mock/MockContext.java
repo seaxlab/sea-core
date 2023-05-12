@@ -9,9 +9,8 @@ import com.github.seaxlab.core.util.EqualUtil;
 import com.github.seaxlab.core.util.SetUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * mock context.
@@ -26,7 +25,7 @@ public class MockContext {
   /**
    * get raw data.
    *
-   * @return
+   * @return raw string
    */
   public static String getRaw() {
     return ThreadContext.getSafe(CoreConst.DEFAULT_MOCK_KEY);
@@ -35,18 +34,18 @@ public class MockContext {
   /**
    * get mock data
    *
-   * @return
+   * @return data
    */
-  public static final String getData() {
+  public static String getData() {
     return StringUtil.defaultIfBlank(getRaw(), StringUtil.EMPTY);
   }
 
   /**
    * convert mock data to json.
    *
-   * @return
+   * @return JSONObject
    */
-  public static final JSONObject getJSON() {
+  public static JSONObject getJSON() {
     String value = getRaw();
     if (StringUtil.isNotEmpty(value)) {
       if (JSON.isValidObject(value)) {
@@ -71,7 +70,7 @@ public class MockContext {
    * @return true/false.
    */
   @Deprecated
-  public static final boolean hasFlag(String key) {
+  public static boolean hasFlag(String key) {
     Preconditions.checkNotNull(key, "mock key cannot be null");
     key = processKey(key);
     String value = getRaw();
@@ -93,7 +92,7 @@ public class MockContext {
    * @param key mock key.
    * @return
    */
-  public static final int getInt(String key) {
+  public static int getInt(String key) {
     return get(key, 0);
   }
 
@@ -103,7 +102,7 @@ public class MockContext {
    * @param key mock key.
    * @return
    */
-  public static final String getString(String key) {
+  public static String getString(String key) {
     return get(key, StringUtil.EMPTY);
   }
 
@@ -113,7 +112,7 @@ public class MockContext {
    * @param key mock key.
    * @return
    */
-  public static final boolean getBool(String key) {
+  public static boolean getBool(String key) {
     return get(key, false);
   }
 
@@ -123,10 +122,10 @@ public class MockContext {
    *
    * @param key          mock key
    * @param defaultValue default value.
-   * @param <T>
-   * @return
+   * @param <T>          entity
+   * @return t
    */
-  public static final <T> T get(String key, T defaultValue) {
+  public static <T> T get(String key, T defaultValue) {
     Preconditions.checkNotNull(key, "mock key can not be null");
 
     key = processKey(key);
