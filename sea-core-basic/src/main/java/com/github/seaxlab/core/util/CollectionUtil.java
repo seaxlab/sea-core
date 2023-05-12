@@ -85,19 +85,6 @@ public final class CollectionUtil {
   }
 
   /**
-   * swap two element
-   *
-   * @param c1
-   * @param c2
-   */
-  public static <E> void swap(Collection<E> c1, Collection<E> c2) {
-    Collection<E> tmp = c2;
-    c2 = c1;
-    c1 = tmp;
-  }
-
-
-  /**
    * collection to set
    *
    * @param collection
