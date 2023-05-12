@@ -18,6 +18,15 @@ public final class Precondition {
   private Precondition() {
   }
 
+  public static void unsupportedOperation() {
+    log.warn("unsupported operation, plz check.");
+    throw new UnsupportedOperationException();
+  }
+
+  public static void unsupportedOperation(String message) {
+    log.warn("unsupported operation, plz check, {}", message);
+    throw new UnsupportedOperationException(message);
+  }
 
   public static <T> void checkNotNull(T reference) {
     if (reference == null) {
