@@ -1,11 +1,13 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-
+import com.github.seaxlab.core.domain.User;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * module name
@@ -16,6 +18,20 @@ import java.util.Collection;
  */
 @Slf4j
 public class CollectionUtilTest extends BaseCoreTest {
+
+  private final List<User> users = new ArrayList<>();
+
+  @Before
+  public void before() {
+    for (int i = 0; i < 5; i++) {
+      User user = new User();
+      user.setId(Long.parseLong(String.valueOf(i)));
+      user.setAge(RandomUtil.nextInt(1, 100));
+      users.add(user);
+    }
+    log.info("users={}", users);
+  }
+
 
   @Test
   public void test17() throws Exception {
@@ -31,4 +47,15 @@ public class CollectionUtilTest extends BaseCoreTest {
     all2.add(3);
     log.info("{}", CollectionUtil.toString(all2));
   }
+
+  @Test
+  public void testMin() throws Exception {
+    log.info("min={}", CollectionUtil.min(users, User::getAge));
+    log.info("max={}", CollectionUtil.max(users, User::getAge));
+    log.info("min property={}", CollectionUtil.minProperty(users, User::getAge));
+    log.info("max property={}", CollectionUtil.maxProperty(users, User::getAge));
+    log.info("min and max={}", CollectionUtil.getMinAndMax(users, User::getAge));
+    log.info("min and max property={}", CollectionUtil.getMinAndMaxProperty(users, User::getAge));
+  }
+
 }

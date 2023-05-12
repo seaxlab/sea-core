@@ -2,8 +2,10 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.common.SymbolConst;
 import com.github.seaxlab.core.exception.Precondition;
+import com.github.seaxlab.core.model.Tuple2;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -159,5 +161,103 @@ public final class CollectionUtil {
     }
     return collection.stream().map(fn).collect(Collectors.joining(delimiter));
   }
+
+
+  /**
+   * get min value from data
+   *
+   * @param data         data
+   * @param keyExtractor key extractor
+   * @param <T>
+   * @param <U>
+   * @return
+   */
+  public static <T, U extends Comparable<? super U>> T min(Collection<T> data,
+    Function<? super T, ? extends U> keyExtractor) {
+    Precondition.checkNotNull(data);
+    return data.stream().min(Comparator.comparing(keyExtractor)).orElse(null);
+  }
+
+  /**
+   * get min property of entity
+   *
+   * @param data         data
+   * @param keyExtractor key extractor
+   * @param <T>
+   * @param <U>
+   * @return
+   */
+  public static <T, U extends Comparable<? super U>> U minProperty(Collection<T> data,
+    Function<? super T, ? extends U> keyExtractor) {
+    Precondition.checkNotNull(data);
+    return data.stream().min(Comparator.comparing(keyExtractor)).map(keyExtractor).orElse(null);
+  }
+
+  /**
+   * get max value from data
+   *
+   * @param data         data
+   * @param keyExtractor key extractor
+   * @param <T>
+   * @param <U>
+   * @return
+   */
+  public static <T, U extends Comparable<? super U>> T max(Collection<T> data,
+    Function<? super T, ? extends U> keyExtractor) {
+    Precondition.checkNotNull(data);
+    return data.stream().max(Comparator.comparing(keyExtractor)).orElse(null);
+  }
+
+  /**
+   * get max property of entity
+   *
+   * @param data         data
+   * @param keyExtractor key extractor
+   * @param <T>
+   * @param <U>
+   * @return
+   */
+  public static <T, U extends Comparable<? super U>> U maxProperty(Collection<T> data,
+    Function<? super T, ? extends U> keyExtractor) {
+    Precondition.checkNotNull(data);
+    return data.stream().max(Comparator.comparing(keyExtractor)).map(keyExtractor).orElse(null);
+  }
+
+  /**
+   * get min and max entity from data.
+   *
+   * @param data         data
+   * @param keyExtractor key extractor
+   * @param <T>
+   * @param <U>
+   * @return
+   */
+  public static <T, U extends Comparable<? super U>> Tuple2<T, T> getMinAndMax(Collection<T> data,
+    Function<? super T, ? extends U> keyExtractor) {
+    Precondition.checkNotNull(data);
+    //
+    T min = data.stream().min(Comparator.comparing(keyExtractor)).orElse(null);
+    T max = data.stream().max(Comparator.comparing(keyExtractor)).orElse(null);
+    return Tuple2.of(min, max);
+  }
+
+  /**
+   * get min and max property from data.
+   *
+   * @param data         data
+   * @param keyExtractor key extractor
+   * @param <T>
+   * @param <U>
+   * @return
+   */
+  public static <T, U extends Comparable<? super U>> Tuple2<U, U> getMinAndMaxProperty(Collection<T> data,
+    Function<? super T, ? extends U> keyExtractor) {
+    Precondition.checkNotNull(data);
+    //
+    U min = data.stream().min(Comparator.comparing(keyExtractor)).map(keyExtractor).orElse(null);
+    U max = data.stream().max(Comparator.comparing(keyExtractor)).map(keyExtractor).orElse(null);
+    return Tuple2.of(min, max);
+  }
+
 
 }
