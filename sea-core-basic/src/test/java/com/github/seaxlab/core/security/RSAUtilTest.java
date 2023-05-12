@@ -59,6 +59,22 @@ public class RSAUtilTest extends BaseCoreTest {
 
 
   @Test
+  public void testGenerateSignature() throws Exception {
+    String publicKey = getPassword("sea.rsa_public_key");
+    String privateKey = getPassword("sea.rsa_private_key");
+    //
+    String content = "";
+    content += RandomUtil.uuid();
+
+    String sign = RSAUtil.generateSign(privateKey, content);
+
+    boolean verifyFlag = RSAUtil.verifySign(publicKey, content, sign);
+    log.info("sign={}", sign);
+    log.info("verifyFlag={}", verifyFlag);
+  }
+
+
+  @Test
   public void testEncrypt() {
     String publicKey = getPassword("sea.rsa_public_key");
     String content = "";
