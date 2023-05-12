@@ -174,7 +174,7 @@ public final class TimeUtil {
    * @return
    */
   public static boolean isInRange(String targetTime, List<Tuple2<String, String>> timeList,
-                                  String timeFormatStr, RangeModeEnum rangeMode) {
+    String timeFormatStr, RangeModeEnum rangeMode) {
 
     Precondition.checkNotNull(targetTime, "target time cannot be null");
     if (timeList == null || timeList.isEmpty()) {
@@ -203,7 +203,7 @@ public final class TimeUtil {
    * @return
    */
   public static boolean isInRange(String targetTime, String beginTime, String endTime,
-                                  String timeFormatStr, RangeModeEnum rangeMode) {
+    String timeFormatStr, RangeModeEnum rangeMode) {
     Precondition.checkNotNull(targetTime, "target time cannot be null");
     Precondition.checkNotNull(beginTime, "begin time cannot be null");
     Precondition.checkNotNull(endTime, "end time cannot be null");
@@ -291,10 +291,7 @@ public final class TimeUtil {
   }
 
   /**
-   * 比较时间,默认格式HH:mm
-   * 如果time1<time2,返回-1
-   * 如果time1=time2,返回0
-   * 如果time1>time2,返回1
+   * 比较时间,默认格式HH:mm 如果time1<time2,返回-1 如果time1=time2,返回0 如果time1>time2,返回1
    *
    * @param time1
    * @param time2
@@ -305,10 +302,7 @@ public final class TimeUtil {
   }
 
   /**
-   * 比较时间
-   * 如果time1<time2,返回-1
-   * 如果time1=time2,返回0
-   * 如果time1>time2,返回1
+   * 比较时间 如果time1<time2,返回-1 如果time1=time2,返回0 如果time1>time2,返回1
    *
    * @param time1         time2
    * @param time2         time2

@@ -1,11 +1,16 @@
 package com.github.seaxlab.core.util;
 
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
-
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * equal util
@@ -80,9 +85,9 @@ public final class EqualUtil {
   /**
    * check equal.
    *
-   * @param value1
-   * @param value2
-   * @return
+   * @param value1 big decimal value
+   * @param value2 big decimal value
+   * @return boolean
    */
   public static boolean isEq(BigDecimal value1, BigDecimal value2) {
     if (Objects.nonNull(value1) && Objects.nonNull(value2)) {
@@ -181,7 +186,7 @@ public final class EqualUtil {
    *
    * @param date1 datetime
    * @param date2 datetime
-   * @return
+   * @return boolean
    */
   public static boolean isEq(final Date date1, final Date date2) {
     if (date1 == null || date2 == null) {
@@ -198,7 +203,7 @@ public final class EqualUtil {
    * @param date1    datetime
    * @param date2    datetime
    * @param dateMode date mode
-   * @return
+   * @return boolean
    */
   public static boolean isEq(final Date date1, final Date date2, DateMode dateMode) {
     if (date1 == null || date2 == null) {

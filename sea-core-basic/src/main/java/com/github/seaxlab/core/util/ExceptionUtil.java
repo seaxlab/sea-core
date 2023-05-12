@@ -1,10 +1,9 @@
 package com.github.seaxlab.core.util;
 
+import java.lang.reflect.InvocationTargetException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * module name
@@ -28,30 +27,28 @@ public final class ExceptionUtil {
   /**
    * get message
    *
-   * @param throwable
-   * @return
+   * @param throwable throwable
+   * @return String
    */
   public static String getMessage(final Throwable throwable) {
     return ExceptionUtils.getMessage(throwable);
   }
 
   /**
-   * 获取堆栈信息
-   * InvocationTargetException中Message为null，需要使用此方法来获取
+   * 获取堆栈信息 InvocationTargetException中Message为null，需要使用此方法来获取
    *
-   * @param throwable
-   * @return
+   * @param throwable throwable
+   * @return String
    */
   public static String getStackTrace(final Throwable throwable) {
     return ExceptionUtils.getStackTrace(throwable);
   }
 
   /**
-   * 获取最底层的异常,非常重要的接口
-   * 排除 InvocationTargetException/NestedServletException等嵌套异常
+   * 获取最底层的异常,非常重要的接口 排除 InvocationTargetException/NestedServletException等嵌套异常
    *
-   * @param throwable
-   * @return
+   * @param throwable throwable
+   * @return Throwable
    */
   public static Throwable getRootCause(final Throwable throwable) {
     return ExceptionUtils.getRootCause(throwable);
@@ -60,8 +57,8 @@ public final class ExceptionUtil {
   /**
    * 获取跟路径堆栈信息
    *
-   * @param throwable
-   * @return
+   * @param throwable throwable
+   * @return String
    */
   public static String getRootCauseMessage(final Throwable throwable) {
     return ExceptionUtils.getRootCauseMessage(throwable);
@@ -71,8 +68,8 @@ public final class ExceptionUtil {
   /**
    * 获取第一行 异常信息
    *
-   * @param t
-   * @return
+   * @param t throwable
+   * @return String
    */
   public static String getMsg1(Throwable t) {
     return getMsgN(t, 1);
@@ -81,8 +78,8 @@ public final class ExceptionUtil {
   /**
    * 获取前两行 异常信息
    *
-   * @param t
-   * @return
+   * @param t throwable
+   * @return String
    */
   public static String getMsg2(Throwable t) {
     return getMsgN(t, 2);
@@ -91,8 +88,8 @@ public final class ExceptionUtil {
   /**
    * 获取前3行信息
    *
-   * @param t
-   * @return
+   * @param t throwable
+   * @return String
    */
   public static String getMsg3(Throwable t) {
     return getMsgN(t, 3);
@@ -101,9 +98,9 @@ public final class ExceptionUtil {
   /**
    * 获取前多少行信息
    *
-   * @param t
-   * @param limit
-   * @return
+   * @param t     throwable
+   * @param limit limit line size
+   * @return string
    */
   public static String getMsgN(Throwable t, int limit) {
     if (t == null) {

@@ -1,11 +1,10 @@
 package com.github.seaxlab.core.util;
 
 import com.google.common.base.Strings;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 占位符替换
@@ -27,7 +26,7 @@ public final class TemplateUtil {
    *
    * @param sourceString 需要匹配的字符串，示例："名字:{name},年龄:{age},学校:{school}";
    * @param param        参数集,Map类型
-   * @return
+   * @return string
    */
   public static String replace(String sourceString, Map<String, String> param) {
     if (Strings.isNullOrEmpty(sourceString) || MapUtil.isEmpty(param)) {

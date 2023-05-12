@@ -1,15 +1,14 @@
 package com.github.seaxlab.core.util;
 
+import java.io.StringWriter;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
-
-import java.io.StringWriter;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * velocity util
@@ -52,6 +51,7 @@ public final class VelocityUtil {
       properties.setProperty("resource.loader.classpath.class", ClasspathResourceLoader.class.getName());
       ve.init(properties);
       if (ENGINE_MAP.size() > MAX_SIZE) {
+        log.warn("engine map reach MAX_SIZE[{}], so clean.", MAX_SIZE);
         ENGINE_MAP.clear();
       }
 

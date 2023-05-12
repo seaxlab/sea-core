@@ -4,11 +4,19 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.io.FileWriteMode;
 import com.google.common.io.Files;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
-import org.apache.http.util.ByteArrayBuffer;
-
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
@@ -18,6 +26,9 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.apache.http.util.ByteArrayBuffer;
 
 /**
  * File util
@@ -45,8 +56,8 @@ public final class FileUtil {
   /**
    * get file name
    *
-   * @param path
-   * @return
+   * @param path file path
+   * @return string
    */
   public static String getName(final String path) {
     if (path == null || path.isEmpty()) {
@@ -61,8 +72,8 @@ public final class FileUtil {
   /**
    * check file or directory exist
    *
-   * @param path
-   * @return
+   * @param path file path
+   * @return boolean
    */
   public static boolean exist(String path) {
     return new File(path).exists();
@@ -71,7 +82,7 @@ public final class FileUtil {
   /**
    * 确保目录存在
    *
-   * @param path
+   * @param path file path
    */
   public static void ensureDir(String path) {
     File file = new File(path);
@@ -535,7 +546,8 @@ public final class FileUtil {
    * @param rows                为多少行一个文件
    */
   public static int splitByLine(String sourceFilePath, String targetDirectoryPath, int rows) {
-    String sourceFileName = sourceFilePath.substring(sourceFilePath.lastIndexOf(File.separator) + 1, sourceFilePath.lastIndexOf("."));//源文件名
+    String sourceFileName = sourceFilePath.substring(sourceFilePath.lastIndexOf(File.separator) + 1,
+      sourceFilePath.lastIndexOf("."));//源文件名
     String splitFileName = targetDirectoryPath + File.separator + sourceFileName + "-%s.txt";//切割后的文件名
     File targetDirectory = new File(targetDirectoryPath);
     if (!targetDirectory.exists()) {
@@ -580,7 +592,8 @@ public final class FileUtil {
    * @param overwrite      overwrite exist file.
    * @return
    */
-  public static List<File> splitByFileCount(File sourceFile, File targetDir, String targetFileName, int fileCount, boolean overwrite) {
+  public static List<File> splitByFileCount(File sourceFile, File targetDir, String targetFileName, int fileCount,
+    boolean overwrite) {
     if (sourceFile == null) {
       throw new IllegalArgumentException("source file is null.");
     }
@@ -655,7 +668,8 @@ public final class FileUtil {
    * @param overwrite      overwrite exist file.
    * @return
    */
-  public static List<File> splitByFileSize(File sourceFile, File targetDir, String targetFileName, final long eachFileSize, boolean overwrite) {
+  public static List<File> splitByFileSize(File sourceFile, File targetDir, String targetFileName,
+    final long eachFileSize, boolean overwrite) {
     if (sourceFile == null) {
       throw new IllegalArgumentException("source file is null.");
     }
@@ -711,8 +725,7 @@ public final class FileUtil {
 
 
   /**
-   * merge files to one file.
-   * 重点: sourceFiles必须是有序的
+   * merge files to one file. 重点: sourceFiles必须是有序的
    *
    * @param sourceFiles multi source file （must be ordered）
    * @param targetFile  target file
