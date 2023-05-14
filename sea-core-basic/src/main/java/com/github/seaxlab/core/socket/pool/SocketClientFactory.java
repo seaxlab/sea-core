@@ -18,10 +18,10 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
 @Slf4j
 public class SocketClientFactory implements PooledObjectFactory<SocketClient> {
 
-  private SocketClientConfig socketClientConfig;
+  private final SocketClientConfig socketClientConfig;
 
-  private String host;
-  private int port;
+  private final String host;
+  private final int port;
 
   public SocketClientFactory(SocketClientConfig socketClientConfig) {
     this.socketClientConfig = socketClientConfig;

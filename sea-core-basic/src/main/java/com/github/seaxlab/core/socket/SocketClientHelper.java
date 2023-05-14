@@ -40,7 +40,7 @@ public class SocketClientHelper {
         socketClientConfig.setHost(host);
         socketClientConfig.setPort(port);
         SocketClientFactory factory = new SocketClientFactory(socketClientConfig);
-        GenericObjectPoolConfig config = getDefaultConfig();
+        GenericObjectPoolConfig<SocketClient> config = getDefaultConfig();
         SocketClientPool newPool = new SocketClientPool(factory, config);
         try {
           newPool.preparePool();
@@ -68,8 +68,8 @@ public class SocketClientHelper {
    *
    * @return GenericObjectPoolConfig
    */
-  private static GenericObjectPoolConfig getDefaultConfig() {
-    GenericObjectPoolConfig defaultConfig = new GenericObjectPoolConfig();
+  private static GenericObjectPoolConfig<SocketClient> getDefaultConfig() {
+    GenericObjectPoolConfig<SocketClient> defaultConfig = new GenericObjectPoolConfig<SocketClient>();
     defaultConfig.setMaxTotal(200);
 
     return defaultConfig;
@@ -102,7 +102,7 @@ public class SocketClientHelper {
    *
    * @param config
    */
-  public void setConfiguration(GenericObjectPoolConfig config) {
+  public void setConfiguration(GenericObjectPoolConfig<SocketClient> config) {
     this.socketClientPool.setConfig(config);
     try {
       this.socketClientPool.preparePool();
@@ -128,12 +128,6 @@ public class SocketClientHelper {
   }
 
 
-  /**
-   * get feature.
-   *
-   * @param feature
-   * @return Valor
-   */
   public int getFeature(StatusPoolFeature feature) {
     switch (feature) {
       case NUM_ACTIVE:
