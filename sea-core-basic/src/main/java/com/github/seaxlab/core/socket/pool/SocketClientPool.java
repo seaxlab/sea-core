@@ -19,7 +19,7 @@ public class SocketClientPool extends GenericObjectPool<SocketClient> {
     super(factory);
   }
 
-  public SocketClientPool(PooledObjectFactory<SocketClient> factory, GenericObjectPoolConfig config) {
+  public SocketClientPool(PooledObjectFactory<SocketClient> factory, GenericObjectPoolConfig<SocketClient> config) {
     super(factory, config);
   }
 }

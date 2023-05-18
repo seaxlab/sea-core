@@ -22,7 +22,7 @@ import java.net.SocketAddress;
 @Slf4j
 public class DefaultSocketClient implements SocketClient {
 
-  private byte[] EMPTY_BYTE = new byte[0];
+  private final byte[] EMPTY_BYTE = new byte[0];
 
   private Socket socket;
   private BufferedReader input;
