@@ -272,7 +272,7 @@ public final class LogUtil {
     try {
       FileUtil.writeFile(getLogFileNameInModule(module), content);
     } catch (Exception e) {
-      log.error("fail to dump {} log. exception={}", module, e);
+      log.error("fail to dump {} log.", module, e);
     } finally {
       log.info("dum {} log end. cost={}ms", module, stopwatch.elapsed(TimeUnit.MILLISECONDS));
     }
@@ -309,7 +309,7 @@ public final class LogUtil {
       try {
         FileUtil.writeFile(getLogFileNameInModule(module), content);
       } catch (Exception e) {
-        log.error("fail to dump {} log. exception={}", module, e);
+        log.error("fail to dump {} log.", module, e);
       } finally {
         log.info("dum {} log end. cost={}ms", module, stopwatch.elapsed(TimeUnit.MILLISECONDS));
       }

@@ -2,15 +2,14 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.common.SymbolConst;
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.math.NumberUtils;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.TreeSet;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * number util
@@ -662,7 +661,7 @@ public final class NumberUtil {
     Preconditions.checkNotNull(num2, "num2 cannot be null");
 
     if (isZero(num2)) {
-      log.error("num2 is zero! plz check");
+      log.warn("num2 is zero! plz check");
       return BigDecimal.ZERO;
     }
 

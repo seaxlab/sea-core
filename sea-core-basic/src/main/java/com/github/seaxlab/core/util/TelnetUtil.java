@@ -100,13 +100,13 @@ public final class TelnetUtil {
       client.disconnect();
       status = StatusEnum.SUCCESS;
     } catch (ConnectException ce) {
-      log.error("Could not connect to server={},port={},exception={}", this.hostname, this.port, ce);
+      log.error("Could not connect to server={},port={}", this.hostname, this.port, ce);
       status = StatusEnum.FAIL;
     } catch (UnknownHostException e) {
-      log.error("Unknown host: {},exception={}", this.hostname, e);
+      log.error("Unknown host: {}", this.hostname, e);
       status = StatusEnum.ERROR;
     } catch (Exception e) {
-      log.error("Error connecting to server: {},exception={}", this.hostname, e);
+      log.error("Error connecting to server: {}", this.hostname, e);
       status = StatusEnum.UNKNOWN;
     }
     return status;
