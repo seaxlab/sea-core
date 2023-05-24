@@ -60,8 +60,8 @@ public class RSAUtilTest extends BaseCoreTest {
 
   @Test
   public void testGenerateSignature() throws Exception {
-    String publicKey = getPassword("sea.rsa_public_key");
-    String privateKey = getPassword("sea.rsa_private_key");
+    String publicKey = getConfig("sea.rsa_public_key");
+    String privateKey = getConfig("sea.rsa_private_key");
     //
     String content = "";
     content += RandomUtil.uuid();
@@ -76,7 +76,7 @@ public class RSAUtilTest extends BaseCoreTest {
 
   @Test
   public void testEncrypt() {
-    String publicKey = getPassword("sea.rsa_public_key");
+    String publicKey = getConfig("sea.rsa_public_key");
     String content = "";
     content += "\n" + RandomUtil.uuid();
     System.out.println(RSAUtil.encryptBySegment(publicKey, content));
@@ -86,7 +86,7 @@ public class RSAUtilTest extends BaseCoreTest {
 
   @Test
   public void testDecrypt() throws Exception {
-    String privateKey = getPassword("sea.rsa_private_key");
+    String privateKey = getConfig("sea.rsa_private_key");
     String content = "IaW8tzMLobhVeb2cZCPzOiS7owXT12sLPLMhW8kBXXa+UiFlqXEXMt1alMcaAu9tq7PVSF1WSB8fyRoVjev7wM0FgAXxAKMx314usmt1GKGzfZAT24qsu0bvWFH7iobugEAWlMfvviRtbp2ECAxzFPL5UH8xJjMs0rfd1YbLEAG6huW/2QuR2/87Dl0zQU4tfeh4a4UjxfKC0SKl450gtWkn4GUz2J1CQAdxdV1Hb+h5W6FatePf/1b/iC4qjCYFratUCTsAfMO1BKd9ML9hpJr3FBTwk/YbeH9m1QKfleCpaych4BaEtSrMuR/WLJrAwFpfqWs5+hEL4woF1iC33T8h/hlekPhnn6RUyh3LccJP955GIVdeE6PSfWuBs6Sz3r//at8P+K0fOQfnrgyiGMn3pXfU07uHCExOuXrQCWaXFbFoqhEeHRliT42YPfMapK6o71cwS2aZN9hJtws7CvlBqCvYLYt7HssnwIlfHau6DmSAVN1ZQ7cha23jWqJ0IoI4dK0cM80rB0hNhXSm4/9620pIzlVDvO2AR+eJ9/6UTBnH+XQKri9FlBKCKR88t4leo2nV0rN+0sK/QpoU5NpzDkV4CNJURmwEd00qR8gh0NluHociDv0IKiK06PRHHrawwpjLEm1vphQugq/6Mzb2dXmSOKoPPU14xgXiVtZKuitJuaeu90QbvX1oQv39nSkhSR45WO/x/h3HN2YX2DLkdzuFDd92+jO/TvvKEhMgs9wWXJrZOB7ZSX5T4K/2qW3J5P5ruDoT3XuoPsn8Vhc7CbXQJbQHxaIz/8tA4+NEvFtHf/WVbfNvWENHg5JJwOnTH68A37sVU1bVXNlgwGQ4eHfU7VAaDnv4pZR6OrAZ1xuTF3TZwu6InVIxMXZZv8TS6y222gFrL31yLBIyp1KBYcKZv2XnST7W2Dt6TqL8PKYom84Ahqwfa85gWngn5bTNxYDZIHYG95BcB+AEgzuzVH100hk6mrleoE69oolcsIBy6qUekYJo0DrgzbLY";
 
     System.out.println(RSAUtil.decryptBySegment(privateKey, content));

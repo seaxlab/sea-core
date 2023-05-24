@@ -26,9 +26,9 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
   public void testSign() throws Exception {
 
     //签名方式
-    String accessToken = getPassword("sea.dingding.sign.access_token");
+    String accessToken = getConfig("sea.dingding.sign.access_token");
     Long timestamp = System.currentTimeMillis();
-    String secret = getPassword("sea.dingding.sign.secret");
+    String secret = getConfig("sea.dingding.sign.secret");
 
     String url = MessageUtil.format(DingDingUtil.URL_SIGN, accessToken, timestamp.toString(),
       DingDingUtil.getSign(timestamp, secret));
@@ -64,8 +64,8 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
 
   @Test
   public void testDingDingText() throws Exception {
-    String phone = getPassword("sea.phone");
-    String accessToken = getPassword("sea.dingding.access_token");
+    String phone = getConfig("sea.phone");
+    String accessToken = getConfig("sea.dingding.access_token");
     String url = MessageUtil.format(DingDingUtil.URL_SIMPLE, accessToken);
 
     DingDingNotifyManager notifyManager = new DingDingNotifyManager();
@@ -87,7 +87,7 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
 
   @Test
   public void testDingDingMarkdown() throws Exception {
-    String phone = getPassword("sea.phone");
+    String phone = getConfig("sea.phone");
     StringBuilder sb = new StringBuilder();
     //sb.append("# test报警\n");
     //sb.append("## 二级标题\n");
@@ -117,7 +117,7 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
       "\n" +
       "@" + phone);
 
-    String accessToken = getPassword("sea.dingding.access_token");
+    String accessToken = getConfig("sea.dingding.access_token");
     String url = MessageUtil.format(DingDingUtil.URL_SIMPLE, accessToken);
 
     DingDingNotifyManager notifyManager = new DingDingNotifyManager();

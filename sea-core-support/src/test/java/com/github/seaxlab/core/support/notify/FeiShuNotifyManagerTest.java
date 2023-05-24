@@ -8,12 +8,11 @@ import com.github.seaxlab.core.support.notify.util.FeiShuUtil;
 import com.github.seaxlab.core.util.FileUtil;
 import com.github.seaxlab.core.util.FreemarkerUtil;
 import com.github.seaxlab.core.util.MessageUtil;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * module name
@@ -29,7 +28,7 @@ public class FeiShuNotifyManagerTest extends BaseSupportTest {
 
   @Before
   public void before() {
-    String accessToken = getPassword("feishu_access_token");
+    String accessToken = getConfig("feishu_access_token");
     url = MessageUtil.format(FeiShuUtil.URL_SIMPLE, accessToken);
   }
 

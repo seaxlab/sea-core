@@ -3,10 +3,6 @@ package com.github.seaxlab.core.test;
 import com.github.javafaker.Faker;
 import com.github.seaxlab.core.test.service.SequenceService;
 import com.github.seaxlab.core.test.service.impl.FileSequenceService;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,6 +15,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.LongAdder;
+import org.apache.commons.lang3.reflect.FieldUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * module name
@@ -32,14 +31,15 @@ class AbstractCoreSuperTest {
 
 
   /**
-   * get security info
+   * get config info
    *
    * @param key
    * @return
    */
-  protected String getPassword(String key) {
+  protected String getConfig(String key) {
     try {
-      FileInputStream fileInputStream = new FileInputStream(new File(System.getProperty("user.home") + "/sea", "sea.password.properties"));
+      FileInputStream fileInputStream = new FileInputStream(
+        new File(System.getProperty("user.home") + "/sea", "sea.config.properties"));
 
       Properties props = new Properties();
       props.load(fileInputStream);
