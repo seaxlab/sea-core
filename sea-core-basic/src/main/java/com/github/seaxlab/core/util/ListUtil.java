@@ -122,7 +122,7 @@ public final class ListUtil {
     }
 
     String[] array = listStr.trim().split(split);
-    if ((null == array) || (array.length <= 0)) {
+    if ((null == array) || (array.length == 0)) {
       return resultList;
     }
 
@@ -130,7 +130,7 @@ public final class ListUtil {
     if (isEmpty(list)) {
       return resultList;
     }
-    return list.stream().map(item -> item.trim()).collect(Collectors.toList());
+    return list.stream().map(String::trim).collect(Collectors.toList());
   }
 
   public static List<Integer> toIntList(String listStr) {
@@ -145,7 +145,7 @@ public final class ListUtil {
     }
 
     String[] array = listStr.trim().split(split);
-    if ((null == array) || (array.length <= 0)) {
+    if ((null == array) || (array.length == 0)) {
       return resultList;
     }
 
@@ -1038,6 +1038,69 @@ public final class ListUtil {
     }
 
     return list;
+  }
+
+  /**
+   * 截取 predicate之前的元素
+   * <p>
+   * 1,2,5,5,6,7 ,以5为基准，截取之后：1,2
+   * </p>
+   *
+   * @param data
+   * @param predicate
+   * @param <T>
+   * @return
+   */
+  public static <T> List<T> subBeforeList(final List<T> data, Predicate<? super T> predicate) {
+    Precondition.checkNotNull(data);
+    Precondition.checkNotNull(predicate);
+
+    List<T> result = new ArrayList<>();
+    if (data.stream().noneMatch(predicate)) {
+      log.warn("no element in predicate");
+      return result;
+    }
+
+    for (T item : data) {
+      if (predicate.test(item)) {
+        break;
+      }
+      result.add(item);
+    }
+
+    return result;
+  }
+
+  /**
+   * 截取 predicate 之后的元素
+   * <p>
+   * 1,2,5,5,6,7 ,以5为基准，截取之后：6,7
+   * </p>
+   *
+   * @param data
+   * @param predicate
+   * @param <T>
+   * @return
+   */
+  public static <T> List<T> subAfterList(final List<T> data, Predicate<? super T> predicate) {
+    Precondition.checkNotNull(data);
+    Precondition.checkNotNull(predicate);
+
+    List<T> result = new ArrayList<>();
+    if (data.stream().noneMatch(predicate)) {
+      log.warn("no element in predicate");
+      return result;
+    }
+
+    for (int i = data.size() - 1; i >= 0; i--) {
+      T item = data.get(i);
+      if (predicate.test(item)) {
+        break;
+      }
+      result.add(item);
+    }
+    Collections.reverse(result);
+    return result;
   }
 
 }

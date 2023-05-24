@@ -620,5 +620,23 @@ public class ListUtilTest extends BaseCoreTest {
 
   }
 
+  @Test
+  public void testSubBeforeTest() throws Exception {
+    List<Tt> list = new ArrayList<>();
+
+    list.add(new Tt(1, 2));
+    list.add(new Tt(2, 2));
+    list.add(new Tt(5, 2));
+    list.add(new Tt(5, 1));
+    list.add(new Tt(4, 2));
+    list.add(new Tt(6, 2));
+
+    List<Tt> data1 = ListUtil.subBeforeList(list, item -> EqualUtil.isEq(item.getId(), 5));
+    log.info("data1={}", data1);
+
+    List<Tt> data2 = ListUtil.subAfterList(list, item -> EqualUtil.isEq(item.getId(), 5));
+    log.info("data2={}", data2);
+  }
+
 
 }
