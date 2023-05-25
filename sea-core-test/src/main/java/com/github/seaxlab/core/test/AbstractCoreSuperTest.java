@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
  * @since 1.0
  */
 class AbstractCoreSuperTest {
+
   private Logger _log = LoggerFactory.getLogger(getClass());
 
 
@@ -37,6 +38,10 @@ class AbstractCoreSuperTest {
    * @return
    */
   protected String getConfig(String key) {
+    return getConfig(key, true);
+  }
+
+  protected String getConfig(String key, boolean printFlag) {
     try {
       FileInputStream fileInputStream = new FileInputStream(
         new File(System.getProperty("user.home") + "/sea", "sea.config.properties"));
@@ -45,16 +50,19 @@ class AbstractCoreSuperTest {
       props.load(fileInputStream);
 
       String value = props.getProperty(key, "");
-      _log.info("get properties {}={}", key, value);
+      if (printFlag) {
+        _log.info("get properties {}={}", key, value);
+      }
 
       _close(fileInputStream);
       return value;
     } catch (Exception e) {
-      _log.error("fail to get password", e);
+      _log.error("fail to get config", e);
     }
-
+    //
     return "";
   }
+
 
   protected void println(Object obj) {
     _log.info("{}", obj);
@@ -150,8 +158,8 @@ class AbstractCoreSuperTest {
    * @param countDownLatchCount 门栓数量
    */
   protected void runConcurrencyInMultiThread(Runnable runnable, int totalPoolSize,
-                                             int runThreadCount,
-                                             int countDownLatchCount) {
+    int runThreadCount,
+    int countDownLatchCount) {
     totalPoolSize = totalPoolSize < 0 ? 8 : totalPoolSize;
     runThreadCount = runThreadCount < 0 ? 4 : runThreadCount;
     countDownLatchCount = countDownLatchCount < 0 ? runThreadCount : countDownLatchCount;

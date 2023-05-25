@@ -76,7 +76,7 @@ public class RSAUtilTest extends BaseCoreTest {
 
   @Test
   public void testEncrypt() {
-    String publicKey = getConfig("sea.rsa_public_key");
+    String publicKey = getConfig("sea.rsa_public_key", false);
     String content = "";
     content += "\n" + RandomUtil.uuid();
     System.out.println(RSAUtil.encryptBySegment(publicKey, content));
