@@ -257,6 +257,34 @@ public class CoreConst {
   public static final int NUMBER_5000 = 5000;
   public static final int NUMBER_10000 = 10000;
 
+  //
+  public static final long LONG_0 = 0L;
+  public static final long LONG_1 = 1L;
+  public static final long LONG_2 = 2L;
+  public static final long LONG_3 = 3L;
+  public static final long LONG_4 = 4L;
+  public static final long LONG_5 = 5L;
+  public static final long LONG_6 = 6L;
+  public static final long LONG_7 = 7L;
+  public static final long LONG_8 = 8L;
+  public static final long LONG_9 = 9L;
+  public static final long LONG_10 = 10L;
+  public static final long LONG_20 = 20L;
+  public static final long LONG_30 = 30L;
+  public static final long LONG_50 = 50L;
+  public static final long LONG_60 = 60L;
+  public static final long LONG_90 = 90L;
+  public static final long LONG_180 = 180L;
+  public static final long LONG_365 = 365L;
+  //
+  public static final long LONG_100 = 100L;
+  public static final long LONG_200 = 200L;
+  public static final long LONG_500 = 500L;
+  public static final long LONG_1000 = 1000L;
+  public static final long LONG_2000 = 2000L;
+  public static final long LONG_5000 = 5000L;
+  public static final long LONG_10000 = 10000L;
+
   // lock time
   public static final long LOCK_TIME_30_SECOND = 30 * 1000L;
   public static final long LOCK_TIME_1_MINUTE = 60 * 1000L;
