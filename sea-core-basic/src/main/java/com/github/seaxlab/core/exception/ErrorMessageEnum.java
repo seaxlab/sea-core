@@ -18,6 +18,7 @@ public enum ErrorMessageEnum implements IErrorEnum {
   UNKNOWN("unknown", "unknown"),
 
   // basic
+  COMMON_ERROR("500", "{}"),//
   CODE_IS_NULL("sea_basic_code_is_null", "code is null"), //
   LOCK_FAIL("sea_basic_lock_fail", "操作进行中，请稍后尝试。"),
 
@@ -33,6 +34,7 @@ public enum ErrorMessageEnum implements IErrorEnum {
   SYS_EXCEPTION("sea_sys_exception", "系统异常"),//
   SYS_REQUEST_INVALID("sea_request_invalid", "请求异常"),//
   SYS_PARAM_INVALID("sea_param_invalid", "参数异常"),//
+  SYS_PARAM_INVALID_F("sea_param_invalid", "参数异常[{}]"),//
   SYS_RESOURCE_NOT_EXIST("sea_resource_not_exist", "请求的资源不存在"),//
   SYS_OPERATION_FREQUENTLY("sea_operation_frequently", "操作过于频繁"),//
   SYS_REFLECT_OPERATION_ERROR("sea_reflect_operation_error", "反射异常"),//
@@ -45,8 +47,10 @@ public enum ErrorMessageEnum implements IErrorEnum {
   EXTENSION_NOT_EXIST_F("sea_extension_not_exist", "扩展不存在[{},{}]"),//
   EXTENSION_BIZ_SCENARIO_NOT_EXIST("sea_extension_biz_scenario_not_exist", "extension biz scenario not exist."),//
   EXTENSION_DUPLICATE_REGISTER_F("sea_extension_duplicate_register", "extension[{}] duplicated registered."),//
-  EXTENSION_NEED_POINT_INTERFACE_F("sea_extension_need_point_interface", "Please assign a extension point interface for []"),//
-  EXTENSION_END_NAME_NOT_VALID_F("sea_extension_end_name_not_valid", "Your name of ExtensionPoint for {} is not valid, must be end of {}"),//
+  EXTENSION_NEED_POINT_INTERFACE_F("sea_extension_need_point_interface",
+    "Please assign a extension point interface for []"),//
+  EXTENSION_END_NAME_NOT_VALID_F("sea_extension_end_name_not_valid",
+    "Your name of ExtensionPoint for {} is not valid, must be end of {}"),//
 
   //TODO move core error const here!
   ;

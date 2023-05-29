@@ -1,6 +1,8 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.common.SymbolConst;
+import com.github.seaxlab.core.exception.ErrorMessageEnum;
+import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
@@ -925,14 +927,23 @@ public final class ListUtil {
       return empty();
     }
 
+    if (pageNum <= 0) {
+      log.warn("pageNum[{}] is less or equal 0, so set value to 1", pageNum);
+      pageNum = 1;
+    }
+
+    if (pageSize < 0) {
+      log.warn("pageSize[{}] is invalid", pageSize);
+      ExceptionHandler.publish(ErrorMessageEnum.SYS_PARAM_INVALID_F, "pageSize");
+    }
+
     List<T> part;
     int size = data.size();
     int pageStart = pageNum == 1 ? 0 : (pageNum - 1) * pageSize;//截取的开始位置
-    int pageEnd = size < pageNum * pageSize ? size : pageNum * pageSize;//截取的结束位置
+    int pageEnd = Math.min(size, pageNum * pageSize);//截取的结束位置
 
     if (pageStart < size) {
-      // page start include
-      // page end exclude
+      // page start include, end exclude
       part = data.subList(pageStart, pageEnd);
     } else {
       part = empty();
