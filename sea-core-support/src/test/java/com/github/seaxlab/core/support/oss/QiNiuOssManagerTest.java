@@ -25,8 +25,8 @@ public class QiNiuOssManagerTest extends BaseOssManagerTest {
   public void before() {
     ENDPOINT = "http://r43e2my4b.hd-bkt.clouddn.com";
     //ENDPOINT = "http://r41l33vb4.hn-bkt.clouddn.com"; // for private test
-    ACCESS_KEY = "4B6wjMVbaIrR5t5vGXaB1mB7NfGWWk_LrSUqMPaQ";
-    SECRET_KEY = "WaK_ECcqIC_yy_lS4KT2_2ryGINo-U9vFhG7eLaq";
+    ACCESS_KEY = getConfig("sea.oss.qiniuyun.accessKey");
+    SECRET_KEY = getConfig("sea.oss.qiniuyun.secretKey");
 
     Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
     //注意这里是华东地区

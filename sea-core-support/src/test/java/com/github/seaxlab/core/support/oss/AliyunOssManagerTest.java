@@ -22,9 +22,9 @@ public class AliyunOssManagerTest extends BaseOssManagerTest {
 
   @Before
   public void before() {
-    ENDPOINT = "http://oss-cn-hangzhou.aliyuncs.com";
-    ACCESS_KEY = "8PIhaKLfrSBFvK1f";
-    SECRET_KEY = "uK1uKmOtX2HP91kpVWRixWEiCh933J";
+    ENDPOINT = getConfig("sea.oss.aliyun.endpoint");
+    ACCESS_KEY = getConfig("sea.oss.aliyun.accessKey");
+    SECRET_KEY = getConfig("sea.oss.aliyun.secretKey");
 
     CredentialsProvider credentialsProvider = new DefaultCredentialProvider(ACCESS_KEY, SECRET_KEY);
     OSSClient client = new OSSClient(ENDPOINT, credentialsProvider, null);
