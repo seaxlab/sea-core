@@ -2,14 +2,13 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.domain.User;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * module name
@@ -86,6 +85,13 @@ public class ArrayUtilTest extends BaseCoreTest {
     String[] arrays = new String[]{"123", "23"};
 
     Assert.assertTrue(ArrayUtil.isNotEmpty(arrays));
+  }
+
+  @Test
+  public void testSub() throws Exception {
+    String[] arrays = new String[]{"1", "2", "3", "4", "5"};
+
+    log.info("{}", StringUtil.toString(ArrayUtil.sub(arrays, 0, 8 - 1)));
   }
 
   @Test
