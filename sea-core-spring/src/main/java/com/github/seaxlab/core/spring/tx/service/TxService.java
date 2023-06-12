@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.spring.tx.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -12,6 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 public class TxService {
+
+  //------------------------------- execute in normal tx begin -------------------------
+  @Transactional(rollbackFor = Exception.class)
+  public void execute(Runnable runnable) {
+    runnable.run();
+  }
 
   @Transactional(rollbackFor = Exception.class)
   public <R> R execute(Functions.Func0<R> func) {
@@ -32,17 +39,72 @@ public class TxService {
   public <T1, T2, T3, R> R execute(Functions.Func3<T1, T2, T3, R> func, T1 t1, T2 t2, T3 t3) {
     return func.apply(t1, t2, t3);
   }
+  //------------------------------- execute in normal tx end-------------------------
 
-  @Transactional(rollbackFor = Exception.class)
-  public <T1, T2, T3, T4, R> R execute(Functions.Func4<T1, T2, T3, T4, R> func, T1 t1, T2 t2, T3 t3, T4 t4) {
-    return func.apply(t1, t2, t3, t4);
+
+  //---------------------------------execute in new tx begin-------------------------
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+  public void executeInNew(Runnable runnable) {
+    log.info("execute in new tx.");
+    runnable.run();
   }
 
-  @Transactional(rollbackFor = Exception.class)
-  public <T1, T2, T3, T4, T5, R> R execute(Functions.Func5<T1, T2, T3, T4, T5, R> func, T1 t1, T2 t2, T3 t3, T4 t4,
-    T5 t5) {
-    return func.apply(t1, t2, t3, t4, t5);
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+  public <R> R executeInNew(Functions.Func0<R> func) {
+    log.info("execute in new tx.");
+    return func.apply();
   }
+
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+  public <T, R> R executeInNew(Functions.Func1<T, R> func, T t) {
+    log.info("execute in new tx.");
+    return func.apply(t);
+  }
+
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+  public <T1, T2, R> R executeInNew(Functions.Func2<T1, T2, R> func, T1 t1, T2 t2) {
+    log.info("execute in new tx.");
+    return func.apply(t1, t2);
+  }
+
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+  public <T1, T2, T3, R> R executeInNew(Functions.Func3<T1, T2, T3, R> func, T1 t1, T2 t2, T3 t3) {
+    log.info("execute in new tx.");
+    return func.apply(t1, t2, t3);
+  }
+  //---------------------------------execute in new end -------------------------
+
+  //-----------------------------------execute in nested tx begin--------------------------------
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
+  public void executeInNested(Runnable runnable) {
+    log.info("execute in nested tx.");
+    runnable.run();
+  }
+
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
+  public <R> R executeInNested(Functions.Func0<R> func) {
+    log.info("execute in nested tx.");
+    return func.apply();
+  }
+
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
+  public <T, R> R executeInNested(Functions.Func1<T, R> func, T t) {
+    log.info("execute in nested tx.");
+    return func.apply(t);
+  }
+
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
+  public <T1, T2, R> R executeInNested(Functions.Func2<T1, T2, R> func, T1 t1, T2 t2) {
+    log.info("execute in nested tx.");
+    return func.apply(t1, t2);
+  }
+
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
+  public <T1, T2, T3, R> R executeInNested(Functions.Func3<T1, T2, T3, R> func, T1 t1, T2 t2, T3 t3) {
+    log.info("execute in nested tx.");
+    return func.apply(t1, t2, t3);
+  }
+  //-----------------------------------execute in nested tx end--------------------------------
 
 
 }
