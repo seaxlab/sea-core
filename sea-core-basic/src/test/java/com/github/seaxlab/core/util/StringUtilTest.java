@@ -69,11 +69,6 @@ public class StringUtilTest extends BaseCoreTest {
   }
 
   @Test
-  public void testRemoveEmoji() throws Exception {
-    log.info(StringUtil.removeEmoji("abc,ef123！高兴😄高兴"));
-  }
-
-  @Test
   public void testContains() throws Exception {
     Assert.assertEquals(true, StringUtil.contains("abcdefg", "abc"));
     Assert.assertEquals(false, StringUtil.contains("abcdefg", "defs"));
@@ -119,6 +114,25 @@ public class StringUtilTest extends BaseCoreTest {
     data.add("b");
     data.add("c");
     log.info("{}", StringUtil.toString(data));
+  }
+
+  @Test
+  public void testRemoveStart() throws Exception {
+    log.info("{}", StringUtil.removeStart("hello world", "xx"));
+    log.info("{}", StringUtil.removeStart("hello world", "he"));
+    log.info("{}", StringUtil.removeStart("hello world", "hello"));
+  }
+
+  @Test
+  public void testRemoveEnd() throws Exception {
+    log.info("{}", StringUtil.removeEnd("hello world", "xx"));
+    log.info("{}", StringUtil.removeEnd("hello world", "ld"));
+    log.info("{}", StringUtil.removeEnd("hello world", "world"));
+  }
+
+  @Test
+  public void testRemoveEmoji() throws Exception {
+    log.info(StringUtil.removeEmoji("abc,ef123！高兴😄高兴"));
   }
 
   @Test
