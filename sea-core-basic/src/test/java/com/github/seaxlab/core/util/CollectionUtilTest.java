@@ -3,6 +3,7 @@ package com.github.seaxlab.core.util;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.domain.User;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -57,5 +58,31 @@ public class CollectionUtilTest extends BaseCoreTest {
     log.info("min and max={}", CollectionUtil.getMinAndMax(users, User::getAge));
     log.info("min and max property={}", CollectionUtil.getMinAndMaxProperty(users, User::getAge));
   }
+
+  List<String> a = Arrays.asList("a", "b", "b");
+  List<String> b = Arrays.asList("b", "b", "c", "d");
+
+  @Test
+  public void testIntersection() throws Exception {
+
+    log.info("{}", CollectionUtil.intersection(a, b));
+    Collection<?> collection = CollectionUtil.intersection(b, a);
+    log.info("{}", collection);
+  }
+
+
+  @Test
+  public void testUnion() throws Exception {
+    log.info("{}", CollectionUtil.union(a, b));
+    Collection<?> collection = CollectionUtil.union(b, a);
+    log.info("{}", collection);
+  }
+
+  @Test
+  public void testDisjunction() throws Exception {
+    log.info("{}", CollectionUtil.disjunction(a, b));
+    log.info("{}", CollectionUtil.disjunction(b, a));
+  }
+
 
 }

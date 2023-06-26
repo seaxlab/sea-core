@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * module name
@@ -246,5 +247,40 @@ public final class CollectionUtil {
     return Tuple2.of(min, max);
   }
 
+  /**
+   * union collection
+   *
+   * @param a   Iterable
+   * @param b   Iterable
+   * @param <O> object
+   * @return collection
+   */
+  public static <O> Collection<O> union(final Iterable<? extends O> a, final Iterable<? extends O> b) {
+    return CollectionUtils.union(a, b);
+  }
+
+  /**
+   * intersection collection
+   *
+   * @param a   Iterable
+   * @param b   Iterable
+   * @param <O> object
+   * @return collection
+   */
+  public static <O> Collection<O> intersection(final Iterable<? extends O> a, final Iterable<? extends O> b) {
+    return CollectionUtils.intersection(a, b);
+  }
+
+  /**
+   * disjunction collection
+   *
+   * @param a   Iterable
+   * @param b   Iterable
+   * @param <O> object
+   * @return collection
+   */
+  public static <O> Collection<O> disjunction(final Iterable<? extends O> a, final Iterable<? extends O> b) {
+    return CollectionUtils.disjunction(a, b);
+  }
 
 }
