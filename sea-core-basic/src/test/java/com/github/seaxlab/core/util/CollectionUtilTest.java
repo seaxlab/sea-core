@@ -61,6 +61,7 @@ public class CollectionUtilTest extends BaseCoreTest {
 
   List<String> a = Arrays.asList("a", "b", "b");
   List<String> b = Arrays.asList("b", "b", "c", "d");
+  List<String> c = Arrays.asList("f", "g", "h");
 
   @Test
   public void testIntersection() throws Exception {
@@ -68,6 +69,8 @@ public class CollectionUtilTest extends BaseCoreTest {
     log.info("{}", CollectionUtil.intersection(a, b));
     Collection<?> collection = CollectionUtil.intersection(b, a);
     log.info("{}", collection);
+
+    log.info("{}", CollectionUtil.intersection(b, c));
   }
 
 
