@@ -48,6 +48,8 @@ public final class JacksonUtil {
     //objectMapper.enable(MapperFeature.PROPAGATE_TRANSIENT_MARKER); //忽略transient字段，enable方法标注废弃
     //objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
     objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+    //null字段不序列化
+    //objectMapper.setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
     // 这里不能使用setDateFormat(),否则会导致线程不安全
     //SimpleDateFormat dateFormat = DateUtil.getSdf(DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
     //objectMapper.setDateFormat(dateFormat);
