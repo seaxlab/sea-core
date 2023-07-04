@@ -76,4 +76,11 @@ public class RandomUtilTest extends BaseCoreTest {
   public void testNextDouble2() throws Exception {
     log.info("{}", RandomUtil.nextDouble(0, 1));
   }
+
+  @Test
+  public void testNumericNoRepeat() throws Exception {
+    for (int i = 0; i < 10; i++) {
+      log.info("{}", RandomUtil.numericNoRepeat(6));
+    }
+  }
 }

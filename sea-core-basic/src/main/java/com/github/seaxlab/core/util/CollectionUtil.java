@@ -127,7 +127,7 @@ public final class CollectionUtil {
     if (collection == null || collection.isEmpty()) {
       return "";
     }
-    Precondition.checkNotBlank(delimiter, "delimiter cannot be empty.");
+    Precondition.checkNotNull(delimiter, "delimiter cannot be null.");
 
     T el = collection.stream().findAny().get();
 

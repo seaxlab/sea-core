@@ -1,10 +1,14 @@
 package com.github.seaxlab.core.util;
 
+import com.github.seaxlab.core.exception.Precondition;
 import com.google.common.base.Preconditions;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -77,6 +81,26 @@ public final class RandomUtil {
 
     return RandomStringUtils.randomNumeric(count);
   }
+
+  /**
+   * numeric no repeat
+   *
+   * @param count
+   * @return
+   */
+  public static String numericNoRepeat(int count) {
+    Precondition.checkState(count > 0, "count cannot large than 0");
+    Precondition.checkState(count < 10, "count cannot large than 10");
+
+    //
+    Random randNum = new Random();
+    Set<Integer> set = new LinkedHashSet<>();
+    while (set.size() < count) {
+      set.add(randNum.nextInt(10));
+    }
+    return set.stream().map(Object::toString).collect(Collectors.joining(""));
+  }
+
 
   /**
    * next boolean
