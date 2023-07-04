@@ -3,6 +3,8 @@ package com.github.seaxlab.core.security;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.model.Tuple2;
 import com.github.seaxlab.core.security.util.RSAUtil;
+import com.github.seaxlab.core.util.FileUtil;
+import com.github.seaxlab.core.util.PathUtil;
 import com.github.seaxlab.core.util.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -76,13 +78,22 @@ public class RSAUtilTest extends BaseCoreTest {
 
   @Test
   public void testEncrypt() {
-    String publicKey = getConfig("sea.rsa_public_key", false);
     String content = "";
+    encryptUtil(content);
+  }
+
+  @Test
+  public void testEncrypt2() throws Exception {
+    encryptUtil(FileUtil.readFileToString(PathUtil.getSeaHome() + "/encrypt.pdf"));
+  }
+
+  private void encryptUtil(String content) {
+    System.out.println("origin:" + content);
+    String publicKey = getConfig("sea.rsa_public_key", false);
     content += "\n" + RandomUtil.uuid();
     System.out.println(RSAUtil.encryptBySegment(publicKey, content));
-
-    //
   }
+
 
   @Test
   public void testDecrypt() throws Exception {
