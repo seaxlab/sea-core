@@ -85,8 +85,8 @@ public final class RandomUtil {
   /**
    * numeric no repeat
    *
-   * @param count
-   * @return
+   * @param count total length
+   * @return no repeat numeric string
    */
   public static String numericNoRepeat(int count) {
     Precondition.checkState(count > 0, "count cannot large than 0");
