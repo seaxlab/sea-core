@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -129,7 +130,8 @@ public final class CollectionUtil {
     }
     Precondition.checkNotNull(delimiter, "delimiter cannot be null.");
 
-    T el = collection.stream().findAny().get();
+    T el = collection.stream().filter(Objects::nonNull).findFirst().orElse(null);
+    ;
 
     if (el != null && ClassUtil.isSimpleType(el.getClass())) {
       return toString(collection, item -> String.valueOf(item), delimiter);
