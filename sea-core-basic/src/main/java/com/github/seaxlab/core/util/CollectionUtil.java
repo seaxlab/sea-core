@@ -131,7 +131,6 @@ public final class CollectionUtil {
     Precondition.checkNotNull(delimiter, "delimiter cannot be null.");
 
     T el = collection.stream().filter(Objects::nonNull).findFirst().orElse(null);
-    ;
 
     if (el != null && ClassUtil.isSimpleType(el.getClass())) {
       return toString(collection, item -> String.valueOf(item), delimiter);
