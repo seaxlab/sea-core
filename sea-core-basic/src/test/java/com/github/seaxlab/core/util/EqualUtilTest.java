@@ -1,13 +1,16 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.SetUtils;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * module name
@@ -128,4 +131,24 @@ public class EqualUtilTest extends BaseCoreTest {
     log.info("{}", EqualUtil.isEq(value1, value2));
     log.info("{}", EqualUtil.isNotEq(value1, value2));
   }
+
+  @Test
+  public void testHasString() throws Exception {
+    Set<String> set1 = new HashSet<>();
+    set1.add("a");
+    set1.add("b");
+    set1.add("c");
+
+    Set<String> target1 = new HashSet<>();
+    target1.add("a");
+    target1.add("b");
+
+    Set<String> target2 = new HashSet<>();
+    target2.add("e");
+    target2.add("f");
+
+    log.info("current={},target={},flag={}", set1, target1, EqualUtil.hasString(set1, target1));
+    log.info("current={},target={},flag={}", set1, target2, EqualUtil.hasString(set1, target2));
+  }
+
 }

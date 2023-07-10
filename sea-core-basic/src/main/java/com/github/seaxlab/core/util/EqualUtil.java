@@ -486,6 +486,19 @@ public final class EqualUtil {
     return values.stream().anyMatch(item -> isEq(item, value));
   }
 
+  public static boolean isIn(String value, Collection<String> values) {
+    if (Objects.isNull(value)) {
+      log.warn("value is null");
+      return false;
+    }
+    if (Objects.isNull(values)) {
+      log.warn("values is null");
+      return false;
+    }
+    return values.stream().anyMatch(item -> isEq(item, value));
+  }
+
+
   public static boolean isNotIn(String value, List<String> values) {
     return !isIn(value, values);
   }
@@ -538,6 +551,19 @@ public final class EqualUtil {
     return !isIn(value, values);
   }
 
+
+  public static boolean isIn(Integer value, Collection<Integer> values) {
+    if (Objects.isNull(value)) {
+      log.warn("value is null");
+      return false;
+    }
+    if (Objects.isNull(values)) {
+      log.warn("values is null");
+      return false;
+    }
+    return values.stream().anyMatch(item -> item.intValue() == value.intValue());
+  }
+
   /**
    * 判断value是否在values中
    *
@@ -588,6 +614,18 @@ public final class EqualUtil {
     return !isIn(value, values);
   }
 
+  public static boolean isIn(Long value, Collection<Long> values) {
+    if (Objects.isNull(value)) {
+      log.warn("value is null");
+      return false;
+    }
+    if (Objects.isNull(values)) {
+      log.warn("values is null");
+      return false;
+    }
+    return values.stream().anyMatch(item -> item.longValue() == value.longValue());
+  }
+
   /**
    * check all element in left side must be in right side
    *
@@ -626,6 +664,69 @@ public final class EqualUtil {
     }
 
     return true;
+  }
+
+  /**
+   * has string
+   *
+   * @param currentData
+   * @param targetData
+   * @return
+   */
+  public static boolean hasString(final Collection<String> currentData, final Collection<String> targetData) {
+    log.info("current={},target={}", currentData, targetData);
+    if (Objects.isNull(currentData) || currentData.isEmpty()) {
+      log.warn("current data is empty.");
+      return false;
+    }
+    if (Objects.isNull(targetData)) {
+      log.warn("target data is empty.");
+      return false;
+    }
+
+    return currentData.stream().anyMatch(item -> isIn(item, targetData));
+  }
+
+  /**
+   * has integer
+   *
+   * @param currentData
+   * @param targetData
+   * @return
+   */
+  public static boolean hasInteger(final Collection<Integer> currentData, final Collection<Integer> targetData) {
+    log.info("current={},target={}", currentData, targetData);
+    if (Objects.isNull(currentData) || currentData.isEmpty()) {
+      log.warn("current data is empty.");
+      return false;
+    }
+    if (Objects.isNull(targetData)) {
+      log.warn("target data is empty.");
+      return false;
+    }
+
+    return currentData.stream().anyMatch(item -> isIn(item, targetData));
+  }
+
+  /**
+   * has long
+   *
+   * @param currentData
+   * @param targetData
+   * @return
+   */
+  public static boolean hasLong(final Collection<Long> currentData, final Collection<Long> targetData) {
+    log.info("current={},target={}", currentData, targetData);
+    if (Objects.isNull(currentData) || currentData.isEmpty()) {
+      log.warn("current data is empty.");
+      return false;
+    }
+    if (Objects.isNull(targetData)) {
+      log.warn("target data is empty.");
+      return false;
+    }
+
+    return currentData.stream().anyMatch(item -> isIn(item, targetData));
   }
 
 }
