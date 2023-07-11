@@ -36,7 +36,7 @@ public class LockUtil {
         }
       }
     } catch (Exception e) {
-      log.error("fail to unlock", e);
+      log.warn("fail to unlock", e);
     }
   }
 

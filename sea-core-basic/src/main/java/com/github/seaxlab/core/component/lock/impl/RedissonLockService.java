@@ -57,10 +57,10 @@ public class RedissonLockService extends BaseLockService {
       runnable.run();
     } finally {
       stopwatch.stop();
+      log.info("{} end, cost={}ms", config.getBizName(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
+      //
       LockUtil.unlock(lock);
     }
-    //
-    log.info("{} end, cost={}ms", config.getBizName(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
   }
 
   @Override
@@ -86,10 +86,11 @@ public class RedissonLockService extends BaseLockService {
       response = supplier.get();
     } finally {
       stopwatch.stop();
+      //
+      log.info("{} end, cost={}ms", config.getBizName(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
       LockUtil.unlock(lock);
     }
-    //
-    log.info("{} end, cost={}ms", config.getBizName(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
+
     return response;
   }
 
@@ -111,10 +112,11 @@ public class RedissonLockService extends BaseLockService {
       runnable.run();
     } finally {
       stopwatch.stop();
+      //
+      log.info("{} end, cost={}ms", bizName, stopwatch.elapsed(TimeUnit.MILLISECONDS));
       LockUtil.unlock(lock);
     }
-    //
-    log.info("{} end, cost={}ms", bizName, stopwatch.elapsed(TimeUnit.MILLISECONDS));
+
   }
 
   @Override
@@ -137,10 +139,10 @@ public class RedissonLockService extends BaseLockService {
       response = supplier.get();
     } finally {
       stopwatch.stop();
+      log.info("{} end, cost={}ms", bizName, stopwatch.elapsed(TimeUnit.MILLISECONDS));
       LockUtil.unlock(lock);
     }
-    //
-    log.info("{} end, cost={}ms", bizName, stopwatch.elapsed(TimeUnit.MILLISECONDS));
+
     return response;
   }
 
@@ -164,11 +166,10 @@ public class RedissonLockService extends BaseLockService {
       runnable.run();
     } finally {
       stopwatch.stop();
+      //
+      log.info("{} end, cost={}ms", bizName, stopwatch.elapsed(TimeUnit.MILLISECONDS));
       LockUtil.unlock(lock);
     }
-    //
-    log.info("{} end, cost={}ms", bizName, stopwatch.elapsed(TimeUnit.MILLISECONDS));
-
   }
 
   @Override
