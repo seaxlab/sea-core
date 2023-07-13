@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.spring.controller;
 
 import com.github.seaxlab.core.component.json.jackson.util.JacksonUtil;
+import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.ArrayUtil;
@@ -73,6 +74,15 @@ public class SeaController {
 
     } catch (Exception e) {
       log.warn("fail to invoke ", e);
+      //
+      if (e instanceof InvocationTargetException) {
+        InvocationTargetException ite = (InvocationTargetException) e;
+        if (ite.getTargetException() instanceof BaseAppException) {
+          BaseAppException be = (BaseAppException) ite.getTargetException();
+          return Result.failMsg(be.getDesc());
+        }
+      }
+
       return Result.failMsg(e.getMessage());
     }
     return Result.success(obj);
