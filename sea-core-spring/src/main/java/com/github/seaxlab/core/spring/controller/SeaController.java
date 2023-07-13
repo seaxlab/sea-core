@@ -110,8 +110,9 @@ public class SeaController {
       log.warn("methods is empty.");
       return ReflectUtil.invokeMethod(bean, method);
     }
-
+    boolean foundFlag = false;
     int inputArgumentCount = getInputArgumentCount(params);
+    //
     for (Method methodObj : methods) {
       if (EqualUtil.isNotEq(methodObj.getName(), method)) {
         continue;
@@ -122,6 +123,7 @@ public class SeaController {
         continue;
       }
 
+      foundFlag = true;
       if (parameterCount > 0) {
         List<Object> args = getInputArgumentList(params, methodObj);
         obj = MethodUtils.invokeMethod(bean, method, args.toArray());
@@ -129,6 +131,10 @@ public class SeaController {
         obj = MethodUtils.invokeMethod(bean, method);
       }
       break;
+    }
+
+    if (!foundFlag) {
+      log.warn("not found, {}.{} {} arguments", service, methods, inputArgumentCount);
     }
 
     return obj;
