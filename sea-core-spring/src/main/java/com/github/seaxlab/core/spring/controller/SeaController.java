@@ -102,6 +102,9 @@ public class SeaController {
     String service = (String) params.get("service");
     String method = (String) params.get("method");
     //
+    Precondition.checkNotBlank(service, "service cannot be empty.");
+    Precondition.checkNotBlank(method, "method cannot be empty.");
+    //
     Object obj = null;
     Object bean = ctx.getBean(service);
     Method[] methods = bean.getClass().getMethods();
@@ -153,8 +156,9 @@ public class SeaController {
         argument = JacksonUtil.toString(argumentObj);
       }
     }
-
-    log.info("{}={}", key, argument);
+    if (log.isDebugEnabled()) {
+      log.debug("{}={}", key, argument);
+    }
     return argument;
   }
 
