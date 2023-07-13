@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.example.service;
 
+import com.github.seaxlab.core.example.bo.UserAdd1BO;
+import com.github.seaxlab.core.example.bo.UserAdd2BO;
 import com.github.seaxlab.core.spring.annotation.LogCost;
 
 /**
@@ -15,4 +17,8 @@ public interface UserService {
   String queryName();
 
   String queryName2();
+
+  String add(UserAdd1BO bo);
+
+  String add(UserAdd1BO bo, UserAdd2BO bo2);
 }

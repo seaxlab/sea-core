@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.example.service.impl;
 
+import com.github.seaxlab.core.example.bo.UserAdd1BO;
+import com.github.seaxlab.core.example.bo.UserAdd2BO;
 import com.github.seaxlab.core.example.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,5 +26,17 @@ public class User2Service implements UserService {
   public String queryName2() {
     log.info("query name2");
     return "query name2";
+  }
+
+  @Override
+  public String add(UserAdd1BO bo) {
+    log.info("add1 bo={}", bo);
+    return "add1";
+  }
+
+  @Override
+  public String add(UserAdd1BO bo, UserAdd2BO bo2) {
+    log.info("add bo1={},bo2={}", bo, bo2);
+    return "add2";
   }
 }

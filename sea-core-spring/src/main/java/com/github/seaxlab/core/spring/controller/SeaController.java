@@ -5,7 +5,6 @@ import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.ArrayUtil;
 import com.github.seaxlab.core.util.EqualUtil;
-import com.github.seaxlab.core.util.JSONUtil;
 import com.github.seaxlab.core.util.ReflectUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.github.seaxlab.core.web.util.ResponseUtil;
@@ -13,8 +12,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +52,7 @@ public class SeaController {
   /**
    * invoke public method of any bean service
    *
-   * @param params params(service,method,argument)
+   * @param params params(service,method,argument1~N)
    * @return result
    */
   @ApiOperation(value = "execute", hidden = true)
@@ -64,8 +65,7 @@ public class SeaController {
       if (StringUtil.isNotBlank(field)) {
         obj = invokeField((String) params.get("service"), field);
       } else {
-        String argument = parseArgument(params.get("argument"));
-        obj = invokeMethod((String) params.get("service"), (String) params.get("method"), argument);
+        obj = invokeMethod(params);
         if (obj instanceof Result) {
           return (Result) obj;
         }
@@ -80,22 +80,6 @@ public class SeaController {
 
 
   //-------------------------------------private
-  private String parseArgument(Object argumentObj) {
-    String argument = "";
-    if (argumentObj != null) {
-      if (argumentObj instanceof String) {
-        String value = (String) argumentObj;
-        if (StringUtil.isNotBlank(value)) {
-          argument = value;
-        }
-      } else {
-        argument = JacksonUtil.toString(argumentObj);
-      }
-    }
-    log.info("final argument={}", argument);
-    return argument;
-  }
-
   private Object invokeField(String service, String field) {
     Precondition.checkNotBlank(service, "service cannot be empty.");
     Precondition.checkNotBlank(field, "field cannot be empty.");
@@ -113,34 +97,101 @@ public class SeaController {
     return obj;
   }
 
-  private Object invokeMethod(String service, String method, String argument)
+  private Object invokeMethod(Map<String, Object> params)
     throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-    Precondition.checkNotBlank(service, "service cannot be empty.");
-    Precondition.checkNotBlank(method, "method cannot be empty.");
+    String service = (String) params.get("service");
+    String method = (String) params.get("method");
     //
-    Object obj;
+    Object obj = null;
     Object bean = ctx.getBean(service);
     Method[] methods = bean.getClass().getMethods();
 
-    if (ArrayUtil.isNotEmpty(methods) && StringUtil.isNotEmpty(argument)) {
-      Method methodObj = Arrays.stream(methods) //
-        .filter(item -> EqualUtil.isEq(item.getName(), method)) //
-        .findFirst().get();
+    if (ArrayUtil.isEmpty(methods)) {
+      log.warn("methods is empty.");
+      return ReflectUtil.invokeMethod(bean, method);
+    }
 
-      if (methodObj.getParameterCount() > 0) {
-        Class<?> parameterType = methodObj.getParameterTypes()[0];
-        if (JSONUtil.isSimpleValid(argument)) {
-          obj = MethodUtils.invokeMethod(bean, method, JacksonUtil.toObject(argument, parameterType));
-        } else {
-          obj = MethodUtils.invokeMethod(bean, method, argument);
-        }
+    int inputArgumentCount = getInputArgumentCount(params);
+    for (Method methodObj : methods) {
+      if (EqualUtil.isNotEq(methodObj.getName(), method)) {
+        continue;
+      }
+      int parameterCount = methodObj.getParameterCount();
+      log.info("argument count, sign={}, input={}", parameterCount, inputArgumentCount);
+      if (inputArgumentCount != parameterCount) {
+        continue;
+      }
+
+      if (parameterCount > 0) {
+        List<Object> args = getInputArgumentList(params, methodObj);
+        obj = MethodUtils.invokeMethod(bean, method, args.toArray());
       } else {
         obj = MethodUtils.invokeMethod(bean, method);
       }
-    } else {
-      obj = ReflectUtil.invokeMethod(bean, method);
+      break;
     }
+
     return obj;
+  }
+
+  private String parseArgument(Map<String, Object> params, String key) {
+    Object argumentObj = params.get(key);
+    String argument = "";
+    if (argumentObj != null) {
+      if (argumentObj instanceof String) {
+        String value = (String) argumentObj;
+        if (StringUtil.isNotBlank(value)) {
+          argument = value;
+        }
+      } else {
+        argument = JacksonUtil.toString(argumentObj);
+      }
+    }
+
+    log.info("{}={}", key, argument);
+    return argument;
+  }
+
+
+  private final static int MAX_ARGUMENT_SIZE = 10;
+
+  private int getInputArgumentCount(Map<String, Object> params) {
+    int count = 0;
+    for (int i = 1; i < MAX_ARGUMENT_SIZE; i++) {
+      String key = "argument" + i;
+      Object argumentObj = params.get(key);
+      if (Objects.isNull(argumentObj)) {
+        if (log.isDebugEnabled()) {
+          log.debug("argument obj, {}=null, so end.", key);
+        }
+        break;
+      }
+      count++;
+    }
+
+    return count;
+  }
+
+
+  private List<Object> getInputArgumentList(Map<String, Object> params, Method methodObj) {
+    List<Object> args = new ArrayList<>();
+    Class<?>[] parameterTypes = methodObj.getParameterTypes();
+    //
+    for (int i = 1; i < MAX_ARGUMENT_SIZE; i++) {
+      String key = "argument" + i;
+      Object argumentObj = params.get(key);
+      if (Objects.isNull(argumentObj)) {
+        if (log.isDebugEnabled()) {
+          log.debug("argument obj, {}=null, so end.", key);
+        }
+        break;
+      }
+
+      //
+      args.add(JacksonUtil.toObject(parseArgument(params, key), parameterTypes[i - 1]));
+    }
+
+    return args;
   }
 
 }
