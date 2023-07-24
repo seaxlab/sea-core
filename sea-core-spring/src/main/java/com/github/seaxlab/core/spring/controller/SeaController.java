@@ -56,7 +56,7 @@ public class SeaController {
   /**
    * invoke public method of any bean service
    *
-   * @param params params(service,method,argument1~N)
+   * @param params params(service,method,argument1~N,argumentTypes)
    * @return result
    */
   @ApiOperation(value = "execute", hidden = true)
@@ -227,6 +227,7 @@ public class SeaController {
         targetClass = parameterTypes[i - 1];
       }
       if (Objects.isNull(targetClass)) {
+        log.warn("cannot refer target class");
         ExceptionHandler.publishMsg("targetClass不能为空");
       }
       //
