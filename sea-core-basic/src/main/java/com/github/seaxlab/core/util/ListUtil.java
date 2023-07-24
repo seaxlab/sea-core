@@ -272,6 +272,28 @@ public final class ListUtil {
   }
 
   /**
+   * get element
+   *
+   * @param data  list
+   * @param index 0 is start
+   * @param <T>
+   * @return
+   */
+  public static <T> T get(List<T> data, int index) {
+    if (Objects.isNull(data)) {
+      log.warn("data is null");
+      return null;
+    }
+    if (index >= data.size()) {
+      log.warn("data.size={} <= index={}", data.size(), index);
+      return null;
+    }
+
+    return data.get(index);
+  }
+
+
+  /**
    * 多个list相加
    *
    * @param list1
