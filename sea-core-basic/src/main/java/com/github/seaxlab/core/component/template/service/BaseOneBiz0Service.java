@@ -6,7 +6,9 @@ import com.github.seaxlab.core.component.template.checker.Checker;
 import com.github.seaxlab.core.util.CollectionUtil;
 import com.github.seaxlab.core.util.SetUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import com.google.common.base.Stopwatch;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -59,7 +61,14 @@ public abstract class BaseOneBiz0Service implements OneBiz0Service {
       return;
     }
     //
-    handle();
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    try {
+      log.info("{} begin", getBizName());
+      handle();
+    } finally {
+      stopwatch.stop();
+      log.info("{} end, cost={}ms", getBizName(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
+    }
   }
 
   public abstract String getBizName();
