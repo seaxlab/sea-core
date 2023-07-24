@@ -2,10 +2,13 @@ package com.github.seaxlab.core.spring.controller;
 
 import com.github.seaxlab.core.component.json.jackson.util.JacksonUtil;
 import com.github.seaxlab.core.exception.BaseAppException;
+import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.ArrayUtil;
+import com.github.seaxlab.core.util.ClassUtil;
 import com.github.seaxlab.core.util.EqualUtil;
+import com.github.seaxlab.core.util.ListUtil;
 import com.github.seaxlab.core.util.ReflectUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.github.seaxlab.core.web.util.ResponseUtil;
@@ -195,6 +198,11 @@ public class SeaController {
 
   private List<Object> getInputArgumentList(Map<String, Object> params, Method methodObj) {
     List<Object> args = new ArrayList<>();
+    //
+    List<String> argumentTypes = (List<String>) params.get("argumentTypes");
+    if (Objects.isNull(argumentTypes)) {
+      argumentTypes = new ArrayList<>();
+    }
     Class<?>[] parameterTypes = methodObj.getParameterTypes();
     //
     for (int i = 1; i < MAX_ARGUMENT_SIZE; i++) {
@@ -207,11 +215,26 @@ public class SeaController {
         break;
       }
 
+      Class<?> targetClass = null;
+
+      String targetClassString = ListUtil.get(argumentTypes, i - 1);
+      if (StringUtil.isNotBlank(targetClassString)) {
+        log.info("targetClassString is not null, so try it ");
+        targetClass = ClassUtil.load(targetClassString, false);
+      }
+      if (Objects.isNull(targetClass)) {
+        log.info("target class is null, so try to parameterTypes");
+        targetClass = parameterTypes[i - 1];
+      }
+      if (Objects.isNull(targetClass)) {
+        ExceptionHandler.publishMsg("targetClass不能为空");
+      }
       //
-      args.add(JacksonUtil.toObject(parseArgument(params, key), parameterTypes[i - 1]));
+      args.add(JacksonUtil.toObject(parseArgument(params, key), targetClass));
     }
 
     return args;
   }
+
 
 }
