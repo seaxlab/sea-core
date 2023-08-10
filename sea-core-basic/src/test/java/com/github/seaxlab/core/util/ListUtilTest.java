@@ -3,6 +3,7 @@ package com.github.seaxlab.core.util;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.domain.Role;
 import com.github.seaxlab.core.domain.User;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -540,6 +541,17 @@ public class ListUtilTest extends BaseCoreTest {
     List<Integer> data = new ArrayList<>();
     int sum = data.stream().map(item -> item).mapToInt(item -> item).sum();
     log.info("sum={}", sum);
+  }
+
+  @Test
+  public void testSumBigDecimal() throws Exception {
+    List<BigDecimal> data = new ArrayList<>();
+    data.add(BigDecimal.valueOf(100.01));
+    data.add(null);
+    data.add(BigDecimal.valueOf(20.9));
+    data.add(null);
+    log.info("sum={}", ListUtil.sumBigDecimal(data, item -> item));
+
   }
 
   @Test

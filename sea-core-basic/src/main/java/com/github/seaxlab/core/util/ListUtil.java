@@ -5,6 +5,7 @@ import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
 import com.google.common.collect.Lists;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -905,6 +906,23 @@ public final class ListUtil {
     return data.stream().mapToDouble(mapper).sum();
   }
 
+  /**
+   * big decimal sum
+   *
+   * @param data
+   * @param func
+   * @param <T>
+   * @return
+   */
+  public static <T> BigDecimal sumBigDecimal(List<T> data, Function<T, BigDecimal> func) {
+    if (isEmpty(data)) {
+      return BigDecimal.ZERO;
+    }
+    return data.stream().map(func)    // map
+      .filter(Objects::nonNull)
+      .reduce(BigDecimal.ZERO, BigDecimal::add);      // reduce.sum();
+
+  }
 
   /**
    * 分页
