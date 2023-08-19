@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.github.seaxlab.core.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * wrapper util
@@ -38,7 +39,7 @@ public final class WrapperUtil {
         wrapper.eq(propertyName, value);
       }
     } else if (value instanceof Collection) {
-      Collection data = (Collection) value; // NOSONAR
+      Collection<?> data = (Collection<?>) value; // NOSONAR
       if (data.isEmpty()) {
         log.warn("collection [value] is empty.");
       } else {
@@ -65,7 +66,7 @@ public final class WrapperUtil {
         wrapper.eq(column, value);
       }
     } else if (value instanceof Collection) {
-      Collection data = (Collection) value; // NOSONAR
+      Collection<?> data = (Collection<?>) value; // NOSONAR
       if (data.isEmpty()) {
         log.warn("collection [value] is empty.");
       } else {
@@ -92,7 +93,7 @@ public final class WrapperUtil {
         wrapper.ne(propertyName, value);
       }
     } else if (value instanceof Collection) {
-      Collection data = (Collection) value; // NOSONAR
+      Collection<?> data = (Collection<?>) value; // NOSONAR
       if (data.isEmpty()) {
         log.warn("collection [value] is empty.");
       } else {
@@ -119,7 +120,7 @@ public final class WrapperUtil {
         wrapper.ne(func, value);
       }
     } else if (value instanceof Collection) {
-      Collection data = (Collection) value; // NOSONAR
+      Collection<?> data = (Collection<?>) value; // NOSONAR
       if (data.isEmpty()) {
         log.warn("collection [value] is empty.");
       } else {

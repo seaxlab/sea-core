@@ -39,7 +39,7 @@ public final class BatchUtil {
    */
   public static <T extends InsertSelectiveMapper> void insertByBatch(SqlSessionFactory sqlSessionFactory,
                                                                      Class<T> mapperClass,
-                                                                     List list) {
+                                                                     List<?> list) {
     if (ListUtil.isEmpty(list)) {
       log.warn("list is empty");
       return;
@@ -72,7 +72,7 @@ public final class BatchUtil {
    */
   public static <T extends InsertSelectiveMapper> void insert(SqlSessionFactory sqlSessionFactory,
                                                               Class<T> mapperClass,
-                                                              List list) {
+                                                              List<?> list) {
     insertByBatch(sqlSessionFactory, mapperClass, list);
   }
 
