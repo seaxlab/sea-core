@@ -28,6 +28,7 @@ public class DBModelCreateDTO {
   // file output
   private EngineFileType engineFileType;
   private String outPutDir;
+  private String groupName;
   private String outPutFileName;
   private String version;
 

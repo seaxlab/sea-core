@@ -7,18 +7,15 @@ import cn.smallbun.screw.core.engine.EngineTemplateType;
 import cn.smallbun.screw.core.execute.DocumentationExecute;
 import cn.smallbun.screw.core.process.ProcessConfig;
 import com.github.seaxlab.core.dal.screw.dto.DBModelCreateDTO;
-import com.github.seaxlab.core.util.ListUtil;
-import com.github.seaxlab.core.util.ObjectUtil;
-import com.github.seaxlab.core.util.PathUtil;
-import com.github.seaxlab.core.util.SshUtil;
-import com.github.seaxlab.core.util.StringUtil;
+import com.github.seaxlab.core.util.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
+
+import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import javax.sql.DataSource;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * screw util
@@ -30,13 +27,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class ScrewUtil {
 
-  public static final List<String> IGNORE_DATABASE = ListUtil.of("test", "mysql", "information_schema",
-    "apolloconfigdb", "apolloportaldb");
+  public static final List<String> IGNORE_DATABASE = ListUtil.of("test", "mysql", "information_schema", "apolloconfigdb", "apolloportaldb");
   //
   public static final List<String> IGNORE_TABLE_PREFIX = ListUtil.of("test_", "bak_", "backup_");
 
   //
-  public static final List<String> IGNORE_TABLE_SUFFIX = ListUtil.of(
+  public static final List<String> IGNORE_TABLE_SUFFIX = ListUtil.of( //
     "_test", "_copy", "_bak", "_backup", "_prd", "_pro",
     //"_0","_00" //这里保留_0,_00防止库中没有后缀的表
     "_1", "_2", "_3", "_4", "_5", "_6", "_7", "_8", "_9", //
@@ -69,8 +65,7 @@ public final class ScrewUtil {
     // 执行 screw，生成数据库文档
     new DocumentationExecute(builder.build()).execute();
 
-    log.info("dump db model successfully. [{}/{} {}] ", engineConfig.getFileOutputDir(), dto.getOutPutFileName(),
-      dto.getVersion());
+    log.info("dump db model successfully. [{}/{} {}] ", engineConfig.getFileOutputDir(), dto.getOutPutFileName(), dto.getVersion());
   }
 
   /**
@@ -101,7 +96,10 @@ public final class ScrewUtil {
    */
   private static EngineConfig buildEngineConfig(DBModelCreateDTO dto) {
     String fileOutputDir = StringUtil.defaultIfBlank(dto.getOutPutDir(), PathUtil.getUserHome() + "/screw");
-    return EngineConfig.builder()//
+    if (StringUtil.isNotBlank(dto.getGroupName())) {
+      fileOutputDir += "/" + dto.getGroupName();
+    }
+    return EngineConfig.builder() //
       .fileOutputDir(fileOutputDir) // 生成文件路径
       .openOutputDir(false) // 打开目录
       .fileType(ObjectUtil.defaultIfNull(dto.getEngineFileType(), EngineFileType.HTML)) // 文件类型
