@@ -23,6 +23,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class MathUtil {
 
+
+  /**
+   * 获取增量偏移
+   *
+   * @param needAmount    需求总数
+   * @param provideAmount 已提供总数
+   * @param dbAmount      提供方能提供数
+   * @return
+   */
+  public static int getDelta(int needAmount, int provideAmount, int dbAmount) {
+    return Math.min(needAmount - provideAmount, dbAmount);
+  }
+
+
   /**
    * get min value
    *

@@ -19,6 +19,14 @@ import org.junit.Test;
 public class MathUtilTest extends BaseCoreTest {
 
   @Test
+  public void testGetDelta() throws Exception {
+    log.info("{}", MathUtil.getDelta(10, 2, 1));
+    log.info("{}", MathUtil.getDelta(10, 5, 10));
+    log.info("{}", MathUtil.getDelta(10, 9, 1));
+  }
+
+
+  @Test
   public void testMin() throws Exception {
     log.info("{}", MathUtil.min(10, 1, -1, 0));
   }
