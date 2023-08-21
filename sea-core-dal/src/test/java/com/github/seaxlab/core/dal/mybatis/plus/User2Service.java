@@ -1,9 +1,11 @@
 package com.github.seaxlab.core.dal.mybatis.plus;
 
 import com.github.seaxlab.core.dal.mybatis.plus.service.User3Service;
+import com.github.seaxlab.core.spring.tx.service.TxService;
 import com.github.seaxlab.core.spring.tx.util.TxUtil;
 import com.github.seaxlab.core.util.IdUtil;
 import com.github.seaxlab.core.util.RandomUtil;
+import java.util.concurrent.atomic.AtomicBoolean;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -25,6 +27,7 @@ public class User2Service {
   private final DataSourceTransactionManager dataSourceTransactionManager;
   //
   private final User3Service user3Service;
+  private final TxService txService;
 
   @Transactional(rollbackFor = Exception.class)
   public void add() {
@@ -84,6 +87,49 @@ public class User2Service {
 
     // nested
     user3Service.addInNestedAndThrow();
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public void add6() {
+    User2 entity = new User2();
+    entity.setName("6_" + RandomUtil.alphabetic(2));
+    user2Mapper.insert(entity);
+
+    // nested
+    try {
+      user3Service.addInNested();
+      throw new NullPointerException();
+    } catch (Exception e) {
+      log.error("fail to add", e);
+    }
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public void add7() {
+    User2 entity = new User2();
+    entity.setName("7_" + RandomUtil.alphabetic(2));
+    user2Mapper.insert(entity);
+
+    // nested
+    for (int i = 0; i < 3; i++) {
+      AtomicBoolean ref = new AtomicBoolean(false);
+      Integer loop = i;
+      try {
+
+        txService.executeInNested(() -> {
+          user3Service.addInNested();
+          if (loop > 1) {
+            throw new NullPointerException();
+          }
+          ref.set(true);
+        });
+
+      } catch (Exception e) {
+        log.error("fail to add", e);
+      }
+      log.info("i={},flag={}", i, ref.get());
+    }
+
   }
 
 }

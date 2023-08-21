@@ -29,6 +29,15 @@ public class User3Service {
     user2Mapper.insert(entity);
 
     user4Service.addInNested();
+  }
+
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
+  public void addInNested2() {
+    User2 entity = new User2();
+    entity.setName("NESTED-3-" + RandomUtil.alphabetic(3));
+    user2Mapper.insert(entity);
+
+    user4Service.addInNested();
     throw new NullPointerException();
   }
 

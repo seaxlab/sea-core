@@ -22,4 +22,5 @@
   </bean>
   <tx:annotation-driven transaction-manager="transactionManager"/>
 
+  <bean name="txService" class="com.github.seaxlab.core.spring.tx.service.TxService"/>
 </beans>

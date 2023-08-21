@@ -27,4 +27,14 @@ public class TxNestedTest extends BasePlusTest {
     user2Service.add4();
   }
 
+  @Test
+  public void test66() throws Exception {
+    user2Service.add6();
+  }
+
+  @Test
+  public void test7() throws Exception {
+    user2Service.add7();
+  }
+
 }
