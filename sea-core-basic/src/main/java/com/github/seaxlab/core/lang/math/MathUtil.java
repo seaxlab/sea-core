@@ -148,22 +148,22 @@ public final class MathUtil {
   /**
    * 排列选择（从列表中选择n个排列）
    *
-   * @param datas 待选列表
-   * @param m     选择个数
+   * @param data 待选列表
+   * @param m    选择个数
    * @return 所有排列列表
    */
-  public static List<String[]> arrangementSelect(String[] datas, int m) {
-    return cn.hutool.core.math.MathUtil.arrangementSelect(datas, m);
+  public static List<String[]> arrangementSelect(String[] data, int m) {
+    return cn.hutool.core.math.MathUtil.arrangementSelect(data, m);
   }
 
   /**
    * 全排列选择（列表全部参与排列）
    *
-   * @param datas 待选列表
+   * @param data 待选列表
    * @return 所有排列列表
    */
-  public static List<String[]> arrangementSelect(String[] datas) {
-    return cn.hutool.core.math.MathUtil.arrangementSelect(datas);
+  public static List<String[]> arrangementSelect(String[] data) {
+    return cn.hutool.core.math.MathUtil.arrangementSelect(data);
   }
 
   //--------------------------------------------------------------------------------------------- Combination
@@ -182,22 +182,22 @@ public final class MathUtil {
   /**
    * 组合选择（从列表中选择n个组合）
    *
-   * @param datas 待选列表
-   * @param m     选择个数
+   * @param data 待选列表
+   * @param m    选择个数
    * @return 所有组合列表
    */
-  public static List<String[]> combinationSelect(String[] datas, int m) {
-    return cn.hutool.core.math.MathUtil.combinationSelect(datas, m);
+  public static List<String[]> combinationSelect(String[] data, int m) {
+    return cn.hutool.core.math.MathUtil.combinationSelect(data, m);
   }
 
   /**
    * 组合选择- 全组合
    *
-   * @param datas 待选列表
+   * @param data 待选列表
    * @return
    */
-  public static List<String[]> combinationSelectAll(String[] datas) {
-    return new Combination(datas).selectAll();
+  public static List<String[]> combinationSelectAll(String[] data) {
+    return new Combination(data).selectAll();
   }
 
   /**
