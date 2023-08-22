@@ -224,6 +224,7 @@ public final class ModelConst {
   public static final String BODY = "body";
   public static final String PAYLOAD = "payload";
   public static final String RESULT = "result";
+  //
   public static final String SUCCESS = "success";
   public static final String FAIL = "fail";
 
