@@ -25,15 +25,15 @@ public final class MathUtil {
 
 
   /**
-   * 获取增量偏移
+   * 获取偏移量
    *
-   * @param needAmount    需求总数
-   * @param provideAmount 已提供总数
-   * @param dbAmount      提供方能提供数
+   * @param totalAmount    需求总数
+   * @param providedAmount 已提供总数
+   * @param dbAmount       提供方能提供数
    * @return
    */
-  public static int getDelta(int needAmount, int provideAmount, int dbAmount) {
-    return Math.min(needAmount - provideAmount, dbAmount);
+  public static int getDelta(int totalAmount, int providedAmount, int dbAmount) {
+    return Math.min(totalAmount - providedAmount, dbAmount);
   }
 
 
@@ -227,8 +227,7 @@ public final class MathUtil {
           continue;
         }
         Set<String> second = SetUtil.toSet(item2);
-        if ((first.size() + second.size() == allSet.size())
-          && SetUtil.union(first, second).size() == allSet.size()) {
+        if ((first.size() + second.size() == allSet.size()) && SetUtil.union(first, second).size() == allSet.size()) {
           list.set(j, null);
         }
       }
