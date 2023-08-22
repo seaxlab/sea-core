@@ -191,30 +191,13 @@ public class CoreConst {
    */
   public static final boolean HAS_SOFA_TRACER = ClassUtil.has("com.alipay.common.tracer.core.SofaTracer", false);
 
-  /**
-   * 最大日期跨度30天
-   */
   public static final Integer MAX_DATE_RANGE_30 = 30;
-
-  /**
-   * 最大日期跨度60天
-   */
   public static final Integer MAX_DATE_RANGE_60 = 60;
-
-  /**
-   * 最大日期跨度90天
-   */
   public static final Integer MAX_DATE_RANGE_90 = 90;
-
-  /**
-   * 最大日期跨度180天
-   */
   public static final Integer MAX_DATE_RANGE_180 = 180;
-
-  /**
-   * 最大日期跨度365天
-   */
+  public static final Integer MAX_DATE_RANGE_365 = 365;
   public static final Integer MAX_DATE_RANGE_ONE_YEAR = 365;
+
 
   /**
    * <p>总共尝试3次</p>
@@ -297,7 +280,7 @@ public class CoreConst {
   /**
    * 业务单元使用线程池的默认最大线程池
    */
-  public static final int DEFAULT_BIZ_THREAD_POOL_SIZE = 4;
+  public static final int DEFAULT_BIZ_THREAD_POOL_SIZE = 10;
 
   /**
    * Java MiddleWare Log Path,
