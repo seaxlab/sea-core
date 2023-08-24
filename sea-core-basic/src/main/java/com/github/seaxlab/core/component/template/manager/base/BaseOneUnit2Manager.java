@@ -96,7 +96,7 @@ public abstract class BaseOneUnit2Manager<I, R> implements OneUnit2Manager<I, R>
         if (getBidFlag()) {
           log.info("{} end, cost={}ms", getBizName(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
         } else {
-          log.info("{},{} end, cost={}ms", ThreadContextUtil.getRequestNo(), getBizName(),
+          log.info("{},{} end, cost={}ms", ThreadContextUtil.bid(), getBizName(),
             stopwatch.elapsed(TimeUnit.MILLISECONDS));
         }
       }
@@ -108,9 +108,9 @@ public abstract class BaseOneUnit2Manager<I, R> implements OneUnit2Manager<I, R>
   private void logRequest(I bo, String beginEnd) {
     if (getBidFlag()) {
       if (getLogRequestBoFlag()) {
-        log.info("{},{} begin{},bo={}", ThreadContextUtil.getRequestNo(), getBizName(), beginEnd, bo);
+        log.info("{},{} begin{},bo={}", ThreadContextUtil.bid(), getBizName(), beginEnd, bo);
       } else {
-        log.info("{},{} begin{}", ThreadContextUtil.getRequestNo(), getBizName(), beginEnd);
+        log.info("{},{} begin{}", ThreadContextUtil.bid(), getBizName(), beginEnd);
       }
     } else {
       if (getLogRequestBoFlag()) {

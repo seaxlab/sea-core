@@ -38,4 +38,13 @@ public final class ThreadContextUtil {
   public static String getRequestNo() {
     return ThreadContext.getSafe(BIZ_REQUEST_NO, CoreConst.NOT_APPLICABLE);
   }
+
+  /**
+   * get business id, the same as request no.
+   *
+   * @return
+   */
+  public static String bid() {
+    return getRequestNo();
+  }
 }
