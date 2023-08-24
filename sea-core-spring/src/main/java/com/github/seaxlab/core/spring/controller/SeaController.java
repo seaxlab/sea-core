@@ -5,10 +5,12 @@ import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.spring.tx.service.TxService;
 import com.github.seaxlab.core.util.ArrayUtil;
 import com.github.seaxlab.core.util.ClassUtil;
 import com.github.seaxlab.core.util.EqualUtil;
 import com.github.seaxlab.core.util.ListUtil;
+import com.github.seaxlab.core.util.MapUtil;
 import com.github.seaxlab.core.util.ReflectUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.github.seaxlab.core.web.util.ResponseUtil;
@@ -56,7 +58,7 @@ public class SeaController {
   /**
    * invoke public method of any bean service
    *
-   * @param params params(service,method,argument1~N,argumentTypes)
+   * @param params params(service,method,argument1~N,argumentTypes,txFlag)
    * @return result
    */
   @ApiOperation(value = "execute", hidden = true)
@@ -69,7 +71,14 @@ public class SeaController {
       if (StringUtil.isNotBlank(field)) {
         obj = invokeField((String) params.get("service"), field);
       } else {
-        obj = invokeMethod(params);
+        boolean txFlag = MapUtil.getBoolean(params, "txFlag", false);
+        if (txFlag) {
+          TxService txService = ctx.getBean(TxService.class);
+          Precondition.checkNotNull(txService);
+          txService.execute(() -> invokeMethod(params));
+        } else {
+          obj = invokeMethod(params);
+        }
         if (obj instanceof Result) {
           return (Result) obj;
         }
@@ -110,8 +119,7 @@ public class SeaController {
     return obj;
   }
 
-  private Object invokeMethod(Map<String, Object> params)
-    throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+  private Object invokeMethod(Map<String, Object> params) {
     String service = (String) params.get("service");
     String method = (String) params.get("method");
     //
@@ -140,11 +148,16 @@ public class SeaController {
       }
 
       foundFlag = true;
-      if (parameterCount > 0) {
-        List<Object> args = getInputArgumentList(params, methodObj);
-        obj = MethodUtils.invokeMethod(bean, method, args.toArray());
-      } else {
-        obj = MethodUtils.invokeMethod(bean, method);
+      try {
+        if (parameterCount > 0) {
+          List<Object> args = getInputArgumentList(params, methodObj);
+          obj = MethodUtils.invokeMethod(bean, method, args.toArray());
+        } else {
+          obj = MethodUtils.invokeMethod(bean, method);
+        }
+      } catch (Exception e) {
+        log.warn("invoke method exception", e);
+        throw new BaseAppException(e);
       }
       break;
     }
