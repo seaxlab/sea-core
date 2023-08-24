@@ -51,25 +51,21 @@ public class TxService {
 
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
   public <R> R executeInNew(Functions.Func0<R> func) {
-    log.info("execute in new tx.");
     return func.apply();
   }
 
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
   public <T, R> R executeInNew(Functions.Func1<T, R> func, T t) {
-    log.info("execute in new tx.");
     return func.apply(t);
   }
 
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
   public <T1, T2, R> R executeInNew(Functions.Func2<T1, T2, R> func, T1 t1, T2 t2) {
-    log.info("execute in new tx.");
     return func.apply(t1, t2);
   }
 
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
   public <T1, T2, T3, R> R executeInNew(Functions.Func3<T1, T2, T3, R> func, T1 t1, T2 t2, T3 t3) {
-    log.info("execute in new tx.");
     return func.apply(t1, t2, t3);
   }
   //---------------------------------execute in new end -------------------------
@@ -77,31 +73,26 @@ public class TxService {
   //-----------------------------------execute in nested tx begin--------------------------------
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
   public void executeInNested(Runnable runnable) {
-    log.info("execute in nested tx.");
     runnable.run();
   }
 
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
   public <R> R executeInNested(Functions.Func0<R> func) {
-    log.info("execute in nested tx.");
     return func.apply();
   }
 
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
   public <T, R> R executeInNested(Functions.Func1<T, R> func, T t) {
-    log.info("execute in nested tx.");
     return func.apply(t);
   }
 
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
   public <T1, T2, R> R executeInNested(Functions.Func2<T1, T2, R> func, T1 t1, T2 t2) {
-    log.info("execute in nested tx.");
     return func.apply(t1, t2);
   }
 
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
   public <T1, T2, T3, R> R executeInNested(Functions.Func3<T1, T2, T3, R> func, T1 t1, T2 t2, T3 t3) {
-    log.info("execute in nested tx.");
     return func.apply(t1, t2, t3);
   }
   //-----------------------------------execute in nested tx end--------------------------------
