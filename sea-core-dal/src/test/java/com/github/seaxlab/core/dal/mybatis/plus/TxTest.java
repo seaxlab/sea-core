@@ -54,7 +54,7 @@ public class TxTest extends BasePlusTest {
 
   @Test
   public void testTx3() throws Exception {
-
+    user2Service.add22();
   }
 
 }
