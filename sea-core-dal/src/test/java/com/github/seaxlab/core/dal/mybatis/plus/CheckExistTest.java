@@ -4,13 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.seaxlab.core.spring.tx.util.TxUtil;
 import com.github.seaxlab.core.util.IdUtil;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionStatus;
-
-import javax.annotation.Resource;
 
 /**
  * module name
@@ -67,7 +66,12 @@ public class CheckExistTest extends BasePlusTest {
 
   @Test
   public void testTx2() throws Exception {
-    user2Service.add2();
+    user2Service.add21();
+  }
+
+  @Test
+  public void testTx3() throws Exception {
+
   }
 
 }

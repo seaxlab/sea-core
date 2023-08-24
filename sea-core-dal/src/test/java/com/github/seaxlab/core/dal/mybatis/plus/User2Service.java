@@ -60,6 +60,23 @@ public class User2Service {
   }
 
   @Transactional(rollbackFor = Exception.class)
+  public void add21() {
+    User2 entity = new User2();
+    entity.setName("21_1_" + RandomUtil.alphabetic(2));
+    user2Mapper.insert(entity);
+
+    try {
+      user3Service.addAndThrow();
+    } catch (Exception e) {
+      log.error("add and throw", e);
+    }
+    User2 entity3 = new User2();
+    entity3.setName("21_3_" + RandomUtil.alphabetic(4));
+    user2Mapper.insert(entity3);
+  }
+
+
+  @Transactional(rollbackFor = Exception.class)
   public void add3() {
     User2 entity = new User2();
     entity.setName("3_" + RandomUtil.alphabetic(2));

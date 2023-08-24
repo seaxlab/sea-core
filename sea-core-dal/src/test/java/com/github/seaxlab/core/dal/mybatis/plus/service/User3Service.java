@@ -22,6 +22,16 @@ public class User3Service {
   private final User2Mapper user2Mapper;
   private final User4Service user4Service;
 
+
+  @Transactional(rollbackFor = Exception.class)
+  public void addAndThrow() {
+    User2 entity = new User2();
+    entity.setName("3-" + RandomUtil.alphabetic(3));
+    user2Mapper.insert(entity);
+    //
+    throw new NullPointerException(" NPE");
+  }
+
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
   public void addInNested() {
     User2 entity = new User2();
@@ -53,4 +63,5 @@ public class User3Service {
       log.error("fail to execute user4service");
     }
   }
+
 }
