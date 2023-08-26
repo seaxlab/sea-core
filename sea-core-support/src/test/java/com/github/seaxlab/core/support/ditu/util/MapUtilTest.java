@@ -1,7 +1,8 @@
 package com.github.seaxlab.core.support.ditu.util;
 
 import com.github.seaxlab.core.support.ditu.BaseDituTest;
-import com.github.seaxlab.core.support.ditu.model.Point;
+import com.github.seaxlab.core.support.ditu.common.model.Point;
+import com.github.seaxlab.core.support.ditu.common.util.MapUtil;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.support.ditu.model;
+package com.github.seaxlab.core.support.ditu.common.model;
 
 import com.github.seaxlab.core.component.json.jackson.util.JacksonUtil;
 import lombok.Data;

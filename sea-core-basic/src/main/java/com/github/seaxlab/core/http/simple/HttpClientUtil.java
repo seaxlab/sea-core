@@ -113,17 +113,18 @@ public class HttpClientUtil {
         SSLConnectionSocketFactory ssf = new SSLConnectionSocketFactory(ctx,
           SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
         Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()//
-          .register("http", PlainConnectionSocketFactory.getSocketFactory())//
-          .register("https", ssf) //
-          .build();
+                                                                    .register("http",
+                                                                      PlainConnectionSocketFactory.getSocketFactory())//
+                                                                    .register("https", ssf) //
+                                                                    .build();
         //manager
         connectionManager = new PoolingHttpClientConnectionManager(registry);
         connectionManager.setMaxTotal(managerMaxTotal);
         //socketConfig
         SocketConfig socketConfig = SocketConfig.custom().setSoTimeout(socketTimeOut).build();
         httpClient = HttpClients.custom().setConnectionManager(connectionManager) //
-          .setDefaultSocketConfig(socketConfig) //
-          .build();
+                                .setDefaultSocketConfig(socketConfig) //
+                                .build();
       } catch (Exception ex) {
         log.error("httpClient——初始化——报错，错误信息", ex);
       }
@@ -172,9 +173,9 @@ public class HttpClientUtil {
       }
       //requestConfig
       RequestConfig requestConfig = RequestConfig.custom() //
-        .setConnectionRequestTimeout(connectionRequestTimeout) //
-        .setConnectTimeout(connectionTimeout) //
-        .build();
+                                                 .setConnectionRequestTimeout(connectionRequestTimeout) //
+                                                 .setConnectTimeout(connectionTimeout) //
+                                                 .build();
       httpPost.setConfig(requestConfig);
       try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
         result = getRespEntityStr(response);
@@ -251,7 +252,7 @@ public class HttpClientUtil {
     }
     //requestConfig
     RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout)
-      .setConnectTimeout(connectionTimeout).build();
+                                               .setConnectTimeout(connectionTimeout).build();
     httpPost.setConfig(requestConfig);
 
     String result = null;
@@ -308,12 +309,10 @@ public class HttpClientUtil {
    * @param param param
    * @return string
    */
-  public static String get(final String url, Map<String, Object> param) throws IOException {
+  public static String get(final String url, Map<String, Object> param) {
 
     List<NameValuePair> list = new ArrayList<>();
-    Iterator<Entry<String, Object>> iterator = param.entrySet().iterator();
-    while (iterator.hasNext()) {
-      Entry<String, Object> elem = iterator.next();
+    for (Entry<String, Object> elem : param.entrySet()) {
       list.add(new BasicNameValuePair(elem.getKey(), String.valueOf(elem.getValue())));
     }
 
@@ -349,7 +348,7 @@ public class HttpClientUtil {
     init();
 
     RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout)
-      .setConnectTimeout(connectionTimeout).build();
+                                               .setConnectTimeout(connectionTimeout).build();
 
     HttpGet request = new HttpGet(url);
     request.setConfig(requestConfig);

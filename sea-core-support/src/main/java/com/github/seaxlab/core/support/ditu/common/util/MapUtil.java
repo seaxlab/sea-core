@@ -1,6 +1,6 @@
-package com.github.seaxlab.core.support.ditu.util;
+package com.github.seaxlab.core.support.ditu.common.util;
 
-import com.github.seaxlab.core.support.ditu.model.Point;
+import com.github.seaxlab.core.support.ditu.common.model.Point;
 import com.github.seaxlab.core.util.CollectionUtil;
 import com.google.common.base.Stopwatch;
 import java.awt.geom.Point2D;
