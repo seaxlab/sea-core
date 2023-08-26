@@ -18,17 +18,17 @@ public class TruckRoutePlanTest extends BaseGaoDeDiTuTest {
 
   @Test
   public void testNormal() throws Exception {
-    TruckRoutePlanReqDTO dto = new TruckRoutePlanReqDTO();
-    configBase(dto);
-    dto.setOrigin("118.749882,31.969491");
-    dto.setDestination("118.873156,32.129812");
+    TruckRoutePlanReqDTO dto = buildReqDTO(TruckRoutePlanReqDTO.class);
+    //
+    dto.setOrigin(LOCATION_云密城);
+    dto.setDestination(LOCATION_南京南站);
     String resp = manager.truckRoutePlan(dto);
     log.info("resp={}", resp);
   }
 
   @Test
   public void testNoSteps() throws Exception {
-    TruckRoutePlanReqDTO dto = new TruckRoutePlanReqDTO();
+    TruckRoutePlanReqDTO dto = buildReqDTO(TruckRoutePlanReqDTO.class);
     configBase(dto);
     dto.setOrigin("118.749882,31.969491");
     dto.setDestination("118.873156,32.129812");

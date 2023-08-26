@@ -8,6 +8,7 @@ import com.github.seaxlab.core.http.dto.response.HttpUploadRespDTO;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.JSONUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import com.google.common.base.Stopwatch;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -354,12 +356,17 @@ public class HttpClientUtil {
     request.setConfig(requestConfig);
     request.setHeader("User-Agent", "Chrome/Sea");
 
+    Stopwatch stopwatch = Stopwatch.createStarted();
+
     String result = null;
     try (CloseableHttpResponse response = httpClient.execute(request)) {
       result = getRespEntityStr(response);
     } catch (Exception e) {
       log.error("http exception", e);
       ExceptionHandler.publish(ErrorMessageEnum.HTTP_ERROR);
+    } finally {
+      stopwatch.stop();
+      log.info("http get, cost={}ms", stopwatch.elapsed(TimeUnit.MILLISECONDS));
     }
 
     return result;

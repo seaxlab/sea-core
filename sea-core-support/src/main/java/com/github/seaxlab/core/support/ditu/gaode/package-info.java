@@ -1,8 +1,0 @@
-/**
- * package info
- *
- * @author spy
- * @version 1.0 2023/8/26
- * @since 1.0
- */
-package com.github.seaxlab.core.support.ditu.gaode;
