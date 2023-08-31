@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * base one biz service
@@ -34,6 +35,18 @@ public abstract class BaseOneBiz1Service<I> implements OneBiz1Service<I> {
 
   @Override
   public void execute(I bo) {
+    if (getTxAllFlag()) {
+      TransactionTemplate txTemplate = context.getBean(TransactionTemplate.class);
+      txTemplate.execute(status -> {
+        _execute00(bo);
+        return null;
+      });
+    } else {
+      _execute00(bo);
+    }
+  }
+
+  private void _execute00(I bo) {
     init(bo);
     //
     Checker<I> checker = getChecker();
@@ -77,6 +90,7 @@ public abstract class BaseOneBiz1Service<I> implements OneBiz1Service<I> {
     }
   }
 
+
   public abstract String getBizName();
 
   public Checker<I> getChecker() {
@@ -93,6 +107,10 @@ public abstract class BaseOneBiz1Service<I> implements OneBiz1Service<I> {
 
   public boolean throwExceptionWhenLockFail() {
     return true;
+  }
+
+  public boolean getTxAllFlag() {
+    return false;
   }
 
   public void init(I bo) {
