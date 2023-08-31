@@ -22,6 +22,20 @@ public class User3Service {
   private final User2Mapper user2Mapper;
   private final User4Service user4Service;
 
+  @Transactional(rollbackFor = Exception.class)
+  public void add() {
+    log.info("add in tx");
+    User2 entity = new User2();
+    entity.setName("3-tx-" + RandomUtil.alphabetic(3));
+    user2Mapper.insert(entity);
+  }
+
+  public void addNoTx() {
+    log.info("add no tx");
+    User2 entity = new User2();
+    entity.setName("3-no-tx-" + RandomUtil.alphabetic(3));
+    user2Mapper.insert(entity);
+  }
 
   @Transactional(rollbackFor = Exception.class)
   public void addAndThrow() {

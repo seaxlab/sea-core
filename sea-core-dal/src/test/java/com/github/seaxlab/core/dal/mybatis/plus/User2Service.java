@@ -165,4 +165,43 @@ public class User2Service {
 
   }
 
+  @Transactional(rollbackFor = Exception.class)
+  public void add8() {
+    User2 entity = new User2();
+    entity.setName("8_" + RandomUtil.alphabetic(2));
+    user2Mapper.insert(entity);
+
+    try {
+      // nested
+      txService.executeInNested(() -> {
+        for (int i = 0; i < 2; i++) {
+          log.info("i={}", i);
+
+          user3Service.addNoTx();
+
+          try {
+            txService.executeInNested(() -> {
+              user3Service.add();
+              throw new NullPointerException();
+            });
+          } catch (Exception e) {
+            log.error("111", e);
+          }
+
+          try {
+            txService.executeInNested(() -> {
+              user3Service.add();
+              throw new NullPointerException();
+            });
+          } catch (Exception e) {
+            log.error("222", e);
+          }
+        }
+
+      });
+    } catch (Exception e) {
+      log.error("ex", e);
+    }
+  }
+
 }
