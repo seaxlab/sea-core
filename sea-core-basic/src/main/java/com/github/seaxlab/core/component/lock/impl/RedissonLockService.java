@@ -216,7 +216,7 @@ public class RedissonLockService extends BaseLockService {
       return redissonClient.getLock(config.getLockKey());
     }
 
-    if (CollectionUtil.isEmpty(config.getLockKeys())) {
+    if (CollectionUtil.isNotEmpty(config.getLockKeys())) {
       Set<RLock> locks = CollectionUtil.toSet(config.getLockKeys(), redissonClient::getLock);
       return redissonClient.getMultiLock(ArrayUtil.toArray(locks, RLock.class));
     }
