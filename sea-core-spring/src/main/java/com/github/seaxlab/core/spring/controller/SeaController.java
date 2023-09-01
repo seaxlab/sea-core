@@ -44,6 +44,36 @@ public class SeaController {
   }
 
   /**
+   * get property from env
+   *
+   * @param params
+   * @return
+   */
+  @ApiOperation(value = "env/get", hidden = true)
+  @PostMapping("/env/get")
+  public Result<Object> getProperty(@RequestBody Map<String, Object> params) {
+    Object obj = null;
+    try {
+      String key = (String) params.get("key");
+      obj = ctx.getEnvironment().getProperty(key, "");
+    } catch (Exception e) {
+      log.warn("fail to invoke ", e);
+      //
+      if (e instanceof InvocationTargetException) {
+        InvocationTargetException ite = (InvocationTargetException) e;
+        if (ite.getTargetException() instanceof BaseAppException) {
+          BaseAppException be = (BaseAppException) ite.getTargetException();
+          return Result.failMsg(be.getDesc());
+        }
+      }
+
+      return Result.failMsg(e.getMessage());
+    }
+    return Result.success(obj);
+  }
+
+
+  /**
    * invoke public method of any bean service
    *
    * @param params params(service,method,argument1~N,argumentTypes,txFlag)

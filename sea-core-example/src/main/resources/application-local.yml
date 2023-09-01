@@ -31,3 +31,6 @@ spring:
         threads: 0
         nettyThreads: 0
         transportMode: "NIO"
+project:
+  order:
+    time: 30
