@@ -1,12 +1,12 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.enums.RegExpEnum;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 常用正则
@@ -127,9 +127,7 @@ public final class RegExpUtil {
   }
 
   /**
-   * 功能：检查是否为URL。<br/>
-   * 包括Http，Ftp,News,Nntpurl,Telnet,Gopher,Wais,Mailto,File,
-   * Prosperurl和Otherurl。
+   * 功能：检查是否为URL。<br/> 包括Http，Ftp,News,Nntpurl,Telnet,Gopher,Wais,Mailto,File, Prosperurl和Otherurl。
    *
    * @param url 网址，不仅仅http或者https。
    * @return 如果是返回true，不是返回false。
@@ -203,8 +201,7 @@ public final class RegExpUtil {
 
 
   /**
-   * 取括号中的值
-   * abc(type)--> type
+   * 取括号中的值 abc(type)--> type
    *
    * @param managers
    * @return
@@ -256,5 +253,19 @@ public final class RegExpUtil {
     return str.replaceAll("[\\s]+", " ");
   }
 
+  /**
+   * remove chinese
+   *
+   * @param value
+   * @return
+   */
+  public static String removeChinese(String value) {
+    if (Objects.isNull(value)) {
+      value = "";
+    }
+    Pattern pattern = Pattern.compile(RegExpEnum.CHINESE.getExpression());
+    Matcher matcher = pattern.matcher(value);
+    return matcher.replaceAll("");
+  }
 
 }
