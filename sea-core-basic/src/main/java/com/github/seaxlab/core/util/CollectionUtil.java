@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -149,6 +150,20 @@ public final class CollectionUtil {
       return StringUtil.EMPTY;
     }
     return collection.stream().map(fn).collect(Collectors.joining(delimiter));
+  }
+
+  /**
+   * 删除元素
+   *
+   * @param data      数据集合
+   * @param predicate 断言
+   * @param <T>
+   */
+  public static <T> void remove(Collection<T> data, Predicate<T> predicate) {
+    int size = data.size();
+    // from 1.8
+    data.removeIf(predicate);
+    log.info("before:{},after:{}", size, data.size());
   }
 
 
