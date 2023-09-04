@@ -53,4 +53,10 @@ public class RegExpUtilTest extends BaseCoreTest {
   public void testGetByBracket2() throws Exception {
     println(RegExpUtil.getByBracket("a(abcd)", "a"));
   }
+
+  @Test
+  public void testRemoveChinese() throws Exception {
+    println(RegExpUtil.removeChinese("hello中国"));
+  }
+
 }
