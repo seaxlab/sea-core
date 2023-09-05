@@ -2,14 +2,13 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.common.SymbolConst;
 import com.github.seaxlab.core.exception.ExceptionHandler;
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * module name
@@ -20,6 +19,7 @@ import java.util.Properties;
  */
 @Slf4j
 public final class UrlUtil {
+
   public static final String SCHEMA = "schema";
   public static final String HOST = "host";
   public static final String PORT = "port";
@@ -78,9 +78,7 @@ public final class UrlUtil {
   public static String build(String url, Map<String, Object> param) {
     StringBuilder strBuilder = new StringBuilder();
 
-    Iterator iterator = param.entrySet().iterator();
-    while (iterator.hasNext()) {
-      Map.Entry elem = (Map.Entry) iterator.next();
+    for (Entry<String, Object> elem : param.entrySet()) {
       if (StringUtil.isNotEmpty(strBuilder.toString())) {
         strBuilder.append("&");
       }
@@ -89,9 +87,7 @@ public final class UrlUtil {
                 .append(elem.getValue());
     }
 
-    String finalUrl = url + (url.indexOf('?') > 0 ? "&" : "?") + strBuilder.toString();
-
-    return finalUrl;
+    return url + (url.indexOf('?') > 0 ? "&" : "?") + strBuilder;
   }
 
   /**
@@ -125,7 +121,6 @@ public final class UrlUtil {
         builder.append(item);
       }
     }
-
 
     return builder.toString();
   }

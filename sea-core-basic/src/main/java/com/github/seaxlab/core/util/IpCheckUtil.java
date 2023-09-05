@@ -1,12 +1,11 @@
 package com.github.seaxlab.core.util;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * module name
@@ -18,10 +17,16 @@ import java.util.regex.Pattern;
 @Slf4j
 public final class IpCheckUtil {
 
+  private IpCheckUtil() {
+  }
+
+  private static final String PART1 = "(1\\d{1,2}|2[0-4]\\d|25[0-5]|\\d{1,2})\\.";
+  private static final String PART2 = "(1\\d{1,2}|2[0-4]\\d|25[0-5]|\\d{1,2})\\.";
+  private static final String PART3 = "(1\\d{1,2}|2[0-4]\\d|25[0-5]|\\d{1,2})\\.";
+  private static final String PART4 = "(1\\d{1,2}|2[0-4]\\d|25[0-5]|\\d{1,2})";
+
   // IP的正则
-  private static Pattern pattern = Pattern
-    .compile("(1\\d{1,2}|2[0-4]\\d|25[0-5]|\\d{1,2})\\." + "(1\\d{1,2}|2[0-4]\\d|25[0-5]|\\d{1,2})\\."
-      + "(1\\d{1,2}|2[0-4]\\d|25[0-5]|\\d{1,2})\\." + "(1\\d{1,2}|2[0-4]\\d|25[0-5]|\\d{1,2})");
+  private static final Pattern pattern = Pattern.compile(PART1 + PART2 + PART3 + PART4);
   public static final String DEFAULT_ALLOW_ALL_FLAG = "*";// 允许所有ip标志位
   public static final String DEFAULT_DENY_ALL_FLAG = "0"; // 禁止所有ip标志位
 
@@ -51,17 +56,16 @@ public final class IpCheckUtil {
   }
 
   /**
-   * getAvaliIpList:(根据IP白名单设置获取可用的IP列表).
+   * 根据IP白名单设置获取可用的IP列表
    *
    * @param allowIp
-   * @return
-   * @date 2017-4-17 下午02:50:20
+   * @return set
    */
 
   private static Set<String> getAvailableIpList(String allowIp) {
     // 拆分出白名单正则
     String[] splitRex = allowIp.split(";");
-    Set<String> ipList = new HashSet<String>(splitRex.length);
+    Set<String> ipList = new HashSet<>(splitRex.length);
     for (String allow : splitRex) {
       // 处理通配符 *
       if (allow.contains("*")) {
@@ -94,8 +98,8 @@ public final class IpCheckUtil {
         endIP.deleteCharAt(endIP.length() - 1);
 
         for (String s : tem) {
-          String ip = fromIP.toString().replace("[*]", s.split(";")[0]) + "-"
-            + endIP.toString().replace("[*]", s.split(";")[1]);
+          String ip =
+            fromIP.toString().replace("[*]", s.split(";")[0]) + "-" + endIP.toString().replace("[*]", s.split(";")[1]);
           if (validate(ip)) {
             ipList.add(ip);
           }
@@ -120,7 +124,7 @@ public final class IpCheckUtil {
    * @return 返回限定后的IP范围，格式为List[10;19, 100;199]
    */
   private static List<String> complete(String arg) {
-    List<String> com = new ArrayList<String>();
+    List<String> com = new ArrayList<>();
     int len = arg.length();
     if (len == 1) {
       com.add("0;255");
@@ -197,9 +201,9 @@ public final class IpCheckUtil {
         String[] tag = ip.split("\\.");
         boolean check = true;
         for (int i = 0; i < 4; i++) {// 对IP从左到右进行逐段匹配
-          int s = Integer.valueOf(from[i]);
-          int t = Integer.valueOf(tag[i]);
-          int e = Integer.valueOf(end[i]);
+          int s = Integer.parseInt(from[i]);
+          int t = Integer.parseInt(tag[i]);
+          int e = Integer.parseInt(end[i]);
           if (!(s <= t && t <= e)) {
             check = false;
             break;
