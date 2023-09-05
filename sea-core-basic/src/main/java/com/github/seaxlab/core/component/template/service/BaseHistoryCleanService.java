@@ -65,6 +65,7 @@ public abstract class BaseHistoryCleanService implements HistoryCleanService {
       process(bo);
       postHandle(bo);
     } finally {
+      log.info("history clean end, {}.", getBizType());
       completeHandle(bo);
     }
   }

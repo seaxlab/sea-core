@@ -71,6 +71,7 @@ public abstract class BaseHistoryMigrateService implements HistoryMigrateService
       process(bo);
       postHandle(bo);
     } finally {
+      log.info("migrate history end, {}.", getBizType());
       completeHandle(bo);
     }
   }

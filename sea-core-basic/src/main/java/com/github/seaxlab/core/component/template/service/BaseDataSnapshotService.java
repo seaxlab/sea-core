@@ -63,6 +63,7 @@ public abstract class BaseDataSnapshotService implements HistoryCleanService {
       process(bo);
       postHandle(bo);
     } finally {
+      log.info("snapshot end, {}.", getBizType());
       completeHandle(bo);
     }
   }
