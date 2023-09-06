@@ -3,7 +3,7 @@ package com.github.seaxlab.core.model.common;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * module name
+ * model const
  *
  * @author spy
  * @version 1.0 2021/9/1
