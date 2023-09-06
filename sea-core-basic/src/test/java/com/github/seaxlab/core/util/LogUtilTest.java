@@ -19,6 +19,13 @@ import org.junit.Test;
 @Slf4j
 public class LogUtilTest extends BaseCoreTest {
 
+
+  @Test
+  public void testInfoOrWarn() throws Exception {
+    LogUtil.infoOrWarn(true, "{},{},{},{}", 1, 2, 3, 4);
+    LogUtil.infoOrWarn(false, "{},{},{},{}", 1, 2, 3, 4);
+  }
+
   @Test
   public void printTableTest() throws Exception {
     List<String> headers = new ArrayList<>();

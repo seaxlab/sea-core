@@ -28,6 +28,22 @@ public final class LogUtil {
   private static final Map<String, RateLimiter> rateLimiterMap = new ConcurrentHashMap<>();
 
   //------------- log can be switch begin -----------------------
+
+  /**
+   * log by info or warn
+   *
+   * @param flag
+   * @param format
+   * @param args
+   */
+  public static void infoOrWarn(boolean flag, String format, Object... args) {
+    if (flag) {
+      log.info(format, args);
+    } else {
+      log.warn(format, args);
+    }
+  }
+
   public static void info(boolean flag, String info) {
     if (flag) {
       log.info(info);
@@ -153,7 +169,16 @@ public final class LogUtil {
     String msg = MessageUtil.format("{},{}", ThreadContextUtil.getRequestNo(), message);
     log.error(msg, t);
   }
-  //---------------------------------custom log
+  //---------------------------------use origin logger-------------------------------------
+
+  public static void infoOrWarn(Logger log, boolean flag, String format, Object... args) {
+    if (flag) {
+      log.info(format, args);
+    } else {
+      log.warn(format, args);
+    }
+  }
+
 
   public static void info(Logger log, boolean flag, String info) {
     if (flag) {
