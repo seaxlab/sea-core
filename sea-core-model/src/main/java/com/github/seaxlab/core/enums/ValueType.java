@@ -57,7 +57,7 @@ public enum ValueType implements IBaseEnum<Integer> {
     }
 
     for (ValueType item : values()) {
-      if (item.code == code) {
+      if (item.code == code.intValue()) {
         return item;
       }
     }

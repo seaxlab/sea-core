@@ -65,7 +65,7 @@ public enum OperatorEnum implements IBaseEnum<Integer> {
     }
 
     for (OperatorEnum item : values()) {
-      if (item.code == code) {
+      if (item.code == code.intValue()) {
         return item;
       }
     }
