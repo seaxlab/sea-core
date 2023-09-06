@@ -1,9 +1,10 @@
-package com.github.seaxlab.core.enums;
+package com.github.seaxlab.core.spring.enums;
 
+import com.github.seaxlab.core.enums.IBaseEnum;
 import lombok.Getter;
 
 /**
- * module name
+ * cache op enum
  *
  * @author spy
  * @version 1.0 2021/6/8
