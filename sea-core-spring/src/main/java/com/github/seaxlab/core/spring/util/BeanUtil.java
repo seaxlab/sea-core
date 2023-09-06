@@ -1,5 +1,14 @@
 package com.github.seaxlab.core.spring.util;
 
+import static java.lang.String.format;
+import static org.springframework.beans.factory.BeanFactoryUtils.beanNamesForTypeIncludingAncestors;
+import static org.springframework.beans.factory.BeanFactoryUtils.beanOfTypeIncludingAncestors;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,14 +25,8 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
-
-import static java.lang.String.format;
-import static org.springframework.beans.factory.BeanFactoryUtils.beanNamesForTypeIncludingAncestors;
-import static org.springframework.beans.factory.BeanFactoryUtils.beanOfTypeIncludingAncestors;
-
 /**
- * module name
+ * bean util
  *
  * @author spy
  * @version 1.0 2021/2/24
