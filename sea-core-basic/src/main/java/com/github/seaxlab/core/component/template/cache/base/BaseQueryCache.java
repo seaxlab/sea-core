@@ -1,6 +1,7 @@
-package com.github.seaxlab.core.component.template.cache;
+package com.github.seaxlab.core.component.template.cache.base;
 
 import com.github.seaxlab.core.common.CoreConst;
+import com.github.seaxlab.core.component.template.cache.IQueryCache;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
@@ -9,12 +10,17 @@ import com.github.seaxlab.core.util.MapUtil;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * abstract query cache
@@ -190,7 +196,7 @@ public abstract class BaseQueryCache<K, V> implements IQueryCache<K, V> {
       public Optional<V> load(K key) {
         log.info("try to load cache[{}], key={}", getBizType(), key);
         Optional<V> value = fetchData(key);
-        return value == null ? Optional.empty() : value;
+        return Objects.isNull(value) ? Optional.empty() : value;
       }
 
       @Override
