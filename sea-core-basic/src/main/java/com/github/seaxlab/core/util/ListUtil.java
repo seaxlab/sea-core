@@ -86,6 +86,17 @@ public final class ListUtil {
   }
 
   /**
+   * clone origin data
+   *
+   * @param data
+   * @param <E>
+   * @return
+   */
+  public static <E> List<E> clone(List<E> data) {
+    return new ArrayList<>(data);
+  }
+
+  /**
    * return first element
    *
    * @param list data
@@ -597,7 +608,7 @@ public final class ListUtil {
     }
 
     return list.stream()
-      .collect(Collectors.groupingBy(keyMapper, Collectors.mapping(valueMapper, Collectors.toList())));
+               .collect(Collectors.groupingBy(keyMapper, Collectors.mapping(valueMapper, Collectors.toList())));
   }
 
   /**
@@ -919,8 +930,8 @@ public final class ListUtil {
       return BigDecimal.ZERO;
     }
     return data.stream().map(func)    // map
-      .filter(Objects::nonNull)
-      .reduce(BigDecimal.ZERO, BigDecimal::add);      // reduce.sum();
+               .filter(Objects::nonNull)
+               .reduce(BigDecimal.ZERO, BigDecimal::add);      // reduce.sum();
 
   }
 
@@ -1034,8 +1045,8 @@ public final class ListUtil {
     Precondition.checkNotNull(comparator2);
     Precondition.checkNotNull(comparator3);
     return data.stream() //
-      .sorted(comparator1.thenComparing(comparator2).thenComparing(comparator3)) //
-      .collect(Collectors.toList());
+               .sorted(comparator1.thenComparing(comparator2).thenComparing(comparator3)) //
+               .collect(Collectors.toList());
   }
 
 

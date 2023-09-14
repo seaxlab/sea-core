@@ -31,6 +31,18 @@ import org.junit.Test;
 public class ListUtilTest extends BaseCoreTest {
 
   @Test
+  public void testClone() throws Exception {
+    List<Integer> data = new ArrayList<>();
+//    data.add(1);
+//    data.add(3);
+
+    log.info("data={}", data);
+
+    List<Integer> data2 = ListUtil.clone(data);
+    log.info("data2={}", data2);
+  }
+
+  @Test
   public void testToList() throws Exception {
     String[] array = new String[]{"1", "s"};
 
