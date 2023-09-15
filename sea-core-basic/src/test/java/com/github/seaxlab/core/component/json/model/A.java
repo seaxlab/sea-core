@@ -11,7 +11,9 @@ import lombok.Data;
  */
 @Data
 public class A {
+
   private Long id;
+  private String code;
   private String name;
   private transient String password;
 }
