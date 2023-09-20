@@ -7,6 +7,7 @@ import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.util.ArrayUtil;
 import com.github.seaxlab.core.util.ClassUtil;
 import com.github.seaxlab.core.util.EqualUtil;
+import com.github.seaxlab.core.util.ExceptionUtil;
 import com.github.seaxlab.core.util.ListUtil;
 import com.github.seaxlab.core.util.ReflectUtil;
 import com.github.seaxlab.core.util.StringUtil;
@@ -88,7 +89,7 @@ public final class SpringContextUtil {
         }
       } catch (Exception e) {
         log.warn("invoke method exception", e);
-        throw new BaseAppException(e);
+        throw new BaseAppException(ExceptionUtil.removeInvocation(e));
       }
       break;
     }

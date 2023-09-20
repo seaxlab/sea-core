@@ -141,6 +141,22 @@ public final class ExceptionUtil {
     return shortMsg;
   }
 
+  /**
+   * remove invocation
+   *
+   * @param t
+   * @return
+   */
+  public static Throwable removeInvocation(Throwable t) {
+    if (t instanceof InvocationTargetException) {
+      return ((InvocationTargetException) t).getTargetException();
+    }
+
+    return t;
+  }
+
+
+  //--------------------------------- private --------------------------------------------
   private static String getShortMsg(Throwable t, int limit) {
     if (t == null) {
       return StringUtils.EMPTY;
