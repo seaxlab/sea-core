@@ -142,7 +142,7 @@ public final class ExceptionUtil {
   }
 
   /**
-   * remove invocation
+   * remove invocation if necessary
    *
    * @param t
    * @return

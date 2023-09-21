@@ -5,12 +5,12 @@ import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.spring.tx.service.TxService;
 import com.github.seaxlab.core.spring.util.SpringContextUtil;
+import com.github.seaxlab.core.util.ExceptionUtil;
 import com.github.seaxlab.core.util.MapUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.github.seaxlab.core.web.util.ResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -59,12 +59,10 @@ public class SeaController {
     } catch (Exception e) {
       log.warn("fail to invoke ", e);
       //
-      if (e instanceof InvocationTargetException) {
-        InvocationTargetException ite = (InvocationTargetException) e;
-        if (ite.getTargetException() instanceof BaseAppException) {
-          BaseAppException be = (BaseAppException) ite.getTargetException();
-          return Result.failMsg(be.getDesc());
-        }
+      Throwable targetException = ExceptionUtil.removeInvocation(e);
+      if (targetException instanceof BaseAppException) {
+        BaseAppException be = (BaseAppException) targetException;
+        return Result.failMsg(be.getDesc());
       }
 
       return Result.failMsg(e.getMessage());
@@ -79,7 +77,7 @@ public class SeaController {
    * @param params params(service,method,argument1~N,argumentTypes,txFlag)
    * @return result
    */
-  @ApiOperation(value = "execute", hidden = true)
+  @ApiOperation(value = "execute", hidden = true, notes = "service,method,argument1~N,argumentTypes,txFlag")
   @PostMapping("/execute")
   public Result<Object> execute(@RequestBody Map<String, Object> params) {
     log.info("try to execute, params={}", params);
@@ -105,12 +103,10 @@ public class SeaController {
     } catch (Exception e) {
       log.warn("fail to invoke ", e);
       //
-      if (e instanceof InvocationTargetException) {
-        InvocationTargetException ite = (InvocationTargetException) e;
-        if (ite.getTargetException() instanceof BaseAppException) {
-          BaseAppException be = (BaseAppException) ite.getTargetException();
-          return Result.failMsg(be.getDesc());
-        }
+      Throwable realException = ExceptionUtil.removeInvocation(e);
+      if (realException instanceof BaseAppException) {
+        BaseAppException be = (BaseAppException) realException;
+        return Result.failMsg(be.getDesc());
       }
 
       return Result.failMsg(e.getMessage());
