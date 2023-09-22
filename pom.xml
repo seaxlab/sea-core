@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>sea-core</artifactId>
-  <version>2.6.47-SNAPSHOT</version>
+  <version>2.6.47</version>
 
   <packaging>pom</packaging>
 
