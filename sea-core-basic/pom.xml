@@ -5,7 +5,7 @@
   <parent>
     <artifactId>sea-core</artifactId>
     <groupId>com.github.seaxlab</groupId>
-    <version>2.6.46</version>
+    <version>2.6.47-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -429,6 +429,12 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>QLExpress</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
 
@@ -514,6 +520,7 @@
         <artifactId>easyexcel</artifactId>
         <version>${easyexcel.version}</version>
       </dependency>
+
 
     </dependencies>
   </dependencyManagement>
