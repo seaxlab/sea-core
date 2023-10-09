@@ -16,20 +16,23 @@
 package com.github.seaxlab.core.loader;
 
 import com.github.seaxlab.core.common.CoreConst;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The type Enhanced service loader.
@@ -38,6 +41,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2018 /10/10
  */
 public class EnhancedServiceLoader {
+
   private static final Logger LOGGER = LoggerFactory.getLogger(EnhancedServiceLoader.class);
   private static final String SERVICES_DIRECTORY = "META-INF/services/";
   private static final String SEA_DIRECTORY = "META-INF/sea/";
@@ -189,7 +193,7 @@ public class EnhancedServiceLoader {
 
   @SuppressWarnings("rawtypes")
   private static <S> S loadFile(Class<S> service, String activateName, ClassLoader loader, Class[] argTypes,
-                                Object[] args) {
+    Object[] args) {
     try {
       boolean foundFromCache = true;
       List<Class> extensions = providers.get(service);
@@ -227,8 +231,7 @@ public class EnhancedServiceLoader {
       Class<?> extension = extensions.get(extensions.size() - 1);
       S result = initInstance(service, extension, argTypes, args);
       if (!foundFromCache && LOGGER.isInfoEnabled()) {
-        LOGGER.info("load " + service.getSimpleName() + "[" + activateName + "] extension by class[" + extension
-          .getName() + "]");
+        LOGGER.info("load {}[{}] extension by class[{}]", service.getSimpleName(), activateName, extension.getName());
       }
       return result;
     } catch (Throwable e) {
