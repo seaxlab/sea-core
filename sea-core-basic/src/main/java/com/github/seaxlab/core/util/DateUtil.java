@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
@@ -89,7 +90,11 @@ public final class DateUtil {
    * @param milliseconds
    * @return Date
    */
-  public static Date toDate(long milliseconds) {
+  public static Date toDate(Long milliseconds) {
+    if (Objects.isNull(milliseconds)) {
+      log.warn("milliseconds is null");
+      return null;
+    }
     return new Date(milliseconds);
   }
 
@@ -812,9 +817,9 @@ public final class DateUtil {
       }
       case HOURS: {
         LocalDateTime l1 = beginDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withMinute(0)
-          .withSecond(0);
+                                    .withSecond(0);
         LocalDateTime l2 = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withMinute(0)
-          .withSecond(0);
+                                  .withSecond(0);
         return ChronoUnit.HOURS.between(l1, l2);
       }
       case DAYS: {
