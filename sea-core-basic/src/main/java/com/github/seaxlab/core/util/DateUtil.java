@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.enums.DateFormatEnum;
+import com.github.seaxlab.core.enums.DateUnitEnum;
 import com.github.seaxlab.core.enums.RangeModeEnum;
 import com.github.seaxlab.core.enums.WeekEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
@@ -433,7 +434,38 @@ public final class DateUtil {
   //------------------------add
 
   /**
-   * 计算 month个月后的时间
+   * 增加/减少日期
+   *
+   * @param date
+   * @param delta
+   * @param dateUnit
+   * @return
+   */
+  public static Date add(Date date, int delta, DateUnitEnum dateUnit) {
+    Precondition.checkNotNull(dateUnit);
+    //
+    switch (dateUnit) {
+      case YEAR:
+        return addYear(date, delta);
+      case MONTH:
+        return addMonth(date, delta);
+      case WEEK:
+        return addWeek(date, delta);
+      case DAY:
+        return addDay(date, delta);
+      case HOUR:
+        return addHour(date, delta);
+      case MINUTE:
+        return addMinute(date, delta);
+      case SECOND:
+        return addSecond(date, delta);
+      default:
+        throw new IllegalArgumentException("不支持的类型");
+    }
+  }
+
+  /**
+   * 计算 delta年后的时间
    *
    * @param date  指定日期
    * @param delta 年变量
