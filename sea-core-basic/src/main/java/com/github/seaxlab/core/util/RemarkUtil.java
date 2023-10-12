@@ -20,27 +20,27 @@ public final class RemarkUtil {
    * 支付失败(余额不足)
    * </p>
    *
-   * @param main
+   * @param scene
    * @param description
    * @return
    */
-  public static String format(String main, String description) {
-    return format(main, description, RemarkFormatEnum.V1);
+  public static String format(String scene, String description) {
+    return format(scene, description, RemarkFormatEnum.V1);
   }
 
-  public static String format(String main, String description, RemarkFormatEnum formatEnum) {
+  public static String format(String scene, String description, RemarkFormatEnum formatEnum) {
     Precondition.checkNotNull(formatEnum, "format不能为空");
     //
-    return format(main, description, formatEnum.getCode());
+    return format(scene, description, formatEnum.getCode());
   }
 
-  public static String format(String main, String description, String format) {
+  public static String format(String scene, String description, String format) {
     Precondition.checkNotBlank(format, "format不能为空");
     //
     if (StringUtil.isBlank(description)) {
-      return StringUtil.defaultIfEmpty(main);
+      return StringUtil.defaultIfEmpty(scene);
     }
-    return StringUtil.format(format, StringUtil.defaultIfEmpty(main), description);
+    return StringUtil.format(format, StringUtil.defaultIfEmpty(scene), description);
   }
 
 }
