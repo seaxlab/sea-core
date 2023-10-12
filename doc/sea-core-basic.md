@@ -11,3 +11,4 @@
 - mq consumer
 - custom thread
 - custom listener( mq consumer是特例)
+- xxl-job
