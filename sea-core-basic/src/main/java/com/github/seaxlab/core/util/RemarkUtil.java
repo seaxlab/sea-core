@@ -24,17 +24,17 @@ public final class RemarkUtil {
    * @param description
    * @return
    */
-  public static String format(String scene, String description) {
-    return format(scene, description, RemarkFormatEnum.V1);
+  public static String build(String scene, String description) {
+    return build(scene, description, RemarkFormatEnum.V1);
   }
 
-  public static String format(String scene, String description, RemarkFormatEnum formatEnum) {
+  public static String build(String scene, String description, RemarkFormatEnum formatEnum) {
     Precondition.checkNotNull(formatEnum, "format不能为空");
     //
-    return format(scene, description, formatEnum.getCode());
+    return build(scene, description, formatEnum.getCode());
   }
 
-  public static String format(String scene, String description, String format) {
+  public static String build(String scene, String description, String format) {
     Precondition.checkNotBlank(format, "format不能为空");
     //
     if (StringUtil.isBlank(description)) {

@@ -16,8 +16,8 @@ public class RemarkUtilTest {
 
   @Test
   public void test16() throws Exception {
-    log.info("{}", RemarkUtil.format("支付失败", "余额不足"));
-    log.info("{}", RemarkUtil.format("支付失败", "余额不足", RemarkFormatEnum.V4));
+    log.info("{}", RemarkUtil.build("支付失败", "余额不足"));
+    log.info("{}", RemarkUtil.build("支付失败", "余额不足", RemarkFormatEnum.V4));
   }
 
 }
