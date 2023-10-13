@@ -4,10 +4,9 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.stat.DruidDataSourceStatManager;
 import com.github.seaxlab.core.dal.druid.model.DataBaseInfo;
 import com.github.seaxlab.core.util.MapUtil;
-import lombok.extern.slf4j.Slf4j;
-
 import java.sql.SQLException;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * druid util
@@ -67,7 +66,7 @@ public final class DruidUtil {
       dataSource.setUsername(database.getUsername());
       dataSource.setPassword(database.getPassword());
 
-      // TODO 暂时写死后期优化
+      // DOC this is for default config
       dataSource.setInitialSize(5);
       dataSource.setMinIdle(5);
       dataSource.setMaxActive(30);
