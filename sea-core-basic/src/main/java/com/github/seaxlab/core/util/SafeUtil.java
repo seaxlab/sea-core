@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.util;
 
+import java.util.function.Supplier;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -27,6 +28,24 @@ public final class SafeUtil {
       log.warn("safe runnable exception", e);
     }
   }
+
+  /**
+   * run safe with try catch
+   *
+   * @param supplier
+   * @param <T>
+   * @return
+   */
+  public static <T> T run(Supplier<T> supplier) {
+    T data = null;
+    try {
+      data = supplier.get();
+    } catch (Exception e) {
+      log.warn("safe run supplier", e);
+    }
+    return data;
+  }
+
 
   /**
    * main run and finally run
