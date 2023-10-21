@@ -1,13 +1,14 @@
 package com.github.seaxlab.core.dal.jdbc.util;
 
 import com.github.seaxlab.core.dal.BaseCoreDalTest;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 
 /**
  * module name
@@ -46,5 +47,7 @@ public class JdbcUtilTest extends BaseCoreDalTest {
   public void testGetDatabaseName() throws Exception {
     log.info("{}", JdbcUtil.getDatabaseName("jdbc:mysql://127.0.0.1:3306/mylab?useSSL=false"));
     log.info("{}", JdbcUtil.getDatabaseName("jdbc:mysql://127.0.0.1:3306/mylab"));
+    log.info("{}", JdbcUtil.getDatabaseName("jdbc:oracle:thin:@host:port:SID"));
+    log.info("{}", JdbcUtil.getDatabaseName("jdbc:oracle:thin:@//host:port/service_name"));
   }
 }

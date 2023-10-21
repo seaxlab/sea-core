@@ -1,19 +1,11 @@
 package com.github.seaxlab.core.dal.jdbc.util;
 
+import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.Precondition;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Properties;
 import lombok.extern.slf4j.Slf4j;
+
+import java.sql.*;
+import java.util.*;
 
 /**
  * jdbc util
@@ -27,7 +19,7 @@ public final class JdbcUtil {
 
   public static final String MYSQL_PREFIX = "jdbc:mysql://";
   public static final String ORACLE_PREFIX_THIN = "jdbc:oracle:thin:";
-  public static final String POSTGRE_PREFIX_THIN = "jdbc:postgresql://";
+  public static final String POSTGRESQL_PREFIX_THIN = "jdbc:postgresql://";
 
   /**
    * get connection
@@ -105,16 +97,33 @@ public final class JdbcUtil {
    * @param url
    * @return
    */
-  public static String getDatabaseName(String url) {
+  public static String getDatabaseName(final String url) {
     Precondition.checkNotNull(url);
-    Precondition.checkState(url.startsWith(MYSQL_PREFIX), "仅支持MYSQL");
     //
-    String dbName;
-    if (url.indexOf("?") > 0) {
-      dbName = url.substring(url.lastIndexOf("/") + 1, url.indexOf("?"));
+    String dbName = "";
+    //jdbc:mysql://127.0.0.1:3306/mylab?useSSL=false
+    //jdbc:postgresql://10.20.1.231:5432/postgres?binaryTransfer=false&forceBinary=false&reWriteBatchedInserts=true
+    if (url.startsWith(MYSQL_PREFIX) || url.startsWith(POSTGRESQL_PREFIX_THIN)) {
+      if (url.indexOf("?") > 0) {
+        dbName = url.substring(url.lastIndexOf("/") + 1, url.indexOf("?"));
+      } else {
+        dbName = url.substring(url.lastIndexOf("/") + 1);
+      }
+      return dbName;
+    } else if (url.startsWith(ORACLE_PREFIX_THIN)) {
+      //格式1：jdbc:oracle:thin:@host:port:SID
+      //格式2：jdbc:oracle:thin:@//host:port/service_name
+      if (url.lastIndexOf("/") > 0) {
+        dbName = url.substring(url.lastIndexOf("/") + 1);
+      } else {
+        dbName = url.substring(url.lastIndexOf(":") + 1);
+      }
     } else {
-      dbName = url.substring(url.lastIndexOf("/") + 1);
+      log.warn("unknown database url format[{}]", url);
+      throw new BaseAppException("不支持的url格式");
     }
+
+
     return dbName;
   }
 
