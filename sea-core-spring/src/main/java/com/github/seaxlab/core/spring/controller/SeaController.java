@@ -110,7 +110,7 @@ public class SeaController {
         return Result.failMsg(StringUtil.defaultIfBlank(be.getDesc(), be.getMessage()));
       }
 
-      return Result.failMsg(e.getMessage());
+      return Result.failMsg(realException.getMessage());
     }
     return Result.success(obj);
   }
