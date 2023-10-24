@@ -106,7 +106,8 @@ public class SeaController {
       Throwable realException = ExceptionUtil.removeInvocation(e);
       if (realException instanceof BaseAppException) {
         BaseAppException be = (BaseAppException) realException;
-        return Result.failMsg(be.getDesc());
+        //
+        return Result.failMsg(StringUtil.defaultIfBlank(be.getDesc(), be.getMessage()));
       }
 
       return Result.failMsg(e.getMessage());
