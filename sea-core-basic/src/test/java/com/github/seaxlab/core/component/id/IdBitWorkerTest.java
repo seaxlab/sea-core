@@ -1,14 +1,13 @@
 package com.github.seaxlab.core.component.id;
 
 import com.github.seaxlab.core.component.id.support.IdBitWorker;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
 /**
  * 模块名
@@ -18,7 +17,7 @@ import java.util.concurrent.Executors;
  * @since 1.0
  */
 @Slf4j
-public class IdBitWorkderTest {
+public class IdBitWorkerTest {
 
   @Test
   public void run() {

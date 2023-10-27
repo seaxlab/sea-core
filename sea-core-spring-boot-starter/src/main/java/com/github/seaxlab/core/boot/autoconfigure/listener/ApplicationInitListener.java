@@ -4,15 +4,14 @@ import com.github.seaxlab.core.boot.autoconfigure.ApplicationInitBean;
 import com.github.seaxlab.core.common.CoreConst;
 import com.github.seaxlab.core.config.ConfigurationFactory;
 import com.github.seaxlab.core.loader.EnhancedServiceLoader;
+import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * 初始化监听
@@ -45,11 +44,11 @@ public class ApplicationInitListener implements ApplicationContextAware, Applica
 
     ConfigurationFactory.getInstance().putString(CoreConst.SEA_ENV, env);
 
-    log.info("=======================================");
-    log.info("=         Application Ready           =");
-    log.info("=======================================");
-
-    log.info("Power by Sea Framework. Design by SPY.");
+//    log.info("=======================================");
+//    log.info("=         Application Ready           =");
+//    log.info("=======================================");
+//
+//    log.info("Power by Sea Framework. Design by SPY.");
 
     //String port = ctx.getEnvironment().getProperty("server.port", "111");
     //log.info("port={}", port);
@@ -75,7 +74,7 @@ public class ApplicationInitListener implements ApplicationContextAware, Applica
         bean.init();
         hasException = false;
       } catch (Exception e) {
-        log.error("fail to invoke init method", e);
+        log.warn("fail to invoke init method", e);
       } finally {
         logInvokeMsg(bean.getClass().getName(), hasException);
       }
@@ -92,7 +91,7 @@ public class ApplicationInitListener implements ApplicationContextAware, Applica
           bean.init();
           hasException = false;
         } catch (Exception e) {
-          log.error("fail to invoke bean init method", e);
+          log.warn("fail to invoke bean init method", e);
         } finally {
           logInvokeMsg(bean.getClass().getName(), hasException);
         }

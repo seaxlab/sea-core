@@ -23,7 +23,7 @@ public class CoreConst {
 
   static {
     log.info("sea app pid={}", JvmUtil.getPID());
-    printLogo();
+//    printLogo();
   }
 
   /**
