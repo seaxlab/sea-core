@@ -7,15 +7,18 @@ import cn.smallbun.screw.core.engine.EngineTemplateType;
 import cn.smallbun.screw.core.execute.DocumentationExecute;
 import cn.smallbun.screw.core.process.ProcessConfig;
 import com.github.seaxlab.core.dal.screw.dto.DBModelCreateDTO;
-import com.github.seaxlab.core.util.*;
+import com.github.seaxlab.core.util.ListUtil;
+import com.github.seaxlab.core.util.ObjectUtil;
+import com.github.seaxlab.core.util.PathUtil;
+import com.github.seaxlab.core.util.SshUtil;
+import com.github.seaxlab.core.util.StringUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import javax.sql.DataSource;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * screw util
@@ -27,9 +30,10 @@ import java.util.List;
 @Slf4j
 public final class ScrewUtil {
 
-  public static final List<String> IGNORE_DATABASE = ListUtil.of("test", "mysql", "information_schema", "apolloconfigdb", "apolloportaldb");
+  public static final List<String> IGNORE_DATABASE = ListUtil.of("test", "mysql", "information_schema",
+    "apolloconfigdb", "apolloportaldb");
   //
-  public static final List<String> IGNORE_TABLE_PREFIX = ListUtil.of("test_", "bak_", "backup_");
+  public static final List<String> IGNORE_TABLE_PREFIX = ListUtil.of("test_", "bak_", "backup_", "zbak", "zzbak");
 
   //
   public static final List<String> IGNORE_TABLE_SUFFIX = ListUtil.of( //
@@ -55,9 +59,9 @@ public final class ScrewUtil {
     // 创建 screw 的配置
     EngineConfig engineConfig = buildEngineConfig(dto);
     Configuration.ConfigurationBuilder builder = Configuration.builder().version(dto.getVersion())  // 版本
-      .description(dto.getDescription()) // 描述
-      .dataSource(buildDataSource(dto)) // 数据源
-      .engineConfig(engineConfig); // 引擎配置
+                                                              .description(dto.getDescription()) // 描述
+                                                              .dataSource(buildDataSource(dto)) // 数据源
+                                                              .engineConfig(engineConfig); // 引擎配置
     if (dto.getProcessConfig() != null) {
       builder.produceConfig(dto.getProcessConfig());
     }
@@ -65,7 +69,8 @@ public final class ScrewUtil {
     // 执行 screw，生成数据库文档
     new DocumentationExecute(builder.build()).execute();
 
-    log.info("dump db model successfully. [{}/{} {}] ", engineConfig.getFileOutputDir(), dto.getOutPutFileName(), dto.getVersion());
+    log.info("dump db model successfully. [{}/{} {}] ", engineConfig.getFileOutputDir(), dto.getOutPutFileName(),
+      dto.getVersion());
   }
 
   /**
@@ -109,7 +114,8 @@ public final class ScrewUtil {
   }
 
   /**
-   * 创建 screw 的处理配置，一般可忽略 指定生成逻辑、当存在指定表、指定表前缀、指定表后缀时，将生成指定表，其余表不生成、并跳过忽略表配置
+   * 创建 screw 的处理配置</p>
+   * <p>一般可忽略 指定生成逻辑、当存在指定表、指定表前缀、指定表后缀时，将生成指定表，其余表不生成、并跳过忽略表配置</p>
    */
   private static ProcessConfig buildProcessConfig() {
     return ProcessConfig.builder() //
