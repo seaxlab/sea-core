@@ -34,13 +34,13 @@ public class MockMethodInterceptor implements MethodInterceptor {
     if (anno == null) {
       return invocation.proceed();
     }
+
     ApplicationContext ctx = SpringContextHolder.getApplicationContext();
 
     String env = ctx.getEnvironment().getProperty("sea.env", "pro");
     if (EqualUtil.isNotEq(env, EnvEnum.LOCAL.getCode())) {
       return invocation.proceed();
     }
-
     String key = anno.key();
     Class<?> clazz = anno.clazz();
     String method = anno.method();
@@ -52,8 +52,9 @@ public class MockMethodInterceptor implements MethodInterceptor {
       ExceptionHandler.publishMsg("parameter clazz is invalid");
     }
     if (StringUtil.isBlank(method)) {
-      ExceptionHandler.publishMsg("parameter method is invalid");
+      method = invocation.getMethod().getName();
     }
+    log.warn("local mock method,{}.{}", clazz.getSimpleName(), method);
 
     boolean flag = BooleanUtil.isTrue(System.getProperty(key, "false"));
     if (flag) {

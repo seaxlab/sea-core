@@ -39,5 +39,5 @@ public @interface MockMethod {
    *
    * @return
    */
-  String method();
+  String method() default "";
 }

@@ -29,4 +29,10 @@ public class SeaExecuteService {
     return a + b;
   }
 
+  @MockMethod(key = "mock.user_test_flag", clazz = UserTestService.class)
+  public String add3() {
+    log.info("add2");
+    return "";
+  }
+
 }

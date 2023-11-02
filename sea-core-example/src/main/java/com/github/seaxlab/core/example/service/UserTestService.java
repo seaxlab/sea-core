@@ -18,4 +18,9 @@ public class UserTestService {
     return "mock:" + a + b;
   }
 
+
+  public String add3() {
+    return "mock:";
+  }
+
 }
