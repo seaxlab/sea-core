@@ -9,12 +9,15 @@ import com.github.seaxlab.core.component.json.jackson.util.JacksonUtil;
 import com.github.seaxlab.core.component.json.model.A;
 import com.github.seaxlab.core.domain.User;
 import com.github.seaxlab.core.enums.IBaseEnum;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-
-import java.util.*;
 
 /**
  * module name
@@ -33,6 +36,17 @@ public class JacksonUtilTest extends BaseCoreTest {
     a.setName("tt");
     a.setPassword("123456");
     log.info("a={}", JacksonUtil.toString(a));
+  }
+
+  @Test
+  public void testIgnore() throws Exception {
+    A a = new A();
+    a.setId(1L);
+    a.setName("tt");
+    a.setPassword("123456");
+    a.getExtend().setName("abc");
+    a.getExtend2().setName("abc2");
+    log.info("{}", JacksonUtil.toString(a));
   }
 
   @Test

@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.component.json.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
@@ -16,4 +17,15 @@ public class A {
   private String code;
   private String name;
   private transient String password;
+
+  @JsonIgnore
+  private final Extend extend = new Extend();
+
+  private final Extend extend2 = new Extend();
+
+  @Data
+  public static class Extend {
+
+    private String name;
+  }
 }
