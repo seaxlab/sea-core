@@ -19,6 +19,7 @@ public enum OrderedEnum implements IBaseEnum<Integer> {
   // lower is HIGHER EXECUTE
   LOG_REQUEST(100, "log method request and response"), //
   LOG_COST(200, "log method execute cost"),//
+  MOCK_METHOD(300, "mock method"),//
   ;
   private final Integer code;
   private final String desc;

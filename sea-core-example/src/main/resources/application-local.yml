@@ -1,5 +1,6 @@
 # sea config
 sea:
+  env: local
   list:
     - a
     - b

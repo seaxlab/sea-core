@@ -176,7 +176,13 @@ public final class SpringContextUtil {
         ExceptionHandler.publishMsg("targetClass不能为空");
       }
       //
-      args.add(JacksonUtil.toObject(parseArgument(params, key), targetClass));
+      String value = parseArgument(params, key);
+      // target class is simple String
+      if (targetClass == String.class) {
+        args.add(value);
+      } else {
+        args.add(JacksonUtil.toObject(value, targetClass));
+      }
     }
 
     return args;
