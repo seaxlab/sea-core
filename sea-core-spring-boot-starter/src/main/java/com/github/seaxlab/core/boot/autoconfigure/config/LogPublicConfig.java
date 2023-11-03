@@ -9,10 +9,12 @@ import com.github.seaxlab.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.PointcutAdvisor;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 
 /**
  * log public config
@@ -24,6 +26,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration("seaLogPublicConfig")
 @RequiredArgsConstructor
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class LogPublicConfig {
 
   private final SeaProperties seaProperties;
@@ -32,6 +35,7 @@ public class LogPublicConfig {
   @Bean
   @ConditionalOnProperty(name = "sea.log.enabled", havingValue = "true")
   @ConditionalOnMissingBean(name = "seaLogPublicMethodPointcutAdvisor")
+  @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
   public PointcutAdvisor seaLogPublicAdvisor() {
     log.info("init sea log public method advisor bean");
     String basePackage = seaProperties.getLog().getOtherBasePackage();

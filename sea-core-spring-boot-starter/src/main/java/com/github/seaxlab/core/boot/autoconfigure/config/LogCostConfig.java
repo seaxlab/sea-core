@@ -11,9 +11,11 @@ import com.github.seaxlab.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.PointcutAdvisor;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 
 /**
  * Log cost config
@@ -25,6 +27,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration("seaLogCostConfig")
 @RequiredArgsConstructor
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class LogCostConfig {
 
   private final SeaProperties seaProperties;
@@ -33,6 +36,7 @@ public class LogCostConfig {
 
   @Bean
   @ConditionalOnMissingBean(name = "seaLogCostPointcutAdvisor")
+  @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
   public PointcutAdvisor seaLogCostAdvisor() {
     log.info("init sea log cost advisor bean");
 

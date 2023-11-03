@@ -11,9 +11,11 @@ import com.github.seaxlab.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.PointcutAdvisor;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 
 /**
  * log request config
@@ -25,6 +27,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration("seaLogRequestConfig")
 @RequiredArgsConstructor
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class LogRequestConfig {
 
   private final SeaProperties seaProperties;
@@ -33,6 +36,7 @@ public class LogRequestConfig {
 
   @Bean
   @ConditionalOnMissingBean(name = "seaLogRequestPointcutAdvisor")
+  @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
   public PointcutAdvisor seaLogRequestAdvisor() {
     log.info("init sea log request advisor bean");
     String expression = DEFAULT_EXPRESSION;
