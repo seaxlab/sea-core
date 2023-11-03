@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.spring.context.support;
 
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.EnvironmentAware;
@@ -9,10 +10,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 
-import java.util.List;
-
 /**
- * it support load custom property source into environment.
+ * it supports load custom property source into environment.
  *
  * @author spy
  * @version 1.0 2021/2/23

@@ -7,6 +7,11 @@ import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.model.Result;
 import com.google.common.base.Strings;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.ConversionNotSupportedException;
@@ -30,12 +35,6 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.Locale;
-
 
 /**
  * Global异常
@@ -54,7 +53,7 @@ public class BaseGlobalExceptionHandler {
 
   @ExceptionHandler(value = BaseAppException.class)
   @ResponseBody
-  public ResponseEntity<Result> handleBaseAppException(BaseAppException e) {
+  public ResponseEntity<Result<?>> handleBaseAppException(BaseAppException e) {
     log.error("Biz service Exception", e);
 
     return new ResponseEntity<>(buildResult(e.getCode(), e.getDesc(), null), HttpStatus.OK);
@@ -62,14 +61,14 @@ public class BaseGlobalExceptionHandler {
 
   @ExceptionHandler(value = IllegalArgumentException.class)
   @ResponseBody
-  public ResponseEntity<Result> handleIllegalArgumentException(IllegalArgumentException e) {
+  public ResponseEntity<Result<?>> handleIllegalArgumentException(IllegalArgumentException e) {
     log.error("Biz service Exception", e);
 
-    return new ResponseEntity<Result>(buildResult(String.valueOf(-1), e.getMessage(), null), HttpStatus.OK);
+    return new ResponseEntity<>(buildResult(String.valueOf(-1), e.getMessage(), null), HttpStatus.OK);
   }
 
-  private Result buildResult(String code, String defaultErrorMsg, Object data) {
-    Result result = Result.fail();
+  private Result<?> buildResult(String code, String defaultErrorMsg, Object data) {
+    Result<?> result = Result.fail();
 
     result.setCode(code);
     result.setMsg(getErrorMessage(code, defaultErrorMsg));
@@ -104,7 +103,7 @@ public class BaseGlobalExceptionHandler {
     ServletRequestBindingException.class, //
     BindException.class})
   @ResponseBody
-  public ResponseEntity<Result> handleExceptions(HttpServletRequest request, Exception e) {
+  public ResponseEntity<Result<?>> handleExceptions(HttpServletRequest request, Exception e) {
 
     log.error("handle Exceptions", e);
 
@@ -125,8 +124,7 @@ public class BaseGlobalExceptionHandler {
       msg = "缺少参数" + pe.getParameterName();
     }
 
-
-    Result result = buildResult(request, ErrorMessageEnum.SYS_PARAM_INVALID, getMessage(e));
+    Result<?> result = buildResult(request, ErrorMessageEnum.SYS_PARAM_INVALID, getMessage(e));
 
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
@@ -136,7 +134,7 @@ public class BaseGlobalExceptionHandler {
     NoHandlerFoundException.class, //
     Exception.class})
   @ResponseBody
-  public ResponseEntity<Result> handleException(HttpServletRequest request, Exception e) {
+  public ResponseEntity<Result<?>> handleException(HttpServletRequest request, Exception e) {
     log.error("Unexpected exceptions!!!", e);
 
     //String message = null;
@@ -148,34 +146,34 @@ public class BaseGlobalExceptionHandler {
     //if (e instanceof NoHandlerFoundException) {
     //}
 
-    return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(e)), HttpStatus.OK);
+    return new ResponseEntity<Result<?>>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(e)),
+      HttpStatus.OK);
   }
 
-  private Result buildResult(HttpServletRequest request, String code, String message, String errorMsgForLog) {
+  private Result<?> buildResult(HttpServletRequest request, String code, String message, String errorMsgForLog) {
     printHttpHeader(request);
 
     // 返回给前端的结果
-    Result result = getBaseResult(code, message);
-
-    // 如果是开发环境则把异常抛出去
-
-
-    return result;
-  }
-
-  private Result buildResult(HttpServletRequest request, IErrorEnum errorException, String errorMsgForLog) {
-    printHttpHeader(request);
-
-    // 返回给前端的结果
-    Result result = getResult(errorException);
+    Result<?> result = getBaseResult(code, message);
 
     // 如果是开发环境则把异常抛出去
 
     return result;
   }
 
-  protected Result getBaseResult(String code, String message) {
-    Result result = new Result();
+  private Result<?> buildResult(HttpServletRequest request, IErrorEnum errorException, String errorMsgForLog) {
+    printHttpHeader(request);
+
+    // 返回给前端的结果
+    Result<?> result = getResult(errorException);
+
+    // 如果是开发环境则把异常抛出去
+
+    return result;
+  }
+
+  protected Result<?> getBaseResult(String code, String message) {
+    Result<?> result = new Result<>();
     result.setSuccess(false);
     result.setCode(code);
     result.setMsg(getErrorMessage(code, message));
@@ -183,15 +181,15 @@ public class BaseGlobalExceptionHandler {
     try {
       result.setTraceId(TracerUtil.getTraceId());
     } catch (Exception e) {
-
+      log.warn("fail to get/set traceId");
     }
     log.error("code={},message={}", result.getCode(), result.getMsg());
 
     return result;
   }
 
-  private Result getResult(IErrorEnum errorException) {
-    Result result = new Result();
+  private Result<?> getResult(IErrorEnum errorException) {
+    Result<?> result = new Result<>();
     result.setSuccess(false);
     result.setCode(errorException.getCode());
     result.setMsg(errorException.getMessage());
@@ -218,7 +216,7 @@ public class BaseGlobalExceptionHandler {
       exception.printStackTrace(new PrintWriter(buffer, true));
       message = buffer.toString();
     } catch (Exception inner) {
-
+      log.warn("fail get message");
     }
 
     return message;

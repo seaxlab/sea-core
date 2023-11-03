@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
- * module name
+ * Exception util
  *
  * @author spy
  * @version 1.0 2020/3/5

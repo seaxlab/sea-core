@@ -1,14 +1,13 @@
 package com.github.seaxlab.core.web.model;
 
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 /**
- * Foot print info
+ * footprint info
  *
  * @author spy
  * @version 1.0 2019-08-06
