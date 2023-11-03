@@ -27,7 +27,7 @@ import org.apache.http.client.methods.HttpHead;
  * @since 1.0
  */
 @Slf4j
-public abstract class AbstractDownloader<A extends DownloaderReqDTO> implements Downloader {
+public abstract class AbstractDownloader<A extends DownloaderReqDTO> implements Downloader<A> {
 
   @Override
   public DownloaderRespDTO execute(DownloaderReqDTO dto) {

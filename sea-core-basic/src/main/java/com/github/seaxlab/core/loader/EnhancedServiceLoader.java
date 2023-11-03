@@ -16,6 +16,8 @@
 package com.github.seaxlab.core.loader;
 
 import com.github.seaxlab.core.common.CoreConst;
+import com.github.seaxlab.core.util.ListUtil;
+import com.github.seaxlab.core.util.StringUtil;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,14 +25,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,13 +38,14 @@ import org.slf4j.LoggerFactory;
  * @author jimin.jm @alibaba-inc.com
  * @date 2018 /10/10
  */
+@SuppressWarnings("rawtypes")
 public class EnhancedServiceLoader {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(EnhancedServiceLoader.class);
+  //
   private static final String SERVICES_DIRECTORY = "META-INF/services/";
   private static final String SEA_DIRECTORY = "META-INF/sea/";
-  @SuppressWarnings("rawtypes")
-  private static Map<Class, List<Class>> providers = new ConcurrentHashMap<>();
+  private static final Map<Class, List<Class>> providers = new ConcurrentHashMap<>();
 
   /**
    * Specify classLoader to load the service provider
@@ -149,7 +148,7 @@ public class EnhancedServiceLoader {
   public static <S> List<S> loadAll(Class<S> service) {
     List<S> allInstances = new ArrayList<>();
     List<Class> allClazzs = getAllExtensionClass(service);
-    if (CollectionUtils.isEmpty(allClazzs)) {
+    if (ListUtil.isEmpty(allClazzs)) {
       return allInstances;
     }
     try {
@@ -169,7 +168,6 @@ public class EnhancedServiceLoader {
    * @param service the service
    * @return all extension class
    */
-  @SuppressWarnings("rawtypes")
   public static <S> List<Class> getAllExtensionClass(Class<S> service) {
     return findAllExtensionClass(service, null, findClassLoader());
   }
@@ -182,7 +180,6 @@ public class EnhancedServiceLoader {
    * @param loader  the loader
    * @return all extension class
    */
-  @SuppressWarnings("rawtypes")
   public static <S> List<Class> getAllExtensionClass(Class<S> service, ClassLoader loader) {
     return findAllExtensionClass(service, null, loader);
   }
@@ -191,7 +188,6 @@ public class EnhancedServiceLoader {
     return loadFile(service, activateName, loader, null, null);
   }
 
-  @SuppressWarnings("rawtypes")
   private static <S> S loadFile(Class<S> service, String activateName, ClassLoader loader, Class[] argTypes,
     Object[] args) {
     try {
@@ -207,14 +203,12 @@ public class EnhancedServiceLoader {
           }
         }
       }
-      if (StringUtils.isNotEmpty(activateName)) {
+      if (StringUtil.isNotEmpty(activateName)) {
         loadFile(service, SEA_DIRECTORY + activateName.toLowerCase() + "/", loader, extensions);
 
-        List<Class> activateExtensions = new ArrayList<Class>();
-        for (int i = 0; i < extensions.size(); i++) {
-          Class clz = extensions.get(i);
-          @SuppressWarnings("unchecked")
-          LoadLevel activate = (LoadLevel) clz.getAnnotation(LoadLevel.class);
+        List<Class> activateExtensions = new ArrayList<>();
+        for (Class clz : extensions) {
+          @SuppressWarnings("unchecked") LoadLevel activate = (LoadLevel) clz.getAnnotation(LoadLevel.class);
           if (activate != null && activateName.equalsIgnoreCase(activate.name())) {
             activateExtensions.add(clz);
           }
@@ -224,9 +218,10 @@ public class EnhancedServiceLoader {
       }
 
       if (extensions.isEmpty()) {
+        LOGGER.warn("not found service provider, service={}[{}],loader={}", service.getName(), activateName, loader);
         throw new EnhancedServiceNotFoundException(
-          "not found service provider for : " + service.getName() + "[" + activateName
-            + "] and classloader : " + loader);
+          "not found service provider for : " + service.getName() + "[" + activateName + "] and classloader : "
+            + loader);
       }
       Class<?> extension = extensions.get(extensions.size() - 1);
       S result = initInstance(service, extension, argTypes, args);
@@ -235,23 +230,22 @@ public class EnhancedServiceLoader {
       }
       return result;
     } catch (Throwable e) {
+      LOGGER.warn("not found service provider, service={},exception", service.getName(), e);
       if (e instanceof EnhancedServiceNotFoundException) {
         throw (EnhancedServiceNotFoundException) e;
       } else {
-        throw new EnhancedServiceNotFoundException(
-          "not found service provider for : " + service.getName() + " caused by " + ExceptionUtils
-            .getStackTrace(e));
+        throw new EnhancedServiceNotFoundException("not found service provider for : " + service.getName());
       }
     }
   }
 
-  @SuppressWarnings("rawtypes")
   private static <S> List<Class> findAllExtensionClass(Class<S> service, String activateName, ClassLoader loader) {
-    List<Class> extensions = new ArrayList<Class>();
+    List<Class> extensions = new ArrayList<>();
     try {
       loadFile(service, SERVICES_DIRECTORY, loader, extensions);
       loadFile(service, SEA_DIRECTORY, loader, extensions);
     } catch (IOException e) {
+      LOGGER.warn("load file exception", e);
       throw new EnhancedServiceNotFoundException(e);
     }
 
@@ -260,16 +254,16 @@ public class EnhancedServiceLoader {
     }
 
     //指定类型排序
-    Collections.sort(extensions, (c1, c2) -> {
-      Integer o1 = getOrder(c1);
-      Integer o2 = getOrder(c2);
+    extensions.sort((c1, c2) -> {
+      int o1 = getOrder(c1);
+      int o2 = getOrder(c2);
       return Integer.compare(o1, o2);
     });
 
     return extensions;
   }
 
-  private static int getOrder(Class obj) {
+  private static int getOrder(Class<?> obj) {
     if (obj == null) {
       return 0;
     }
@@ -278,7 +272,6 @@ public class EnhancedServiceLoader {
   }
 
 
-  @SuppressWarnings("rawtypes")
   private static void loadFile(Class<?> service, String dir, ClassLoader classLoader, List<Class> extensions)
     throws IOException {
     String fileName = dir + service.getName();
@@ -292,9 +285,8 @@ public class EnhancedServiceLoader {
     if (urls != null) {
       while (urls.hasMoreElements()) {
         URL url = urls.nextElement();
-        BufferedReader reader = null;
-        try {
-          reader = new BufferedReader(new InputStreamReader(url.openStream(), CoreConst.DEFAULT_CHARSET));
+        try (BufferedReader reader = new BufferedReader(
+          new InputStreamReader(url.openStream(), CoreConst.DEFAULT_CHARSET))) {
           String line = null;
           while ((line = reader.readLine()) != null) {
             final int ci = line.indexOf('#');
@@ -316,13 +308,6 @@ public class EnhancedServiceLoader {
           }
         } catch (Throwable e) {
           LOGGER.warn("unknown exception", e);
-        } finally {
-          try {
-            if (reader != null) {
-              reader.close();
-            }
-          } catch (IOException ioe) {
-          }
         }
       }
     }

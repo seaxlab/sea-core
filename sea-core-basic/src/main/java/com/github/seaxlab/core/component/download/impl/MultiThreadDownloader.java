@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -41,7 +42,7 @@ public class MultiThreadDownloader extends AbstractDownloader {
   public void download(DownloaderReqDTO dto) throws Exception {
     int cpuCount = Runtime.getRuntime().availableProcessors();
     int threadNum = ObjectUtil.defaultIfNull(dto.getThreadCount(), cpuCount);
-    threadNum = threadNum > cpuCount ? cpuCount : threadNum;
+    threadNum = Math.min(threadNum, cpuCount);
 
     long contentLength = getRemoteFileContentLength(dto);
     log.info("download file size={}", contentLength);
@@ -62,8 +63,8 @@ public class MultiThreadDownloader extends AbstractDownloader {
     List<CompletableFuture<File>> futures = new ArrayList<>();
     for (int index = 0; index < threadNum; index++) {
       //计算出每个线程的下载开始位置和结束位置
-      String start = step * index + "";
-      String end = index == threadNum - 1 ? "" : (step * (index + 1) - 1) + "";
+      String start = String.valueOf(step * index);
+      String end = index == threadNum - 1 ? "" : String.valueOf(step * (index + 1) - 1);
       // temp file
       String tempFilePath = dir + File.separator + "." + fileName + ".download." + index;
 
@@ -78,7 +79,7 @@ public class MultiThreadDownloader extends AbstractDownloader {
           tempFile = new File(tempFilePath);
           if (entity != null) {
             BufferedInputStream bis = new BufferedInputStream(entity.getContent());
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(tempFile));
+            BufferedOutputStream bos = new BufferedOutputStream(Files.newOutputStream(tempFile.toPath()));
             int inByte;
             while ((inByte = bis.read()) != -1) {
               bos.write(inByte);

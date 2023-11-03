@@ -19,7 +19,7 @@ public class DataStats {
   /**
    * LongAdder比AtomicLong有更好的性能
    */
-  private Map<String, LongAdder> cache = new ConcurrentHashMap<>();
+  private final Map<String, LongAdder> cache = new ConcurrentHashMap<>();
 
   private DataStats() {
   }
