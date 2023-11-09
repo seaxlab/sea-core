@@ -20,7 +20,16 @@ public class WrapperUtilTest {
   public void test16() throws Exception {
     LambdaQueryWrapper<User2> wrapper = Wrappers.lambdaQuery();
 
-
     WrapperUtil.set(wrapper, User2::getCode, "12");
   }
+
+  @Test
+  public void testIBaseEnum() throws Exception {
+    LambdaQueryWrapper<User2> wrapper = Wrappers.lambdaQuery();
+    WrapperUtil.set(wrapper, User2::getUserType, UserTypeEnum.V1);
+
+    log.info("wrapper={}", wrapper.toString());
+
+  }
+
 }

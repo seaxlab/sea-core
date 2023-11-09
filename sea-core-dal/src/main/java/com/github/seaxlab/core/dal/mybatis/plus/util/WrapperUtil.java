@@ -3,12 +3,12 @@ package com.github.seaxlab.core.dal.mybatis.plus.util;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.github.seaxlab.core.enums.IBaseEnum;
 import com.github.seaxlab.core.util.StringUtil;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * wrapper util
@@ -45,6 +45,9 @@ public final class WrapperUtil {
       } else {
         wrapper.in(propertyName, data);
       }
+    } else if (value instanceof IBaseEnum) {
+      IBaseEnum<?> baseEnum = (IBaseEnum<?>) value;
+      wrapper.eq(propertyName, baseEnum.getCode());
     } else {
       wrapper.eq(propertyName, value);
     }
@@ -72,6 +75,9 @@ public final class WrapperUtil {
       } else {
         wrapper.in(column, data);
       }
+    } else if (value instanceof IBaseEnum) {
+      IBaseEnum<?> baseEnum = (IBaseEnum<?>) value;
+      wrapper.eq(column, baseEnum.getCode());
     } else {
       wrapper.eq(column, value);
     }
@@ -99,6 +105,9 @@ public final class WrapperUtil {
       } else {
         wrapper.notIn(propertyName, data);
       }
+    } else if (value instanceof IBaseEnum) {
+      IBaseEnum<?> baseEnum = (IBaseEnum<?>) value;
+      wrapper.ne(propertyName, baseEnum.getCode());
     } else {
       wrapper.ne(propertyName, value);
     }
@@ -126,6 +135,9 @@ public final class WrapperUtil {
       } else {
         wrapper.notIn(func, data);
       }
+    } else if (value instanceof IBaseEnum) {
+      IBaseEnum<?> baseEnum = (IBaseEnum<?>) value;
+      wrapper.ne(func, baseEnum.getCode());
     } else {
       wrapper.ne(func, value);
     }
@@ -203,7 +215,7 @@ public final class WrapperUtil {
    * @param endDate
    */
   public static <T> void setRangeDate(final QueryWrapper<T> wrapper, String propertyName, Date beginDate,
-                                      Date endDate) {
+    Date endDate) {
     if (beginDate != null) {
       wrapper.ge(propertyName, new java.sql.Date(beginDate.getTime()));
     }
@@ -221,7 +233,7 @@ public final class WrapperUtil {
    * @param endDate
    */
   public static <T> void setRangeDate(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Date beginDate,
-                                      Date endDate) {
+    Date endDate) {
     if (beginDate != null) {
       wrapper.ge(func, new java.sql.Date(beginDate.getTime()));
     }
@@ -239,7 +251,7 @@ public final class WrapperUtil {
    * @param endDate
    */
   public static <T> void setRangeDateTime(final QueryWrapper<T> wrapper, String propertyName, Date beginDate,
-                                          Date endDate) {
+    Date endDate) {
     if (beginDate != null) {
       wrapper.ge(propertyName, beginDate);
     }
@@ -258,7 +270,7 @@ public final class WrapperUtil {
    * @param endDate
    */
   public static <T> void setRangeDateTime(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> func, Date beginDate,
-                                          Date endDate) {
+    Date endDate) {
     if (beginDate != null) {
       wrapper.ge(func, beginDate);
     }
