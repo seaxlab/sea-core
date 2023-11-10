@@ -45,9 +45,6 @@ public final class WrapperUtil {
       } else {
         wrapper.in(propertyName, data);
       }
-    } else if (value instanceof IBaseEnum) {
-      IBaseEnum<?> baseEnum = (IBaseEnum<?>) value;
-      wrapper.eq(propertyName, baseEnum.getCode());
     } else {
       wrapper.eq(propertyName, value);
     }
@@ -75,12 +72,31 @@ public final class WrapperUtil {
       } else {
         wrapper.in(column, data);
       }
-    } else if (value instanceof IBaseEnum) {
-      IBaseEnum<?> baseEnum = (IBaseEnum<?>) value;
-      wrapper.eq(column, baseEnum.getCode());
     } else {
       wrapper.eq(column, value);
     }
+  }
+
+  /**
+   * set enum
+   *
+   * @param wrapper
+   * @param propertyName
+   * @param value
+   */
+  public static <T> void setEnum(final QueryWrapper<T> wrapper, String propertyName, IBaseEnum<?> value) {
+    wrapper.eq(Objects.nonNull(value), propertyName, value.getCode());
+  }
+
+  /**
+   * set enum
+   *
+   * @param wrapper
+   * @param column
+   * @param value
+   */
+  public static <T> void setEnum(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> column, IBaseEnum<?> value) {
+    wrapper.eq(Objects.nonNull(value), column, value.getCode());
   }
 
   /**
@@ -105,9 +121,6 @@ public final class WrapperUtil {
       } else {
         wrapper.notIn(propertyName, data);
       }
-    } else if (value instanceof IBaseEnum) {
-      IBaseEnum<?> baseEnum = (IBaseEnum<?>) value;
-      wrapper.ne(propertyName, baseEnum.getCode());
     } else {
       wrapper.ne(propertyName, value);
     }
@@ -135,12 +148,31 @@ public final class WrapperUtil {
       } else {
         wrapper.notIn(func, data);
       }
-    } else if (value instanceof IBaseEnum) {
-      IBaseEnum<?> baseEnum = (IBaseEnum<?>) value;
-      wrapper.ne(func, baseEnum.getCode());
     } else {
       wrapper.ne(func, value);
     }
+  }
+
+  /**
+   * set enum
+   *
+   * @param wrapper
+   * @param propertyName
+   * @param value
+   */
+  public static <T> void setEnumNot(final QueryWrapper<T> wrapper, String propertyName, IBaseEnum<?> value) {
+    wrapper.ne(Objects.nonNull(value), propertyName, value.getCode());
+  }
+
+  /**
+   * set enum
+   *
+   * @param wrapper
+   * @param column
+   * @param value
+   */
+  public static <T> void setEnumNot(final LambdaQueryWrapper<T> wrapper, SFunction<T, ?> column, IBaseEnum<?> value) {
+    wrapper.ne(Objects.nonNull(value), column, value.getCode());
   }
 
   /**
