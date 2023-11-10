@@ -10,11 +10,13 @@ import com.github.seaxlab.core.util.StringUtil;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
 
 /**
@@ -28,12 +30,14 @@ import org.springframework.core.Ordered;
 @Configuration
 @ConditionalOnClass(XxlJob.class)
 @RequiredArgsConstructor
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class SeaXxlJobConfig {
 
   private final SeaProperties seaProperties;
   private static final String DEFAULT_EXPRESSION = "@annotation(com.xxl.job.core.handler.annotation.XxlJob)";
 
   @Bean
+  @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
   @ConditionalOnMissingBean(name = "seaXxlJobThreadContextPointcutAdvisor")
   @ConditionalOnProperty(name = "sea.xxl-job-thread-context-enabled", havingValue = "true", matchIfMissing = true)
   public DynamicPointcutAdvisor seaScheduleThreadContextPointcutAdvisor() {

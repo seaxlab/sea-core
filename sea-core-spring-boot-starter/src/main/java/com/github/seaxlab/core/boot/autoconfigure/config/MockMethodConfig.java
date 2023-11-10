@@ -40,7 +40,7 @@ public class MockMethodConfig {
   @ConditionalOnMissingBean(name = "seaMockMethodPointcutAdvisor")
   @ConditionalOnProperty(name = "sea.env", havingValue = "local")
   public PointcutAdvisor seaMockMethodAdvisor() {
-    log.info("init sea mock method advisor bean in lock env");
+    log.info("init sea mock method advisor bean in local env");
 
     String expression = DEFAULT_EXPRESSION;
     if (StringUtil.isNotBlank(seaProperties.getBasePackage())) {
