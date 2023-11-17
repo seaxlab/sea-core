@@ -1,15 +1,19 @@
 package com.github.seaxlab.core.component.ognl;
 
+import static org.junit.Assert.assertEquals;
+
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.component.ognl.member.DefaultMemberAccess;
 import com.github.seaxlab.core.domain.Group;
 import com.github.seaxlab.core.domain.User;
 import lombok.extern.slf4j.Slf4j;
-import ognl.*;
+import ognl.ClassResolver;
+import ognl.DefaultClassResolver;
+import ognl.MemberAccess;
+import ognl.Ognl;
+import ognl.OgnlContext;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * module name
@@ -75,5 +79,11 @@ public class OgnlTest extends BaseCoreTest {
     Ognl.setValue("group.name", context, user, "dev");
 
     assertEquals("dev", user.getGroup().getName());
+  }
+
+  @Test
+  public void testBoolean() throws Exception {
+    Object value = Ognl.getValue(Ognl.parseExpression("!flag"), context);
+    log.info("value={}", value);
   }
 }

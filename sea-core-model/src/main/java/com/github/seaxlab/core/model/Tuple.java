@@ -15,7 +15,7 @@ public class Tuple implements Iterable<Object>, Serializable {
   /**
    * field
    */
-  private Object[] members;
+  private final Object[] members;
 
   /**
    * 构造
