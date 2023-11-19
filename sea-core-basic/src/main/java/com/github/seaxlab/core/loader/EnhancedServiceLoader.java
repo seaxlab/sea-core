@@ -16,6 +16,7 @@
 package com.github.seaxlab.core.loader;
 
 import com.github.seaxlab.core.common.CoreConst;
+import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.util.ListUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import java.io.BufferedReader;
@@ -41,7 +42,7 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings("rawtypes")
 public class EnhancedServiceLoader {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(EnhancedServiceLoader.class);
+  private static final Logger log = LoggerFactory.getLogger(EnhancedServiceLoader.class);
   //
   private static final String SERVICES_DIRECTORY = "META-INF/services/";
   private static final String SEA_DIRECTORY = "META-INF/sea/";
@@ -54,9 +55,8 @@ public class EnhancedServiceLoader {
    * @param service the service
    * @param loader  the loader
    * @return s s
-   * @throws EnhancedServiceNotFoundException the enhanced service not found exception
    */
-  public static <S> S load(Class<S> service, ClassLoader loader) throws EnhancedServiceNotFoundException {
+  public static <S> S load(Class<S> service, ClassLoader loader) {
     return loadFile(service, null, loader);
   }
 
@@ -66,9 +66,8 @@ public class EnhancedServiceLoader {
    * @param <S>     the type parameter
    * @param service the service
    * @return s s
-   * @throws EnhancedServiceNotFoundException the enhanced service not found exception
    */
-  public static <S> S load(Class<S> service) throws EnhancedServiceNotFoundException {
+  public static <S> S load(Class<S> service) {
     return loadFile(service, null, findClassLoader());
   }
 
@@ -79,9 +78,8 @@ public class EnhancedServiceLoader {
    * @param service      the service
    * @param activateName the activate name
    * @return s s
-   * @throws EnhancedServiceNotFoundException the enhanced service not found exception
    */
-  public static <S> S load(Class<S> service, String activateName) throws EnhancedServiceNotFoundException {
+  public static <S> S load(Class<S> service, String activateName) {
     return loadFile(service, activateName, findClassLoader());
   }
 
@@ -93,10 +91,8 @@ public class EnhancedServiceLoader {
    * @param activateName the activate name
    * @param loader       the loader
    * @return s s
-   * @throws EnhancedServiceNotFoundException the enhanced service not found exception
    */
-  public static <S> S load(Class<S> service, String activateName, ClassLoader loader)
-    throws EnhancedServiceNotFoundException {
+  public static <S> S load(Class<S> service, String activateName, ClassLoader loader) {
     return loadFile(service, activateName, loader);
   }
 
@@ -108,10 +104,8 @@ public class EnhancedServiceLoader {
    * @param activateName the activate name
    * @param args         the args
    * @return the s
-   * @throws EnhancedServiceNotFoundException the enhanced service not found exception
    */
-  public static <S> S load(Class<S> service, String activateName, Object[] args)
-    throws EnhancedServiceNotFoundException {
+  public static <S> S load(Class<S> service, String activateName, Object[] args) {
     Class[] argsType = null;
     if (args != null && args.length > 0) {
       argsType = new Class[args.length];
@@ -131,10 +125,8 @@ public class EnhancedServiceLoader {
    * @param argsType     the args type
    * @param args         the args
    * @return the s
-   * @throws EnhancedServiceNotFoundException the enhanced service not found exception
    */
-  public static <S> S load(Class<S> service, String activateName, Class[] argsType, Object[] args)
-    throws EnhancedServiceNotFoundException {
+  public static <S> S load(Class<S> service, String activateName, Class[] argsType, Object[] args) {
     return loadFile(service, activateName, findClassLoader(), argsType, args);
   }
 
@@ -156,7 +148,7 @@ public class EnhancedServiceLoader {
         allInstances.add(initInstance(service, clazz, null, null));
       }
     } catch (Throwable t) {
-      throw new EnhancedServiceNotFoundException(t);
+      throw new BaseAppException(t);
     }
     return allInstances;
   }
@@ -218,23 +210,23 @@ public class EnhancedServiceLoader {
       }
 
       if (extensions.isEmpty()) {
-        LOGGER.warn("not found service provider, service={}[{}],loader={}", service.getName(), activateName, loader);
-        throw new EnhancedServiceNotFoundException(
+        log.warn("not found service provider, service={}[{}],loader={}", service.getName(), activateName, loader);
+        throw new BaseAppException(
           "not found service provider for : " + service.getName() + "[" + activateName + "] and classloader : "
             + loader);
       }
       Class<?> extension = extensions.get(extensions.size() - 1);
       S result = initInstance(service, extension, argTypes, args);
-      if (!foundFromCache && LOGGER.isInfoEnabled()) {
-        LOGGER.info("load {}[{}] extension by class[{}]", service.getSimpleName(), activateName, extension.getName());
+      if (!foundFromCache && log.isInfoEnabled()) {
+        log.info("load {}[{}] extension by class[{}]", service.getSimpleName(), activateName, extension.getName());
       }
       return result;
     } catch (Throwable e) {
-      LOGGER.warn("not found service provider, service={},exception", service.getName(), e);
-      if (e instanceof EnhancedServiceNotFoundException) {
-        throw (EnhancedServiceNotFoundException) e;
+      log.warn("not found service provider, service={},exception", service.getName(), e);
+      if (e instanceof BaseAppException) {
+        throw (BaseAppException) e;
       } else {
-        throw new EnhancedServiceNotFoundException("not found service provider for : " + service.getName());
+        throw new BaseAppException("not found service provider for : " + service.getName());
       }
     }
   }
@@ -245,8 +237,8 @@ public class EnhancedServiceLoader {
       loadFile(service, SERVICES_DIRECTORY, loader, extensions);
       loadFile(service, SEA_DIRECTORY, loader, extensions);
     } catch (IOException e) {
-      LOGGER.warn("load file exception", e);
-      throw new EnhancedServiceNotFoundException(e);
+      log.warn("load file exception", e);
+      throw new BaseAppException(e);
     }
 
     if (extensions.isEmpty()) {
@@ -299,7 +291,7 @@ public class EnhancedServiceLoader {
               try {
                 clazz = Class.forName(line, false, classLoader);
               } catch (Exception e) {
-                LOGGER.warn("Class.forName exception.", e);
+                log.warn("Class.forName exception.", e);
               }
               if (clazz != null) {
                 extensions.add(clazz);
@@ -307,7 +299,7 @@ public class EnhancedServiceLoader {
             }
           }
         } catch (Throwable e) {
-          LOGGER.warn("unknown exception", e);
+          log.warn("unknown exception", e);
         }
       }
     }
