@@ -2,9 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.seaxlab.core.dal.mybatis.plus.User2Mapper">
 
+  <resultMap id="userResultMap" type="com.github.seaxlab.core.dal.mybatis.plus.User2">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="age" column="age"/>
+    <result property="email" column="email"/>
+  </resultMap>
 
   <select id="selectMaxAge" resultType="java.lang.Integer">
     select max(age)
     from user2
+  </select>
+
+  <select id="queryUserList" resultMap="userResultMap">
+    select * from user2
+    <where>
+      <if test="!po.flag">
+        and 1=1
+      </if>
+      <if test="po.flag==true">
+        and 2=2
+      </if>
+      <if test="po.flag==false">
+        and 3=3
+      </if>
+    </where>
   </select>
 </mapper>
