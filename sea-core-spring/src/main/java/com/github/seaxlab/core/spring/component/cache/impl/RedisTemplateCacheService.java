@@ -1,13 +1,13 @@
-package com.github.seaxlab.core.spring.cache.impl;
+package com.github.seaxlab.core.spring.component.cache.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.seaxlab.core.cache.common.CacheConst;
 import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.model.layer.po.EntityKey;
-import com.github.seaxlab.core.spring.cache.CacheExceptionHandler;
-import com.github.seaxlab.core.spring.cache.CacheService;
-import com.github.seaxlab.core.spring.enums.CacheOpEnum;
+import com.github.seaxlab.core.spring.component.cache.CacheExceptionHandler;
+import com.github.seaxlab.core.spring.component.cache.CacheOpEnum;
+import com.github.seaxlab.core.spring.component.cache.CacheService;
 import com.github.seaxlab.core.util.EqualUtil;
 import com.github.seaxlab.core.util.JSONUtil;
 import com.github.seaxlab.core.util.ListUtil;
@@ -38,6 +38,7 @@ import org.springframework.data.redis.core.ScanOptions;
  * @since 1.0
  */
 @Slf4j
+@SuppressWarnings({"unchecked"})
 public class RedisTemplateCacheService implements CacheService {
 
   private RedisTemplate redisTemplate;

@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.spring.enums;
+package com.github.seaxlab.core.spring.component.cache;
 
 import com.github.seaxlab.core.enums.IBaseEnum;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.spring.cache;
+package com.github.seaxlab.core.spring.component.cache;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -6,6 +6,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.github.seaxlab.core.spring.BaseSpringTest;
+import com.github.seaxlab.core.spring.component.cache.impl.RedisTemplateCacheService;
+import com.github.seaxlab.core.spring.model.User;
+import com.github.seaxlab.core.util.RandomUtil;
+import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,20 +21,18 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * module name
  *
  * @author spy
- * @version 1.0 2021/10/11
+ * @version 1.0 2021/9/18
  * @since 1.0
  */
 @Slf4j
-public class RedisTemplateTest extends BaseSpringTest {
-
+public class RedisTemplateCacheServiceTest extends BaseSpringTest {
 
   RedisTemplate<String, String> redisTemplate;
+  RedisTemplateCacheService redisTemplateCacheService;
 
   @Before
   public void before() {
@@ -38,13 +42,13 @@ public class RedisTemplateTest extends BaseSpringTest {
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     // output detailed class type, if no need, you should comment it.
     objectMapper.activateDefaultTyping(
-            LaissezFaireSubTypeValidator.instance,
-            ObjectMapper.DefaultTyping.NON_FINAL);
+      LaissezFaireSubTypeValidator.instance,
+      ObjectMapper.DefaultTyping.NON_FINAL);
     objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
     jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
 
     final RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-    redisStandaloneConfiguration.setHostName("10.122.2.110");
+    redisStandaloneConfiguration.setHostName("mylab");
     redisStandaloneConfiguration.setPort(6379);
     redisStandaloneConfiguration.setPassword("");
     redisStandaloneConfiguration.setDatabase(0);
@@ -60,16 +64,61 @@ public class RedisTemplateTest extends BaseSpringTest {
     redisTemplate.setHashKeySerializer(new StringRedisSerializer());
     redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
     redisTemplate.afterPropertiesSet();
+
+    redisTemplateCacheService = new RedisTemplateCacheService(redisTemplate);
   }
 
   @Test
-  public void testSetIfAbsent() throws Exception {
-    String key = "test:set_if_absent";
-    Boolean value = redisTemplate.opsForValue().setIfAbsent(key, "1", 10, TimeUnit.MINUTES);
-    log.info("value={}", value);
-
-    Boolean value2 = redisTemplate.opsForValue().setIfAbsent(key, "12", 10, TimeUnit.MINUTES);
-    log.info("value2={}", value2);
+  public void testAdd() throws Exception {
+    for (int i = 0; i < 20; i++) {
+      redisTemplateCacheService.set("key:limit:a:" + i, "" + i);
+    }
   }
 
+  @Test
+  public void testScan() throws Exception {
+    log.info("begin");
+    redisTemplateCacheService.scan("key:limit:*", 100, bytes -> {
+      String key = new String(bytes);
+      log.info("key={}", key);
+      redisTemplateCacheService.delete(key);
+    });
+
+    log.info("end...");
+  }
+
+  @Test
+  public void testDeleteByWildcard() throws Exception {
+    redisTemplateCacheService.deleteByWildcard("key:limit:*");
+  }
+
+
+  @Test
+  public void testQueryMapList() throws Exception {
+
+    String key = "users";
+    // clean first
+    redisTemplateCacheService.delete(key);
+
+    List<String> mapKeys = ImmutableList.of("field1", "field2");
+    List<User> users = redisTemplateCacheService.queryMapList(key, mapKeys, (userCodes) -> {
+      List<User> dbUsers = new ArrayList<>();
+      for (int i = 0; i < 100; i++) {
+        User user = new User();
+        user.setCode("code" + RandomUtil.numeric(6));
+        dbUsers.add(user);
+      }
+
+      return dbUsers;
+    });
+    log.info("users={}", users);
+  }
+
+  @Test
+  public void testQueryMapListOnly() throws Exception {
+    String key = "users";
+    List<String> mapKeys = ImmutableList.of("code215815", "code700073");
+    List<User> users = redisTemplateCacheService.queryMapList(key, mapKeys);
+    log.info("users={}", users);
+  }
 }

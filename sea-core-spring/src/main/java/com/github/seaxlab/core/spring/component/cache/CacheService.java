@@ -1,8 +1,7 @@
-package com.github.seaxlab.core.spring.cache;
+package com.github.seaxlab.core.spring.component.cache;
 
 import com.github.seaxlab.core.model.Tuple2;
 import com.github.seaxlab.core.model.layer.po.EntityKey;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
