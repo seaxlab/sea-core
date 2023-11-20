@@ -1,11 +1,14 @@
-package com.github.seaxlab.core.socket.model;
+package com.github.seaxlab.core.component.socket.model;
 
 import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.util.DateUtil;
-import lombok.extern.slf4j.Slf4j;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * module name

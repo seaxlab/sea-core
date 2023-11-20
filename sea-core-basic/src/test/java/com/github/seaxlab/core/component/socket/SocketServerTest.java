@@ -1,15 +1,14 @@
-package com.github.seaxlab.core.socket;
+package com.github.seaxlab.core.component.socket;
 
 import com.github.seaxlab.core.BaseCoreTest;
-import com.github.seaxlab.core.socket.model.SocketRequest;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-
+import com.github.seaxlab.core.component.socket.model.SocketRequest;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
 /**
  * module name

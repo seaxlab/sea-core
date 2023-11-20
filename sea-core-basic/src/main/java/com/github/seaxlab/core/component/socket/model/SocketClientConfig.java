@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.socket.model;
+package com.github.seaxlab.core.component.socket.model;
 
 import lombok.Data;
 

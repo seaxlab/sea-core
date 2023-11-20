@@ -1,9 +1,9 @@
-package com.github.seaxlab.core.socket.model;
+package com.github.seaxlab.core.component.socket.model;
 
 import lombok.Data;
 
 /**
- * module name
+ * socket client send data
  *
  * @author spy
  * @version 1.0 2021/1/5
@@ -11,5 +11,7 @@ import lombok.Data;
  */
 @Data
 public class SocketClientSendData {
+
   private byte[] playLoad;
+
 }

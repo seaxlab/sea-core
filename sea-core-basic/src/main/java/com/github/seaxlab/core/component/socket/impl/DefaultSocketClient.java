@@ -1,19 +1,22 @@
-package com.github.seaxlab.core.socket.impl;
+package com.github.seaxlab.core.component.socket.impl;
 
+import com.github.seaxlab.core.component.socket.SocketClient;
+import com.github.seaxlab.core.component.socket.model.SocketClientConfig;
+import com.github.seaxlab.core.component.socket.model.SocketClientSendData;
 import com.github.seaxlab.core.exception.ExceptionHandler;
-import com.github.seaxlab.core.socket.SocketClient;
-import com.github.seaxlab.core.socket.model.SocketClientConfig;
-import com.github.seaxlab.core.socket.model.SocketClientSendData;
 import com.github.seaxlab.core.util.IOUtil;
-import lombok.extern.slf4j.Slf4j;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * module name
+ * default socket client
  *
  * @author spy
  * @version 1.0 2021/1/5

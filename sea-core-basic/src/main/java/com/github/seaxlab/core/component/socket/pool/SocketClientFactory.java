@@ -1,8 +1,8 @@
-package com.github.seaxlab.core.socket.pool;
+package com.github.seaxlab.core.component.socket.pool;
 
-import com.github.seaxlab.core.socket.SocketClient;
-import com.github.seaxlab.core.socket.impl.DefaultSocketClient;
-import com.github.seaxlab.core.socket.model.SocketClientConfig;
+import com.github.seaxlab.core.component.socket.SocketClient;
+import com.github.seaxlab.core.component.socket.impl.DefaultSocketClient;
+import com.github.seaxlab.core.component.socket.model.SocketClientConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;

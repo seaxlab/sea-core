@@ -1,7 +1,7 @@
-package com.github.seaxlab.core.socket;
+package com.github.seaxlab.core.component.socket;
 
-import com.github.seaxlab.core.socket.model.SocketClientConfig;
-import com.github.seaxlab.core.socket.model.SocketClientSendData;
+import com.github.seaxlab.core.component.socket.model.SocketClientConfig;
+import com.github.seaxlab.core.component.socket.model.SocketClientSendData;
 
 /**
  * socket client.

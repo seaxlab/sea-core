@@ -1,15 +1,14 @@
-package com.github.seaxlab.core.socket;
+package com.github.seaxlab.core.component.socket;
 
-import com.github.seaxlab.core.socket.model.SocketClientConfig;
-import com.github.seaxlab.core.socket.pool.SocketClientFactory;
-import com.github.seaxlab.core.socket.pool.SocketClientPool;
+import com.github.seaxlab.core.component.socket.model.SocketClientConfig;
+import com.github.seaxlab.core.component.socket.pool.SocketClientFactory;
+import com.github.seaxlab.core.component.socket.pool.SocketClientPool;
+import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
-import java.util.concurrent.ConcurrentHashMap;
-
 /**
- * module name
+ * socket client helper
  *
  * @author spy
  * @version 1.0 2021/1/6
@@ -121,7 +120,8 @@ public class SocketClientHelper {
       .append("[min idle:").append(this.socketClientPool.getMinIdle()).append("]")
       .append("[active count:").append(this.socketClientPool.getNumActive()).append("]")
       .append("[idle count: ").append(this.socketClientPool.getNumIdle()).append("]")
-      .append("[total instance: ").append(this.socketClientPool.getNumIdle() + this.socketClientPool.getNumActive()).append("]")
+      .append("[total instance: ").append(this.socketClientPool.getNumIdle() + this.socketClientPool.getNumActive())
+      .append("]")
       .append("[waiter count: ").append(this.socketClientPool.getNumWaiters()).append("]")
       .append("\n-------------------------------------").append("\n");
     log.info("socket client pool stats={}", sb.toString());

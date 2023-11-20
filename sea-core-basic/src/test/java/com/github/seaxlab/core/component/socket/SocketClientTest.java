@@ -1,13 +1,12 @@
-package com.github.seaxlab.core.socket;
+package com.github.seaxlab.core.component.socket;
 
 import com.github.seaxlab.core.BaseCoreTest;
-import com.github.seaxlab.core.socket.model.SocketClientSendData;
+import com.github.seaxlab.core.component.socket.model.SocketClientSendData;
+import java.nio.charset.StandardCharsets;
+import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.junit.Test;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Random;
 
 /**
  * module name
