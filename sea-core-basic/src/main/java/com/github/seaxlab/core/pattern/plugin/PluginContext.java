@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class PluginContext implements Serializable {
 
-  private HashMap<String, Object> param = new HashMap<>();
+  private final HashMap<String, Object> param = new HashMap<>();
 
 
   public void put(String key, Object value) {

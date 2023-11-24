@@ -1,8 +1,10 @@
 package com.github.seaxlab.core.component.dag;
 
-import com.google.common.util.concurrent.*;
-import lombok.extern.slf4j.Slf4j;
-
+import com.google.common.util.concurrent.AsyncFunction;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 基于Guava的相互依赖的线程执行实现
@@ -28,8 +31,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 public class SimpleDAG<T> {
 
-    private ListeningExecutorService executor;
-    private Map<String, ListenableFuture<T>> futureMap;
+    private final ListeningExecutorService executor;
+  private Map<String, ListenableFuture<T>> futureMap;
 
     public SimpleDAG() {
         this(Runtime.getRuntime().availableProcessors() + 1);
