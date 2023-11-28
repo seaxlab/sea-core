@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.web.controller;
 
 
-import com.github.seaxlab.core.component.tracer.util.TracerUtil;
+import com.github.seaxlab.core.component.tracer.util.TraceUtil;
 import com.github.seaxlab.core.enums.IErrorEnum;
 import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
@@ -54,7 +54,7 @@ public class BaseGlobalExceptionHandler {
   @ExceptionHandler(value = BaseAppException.class)
   @ResponseBody
   public ResponseEntity<Result<?>> handleBaseAppException(BaseAppException e) {
-    log.error("Biz service Exception", e);
+    log.warn("Biz service Exception", e);
 
     return new ResponseEntity<>(buildResult(e.getCode(), e.getDesc(), null), HttpStatus.OK);
   }
@@ -73,7 +73,7 @@ public class BaseGlobalExceptionHandler {
     result.setCode(code);
     result.setMsg(getErrorMessage(code, defaultErrorMsg));
 
-    log.error("code={},message={}", result.getCode(), result.getMsg());
+    log.warn("code={},message={}", result.getCode(), result.getMsg());
 
     printHttpHeader(request);
 
@@ -82,18 +82,22 @@ public class BaseGlobalExceptionHandler {
 
   @ExceptionHandler(value = HttpMediaTypeNotAcceptableException.class)
   @ResponseBody
-  public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpServletRequest request, HttpMediaTypeNotAcceptableException be) {
+  public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpServletRequest request,
+    HttpMediaTypeNotAcceptableException be) {
     log.error("handle HttpMediaTypeNotAcceptableException", be);
 
-    return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+    return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)),
+      HttpStatus.UNSUPPORTED_MEDIA_TYPE);
   }
 
   @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
   @ResponseBody
-  public ResponseEntity<?> handleHttpRequestMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException be) {
+  public ResponseEntity<?> handleHttpRequestMethodNotSupportedException(HttpServletRequest request,
+    HttpRequestMethodNotSupportedException be) {
     log.error("handle HttpRequestMethodNotSupportedException", be);
 
-    return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)), HttpStatus.METHOD_NOT_ALLOWED);
+    return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)),
+      HttpStatus.METHOD_NOT_ALLOWED);
   }
 
   @ExceptionHandler(value = {HttpMessageNotReadableException.class, MethodArgumentNotValidException.class, //
@@ -116,7 +120,7 @@ public class BaseGlobalExceptionHandler {
         if (!CollectionUtils.isEmpty(fieldErrors)) {
           FieldError first = fieldErrors.get(0);
           msg = first.getDefaultMessage();
-          log.error("field error [{}]", first.getField());
+          log.warn("field error [{}]", first.getField());
         }
       }
     } else if (e instanceof MissingServletRequestParameterException) {
@@ -177,13 +181,8 @@ public class BaseGlobalExceptionHandler {
     result.setSuccess(false);
     result.setCode(code);
     result.setMsg(getErrorMessage(code, message));
-
-    try {
-      result.setTraceId(TracerUtil.getTraceId());
-    } catch (Exception e) {
-      log.warn("fail to get/set traceId");
-    }
-    log.error("code={},message={}", result.getCode(), result.getMsg());
+    result.setTraceId(TraceUtil.getTraceId());
+    log.warn("code={},message={}", result.getCode(), result.getMsg());
 
     return result;
   }
@@ -195,7 +194,7 @@ public class BaseGlobalExceptionHandler {
     result.setMsg(errorException.getMessage());
 //        result.setTraceId(TracerUtil.getTraceId());
 
-    log.error("code={},message={}", result.getCode(), result.getMsg());
+    log.warn("code={},message={}", result.getCode(), result.getMsg());
 
     return result;
   }

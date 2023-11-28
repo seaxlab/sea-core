@@ -14,7 +14,9 @@ import lombok.extern.slf4j.Slf4j;
  * @author spy
  * @version 1.0 2022/08/31
  * @since 1.0
+ * @deprecated 2023-11-28
  */
+@Deprecated
 @Slf4j
 public class TracerUtil {
 
