@@ -2,7 +2,8 @@
 
 ## 2.6.53
 
-- POExtra/BaseLog
+- `TraceIdSpi`
+- `POExtra/BaseLog`
 - 升级三方包
 
 ````
