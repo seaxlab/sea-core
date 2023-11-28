@@ -1,9 +1,7 @@
 package com.github.seaxlab.core.util;
 
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.Iterator;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * param util.
@@ -35,10 +33,8 @@ public final class ParamUtil {
 
     StringBuilder strBuilder = new StringBuilder();
 
-    Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
-    while (it.hasNext()) {
-      Object key = it.next();
-      strBuilder.append(key + "=" + map.get(key) + "&");
+    for (Map.Entry<String, String> entry : map.entrySet()) {
+      strBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
     }
 
     return strBuilder.substring(0, strBuilder.length() - 1);
