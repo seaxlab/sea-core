@@ -1,13 +1,10 @@
 package com.github.seaxlab.core.util;
 
-import com.github.seaxlab.core.config.Configuration;
-import com.github.seaxlab.core.config.ConfigurationFactory;
 import com.github.seaxlab.core.exception.BaseAppException;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
-
 import java.net.URL;
 import java.nio.file.Paths;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  * path util
@@ -37,8 +34,7 @@ public final class PathUtil {
    * @return
    */
   public static String getUserHome() {
-    Configuration cfg = ConfigurationFactory.getInstance();
-    String userHome = cfg.getString("user.home", "");
+    String userHome = System.getProperty("user.home", "");
     if (StringUtil.isEmpty(userHome)) {
       throw new BaseAppException("user.home is empty");
     }
@@ -47,7 +43,9 @@ public final class PathUtil {
 
   /**
    * get sea home
+   * <p>
    * IMPORTANT： plz use this path in most case.
+   * </p>
    *
    * @return
    */
