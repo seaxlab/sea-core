@@ -1,12 +1,11 @@
 package com.github.seaxlab.core.boot.autoconfigure;
 
 import com.github.seaxlab.core.common.Env;
+import java.util.Properties;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-
-import java.util.Properties;
 
 /**
  * yml配置文件
@@ -103,26 +102,5 @@ public class SeaProperties {
     private Integer order;
     private String logMode = "1";
   }
-
-//    @NestedConfigurationProperty
-//    private Fastjson fastjson;
-//
-//    @Data
-//    public static class Fastjson {
-//        private Boolean enabled = false;
-//        //输出空值
-//        private Boolean writeNullValue;
-//    }
-//
-//    @NestedConfigurationProperty
-//    private Redis redis;
-//
-//    @Data
-//    public static class Redis {
-//        private String host;
-//        private int port;
-//        private String password;
-//        private int database;
-//    }
 
 }

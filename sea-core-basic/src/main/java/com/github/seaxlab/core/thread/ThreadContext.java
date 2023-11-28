@@ -166,6 +166,11 @@ public class ThreadContext {
     CTX_HOLDER.remove();
   }
 
+  /**
+   * clean
+   *
+   * @param showLogFlag show log flag
+   */
   public static void clean(boolean showLogFlag) {
     if (showLogFlag && log.isDebugEnabled()) {
       log.debug("thread context clean");
