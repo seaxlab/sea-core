@@ -1,13 +1,12 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * module name
@@ -135,9 +134,15 @@ public class NumberUtilTest extends BaseCoreTest {
   }
 
   @Test
+  public void testScaleDown() throws Exception {
+    log.info("{}", NumberUtil.scaleDown(1.1141d, 2));
+    log.info("{}", NumberUtil.scaleDown(1.1151d, 2));
+    log.info("{}", NumberUtil.scaleDown(1.1d, 2)); //1.10
+  }
+
+  @Test
   public void run51() throws Exception {
     log.info("a={}", 1 / 200.0);
-
 
     double a = NumberUtil.scaleUp(1 / 200.0, 3).doubleValue();
     log.info("a={}", a);
