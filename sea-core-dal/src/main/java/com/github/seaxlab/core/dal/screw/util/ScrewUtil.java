@@ -7,6 +7,10 @@ import cn.smallbun.screw.core.engine.EngineTemplateType;
 import cn.smallbun.screw.core.execute.DocumentationExecute;
 import cn.smallbun.screw.core.process.ProcessConfig;
 import com.github.seaxlab.core.dal.screw.dto.DBModelCreateDTO;
+import com.github.seaxlab.core.exception.Precondition;
+import com.github.seaxlab.core.util.FileUtil;
+import com.github.seaxlab.core.util.IdUtil;
+import com.github.seaxlab.core.util.IntegerUtil;
 import com.github.seaxlab.core.util.ListUtil;
 import com.github.seaxlab.core.util.ObjectUtil;
 import com.github.seaxlab.core.util.PathUtil;
@@ -14,9 +18,13 @@ import com.github.seaxlab.core.util.SshUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,13 +56,7 @@ public final class ScrewUtil {
 
 
   public static void dump(DBModelCreateDTO dto) {
-    // set default
-    if (StringUtil.isBlank(dto.getVersion())) {
-      dto.setVersion("1.0.0");
-    }
-    if (StringUtil.isBlank(dto.getDescription())) {
-      dto.setDescription("DB Model");
-    }
+    check(dto);
 
     // 创建 screw 的配置
     EngineConfig engineConfig = buildEngineConfig(dto);
@@ -66,11 +68,35 @@ public final class ScrewUtil {
       builder.produceConfig(dto.getProcessConfig());
     }
 
-    // 执行 screw，生成数据库文档
+    // 生成数据库文档
     new DocumentationExecute(builder.build()).execute();
 
-    log.info("dump db model successfully. [{}/{} {}] ", engineConfig.getFileOutputDir(), dto.getOutPutFileName(),
+    log.info("dump db model successfully. [{}/{} {}] ", engineConfig.getFileOutputDir(),
+      dto.getExtend().getFinalOutPutFileName(),
       dto.getVersion());
+
+    clean(dto);
+  }
+
+
+  //--------------------------private---------------------------------
+  private static void check(DBModelCreateDTO dto) {
+    if (StringUtil.isBlank(dto.getVersion())) {
+      dto.setVersion("1.0.0");
+    }
+    if (StringUtil.isBlank(dto.getDescription())) {
+      dto.setDescription("DB Model");
+    }
+    Precondition.checkNotEmpty(dto.getOutPutFileName(), "输出文件名不能为空");
+
+    dto.getExtend().setFinalOutPutFileName(dto.getOutPutFileName() + "_" + IdUtil.getYYYYMMDDHHMM());
+
+    //
+    String fileOutputDir = StringUtil.defaultIfBlank(dto.getOutPutDir(), PathUtil.getUserHome() + "/screw");
+    if (StringUtil.isNotBlank(dto.getGroupName())) {
+      fileOutputDir += "/" + dto.getGroupName();
+    }
+    dto.getExtend().setFinalOutPutDir(fileOutputDir);
   }
 
   /**
@@ -100,17 +126,14 @@ public final class ScrewUtil {
    * 创建 screw 的引擎配置
    */
   private static EngineConfig buildEngineConfig(DBModelCreateDTO dto) {
-    String fileOutputDir = StringUtil.defaultIfBlank(dto.getOutPutDir(), PathUtil.getUserHome() + "/screw");
-    if (StringUtil.isNotBlank(dto.getGroupName())) {
-      fileOutputDir += "/" + dto.getGroupName();
-    }
+
     return EngineConfig.builder() //
-      .fileOutputDir(fileOutputDir) // 生成文件路径
-      .openOutputDir(false) // 打开目录
-      .fileType(ObjectUtil.defaultIfNull(dto.getEngineFileType(), EngineFileType.HTML)) // 文件类型
-      .produceType(EngineTemplateType.freemarker) // 文件类型
-      .fileName(StringUtil.defaultIfBlank(dto.getOutPutFileName(), "db-model")) // 自定义文件名称
-      .build();
+                       .fileOutputDir(dto.getExtend().getFinalOutPutDir()) // 生成文件路径
+                       .openOutputDir(false) // 打开目录
+                       .fileType(ObjectUtil.defaultIfNull(dto.getEngineFileType(), EngineFileType.HTML)) // 文件类型
+                       .produceType(EngineTemplateType.freemarker) // 文件类型
+                       .fileName(dto.getExtend().getFinalOutPutFileName()) // 自定义文件名称
+                       .build();
   }
 
   /**
@@ -119,14 +142,39 @@ public final class ScrewUtil {
    */
   private static ProcessConfig buildProcessConfig() {
     return ProcessConfig.builder() //
-      .designatedTableName(Collections.emptyList())  // 根据名称指定表生成
-      .designatedTablePrefix(Collections.emptyList()) //根据表前缀生成
-      .designatedTableSuffix(Collections.emptyList()) // 根据表后缀生成
-      .ignoreTableName(Arrays.asList("test_user", "test_group")) // 忽略表名
-      .ignoreTablePrefix(Collections.singletonList("test_")) // 忽略表前缀
-      .ignoreTableSuffix(Collections.singletonList("_test")) // 忽略表后缀
-      .build();
+                        .designatedTableName(Collections.emptyList())  // 根据名称指定表生成
+                        .designatedTablePrefix(Collections.emptyList()) //根据表前缀生成
+                        .designatedTableSuffix(Collections.emptyList()) // 根据表后缀生成
+                        .ignoreTableName(Arrays.asList("test_user", "test_group")) // 忽略表名
+                        .ignoreTablePrefix(Collections.singletonList("test_")) // 忽略表前缀
+                        .ignoreTableSuffix(Collections.singletonList("_test")) // 忽略表后缀
+                        .build();
   }
 
+  private static void clean(DBModelCreateDTO dto) {
+    if (Objects.isNull(dto.getCleanFlag()) || Boolean.FALSE.equals(dto.getCleanFlag())) {
+      return;
+    }
+    try {
+      int keepRecentCount = IntegerUtil.defaultIfNull(dto.getKeepRecentCount(), 3);
+      log.info("try to clean old, keep recent count={}", keepRecentCount);
+      String outFilePath = dto.getExtend().getFinalOutPutDir();
+      File[] files = FileUtil.listFilesByRegExp(new File(outFilePath), dto.getOutPutFileName() + "_[0-9]+.html");
+      if (files.length <= dto.getKeepRecentCount()) {
+        return;
+      }
+
+      List<File> sortedFiles = Arrays.stream(files).sorted(Comparator.comparing(FileUtil::getCreateTime))
+                                     .collect(Collectors.toList());
+
+      List<File> removeFiles = ListUtil.page(sortedFiles, 1, sortedFiles.size() - keepRecentCount);
+      removeFiles.forEach(file -> {
+        file.delete();
+        log.info("delete old file={}", file.getName());
+      });
+    } catch (Exception e) {
+      log.warn("fail to clean old file", e);
+    }
+  }
 
 }

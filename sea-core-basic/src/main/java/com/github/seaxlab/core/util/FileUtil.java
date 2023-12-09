@@ -24,8 +24,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.util.ByteArrayBuffer;
@@ -515,6 +517,40 @@ public final class FileUtil {
     });
   }
 
+  /**
+   * list files by reg expression
+   *
+   * @param path
+   * @param regexp
+   * @return
+   */
+  public static File[] listFilesByRegExp(final File path, final String regexp) {
+    Preconditions.checkNotNull(path, "path is null");
+    Preconditions.checkNotNull(regexp, "regexp is null");
+
+    Pattern pattern = Pattern.compile(regexp);
+
+    return path.listFiles(pathname -> {
+      String path1 = pathname.getName();
+      return pattern.matcher(path1).matches();
+    });
+  }
+
+  /**
+   * get file create time
+   *
+   * @param file
+   * @return
+   */
+  public static Date getCreateTime(final File file) {
+    Optional<BasicFileAttributes> optional = getAttr(file);
+
+    if (optional.isPresent()) {
+      return DateUtil.toDate(optional.get().creationTime().toInstant());
+    }
+    log.warn("basic file attributes is not exist.");
+    return null;
+  }
 
   /**
    * get file attr

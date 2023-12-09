@@ -34,5 +34,18 @@ public class DBModelCreateDTO {
 
   private String description;
 
+  private Boolean cleanFlag;
+  private Integer keepRecentCount = 3;
+
   private SshConfig sshConfig;
+
+
+  private Extend extend = new Extend();
+
+  @Data
+  public static class Extend {
+
+    private String finalOutPutFileName;
+    private String finalOutPutDir;
+  }
 }
