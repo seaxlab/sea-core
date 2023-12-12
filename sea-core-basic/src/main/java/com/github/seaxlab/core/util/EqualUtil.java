@@ -1,6 +1,8 @@
 package com.github.seaxlab.core.util;
 
-import com.google.common.base.Preconditions;
+import com.github.seaxlab.core.exception.Precondition;
+import lombok.extern.slf4j.Slf4j;
+
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -10,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * equal util
@@ -210,7 +211,7 @@ public final class EqualUtil {
       log.warn("date1 or date2 is null, plz check.");
       return false;
     }
-    Preconditions.checkNotNull(dateMode, "日期比较模式不能为空");
+    Precondition.checkNotNull(dateMode, "日期比较模式不能为空");
 
     String format = "";
     switch (dateMode) {
@@ -425,8 +426,8 @@ public final class EqualUtil {
    * @return
    */
   public static boolean isIn(String str1, String... strArray) {
-    Preconditions.checkNotNull(str1);
-    Preconditions.checkNotNull(strArray);
+    Precondition.checkNotNull(str1);
+    Precondition.checkNotNull(strArray);
 
     return Arrays.stream(strArray).anyMatch(item -> isEq(str1, item));
   }
@@ -443,8 +444,8 @@ public final class EqualUtil {
    * @return
    */
   public static boolean isIn(Integer value, Integer... values) {
-    Preconditions.checkNotNull(value);
-    Preconditions.checkNotNull(values);
+    Precondition.checkNotNull(value);
+    Precondition.checkNotNull(values);
 
     return Arrays.stream(values).anyMatch(item -> item.intValue() == value.intValue());
   }
@@ -461,8 +462,8 @@ public final class EqualUtil {
    * @return
    */
   public static boolean isIn(Long value, Long... values) {
-    Preconditions.checkNotNull(value);
-    Preconditions.checkNotNull(values);
+    Precondition.checkNotNull(value);
+    Precondition.checkNotNull(values);
 
     return Arrays.stream(values).anyMatch(item -> item.longValue() == value.longValue());
   }
@@ -634,8 +635,8 @@ public final class EqualUtil {
    * @return
    */
   public static <T> boolean isIn(Collection<T> left, Collection<T> right) {
-    Preconditions.checkNotNull(left, "left cannot be null");
-    Preconditions.checkNotNull(right, "right cannot be null");
+    Precondition.checkNotNull(left, "left cannot be null");
+    Precondition.checkNotNull(right, "right cannot be null");
     return right.containsAll(left);
   }
 
@@ -648,8 +649,8 @@ public final class EqualUtil {
    * @return
    */
   public static <T> boolean isAllNotIn(Collection<T> left, Collection<T> right) {
-    Preconditions.checkNotNull(left, "");
-    Preconditions.checkNotNull(right, "");
+    Precondition.checkNotNull(left, "");
+    Precondition.checkNotNull(right, "");
     if (left.isEmpty()) {
       return true;
     }

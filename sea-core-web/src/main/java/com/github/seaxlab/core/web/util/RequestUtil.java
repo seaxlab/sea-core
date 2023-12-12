@@ -2,20 +2,21 @@ package com.github.seaxlab.core.web.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.seaxlab.core.common.CoreConst;
+import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.http.common.HttpHeaderConst;
 import com.github.seaxlab.core.util.IOUtil;
 import com.github.seaxlab.core.util.RandomUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.github.seaxlab.core.web.common.WebConst;
 import com.github.seaxlab.core.web.model.RequestDTO;
-import com.google.common.base.Preconditions;
+import lombok.extern.slf4j.Slf4j;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * request util
@@ -62,11 +63,11 @@ public final class RequestUtil {
    * @return
    */
   public static String getParamByPriority(HttpServletRequest request, Priority priority, String key1, String key2, String key3) {
-    Preconditions.checkNotNull(request, "request cannot be null");
-    Preconditions.checkNotNull(priority, "priority cannot be null");
-    Preconditions.checkNotNull(key1, "key1 cannot be null");
-    Preconditions.checkNotNull(key2, "key2 cannot be null");
-    Preconditions.checkNotNull(key3, "key3 cannot be null");
+    Precondition.checkNotNull(request, "request cannot be null");
+    Precondition.checkNotNull(priority, "priority cannot be null");
+    Precondition.checkNotNull(key1, "key1 cannot be null");
+    Precondition.checkNotNull(key2, "key2 cannot be null");
+    Precondition.checkNotNull(key3, "key3 cannot be null");
 
     String value = "";
     switch (priority) {
@@ -139,7 +140,7 @@ public final class RequestUtil {
    * @return
    */
   public static String getParamByPriority(HttpServletRequest request, String key) {
-    Preconditions.checkNotNull(key, "key不能为空");
+    Precondition.checkNotNull(key, "key不能为空");
 
     return getParamByPriority(request, key, key, key);
   }
