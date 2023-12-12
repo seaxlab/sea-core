@@ -92,10 +92,9 @@ public final class ScrewUtil {
     dto.getExtend().setFinalOutPutFileName(dto.getOutPutFileName() + "_" + IdUtil.getYYYYMMDDHHMM());
 
     //
-    String fileOutputDir = StringUtil.defaultIfBlank(dto.getOutPutDir(), PathUtil.getUserHome() + "/screw");
-    if (StringUtil.isNotBlank(dto.getGroupName())) {
-      fileOutputDir += "/" + dto.getGroupName();
-    }
+    String baseDir = StringUtil.defaultIfBlank(dto.getOutPutDir(), PathUtil.getUserHome() + "/screw");
+    String fileOutputDir = PathUtil.join(baseDir, dto.getGroupName(), dto.getModuleName());
+
     dto.getExtend().setFinalOutPutDir(fileOutputDir);
   }
 

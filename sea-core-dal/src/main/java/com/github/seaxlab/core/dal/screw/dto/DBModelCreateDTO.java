@@ -6,7 +6,7 @@ import com.github.seaxlab.core.component.ssh.dto.SshConfig;
 import lombok.Data;
 
 /**
- * module name
+ * db model create DTO
  *
  * @author spy
  * @version 1.0 2021/8/25
@@ -28,7 +28,10 @@ public class DBModelCreateDTO {
   // file output
   private EngineFileType engineFileType;
   private String outPutDir;
+  // first level category
   private String groupName;
+  // second level category
+  private String moduleName;
   private String outPutFileName;
   private String version;
 
