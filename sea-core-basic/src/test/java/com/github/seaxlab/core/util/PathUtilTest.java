@@ -38,4 +38,9 @@ public class PathUtilTest extends BaseCoreTest {
     String logPath = PathUtil.join(getUserHome(), "logs", "sea", "jstack");
     log.info("logPath={}", logPath);
   }
+
+  @Test
+  public void testJoinNull() throws Exception {
+    log.info("{}", PathUtil.join("/a/b", "", "c", "", null, "d"));
+  }
 }

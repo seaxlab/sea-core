@@ -3,6 +3,10 @@ package com.github.seaxlab.core.util;
 import com.github.seaxlab.core.exception.BaseAppException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 
@@ -54,14 +58,40 @@ public final class PathUtil {
   }
 
   /**
-   * combine path
+   * combine path depends on system
    *
    * @param first
    * @param more
    * @return
    */
   public static String join(String first, String... more) {
-    return Paths.get(first, more).toString();
+    List<String> data = Arrays.stream(more).filter(Objects::nonNull).collect(Collectors.toList());
+
+    String[] e = ArrayUtil.toArray(data, String.class);
+    return Paths.get(first, e).toString();
+  }
+
+  /**
+   * combine path like unix
+   *
+   * @param first first
+   * @param more  more args
+   * @return
+   */
+  public static String joinUnix(String first, String... more) {
+    if (more.length == 0) {
+      return first;
+    }
+    StringBuilder path = new StringBuilder();
+    path.append(first);
+
+    for (String item : more) {
+      if (StringUtil.isEmpty(item)) {
+        continue;
+      }
+      path.append("/").append(item);
+    }
+    return path.toString();
   }
 
   /**
