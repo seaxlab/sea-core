@@ -1,21 +1,21 @@
-package com.github.seaxlab.core.spring.sample.condition.data;
+package com.github.seaxlab.core.spring.component.condition.data;
 
 import com.github.seaxlab.core.component.condition.data.ParameterData;
 import com.github.seaxlab.core.component.condition.dto.ConditionContext;
 import com.github.seaxlab.core.loader.LoadLevel;
+import com.github.seaxlab.core.spring.web.util.RequestUtil;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * The type Host parameter data.
+ * The type Ip parameter data.
  */
-@LoadLevel(name = "host")
-public class HostParameterData implements ParameterData {
+@LoadLevel(name = "ip")
+public class IpParameterData implements ParameterData {
 
   @Override
   public String builder(final ConditionContext context, final String paramName) {
     ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
-
-    return exchange.getRequest().getRemoteAddress().getAddress().getHostAddress();
-//        return RequestUtil.getClientIpAddress(exchange.getRequest());
+    return RequestUtil.getClientIpAddress(exchange.getRequest());
+//        return HostAddressUtils.acquireIp(exchange);
   }
 }

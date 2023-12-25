@@ -1,13 +1,12 @@
-package com.github.seaxlab.core.spring.sample.condition.data;
+package com.github.seaxlab.core.spring.component.condition.data;
 
 import com.github.seaxlab.core.component.condition.data.ParameterData;
 import com.github.seaxlab.core.component.condition.dto.ConditionContext;
 import com.github.seaxlab.core.loader.LoadLevel;
+import java.util.List;
 import org.springframework.http.HttpCookie;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ServerWebExchange;
-
-import java.util.List;
 
 /**
  * The type Cookie parameter data.

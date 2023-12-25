@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.spring.sample.condition.data;
+package com.github.seaxlab.core.spring.component.condition.data;
 
 
 import com.github.seaxlab.core.component.condition.data.ParameterData;
