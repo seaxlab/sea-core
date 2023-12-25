@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 /**
- * module name
+ * transform
  *
  * @author spy
  * @version 1.0 2022/3/2
@@ -18,29 +18,29 @@ import java.util.List;
 @Slf4j
 public class Transform {
 
-    private static final Convert XML_CONVERT = new XmlConvert();
-    private static final Convert JSON_CONVERT = new JsonConvert();
-    private static final Convert MAP_CONVERT = new MapConvert();
+  private static final Convert XML_CONVERT = new XmlConvert();
+  private static final Convert JSON_CONVERT = new JsonConvert();
+  private static final Convert MAP_CONVERT = new MapConvert();
 
-    public static void execute(Object obj, List<FieldRule> rules, Mode mode) {
-        switch (mode) {
-            case XML:
-                XML_CONVERT.transform(obj, rules);
-                break;
-            case JSON:
-                JSON_CONVERT.transform(obj, rules);
-                break;
-            case MAP:
-                MAP_CONVERT.transform(obj, rules);
-                break;
-            case CUSTOM:
-                //TODO
-                break;
-            default:
-                log.warn("unhandled mode={}", mode);
-                break;
-        }
+  public static void execute(Object obj, List<FieldRule> rules, Mode mode) {
+    switch (mode) {
+      case XML:
+        XML_CONVERT.transform(obj, rules);
+        break;
+      case JSON:
+        JSON_CONVERT.transform(obj, rules);
+        break;
+      case MAP:
+        MAP_CONVERT.transform(obj, rules);
+        break;
+      case CUSTOM:
+        //TODO
+        break;
+      default:
+        log.warn("unhandled mode={}", mode);
+        break;
     }
+  }
 
 
 }

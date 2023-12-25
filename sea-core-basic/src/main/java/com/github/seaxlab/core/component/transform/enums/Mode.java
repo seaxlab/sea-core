@@ -8,8 +8,8 @@ package com.github.seaxlab.core.component.transform.enums;
  * @since 1.0
  */
 public enum Mode {
-    XML,
-    JSON,
-    MAP,
-    CUSTOM
+  XML,
+  JSON,
+  MAP,
+  CUSTOM
 }

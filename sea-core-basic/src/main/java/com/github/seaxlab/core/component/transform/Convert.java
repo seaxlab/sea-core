@@ -3,7 +3,7 @@ package com.github.seaxlab.core.component.transform;
 import java.util.List;
 
 /**
- * module name
+ * convert transform
  *
  * @author spy
  * @version 1.0 2022/2/24
@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface Convert {
 
-    void transform(Object obj, List<FieldRule> rules);
+  void transform(Object obj, List<FieldRule> rules);
 }
