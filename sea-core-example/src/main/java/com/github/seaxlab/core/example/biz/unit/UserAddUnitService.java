@@ -1,7 +1,7 @@
-package com.github.seaxlab.core.example.unit;
+package com.github.seaxlab.core.example.biz.unit;
 
 import com.github.seaxlab.core.component.template.service.BaseOneBiz1Service;
-import com.github.seaxlab.core.example.unit.bo.UserAddReqBO;
+import com.github.seaxlab.core.example.biz.unit.bo.UserAddReqBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

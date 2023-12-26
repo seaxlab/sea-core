@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.example.service;
+package com.github.seaxlab.core.example.biz.service;
 
 import com.github.seaxlab.core.spring.component.mock.annotation.MockMethod;
 import lombok.extern.slf4j.Slf4j;

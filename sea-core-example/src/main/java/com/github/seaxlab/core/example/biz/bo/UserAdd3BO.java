@@ -1,7 +1,8 @@
-package com.github.seaxlab.core.example.bo;
+package com.github.seaxlab.core.example.biz.bo;
+
+import lombok.Data;
 
 import java.util.List;
-import lombok.Data;
 
 /**
  * user add1 BO
@@ -11,7 +12,7 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
-public class UserAdd2BO {
+public class UserAdd3BO {
 
   private String name;
   private int age;

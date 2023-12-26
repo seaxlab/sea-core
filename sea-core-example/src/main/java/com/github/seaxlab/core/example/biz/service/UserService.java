@@ -1,7 +1,7 @@
-package com.github.seaxlab.core.example.service;
+package com.github.seaxlab.core.example.biz.service;
 
-import com.github.seaxlab.core.example.bo.UserAdd1BO;
-import com.github.seaxlab.core.example.bo.UserAdd2BO;
+import com.github.seaxlab.core.example.biz.bo.UserAdd1BO;
+import com.github.seaxlab.core.example.biz.bo.UserAdd2BO;
 import com.github.seaxlab.core.spring.annotation.LogCost;
 
 /**

@@ -1,8 +1,8 @@
-package com.github.seaxlab.core.example.service.impl;
+package com.github.seaxlab.core.example.biz.service.impl;
 
-import com.github.seaxlab.core.example.bo.UserAdd1BO;
-import com.github.seaxlab.core.example.bo.UserAdd2BO;
-import com.github.seaxlab.core.example.service.UserService;
+import com.github.seaxlab.core.example.biz.bo.UserAdd1BO;
+import com.github.seaxlab.core.example.biz.bo.UserAdd2BO;
+import com.github.seaxlab.core.example.biz.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

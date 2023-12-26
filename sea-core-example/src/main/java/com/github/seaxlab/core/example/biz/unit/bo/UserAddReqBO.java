@@ -1,7 +1,8 @@
-package com.github.seaxlab.core.example.unit.bo;
+package com.github.seaxlab.core.example.biz.unit.bo;
+
+import lombok.Data;
 
 import java.util.List;
-import lombok.Data;
 
 /**
  * user add Request BO

@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.example.controller;
 
-import com.github.seaxlab.core.example.service.UserService;
+import com.github.seaxlab.core.example.biz.service.UserService;
 import com.github.seaxlab.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
