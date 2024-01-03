@@ -1,1 +1,1 @@
-com.github.seaxlab.core.example.servlet.SeaExampleServletContainerInitializer
+com.github.seaxlab.core.example.web.servlet.SeaExampleServletContainerInitializer
