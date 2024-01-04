@@ -17,7 +17,7 @@ public class ImmutableKey {
   private static final String DEFAULT_SPLIT = ":";
 
   // store
-  private Object[] members;
+  private final Object[] members;
 
   /**
    * 构造
