@@ -18,6 +18,7 @@ import com.github.seaxlab.core.util.SshUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.sql.DataSource;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -54,11 +56,15 @@ public final class ScrewUtil {
     "_30", "_31", "_32", "_33", "_34", "_35", "_36", "_37", "_38", "_39" //
   );
 
-
+  /**
+   * dump file
+   *
+   * @param dto
+   */
   public static void dump(DBModelCreateDTO dto) {
     check(dto);
 
-    // 创建 screw 的配置
+    // screw config
     EngineConfig engineConfig = buildEngineConfig(dto);
     Configuration.ConfigurationBuilder builder = Configuration.builder().version(dto.getVersion())  // 版本
                                                               .description(dto.getDescription()) // 描述
@@ -68,7 +74,7 @@ public final class ScrewUtil {
       builder.produceConfig(dto.getProcessConfig());
     }
 
-    // 生成数据库文档
+    // generate database document
     new DocumentationExecute(builder.build()).execute();
 
     log.info("dump db model successfully. [{}/{} {}] ", engineConfig.getFileOutputDir(),
@@ -110,14 +116,14 @@ public final class ScrewUtil {
       url = "jdbc:mysql://localhost:" + dto.getSshConfig().getLocalPort() + endStr;
     }
 
-    // 创建 HikariConfig 配置类
+    // Hikari config
     HikariConfig hikariConfig = new HikariConfig();
     hikariConfig.setDriverClassName(StringUtil.defaultIfBlank(dto.getDriverClassName(), "com.mysql.jdbc.Driver"));
     hikariConfig.setJdbcUrl(url);
     hikariConfig.setUsername(dto.getUsername());
     hikariConfig.setPassword(dto.getPassword());
     hikariConfig.addDataSourceProperty("useInformationSchema", "true"); // 设置可以获取 tables remarks 信息
-    // 创建数据源
+    //
     return new HikariDataSource(hikariConfig);
   }
 
@@ -136,8 +142,7 @@ public final class ScrewUtil {
   }
 
   /**
-   * 创建 screw 的处理配置</p>
-   * <p>一般可忽略 指定生成逻辑、当存在指定表、指定表前缀、指定表后缀时，将生成指定表，其余表不生成、并跳过忽略表配置</p>
+   * build process config
    */
   private static ProcessConfig buildProcessConfig() {
     return ProcessConfig.builder() //

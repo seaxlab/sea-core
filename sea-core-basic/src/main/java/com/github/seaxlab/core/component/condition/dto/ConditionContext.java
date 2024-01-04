@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class ConditionContext {
 
-    private HashMap<String, Object> map = new HashMap<>();
+    private final HashMap<String, Object> map = new HashMap<>();
 
 
     //

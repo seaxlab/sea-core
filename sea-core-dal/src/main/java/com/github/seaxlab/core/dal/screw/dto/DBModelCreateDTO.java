@@ -43,7 +43,7 @@ public class DBModelCreateDTO {
   private SshConfig sshConfig;
 
 
-  private Extend extend = new Extend();
+  private final Extend extend = new Extend();
 
   @Data
   public static class Extend {
