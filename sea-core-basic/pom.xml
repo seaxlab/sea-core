@@ -509,13 +509,6 @@
         <version>${redisson.version}</version>
       </dependency>
 
-      <dependency>
-        <groupId>com.alibaba</groupId>
-        <artifactId>easyexcel</artifactId>
-        <version>${easyexcel.version}</version>
-      </dependency>
-
-
     </dependencies>
   </dependencyManagement>
 
