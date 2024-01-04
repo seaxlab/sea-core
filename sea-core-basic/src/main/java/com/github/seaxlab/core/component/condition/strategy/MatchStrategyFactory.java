@@ -12,26 +12,27 @@ import java.util.List;
  */
 public class MatchStrategyFactory {
 
-    /**
-     * New instance match strategy.
-     *
-     * @param strategy the strategy
-     * @return the match strategy
-     */
-    public static MatchStrategy newInstance(final Integer strategy) {
-        String matchMode = MatchModeEnum.getMatchModeByCode(strategy);
-        return EnhancedServiceLoader.load(MatchStrategy.class, matchMode);
-    }
+  /**
+   * New instance match strategy.
+   *
+   * @param strategy the strategy
+   * @return the match strategy
+   */
+  public static MatchStrategy newInstance(final Integer strategy) {
+    String matchMode = MatchModeEnum.getMatchModeByCode(strategy);
+    return EnhancedServiceLoader.load(MatchStrategy.class, matchMode);
+  }
 
-    /**
-     * Match boolean.
-     *
-     * @param strategy          the strategy
-     * @param conditionDataList the condition data list
-     * @param exchange          the exchange
-     * @return the boolean
-     */
-    public static boolean match(final Integer strategy, final List<ConditionData> conditionDataList, final ConditionContext context) {
-        return newInstance(strategy).match(context, conditionDataList);
-    }
+  /**
+   * Match boolean.
+   *
+   * @param strategy          the strategy
+   * @param conditionDataList the condition data list
+   * @param context           the exchange
+   * @return the boolean
+   */
+  public static boolean match(final Integer strategy, final List<ConditionData> conditionDataList,
+    final ConditionContext context) {
+    return newInstance(strategy).match(context, conditionDataList);
+  }
 }

@@ -11,12 +11,12 @@ import java.util.List;
  */
 public interface MatchStrategy {
 
-    /**
-     * this is condition match.
-     *
-     * @param context           condition context
-     * @param conditionDataList condition list.
-     * @return true is match , false is not match.
-     */
-    Boolean match(ConditionContext context, List<ConditionData> conditionDataList);
+  /**
+   * this is condition match.
+   *
+   * @param context           condition context
+   * @param conditionDataList condition list.
+   * @return true is match , false is not match.
+   */
+  Boolean match(ConditionContext context, List<ConditionData> conditionDataList);
 }

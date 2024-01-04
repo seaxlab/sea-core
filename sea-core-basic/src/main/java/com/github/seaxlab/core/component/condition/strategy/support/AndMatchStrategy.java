@@ -17,12 +17,12 @@ import java.util.List;
 @LoadLevel(name = "and")
 public class AndMatchStrategy extends AbstractMatchStrategy implements MatchStrategy {
 
-    @Override
-    public Boolean match(final ConditionContext context, final List<ConditionData> conditionDataList) {
-        checkCondition(conditionDataList);
+  @Override
+  public Boolean match(final ConditionContext context, final List<ConditionData> conditionDataList) {
+    checkCondition(conditionDataList);
 
-        return conditionDataList
-                .stream()
-                .allMatch(condition -> PredicateJudgeFactory.judge(condition, buildRealData(context, condition)));
-    }
+    return conditionDataList
+      .stream()
+      .allMatch(condition -> PredicateJudgeFactory.judge(condition, buildRealData(context, condition)));
+  }
 }
