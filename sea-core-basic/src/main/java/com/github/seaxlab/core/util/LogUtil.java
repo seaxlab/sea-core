@@ -4,16 +4,17 @@ import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.thread.util.ThreadContextUtil;
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.RateLimiter;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.helpers.MessageFormatter;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * log util
@@ -284,7 +285,7 @@ public final class LogUtil {
    */
   public static void dump(String module, String content) {
     if (StringUtil.isEmpty(module)) {
-      log.warn("module is empty.", module);
+      log.warn("module is empty.");
       return;
     }
 
@@ -311,7 +312,7 @@ public final class LogUtil {
    */
   public static void dumpByRate(String module, String content) {
     if (StringUtil.isEmpty(module)) {
-      log.warn("module is empty.", module);
+      log.warn("module is empty.");
       return;
     }
 
