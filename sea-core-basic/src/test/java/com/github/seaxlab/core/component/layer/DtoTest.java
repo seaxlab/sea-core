@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.model.layer;
+package com.github.seaxlab.core.component.layer;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
