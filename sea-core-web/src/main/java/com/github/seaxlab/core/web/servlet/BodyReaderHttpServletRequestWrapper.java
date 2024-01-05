@@ -7,7 +7,12 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -84,8 +89,7 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
   private String getBodyString(final ServletRequest request) {
 
     StringBuilder sb = new StringBuilder();
-    try (InputStream inputStream = cloneInputStream(request.getInputStream());
-         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+    try (InputStream inputStream = cloneInputStream(request.getInputStream()); BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
       String line;
       while ((line = reader.readLine()) != null) {
         sb.append(line);
