@@ -4,8 +4,8 @@ import cn.hutool.core.util.IdcardUtil;
 import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.enums.GenderEnum;
 import com.github.seaxlab.core.model.Result;
-import com.github.seaxlab.core.model.component.person.IdCard;
-import com.github.seaxlab.core.model.component.person.NativePlace;
+import com.github.seaxlab.core.util.model.person.IdCard;
+import com.github.seaxlab.core.util.model.person.NativePlace;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.SimpleDateFormat;

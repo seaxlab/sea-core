@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.model.component.person;
+package com.github.seaxlab.core.util.model.person;
 
 import com.github.seaxlab.core.model.layer.dto.DTO;
 import lombok.Data;
