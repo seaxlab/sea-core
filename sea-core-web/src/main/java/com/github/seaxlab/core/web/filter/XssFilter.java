@@ -27,7 +27,6 @@ public class XssFilter extends BaseWebFilter implements Filter {
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-    //TODO other config
     HttpServletRequest req = (HttpServletRequest) request;
 
     if (isExcludePath(req.getRequestURI())) {

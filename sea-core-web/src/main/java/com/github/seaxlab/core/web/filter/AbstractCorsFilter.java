@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * module name
+ * base cors filter
  *
  * @author spy
  * @version 1.0 2020/10/14
