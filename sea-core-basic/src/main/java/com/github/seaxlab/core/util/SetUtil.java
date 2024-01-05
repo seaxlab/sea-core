@@ -92,7 +92,7 @@ public final class SetUtil {
    * @return
    */
   public static <T> Set<T> toSet(List<T> list) {
-    return new HashSet(list);
+    return new HashSet<>(list);
   }
 
   /**

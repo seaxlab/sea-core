@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 /**
- * module name
+ * web service util
  *
  * @author spy
  * @version 1.0 2022/2/17
@@ -90,7 +90,7 @@ public final class WebServiceUtil {
         responseStringArray[i] = response[i].toString();
       }
       result.value(responseStringArray);
-      log.error("请求：request[{}],method={}, response={}", flowId, method, Arrays.toString(response));
+      log.info("请求：request[{}],method={}, response={}", flowId, method, Arrays.toString(response));
     } catch (Exception e) {
       log.error("请求异常:error[{}] method={}, request webService error", flowId, method, e);
       result.setMsg(e.getMessage());
@@ -136,7 +136,7 @@ public final class WebServiceUtil {
       result.value(response[0].toString());
       log.info("响应：{}, response={}", method, response[0].toString());
     } catch (Exception e) {
-      log.error("请求异常：method={}, client error={}", method, e);
+      log.error("请求异常：method={}, client error=", method, e);
       result.setMsg(e.getMessage());
     }
     return result;
@@ -160,9 +160,9 @@ public final class WebServiceUtil {
       Object[] response = client.invoke(method, params);
 
       result.value(response[0]);
-      log.error("请求：request={}, {}, response=", flowId, method, ToStringBuilder.reflectionToString(response[0]));
+      log.info("请求：request={}, {}, response={}", flowId, method, ToStringBuilder.reflectionToString(response[0]));
     } catch (Exception e) {
-      log.error("request[{}], error={}", flowId, e);
+      log.error("request[{}], error=", flowId, e);
       result.setMsg(e.getMessage());
     }
     return result;
@@ -185,7 +185,7 @@ public final class WebServiceUtil {
       Object[] response = client.invoke(method, params);
       result.value(response[0].toString());
     } catch (Exception e) {
-      log.error("fail to webservice invoke, request[{}],error {}", flowId, e);
+      log.error("fail to webservice invoke, request[{}],error=", flowId, e);
       result.setMsg(e.getMessage());
     }
     return result;

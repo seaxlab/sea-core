@@ -2,6 +2,7 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.exception.Precondition;
 import com.google.common.base.MoreObjects;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
+
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -41,6 +43,7 @@ import org.xml.sax.SAXException;
  * @since 1.0
  */
 @Slf4j
+@SuppressWarnings("unchecked")
 public final class XmlUtil {
 
   /**
@@ -73,13 +76,13 @@ public final class XmlUtil {
   /**
    * Java Object->Xml, 特别支持对Root Element是Collection的情形.
    */
-  @SuppressWarnings("unchecked")
   public static String toString(Class<?> clazz, Collection<?> root, String rootName, String encoding) {
     try {
       CollectionWrapper wrapper = new CollectionWrapper();
       wrapper.collection = root;
 
-      JAXBElement<CollectionWrapper> wrapperElement = new JAXBElement<>(new QName(rootName), CollectionWrapper.class, wrapper);
+      JAXBElement<CollectionWrapper> wrapperElement = new JAXBElement<>(new QName(rootName), CollectionWrapper.class,
+        wrapper);
 
       StringWriter writer = new StringWriter();
       createMarshaller(clazz, encoding).marshal(wrapperElement, writer);
@@ -106,7 +109,6 @@ public final class XmlUtil {
   /**
    * Xml->Java Object, 支持大小写敏感或不敏感.
    */
-  @SuppressWarnings("unchecked")
   public static <T> T parse(String xml, boolean caseSensitive, Class<T> clazz) {
     try {
       String fromXml = xml;
@@ -126,15 +128,15 @@ public final class XmlUtil {
    * 封装Root Element 是 Collection的情况.
    */
   public static class CollectionWrapper {
-    @SuppressWarnings("unchecked")
+
     @XmlAnyElement
-    protected Collection collection;
+    protected Collection<?> collection;
   }
 
   /**
    * 创建Marshaller, 设定encoding(可为Null).
    */
-  private static Marshaller createMarshaller(Class clazz, String encoding) {
+  private static Marshaller createMarshaller(Class<?> clazz, String encoding) {
     try {
       JAXBContext jaxbContext = JAXBContext.newInstance(clazz);
       Marshaller marshaller = jaxbContext.createMarshaller();
@@ -174,8 +176,7 @@ public final class XmlUtil {
    * @return document
    */
   public static Document create() {
-    Document document = DocumentHelper.createDocument();
-    return document;
+    return DocumentHelper.createDocument();
   }
 
   /**
@@ -513,7 +514,11 @@ public final class XmlUtil {
 
       // check basic
       String text = root.getText();
-      if (EqualUtil.isEq(clazz.getName(), String.class.getName()) || EqualUtil.isEq(clazz.getName(), Integer.class.getName()) || EqualUtil.isEq(clazz.getName(), Long.class.getName()) || EqualUtil.isEq(clazz.getName(), Double.class.getName()) || EqualUtil.isEq(clazz.getName(), Float.class.getName()) || EqualUtil.isEq(clazz.getName(), Byte.class.getName()) || EqualUtil.isEq(clazz.getName(), Boolean.class.getName())) {
+      if (EqualUtil.isEq(clazz.getName(), String.class.getName()) || EqualUtil.isEq(clazz.getName(),
+        Integer.class.getName()) || EqualUtil.isEq(clazz.getName(), Long.class.getName()) || EqualUtil.isEq(
+        clazz.getName(), Double.class.getName()) || EqualUtil.isEq(clazz.getName(), Float.class.getName())
+        || EqualUtil.isEq(clazz.getName(), Byte.class.getName()) || EqualUtil.isEq(clazz.getName(),
+        Boolean.class.getName())) {
         // ignore node key.
         if (text != null) {
           //TODO 基础类型通过构造函数直接生成
@@ -532,7 +537,9 @@ public final class XmlUtil {
       for (int i = 0; i < fields.length; i++) {
         Field field = fields[i];
         fieldType = (field.getType() + "");
-        setMethod = obj.getClass().getMethod("set" + fields[i].getName().substring(0, 1).toUpperCase() + fields[i].getName().substring(1), fields[i].getType());
+        setMethod = obj.getClass().getMethod(
+          "set" + fields[i].getName().substring(0, 1).toUpperCase() + fields[i].getName().substring(1),
+          fields[i].getType());
         if ("interface java.util.List".equals(fieldType)) {
           fieldGenericType = fields[i].getGenericType() + "";
           String[] sp1 = fieldGenericType.split("<");
