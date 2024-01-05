@@ -3,6 +3,13 @@ package com.github.seaxlab.core.security.util;
 import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.model.Tuple2;
+import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.util.encoders.Base64;
+import org.springframework.util.Base64Utils;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -18,12 +25,6 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import lombok.extern.slf4j.Slf4j;
-import org.bouncycastle.util.encoders.Base64;
-import org.springframework.util.Base64Utils;
 
 /**
  * RSA util
@@ -284,8 +285,7 @@ public class RSAUtil {
       } else {
         resultBytes = cipher.doFinal(srcBytes);
       }
-      String base64Str = Base64Utils.encodeToString(resultBytes);
-      return base64Str;
+      return Base64Utils.encodeToString(resultBytes);
     } catch (Exception e) {
       log.error("fail to encrypt by segment", e);
       return null;
@@ -382,8 +382,7 @@ public class RSAUtil {
         decBytes = deCipher.doFinal(srcBytes);
       }
 
-      String decrytStr = new String(decBytes);
-      return decrytStr;
+      return new String(decBytes);
     } catch (Exception e) {
       log.error("fail to decrypt by segment", e);
       return null;
