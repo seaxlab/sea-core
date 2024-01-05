@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.util.model.person;
 
-import com.github.seaxlab.core.model.layer.dto.DTO;
 import lombok.Data;
 
 /**
@@ -11,7 +10,7 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
-public class Age extends DTO {
+public class Age {
 
   private Integer value;
 }

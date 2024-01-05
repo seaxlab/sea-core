@@ -1,8 +1,9 @@
 package com.github.seaxlab.core.util.model.person;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * module name

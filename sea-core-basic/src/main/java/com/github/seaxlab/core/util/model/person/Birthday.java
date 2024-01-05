@@ -1,7 +1,8 @@
 package com.github.seaxlab.core.util.model.person;
 
-import java.util.Date;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * module name

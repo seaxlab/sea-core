@@ -1,8 +1,8 @@
 package com.github.seaxlab.core.util.model.person;
 
-import com.github.seaxlab.core.model.layer.dto.DTO;
-import java.util.List;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * module name
@@ -12,7 +12,7 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
-public class Person extends DTO {
+public class Person {
 
   private Name name;
   private Age age;

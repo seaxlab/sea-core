@@ -1,7 +1,8 @@
 package com.github.seaxlab.core.util.model.person;
 
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 籍贯
