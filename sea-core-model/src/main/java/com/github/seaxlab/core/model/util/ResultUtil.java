@@ -1,7 +1,9 @@
 package com.github.seaxlab.core.model.util;
 
 import com.github.seaxlab.core.model.Result;
+
 import java.util.Objects;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -22,8 +24,9 @@ public final class ResultUtil {
    *
    * @return true/false
    */
-  public static boolean isOk(Result result) {
+  public static boolean isOk(Result<?> result) {
     if (Objects.isNull(result)) {
+      log.warn("result is null");
       throw new NullPointerException("result is null");
     }
     if (result.getSuccess() != null) {
@@ -38,8 +41,9 @@ public final class ResultUtil {
    *
    * @return true/false
    */
-  public static boolean isFail(Result result) {
+  public static boolean isFail(Result<?> result) {
     if (Objects.isNull(result)) {
+      log.warn("result is null");
       throw new NullPointerException("result is null");
     }
 
