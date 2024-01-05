@@ -2,14 +2,11 @@ package com.github.seaxlab.core.spring.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.seaxlab.core.model.layer.po.EntityKey;
+import com.github.seaxlab.core.component.layer.po.EntityKey;
 import lombok.Data;
 
 /**
  * User POJO
- *
- * @author <a href="mailto:mercyblitz@gmail.com">Mercy</a>
- * @since 2017.03.31
  */
 @Data
 public class User implements EntityKey {

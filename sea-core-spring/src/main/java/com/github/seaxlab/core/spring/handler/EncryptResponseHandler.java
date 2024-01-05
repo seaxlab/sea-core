@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.spring.handler;
 
-import com.github.seaxlab.core.model.layer.encrypt.EncryptResponse;
+import com.github.seaxlab.core.component.layer.encrypt.EncryptResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;

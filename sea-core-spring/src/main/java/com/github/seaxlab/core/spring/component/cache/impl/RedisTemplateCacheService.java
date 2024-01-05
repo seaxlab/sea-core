@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.seaxlab.core.cache.common.CacheConst;
 import com.github.seaxlab.core.exception.Precondition;
-import com.github.seaxlab.core.model.layer.po.EntityKey;
+import com.github.seaxlab.core.component.layer.po.EntityKey;
 import com.github.seaxlab.core.spring.component.cache.CacheExceptionHandler;
 import com.github.seaxlab.core.spring.component.cache.CacheOpEnum;
 import com.github.seaxlab.core.spring.component.cache.CacheService;
