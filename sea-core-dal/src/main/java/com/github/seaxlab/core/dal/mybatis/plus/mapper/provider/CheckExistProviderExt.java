@@ -3,8 +3,8 @@ package com.github.seaxlab.core.dal.mybatis.plus.mapper.provider;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.LambdaUtils;
+import com.baomidou.mybatisplus.core.toolkit.support.LambdaMeta;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.baomidou.mybatisplus.core.toolkit.support.SerializedLambda;
 import com.github.seaxlab.core.exception.Precondition;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.property.PropertyNamer;
@@ -46,19 +46,20 @@ public class CheckExistProviderExt {
 
   //------------------
   private String oneField(String format, SFunction<?, ?> column) {
-    SerializedLambda lambda = LambdaUtils.resolve(column);
-    Class<?> clazz = lambda.getInstantiatedType();
+    LambdaMeta lambda = LambdaUtils.extract(column);
+    Class<?> clazz = lambda.getInstantiatedClass();
     String tableName = TableInfoHelper.getTableInfo(clazz).getTableName();
     String fieldName = PropertyNamer.methodToProperty(lambda.getImplMethodName());
     return String.format(format, tableName, fieldName);
   }
 
   private String twoField(String format, SFunction<?, ?> column1, SFunction<?, ?> column2) {
-    SerializedLambda lambda1 = LambdaUtils.resolve(column1);
-    Class<?> clazz = lambda1.getInstantiatedType();
+    LambdaMeta lambda1 = LambdaUtils.extract(column1);
+    Class<?> clazz = lambda1.getInstantiatedClass();
     String tableName = TableInfoHelper.getTableInfo(clazz).getTableName();
     String fieldName1 = PropertyNamer.methodToProperty(lambda1.getImplMethodName());
-    SerializedLambda lambda2 = LambdaUtils.resolve(column2);
+    //
+    LambdaMeta lambda2 = LambdaUtils.extract(column2);
     String fieldName2 = PropertyNamer.methodToProperty(lambda2.getImplMethodName());
     return String.format(format, tableName, fieldName1, fieldName2);
   }
