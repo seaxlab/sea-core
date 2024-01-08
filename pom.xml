@@ -129,7 +129,7 @@
     <hikaricp.version>3.4.5</hikaricp.version>
     <h2.version>1.4.200</h2.version>
 
-    <mybatis.version>3.5.5</mybatis.version>
+    <mybatis.version>3.5.7</mybatis.version>
     <mybatis.spring.version>2.0.0</mybatis.spring.version>
     <mybatis.spring.boot.version>2.0.1</mybatis.spring.boot.version>
 
