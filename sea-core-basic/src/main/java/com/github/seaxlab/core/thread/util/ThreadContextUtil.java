@@ -3,6 +3,7 @@ package com.github.seaxlab.core.thread.util;
 import com.github.seaxlab.core.common.CoreConst;
 import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.thread.ThreadContext;
+import com.github.seaxlab.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -18,6 +19,13 @@ public final class ThreadContextUtil {
   private static final String BIZ_REQUEST_NO = "sea_biz_request_no";
 
   private ThreadContextUtil() {
+  }
+
+  /**
+   * set biz request no
+   */
+  public static void setRequestNo() {
+    ThreadContext.put(BIZ_REQUEST_NO, IdUtil.getSimpleId());
   }
 
   /**
