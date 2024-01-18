@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.thread;
 
+import static com.github.seaxlab.core.test.util.TestUtil.sleepSecond;
+
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.thread.util.ScheduledThreadPoolUtil;
 import lombok.extern.slf4j.Slf4j;

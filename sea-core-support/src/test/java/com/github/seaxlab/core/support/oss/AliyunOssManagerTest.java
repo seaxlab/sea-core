@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.support.oss;
 
+import static com.github.seaxlab.core.test.util.TestUtil.getConfig;
+
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.auth.CredentialsProvider;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;

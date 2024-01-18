@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.cache;
 
+import static com.github.seaxlab.core.test.util.TestUtil.runInMultiThread;
+
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.cache.util.LocalCacheUtil;
 import com.google.common.cache.Cache;

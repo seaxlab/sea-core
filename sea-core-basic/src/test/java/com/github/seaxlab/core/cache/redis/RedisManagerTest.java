@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.cache.redis;
 
+import static com.github.seaxlab.core.test.util.TestUtil.runInMultiThread;
+
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.cache.redis.jedis.JedisManager;
 import com.github.seaxlab.core.util.EqualUtil;

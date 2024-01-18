@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.support.oss;
 
+import static com.github.seaxlab.core.test.util.TestUtil.getConfig;
+
 import com.github.seaxlab.core.support.oss.manager.impl.HuaWeiCloudOssManager;
 import com.obs.services.ObsClient;
 import lombok.extern.slf4j.Slf4j;

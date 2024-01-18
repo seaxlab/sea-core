@@ -11,7 +11,7 @@ import org.junit.BeforeClass;
  * @version 1.0 2019-07-13
  * @since 1.0
  */
-public abstract class AbstractCoreTest extends AbstractCoreSuperTest {
+public abstract class AbstractCoreTest {
 
   private static Stopwatch _stopwatch;
 

@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.lock;
 
+import static com.github.seaxlab.core.test.util.TestUtil.runInMultiThread;
+
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.component.lock.impl.FileLock;
 import com.github.seaxlab.core.util.FileUtil;

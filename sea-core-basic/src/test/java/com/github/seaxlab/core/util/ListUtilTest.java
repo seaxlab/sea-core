@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.util;
 
+import static com.github.seaxlab.core.test.util.TestUtil.sleepSecond;
+
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.domain.Role;
 import com.github.seaxlab.core.domain.User;
