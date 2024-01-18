@@ -1,16 +1,17 @@
 package com.github.seaxlab.core.util;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.net.telnet.TelnetClient;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.net.telnet.TelnetClient;
 
 /**
- * module name
+ * telnet util
  *
  * @author spy
  * @version 1.0 2020/8/27
@@ -18,6 +19,7 @@ import org.apache.commons.net.telnet.TelnetClient;
  */
 @Slf4j
 public final class TelnetUtil {
+
   /**
    * 最小端口号
    */
@@ -220,7 +222,7 @@ public final class TelnetUtil {
   /**
    * 链接状态
    */
-  public static enum StatusEnum {
+  public enum StatusEnum {
     SUCCESS,
     FAIL,
     ERROR,

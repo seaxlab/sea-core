@@ -78,7 +78,6 @@
     <apache.httpclient.version>4.5.13</apache.httpclient.version>
     <apache.httpmime.version>4.5.13</apache.httpmime.version>
     <apache.httpasyncclient.version>4.1.5</apache.httpasyncclient.version>
-    <apache.curator.version>4.0.1</apache.curator.version>
     <apache.email.version>1.5</apache.email.version>
 
 
