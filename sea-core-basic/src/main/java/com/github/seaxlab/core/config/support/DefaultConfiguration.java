@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @LoadLevel(name = "default")
 public class DefaultConfiguration implements Configuration {
 
-  private static Map<String, Object> cache = new ConcurrentHashMap<>();
+  private static final Map<String, Object> cache = new ConcurrentHashMap<>();
 
 
   @Override
