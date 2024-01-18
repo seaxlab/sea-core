@@ -20,6 +20,24 @@ public final class ResultUtil {
   }
 
   /**
+   * build from other result.
+   *
+   * @param otherResult
+   * @param <T>
+   * @return
+   */
+  public <T> Result<T> from(Result<T> otherResult) {
+    if (otherResult == null) {
+      log.warn("other result is empty.");
+      return Result.fail();
+    }
+    Result<T> result = new Result<>();
+    result.setCode(otherResult.getCode());
+    result.setMsg(otherResult.getMsg());
+    return result;
+  }
+
+  /**
    * check is ok.
    *
    * @return true/false
