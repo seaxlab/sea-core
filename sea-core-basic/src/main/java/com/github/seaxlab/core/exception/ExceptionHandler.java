@@ -1,9 +1,10 @@
 package com.github.seaxlab.core.exception;
 
 import com.github.seaxlab.core.enums.IErrorEnum;
-import java.lang.reflect.InvocationTargetException;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * 异常抛出辅助类
@@ -20,30 +21,34 @@ public final class ExceptionHandler {
   public static final String NO_ERROR_CODE = "";
 
   /**
-   * 兼容已有系统
+   * publish exception(recommend)
+   *
+   * @param exception
    */
-  public static final String OLD_CODE = "OLD_";
-
-
-  public static BaseAppException publish(IErrorEnum exception) {
+  public static void publish(IErrorEnum exception) {
     throw new BaseAppException(exception);
   }
 
-  public static BaseAppException publish(IErrorEnum exception, Object... args) {
+  /**
+   * publish exception(recommend)
+   *
+   * @param exception
+   */
+  public static void publish(IErrorEnum exception, Object... args) {
     throw new BaseAppException(exception, args);
   }
 
-  public static BaseAppException publish(String code, String msg) throws BaseAppException {
-    return publish(code, msg, null);
+  public static void publish(String code, String msg) throws BaseAppException {
+    publish(code, msg, null);
   }
 
-  public static BaseAppException publishMsg(String msg) throws BaseAppException {
-    return publish(NO_ERROR_CODE, msg, null);
+  public static void publishMsg(String msg) throws BaseAppException {
+    publish(NO_ERROR_CODE, msg, null);
   }
 
-  public static BaseAppException publishMsg(String format, Object... argArray) {
+  public static void publishMsg(String format, Object... argArray) {
     FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-    return publish(NO_ERROR_CODE, ft.getMessage(), null);
+    publish(NO_ERROR_CODE, ft.getMessage(), null);
   }
 
   /**
@@ -52,12 +57,11 @@ public final class ExceptionHandler {
    * @param code 错误码
    * @param msg  消息
    * @param t    Throwable
-   * @return BaseAppException
    * @throws BaseAppException base app exception
    */
-  public static BaseAppException publish(String code, String msg, Throwable t) throws BaseAppException {
-
+  public static void publish(String code, String msg, Throwable t) throws BaseAppException {
     BaseAppException baseAppException;
+    //
     if (t instanceof BaseAppException) {
       baseAppException = (BaseAppException) t;
     } else if (t instanceof InvocationTargetException) {
