@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.pattern.builder;
+package com.github.seaxlab.core.component.pattern.builder;
 
 import java.io.Serializable;
 

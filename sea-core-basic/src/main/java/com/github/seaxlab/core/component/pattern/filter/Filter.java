@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.pattern.filter;
+package com.github.seaxlab.core.component.pattern.filter;
 
 
 /**

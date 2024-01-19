@@ -1,9 +1,9 @@
-package com.github.seaxlab.core.pattern.plugin.support;
+package com.github.seaxlab.core.component.pattern.plugin.support;
 
-import com.github.seaxlab.core.pattern.plugin.Plugin;
-import com.github.seaxlab.core.pattern.plugin.PluginChain;
-import com.github.seaxlab.core.pattern.plugin.PluginContext;
-import com.github.seaxlab.core.pattern.plugin.PluginHandler;
+import com.github.seaxlab.core.component.pattern.plugin.Plugin;
+import com.github.seaxlab.core.component.pattern.plugin.PluginChain;
+import com.github.seaxlab.core.component.pattern.plugin.PluginContext;
+import com.github.seaxlab.core.component.pattern.plugin.PluginHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.pattern.plugin;
+package com.github.seaxlab.core.component.pattern.plugin;
 
 import java.io.Serializable;
 import java.util.HashMap;

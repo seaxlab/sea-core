@@ -5,4 +5,4 @@
  * @version 1.0 2021/11/4
  * @since 1.0
  */
-package com.github.seaxlab.core.pattern.plugin;
+package com.github.seaxlab.core.component.pattern.plugin;
