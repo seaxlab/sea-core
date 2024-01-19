@@ -137,12 +137,12 @@ public final class TxUtil {
    *
    * @param callback call back function
    */
-  public static void registerAfterCommit(Callback callback) {
+  public static void registerAfterCommit(Runnable callback) {
     log.info("register after commit");
     TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
       public void afterCommit() {
         log.info("tx after commit");
-        callback.execute();
+        callback.run();
       }
     });
   }
@@ -155,11 +155,6 @@ public final class TxUtil {
   public static void registerSynchronization(TransactionSynchronization transactionSynchronization) {
     log.info("register synchronization");
     TransactionSynchronizationManager.registerSynchronization(transactionSynchronization);
-  }
-
-  public interface Callback {
-
-    void execute();
   }
 
 }
