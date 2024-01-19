@@ -2,13 +2,15 @@ package com.github.seaxlab.core.component.socket;
 
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.component.socket.model.SocketRequest;
+import com.github.seaxlab.core.test.util.TestUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 
 /**
  * module name
@@ -46,6 +48,6 @@ public class SocketServerTest extends BaseCoreTest {
       }
     });
 
-    sleepMinute(10);
+    TestUtil.sleepMinute(10);
   }
 }

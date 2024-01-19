@@ -1,7 +1,9 @@
-package com.github.seaxlab.core.dal.mybatis.plus;
+package com.github.seaxlab.core.dal.mybatis.plus.test;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.github.seaxlab.core.dal.mybatis.plus.UserTypeEnum;
+import com.github.seaxlab.core.dal.mybatis.plus.entity.User2;
 import com.github.seaxlab.core.dal.mybatis.plus.util.WrapperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

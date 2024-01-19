@@ -1,5 +1,9 @@
-package com.github.seaxlab.core.dal.mybatis.plus;
+package com.github.seaxlab.core.dal.mybatis.plus.test;
 
+import com.github.seaxlab.core.dal.mybatis.plus.BasePlusTest;
+import com.github.seaxlab.core.dal.mybatis.plus.entity.User2;
+import com.github.seaxlab.core.dal.mybatis.plus.mapper.User2Mapper;
+import com.github.seaxlab.core.dal.mybatis.plus.service.User2Service;
 import com.github.seaxlab.core.spring.tx.util.TxUtil;
 import com.github.seaxlab.core.util.IdUtil;
 import javax.annotation.Resource;

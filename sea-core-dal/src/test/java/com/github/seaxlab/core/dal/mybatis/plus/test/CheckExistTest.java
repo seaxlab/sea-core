@@ -1,7 +1,11 @@
-package com.github.seaxlab.core.dal.mybatis.plus;
+package com.github.seaxlab.core.dal.mybatis.plus.test;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.github.seaxlab.core.dal.mybatis.plus.BasePlusTest;
+import com.github.seaxlab.core.dal.mybatis.plus.entity.User2;
+import com.github.seaxlab.core.dal.mybatis.plus.mapper.User2Mapper;
+
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

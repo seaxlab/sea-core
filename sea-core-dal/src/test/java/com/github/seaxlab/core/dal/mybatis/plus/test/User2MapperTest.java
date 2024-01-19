@@ -1,5 +1,7 @@
-package com.github.seaxlab.core.dal.mybatis.plus;
+package com.github.seaxlab.core.dal.mybatis.plus.test;
 
+import com.github.seaxlab.core.dal.mybatis.plus.BasePlusTest;
+import com.github.seaxlab.core.dal.mybatis.plus.mapper.User2Mapper;
 import com.github.seaxlab.core.dal.mybatis.plus.po.UserQueryPO;
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

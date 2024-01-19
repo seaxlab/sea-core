@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.dal.mybatis.plus.service;
 
-import com.github.seaxlab.core.dal.mybatis.plus.User2;
-import com.github.seaxlab.core.dal.mybatis.plus.User2Mapper;
+import com.github.seaxlab.core.dal.mybatis.plus.entity.User2;
+import com.github.seaxlab.core.dal.mybatis.plus.mapper.User2Mapper;
 import com.github.seaxlab.core.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.test.util.TestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,11 +19,11 @@ public class NetUtilTest extends BaseCoreTest {
   @Test
   public void run17() throws Exception {
 
-    println("localAddress", NetUtil.getLocalAddress());
+    TestUtil.println("localAddress", NetUtil.getLocalAddress());
 
-    println("ip", NetUtil.getLocalIp());
-    println("localhost", NetUtil.getLocalHost());
-    println("public ip", NetUtil.getPublicIP());
+    TestUtil.println("ip", NetUtil.getLocalIp());
+    TestUtil.println("localhost", NetUtil.getLocalHost());
+    TestUtil.println("public ip", NetUtil.getPublicIP());
 
   }
 

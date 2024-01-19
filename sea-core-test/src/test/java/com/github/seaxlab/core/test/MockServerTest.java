@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.test;
 
 import com.github.seaxlab.core.test.mockserver.callback.TestExpectationCallback;
+import com.github.seaxlab.core.test.util.TestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
@@ -115,7 +116,7 @@ public class MockServerTest extends AbstractCoreTest {
 
   @After
   public void destroy() {
-    sleepMinute(3);
+    TestUtil.sleepMinute(3);
     mockServer.stop();
   }
 }

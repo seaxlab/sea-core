@@ -1,5 +1,6 @@
-package com.github.seaxlab.core.dal.mybatis.plus;
+package com.github.seaxlab.core.dal.mybatis.plus.mapper;
 
+import com.github.seaxlab.core.dal.mybatis.plus.entity.User2;
 import com.github.seaxlab.core.dal.mybatis.plus.mapper.EnhanceBaseMapper;
 import com.github.seaxlab.core.dal.mybatis.plus.po.UserQueryPO;
 import java.util.List;
