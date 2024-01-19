@@ -10,7 +10,9 @@ package com.github.seaxlab.core.lang.function;
  * @author spy
  * @version 1.0 2022/9/15
  * @since 1.0
+ * @deprecated 2.8.0
  */
+@Deprecated
 public interface Function0 {
 
   void execute();

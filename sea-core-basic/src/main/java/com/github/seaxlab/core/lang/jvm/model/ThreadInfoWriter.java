@@ -1,13 +1,21 @@
 package com.github.seaxlab.core.lang.jvm.model;
 
 import java.lang.management.ThreadInfo;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * thread info writer<br/> build thread info
+ */
 public class ThreadInfoWriter {
+
   private static final int MAX_FRAMES = 200;
   private static final String PROTOCOL_ID = "ThreadDumpSeaCore";
-  private Map<String, Integer> wordTable = new HashMap<>();
+  private final Map<String, Integer> wordTable = new HashMap<>();
   private short offset = 0;
 
   public ThreadInfoWriter() {

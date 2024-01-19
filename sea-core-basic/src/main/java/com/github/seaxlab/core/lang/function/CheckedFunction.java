@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.lang.function;
 
-import javax.annotation.Nullable;
 import java.io.Serializable;
+import javax.annotation.Nullable;
 
 /**
  * <pre>
@@ -11,9 +11,12 @@ import java.io.Serializable;
  * @author spy
  * @version 1.0 2021/3/3
  * @since 1.0
+ * @deprecated 2.8.0
  */
+@Deprecated
 @FunctionalInterface
 public interface CheckedFunction<T, R> extends Serializable {
+
   /**
    * Run the Function
    *
