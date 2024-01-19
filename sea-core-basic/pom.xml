@@ -111,6 +111,7 @@
     <dependency>
       <groupId>com.typesafe</groupId>
       <artifactId>config</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>

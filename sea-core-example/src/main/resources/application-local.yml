@@ -27,7 +27,7 @@ spring:
     redisson:
       config: |
         singleServerConfig:
-          address: "redis://redis:6379"
+          address: "redis://mylab-redis:6379"
           database: 1
         threads: 0
         nettyThreads: 0

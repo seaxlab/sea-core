@@ -19,7 +19,7 @@ public class ConfigurationFactory {
 
     private static Configuration buildConfiguration() {
       //重要： 此时配置文件还未加载
-      return EnhancedServiceLoader.load(Configuration.class, ConfigTypeEnum.TYPESAFE.getCode());
+      return EnhancedServiceLoader.load(Configuration.class, ConfigTypeEnum.DEFAULT.getCode());
     }
   }
 
