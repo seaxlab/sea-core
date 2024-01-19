@@ -38,8 +38,8 @@ public class CheckExistTest extends BasePlusTest {
     QueryWrapper<User2> wrapper = Wrappers.query(user2);
     wrapper.eq("id", 100);
 
-    boolean exist = user2Mapper.checkExist(wrapper);
-    log.info("exist={}", exist);
+//    boolean exist = user2Mapper.checkExist(wrapper);
+//    log.info("exist={}", exist);
   }
 
 

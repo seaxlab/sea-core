@@ -1,10 +1,13 @@
 package com.github.seaxlab.core.dal.mybatis.plus.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.seaxlab.core.dal.mybatis.plus.entity.User2;
-import com.github.seaxlab.core.dal.mybatis.plus.mapper.EnhanceBaseMapper;
 import com.github.seaxlab.core.dal.mybatis.plus.po.UserQueryPO;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
 
 /**
  * module name
@@ -13,7 +16,10 @@ import org.apache.ibatis.annotations.Param;
  * @version 1.0 2021/2/11
  * @since 1.0
  */
-public interface User2Mapper extends EnhanceBaseMapper<User2> {
+@Repository
+public interface User2Mapper extends
+  //EnhanceBaseMapper<User2>,
+  BaseMapper<User2> {
 
   Integer selectMaxAge();
 

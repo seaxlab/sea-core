@@ -2,17 +2,17 @@ package com.github.seaxlab.core.dal.mybatis.plus.service;
 
 import com.github.seaxlab.core.dal.mybatis.plus.entity.User2;
 import com.github.seaxlab.core.dal.mybatis.plus.mapper.User2Mapper;
-import com.github.seaxlab.core.dal.mybatis.plus.service.User3Service;
 import com.github.seaxlab.core.spring.tx.service.TxService;
 import com.github.seaxlab.core.spring.tx.util.TxUtil;
 import com.github.seaxlab.core.util.IdUtil;
 import com.github.seaxlab.core.util.RandomUtil;
-import java.util.concurrent.atomic.AtomicBoolean;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * module name
@@ -22,14 +22,17 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 1.0
  */
 @Slf4j
-@RequiredArgsConstructor
 public class User2Service {
 
-  private final User2Mapper user2Mapper;
-  private final DataSourceTransactionManager dataSourceTransactionManager;
+  @Resource
+  private User2Mapper user2Mapper;
+  @Resource
+  private DataSourceTransactionManager dataSourceTransactionManager;
   //
-  private final User3Service user3Service;
-  private final TxService txService;
+  @Resource
+  private User3Service user3Service;
+  @Resource
+  private TxService txService;
 
   @Transactional(rollbackFor = Exception.class)
   public void add() {

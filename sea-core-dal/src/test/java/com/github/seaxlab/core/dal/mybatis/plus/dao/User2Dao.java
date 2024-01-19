@@ -10,6 +10,6 @@ import com.github.seaxlab.core.dal.mybatis.plus.entity.User2;
  * @version 1.0 2024/1/19
  * @since 1.0
  */
-public interface User2Dao extends IService<User2> {
+public interface User2Dao extends IService<User2>{
 
 }

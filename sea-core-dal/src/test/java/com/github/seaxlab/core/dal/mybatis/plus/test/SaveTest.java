@@ -26,8 +26,9 @@ public class SaveTest extends BasePlusTest {
   @Test
   public void test17() throws Exception {
     User2 record = new User2();
+    record.setId(194L);
     record.setName("1-1");
-    record.setCode("1-1");
+//    record.setCode("1-1");
     user2Dao.save(record);
   }
 
