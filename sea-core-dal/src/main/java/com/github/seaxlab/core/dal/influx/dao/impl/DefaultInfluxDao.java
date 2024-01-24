@@ -38,11 +38,11 @@ public class DefaultInfluxDao implements InfluxDao {
 
   private final Logger log = LoggerFactory.getLogger(DefaultInfluxDao.class);
 
-  private String org;
+  private final String org;
 
-  private String bucket;
+  private final String bucket;
 
-  private InfluxDBClient influxDBClient;
+  private final InfluxDBClient influxDBClient;
 
   public DefaultInfluxDao(String url, String token, String org) {
     this(url, token, org, null);
