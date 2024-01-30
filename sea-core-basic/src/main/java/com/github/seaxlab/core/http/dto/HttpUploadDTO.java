@@ -6,13 +6,16 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.Map;
 
+import lombok.EqualsAndHashCode;
+
 /**
- * module name
+ * http upload DTO
  *
  * @author spy
  * @version 1.0 2021/3/29
  * @since 1.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class HttpUploadDTO extends BaseHttpDTO {
 

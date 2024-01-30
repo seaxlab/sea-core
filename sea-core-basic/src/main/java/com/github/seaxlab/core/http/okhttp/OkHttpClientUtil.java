@@ -3,14 +3,24 @@ package com.github.seaxlab.core.http.okhttp;
 import com.github.seaxlab.core.http.common.HttpHeaderConst;
 import com.github.seaxlab.core.http.okhttp.callback.EmptyCallback;
 import com.github.seaxlab.core.util.JSONUtil;
-import lombok.extern.slf4j.Slf4j;
-import okhttp3.*;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
+import lombok.extern.slf4j.Slf4j;
+import okhttp3.Call;
+import okhttp3.Dispatcher;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * OK Http client util
@@ -43,7 +53,7 @@ public class OkHttpClientUtil {
   private static OkHttpClient client;
 
 
-  private static OkHttpClient init() {
+  private static void init() {
     if (client == null) {
       synchronized (OkHttpClientUtil.class) {
         if (client == null) {
@@ -59,8 +69,6 @@ public class OkHttpClientUtil {
         }
       }
     }
-
-    return client;
   }
 
   /**
@@ -79,7 +87,11 @@ public class OkHttpClientUtil {
       .build();
 
     try (Response response = client.newCall(request).execute()) {
-      return response.body().string();
+      ResponseBody body = response.body();
+      if (Objects.isNull(body)) {
+        return "";
+      }
+      return body.string();
     } catch (IOException e) {
       log.error("okhttp get io exception", e);
     }
@@ -120,7 +132,7 @@ public class OkHttpClientUtil {
     }
 
     FormBody.Builder formBodyBuilder = new FormBody.Builder();
-    Iterator iterator = params.entrySet().iterator();
+    Iterator<?> iterator = params.entrySet().iterator();
     while (iterator.hasNext()) {
       Map.Entry<String, String> elem = (Map.Entry) iterator.next();
       formBodyBuilder.add(elem.getKey(), elem.getValue());
@@ -133,11 +145,15 @@ public class OkHttpClientUtil {
       .build();
 
     try (Response response = client.newCall(request).execute()) {
-      return response.body().string();
+      ResponseBody body = response.body();
+      if (Objects.isNull(body)) {
+        return "";
+      }
+      return body.string();
     } catch (IOException e) {
       log.error("okhttp get io exception", e);
     }
-    return null;
+    return "";
   }
 
   /**
@@ -161,11 +177,15 @@ public class OkHttpClientUtil {
       .build();
 
     try (Response response = client.newCall(request).execute()) {
-      return response.body().string();
+      ResponseBody body = response.body();
+      if (Objects.isNull(body)) {
+        return "";
+      }
+      return body.string();
     } catch (IOException e) {
       log.error("okhttp get io exception", e);
     }
-    return null;
+    return "";
   }
 
 
