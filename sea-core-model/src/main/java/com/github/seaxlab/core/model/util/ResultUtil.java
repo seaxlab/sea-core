@@ -50,7 +50,7 @@ public final class ResultUtil {
     if (result.getSuccess() != null) {
       return result.getSuccess();
     }
-    // warning!! default is false.
+    log.warn("success field is null in result");
     return false;
   }
 
@@ -68,6 +68,7 @@ public final class ResultUtil {
     if (result.getSuccess() != null) {
       return !result.getSuccess();
     }
+    log.warn("success field is null in result");
     return true;
   }
 }
