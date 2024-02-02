@@ -259,12 +259,6 @@
     <!-- archiver/un-archiver end -->
 
     <dependency>
-      <groupId>ognl</groupId>
-      <artifactId>ognl</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-all</artifactId>
       <scope>provided</scope>
