@@ -3,6 +3,7 @@ package com.github.seaxlab.core.lang.jvm.model;
 import java.lang.management.ThreadInfo;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,7 @@ public class ThreadInfoWriter {
     }
 
     StackTraceElement[] stackTrace = thread.getStackTrace();
-    byte stackSize = (byte) (stackTrace.length < MAX_FRAMES ? stackTrace.length : MAX_FRAMES);
+    byte stackSize = (byte) (Math.min(stackTrace.length, MAX_FRAMES));
     codeResult.append(String.format("%04d", stackSize));
 
     StackTraceElement stack;
@@ -101,7 +102,7 @@ public class ThreadInfoWriter {
   private void appendWordTable(StringBuilder result) {
     List<Entry<String, Integer>> list = new ArrayList<>(wordTable.entrySet());
 
-    Collections.sort(list, (o1, o2) -> (o1.getValue() - o2.getValue()));
+    list.sort(Comparator.comparingInt(Entry::getValue));
 
     result.append("[");
     for (Entry<String, Integer> word : list) {
@@ -160,8 +161,7 @@ public class ThreadInfoWriter {
 
   private String encode(String str) {
     int _offset = wordTable.get(str);
-    StringBuilder result = new StringBuilder(String.valueOf(_offset));
-    return result.append("#").toString();
+    return _offset + "#";
   }
 
   private String getStateCode(Thread.State state) {

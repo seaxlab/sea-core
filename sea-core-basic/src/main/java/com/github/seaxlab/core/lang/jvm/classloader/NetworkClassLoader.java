@@ -17,7 +17,7 @@ import java.net.URL;
 @Slf4j
 public class NetworkClassLoader extends ClassLoader {
 
-  private String rootUrl;
+  private final String rootUrl;
 
   public NetworkClassLoader(String rootUrl) {
     this.rootUrl = rootUrl;
@@ -26,7 +26,7 @@ public class NetworkClassLoader extends ClassLoader {
   @Override
   protected Class<?> findClass(String name) throws ClassNotFoundException {
     // this.findLoadedClass(name); // 父类已加载
-    Class clazz = null;
+    Class<?> clazz = null;
 
     // 根据类的二进制名称,获得该class文件的字节码数组
     byte[] classData = getClassData(name);
