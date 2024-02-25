@@ -201,6 +201,7 @@ public final class ClassUtil {
     try {
       return Class.forName(className);
     } catch (ClassNotFoundException e) {
+      log.warn("class not found,{}", className);
       return null;
     }
   }
@@ -216,6 +217,7 @@ public final class ClassUtil {
     try {
       return Class.forName(className, initialize, getDefaultClassLoader());
     } catch (ClassNotFoundException e) {
+      log.warn("class not found,{}", className);
       return null;
     }
   }
@@ -230,6 +232,7 @@ public final class ClassUtil {
     try {
       return Class.forName(className, initialize, clToUse);
     } catch (ClassNotFoundException ex) {
+      log.warn("class not found,{}", className);
       throw null;
     }
   }
