@@ -2,9 +2,11 @@ package com.github.seaxlab.core.util;
 
 import static com.github.seaxlab.core.test.util.TestUtil.sleepSecond;
 
+import com.alibaba.fastjson.JSON;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.domain.Role;
 import com.github.seaxlab.core.domain.User;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -662,6 +665,20 @@ public class ListUtilTest extends BaseCoreTest {
 
     List<Tt> data2 = ListUtil.subAfterList(list, item -> EqualUtil.isEq(item.getId(), 5));
     log.info("data2={}", data2);
+  }
+
+  @Test
+  public void testMoveToTop() throws Exception {
+    List<User> list = new ArrayList<>();
+    for (long i = 0; i < 10; i++) {
+      User user = new User();
+      user.setId(i + 1);
+      user.setName("smith" + i);
+      list.add(user);
+    }
+    log.info("{}", JSON.toJSONString(list));
+    ListUtil.moveToFirst(list, User::getName, "smith4");
+    log.info("{}", JSON.toJSONString(list));
   }
 
 

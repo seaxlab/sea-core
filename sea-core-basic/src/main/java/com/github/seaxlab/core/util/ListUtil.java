@@ -1,10 +1,12 @@
 package com.github.seaxlab.core.util;
 
+import com.alibaba.fastjson.JSON;
 import com.github.seaxlab.core.common.SymbolConst;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
 import com.google.common.collect.Lists;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +29,7 @@ import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -1163,6 +1166,38 @@ public final class ListUtil {
     }
     Collections.reverse(result);
     return result;
+  }
+
+  /**
+   * 将元素移动到最前面
+   *
+   * @param data
+   * @param function
+   * @param value
+   * @param <T>
+   */
+  public static <T> void moveToFirst(final List<T> data, Function<T, String> function, String value) {
+    if (data == null || data.size() == 0) {
+      log.warn("data is empty");
+      return;
+    }
+    int index = -1;
+    for (int i = 0; i < data.size(); i++) {
+      if (function.apply(data.get(i)).equals(value)) {
+        index = i;
+        break;
+      }
+    }
+    if (index == -1) {
+      log.warn("no found element, {},{}", value, JSON.toJSONString(data));
+      return;
+    }
+    if (index == 0) {
+      log.info("no need move,{}", value);
+      return;
+    }
+    //
+    data.add(0, data.remove(index));
   }
 
 }
