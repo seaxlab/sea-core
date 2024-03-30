@@ -47,7 +47,7 @@ public class IdCardUtil {
       if (idCard.isMainlandFlag()) {
         // 统一转成18位
         idNo = checkLength(idNo);
-        idCard.setNativePlace(getNativePlace(idNo));
+//        idCard.setNativePlace(getNativePlace(idNo));
 
         // 生日部分
         Date birthday = getBirthdayDate(idNo);
@@ -179,17 +179,6 @@ public class IdCardUtil {
     }
 
     return result;
-  }
-
-  /**
-   * 查询详细籍贯信息
-   *
-   * @param cardNumber
-   * @return
-   */
-  private static NativePlace getNativePlace(String cardNumber) {
-    String addressCode = cardNumber.substring(0, 6);
-    return AreaCodeUtil.getNativePlace(Integer.valueOf(addressCode));
   }
 
   public static String getBirthdayStr(String idNo) {

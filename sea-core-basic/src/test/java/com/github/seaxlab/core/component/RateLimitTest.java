@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.component;
 
+import static com.github.seaxlab.core.test.util.TestUtil.sleepMs;
+
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.component.limit.RateLimit;
 import com.github.seaxlab.core.component.limit.impl.FixedWindowRateLimit;

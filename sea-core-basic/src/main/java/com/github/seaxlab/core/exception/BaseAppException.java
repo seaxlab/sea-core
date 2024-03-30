@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * base exception
+ * base app exception for lowest layer
  *
  * @author spy
  * @version 1.0 2019/4/11

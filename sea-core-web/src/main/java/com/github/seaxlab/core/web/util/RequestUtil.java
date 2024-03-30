@@ -53,7 +53,7 @@ public final class RequestUtil {
   }
 
   /**
-   * 按priorty 顺序进行取值
+   * 按priority 顺序进行取值
    *
    * @param request
    * @param priority

@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.support.notify;
 
+import static com.github.seaxlab.core.test.util.TestUtil.getConfig;
+
 import com.github.seaxlab.core.support.BaseSupportTest;
 import com.github.seaxlab.core.support.notify.dto.FeiShuNotifyDTO;
 import com.github.seaxlab.core.support.notify.enums.MsgTypeEnum;
@@ -8,11 +10,12 @@ import com.github.seaxlab.core.support.notify.util.FeiShuUtil;
 import com.github.seaxlab.core.util.FileUtil;
 import com.github.seaxlab.core.util.FreemarkerUtil;
 import com.github.seaxlab.core.util.MessageUtil;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * module name
@@ -57,7 +60,7 @@ public class FeiShuNotifyManagerTest extends BaseSupportTest {
   }
 
   @Test
-  public void test57() throws Exception {
+  public void testFreemarker() throws Exception {
     FreemarkerUtil.initConfig(FeiShuNotifyManagerTest.class.getClassLoader(), "/");
 
     FeiShuNotifyManager notifyManager = new FeiShuNotifyManager();

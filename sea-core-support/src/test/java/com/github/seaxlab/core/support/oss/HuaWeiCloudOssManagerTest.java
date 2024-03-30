@@ -5,6 +5,8 @@ import com.obs.services.ObsClient;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 
+import static com.github.seaxlab.core.test.util.TestUtil.getConfig;
+
 /**
  * module name
  *

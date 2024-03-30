@@ -2,6 +2,7 @@ package com.github.seaxlab.core.dal.mybatis.plus.injector;
 
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
+import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.github.seaxlab.core.dal.mybatis.plus.method.CheckExist;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,8 +24,8 @@ public class EnhanceSqlInjector extends DefaultSqlInjector {
    * @return
    */
   @Override
-  public List<AbstractMethod> getMethodList(Class<?> mapperClass) {
-    List<AbstractMethod> methodList = super.getMethodList(mapperClass);
+  public List<AbstractMethod> getMethodList(Class<?> mapperClass, TableInfo tableInfo) {
+    List<AbstractMethod> methodList = super.getMethodList(mapperClass, tableInfo);
     methodList.add(new CheckExist());
     return methodList;
   }

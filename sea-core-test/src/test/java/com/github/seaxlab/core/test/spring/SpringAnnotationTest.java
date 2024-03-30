@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.test.spring;
 
+import static com.github.seaxlab.core.test.util.TestUtil.sleepSecond;
+
 import com.github.seaxlab.core.test.AbstractCoreSpringTest;
 import com.github.seaxlab.core.test.spring.event.OrderEvent;
 import lombok.extern.slf4j.Slf4j;

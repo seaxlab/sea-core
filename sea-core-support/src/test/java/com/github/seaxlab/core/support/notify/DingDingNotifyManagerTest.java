@@ -7,10 +7,13 @@ import com.github.seaxlab.core.support.notify.manager.impl.DingDingNotifyManager
 import com.github.seaxlab.core.support.notify.util.DingDingUtil;
 import com.github.seaxlab.core.test.AbstractCore5Test;
 import com.github.seaxlab.core.util.MessageUtil;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.github.seaxlab.core.test.util.TestUtil.getConfig;
 
 /**
  * module name
@@ -43,7 +46,7 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
   }
 
   @Test
-  public void run39() throws Exception {
+  public void testAtAll() throws Exception {
 
     DingDingNotifyDTO dto = new DingDingNotifyDTO();
     dto.setContent("111");
@@ -97,25 +100,13 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
     //// TODO 重点这里需要加入
     //sb.append("@"+phone);
 
-    sb.append("#### <font color=\"#FF0000\">S3 - Triggered - http_request_error</font>\n" +
-      "\n" +
-      "---\n" +
-      "\n" +
-      "- **规则标题**: http_request_error\n" +
-      "- **规则备注**: http_request_error\n" +
-      "- **监控指标**: [a=1 env=pro ident=app1 region=beijing tag1= tag2= tag3=]\n" +
-      "- **触发时间**: 2022-01-06 14:47:38\n" +
-      "- **触发时值**: 283\n" +
-      "- **发送时间**: 2022-01-06 14:48:15\n" +
-      "\n" +
-      "\n" +
-      "- traceId=96a10926-1f41-46bc-b630-618a20456d41\n" +
-      "- [请求链路](http://jaeger.xxx.com/trace/96a10926-1f41-46bc-b630-618a20456d41)\n" +
-      "- 备注：228\n" +
-      "\n" +
-      "Power By Sea Monitor Framework\n" +
-      "\n" +
-      "@" + phone);
+    sb.append("#### <font color=\"#FF0000\">S3 - Triggered - http_request_error</font>\n" + "\n" + "---\n" + "\n"
+      + "- **规则标题**: http_request_error\n" + "- **规则备注**: http_request_error\n"
+      + "- **监控指标**: [a=1 env=pro ident=app1 region=beijing tag1= tag2= tag3=]\n"
+      + "- **触发时间**: 2022-01-06 14:47:38\n" + "- **触发时值**: 283\n" + "- **发送时间**: 2022-01-06 14:48:15\n"
+      + "\n" + "\n" + "- traceId=96a10926-1f41-46bc-b630-618a20456d41\n"
+      + "- [请求链路](http://jaeger.xxx.com/trace/96a10926-1f41-46bc-b630-618a20456d41)\n" + "- 备注：228\n" + "\n"
+      + "Power By Sea Monitor Framework\n" + "\n" + "@" + phone);
 
     String accessToken = getConfig("sea.dingding.access_token");
     String url = MessageUtil.format(DingDingUtil.URL_SIMPLE, accessToken);

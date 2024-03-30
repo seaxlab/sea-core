@@ -16,6 +16,7 @@ public enum TriggerTypeEnum implements IBaseEnum<Integer> {
   UNKNOWN(0, "unknown", "unknown"), //
   MANUAL(1, "manual", "手动"), //
   AUTO(2, "auto", "自动"),//
+  MANUAL_AND_AUTO(3, "manual_and_auto", "手动+自动"),//
   ;
 
   private final Integer code;

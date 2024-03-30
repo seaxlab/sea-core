@@ -21,9 +21,9 @@ public class MinioOssManagerTest extends BaseOssManagerTest {
     String secretKey = "";
     //
     MinioClient client = MinioClient.builder() //
-      .endpoint(endpoint) //
-      .credentials(accessKey, secretKey) //
-      .build();
+                                    .endpoint(endpoint) //
+                                    .credentials(accessKey, secretKey) //
+                                    .build();
     ossManager = new MinioOssManager(client);
   }
 }

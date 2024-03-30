@@ -5,7 +5,7 @@
   <parent>
     <artifactId>sea-core</artifactId>
     <groupId>com.github.seaxlab</groupId>
-    <version>2.7.1</version>
+    <version>2.7.3</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -32,6 +32,12 @@
     <dependency>
       <groupId>com.github.seaxlab</groupId>
       <artifactId>sea-core-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.seaxlab</groupId>
+      <artifactId>sea-core-basic</artifactId>
       <scope>test</scope>
     </dependency>
 

@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.util;
 
+import static com.github.seaxlab.core.test.util.TestUtil.getConfig;
+
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.component.ssh.dto.SshConfig;
 import com.github.seaxlab.core.component.ssh.dto.response.SshRespDTO;

@@ -20,6 +20,24 @@ public final class ResultUtil {
   }
 
   /**
+   * build from other result.
+   *
+   * @param otherResult
+   * @param <T>
+   * @return
+   */
+  public <T> Result<T> from(Result<T> otherResult) {
+    if (otherResult == null) {
+      log.warn("other result is empty.");
+      return Result.fail();
+    }
+    Result<T> result = new Result<>();
+    result.setCode(otherResult.getCode());
+    result.setMsg(otherResult.getMsg());
+    return result;
+  }
+
+  /**
    * check is ok.
    *
    * @return true/false
@@ -32,7 +50,7 @@ public final class ResultUtil {
     if (result.getSuccess() != null) {
       return result.getSuccess();
     }
-    // warning!! default is false.
+    log.warn("success field is null in result");
     return false;
   }
 
@@ -50,6 +68,7 @@ public final class ResultUtil {
     if (result.getSuccess() != null) {
       return !result.getSuccess();
     }
+    log.warn("success field is null in result");
     return true;
   }
 }

@@ -1,6 +1,9 @@
 package com.github.seaxlab.core.dal.jdbc.util;
 
+import static com.github.seaxlab.core.test.util.TestUtil.getConfig;
+
 import com.github.seaxlab.core.dal.BaseCoreDalTest;
+import com.github.seaxlab.core.test.util.TestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 

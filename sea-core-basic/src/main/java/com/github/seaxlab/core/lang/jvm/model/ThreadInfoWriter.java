@@ -1,13 +1,22 @@
 package com.github.seaxlab.core.lang.jvm.model;
 
 import java.lang.management.ThreadInfo;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * thread info writer<br/> build thread info
+ */
 public class ThreadInfoWriter {
+
   private static final int MAX_FRAMES = 200;
   private static final String PROTOCOL_ID = "ThreadDumpSeaCore";
-  private Map<String, Integer> wordTable = new HashMap<>();
+  private final Map<String, Integer> wordTable = new HashMap<>();
   private short offset = 0;
 
   public ThreadInfoWriter() {
@@ -60,7 +69,7 @@ public class ThreadInfoWriter {
     }
 
     StackTraceElement[] stackTrace = thread.getStackTrace();
-    byte stackSize = (byte) (stackTrace.length < MAX_FRAMES ? stackTrace.length : MAX_FRAMES);
+    byte stackSize = (byte) (Math.min(stackTrace.length, MAX_FRAMES));
     codeResult.append(String.format("%04d", stackSize));
 
     StackTraceElement stack;
@@ -93,7 +102,7 @@ public class ThreadInfoWriter {
   private void appendWordTable(StringBuilder result) {
     List<Entry<String, Integer>> list = new ArrayList<>(wordTable.entrySet());
 
-    Collections.sort(list, (o1, o2) -> (o1.getValue() - o2.getValue()));
+    list.sort(Comparator.comparingInt(Entry::getValue));
 
     result.append("[");
     for (Entry<String, Integer> word : list) {
@@ -152,8 +161,7 @@ public class ThreadInfoWriter {
 
   private String encode(String str) {
     int _offset = wordTable.get(str);
-    StringBuilder result = new StringBuilder(String.valueOf(_offset));
-    return result.append("#").toString();
+    return _offset + "#";
   }
 
   private String getStateCode(Thread.State state) {

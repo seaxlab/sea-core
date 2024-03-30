@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>sea-core</artifactId>
-  <version>2.7.1</version>
+  <version>2.7.3</version>
 
   <packaging>pom</packaging>
 
@@ -78,7 +78,6 @@
     <apache.httpclient.version>4.5.13</apache.httpclient.version>
     <apache.httpmime.version>4.5.13</apache.httpmime.version>
     <apache.httpasyncclient.version>4.1.5</apache.httpasyncclient.version>
-    <apache.curator.version>4.0.1</apache.curator.version>
     <apache.email.version>1.5</apache.email.version>
 
 
@@ -117,7 +116,6 @@
 
     <dom4j.version>2.1.3</dom4j.version>
     <reflections.version>0.9.12</reflections.version>
-    <ognl.version>3.2.18</ognl.version>
     <influxdb.version>2.0.0</influxdb.version>
     <clickhouse.version>0.3.1</clickhouse.version>
 
@@ -129,7 +127,7 @@
     <hikaricp.version>3.4.5</hikaricp.version>
     <h2.version>1.4.200</h2.version>
 
-    <mybatis.version>3.5.5</mybatis.version>
+    <mybatis.version>3.5.7</mybatis.version>
     <mybatis.spring.version>2.0.0</mybatis.spring.version>
     <mybatis.spring.boot.version>2.0.1</mybatis.spring.boot.version>
 
@@ -521,12 +519,6 @@
         <groupId>org.reflections</groupId>
         <artifactId>reflections</artifactId>
         <version>${reflections.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>ognl</groupId>
-        <artifactId>ognl</artifactId>
-        <version>${ognl.version}</version>
       </dependency>
 
       <!-- influxdb begin -->

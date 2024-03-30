@@ -5,10 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Objects;
 
 /**
- * clean classloader for new
- * it can resolve multi version jar problem.
+ * clean classloader for new it can resolve multi version jar problem.
  *
  * @author spy
  * @version 1.0 2020/8/22
@@ -54,10 +54,15 @@ public class StandardClassLoader extends URLClassLoader {
     File dir = new File(dirPath);
     // 自动加载目录下的jar包
     if (dir.exists() && dir.isDirectory()) {
-      for (File file : dir.listFiles()) {
+      File[] subFiles = dir.listFiles();
+      if (Objects.isNull(subFiles)) {
+        log.warn("files is empty in current directory.");
+        return;
+      }
+
+      for (File file : subFiles) {
         if (file.isFile() && file.getName().endsWith(".jar")) {
           this.addURL(file);
-          continue;
         }
       }
     }

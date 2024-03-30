@@ -3,7 +3,7 @@ package com.github.seaxlab.core.http.dto.response;
 import lombok.Data;
 
 /**
- * module name
+ * http upload resp DTO
  *
  * @author spy
  * @version 1.0 2021/3/29

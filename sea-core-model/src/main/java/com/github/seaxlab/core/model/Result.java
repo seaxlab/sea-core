@@ -37,7 +37,7 @@ public class Result<T> implements Serializable {
   private String msg;
 
   /**
-   * 默认返回结果
+   * 数据
    */
   private T data;
 

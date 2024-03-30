@@ -1,5 +1,18 @@
 # Change Log
 
+## 2.7.3
+
+- 移除`typesafe`、`httpcomponents-client`依赖
+- 移除测试顶层基类`AbstractCoreSuperTest`
+
+## 2.7.2
+
+- 移除无用包
+
+## 2.7.1
+
+- 调整目录结构
+
 ## 2.6.53
 
 - `TraceIdSpi`

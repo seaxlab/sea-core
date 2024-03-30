@@ -55,7 +55,7 @@ public class ApplicationInitListener implements ApplicationContextAware, Applica
 
     doStatic();
 
-    new Thread(() -> doSystemInit()).start();
+    new Thread(this::doSystemInit).start();
   }
 
   private void doStatic() {
@@ -68,7 +68,7 @@ public class ApplicationInitListener implements ApplicationContextAware, Applica
     //SPI way
     List<ApplicationInitBean> list = EnhancedServiceLoader.loadAll(ApplicationInitBean.class);
 
-    list.stream().forEach(bean -> {
+    list.forEach(bean -> {
       boolean hasException = true;
       try {
         bean.init();
@@ -102,7 +102,7 @@ public class ApplicationInitListener implements ApplicationContextAware, Applica
 
   private void logInvokeMsg(String className, boolean hasException) {
     if (hasException) {
-      log.info("fail to invoke {} init method.", className);
+      log.warn("fail to invoke {} init method.", className);
     } else {
       log.info("invoke {} init method successfully.", className);
     }

@@ -3,7 +3,7 @@ package com.github.seaxlab.core.exception;
 import com.github.seaxlab.core.enums.IErrorEnum;
 
 /**
- * business exception for business
+ * business exception for business, use it in 90% scene for project, not framework
  *
  * @author spy
  * @version 1.0 2023/2/8

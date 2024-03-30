@@ -1,12 +1,13 @@
 package com.github.seaxlab.core.security;
 
-import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.crypto.SmUtil;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.github.seaxlab.core.test.AbstractCoreTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * 模块
@@ -30,7 +31,7 @@ public class SMTest extends AbstractCoreTest {
     SymmetricCrypto sm4 = SmUtil.sm4();
 
     String encryptHex = sm4.encryptHex(content);
-    String decryptStr = sm4.decryptStr(encryptHex, CharsetUtil.CHARSET_UTF_8);
+    String decryptStr = sm4.decryptStr(encryptHex, StandardCharsets.UTF_8);
     Assert.assertEquals(content, decryptStr);
   }
 
@@ -40,7 +41,7 @@ public class SMTest extends AbstractCoreTest {
     SymmetricCrypto sm4 = new SymmetricCrypto("SM4/ECB/PKCS5Padding");
 
     String encryptHex = sm4.encryptHex(content);
-    String decryptStr = sm4.decryptStr(encryptHex, CharsetUtil.CHARSET_UTF_8);
+    String decryptStr = sm4.decryptStr(encryptHex, StandardCharsets.UTF_8);
     Assert.assertEquals(content, decryptStr);
   }
 }

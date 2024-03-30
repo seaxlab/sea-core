@@ -21,22 +21,22 @@ import static org.junit.Assert.assertNotEquals;
 public class SimplePluginTest extends BaseCoreTest {
 
   @Test
-  void mapPluginShouldInterceptGet() {
-    Map map = new HashMap();
-    map = (Map) new AlwaysMapPlugin().plugin(map);
-    assertEquals("Always", map.get("Anything"));
+  public void mapPluginShouldInterceptGet() {
+    Map map = new HashMap<>();
+    Map newMap = (Map) new AlwaysMapPlugin().plugin(map);
+    assertEquals("Always", newMap.get("Anything"));
   }
 
   @Test
-  void shouldNotInterceptToString() {
-    Map map = new HashMap();
-    map = (Map) new AlwaysMapPlugin().plugin(map);
-    assertNotEquals("Always", map.toString());
+  public void shouldNotInterceptToString() {
+    Map map = new HashMap<>();
+    Map newMap = (Map) new AlwaysMapPlugin().plugin(map);
+    assertNotEquals("Always", newMap.toString());
   }
 
-  @Intercepts({
-    @Signature(type = Map.class, method = "get", args = {Object.class})})
+  @Intercepts({@Signature(type = Map.class, method = "get", args = {Object.class})})
   public static class AlwaysMapPlugin implements Interceptor {
+
     @Override
     public Object intercept(Invocation invocation) {
       return "Always";

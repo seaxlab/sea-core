@@ -17,6 +17,26 @@ public final class MDCUtil {
   }
 
   /**
+   * put key
+   *
+   * @param key
+   * @param value
+   */
+  public static void put(String key, String value) {
+    MDC.put(key, value);
+  }
+
+  /**
+   * remove key
+   *
+   * @param key
+   */
+  public static void remove(String key) {
+    MDC.remove(key);
+  }
+
+
+  /**
    * 获取MDC上下文值
    *
    * @param key
@@ -44,9 +64,7 @@ public final class MDCUtil {
     String value = MDC.get(key);
 
     if (StringUtil.isEmpty(value)) {
-
       MDC.put(key, defaultValue);
-
       return defaultValue;
     }
 

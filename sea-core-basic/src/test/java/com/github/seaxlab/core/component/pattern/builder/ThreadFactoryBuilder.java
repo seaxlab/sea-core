@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.component.pattern.builder;
 
-import cn.hutool.core.builder.Builder;
-import cn.hutool.core.util.StrUtil;
+
+import com.github.seaxlab.core.util.MessageUtil;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.Executors;
@@ -9,13 +9,13 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * ThreadFactory创建器<br>
- * 参考：Guava的ThreadFactoryBuilder
+ * ThreadFactory创建器<br> 参考：Guava的ThreadFactoryBuilder
  *
  * @author looly
  * @since 4.1.9
  */
 public class ThreadFactoryBuilder implements Builder<ThreadFactory> {
+
   private static final long serialVersionUID = 1L;
 
   /**
@@ -92,10 +92,12 @@ public class ThreadFactoryBuilder implements Builder<ThreadFactory> {
    */
   public ThreadFactoryBuilder setPriority(int priority) {
     if (priority < Thread.MIN_PRIORITY) {
-      throw new IllegalArgumentException(StrUtil.format("Thread priority ({}) must be >= {}", priority, Thread.MIN_PRIORITY));
+      throw new IllegalArgumentException(
+        MessageUtil.format("Thread priority ({}) must be >= {}", priority, Thread.MIN_PRIORITY));
     }
     if (priority > Thread.MAX_PRIORITY) {
-      throw new IllegalArgumentException(StrUtil.format("Thread priority ({}) must be <= {}", priority, Thread.MAX_PRIORITY));
+      throw new IllegalArgumentException(
+        MessageUtil.format("Thread priority ({}) must be <= {}", priority, Thread.MAX_PRIORITY));
     }
     this.priority = priority;
     return this;

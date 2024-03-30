@@ -3,7 +3,23 @@ package com.github.seaxlab.core.util;
 import com.google.common.io.CharStreams;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.CharArrayWriter;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -257,5 +273,20 @@ public final class IOUtil {
     }
     return count;
   }
+
+  public static ByteArrayInputStream toStream(String content, Charset charset) {
+    if (content == null) {
+      return null;
+    }
+    return toStream(content.getBytes(charset));
+  }
+
+  public static ByteArrayInputStream toStream(byte[] content) {
+    if (content == null) {
+      return null;
+    }
+    return new ByteArrayInputStream(content);
+  }
+
 
 }

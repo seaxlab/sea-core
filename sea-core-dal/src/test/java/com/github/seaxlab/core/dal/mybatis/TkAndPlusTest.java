@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.dal.mybatis;
 
-import com.github.seaxlab.core.dal.mybatis.plus.User2;
-import com.github.seaxlab.core.dal.mybatis.plus.User2Mapper;
+import com.github.seaxlab.core.dal.mybatis.plus.entity.User2;
+import com.github.seaxlab.core.dal.mybatis.plus.mapper.User2Mapper;
 import com.github.seaxlab.core.dal.mybatis.tk.User1;
 import com.github.seaxlab.core.dal.mybatis.tk.User1Mapper;
 import com.github.seaxlab.core.test.AbstractCoreSpringTest;

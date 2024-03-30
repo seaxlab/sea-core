@@ -17,7 +17,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * module name
+ * heap dump manager
  *
  * @author spy
  * @version 1.0 11/17/20
@@ -41,8 +41,8 @@ public final class HeapDumpManager {
    * @param live
    * @return
    */
-  public Result heapDump(Boolean live) {
-    Result result = Result.fail();
+  public Result<String> heapDump(Boolean live) {
+    Result<String> result = Result.fail();
 
     try {
       if (this.lock.tryLock(this.timeout, TimeUnit.SECONDS)) {

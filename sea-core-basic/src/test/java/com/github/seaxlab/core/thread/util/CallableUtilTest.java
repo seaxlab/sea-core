@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.thread.util;
 
+import static com.github.seaxlab.core.test.util.TestUtil.sleepMinute;
+
 import com.github.seaxlab.core.BaseCoreTest;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadPoolExecutor;

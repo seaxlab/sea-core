@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class SharedClassList {
 
-  private ConcurrentHashMap<String, Class<?>> classes;
+  private final ConcurrentHashMap<String, Class<?>> classes;
 
   public SharedClassList() {
     classes = new ConcurrentHashMap<>();
@@ -26,12 +26,10 @@ public class SharedClassList {
   }
 
   public Class<?> get(String fullName) {
-    return classes.containsKey(fullName) ? classes.get(fullName) : null;
+    return classes.getOrDefault(fullName, null);
   }
 
   public void clear() {
-    if (classes != null) {
-      classes.clear();
-    }
+    classes.clear();
   }
 }

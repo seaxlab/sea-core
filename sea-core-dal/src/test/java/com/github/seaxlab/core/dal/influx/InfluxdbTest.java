@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.dal.influx;
 
+import static com.github.seaxlab.core.test.util.TestUtil.sleepMinute;
+
 import com.github.seaxlab.core.dal.BaseCoreDalTest;
 import com.github.seaxlab.core.util.DateUtil;
 import com.github.seaxlab.core.util.MessageUtil;

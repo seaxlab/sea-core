@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 public enum ConfigTypeEnum implements IBaseEnum<String> {
   UNKNOWN("unknown", "unknown"),
-  SIMPLE("simple", "base on HashMap"),
+  DEFAULT("default", "base on HashMap"),
   TYPESAFE("typesafe", "based on TypeSafe config"),
   ;
 

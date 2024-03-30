@@ -17,7 +17,7 @@ public class HttpHeaderConst {
   /**
    * default user agent.
    */
-  public static final String DEFAULT_USER_AGENT = "chrome/sea";
+  public static final String DEFAULT_USER_AGENT = "Chrome/119.0.0.0";
 
   /**
    * The HTTP {@code Accept} header field name.

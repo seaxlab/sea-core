@@ -1,5 +1,7 @@
 package com.github.seaxlab.core.security;
 
+import static com.github.seaxlab.core.test.util.TestUtil.getConfig;
+
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.model.Tuple2;
 import com.github.seaxlab.core.security.util.RSAUtil;

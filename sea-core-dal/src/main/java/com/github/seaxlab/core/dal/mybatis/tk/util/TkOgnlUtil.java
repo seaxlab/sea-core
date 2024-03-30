@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * module name
+ * tk ognl util
  *
  * @author spy
  * @version 1.0 2021/4/16
@@ -29,7 +29,7 @@ public class TkOgnlUtil {
    * @param parameter
    * @return
    */
-  public static String onDuplicateKeyInsertColumns(List records, Object parameter) {
+  public static String onDuplicateKeyInsertColumns(List<?> records, Object parameter) {
     if (ListUtil.isEmpty(records)) {
       ExceptionHandler.publishMsg("records is null");
       return "";
@@ -49,7 +49,7 @@ public class TkOgnlUtil {
     if (parameter instanceof String[]) {
       String[] columns = (String[]) parameter;
 
-      List<String> list = Arrays.stream(columns).map(item -> columnMap.get(item)).collect(Collectors.toList());
+      List<String> list = Arrays.stream(columns).map(columnMap::get).collect(Collectors.toList());
       return "(" + String.join(",", list) + ")";
     }
     return "";
@@ -73,7 +73,7 @@ public class TkOgnlUtil {
     return "";
   }
 
-  public static String onDuplicateKeyUpdateColumns(List records, Object parameter) {
+  public static String onDuplicateKeyUpdateColumns(List<?> records, Object parameter) {
     if (ListUtil.isEmpty(records)) {
       ExceptionHandler.publishMsg("records is null");
       return "";
