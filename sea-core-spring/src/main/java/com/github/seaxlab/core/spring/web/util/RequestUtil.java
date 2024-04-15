@@ -99,7 +99,7 @@ public final class RequestUtil {
    * @param request
    */
   public static void logSimple(ServerHttpRequest request) {
-    log.info("sea request log: [{},{}] id={},queryString={},userAgent={},ip={}", request.getMethodValue(), request.getPath(), request.getId(), request.getQueryParams(), getUserAgent(request), getClientIpAddress(request));
+    log.info("request log: [{},{}] id={},queryString={},userAgent={},ip={}", request.getMethodValue(), request.getPath(), request.getId(), request.getQueryParams(), getUserAgent(request), getClientIpAddress(request));
   }
 
   /**
@@ -178,7 +178,7 @@ public final class RequestUtil {
       HttpHeaders httpHeaders = request.getHeaders();
       for (String header : WebConst.IP_HEADER_CANDIDATES) {
         String ip = httpHeaders.getFirst(header);
-        if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+        if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
           return ip;
         }
       }

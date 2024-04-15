@@ -220,7 +220,7 @@ public final class RequestUtil {
    */
   public static void logSimple(HttpServletRequest request) {
     //TODO if you have invokerAppVersion/invokerChannel/invokerDeviceType, you can add more.
-    log.info("sea request log: [{},{}] queryString={},ip={},userAgent={}", //
+    log.info("request log: [{},{}] queryString={},ip={},userAgent={}", //
       request.getMethod(), request.getRequestURI(), request.getQueryString(), //
       getClientIpAddress(request), getUserAgent(request));
   }
@@ -232,7 +232,7 @@ public final class RequestUtil {
    * @param request
    */
   public static void logSimple2(HttpServletRequest request) {
-    log.info("sea request log: [{}] queryString={},ip={},userAgent={}", //
+    log.info("request log: [{}] queryString={},ip={},userAgent={}", //
       request.getMethod(), request.getQueryString(), //
       getClientIpAddress(request), getUserAgent(request));
   }
@@ -244,7 +244,7 @@ public final class RequestUtil {
    * @param request
    */
   public static void logSimple3(HttpServletRequest request) {
-    log.info("sea request log: [{}] ip={},userAgent={}", //
+    log.info("request log: [{}] ip={},userAgent={}", //
       request.getMethod(), getClientIpAddress(request), getUserAgent(request));
   }
 
@@ -465,7 +465,7 @@ public final class RequestUtil {
     try {
       for (String header : WebConst.IP_HEADER_CANDIDATES) {
         String ip = request.getHeader(header);
-        if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+        if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
           return ip;
         }
       }
