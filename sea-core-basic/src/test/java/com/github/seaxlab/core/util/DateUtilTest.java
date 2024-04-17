@@ -2,6 +2,7 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.enums.DateFormatEnum;
+import com.github.seaxlab.core.enums.DurationTimeEnum;
 import com.github.seaxlab.core.enums.RangeModeEnum;
 import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
@@ -133,7 +134,8 @@ public class DateUtilTest extends BaseCoreTest {
     Date start = DateUtil.toDate("2021-04-01 12:00:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
     Date end = DateUtil.toDate("2021-04-02 10:01:01", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
 
-    log.info("{}", DateUtil.toString(DateUtil.toDateByDateAndTime(start, end), DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue()));
+    log.info("{}",
+      DateUtil.toString(DateUtil.toDateByDateAndTime(start, end), DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue()));
   }
 
   @Test
@@ -187,11 +189,9 @@ public class DateUtilTest extends BaseCoreTest {
     end = DateUtil.toDate("2021-04-01 14:01:01", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
     log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
 
-
     start = DateUtil.toDate("2021-04-01 13:01:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
     end = DateUtil.toDate("2021-04-01 14:01:01", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
     log.info("intersection={}", DateUtil.hasIntersection(start, end, totalStart, totalEnd));
-
 
     start = DateUtil.toDate("2021-04-01 08:01:00", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
     end = DateUtil.toDate("2021-04-01 12:00:01", DateFormatEnum.yyyy_MM_dd_HH_mm_ss.getValue());
@@ -208,14 +208,11 @@ public class DateUtilTest extends BaseCoreTest {
     Date date = DateUtil.setYear(now, 1999);
     log.info("time={}", DateUtil.toString(date, DateFormatEnum.DEFAULT));
 
-
     date = DateUtil.setMonth(now, 12);
     log.info("time={}", DateUtil.toString(date, DateFormatEnum.DEFAULT));
 
-
     date = DateUtil.setDay(now, 20);
     log.info("time={}", DateUtil.toString(date, DateFormatEnum.DEFAULT));
-
 
     date = DateUtil.setHour(now, 23);
     log.info("time={}", DateUtil.toString(date, DateFormatEnum.DEFAULT));
@@ -237,7 +234,6 @@ public class DateUtilTest extends BaseCoreTest {
     begin = DateUtil.toDate("2021-05-01 13:01:50", DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
     end = DateUtil.toDate("2021-04-01 13:10:50", DateFormatEnum.yyyy_MM_dd_HH_mm_ss);
     log.info("{}", DateUtil.isValidRange(begin, end));
-
 
     List<String> dates = ImmutableList.of("202108-1", "2021-09-01");
     log.info("{}", DateUtil.isValid(dates, DateFormatEnum.yyyy_MM_dd));
@@ -346,6 +342,17 @@ public class DateUtilTest extends BaseCoreTest {
   public void testBeginAndEndDateTime() throws Exception {
     Date[] dates = DateUtil.getBeginAndEndDateTimeOfDay(new Date());
     log.info("begin={},end={}", dates[0], dates[1]);
+  }
+
+
+  @Test
+  public void testGetDurationTimeStr() throws Exception {
+    Date start = DateUtil.of(2021, 1, 31, 1, 8, 30);
+    Date end = DateUtil.of(2021, 1, 31, 12, 8, 12);
+
+    log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH_MM_SS));
+    log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH_MM));
+    log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH));
   }
 
 }
