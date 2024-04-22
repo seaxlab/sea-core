@@ -6,6 +6,8 @@ import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
 import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,10 +15,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
@@ -29,9 +33,6 @@ import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * List工具
@@ -1177,7 +1178,7 @@ public final class ListUtil {
    * @param <T>
    */
   public static <T> void moveToFirst(final List<T> data, Function<T, String> function, String value) {
-    if (data == null || data.size() == 0) {
+    if (data == null || data.isEmpty()) {
       log.warn("data is empty");
       return;
     }
@@ -1200,4 +1201,35 @@ public final class ListUtil {
     data.add(0, data.remove(index));
   }
 
+  /**
+   * get max date
+   *
+   * @param data
+   * @param mapper
+   * @param <T>
+   * @return
+   */
+  public static <T> Optional<Date> getMaxDate(final List<T> data, Function<? super T, Date> mapper) {
+    if (data == null || data.isEmpty()) {
+      log.warn("data is empty");
+      return Optional.empty();
+    }
+    return data.stream().map(mapper).max(Date::compareTo);
+  }
+
+  /**
+   * get min date
+   *
+   * @param data
+   * @param mapper
+   * @param <T>
+   * @return
+   */
+  public static <T> Optional<Date> getMinDate(final List<T> data, Function<? super T, Date> mapper) {
+    if (data == null || data.isEmpty()) {
+      log.warn("data is empty");
+      return Optional.empty();
+    }
+    return data.stream().map(mapper).min(Date::compareTo);
+  }
 }
