@@ -791,7 +791,7 @@ public final class StringUtil {
   public static String replaceStart(String stream, String trim) {
 
     // null或者空字符串的时候不处理
-    if (stream == null || stream.length() == 0 || trim == null || trim.length() == 0) {
+    if (stream == null || stream.isEmpty() || trim == null || trim.isEmpty()) {
       return stream;
     }
     // 要删除的字符串结束位置

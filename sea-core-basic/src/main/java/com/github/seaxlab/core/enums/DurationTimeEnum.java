@@ -21,6 +21,10 @@ public enum DurationTimeEnum implements IBaseEnum<Integer> {
   DD_HH_MM(20, "${day}天${hour}小时${minute}分钟", "n天n小时n分钟"),
   DD_HH(30, "${day}天${hour}小时", "n天n小时"),
   DD(40, "${day}天", "n天"),
+
+  DD_HH_MM_SS_IF_NECESSARY(50, "(${day}天)(${hour}小时)(${minute}分钟)${second}秒", "(n天)(n小时)(n分钟)n秒"),
+  DD_HH_MM_IF_NECESSARY(51, "(${day}天)(${hour}小时)${minute}分钟", "(n天)(n小时)n分钟"),
+  //
   ;
   private final Integer code;
   private final String format;

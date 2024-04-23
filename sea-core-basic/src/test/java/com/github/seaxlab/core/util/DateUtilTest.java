@@ -353,6 +353,8 @@ public class DateUtilTest extends BaseCoreTest {
     log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH_MM_SS));
     log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH_MM));
     log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH));
+    log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH_MM_SS_IF_NECESSARY));
+    log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH_MM_IF_NECESSARY));
   }
 
 }

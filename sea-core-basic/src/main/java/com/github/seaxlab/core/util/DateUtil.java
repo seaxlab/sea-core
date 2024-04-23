@@ -1713,13 +1713,35 @@ public final class DateUtil {
     param.put("hour", "" + hours);
     param.put("minute", "" + minutes);
     param.put("second", "" + seconds);
+    //
+    String durationTimeStr = "";
+    //
+    if (durationTimeEnum == DurationTimeEnum.DD_HH_MM_SS_IF_NECESSARY) {
+      //(${day}天)(${hour}小时)(${minute}分钟)${second}秒
+      durationTimeStr = MessageUtil.replace(DurationTimeEnum.DD_HH_MM_SS.getFormat(), param);
+      durationTimeStr = replaceStart(durationTimeStr, "0天");
+      durationTimeStr = replaceStart(durationTimeStr, "0小时");
+      durationTimeStr = replaceStart(durationTimeStr, "0分钟");
+    } else if (durationTimeEnum == DurationTimeEnum.DD_HH_MM_IF_NECESSARY) {
+      durationTimeStr = MessageUtil.replace(DurationTimeEnum.DD_HH_MM.getFormat(), param);
+      durationTimeStr = replaceStart(durationTimeStr, "0天");
+      durationTimeStr = replaceStart(durationTimeStr, "0小时");
+    } else {
+      durationTimeStr = MessageUtil.replace(durationTimeEnum.getFormat(), param);
+    }
 
-    String durationTimeStr = MessageUtil.replace(durationTimeEnum.getFormat(), param);
     //
     return StringUtil.defaultIfBlank(durationTimeStr, "--");
   }
 
   // --------------------------------private method
+
+  private static String replaceStart(String content, String start) {
+    if (content.startsWith(start)) {
+      return content.replace(start, "");
+    }
+    return content;
+  }
 
   private static String format(Date date, String format) {
     SimpleDateFormat sdf = new SimpleDateFormat(format);
