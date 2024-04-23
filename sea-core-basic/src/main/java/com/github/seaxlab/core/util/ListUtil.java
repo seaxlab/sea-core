@@ -1205,31 +1205,34 @@ public final class ListUtil {
    * get max date
    *
    * @param data
-   * @param mapper
+   * @param mapperFunction
    * @param <T>
    * @return
    */
-  public static <T> Optional<Date> getMaxDate(final List<T> data, Function<? super T, Date> mapper) {
+  public static <T> Optional<Date> getMaxDate(final List<T> data, Function<? super T, Date> mapperFunction) {
     if (data == null || data.isEmpty()) {
       log.warn("data is empty");
       return Optional.empty();
     }
-    return data.stream().map(mapper).max(Date::compareTo);
+    Precondition.checkNotNull(mapperFunction);
+
+    return data.stream().map(mapperFunction).filter(Objects::nonNull).max(Date::compareTo);
   }
 
   /**
    * get min date
    *
    * @param data
-   * @param mapper
+   * @param mapperFunction
    * @param <T>
    * @return
    */
-  public static <T> Optional<Date> getMinDate(final List<T> data, Function<? super T, Date> mapper) {
+  public static <T> Optional<Date> getMinDate(final List<T> data, Function<? super T, Date> mapperFunction) {
     if (data == null || data.isEmpty()) {
       log.warn("data is empty");
       return Optional.empty();
     }
-    return data.stream().map(mapper).min(Date::compareTo);
+    Precondition.checkNotNull(mapperFunction);
+    return data.stream().map(mapperFunction).filter(Objects::nonNull).min(Date::compareTo);
   }
 }

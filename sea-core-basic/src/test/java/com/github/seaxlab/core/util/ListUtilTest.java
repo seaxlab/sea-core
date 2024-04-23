@@ -1,11 +1,14 @@
 package com.github.seaxlab.core.util;
 
-import static com.github.seaxlab.core.test.util.TestUtil.sleepSecond;
-
 import com.alibaba.fastjson.JSON;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.domain.Role;
 import com.github.seaxlab.core.domain.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -19,11 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
-import org.junit.Test;
+import static com.github.seaxlab.core.test.util.TestUtil.sleepSecond;
 
 /**
  * module name
@@ -679,6 +678,58 @@ public class ListUtilTest extends BaseCoreTest {
     log.info("{}", JSON.toJSONString(list));
     ListUtil.moveToFirst(list, User::getName, "smith4");
     log.info("{}", JSON.toJSONString(list));
+  }
+
+
+  @Test
+  public void testGetMaxDate() throws Exception {
+    List<User> list = new ArrayList<>();
+    //
+    User user = new User();
+    user.setId(1L);
+    user.setName("smith1");
+    user.setCreateTime(DateUtil.toDate("2024-01-01 12:00:00"));
+    list.add(user);
+
+    user = new User();
+    user.setId(2L);
+    user.setName("smith2");
+    user.setCreateTime(DateUtil.toDate("2024-01-01 13:00:00"));
+    list.add(user);
+
+    user = new User();
+    user.setId(3L);
+    user.setName("smith3");
+    user.setCreateTime(null);
+    list.add(user);
+
+    log.info("{}", ListUtil.getMaxDate(list, User::getCreateTime).orElse(null));
+  }
+
+  @Test
+  public void testGetMinDate() throws Exception {
+    List<User> list = new ArrayList<>();
+    //
+    User user = new User();
+    user.setId(1L);
+    user.setName("smith1");
+    user.setCreateTime(DateUtil.toDate("2024-01-01 12:00:00"));
+    list.add(user);
+
+    user = new User();
+    user.setId(2L);
+    user.setName("smith2");
+    user.setCreateTime(DateUtil.toDate("2024-01-01 13:00:00"));
+    list.add(user);
+
+    user = new User();
+    user.setId(3L);
+    user.setName("smith3");
+    user.setCreateTime(null);
+    list.add(user);
+
+    log.info("{}", ListUtil.getMinDate(list, User::getCreateTime).orElse(null));
+
   }
 
 
