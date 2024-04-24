@@ -140,7 +140,7 @@ public final class ListUtil {
     }
 
     String[] array = listStr.trim().split(split);
-    if ((null == array) || (array.length == 0)) {
+    if (array.length == 0) {
       return resultList;
     }
 
@@ -163,7 +163,7 @@ public final class ListUtil {
     }
 
     String[] array = listStr.trim().split(split);
-    if ((null == array) || (array.length == 0)) {
+    if (array.length == 0) {
       return resultList;
     }
 
@@ -197,7 +197,7 @@ public final class ListUtil {
     }
 
     String[] array = listStr.trim().split(split);
-    if ((null == array) || (array.length <= 0)) {
+    if (array.length <= 0) {
       return resultList;
     }
 
@@ -277,7 +277,7 @@ public final class ListUtil {
       newList.addAll(list1);
     }
 
-    if (args != null && args.length != 0) {
+    if (args != null) {
       for (List<T> tempList : args) {
         if (isNotEmpty(tempList)) {
           newList.addAll(tempList);
@@ -757,7 +757,7 @@ public final class ListUtil {
     T el = list.get(0);
 
     if (el != null && ClassUtil.isSimpleType(el.getClass())) {
-      return toString(list, item -> String.valueOf(item), delimiter);
+      return toString(list, String::valueOf, delimiter);
     }
     log.warn("first element is null, so no execute toString function.");
     return StringUtil.EMPTY;
@@ -822,7 +822,7 @@ public final class ListUtil {
     if (isEmpty(data)) {
       return empty();
     }
-    return data.stream().filter(item -> StringUtil.isNotEmpty(item)).distinct().collect(Collectors.toList());
+    return data.stream().filter(StringUtil::isNotEmpty).distinct().collect(Collectors.toList());
   }
 
   /**
