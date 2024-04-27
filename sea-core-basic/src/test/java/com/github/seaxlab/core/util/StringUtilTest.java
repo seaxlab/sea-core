@@ -66,6 +66,7 @@ public class StringUtilTest extends BaseCoreTest {
   @Test
   public void testReplaceStart() throws Exception {
     Assert.assertEquals("a0a", StringUtil.replaceStart("00a0a", "0"));
+    Assert.assertEquals("abc", StringUtil.replaceStart("abc", "bc"));
   }
 
   @Test
