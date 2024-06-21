@@ -383,18 +383,6 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>QLExpress</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
   </dependencies>
 
 
