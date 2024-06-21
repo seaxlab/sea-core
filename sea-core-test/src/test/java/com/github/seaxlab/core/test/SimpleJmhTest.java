@@ -1,8 +1,13 @@
 package com.github.seaxlab.core.test;
 
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
-import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Fork;
+import org.openjdk.jmh.annotations.Measurement;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.Threads;
+import org.openjdk.jmh.annotations.Warmup;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,8 +37,8 @@ public class SimpleJmhTest {
   @BenchmarkMode(Mode.AverageTime) // 指定mode为Mode.AverageTime
   @Benchmark
   @Measurement(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
-  public void testGson() {
-    new Gson().fromJson("{\"startDate\":\"2020-04-01 16:00:00\",\"endDate\":\"2020-05-20 13:00:00\",\"flag\":true,\"threads\":5,\"shardingIndex\":0}", UserInfo.class);
+  public void testLog() {
+    log.info("------------");
   }
 
 

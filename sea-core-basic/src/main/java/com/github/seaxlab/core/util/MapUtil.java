@@ -3,7 +3,6 @@ package com.github.seaxlab.core.util;
 import com.github.seaxlab.core.common.SymbolConst;
 import com.github.seaxlab.core.exception.Precondition;
 import com.google.common.collect.Maps;
-import com.google.gson.Gson;
 import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -128,23 +127,6 @@ public final class MapUtil {
     } else {
       map.put(key, value);
     }
-  }
-
-
-  /**
-   * deep clone 只适用于简单类型，不适用于复杂类型 change to fastJSON
-   * <note> depends on GSON</note>
-   *
-   * @param original map
-   * @param <K>      key type
-   * @param <V>      value type
-   * @return new map after clone.
-   */
-  public static <K, V> Map<K, V> clone(Map<K, V> original) {
-    Gson gson = new Gson();
-    String jsonString = gson.toJson(original);
-
-    return gson.fromJson(jsonString, Map.class);
   }
 
   /**

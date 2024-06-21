@@ -70,13 +70,6 @@
       <artifactId>javafaker</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-
     <!-- JMH -->
     <dependency>
       <groupId>org.openjdk.jmh</groupId>

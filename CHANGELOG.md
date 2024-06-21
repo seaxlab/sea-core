@@ -1,5 +1,14 @@
 # Change Log
 
+> '逐步降低三方包的依赖'
+
+- 禁用的三方包
+- gson
+
+## 2.7.4-SNAPSHOT
+
+
+
 ## 2.7.3
 
 - 移除`typesafe`、`httpcomponents-client`依赖
