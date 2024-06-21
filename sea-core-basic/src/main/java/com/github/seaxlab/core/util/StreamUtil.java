@@ -29,7 +29,7 @@ public final class StreamUtil {
    * @param keyMapper key mapper function
    * @param <R>       entity
    * @param <K>       key
-   * @return
+   * @return map
    */
   public static <K, R> Map<K, R> toMap(Collection<R> data, Function<? super R, ? extends K> keyMapper) {
     if (data == null || data.isEmpty()) {
@@ -48,7 +48,7 @@ public final class StreamUtil {
    * @param <K>
    * @param <R>
    * @param <E>
-   * @return
+   * @return map
    */
   public static <K, R, E> Map<K, E> toMap(Collection<R> data, Function<? super R, ? extends K> keyMapper,
     Function<? super R, ? extends E> valueMapper) {
@@ -66,7 +66,7 @@ public final class StreamUtil {
    * @param keyMapper key mapper function
    * @param <K>
    * @param <R>
-   * @return
+   * @return map
    */
   public static <K, R> Map<K, R> toDistinctMap(Collection<R> data, Function<? super R, ? extends K> keyMapper) {
     if (data == null || data.isEmpty()) {
@@ -83,7 +83,7 @@ public final class StreamUtil {
    * @param keyMapper key mapper function
    * @param <K>
    * @param <R>
-   * @return
+   * @return map
    */
   public static <K, R> Map<K, List<R>> toMapList(Collection<R> data, Function<? super R, ? extends K> keyMapper) {
     if (data == null || data.isEmpty()) {
@@ -104,7 +104,7 @@ public final class StreamUtil {
    * @param <E>         entity
    * @param <A>         map key type
    * @param <B>         map value type
-   * @return
+   * @return map
    */
   public static <E, A, B> Map<A, List<B>> toMapList(Collection<E> data, Function<? super E, ? extends A> keyMapper,
     Function<? super E, ? extends B> valueMapper) {
