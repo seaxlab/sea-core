@@ -1,13 +1,6 @@
 package com.github.seaxlab.core.cache.redis.redisson;
 
-import static com.github.seaxlab.core.test.util.TestUtil.runInMultiThread;
-import static com.github.seaxlab.core.test.util.TestUtil.sleepSecond;
-
 import com.github.seaxlab.core.BaseCoreTest;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReadWriteLock;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +10,14 @@ import org.redisson.api.RBuckets;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReadWriteLock;
+
+import static com.github.seaxlab.core.test.util.TestUtil.runInMultiThread;
+import static com.github.seaxlab.core.test.util.TestUtil.sleepSecond;
 
 /**
  * module name
@@ -34,7 +35,8 @@ public class RedissonTest extends BaseCoreTest {
   public void before() throws Exception {
 
     Config config = new Config();
-    config.useSingleServer().setAddress("redis://redis:6379");
+//    config.useSingleServer().setAddress("redis://redis:6379");
+    config.useSingleServer().setAddress("redis://mylab-redis:31919");
 
     client = Redisson.create(config);
   }
@@ -169,7 +171,7 @@ public class RedissonTest extends BaseCoreTest {
 
     RedissonMultiLock lock = new RedissonMultiLock(lock1, lock2, lock3);
 
-    boolean flag = lock.tryLock(0, TimeUnit.SECONDS);
+    boolean flag = lock.tryLock();
 
     if (!flag) {
       log.warn("fail to get all lock");
@@ -183,6 +185,55 @@ public class RedissonTest extends BaseCoreTest {
       lock.unlock();
     }
     log.info("biz end.");
+  }
+
+
+  @Test
+  public void testMultiLockInNested() throws Exception {
+    RLock lock1 = client.getLock("lock1");
+    RLock lock2 = client.getLock("lock2");
+    RLock lock3 = client.getLock("lock3");
+
+    RedissonMultiLock lock = new RedissonMultiLock(lock1, lock2, lock3);
+
+    boolean flag = lock.tryLock();
+
+    if (!flag) {
+      log.warn("fail to get all lock");
+      return;
+    }
+
+    try {
+      log.info("do biz");
+      sleepSecond(3);
+      innerLock();
+
+    } finally {
+      log.info("release lock");
+      lock.unlock();
+    }
+    log.info("biz end.");
+  }
+
+
+  private void innerLock() {
+    log.info("inner lock");
+    RLock lock1 = client.getLock("lock1");
+    RLock lock2 = client.getLock("lock2");
+    RLock lock3 = client.getLock("lock3");
+    RedissonMultiLock innerLock = new RedissonMultiLock(lock1, lock2, lock3);
+    boolean innerFlag = innerLock.tryLock();
+    if (!innerFlag) {
+      log.warn("fail to get all inner lock");
+      throw new RuntimeException("no inner lock");
+    }
+    try {
+      log.info("do inner biz");
+      sleepSecond(2);
+    } finally {
+      log.info("release inner lock");
+      innerLock.unlock();
+    }
   }
 
 

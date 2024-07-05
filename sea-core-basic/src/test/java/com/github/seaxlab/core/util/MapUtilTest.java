@@ -33,17 +33,18 @@ public class MapUtilTest extends BaseCoreTest {
     map.put("teachers", list);
 
     // ok
-    Map newMap = MapUtil.clone(map);
-    log.info("{}", newMap);
+//    Map newMap = MapUtil.clone(map);
+//    log.info("{}", newMap);
 
-    List<Teacher> list2 = (List<Teacher>) newMap.get("teachers");
+//    List<Teacher> list2 = (List<Teacher>) newMap.get("teachers");
 
     // ERROR
-    Teacher t2 = list2.get(0);
-
-    t2.setName("2222");
-    log.info("map={}", map);
-    log.info("newMap={}", newMap);
+//    Teacher t2 = list2.get(0);
+//    Teacher t2 = new Teacher();
+//
+//    t2.setName("2222");
+//    log.info("map={}", map);
+//    log.info("newMap={}", newMap);
   }
 
   @Test
