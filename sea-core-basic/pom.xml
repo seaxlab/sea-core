@@ -123,13 +123,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.javers</groupId>
-      <artifactId>javers-core</artifactId>
-      <optional>true</optional>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
       <groupId>com.alipay.sofa</groupId>
       <artifactId>tracer-core</artifactId>
       <scope>provided</scope>
