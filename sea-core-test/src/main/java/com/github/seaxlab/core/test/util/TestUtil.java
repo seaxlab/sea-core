@@ -1,14 +1,14 @@
 package com.github.seaxlab.core.test.util;
 
-import com.github.javafaker.Faker;
 import com.github.seaxlab.core.test.service.SequenceService;
 import com.github.seaxlab.core.test.service.impl.FileSequenceService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -16,9 +16,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.LongAdder;
-
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.reflect.FieldUtils;
 
 /**
  * test util
@@ -157,8 +154,8 @@ public class TestUtil {
    * @param countDownLatchCount 门栓数量
    */
   public static void runConcurrencyInMultiThread(Runnable runnable, int totalPoolSize,
-    int runThreadCount,
-    int countDownLatchCount) {
+                                                 int runThreadCount,
+                                                 int countDownLatchCount) {
     totalPoolSize = totalPoolSize < 0 ? 8 : totalPoolSize;
     runThreadCount = runThreadCount < 0 ? 4 : runThreadCount;
     countDownLatchCount = countDownLatchCount < 0 ? runThreadCount : countDownLatchCount;
@@ -264,17 +261,6 @@ public class TestUtil {
    */
   public static long nextSeq(String namespace) {
     return getSequenceService().next(namespace);
-  }
-
-  private static final AtomicReference<Faker> fakerAtomicRef = new AtomicReference<>(null);
-
-  public static Faker getFakerInstance() {
-    Faker faker = fakerAtomicRef.get();
-    if (faker == null) {
-      fakerAtomicRef.compareAndSet(null, new Faker(Locale.CHINA));
-    }
-
-    return fakerAtomicRef.get();
   }
 
   private static final AtomicReference<SequenceService> sequenceServiceAtomicRef = new AtomicReference<>(null);

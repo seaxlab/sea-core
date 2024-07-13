@@ -64,8 +64,6 @@
     <assertj-core.version>3.12.2</assertj-core.version>
     <junit-platform-launcher.version>1.5.1</junit-platform-launcher.version>
     <jmh.version>1.27</jmh.version>
-    <javafaker.version>1.0.2</javafaker.version>
-
 
     <apache.lang.version>3.9</apache.lang.version>
     <apache.collection.version>4.4</apache.collection.version>
@@ -274,14 +272,6 @@
         <version>${assertj-core.version}</version>
       </dependency>
       <!--  junit5 end   -->
-
-      <!-- for test-->
-      <dependency>
-        <groupId>com.github.javafaker</groupId>
-        <artifactId>javafaker</artifactId>
-        <version>${javafaker.version}</version>
-      </dependency>
-
 
       <!-- lombok  -->
       <dependency>
