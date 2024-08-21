@@ -24,6 +24,7 @@ public enum DurationTimeEnum implements IBaseEnum<Integer> {
 
   DD_HH_MM_SS_IF_NECESSARY(50, "(${day}天)(${hour}小时)(${minute}分钟)${second}秒", "(n天)(n小时)(n分钟)n秒"),
   DD_HH_MM_IF_NECESSARY(51, "(${day}天)(${hour}小时)${minute}分钟", "(n天)(n小时)n分钟"),
+  DD_HH_IF_NECESSARY(52, "(${day}天)(${hour}小时)", "(n天)n小时"),
   //
   ;
   private final Integer code;

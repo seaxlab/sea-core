@@ -1726,6 +1726,10 @@ public final class DateUtil {
       durationTimeStr = MessageUtil.replace(DurationTimeEnum.DD_HH_MM.getFormat(), param);
       durationTimeStr = replaceStart(durationTimeStr, "0天");
       durationTimeStr = replaceStart(durationTimeStr, "0小时");
+    } else if(durationTimeEnum == DurationTimeEnum.DD_HH_IF_NECESSARY){
+      durationTimeStr = MessageUtil.replace(DurationTimeEnum.DD_HH.getFormat(), param);
+      durationTimeStr = replaceStart(durationTimeStr, "0天");
+      durationTimeStr = replaceStart(durationTimeStr, "0小时");
     } else {
       durationTimeStr = MessageUtil.replace(durationTimeEnum.getFormat(), param);
     }
