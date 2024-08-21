@@ -64,8 +64,6 @@
     <assertj-core.version>3.12.2</assertj-core.version>
     <junit-platform-launcher.version>1.5.1</junit-platform-launcher.version>
     <jmh.version>1.27</jmh.version>
-    <javafaker.version>1.0.2</javafaker.version>
-
 
     <apache.lang.version>3.9</apache.lang.version>
     <apache.collection.version>4.4</apache.collection.version>
@@ -102,8 +100,6 @@
     <huaweicloud.obj.version>3.21.8</huaweicloud.obj.version>
     <qiniu.oss.version>7.7.0</qiniu.oss.version>
 
-
-    <javers.version>5.6.3</javers.version>
 
     <sofa.tracer.version>3.0.12</sofa.tracer.version>
     <skywalking.agent.version>8.11.0</skywalking.agent.version>
@@ -274,14 +270,6 @@
         <version>${assertj-core.version}</version>
       </dependency>
       <!--  junit5 end   -->
-
-      <!-- for test-->
-      <dependency>
-        <groupId>com.github.javafaker</groupId>
-        <artifactId>javafaker</artifactId>
-        <version>${javafaker.version}</version>
-      </dependency>
-
 
       <!-- lombok  -->
       <dependency>
@@ -474,12 +462,6 @@
         <groupId>io.minio</groupId>
         <artifactId>minio</artifactId>
         <version>${minio.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.javers</groupId>
-        <artifactId>javers-core</artifactId>
-        <version>${javers.version}</version>
       </dependency>
 
       <dependency>

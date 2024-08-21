@@ -41,7 +41,7 @@ public class SimpleClickHouseTest extends BaseCoreDalTest {
 // set request options, which will override the default ones in ClickHouseProperties
     additionalDBParams.put(ClickHouseQueryParam.SESSION_ID, "new-session-id");
 
-    List<Map> list = new ArrayList();
+    List<Map<String, String>> list = new ArrayList<>();
 
     try (ClickHouseConnection conn = dataSource.getConnection();
          ClickHouseStatement stmt = conn.createStatement();
@@ -49,7 +49,7 @@ public class SimpleClickHouseTest extends BaseCoreDalTest {
       ResultSetMetaData rsmd = rs.getMetaData();
 
       while (rs.next()) {
-        Map map = new HashMap();
+        Map<String, String> map = new HashMap();
         for (int i = 1; i <= rsmd.getColumnCount(); i++) {
           map.put(rsmd.getColumnName(i), rs.getString(rsmd.getColumnName(i)));
         }

@@ -123,13 +123,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.javers</groupId>
-      <artifactId>javers-core</artifactId>
-      <optional>true</optional>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
       <groupId>com.alipay.sofa</groupId>
       <artifactId>tracer-core</artifactId>
       <scope>provided</scope>
@@ -235,22 +228,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- archiver/un-archiver begin -->
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-archiver</artifactId>
-      <version>4.2.1</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-container-default</artifactId>
-      <version>2.1.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <!-- archiver/un-archiver end -->
-
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-all</artifactId>
@@ -346,13 +323,6 @@
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
       <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.github.kstyrc</groupId>
-      <artifactId>embedded-redis</artifactId>
-      <version>0.6</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>

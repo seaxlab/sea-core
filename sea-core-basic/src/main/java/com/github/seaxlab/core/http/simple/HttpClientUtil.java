@@ -9,20 +9,6 @@ import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.JSONUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.google.common.base.Stopwatch;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.TimeUnit;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -53,6 +39,20 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Http client util
@@ -161,15 +161,13 @@ public class HttpClientUtil {
     HttpPost httpPost = new HttpPost(url);
 
     List<NameValuePair> list = new ArrayList<>();
-    Iterator<Entry<String, Object>> iterator = map.entrySet().iterator();
-    while (iterator.hasNext()) {
-      Entry<String, Object> elem = iterator.next();
+    for (Entry<String, Object> elem : map.entrySet()) {
       list.add(new BasicNameValuePair(elem.getKey(), String.valueOf(elem.getValue())));
     }
     String result = null;
 
     try {
-      if (list.size() > 0) {
+      if (!list.isEmpty()) {
         UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list, charset);
         httpPost.setEntity(entity);
       }

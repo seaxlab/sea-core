@@ -1,7 +1,5 @@
 package com.github.seaxlab.core.cache.redis;
 
-import static com.github.seaxlab.core.test.util.TestUtil.runInMultiThread;
-
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.cache.redis.jedis.JedisManager;
 import com.github.seaxlab.core.util.EqualUtil;
@@ -14,10 +12,15 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
-import redis.embedded.RedisServer;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import static com.github.seaxlab.core.test.util.TestUtil.runInMultiThread;
 
 /**
  * 模块
@@ -29,19 +32,12 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class RedisManagerTest extends BaseCoreTest {
 
-  RedisServer redisServer;
-
   JedisManager redisManager;
 
   @Before
   public void before() throws Exception {
-//        redisServer = new RedisServer(6379);
-//        redisServer.start();
-
     redisManager = new JedisManager();
-    redisManager.setHost("localhost");
-//        redisManager.setHost("mylab");
-
+    redisManager.setHost("mylab-redis");
     redisManager.setPort(6379);
     redisManager.setDatabase(1);
     redisManager.init();
@@ -317,10 +313,6 @@ public class RedisManagerTest extends BaseCoreTest {
   public void after() throws Exception {
 
     TimeUnit.SECONDS.sleep(2);
-    if (redisServer != null) {
-      redisServer.stop();
-    }
-
     if (redisManager != null) {
       redisManager.destroy();
     }
