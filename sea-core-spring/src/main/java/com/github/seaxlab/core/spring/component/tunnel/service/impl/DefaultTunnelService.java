@@ -2,13 +2,10 @@ package com.github.seaxlab.core.spring.component.tunnel.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.github.seaxlab.core.exception.BaseAppException;
-import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.spring.component.tunnel.bo.ExecuteReqBO;
 import com.github.seaxlab.core.spring.component.tunnel.service.TunnelService;
 import com.github.seaxlab.core.spring.component.tunnel.util.TunnelUtil;
-import com.github.seaxlab.core.spring.tx.service.TxService;
-import com.github.seaxlab.core.spring.util.SpringContextUtil;
 import com.github.seaxlab.core.util.ExceptionUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
@@ -44,9 +41,7 @@ public class DefaultTunnelService implements TunnelService {
         if (txFlag) {
           //
           log.warn("execute in transaction mode");
-          TxService txService = applicationContext.getBean(TxService.class);
-          Precondition.checkNotNull(txService);
-          txService.execute(() -> TunnelUtil.invokeMethod(applicationContext, bo));
+          obj = transactionTemplate.execute(status -> TunnelUtil.invokeMethod(applicationContext, bo));
         } else {
           //
           obj = TunnelUtil.invokeMethod(applicationContext, bo);
