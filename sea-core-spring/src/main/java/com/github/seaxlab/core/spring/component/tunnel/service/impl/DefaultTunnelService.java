@@ -31,23 +31,23 @@ public class DefaultTunnelService implements TunnelService {
   @Override
   public Result<?> execute(ExecuteReqBO bo) {
     log.info("try to execute, params={}", JSON.toJSONString(bo));
-    Object obj = null;
+    Object value = null;
     try {
       if (StringUtil.isNotBlank(bo.getField())) {
-        obj = TunnelUtil.invokeField(applicationContext, bo);
+        value = TunnelUtil.invokeField(applicationContext, bo);
       } else {
         //
         boolean txFlag = ObjectUtils.defaultIfNull(bo.getTxFlag(), false);
         if (txFlag) {
           //
           log.warn("execute in transaction mode");
-          obj = transactionTemplate.execute(status -> TunnelUtil.invokeMethod(applicationContext, bo));
+          value = transactionTemplate.execute(status -> TunnelUtil.invokeMethod(applicationContext, bo));
         } else {
           //
-          obj = TunnelUtil.invokeMethod(applicationContext, bo);
+          value = TunnelUtil.invokeMethod(applicationContext, bo);
         }
-        if (obj instanceof Result) {
-          return (Result<?>) obj;
+        if (value instanceof Result) {
+          return (Result<?>) value;
         }
       }
 
@@ -64,6 +64,6 @@ public class DefaultTunnelService implements TunnelService {
 
       return Result.failMsg(realException.getMessage());
     }
-    return Result.success(obj);
+    return Result.success(value);
   }
 }
