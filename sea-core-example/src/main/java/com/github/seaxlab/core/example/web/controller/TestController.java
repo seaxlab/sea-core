@@ -88,11 +88,27 @@ public class TestController implements InitializingBean {
     return Result.success();
   }
 
-  @Value("sea.list")
+  @Value("${sea.list:}")
   private String[] list;
 
-  @Value("${sea.list2}")
+  @Value("${sea.list2:}")
   private String[] list2;
+
+
+  @Value("${config.test1:}")
+  private String configTest1;
+
+
+  @Value("${config.test2:''}")
+  private String configTest2;
+
+  @GetMapping("/config/test")
+  public Result<?> configTest() {
+    log.info("{}", configTest1);//空字符串
+    log.info("{}", configTest2); //=''
+    return Result.success();
+  }
+
 
   @Override
   public void afterPropertiesSet() throws Exception {
