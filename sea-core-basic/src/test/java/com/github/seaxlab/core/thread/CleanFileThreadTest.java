@@ -2,9 +2,11 @@ package com.github.seaxlab.core.thread;
 
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.thread.config.CleanFileConfig;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
 import lombok.extern.slf4j.Slf4j;
-import org.javers.common.collections.Lists;
 import org.junit.Test;
 
 /**
@@ -21,7 +23,7 @@ public class CleanFileThreadTest extends BaseCoreTest {
   public void run17() throws Exception {
     String dir = getUserHome() + "/logs/arthas";
     CleanFileConfig config = new CleanFileConfig();
-    config.setDirs(Lists.asList(dir));
+    config.setDirs(List.of(dir));
     config.setDelay(10);
     config.setDelayTimeUnit(TimeUnit.SECONDS);
     config.setMaxLifeTime(30);

@@ -36,7 +36,8 @@ public class RedissonTest extends BaseCoreTest {
 
     Config config = new Config();
 //    config.useSingleServer().setAddress("redis://redis:6379");
-    config.useSingleServer().setAddress("redis://mylab-redis:31919");
+//    config.useSingleServer().setAddress("redis://mylab-redis:31919");
+    config.useSingleServer().setAddress("redis://192.168.3.176:31919");
 
     client = Redisson.create(config);
   }
@@ -254,6 +255,23 @@ public class RedissonTest extends BaseCoreTest {
     Map<String, String> map = buckets.get("test:1", "test:2", "test:3");
     log.info("map={}", map);
 
+  }
+
+  @Test
+  public void testGet() {
+    String key = "test:test:123";
+
+    RLock lock = client.getLock(key);
+    log.info("lock1={}",lock );
+
+    boolean flag = lock.tryLock();
+    log.info("flag={}", flag);
+
+    RLock lock2 = client.getLock(key);
+    log.info("lock2={}",lock2 );
+
+    lock2.unlock();
+    lock.unlock();
   }
 
 }

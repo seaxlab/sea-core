@@ -6,7 +6,6 @@ import static com.github.seaxlab.core.test.util.TestUtil.sleepMinute;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.domain.User;
 import lombok.extern.slf4j.Slf4j;
-import org.javers.common.collections.Sets;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -249,11 +248,11 @@ public class SetUtilTest extends BaseCoreTest {
 
   @Test
   public void run170() throws Exception {
-    Set<String> set1 = Sets.asSet("1", "2");
-    Set<String> set2 = Sets.asSet("2", "3");
-    Set<String> set3 = Sets.asSet("2", "3");
-    Set<String> set4 = Sets.asSet("2");
-    Set<String> set5 = Sets.asSet("1");
+    Set<String> set1 = Set.of("1", "2");
+    Set<String> set2 = Set.of("2", "3");
+    Set<String> set3 = Set.of("2", "3");
+    Set<String> set4 = Set.of("2");
+    Set<String> set5 = Set.of("1");
 
     List<Set<String>> list = new ArrayList<>();
     list.add(set1);
@@ -271,8 +270,8 @@ public class SetUtilTest extends BaseCoreTest {
   @Test
   public void firstTest() throws Exception {
 
-    Set<String> set1 = Sets.asSet("1", "2");
-    Set<String> set2 = Sets.asSet("2", "3");
+    Set<String> set1 = Set.of("1", "2");
+    Set<String> set2 = Set.of("2", "3");
     log.info("{}", SetUtil.first(set1));
   }
 
@@ -302,8 +301,8 @@ public class SetUtilTest extends BaseCoreTest {
 
   @Test
   public void testDiff() throws Exception {
-    Set<String> set1 = Sets.asSet("1", "2");
-    Set<String> set2 = Sets.asSet("2", "3");
+    Set<String> set1 = Set.of("1", "2");
+    Set<String> set2 = Set.of("2", "3");
 
     SetUtil.Diff<String> diff = SetUtil.diff(set1, set2);
 
