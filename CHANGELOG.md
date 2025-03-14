@@ -5,7 +5,7 @@
 - 禁用的三方包
 - gson
 
-## 2.7.4-SNAPSHOT
+## 3.0.0-SNAPSHOT
 
 
 
