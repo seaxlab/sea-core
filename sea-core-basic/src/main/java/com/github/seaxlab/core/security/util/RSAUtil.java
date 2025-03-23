@@ -4,8 +4,7 @@ import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
 import com.github.seaxlab.core.model.Tuple2;
 import lombok.extern.slf4j.Slf4j;
-import org.bouncycastle.util.encoders.Base64;
-import org.springframework.util.Base64Utils;
+import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -63,7 +62,7 @@ public class RSAUtil {
 
 
   /**
-   * 生成公私秘钥对 1024
+   * 生成公私秘钥对 2048
    *
    * @return tuple
    */
@@ -85,8 +84,8 @@ public class RSAUtil {
       RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
       RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
       //
-      String publicKeyString = Base64.toBase64String(rsaPublicKey.getEncoded());
-      String privateKeyString = Base64.toBase64String(rsaPrivateKey.getEncoded());
+      String publicKeyString = Base64.encodeBase64String(rsaPublicKey.getEncoded());
+      String privateKeyString = Base64.encodeBase64String(rsaPrivateKey.getEncoded());
       return Tuple2.of(publicKeyString, privateKeyString);
     } catch (Exception e) {
       log.error("fail to generate RSA key pair, keySize={}", keySize, e);
@@ -97,7 +96,7 @@ public class RSAUtil {
   /**
    * 获取公钥对象
    *
-   * @param publicKeyBase64
+   * @param publicKeyBase64 public key base64
    * @return PublicKey
    * @throws InvalidKeySpecException
    * @throws NoSuchAlgorithmException
@@ -105,7 +104,7 @@ public class RSAUtil {
   public static PublicKey getPublicKey(String publicKeyBase64)
     throws InvalidKeySpecException, NoSuchAlgorithmException {
     KeyFactory keyFactory = KeyFactory.getInstance(RSA);
-    X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.decode(publicKeyBase64));
+    X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.decodeBase64(publicKeyBase64));
     return keyFactory.generatePublic(keySpec);
   }
 
@@ -120,7 +119,7 @@ public class RSAUtil {
   public static PrivateKey getPrivateKey(String privateKeyBase64)
     throws NoSuchAlgorithmException, InvalidKeySpecException {
     KeyFactory keyFactory = KeyFactory.getInstance(RSA);
-    PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.decode(privateKeyBase64));
+    PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.decodeBase64(privateKeyBase64));
     return keyFactory.generatePrivate(keySpec);
   }
 
@@ -136,14 +135,14 @@ public class RSAUtil {
   public static String generateSign(String privateKey, String content) {
     try {
       byte[] encodedKey = privateKey.getBytes();
-      encodedKey = Base64.decode(encodedKey);
+      encodedKey = Base64.decodeBase64(encodedKey);
       PrivateKey priKey = KeyFactory.getInstance(RSA).generatePrivate(new PKCS8EncodedKeySpec(encodedKey));
 
       Signature signature = Signature.getInstance(SHA_256_WITH_RSA);
       signature.initSign(priKey);
       signature.update(content.getBytes(StandardCharsets.UTF_8));
       byte[] signed = signature.sign();
-      return new String(Base64.encode(signed));
+      return new String(Base64.encodeBase64(signed));
     } catch (Exception e) {
       log.error("fail to generate sign", e);
       throw new BaseAppException(ErrorMessageEnum.METHOD_EXECUTION_ERROR);
@@ -164,14 +163,14 @@ public class RSAUtil {
       KeyFactory keyFactory = KeyFactory.getInstance(RSA);
       //
       byte[] encodedKey = publicKeyStr.trim().getBytes();
-      encodedKey = Base64.decode(encodedKey);
+      encodedKey = Base64.decodeBase64(encodedKey);
       X509EncodedKeySpec keySpec = new X509EncodedKeySpec(encodedKey);
       PublicKey publicKey = keyFactory.generatePublic(keySpec);
 
       Signature signature = Signature.getInstance(SHA_256_WITH_RSA);
       signature.initVerify(publicKey);
       signature.update(content.getBytes(StandardCharsets.UTF_8));
-      return signature.verify(Base64.decode(sign));
+      return signature.verify(Base64.decodeBase64(sign));
     } catch (Exception e) {
       log.error("fail to verify sign", e);
       throw new BaseAppException(ErrorMessageEnum.METHOD_EXECUTION_ERROR);
@@ -191,13 +190,13 @@ public class RSAUtil {
    */
   public static String encrypt(String publicKeyText, String content) {
     try {
-      X509EncodedKeySpec x509EncodedKeySpec2 = new X509EncodedKeySpec(Base64.decode(publicKeyText));
+      X509EncodedKeySpec x509EncodedKeySpec2 = new X509EncodedKeySpec(Base64.decodeBase64(publicKeyText));
       KeyFactory keyFactory = KeyFactory.getInstance(RSA);
       PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec2);
       Cipher cipher = Cipher.getInstance(RSA);
       cipher.init(Cipher.ENCRYPT_MODE, publicKey);
       byte[] result = cipher.doFinal(content.getBytes());
-      return Base64.toBase64String(result);
+      return Base64.encodeBase64String(result);
     } catch (Exception e) {
       log.error("fail to encrypt", e);
       throw new BaseAppException(ErrorMessageEnum.METHOD_EXECUTION_ERROR);
@@ -213,12 +212,12 @@ public class RSAUtil {
    */
   public static String decrypt(String privateKeyText, String text) {
     try {
-      PKCS8EncodedKeySpec pkcs8EncodedKeySpec5 = new PKCS8EncodedKeySpec(Base64.decode(privateKeyText));
+      PKCS8EncodedKeySpec pkcs8EncodedKeySpec5 = new PKCS8EncodedKeySpec(Base64.decodeBase64(privateKeyText));
       KeyFactory keyFactory = KeyFactory.getInstance(RSA);
       PrivateKey privateKey = keyFactory.generatePrivate(pkcs8EncodedKeySpec5);
       Cipher cipher = Cipher.getInstance(RSA);
       cipher.init(Cipher.DECRYPT_MODE, privateKey);
-      byte[] result = cipher.doFinal(Base64.decode(text));
+      byte[] result = cipher.doFinal(Base64.decodeBase64(text));
       return new String(result);
     } catch (Exception e) {
       log.error("fail to decrypt", e);
@@ -267,7 +266,7 @@ public class RSAUtil {
    * @param ciphertext  密文
    * @param key         加密秘钥
    * @param segmentSize 分段大小，<=0 不分段
-   * @return
+   * @return string
    */
   private static String encryptBySegment(java.security.Key key, String ciphertext, int segmentSize) {
     try {
@@ -285,7 +284,7 @@ public class RSAUtil {
       } else {
         resultBytes = cipher.doFinal(srcBytes);
       }
-      return Base64Utils.encodeToString(resultBytes);
+      return Base64.encodeBase64String(resultBytes);
     } catch (Exception e) {
       log.error("fail to encrypt by segment", e);
       return null;
@@ -295,9 +294,9 @@ public class RSAUtil {
   /**
    * 分段大小
    *
-   * @param cipher
-   * @param srcBytes
-   * @param segmentSize
+   * @param cipher cipher
+   * @param srcBytes src bytes
+   * @param segmentSize segment size
    * @return
    * @throws IllegalBlockSizeException
    * @throws BadPaddingException
@@ -334,8 +333,7 @@ public class RSAUtil {
    *
    * @param contentBase64    待加密内容,base64 编码
    * @param privateKeyBase64 私钥 base64 编码
-   * @return
-   * @segmentSize 分段大小
+   * @return decrypt by segment
    */
   public static String decryptBySegment(String privateKeyBase64, String contentBase64) {
     return decryptBySegment(privateKeyBase64, contentBase64, MAX_DECRYPT_BLOCK_SIZE);
@@ -346,8 +344,8 @@ public class RSAUtil {
    *
    * @param contentBase64    待加密内容,base64 编码
    * @param privateKeyBase64 私钥 base64 编码
-   * @return
-   * @segmentSize 分段大小
+   * @param segmentSize 分段大小
+   * @return decrypt by segment
    */
   public static String decryptBySegment(String privateKeyBase64, String contentBase64, int segmentSize) {
     try {
@@ -370,7 +368,7 @@ public class RSAUtil {
   private static String decryptBySegment(java.security.Key key, String contentBase64, int segmentSize) {
     try {
       // 用私钥解密
-      byte[] srcBytes = Base64Utils.decodeFromString(contentBase64);
+      byte[] srcBytes = Base64.decodeBase64(contentBase64);
       // Cipher负责完成加密或解密工作，基于RSA
       Cipher deCipher = Cipher.getInstance(RSA);
       // 根据公钥，对Cipher对象进行初始化
