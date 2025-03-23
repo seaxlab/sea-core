@@ -1,8 +1,11 @@
 package com.github.seaxlab.core.http.jdk;
 
 
-import com.github.seaxlab.core.util.IOUtil;
-import com.github.seaxlab.core.util.StringUtil;
+import com.alibaba.fastjson.JSON;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -10,48 +13,58 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 
 /**
  * jdk http client util
  */
-public class HttpUtil {
+@Slf4j
+public final class HttpUtil {
+
+  private HttpUtil() {
+  }
+
+  //连接超时时间5s
+  private static final int DEFAULT_CONNECT_TIME_OUT = 5000;
+  //读超时时间10s
+  private static final int DEFAULT_READ_TIME_OUT = 10000;
+  private static final String DEFAULT_CHARSET = "UTF-8";
+
+  /**
+   * http get
+   * @param url http url
+   * @param parameters param values
+   * @return http result
+   */
+  public static HttpResult get(String url, Map<String, String> parameters) {
+    return get(url, null, parameters);
+  }
 
   /**
    * http get
    *
    * @param url           url
    * @param headers       headers
-   * @param paramValues   key=value
-   * @param encoding      encoding
-   * @param readTimeoutMs read timeout
-   * @return
-   * @throws IOException
+   * @param parameters   key=value
+   * @return http result
    */
-  public static HttpResult get(String url, List<String> headers, List<String> paramValues,
-                               String encoding, long readTimeoutMs) throws IOException {
-    String encodedContent = encodingParams(paramValues, encoding);
-    url += (null == encodedContent) ? "" : ("?" + encodedContent);
+  public static HttpResult get(String url, Map<String, String> headers, Map<String, String> parameters) {
+    String encodedContent = encodingParams(parameters, DEFAULT_CHARSET);
+    url += encodedContent.isEmpty() ? "" : ("?" + encodedContent);
 
     HttpURLConnection conn = null;
     try {
-      conn = (HttpURLConnection) new URL(url).openConnection();
+      conn = getHttpUrlConnection(url);
       conn.setRequestMethod("GET");
-      conn.setConnectTimeout((int) readTimeoutMs);
-      conn.setReadTimeout((int) readTimeoutMs);
-      setHeaders(conn, headers, encoding);
+      //
+      setHeaders(conn, headers);
 
       conn.connect();
-      int respCode = conn.getResponseCode();
-      String resp = null;
-
-      if (HttpURLConnection.HTTP_OK == respCode) {
-        resp = IOUtil.toString(conn.getInputStream(), encoding);
-      } else {
-        resp = IOUtil.toString(conn.getErrorStream(), encoding);
-      }
-      return new HttpResult(respCode, resp);
+      //构建返回值
+      return buildHttpResult(conn);
+    } catch (IOException e) {
+      log.warn("io exception", e);
+      throw new RuntimeException(e);
     } finally {
       if (conn != null) {
         conn.disconnect();
@@ -59,71 +72,90 @@ public class HttpUtil {
     }
   }
 
-  private static String encodingParams(List<String> paramValues, String encoding)
-    throws UnsupportedEncodingException {
-    StringBuilder sb = new StringBuilder();
-    if (null == paramValues) {
-      return null;
-    }
-
-    for (Iterator<String> iter = paramValues.iterator(); iter.hasNext(); ) {
-      sb.append(iter.next()).append("=");
-      sb.append(URLEncoder.encode(iter.next(), encoding));
-      if (iter.hasNext()) {
-        sb.append("&");
-      }
-    }
-    return sb.toString();
-  }
-
-  private static void setHeaders(HttpURLConnection conn, List<String> headers, String encoding) {
-    if (null != headers) {
-      for (Iterator<String> iter = headers.iterator(); iter.hasNext(); ) {
-        conn.addRequestProperty(iter.next(), iter.next());
-      }
-    }
-    //conn.addRequestProperty("Client-Version", MQVersion.getVersionDesc(MQVersion.CURRENT_VERSION));
-    conn.addRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + encoding);
-
-    String ts = String.valueOf(System.currentTimeMillis());
-    conn.addRequestProperty("Sea-Core-Client-RequestTS", ts);
+  /**
+   * post 表单
+   * @param url http url
+   * @param parameters parameters
+   * @return http result
+   */
+  public static HttpResult post(String url, Map<String, String> parameters) {
+    return post(url, null, parameters);
   }
 
   /**
-   * post
+   * post 表单
    *
    * @param url           url
    * @param headers       headers
-   * @param paramValues   key=value
-   * @param encoding      encoding
-   * @param readTimeoutMs read timeout
+   * @param parameters   key=value
    * @return the http response of given http post request
    */
-  public static HttpResult post(String url, List<String> headers, List<String> paramValues,
-                                String encoding, long readTimeoutMs) throws IOException {
-    String encodedContent = encodingParams(paramValues, encoding);
+  public static HttpResult post(String url, Map<String, String> headers, Map<String, String> parameters) {
+    String encodedContent = encodingParams(parameters, StandardCharsets.UTF_8.toString());
 
     HttpURLConnection conn = null;
     try {
-      conn = (HttpURLConnection) new URL(url).openConnection();
+      conn = getHttpUrlConnection(url);
       conn.setRequestMethod("POST");
-      conn.setConnectTimeout(3000);
-      conn.setReadTimeout((int) readTimeoutMs);
-      conn.setDoOutput(true);
-      conn.setDoInput(true);
-      setHeaders(conn, headers, encoding);
+      conn.setDoOutput(true); //允许输入流，即允许下载
+      conn.setDoInput(true); //允许输出流，即允许上传
+      //
+      setHeaders(conn, headers);
+      //
+      //表单
+      conn.addRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + DEFAULT_CHARSET);
 
       conn.getOutputStream().write(encodedContent.getBytes(StandardCharsets.UTF_8));
-
-      int respCode = conn.getResponseCode();
-      String resp = null;
-
-      if (HttpURLConnection.HTTP_OK == respCode) {
-        resp = IOUtil.toString(conn.getInputStream(), encoding);
-      } else {
-        resp = IOUtil.toString(conn.getErrorStream(), encoding);
+      //构建返回值
+      return buildHttpResult(conn);
+    } catch (IOException e) {
+      log.warn("io exception", e);
+      throw new RuntimeException(e);
+    } finally {
+      if (null != conn) {
+        conn.disconnect();
       }
-      return new HttpResult(respCode, resp);
+    }
+  }
+
+  public static HttpResult postJSON(String url, Object payload) {
+    return postJSON(url, null, payload);
+  }
+
+  /**
+   * 发送post json请求
+   * @param url http url
+   * @param headers headers
+   * @param payload payload
+   * @return http result
+   */
+  public static HttpResult postJSON(String url, Map<String, String> headers, Object payload) {
+    //
+    HttpURLConnection conn = null;
+    try {
+      conn = getHttpUrlConnection(url);
+      conn.setRequestMethod("POST");
+      conn.setDoOutput(true);
+      conn.setDoInput(true);
+      //
+      setHeaders(conn, headers);
+      //
+      conn.setRequestProperty("Content-Type", "application/json");
+      conn.setRequestProperty("Accept", "application/json");
+      //构建请求体
+      String requestBody = "";
+      if (payload instanceof String) {
+        requestBody = payload.toString();
+      } else {
+        requestBody = JSON.toJSONString(payload);
+      }
+      //构建返回值
+      conn.getOutputStream().write(requestBody.getBytes(StandardCharsets.UTF_8));
+      //
+      return buildHttpResult(conn);
+    } catch (IOException e) {
+      log.warn("io exception", e);
+      throw new RuntimeException(e);
     } finally {
       if (null != conn) {
         conn.disconnect();
@@ -136,20 +168,22 @@ public class HttpUtil {
    *
    * @param url request url
    * @return boolean
-   * @throws Exception
    */
-  public static boolean isSupportRange(String url) throws Exception {
-    HttpURLConnection connection = getHttpUrlConnection(url);
+  public static boolean checkSupportRangeFlag(String url) {
+
+    HttpURLConnection connection = null;
+    try {
+      connection = getHttpUrlConnection(url);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     String acceptRanges = connection.getHeaderField("Accept-Ranges");
     closeHttpUrlConnection(connection);
 
-    if (StringUtil.isEmpty(acceptRanges)) {
+    if (StringUtils.isEmpty(acceptRanges)) {
       return false;
     }
-    if ("bytes".equalsIgnoreCase(acceptRanges)) {
-      return true;
-    }
-    return false;
+    return "bytes".equalsIgnoreCase(acceptRanges);
   }
 
   /**
@@ -167,20 +201,47 @@ public class HttpUtil {
   }
 
   // -----------------private -------------
+  private static String encodingParams(Map<String, String> parameters, String encoding) {
+    StringBuilder sb = new StringBuilder();
+    if (null == parameters) {
+      return "";
+    }
+    parameters.forEach((key, value) -> {
+      try {
+        sb.append(key).append("=").append(URLEncoder.encode(value, encoding)).append("&");
+      } catch (UnsupportedEncodingException e) {
+
+        throw new RuntimeException(e);
+      }
+    });
+    //
+    return StringUtils.removeEnd(sb.toString(), "&");
+  }
+
+  private static void setHeaders(HttpURLConnection conn, Map<String, String> headers) {
+    if (null != headers) {
+      headers.forEach(conn::addRequestProperty);
+    }
+  }
 
   /**
-   * 获取连接
+   * 获取连接，公共属性设置
    *
    * @param netUrl request url
    */
-  private static HttpURLConnection getHttpUrlConnection(String netUrl) throws Exception {
+  private static HttpURLConnection getHttpUrlConnection(String netUrl) throws IOException {
     URL url = new URL(netUrl);
-    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-    // 设置超时间为3秒
-    httpURLConnection.setConnectTimeout(10 * 1000);
+    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    conn.setConnectTimeout(DEFAULT_CONNECT_TIME_OUT); //连接时间
+    conn.setReadTimeout(DEFAULT_READ_TIME_OUT);//读取数据时间
+    conn.setUseCaches(false); //不使用缓冲
+    //
+    //conn.addRequestProperty("Client-Version", MQVersion.getVersionDesc(MQVersion.CURRENT_VERSION));
     // 防止屏蔽程序抓取而返回403错误
-    httpURLConnection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
-    return httpURLConnection;
+    conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+    //请求时间
+    conn.addRequestProperty("Sea-Core-Client-RequestTS", String.valueOf(System.currentTimeMillis()));
+    return conn;
   }
 
   /**
@@ -194,7 +255,20 @@ public class HttpUtil {
     }
   }
 
+  private static HttpResult buildHttpResult(HttpURLConnection conn) throws IOException {
+    int respCode = conn.getResponseCode();
+    String resp = null;
 
+    if (HttpURLConnection.HTTP_OK == respCode) {
+      resp = IOUtils.toString(conn.getInputStream(), DEFAULT_CHARSET);
+    } else {
+      resp = IOUtils.toString(conn.getErrorStream(), DEFAULT_CHARSET);
+    }
+    return new HttpResult(respCode, resp);
+  }
+
+
+  @Data
   public static class HttpResult {
     final public int code;
     final public String content;
