@@ -16,6 +16,8 @@
 - remove jsch
 - remove okhttp
 - remove qiniu/aliyun/minio
+- remove spring
+  - condition/encrypt/json/responseFile
 
 
 ## 2.7.3
