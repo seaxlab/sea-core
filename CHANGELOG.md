@@ -7,6 +7,15 @@
 
 ## 3.0.0-SNAPSHOT
 
+// 待处理
+- add sea-core-spi 模块
+- remove sea-core-security 模块
+- remove bouncycastle
+- remove cxf
+- remove itext pdf
+- remove jsch
+- remove okhttp
+- remove qiniu/aliyun/minio
 
 
 ## 2.7.3
