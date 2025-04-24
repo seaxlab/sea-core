@@ -95,8 +95,11 @@ public class HttpClientUtil {
   private HttpClientUtil() {
   }
 
-  public static void init() {
-    //初始化httpclient（支持并发）
+  /**
+   * 初始化httpclient（支持并发）
+   */
+  public static synchronized void init() {
+    //
     if (httpClient != null) {
       return;
     }
