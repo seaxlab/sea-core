@@ -12,6 +12,7 @@ import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
@@ -24,30 +25,26 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.config.Registry;
-import org.apache.http.config.RegistryBuilder;
 import org.apache.http.config.SocketConfig;
-import org.apache.http.conn.socket.ConnectionSocketFactory;
-import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ConnectionKeepAliveStrategy;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultConnectionKeepAliveStrategy;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,8 +60,6 @@ public class HttpClientUtil {
 
   public static CloseableHttpClient httpClient = null;
 
-  private static PoolingHttpClientConnectionManager connectionManager;
-
   /**
    * 连接超时时间10秒
    */
@@ -76,9 +71,19 @@ public class HttpClientUtil {
   public static int connectionRequestTimeout = 5000;
 
   /**
-   * 最大并发数
+   * 总体最大连接数
    */
-  public static int managerMaxTotal = 300;
+  public static int maxConnTotal = 300;
+
+  /**
+   * 每个连接最大连接数
+   */
+  public static int maxConnPerRoute = 100;
+
+  /**
+   * 连接keep-alive 时间
+   */
+  public static long connectionKeepAliveTime = 60_000L;
 
   /**
    * 3秒socket无反应强制断开
@@ -92,49 +97,56 @@ public class HttpClientUtil {
 
   public static void init() {
     //初始化httpclient（支持并发）
-    if (httpClient == null) {
-      SSLContext ctx;//绕过https证书验证
-      try {
-        ctx = SSLContext.getInstance("TLS");
-
-        X509TrustManager tm = new X509TrustManager() {
-          @Override
-          public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-          }
-
-          @Override
-          public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-          }
-
-          @Override
-          public X509Certificate[] getAcceptedIssuers() {
-            return null;
-          }
-        };
-        ctx.init(null, new TrustManager[]{tm}, null);
-        SSLConnectionSocketFactory ssf = new SSLConnectionSocketFactory(ctx,
-          SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-        Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()//
-                                                                    .register("http",
-                                                                      PlainConnectionSocketFactory.getSocketFactory())//
-                                                                    .register("https", ssf) //
-                                                                    .build();
-        //manager
-        connectionManager = new PoolingHttpClientConnectionManager(registry);
-        connectionManager.setMaxTotal(managerMaxTotal);
-        //socketConfig
-        SocketConfig socketConfig = SocketConfig.custom().setSoTimeout(socketTimeOut).build();
-        httpClient = HttpClients.custom().setConnectionManager(connectionManager) //
-                                .setDefaultSocketConfig(socketConfig) //
-                                .build();
-      } catch (Exception ex) {
-        log.error("httpClient——初始化——报错，错误信息", ex);
-      }
+    if (httpClient != null) {
+      return;
     }
-  }
+    try {
+      // 创建一个不验证证书链的SSLContext
+      SSLContext sslContext = SSLContextBuilder.create() //
+                                               .loadTrustMaterial((chain, authType) -> true) // 信任所有证书
+                                               .build();
 
-  public static PoolingHttpClientConnectionManager getConnectionManager() {
-    return connectionManager;
+      // 使用 NoopHostnameVerifier 跳过主机名验证
+      SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
+      //
+      // socket默认配置，底层 TCP 套接字,底层网络连接
+      SocketConfig defaultSocketConfig = SocketConfig.custom() //
+                                                     .setSoTimeout(socketTimeOut) // 设置读取超时时间
+//          .setSoKeepAlive(true) // 启用 TCP Keep-Alive
+                                                     .setTcpNoDelay(true) //启用 TCP_NO_DELAY
+                                                     .build();
+      //
+      // HTTP请求默认配置
+      RequestConfig defaultRequestConfig = RequestConfig.custom() //
+                                                        .setSocketTimeout(socketTimeOut)//设置读取超时时间
+                                                        .setConnectTimeout(connectionTimeout) //设置连接超时时间
+                                                        .setConnectionRequestTimeout(connectionRequestTimeout) //设置从连接池获取连接的超时时间
+                                                        .build();
+      //keep alive strategy
+      ConnectionKeepAliveStrategy connectionKeepAliveStrategy = new DefaultConnectionKeepAliveStrategy() {
+        @Override
+        public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
+          long duration = super.getKeepAliveDuration(response, context);
+          // 如果没有明确的保持活动时间，则设置
+          if (duration == -1) {
+            duration = connectionKeepAliveTime; // 60 秒
+          }
+          return duration;
+        }
+      };
+      //
+      // inner will create pooling http client connection
+      httpClient = HttpClients.custom() //
+                              .setSSLSocketFactory(socketFactory) //
+                              .setDefaultSocketConfig(defaultSocketConfig) //
+                              .setDefaultRequestConfig(defaultRequestConfig) //
+                              .setMaxConnTotal(maxConnTotal) //
+                              .setMaxConnPerRoute(maxConnPerRoute) //
+                              .setKeepAliveStrategy(connectionKeepAliveStrategy) //
+                              .build();
+    } catch (Exception ex) {
+      log.error("httpClient——初始化——报错，错误信息", ex);
+    }
   }
 
   /**
@@ -171,12 +183,6 @@ public class HttpClientUtil {
         UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list, charset);
         httpPost.setEntity(entity);
       }
-      //requestConfig
-      RequestConfig requestConfig = RequestConfig.custom() //
-                                                 .setConnectionRequestTimeout(connectionRequestTimeout) //
-                                                 .setConnectTimeout(connectionTimeout) //
-                                                 .build();
-      httpPost.setConfig(requestConfig);
       try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
         result = getRespEntityStr(response);
       }
@@ -250,11 +256,6 @@ public class HttpClientUtil {
       StringEntity entity = new StringEntity(jsonStr, ContentType.APPLICATION_JSON);
       httpPost.setEntity(entity);
     }
-    //requestConfig
-    RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout)
-                                               .setConnectTimeout(connectionTimeout).build();
-    httpPost.setConfig(requestConfig);
-
     String result = null;
     try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
       result = getRespEntityStr(response);
@@ -347,11 +348,7 @@ public class HttpClientUtil {
     log.info("http get method, url=[{}]", url);
     init();
 
-    RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout)
-                                               .setConnectTimeout(connectionTimeout).build();
-
     HttpGet request = new HttpGet(url);
-    request.setConfig(requestConfig);
     request.setHeader("User-Agent", "Chrome/Sea");
 
     Stopwatch stopwatch = Stopwatch.createStarted();
