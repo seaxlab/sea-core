@@ -129,7 +129,7 @@ public class HttpClientUtil {
           long duration = super.getKeepAliveDuration(response, context);
           // 如果没有明确的保持活动时间，则设置
           if (duration == -1) {
-            duration = connectionKeepAliveTime; // 60 秒
+            duration = connectionKeepAliveTime; //
           }
           return duration;
         }
