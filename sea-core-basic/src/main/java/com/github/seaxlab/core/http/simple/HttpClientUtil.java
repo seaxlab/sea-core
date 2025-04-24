@@ -53,44 +53,45 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Http client util
+ * <p>基于http-client4实现</p>
  */
 @Slf4j
 public class HttpClientUtil {
 
-
-  public static CloseableHttpClient httpClient = null;
-
   /**
    * 连接超时时间10秒
    */
-  public static int connectionTimeout = 10000;
+  private static final int connectionTimeout = 10000;
 
   /**
    * 请求连接超时时间5秒
    */
-  public static int connectionRequestTimeout = 5000;
+  private static final int connectionRequestTimeout = 5000;
 
   /**
    * 总体最大连接数
    */
-  public static int maxConnTotal = 300;
+  private static final int maxConnTotal = 300;
 
   /**
    * 每个连接最大连接数
    */
-  public static int maxConnPerRoute = 100;
+  private static final int maxConnPerRoute = 100;
 
   /**
    * 连接keep-alive 时间
    */
-  public static long connectionKeepAliveTime = 60_000L;
+  private static final long connectionKeepAliveTime = 60_000L;
 
   /**
    * 3秒socket无反应强制断开
    */
-  public static int socketTimeOut = 3000;
+  private static final int socketTimeOut = 3000;
 
-  public static String DEFAULT_CHARSET = "utf-8";
+  private static final String DEFAULT_CHARSET = "utf-8";
+
+  //httpClient实例
+  private static CloseableHttpClient httpClient = null;
 
   private HttpClientUtil() {
   }
