@@ -146,7 +146,7 @@ public class HttpClientUtil {
                               .setDefaultRequestConfig(defaultRequestConfig) //
                               .setMaxConnTotal(maxConnTotal) //
                               .setMaxConnPerRoute(maxConnPerRoute) //
-                              .setKeepAliveStrategy(connectionKeepAliveStrategy) //
+                              .setKeepAliveStrategy(connectionKeepAliveStrategy) //必须，否则会产生connection reset by peer
                               .build();
     } catch (Exception ex) {
       log.error("httpClient——初始化——报错，错误信息", ex);
