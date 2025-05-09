@@ -61,32 +61,32 @@ public class HttpClientUtil {
   /**
    * 连接超时时间10秒
    */
-  private static final int connectionTimeout = 10000;
+  private static final int CONNECTION_TIMEOUT = 10000;
 
   /**
    * 请求连接超时时间5秒
    */
-  private static final int connectionRequestTimeout = 5000;
+  private static final int CONNECTION_REQUEST_TIMEOUT = 5000;
 
   /**
    * 总体最大连接数
    */
-  private static final int maxConnTotal = 300;
+  private static final int MAX_CONN_TOTAL = 300;
 
   /**
    * 每个连接最大连接数
    */
-  private static final int maxConnPerRoute = 100;
+  private static final int MAX_CONN_PER_ROUTE = 100;
 
   /**
    * 连接keep-alive 时间
    */
-  private static final long connectionKeepAliveTime = 60_000L;
+  private static final long CONNECTION_KEEP_ALIVE_TIME = 60_000L;
 
   /**
    * 3秒socket无反应强制断开
    */
-  private static final int socketTimeOut = 3000;
+  private static final int SOCKET_TIME_OUT = 3000;
 
   private static final String DEFAULT_CHARSET = "utf-8";
 
@@ -115,16 +115,16 @@ public class HttpClientUtil {
       //
       // socket默认配置，底层 TCP 套接字,底层网络连接
       SocketConfig defaultSocketConfig = SocketConfig.custom() //
-                                                     .setSoTimeout(socketTimeOut) // 设置读取超时时间
+                                                     .setSoTimeout(SOCKET_TIME_OUT) // 设置读取超时时间
 //          .setSoKeepAlive(true) // 启用 TCP Keep-Alive
                                                      .setTcpNoDelay(true) //启用 TCP_NO_DELAY
                                                      .build();
       //
       // HTTP请求默认配置
       RequestConfig defaultRequestConfig = RequestConfig.custom() //
-                                                        .setSocketTimeout(socketTimeOut)//设置读取超时时间
-                                                        .setConnectTimeout(connectionTimeout) //设置连接超时时间
-                                                        .setConnectionRequestTimeout(connectionRequestTimeout) //设置从连接池获取连接的超时时间
+                                                        .setSocketTimeout(SOCKET_TIME_OUT)//设置读取超时时间
+                                                        .setConnectTimeout(CONNECTION_TIMEOUT) //设置连接超时时间
+                                                        .setConnectionRequestTimeout(CONNECTION_REQUEST_TIMEOUT) //设置从连接池获取连接的超时时间
                                                         .build();
       //keep alive strategy
       ConnectionKeepAliveStrategy connectionKeepAliveStrategy = new DefaultConnectionKeepAliveStrategy() {
@@ -133,7 +133,7 @@ public class HttpClientUtil {
           long duration = super.getKeepAliveDuration(response, context);
           // 如果没有明确的保持活动时间，则设置
           if (duration == -1) {
-            duration = connectionKeepAliveTime; //
+            duration = CONNECTION_KEEP_ALIVE_TIME; //
           }
           return duration;
         }
@@ -144,12 +144,12 @@ public class HttpClientUtil {
                               .setSSLSocketFactory(socketFactory) //
                               .setDefaultSocketConfig(defaultSocketConfig) //
                               .setDefaultRequestConfig(defaultRequestConfig) //
-                              .setMaxConnTotal(maxConnTotal) //
-                              .setMaxConnPerRoute(maxConnPerRoute) //
+                              .setMaxConnTotal(MAX_CONN_TOTAL) //
+                              .setMaxConnPerRoute(MAX_CONN_PER_ROUTE) //
                               .setKeepAliveStrategy(connectionKeepAliveStrategy) //必须，否则会产生connection reset by peer
                               .build();
     } catch (Exception ex) {
-      log.error("httpClient——初始化——报错，错误信息", ex);
+      log.error("httpClient init error", ex);
     }
   }
 
