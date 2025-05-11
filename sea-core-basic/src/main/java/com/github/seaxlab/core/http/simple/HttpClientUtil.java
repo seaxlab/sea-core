@@ -172,29 +172,28 @@ public class HttpClientUtil {
    * @return string
    */
   public static String post(String url, Map<String, Object> map, String charset) {
-    init();//初始化检查
-
     HttpPost httpPost = new HttpPost(url);
 
     List<NameValuePair> list = new ArrayList<>();
     for (Entry<String, Object> elem : map.entrySet()) {
       list.add(new BasicNameValuePair(elem.getKey(), String.valueOf(elem.getValue())));
     }
-    String result = null;
+    // 响应数据
+    String responseEntityData = null;
 
     try {
       if (!list.isEmpty()) {
         UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list, charset);
         httpPost.setEntity(entity);
       }
-      try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-        result = getRespEntityStr(response);
+      try (CloseableHttpResponse response = getHttpClient().execute(httpPost)) {
+        responseEntityData = getRespEntityStr(response);
       }
     } catch (Exception e) {
       log.error("http exception", e);
       ExceptionHandler.publish(ErrorMessageEnum.HTTP_ERROR);
     }
-    return result;
+    return responseEntityData;
   }
 
   /**
@@ -239,7 +238,6 @@ public class HttpClientUtil {
    * @return string
    */
   public static String postJSON(String url, Object payload, Map<String, String> headers) {
-    init();//初始化检查
     HttpPost httpPost = new HttpPost(url);
 
     httpPost.addHeader("Content-Type", "application/json;charset=utf8");
@@ -260,14 +258,15 @@ public class HttpClientUtil {
       StringEntity entity = new StringEntity(jsonStr, ContentType.APPLICATION_JSON);
       httpPost.setEntity(entity);
     }
-    String result = null;
-    try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-      result = getRespEntityStr(response);
+    //响应数据
+    String responseEntityData = null;
+    try (CloseableHttpResponse response = getHttpClient().execute(httpPost)) {
+      responseEntityData = getRespEntityStr(response);
     } catch (Exception e) {
       log.error("http exception", e);
       ExceptionHandler.publish(ErrorMessageEnum.HTTP_ERROR);
     }
-    return result;
+    return responseEntityData;
   }
 
   /**
@@ -350,16 +349,15 @@ public class HttpClientUtil {
    */
   public static String get(final String url) {
     log.info("http get method, url=[{}]", url);
-    init();
-
     HttpGet request = new HttpGet(url);
     request.setHeader("User-Agent", "Chrome/Sea");
 
     Stopwatch stopwatch = Stopwatch.createStarted();
 
-    String result = null;
-    try (CloseableHttpResponse response = httpClient.execute(request)) {
-      result = getRespEntityStr(response);
+    //响应数据
+    String responseEntityData = null;
+    try (CloseableHttpResponse response = getHttpClient().execute(request)) {
+      responseEntityData = getRespEntityStr(response);
     } catch (Exception e) {
       log.error("http exception", e);
       ExceptionHandler.publish(ErrorMessageEnum.HTTP_ERROR);
@@ -368,7 +366,7 @@ public class HttpClientUtil {
       log.info("http get, cost={}ms", stopwatch.elapsed(TimeUnit.MILLISECONDS));
     }
 
-    return result;
+    return responseEntityData;
   }
 
   /**
@@ -392,7 +390,7 @@ public class HttpClientUtil {
 
       contentLength = StringUtil.isEmpty(header.getValue()) ? 0 : Long.parseLong(header.getValue());
     } catch (Exception e) {
-      log.error("http exception.", e);
+      log.error("http get content length exception.", e);
     }
     log.info("remote file size={}", contentLength);
     return contentLength;
@@ -480,19 +478,19 @@ public class HttpClientUtil {
    * @throws IOException io exception
    */
   private static String getRespEntityStr(CloseableHttpResponse response) throws IOException {
-    String result = "";
+    String data = "";
     if (response != null) {
       StatusLine statusLine = response.getStatusLine();
       if (statusLine == null) {
         log.warn("status line is null");
       } else {
         if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-          result = EntityUtils.toString(response.getEntity(), DEFAULT_CHARSET);
+          data = EntityUtils.toString(response.getEntity(), DEFAULT_CHARSET);
         } else {
           log.warn("http status not 200, status code={}", response.getStatusLine().getStatusCode());
         }
       }
     }
-    return result;
+    return data;
   }
 }
