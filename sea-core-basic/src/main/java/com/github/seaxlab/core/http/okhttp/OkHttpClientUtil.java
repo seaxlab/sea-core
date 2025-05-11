@@ -3,14 +3,6 @@ package com.github.seaxlab.core.http.okhttp;
 import com.github.seaxlab.core.http.common.HttpHeaderConst;
 import com.github.seaxlab.core.http.okhttp.callback.EmptyCallback;
 import com.github.seaxlab.core.util.JSONUtil;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Call;
 import okhttp3.Dispatcher;
@@ -21,6 +13,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * OK Http client util
@@ -50,10 +49,10 @@ public class OkHttpClientUtil {
   public static int MAX_REQUESTS_PER_HOST = 50;
 
 
-  private static OkHttpClient client;
+  private static volatile OkHttpClient client;
 
 
-  private static void init() {
+  private static synchronized void init() {
     if (client == null) {
       synchronized (OkHttpClientUtil.class) {
         if (client == null) {
