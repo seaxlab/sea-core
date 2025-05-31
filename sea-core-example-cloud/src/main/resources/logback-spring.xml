@@ -59,7 +59,7 @@
 
   <!-- local -->
   <springProfile name="local,test,dev,uat">
-    <logger name="com.github.seaxlab" level="DEBUG"/>
+    <logger name="io.github.seaxlab" level="DEBUG"/>
 
     <logger name="com.netflix" level="INFO"/>
 
@@ -84,7 +84,7 @@
 
   <!-- 生产环境. -->
   <springProfile name="pro">
-    <logger name="com.github.seaxlab" level="INFO"/>
+    <logger name="io.github.seaxlab" level="INFO"/>
 
     <logger name="com.netflix" level="INFO"/>
 

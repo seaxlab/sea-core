@@ -7,7 +7,7 @@
   <property name="FILE_LOG_FORMAT"
             value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] [%class{36}.%M:%line] [%X{SOFA-TraceId},%X{SOFA-SpanId}] - %m %n"/>
 
-  <logger name="com.github.seaxlab" level="DEBUG"/>
+  <logger name="io.github.seaxlab" level="DEBUG"/>
 
   <logger name="org.springframework" level="INFO"/>
   <logger name="org.springboot.sample" level="TRACE"/>

@@ -4,9 +4,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.github.seaxlab</groupId>
+    <groupId>io.github.seaxlab</groupId>
     <artifactId>sea-root</artifactId>
-    <version>2.2.2</version>
+    <version>3.0.0</version>
   </parent>
 
   <artifactId>sea-core</artifactId>
@@ -145,6 +145,8 @@
     <spring.cloud.version>2020.0.5</spring.cloud.version>
     <spring.cloud.alibaba.version>2021.1</spring.cloud.alibaba.version>
 
+    <io.swagger.version>1.5.20</io.swagger.version>
+    <guava.version>29.0-jre</guava.version>
   </properties>
 
 
@@ -179,49 +181,49 @@
 
       <!-- common model -->
       <dependency>
-        <groupId>com.github.seaxlab</groupId>
+        <groupId>io.github.seaxlab</groupId>
         <artifactId>sea-core-model</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>com.github.seaxlab</groupId>
+        <groupId>io.github.seaxlab</groupId>
         <artifactId>sea-core-basic</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>com.github.seaxlab</groupId>
+        <groupId>io.github.seaxlab</groupId>
         <artifactId>sea-core-security</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>com.github.seaxlab</groupId>
+        <groupId>io.github.seaxlab</groupId>
         <artifactId>sea-core-spring</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>com.github.seaxlab</groupId>
+        <groupId>io.github.seaxlab</groupId>
         <artifactId>sea-core-spring-cloud</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>com.github.seaxlab</groupId>
+        <groupId>io.github.seaxlab</groupId>
         <artifactId>sea-core-web</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>com.github.seaxlab</groupId>
+        <groupId>io.github.seaxlab</groupId>
         <artifactId>sea-core-test</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>com.github.seaxlab</groupId>
+        <groupId>io.github.seaxlab</groupId>
         <artifactId>sea-core-spring-boot-starter</artifactId>
         <version>${project.version}</version>
       </dependency>
