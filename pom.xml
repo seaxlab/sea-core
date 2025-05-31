@@ -6,11 +6,11 @@
   <parent>
     <groupId>io.github.seaxlab</groupId>
     <artifactId>sea-root</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
   </parent>
 
   <artifactId>sea-core</artifactId>
-  <version>3.0.0</version>
+  <version>3.0.1</version>
 
   <packaging>pom</packaging>
 
@@ -42,8 +42,6 @@
 
   <properties>
     <java.version>11</java.version>
-    <maven.javadoc.skip>false</maven.javadoc.skip>
-
 
     <!--  basic third library  -->
     <slf4j.version>1.7.30</slf4j.version>
