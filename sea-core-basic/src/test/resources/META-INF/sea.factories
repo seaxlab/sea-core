@@ -1,3 +1,0 @@
-com.github.seaxlab.core.loader.IdGenerator=\
-com.github.seaxlab.core.loader.UUIDGenerator,\
-com.github.seaxlab.core.loader.CustomGenerator
