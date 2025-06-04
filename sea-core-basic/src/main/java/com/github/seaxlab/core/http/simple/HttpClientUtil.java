@@ -90,7 +90,9 @@ public class HttpClientUtil {
 
   private static final String DEFAULT_CHARSET = "utf-8";
 
-  //httpClient实例
+  /**
+   * httpClient实例
+   */
   private static CloseableHttpClient httpClient = null;
 
   private HttpClientUtil() {
@@ -291,7 +293,12 @@ public class HttpClientUtil {
     return result;
   }
 
-
+  /**
+   * GET方式，无异常返回
+   * @param url
+   * @param param
+   * @return
+   */
   public static Result<String> getSafe(final String url, Map<String, Object> param) {
     Result<String> result = Result.fail();
 
