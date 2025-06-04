@@ -23,9 +23,9 @@ import java.util.Map;
 @Slf4j
 public final class WebServiceUtil {
 
-  private static JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+  private static final JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
 
-  private static Map<String, Client> clientMap = Maps.newConcurrentMap();
+  private static final Map<String, Client> clientMap = Maps.newConcurrentMap();
 
   /**
    * generate cxf client.
