@@ -10,14 +10,15 @@ import com.github.seaxlab.core.util.BooleanUtil;
 import com.github.seaxlab.core.util.FileUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.google.common.base.Stopwatch;
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpHead;
+
+import java.io.File;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 /**
  * module name
@@ -90,28 +91,26 @@ public abstract class AbstractDownloader<A extends DownloaderReqDTO> implements 
    */
   protected long getRemoteFileContentLength(DownloaderReqDTO dto) throws Exception {
     HttpHead httpHead = new HttpHead(dto.getRemoteFileUrl());
-    CloseableHttpResponse response = HttpClientUtil.getHttpClient().execute(httpHead);
 
-    if (!response.containsHeader(HttpHeaderConst.CONTENT_LENGTH)) {
-      ExceptionHandler.publishMsg("Content-Length is not exist");
+    try (CloseableHttpResponse response = HttpClientUtil.getHttpClient().execute(httpHead)) {
+
+      if (!response.containsHeader(HttpHeaderConst.CONTENT_LENGTH)) {
+        ExceptionHandler.publishMsg("Content-Length is not exist");
+      }
+
+      Header header = response.getLastHeader(HttpHeaderConst.CONTENT_LENGTH);
+
+      long contentLength =
+        StringUtil.isEmpty(header.getValue()) ? 0 : Long.parseLong(header.getValue());
+      log.info("download file size={}", contentLength);
+      return contentLength;
     }
-
-    Header header = response.getLastHeader(HttpHeaderConst.CONTENT_LENGTH);
-
-    long contentLength =
-      StringUtil.isEmpty(header.getValue()) ? 0 : Long.valueOf(header.getValue());
-    log.info("download file size={}", contentLength);
-    return contentLength;
   }
 
 
   private String parseUrl(String fileUrl) {
     String url = "";
-    try {
-      url = URLDecoder.decode(fileUrl, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      log.error("decode exception", e);
-    }
+    url = URLDecoder.decode(fileUrl, StandardCharsets.UTF_8);
     return url;
   }
 

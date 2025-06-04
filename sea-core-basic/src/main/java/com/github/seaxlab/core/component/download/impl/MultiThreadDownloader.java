@@ -7,6 +7,11 @@ import com.github.seaxlab.core.http.simple.HttpClientUtil;
 import com.github.seaxlab.core.util.FileUtil;
 import com.github.seaxlab.core.util.IOUtil;
 import com.github.seaxlab.core.util.ObjectUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -23,10 +28,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 
 /**
  * multi thread downloader file.
@@ -104,21 +105,20 @@ public class MultiThreadDownloader extends AbstractDownloader {
     //创建最终文件
     String tmpFilePath = dir + File.separator + fileName + ".download";
     File file = new File(tmpFilePath);
-    FileChannel outChannel = new FileOutputStream(file).getChannel();
-
-    futures.forEach(future -> {
-      try {
-        File tmpFile = future.get();
-        FileChannel tmpIn = new FileInputStream(tmpFile).getChannel();
-        //合并每个临时文件
-        outChannel.transferFrom(tmpIn, outChannel.size(), tmpIn.size());
-        tmpIn.close();
-        tmpFile.delete(); //合并完成后删除临时文件
-      } catch (InterruptedException | ExecutionException | IOException e) {
-        log.error("merge file exception.", e);
-      }
-    });
-    outChannel.close();
+    try (FileChannel outChannel = new FileOutputStream(file).getChannel()) {
+      futures.forEach(future -> {
+        try {
+          File tmpFile = future.get();
+          FileChannel tmpIn = new FileInputStream(tmpFile).getChannel();
+          //合并每个临时文件
+          outChannel.transferFrom(tmpIn, outChannel.size(), tmpIn.size());
+          tmpIn.close();
+          tmpFile.delete(); //合并完成后删除临时文件
+        } catch (InterruptedException | ExecutionException | IOException e) {
+          log.error("merge file exception.", e);
+        }
+      });
+    }
     executorService.shutdown();
 
     file.renameTo(new File(dir + File.separator + fileName));
