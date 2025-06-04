@@ -19,7 +19,7 @@ public class HttpAsyncClientUtilTest extends BaseCoreTest {
   @Test
   public void run18() throws Exception {
 
-    String result = HttpAsyncClientUtil.get(IP_URL);
+    String result = HttpAsyncClientUtil.get(HttpConstant.IP_URL);
     log.info("result={}", result);
 
   }

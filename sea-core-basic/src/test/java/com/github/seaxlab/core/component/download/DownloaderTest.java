@@ -4,6 +4,7 @@ import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.component.download.dto.DownloaderReqDTO;
 import com.github.seaxlab.core.component.download.impl.MultiThreadDownloader;
 import com.github.seaxlab.core.component.download.impl.SimpleDownloader;
+import com.github.seaxlab.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,14 +24,13 @@ public class DownloaderTest extends BaseCoreTest {
 
   @Before
   public void before() throws Exception {
-    super.before();
   }
 
   @Test
   public void simpleDownloaderTest() throws Exception {
     DownloaderReqDTO dto = new DownloaderReqDTO();
     dto.setRemoteFileUrl(file2);
-    dto.setNewDir(getUserHome() + "/sea");
+    dto.setNewDir(PathUtil.getSeaHome());
     dto.setNewFileName("download-simple.zip");
     dto.setOverwrite(true);
 
@@ -43,7 +43,7 @@ public class DownloaderTest extends BaseCoreTest {
 
     DownloaderReqDTO dto = new DownloaderReqDTO();
     dto.setRemoteFileUrl(file2);
-    dto.setNewDir(getUserHome() + "/sea");
+    dto.setNewDir(PathUtil.getSeaHome());
     dto.setNewFileName("download-bigfile.zip");
     dto.setOverwrite(true);
 

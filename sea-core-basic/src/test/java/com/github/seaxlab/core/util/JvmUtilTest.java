@@ -28,7 +28,7 @@ public class JvmUtilTest extends BaseCoreTest {
 
   @Test
   public void dumpStackTest() throws Exception {
-    JvmUtil.dumpStack(getUserHome() + "/logs/jsdump.log");
+    JvmUtil.dumpStack(PathUtil.getUserHome() + "/logs/jsdump.log");
 
     TimeUnit.MINUTES.sleep(2);
   }

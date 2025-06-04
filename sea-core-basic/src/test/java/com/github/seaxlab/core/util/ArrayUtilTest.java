@@ -24,7 +24,6 @@ public class ArrayUtilTest extends BaseCoreTest {
 
   @Before
   public void before() throws Exception {
-    super.before();
     list = new ArrayList<>();
     list.add("java");
     list.add("c#");

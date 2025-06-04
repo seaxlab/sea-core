@@ -19,13 +19,13 @@ public class OkHttpClientUtilTest extends BaseCoreTest {
 
   @Test
   public void run17() throws Exception {
-    String result = OkHttpClientUtil.get(IP_URL);
+    String result = OkHttpClientUtil.get(HttpConstant.IP_URL);
     log.info("result={}", result);
   }
 
   @Test
   public void run25() throws Exception {
-    OkHttpClientUtil.getAsync(IP_URL);
+    OkHttpClientUtil.getAsync(HttpConstant.IP_URL);
 
     TimeUnit.SECONDS.sleep(20);
   }

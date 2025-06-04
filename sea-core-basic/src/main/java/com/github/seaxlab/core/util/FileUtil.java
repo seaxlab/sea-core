@@ -4,6 +4,10 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.io.FileWriteMode;
 import com.google.common.io.Files;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.apache.http.util.ByteArrayBuffer;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -28,9 +32,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
-import org.apache.http.util.ByteArrayBuffer;
 
 /**
  * File util
@@ -134,6 +135,17 @@ public final class FileUtil {
     }
     return StringUtil.EMPTY;
 //        return readFileToString(PathUtil.getPathFromClassPath(path));
+  }
+
+
+  /**
+   * 从classPath中加载资源文件
+   * @param fileInClassPath
+   * @return
+   */
+  public static InputStream toInputStreamByClassPath(String fileInClassPath) {
+    return Thread.currentThread().getContextClassLoader()
+                 .getResourceAsStream(fileInClassPath);
   }
 
   /**
@@ -629,7 +641,7 @@ public final class FileUtil {
    * @return
    */
   public static List<File> splitByFileCount(File sourceFile, File targetDir, String targetFileName, int fileCount,
-    boolean overwrite) {
+                                            boolean overwrite) {
     if (sourceFile == null) {
       throw new IllegalArgumentException("source file is null.");
     }
@@ -705,7 +717,7 @@ public final class FileUtil {
    * @return
    */
   public static List<File> splitByFileSize(File sourceFile, File targetDir, String targetFileName,
-    final long eachFileSize, boolean overwrite) {
+                                           final long eachFileSize, boolean overwrite) {
     if (sourceFile == null) {
       throw new IllegalArgumentException("source file is null.");
     }

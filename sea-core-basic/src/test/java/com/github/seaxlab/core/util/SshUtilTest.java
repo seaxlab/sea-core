@@ -54,7 +54,7 @@ public class SshUtilTest extends BaseCoreTest {
     cfg.setSshPort(2222);
     cfg.setSshUserName("root");
     cfg.setSshPassword(getConfig("qd_jmzy_ssh_pwd"));
-    boolean flag = SshUtil.upload(cfg, getUserHome() + "/test/gc/gc1.log", "/root");
+    boolean flag = SshUtil.upload(cfg,PathUtil.getUserHome() + "/test/gc/gc1.log", "/root");
     log.info("flag={}", flag);
   }
 
@@ -65,7 +65,7 @@ public class SshUtilTest extends BaseCoreTest {
     cfg.setSshPort(2222);
     cfg.setSshUserName("root");
     cfg.setSshPassword(getConfig("qd_jmzy_ssh_pwd"));
-    boolean flag = SshUtil.download(cfg, "/root/gc1.log", getUserHome() + "/test/");
+    boolean flag = SshUtil.download(cfg, "/root/gc1.log",PathUtil.getUserHome() + "/test/");
     log.info("flag={}", flag);
   }
 

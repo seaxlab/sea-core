@@ -35,7 +35,7 @@ public class PathUtilTest extends BaseCoreTest {
 
   @Test
   public void testJoin2() throws Exception {
-    String logPath = PathUtil.join(getUserHome(), "logs", "sea", "jstack");
+    String logPath = PathUtil.join(PathUtil.getUserHome(), "logs", "sea", "jstack");
     log.info("logPath={}", logPath);
   }
 

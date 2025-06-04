@@ -4,6 +4,7 @@ import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.http.dto.HttpUploadDTO;
 import com.github.seaxlab.core.http.simple.HttpClientUtil;
 import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -24,7 +25,7 @@ public class HttpClientUtilTest extends BaseCoreTest {
 
   @Test
   public void run17() throws Exception {
-    String result = HttpClientUtil.get(IP_URL);
+    String result = HttpClientUtil.get(HttpConstant.IP_URL);
 
     log.info("result={}", result);
   }
@@ -50,7 +51,7 @@ public class HttpClientUtilTest extends BaseCoreTest {
 
   @Test
   public void uploadTet() throws Exception {
-    String userHome = getUserHome();
+    String userHome = PathUtil.getUserHome();
 
     HttpUploadDTO uploadDTO = new HttpUploadDTO();
     uploadDTO.setUrl("http://httpbin.org/post");

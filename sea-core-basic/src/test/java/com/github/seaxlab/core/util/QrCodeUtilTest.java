@@ -19,7 +19,7 @@ public class QrCodeUtilTest extends BaseCoreTest {
 
   @Test
   public void test17() throws Exception {
-    File file = new File(getUserHome() + "/sea/core/qr-code.png");
+    File file = new File(PathUtil.getUserHome() + "/sea/core/qr-code.png");
     FileUtil.ensureDir(file.getParent());
 
     QRCodeUtil.encode(file.getPath(), "abc");

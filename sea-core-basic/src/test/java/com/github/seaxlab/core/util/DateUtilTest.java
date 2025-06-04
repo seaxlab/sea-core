@@ -4,6 +4,7 @@ import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.enums.DurationTimeEnum;
 import com.github.seaxlab.core.enums.RangeModeEnum;
+import com.github.seaxlab.core.test.util.TestUtil;
 import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -39,7 +40,7 @@ public class DateUtilTest extends BaseCoreTest {
 
   @Test
   public void testToString() throws Exception {
-    println(DateUtil.toString(new Date(), "MM-dd*HH:mm"));
+    TestUtil.println(DateUtil.toString(new Date(), "MM-dd*HH:mm"));
   }
 
   @Test
@@ -60,11 +61,11 @@ public class DateUtilTest extends BaseCoreTest {
 
     Date now = DateUtil.nowDate();
 
-    println(now);
-    println(DateUtil.addDay(now, 1));
-    println(DateUtil.addHour(now, 1));
-    println(DateUtil.addMinute(now, 15));
-    println(DateUtil.addSecond(now, 15));
+    TestUtil.println(now);
+    TestUtil.println(DateUtil.addDay(now, 1));
+    TestUtil.println(DateUtil.addHour(now, 1));
+    TestUtil.println(DateUtil.addMinute(now, 15));
+    TestUtil.println(DateUtil.addSecond(now, 15));
   }
 
   @Test

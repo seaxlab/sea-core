@@ -6,6 +6,7 @@ import com.github.seaxlab.core.thread.config.CleanFileConfig;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.github.seaxlab.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -21,7 +22,7 @@ public class CleanFileThreadTest extends BaseCoreTest {
 
   @Test
   public void run17() throws Exception {
-    String dir = getUserHome() + "/logs/arthas";
+    String dir = PathUtil.getUserHome() + "/logs/arthas";
     CleanFileConfig config = new CleanFileConfig();
     config.setDirs(List.of(dir));
     config.setDelay(10);

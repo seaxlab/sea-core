@@ -21,7 +21,7 @@ public class ByteUnitUtilTest extends BaseCoreTest {
 
     log.info("ret={}", ret);
 
-    long total = DiskUtil.getTotalSpace(USER_HOME);
+    long total = DiskUtil.getTotalSpace(PathUtil.getUserHome());
 
     log.info("total space={}", ByteUnitUtil.format(total));
     log.info("total space={}", ByteUnitUtil.format(total, 5));

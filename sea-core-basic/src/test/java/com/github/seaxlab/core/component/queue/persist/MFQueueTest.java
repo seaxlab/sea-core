@@ -1,6 +1,7 @@
 package com.github.seaxlab.core.component.queue.persist;
 
 import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
@@ -20,7 +21,7 @@ public class MFQueueTest extends BaseCoreTest {
 
   @Before
   public void before() {
-    MFQueuePool.init(getUserHome() + "/logs/queue_persist");
+    MFQueuePool.init(PathUtil.getUserHome() + "/logs/queue_persist");
     consumeRecordQueue = MFQueuePool.getFQueue("my-test-queue");
   }
 

@@ -29,7 +29,6 @@ public class JSONPathUtilTest extends BaseCoreTest {
 
   @Before
   public void before() throws Exception {
-    super.before();
     InputStream in = getClass().getClassLoader().getResourceAsStream("util/users.json");
 
     URL url = getClass().getClassLoader().getResource("util/users.json");

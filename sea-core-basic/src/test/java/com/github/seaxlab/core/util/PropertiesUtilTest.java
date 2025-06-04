@@ -37,7 +37,7 @@ public class PropertiesUtilTest extends BaseCoreTest {
 
   @Test
   public void writeTest() throws Exception {
-    String path = getUserHome() + "/logs/properties-util.properties";
+    String path =PathUtil.getUserHome() + "/logs/properties-util.properties";
     Properties props = new Properties();
     props.setProperty("key1", "value1");
     props.setProperty("key2", "value2");

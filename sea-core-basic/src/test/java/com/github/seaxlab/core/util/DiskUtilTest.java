@@ -18,9 +18,9 @@ public class DiskUtilTest extends BaseCoreTest {
   public void run17() throws Exception {
 
 
-    log.info("free space={}", DiskUtil.getFreeSpace(USER_HOME));
-    log.info("usable space={}", DiskUtil.getUsableSpace(USER_HOME));
-    log.info("total space={}", DiskUtil.getTotalSpace(USER_HOME));
-    log.info("used percent={}", DiskUtil.getSpaceUsedPercent(USER_HOME));
+    log.info("free space={}", DiskUtil.getFreeSpace(PathUtil.getUserHome()));
+    log.info("usable space={}", DiskUtil.getUsableSpace(PathUtil.getUserHome()));
+    log.info("total space={}", DiskUtil.getTotalSpace(PathUtil.getUserHome()));
+    log.info("used percent={}", DiskUtil.getSpaceUsedPercent(PathUtil.getUserHome()));
   }
 }

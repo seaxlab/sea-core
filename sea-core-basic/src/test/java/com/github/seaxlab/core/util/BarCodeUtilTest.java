@@ -20,7 +20,7 @@ public class BarCodeUtilTest extends BaseCoreTest {
   @Test
   public void test17() throws Exception {
 
-    String filePath = getUserHome() + "/sea/core/bar-code.png";
+    String filePath = PathUtil.getUserHome() + "/sea/core/bar-code.png";
     File file = new File(filePath);
     FileUtil.ensureDir(file.getParent());
 

@@ -9,7 +9,11 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * module name
@@ -23,8 +27,9 @@ public class YmlUtilTest extends BaseCoreTest {
 
   @Test
   public void loadTest() throws Exception {
-    Customer customer = YmlUtil.load(Customer.class, getInputStream("yaml/test.yaml"));
+    Customer customer = YmlUtil.load(Customer.class, FileUtil.toInputStreamByClassPath("yaml/test.yaml"));
     log.info("customer={}", customer);
+
   }
 
   @Test
@@ -35,7 +40,7 @@ public class YmlUtilTest extends BaseCoreTest {
 //        constructor.addTypeDescription(customTypeDescription);
 //        Yaml yaml = new Yaml(constructor);
 
-    List<Customer> customers = YmlUtil.loadAll(Customer.class, getInputStream("yaml/test-multi.yaml"));
+    List<Customer> customers = YmlUtil.loadAll(Customer.class, FileUtil.toInputStreamByClassPath("yaml/test-multi.yaml"));
     log.info("customer={}", customers);
     customers.forEach(customer -> {
       log.info("customer={}", customer);
@@ -44,7 +49,7 @@ public class YmlUtilTest extends BaseCoreTest {
 
   @Test
   public void loadAll2Test() throws Exception {
-    List<Customer> customers = YmlUtil.loadAll(Customer.class, getInputStream("yaml/test-multi-empty.yaml"));
+    List<Customer> customers = YmlUtil.loadAll(Customer.class, FileUtil.toInputStreamByClassPath("yaml/test-multi-empty.yaml"));
     log.info("customer={}", customers);
     customers.forEach(customer -> {
       log.info("customer={}", customer);
@@ -62,7 +67,7 @@ public class YmlUtilTest extends BaseCoreTest {
 
   @Test
   public void test67() throws Exception {
-    String path = getUserHome() + "/spy/gitlab/sea/sea-core/sea-core-basic/src/test/resources/yaml/test.yaml";
+    String path = PathUtil.getUserHome() + "/spy/gitlab/sea/sea-core/sea-core-basic/src/test/resources/yaml/test.yaml";
 
     Yaml yaml = new Yaml();
     Object obj = yaml.load(new FileInputStream(path));
@@ -81,7 +86,7 @@ public class YmlUtilTest extends BaseCoreTest {
   @Test
   public void testDumpAppend() throws Exception {
 
-    String path = getUserHome() + "/spy/gitlab/sea/sea-core/sea-core-basic/src/test/resources/yaml/test.yaml";
+    String path = PathUtil.getUserHome() + "/spy/gitlab/sea/sea-core/sea-core-basic/src/test/resources/yaml/test.yaml";
 
     Map<String, String> data = new HashMap<>();
     data.put("key", "--");

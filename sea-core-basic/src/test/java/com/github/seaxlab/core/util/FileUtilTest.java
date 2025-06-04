@@ -50,7 +50,7 @@ public class FileUtilTest extends BaseCoreTest {
 
   @Test
   public void listFileTest() throws Exception {
-    File[] files = FileUtil.listFiles(new File(getUserHome() + "/logs"), new String[]{".log"});
+    File[] files = FileUtil.listFiles(new File(PathUtil.getUserHome() + "/logs"), new String[]{".log"});
     for (int i = 0; i < files.length; i++) {
       log.info("files={}", files[i]);
     }
@@ -63,7 +63,7 @@ public class FileUtilTest extends BaseCoreTest {
 
   @Test
   public void listFileFailTest2() throws Exception {
-    String jarFile = "file:" + getUserHome() + "/sea/pandora-lite/sample-1.0.0-SNAPSHOT.jar";
+    String jarFile = "file:" +PathUtil.getUserHome() + "/sea/pandora-lite/sample-1.0.0-SNAPSHOT.jar";
     File file = new File(jarFile + "!/lib/slf4j-api-1.7.30.jar");
 
     log.info("file={}", file.exists());
@@ -116,7 +116,7 @@ public class FileUtilTest extends BaseCoreTest {
   @Test
   public void sizeOfTest() throws Exception {
 
-    String logDir = getUserHome() + "/logs";
+    String logDir =PathUtil.getUserHome() + "/logs";
     long size = FileUtil.sizeOfDir(logDir);
     log.info("size={},human size={}", size, ByteUnitUtil.format(size));
   }
@@ -124,8 +124,8 @@ public class FileUtilTest extends BaseCoreTest {
 
   @Test
   public void testSplitByLine() throws Exception {
-    String filePath = getUserHome() + "/sea/split-file-line.txt";
-    String targetDir = getUserHome() + "/sea/";
+    String filePath =PathUtil.getUserHome() + "/sea/split-file-line.txt";
+    String targetDir =PathUtil.getUserHome() + "/sea/";
     FileUtil.deleteFiles(filePath);
     File file = FileUtil.createNewFile(filePath);
     List<String> lineList = new ArrayList<>();
@@ -140,34 +140,34 @@ public class FileUtilTest extends BaseCoreTest {
 
   @Test
   public void splitByFileSizeTest() throws Exception {
-    File file = new File(getUserHome() + "/sea/download-bigfile.zip");
-    File targetFile = new File(getUserHome() + "/sea/split-by-file-size");
+    File file = new File(PathUtil.getUserHome() + "/sea/download-bigfile.zip");
+    File targetFile = new File(PathUtil.getUserHome() + "/sea/split-by-file-size");
     FileUtil.splitByFileSize(file, targetFile, "abc.zip", 10 * CoreConst.ONE_MB, true);
   }
 
   @Test
   public void splitByFileCountTest() throws Exception {
-    File file = new File(getUserHome() + "/sea/download-bigfile.zip");
-    File targetFile = new File(getUserHome() + "/sea/split-by-file-count");
+    File file = new File(PathUtil.getUserHome() + "/sea/download-bigfile.zip");
+    File targetFile = new File(PathUtil.getUserHome() + "/sea/split-by-file-count");
     FileUtil.splitByFileCount(file, targetFile, "abc.zip", 2, true);
   }
 
   @Test
   public void mergeFileTest() throws Exception {
     List<File> files = new ArrayList<>();
-    File file1 = new File(getUserHome() + "/sea/split-by-file-count/abc.zip.part1");
-    File file2 = new File(getUserHome() + "/sea/split-by-file-count/abc.zip.part2");
+    File file1 = new File(PathUtil.getUserHome() + "/sea/split-by-file-count/abc.zip.part1");
+    File file2 = new File(PathUtil.getUserHome() + "/sea/split-by-file-count/abc.zip.part2");
     files.add(file1);
     files.add(file2);
 
-    FileUtil.merge(files, new File(getUserHome(), "/sea/merge-file.zip"), true);
+    FileUtil.merge(files, new File(PathUtil.getUserHome(), "/sea/merge-file.zip"), true);
 
   }
 
 
   @Test
   public void testGetLineNumber() throws Exception {
-    String filePath = getUserHome() + "/sea/split-file-line.txt";
+    String filePath =PathUtil.getUserHome() + "/sea/split-file-line.txt";
     log.info("file line number={}", FileUtil.getLineNumber(filePath));
   }
 }
