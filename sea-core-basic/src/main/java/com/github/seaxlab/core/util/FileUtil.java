@@ -119,7 +119,7 @@ public final class FileUtil {
 
 
   /**
-   * read file from classpath
+   * 从classpath读取文件内容
    *
    * @param path
    * @return
