@@ -7,7 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
+import java.net.ServerSocket;
+import java.net.SocketAddress;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.BitSet;
 import java.util.Enumeration;
 import java.util.concurrent.ThreadLocalRandom;
@@ -142,34 +149,30 @@ public final class NetUtil {
         return localAddress;
       }
     } catch (Throwable e) {
-      log.warn("Failed to retrieving ip address, " + e.getMessage(), e);
+      log.warn("Failed to retrieving ip address, ", e);
     }
     try {
       Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-      if (interfaces != null) {
-        while (interfaces.hasMoreElements()) {
-          try {
-            NetworkInterface network = interfaces.nextElement();
-            Enumeration<InetAddress> addresses = network.getInetAddresses();
-            if (addresses != null) {
-              while (addresses.hasMoreElements()) {
-                try {
-                  InetAddress address = addresses.nextElement();
-                  if (isValidAddress(address)) {
-                    return address;
-                  }
-                } catch (Throwable e) {
-                  log.warn("Failed to retrieving ip address, " + e.getMessage(), e);
-                }
+      while (interfaces.hasMoreElements()) {
+        try {
+          NetworkInterface network = interfaces.nextElement();
+          Enumeration<InetAddress> addresses = network.getInetAddresses();
+          while (addresses.hasMoreElements()) {
+            try {
+              InetAddress address = addresses.nextElement();
+              if (isValidAddress(address)) {
+                return address;
               }
+            } catch (Throwable e) {
+              log.warn("Failed to retrieving ip address, ", e);
             }
-          } catch (Throwable e) {
-            log.warn("Failed to retrieving ip address, " + e.getMessage(), e);
           }
+        } catch (Throwable e) {
+          log.warn("Failed to retrieving ip address, ", e);
         }
       }
     } catch (Throwable e) {
-      log.warn("Failed to retrieving ip address, " + e.getMessage(), e);
+      log.warn("Failed to retrieving ip address, ", e);
     }
     log.error("Could not get local host ip address, will use 127.0.0.1 instead.");
     return localAddress;
@@ -210,10 +213,7 @@ public final class NetUtil {
     if (validLocalAndAny) {
       return ip != null && IP_PATTERN.matcher(ip).matches();
     } else {
-      return (ip != null
-        && !ANY_HOST.equals(ip)
-        && !LOCALHOST.equals(ip)
-        && IP_PATTERN.matcher(ip).matches());
+      return (ip != null && !ANY_HOST.equals(ip) && !LOCALHOST.equals(ip) && IP_PATTERN.matcher(ip).matches());
     }
   }
 
