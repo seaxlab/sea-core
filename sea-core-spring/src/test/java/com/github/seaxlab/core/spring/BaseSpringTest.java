@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.spring;
 
-import com.github.seaxlab.core.spring.component.extension.ExtensionBootstrap;
+import com.github.seaxlab.core.spring.component.extension.register.ExtensionScanner;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -18,7 +18,7 @@ public class BaseSpringTest {
   @Test
   public void run17() throws Exception {
     AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestSpringConfig.class);
-    ExtensionBootstrap bootstrap = (ExtensionBootstrap) context.getBean("bootstrap");
+    ExtensionScanner bootstrap = (ExtensionScanner) context.getBean("bootstrap");
     System.out.println(bootstrap);
   }
 

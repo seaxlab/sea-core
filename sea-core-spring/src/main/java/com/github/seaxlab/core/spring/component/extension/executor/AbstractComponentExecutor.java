@@ -1,4 +1,7 @@
-package com.github.seaxlab.core.spring.component.extension;
+package com.github.seaxlab.core.spring.component.extension.executor;
+
+import com.github.seaxlab.core.spring.component.extension.model.BizScenario;
+import com.github.seaxlab.core.spring.component.extension.model.ExtensionCoordinate;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -41,8 +44,14 @@ public abstract class AbstractComponentExecutor {
     exeFunction.accept(component);
   }
 
+  /**
+   * 无返回值执行
+   * @param extensionCoordinate
+   * @param exeFunction
+   * @param <T>
+   */
   public <T> void executeVoid(ExtensionCoordinate extensionCoordinate, Consumer<T> exeFunction) {
-    executeVoid(extensionCoordinate.getExtensionPointClass(), extensionCoordinate.getBizScenario(), exeFunction);
+    executeVoid((Class<T>) extensionCoordinate.getExtensionPointClass(), extensionCoordinate.getBizScenario(), exeFunction);
   }
 
   protected abstract <C> C locateComponent(Class<C> targetClz, BizScenario context);

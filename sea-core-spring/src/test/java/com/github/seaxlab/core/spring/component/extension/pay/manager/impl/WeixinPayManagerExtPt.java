@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.spring.component.extension.pay.manager.impl;
 
-import com.github.seaxlab.core.spring.component.extension.Extension;
+import com.github.seaxlab.core.spring.component.extension.annotation.Extension;
 import com.github.seaxlab.core.spring.component.extension.pay.Constants;
 import com.github.seaxlab.core.spring.component.extension.pay.dto.PayDTO;
 import com.github.seaxlab.core.spring.component.extension.pay.manager.PayManagerExtPt;

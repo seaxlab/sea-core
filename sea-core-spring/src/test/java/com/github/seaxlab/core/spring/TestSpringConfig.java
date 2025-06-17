@@ -1,9 +1,9 @@
 package com.github.seaxlab.core.spring;
 
-import com.github.seaxlab.core.spring.component.extension.ExtensionBootstrap;
-import com.github.seaxlab.core.spring.component.extension.ExtensionExecutor;
-import com.github.seaxlab.core.spring.component.extension.ExtensionRegister;
-import com.github.seaxlab.core.spring.component.extension.ExtensionRepository;
+import com.github.seaxlab.core.spring.component.extension.register.ExtensionScanner;
+import com.github.seaxlab.core.spring.component.extension.executor.ExtensionExecutor;
+import com.github.seaxlab.core.spring.component.extension.register.ExtensionRegister;
+import com.github.seaxlab.core.spring.component.extension.register.ExtensionRepository;
 import com.github.seaxlab.core.spring.context.SpringContextHolder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -39,25 +39,41 @@ public class TestSpringConfig {
 //        return bootstrap;
 //    }
 
-  @Bean("seaCoreExtensionBootstrap")
-  public ExtensionBootstrap bootstrap() {
-    return new ExtensionBootstrap();
-  }
 
+  /**
+   * 扩展点缓存
+   * @return
+   */
   @Bean("seaCoreExtensionRepository")
   public ExtensionRepository repository() {
     return new ExtensionRepository();
   }
 
-  @Bean("seaCoreExtensionExecutor")
-  public ExtensionExecutor executor() {
-    return new ExtensionExecutor();
-  }
-
+  /**
+   * 扩展点注册器
+   * @return
+   */
   @Bean("seaCoreExtensionRegister")
   public ExtensionRegister register() {
     return new ExtensionRegister();
   }
 
+  /**
+   * 扩展点启动
+   * @return
+   */
+  @Bean("seaCoreExtensionBootstrap")
+  public ExtensionScanner bootstrap() {
+    return new ExtensionScanner();
+  }
+
+  /**
+   * 扩展点业务使用执行器
+   * @return
+   */
+  @Bean("seaCoreExtensionExecutor")
+  public ExtensionExecutor executor() {
+    return new ExtensionExecutor();
+  }
 
 }

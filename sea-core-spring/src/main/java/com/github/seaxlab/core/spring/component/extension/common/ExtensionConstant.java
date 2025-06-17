@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.spring.component.extension;
+package com.github.seaxlab.core.spring.component.extension.common;
 
 /**
  * CoreConstant

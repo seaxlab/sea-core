@@ -1,7 +1,10 @@
-package com.github.seaxlab.core.spring.component.extension;
+package com.github.seaxlab.core.spring.component.extension.executor;
 
 import com.github.seaxlab.core.exception.BaseAppException;
 import com.github.seaxlab.core.exception.ErrorMessageEnum;
+import com.github.seaxlab.core.spring.component.extension.model.BizScenario;
+import com.github.seaxlab.core.spring.component.extension.model.ExtensionCoordinate;
+import com.github.seaxlab.core.spring.component.extension.register.ExtensionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,6 +19,21 @@ public class ExtensionExecutor extends AbstractComponentExecutor {
   @Autowired
   private ExtensionRepository extensionRepository;
 
+  /**
+   * 查找扩展点组件
+   * <pre>
+   * 查找说明：
+   * 如果用户业务场景身份（bizScenarioUniqueIdentity）是"ali.tmall.supermarket"
+   * 业务执行查找路径逻辑如下：
+   * 1，首先尝试通过"ali.tmall.supermarket"获得扩展名，如果获得则返回。
+   * 2，循环尝试通过"ali.tmall"获取扩展名，如果获取则返回。
+   * 3，循环尝试通过"ali"获取扩展名，如果获取则返回。
+   * 4，如果找不到，尝试默认扩展名。
+   *</pre>
+   * @param targetClz   扩展点目标类
+   * @param bizScenario 业务场景
+   * @return 扩展点组件
+   */
   @Override
   public <C> C locateComponent(Class<C> targetClz, BizScenario bizScenario) {
     C extension = locateExtension(targetClz, bizScenario);

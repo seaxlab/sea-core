@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.spring.component.extension;
+package com.github.seaxlab.core.spring.component.extension.model;
 
 /**
  * Extension Coordinate(扩展坐标) is used to uniquely position an Extension
@@ -7,15 +7,15 @@ package com.github.seaxlab.core.spring.component.extension;
  */
 public class ExtensionCoordinate {
 
-  private String extensionPointName;
-  private String bizScenarioUniqueIdentity;
+  private final String extensionPointName;
+  private final String bizScenarioUniqueIdentity;
 
 
   //Wrapper
-  private Class extensionPointClass;
+  private Class<?> extensionPointClass;
   private BizScenario bizScenario;
 
-  public Class getExtensionPointClass() {
+  public Class<?> getExtensionPointClass() {
     return extensionPointClass;
   }
 

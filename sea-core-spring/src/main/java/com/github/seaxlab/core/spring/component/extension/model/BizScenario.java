@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.spring.component.extension;
+package com.github.seaxlab.core.spring.component.extension.model;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class BizScenario {
+  //
   public final static String DEFAULT_BIZ_ID = "#defaultBizId#";
   public final static String DEFAULT_USE_CASE = "#defaultUseCase#";
   public final static String DEFAULT_SCENARIO = "#defaultScenario#";

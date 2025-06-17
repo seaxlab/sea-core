@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.spring.component.extension.pay;
 
-import com.github.seaxlab.core.spring.component.extension.ExtensionExecutor;
+import com.github.seaxlab.core.spring.component.extension.executor.ExtensionExecutor;
 import com.github.seaxlab.core.spring.component.extension.pay.dto.PayDTO;
 import com.github.seaxlab.core.spring.component.extension.pay.manager.PayManagerExtPt;
 import lombok.extern.slf4j.Slf4j;

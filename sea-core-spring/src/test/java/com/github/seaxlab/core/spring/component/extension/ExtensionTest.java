@@ -1,6 +1,8 @@
 package com.github.seaxlab.core.spring.component.extension;
 
 import com.github.seaxlab.core.spring.TestSpringConfig;
+import com.github.seaxlab.core.spring.component.extension.executor.ExtensionExecutor;
+import com.github.seaxlab.core.spring.component.extension.model.BizScenario;
 import com.github.seaxlab.core.spring.component.extension.pay.Constants;
 import com.github.seaxlab.core.spring.component.extension.pay.PayService;
 import com.github.seaxlab.core.spring.component.extension.pay.dto.PayDTO;

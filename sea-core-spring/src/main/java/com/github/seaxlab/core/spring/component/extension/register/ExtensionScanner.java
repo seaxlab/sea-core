@@ -1,12 +1,15 @@
-package com.github.seaxlab.core.spring.component.extension;
+package com.github.seaxlab.core.spring.component.extension.register;
 
-import java.util.Map;
+import com.github.seaxlab.core.spring.component.extension.IExtensionPoint;
+import com.github.seaxlab.core.spring.component.extension.annotation.Extension;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+
+import java.util.Map;
 
 /**
  * SpringBootstrap
@@ -15,7 +18,7 @@ import org.springframework.context.ApplicationContextAware;
  * @date 2020-06-18 7:55 PM
  */
 @Slf4j
-public class ExtensionBootstrap implements ApplicationContextAware, InitializingBean {
+public class ExtensionScanner implements ApplicationContextAware, InitializingBean {
 
   @Autowired
   private ExtensionRegister extensionRegister;
@@ -30,12 +33,10 @@ public class ExtensionBootstrap implements ApplicationContextAware, Initializing
 
   @Override
   public void afterPropertiesSet() throws Exception {
-    log.info("init sea core spring extension begin.");
+    //获取所有扩展点
     Map<String, Object> extensionBeans = applicationContext.getBeansWithAnnotation(Extension.class);
-
-    log.info("spring extension size={}", extensionBeans.size());
-
+    //
     extensionBeans.values().forEach(extension -> extensionRegister.doRegistration((IExtensionPoint) extension));
-    log.info("init sea core spring extension end.");
+    log.info("init spring extension point, size={}", extensionBeans.size());
   }
 }
