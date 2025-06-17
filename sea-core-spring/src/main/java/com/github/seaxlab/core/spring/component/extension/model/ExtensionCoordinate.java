@@ -23,11 +23,11 @@ public class ExtensionCoordinate {
     return bizScenario;
   }
 
-  public static ExtensionCoordinate of(Class extPtClass, BizScenario bizScenario) {
+  public static ExtensionCoordinate of(Class<?> extPtClass, BizScenario bizScenario) {
     return new ExtensionCoordinate(extPtClass, bizScenario);
   }
 
-  public ExtensionCoordinate(Class extPtClass, BizScenario bizScenario) {
+  public ExtensionCoordinate(Class<?> extPtClass, BizScenario bizScenario) {
     this.extensionPointClass = extPtClass;
     this.extensionPointName = extPtClass.getName();
     this.bizScenario = bizScenario;
