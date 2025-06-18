@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public final class JvmUtil {
 
-  public static String P_ID_CACHE = null;
+  private static String P_ID_CACHE = null;
 
   private JvmUtil() {
   }
@@ -98,7 +98,6 @@ public final class JvmUtil {
     try {
       String content = StackManager.dump();
 
-      // this is cat impl
 //            ThreadInfo[] threads = bean.dumpAllThreads(false, false);
 //            String content = new ThreadInfoWriter().buildThreadsInfo(threads);
 
@@ -106,6 +105,7 @@ public final class JvmUtil {
     } catch (Exception e) {
       log.error("fail to dump jvm stack", e);
     } finally {
+      stopwatch.stop();
       log.info("dum jvm stack end. cost={}ms", stopwatch.elapsed(TimeUnit.MILLISECONDS));
     }
   }
