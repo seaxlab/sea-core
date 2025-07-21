@@ -8,7 +8,6 @@ import com.github.seaxlab.core.http.dto.response.HttpUploadRespDTO;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.JSONUtil;
 import com.github.seaxlab.core.util.StringUtil;
-import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -49,7 +48,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Http client util
@@ -295,6 +293,7 @@ public class HttpClientUtil {
 
   /**
    * GET方式，无异常返回
+   *
    * @param url
    * @param param
    * @return
@@ -359,8 +358,7 @@ public class HttpClientUtil {
     HttpGet request = new HttpGet(url);
     request.setHeader("User-Agent", "Chrome/Sea");
 
-    Stopwatch stopwatch = Stopwatch.createStarted();
-
+    long startTime = System.currentTimeMillis();
     //响应数据
     String responseEntityData = null;
     try (CloseableHttpResponse response = getHttpClient().execute(request)) {
@@ -369,8 +367,7 @@ public class HttpClientUtil {
       log.error("http exception", e);
       ExceptionHandler.publish(ErrorMessageEnum.HTTP_ERROR);
     } finally {
-      stopwatch.stop();
-      log.info("http get, cost={}ms", stopwatch.elapsed(TimeUnit.MILLISECONDS));
+      log.info("http get, cost={}ms", System.currentTimeMillis() - startTime);
     }
 
     return responseEntityData;
