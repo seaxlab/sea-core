@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <property name="SIMPLE_LOG_FORMAT"
-            value="%d{HH:mm:ss.SSS} %level [%thread] [%class{36}.%M:%line] - %m %n"/>
+            value="%d{HH:mm:ss.SSS} %level [%thread] [%class{36}:%line] - %m %n"/>
   <property name="DEFAULT_LOG_FORMAT"
-            value="%d{HH:mm:ss.SSS} %level [%thread] [%class{36}.%M:%line] [%X{SOFA-TraceId},%X{SOFA-SpanId}] - %m %n"/>
+            value="%d{HH:mm:ss.SSS} %level [%thread] [%class{36}:%line] [%X{traceId}] - %m %n"/>
   <property name="FILE_LOG_FORMAT"
-            value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] [%class{36}.%M:%line] [%X{SOFA-TraceId},%X{SOFA-SpanId}] - %m %n"/>
+            value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] [%class{36}:%line] [%X{traceId}] - %m %n"/>
 
   <logger name="io.github.seaxlab" level="DEBUG"/>
 
