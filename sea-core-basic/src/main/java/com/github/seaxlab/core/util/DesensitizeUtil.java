@@ -29,7 +29,7 @@ public final class DesensitizeUtil {
   }
 
   /**
-   * [手机号码] 前三位，后四位，其他隐藏<例子:138******1234>
+   * [手机号码] 前三位，后四位，其他隐藏<例子:138******1234</p>
    *
    * @param num
    * @return
@@ -42,7 +42,7 @@ public final class DesensitizeUtil {
   }
 
   /**
-   * [固定电话] 后四位，其他隐藏<例子：****1234>
+   * [固定电话] 后四位，其他隐藏<p>例子：****1234</p>
    *
    * @param num
    * @return
@@ -56,7 +56,7 @@ public final class DesensitizeUtil {
 
 
   /**
-   * [中文姓名] 只显示第一个汉字，其他隐藏为2个星号<例子：李**>
+   * [中文姓名] 只显示第一个汉字，其他隐藏为2个星号<p>例子：李**</p>
    *
    * @param fullName
    * @return
@@ -70,7 +70,7 @@ public final class DesensitizeUtil {
   }
 
   /**
-   * [中文姓名] 只显示第一个汉字，其他隐藏为2个星号<例子：李**>
+   * [中文姓名] 只显示第一个汉字，其他隐藏为2个星号<p>例子：李**</p>
    *
    * @param familyName
    * @param givenName
@@ -84,7 +84,7 @@ public final class DesensitizeUtil {
   }
 
   /**
-   * [身份证号] 显示最后四位，其他隐藏。共计18位或者15位。<例子：*************5762>
+   * [身份证号] 显示最后四位，其他隐藏。共计18位或者15位。<p>例子：*************5762</p>
    *
    * @param id
    * @return
@@ -99,7 +99,7 @@ public final class DesensitizeUtil {
 
 
   /**
-   * [地址] 只显示到地区，不显示详细地址；我们要对个人信息增强保护<例子：北京市海淀区****>
+   * [地址] 只显示到地区，不显示详细地址；我们要对个人信息增强保护<p>例子：北京市海淀区****</p>
    *
    * @param address
    * @param sensitiveSize 敏感信息长度
@@ -114,7 +114,7 @@ public final class DesensitizeUtil {
   }
 
   /**
-   * [电子邮箱] 邮箱前缀仅显示第一个字母，前缀其他隐藏，用星号代替，@及后面的地址显示<例子:g**@163.com>
+   * [电子邮箱] 邮箱前缀仅显示第一个字母，前缀其他隐藏，用星号代替，@及后面的地址显示<p>例子:g**@163.com</p>
    *
    * @param email
    * @return
@@ -132,7 +132,7 @@ public final class DesensitizeUtil {
   }
 
   /**
-   * [银行卡号] 前六位，后四位，其他用星号隐藏每位1个星号<例子:6222600**********1234>
+   * [银行卡号] 前六位，后四位，其他用星号隐藏每位1个星号<p>例子:6222600**********1234</p>
    *
    * @param cardNum
    * @return
@@ -164,7 +164,7 @@ public final class DesensitizeUtil {
   }
 
   /**
-   * [公司开户银行联号] 公司开户银行联行号,显示前两位，其他用星号隐藏，每位1个星号<例子:12********>
+   * [公司开户银行联号] 公司开户银行联行号,显示前两位，其他用星号隐藏，每位1个星号<p>例子:12********</p>
    *
    * @param code
    * @return
