@@ -29,6 +29,34 @@ import java.util.Date;
 public final class DurationUtil {
 
   /**
+   * 一年中天数 ，平均数365.2425，这里暂时使用365
+   */
+  private static final int YEAR_DAYS = 365;
+
+  /**
+   * 将时间变化量转换成可读时间
+   *
+   * @param milliseconds     时间变化量，单位毫秒
+   * @param durationTimeEnum 时间格式
+   * @return a年b天c小时d分钟e秒等格式
+   */
+  public static String parse(Long milliseconds, DurationTimeEnum durationTimeEnum) {
+    //默认值,年天小时分钟秒
+    durationTimeEnum = durationTimeEnum == null ? DurationTimeEnum.YDHmS : durationTimeEnum;
+    //
+    switch (durationTimeEnum) {
+      case YD: //年天
+        return yd(milliseconds);
+      case YDHm: //年天小时分钟
+        return ydhm(milliseconds);
+      case YDHmS: //年月天小时分钟秒
+        return ydhms(milliseconds);
+      default:
+        throw new IllegalArgumentException("Unsupported durationTimeEnum: " + durationTimeEnum);
+    }
+  }
+
+  /**
    * 转换成可读时间
    *
    * @param start            开始时间
@@ -427,6 +455,123 @@ public final class DurationUtil {
     if (seconds > 0 || sb.length() > 0) {
       sb.append(seconds).append("秒");
     }
+    return sb.toString();
+  }
+
+
+  /**
+   * 将时间变化量变成可读格式，年天小时分钟
+   *
+   * @param milliseconds 单位毫秒
+   * @return
+   */
+  public static String yd(Long milliseconds) {
+    if (milliseconds == null || milliseconds <= 0) {
+      return "";
+    }
+    long ms = milliseconds;
+
+    long days = ms / 86400_000;
+
+    long years = (long) (days / YEAR_DAYS);
+    long remainingDays = days - (long) (years * YEAR_DAYS);
+
+    StringBuilder sb = new StringBuilder();
+    if (years > 0) {
+      sb.append(years).append("年");
+    }
+    if (remainingDays > 0) {
+      sb.append(remainingDays).append("天");
+    }
+
+    return sb.toString();
+  }
+
+  /**
+   * 将时间变化量变成可读格式，年天小时分钟
+   *
+   * @param milliseconds 单位毫秒
+   * @return
+   */
+  public static String ydhm(Long milliseconds) {
+    if (milliseconds == null || milliseconds <= 0) {
+      return "";
+    }
+    long ms = milliseconds;
+
+    long days = ms / 86400_000;
+    ms %= 86400_000;
+
+    long hours = ms / 3600_000;
+    ms %= 3600_000;
+
+    long minutes = ms / 60_000;
+
+    long years = (long) (days / YEAR_DAYS);
+    long remainingDays = days - (long) (years * YEAR_DAYS);
+
+    StringBuilder sb = new StringBuilder();
+    if (years > 0) {
+      sb.append(years).append("年");
+    }
+    if (remainingDays > 0) {
+      sb.append(remainingDays).append("天");
+    }
+    if (hours > 0 || sb.length() > 0) {
+      sb.append(hours).append("小时");
+    }
+    if (minutes > 0 || sb.length() > 0) {
+      sb.append(minutes).append("分钟");
+    }
+
+    return sb.toString();
+  }
+
+  /**
+   * 将时间变化量变成可读格式，年天小时分钟秒
+   *
+   * @param milliseconds 单位毫秒
+   * @return
+   */
+  public static String ydhms(Long milliseconds) {
+    if (milliseconds == null || milliseconds <= 0) {
+      log.warn("milliseconds is null or negative,{}", milliseconds);
+      return "";
+    }
+
+    long ms = milliseconds;
+
+    long days = ms / 86400_000;
+    ms %= 86400_000;
+
+    long hours = ms / 3600_000;
+    ms %= 3600_000;
+
+    long minutes = ms / 60_000;
+    ms %= 60_000;
+
+    long seconds = ms / 1000;
+
+    long years = (long) (days / YEAR_DAYS);
+    long remainingDays = days - (long) (years * YEAR_DAYS);
+
+    StringBuilder sb = new StringBuilder();
+    if (years > 0) {
+      sb.append(years).append("年");
+    }
+    if (remainingDays > 0) {
+      sb.append(remainingDays).append("天");
+    }
+    if (hours > 0 || sb.length() > 0) {
+      sb.append(hours).append("小时");
+    }
+    if (minutes > 0 || sb.length() > 0) {
+      sb.append(minutes).append("分钟");
+    }
+    if (seconds > 0) {
+      sb.append(seconds).append("秒");
+    }
+
     return sb.toString();
   }
 

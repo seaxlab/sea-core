@@ -23,13 +23,27 @@ public class DurationUtilTest {
     Date start = sdf.parse("2020-01-01 10:00:00");
     Date end = sdf.parse("2025-08-12 20:05:30");
 
-   log.info("Y:   " + DurationUtil.parse(start, end, DurationTimeEnum.Y));       // 5年
-   log.info("YM:  " + DurationUtil.parse(start, end, DurationTimeEnum.YM));      // 5年7个月
-   log.info("YMD: " + DurationUtil.parse(start, end, DurationTimeEnum.YMD));     // 5年7个月223天
-   log.info("YD:  " + DurationUtil.parse(start, end, DurationTimeEnum.YD));      // 5年223天
-   log.info("YDHM: " + DurationUtil.parse(start, end, DurationTimeEnum.YDHm));     // 5年223天10小时5分钟
-   log.info("YDHms: " + DurationUtil.parse(start, end, DurationTimeEnum.YDHmS));     // 5年223天10小时5分钟30秒
+    log.info("Y:   " + DurationUtil.parse(start, end, DurationTimeEnum.Y));       // 5年
+    log.info("YM:  " + DurationUtil.parse(start, end, DurationTimeEnum.YM));      // 5年7个月
+    log.info("YMD: " + DurationUtil.parse(start, end, DurationTimeEnum.YMD));     // 5年7个月223天
+    log.info("YD:  " + DurationUtil.parse(start, end, DurationTimeEnum.YD));      // 5年223天
+    log.info("YDHM: " + DurationUtil.parse(start, end, DurationTimeEnum.YDHm));     // 5年223天10小时5分钟
+    log.info("YDHms: " + DurationUtil.parse(start, end, DurationTimeEnum.YDHmS));     // 5年223天10小时5分钟30秒
 
+  }
+
+  @Test
+  public void testParse() {
+    Long deltaTime = 1000L * 60 * 60 * 24 * 365 * 5 // 年
+      + 1000L * 60 * 60 * 24 * 223 //天
+      + 1000L * 60 * 60 * 12 // 小时
+      + 1000L * 60 * 10 // 分钟
+      + 1000L * 30 //秒
+      ;
+
+    log.info("YD:  " + DurationUtil.parse(deltaTime, DurationTimeEnum.YD));      // 5年223天
+    log.info("YDHM: " + DurationUtil.parse(deltaTime, DurationTimeEnum.YDHm));     // 5年223天10小时10分钟
+    log.info("YDHms: " + DurationUtil.parse(deltaTime, DurationTimeEnum.YDHmS));     // 5年223天10小时10分钟30秒
   }
 
   //
