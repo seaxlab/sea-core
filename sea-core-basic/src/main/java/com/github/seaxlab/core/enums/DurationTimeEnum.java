@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.enums;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,49 +12,30 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Getter
-public enum DurationTimeEnum implements IBaseEnum<Integer> {
-  UNKNOWN(0, "--", "unknown"),
-
-  //add here
-  DD_HH_MM_SS(10, "${day}天${hour}小时${minute}分钟${second}秒", "n天n小时n分钟n秒"),
-  DD_HH_MM(20, "${day}天${hour}小时${minute}分钟", "n天n小时n分钟"),
-  DD_HH(30, "${day}天${hour}小时", "n天n小时"),
-  DD(40, "${day}天", "n天"),
-
-  DD_HH_MM_SS_IF_NECESSARY(50, "(${day}天)(${hour}小时)(${minute}分钟)${second}秒", "(n天)(n小时)(n分钟)n秒"),
-  DD_HH_MM_IF_NECESSARY(51, "(${day}天)(${hour}小时)${minute}分钟", "(n天)(n小时)n分钟"),
-  DD_HH_IF_NECESSARY(52, "(${day}天)(${hour}小时)", "(n天)n小时"),
+public enum DurationTimeEnum {
+  //
+  Y("Y", "年"),
+  //
+  YM("YM", "年月"),
+  YMD("YMD", "年月天"),
+  //YMDH("YMDH", "年月天小时"),
+  //YMDHm("YMDHm", "年月天小时分钟"),
+  //
+  YD("YD", "年天"),
+  YDHm("YDHm", "年天小时分钟"),
+  YDHmS("YDHms", "年天小时分钟秒"), //默认，兜底
+  //
+  //MD("MD", "月天"), //用YMD替换
+  //
+  //HMS("HMS", "小时分钟秒"), //用YDHmS代替
   //
   ;
-  private final Integer code;
   private final String format;
   private final String desc;
 
-  DurationTimeEnum(Integer code, String format, String desc) {
-    this.code = code;
+  DurationTimeEnum(String format, String desc) {
     this.format = format;
     this.desc = desc;
   }
 
-  private static final DurationTimeEnum[] VALUES;
-
-  static {
-    VALUES = values();
-  }
-
-  @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-  public static DurationTimeEnum of(Integer code) {
-    if (code == null) {
-      log.warn("code is null");
-      return UNKNOWN;
-    }
-
-    for (DurationTimeEnum item : VALUES) {
-      if (code.intValue() == item.getCode().intValue()) {
-        return item;
-      }
-    }
-    log.warn("unknown code={}", code);
-    return UNKNOWN;
-  }
 }

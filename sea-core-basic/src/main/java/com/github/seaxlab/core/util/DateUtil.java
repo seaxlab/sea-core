@@ -2,7 +2,6 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.enums.DateUnitEnum;
-import com.github.seaxlab.core.enums.DurationTimeEnum;
 import com.github.seaxlab.core.enums.RangeModeEnum;
 import com.github.seaxlab.core.enums.WeekEnum;
 import com.github.seaxlab.core.exception.ExceptionHandler;
@@ -21,9 +20,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -1466,7 +1463,7 @@ public final class DateUtil {
    * @return boolean
    */
   public static boolean hasIntersection(Date targetBeginDate, Date targetEndDate, Date totalBeginDate,
-    Date totalEndDate) {
+                                        Date totalEndDate) {
     Precondition.checkNotNull(targetBeginDate, "target begin date cannot be null");
     Precondition.checkNotNull(targetEndDate, "target end date cannot be null");
     Precondition.checkNotNull(totalBeginDate, "total begin date cannot be null");
@@ -1678,74 +1675,7 @@ public final class DateUtil {
     return c.getTime();
   }
 
-
-  /**
-   * get duration time str ,eg.: 1天1小时1分钟
-   *
-   * @param start
-   * @param end
-   * @param durationTimeEnum
-   * @return
-   */
-  public static String getDurationTimeStr(Date start, Date end, DurationTimeEnum durationTimeEnum) {
-    if (start == null || end == null || durationTimeEnum == null) {
-      log.warn("start or end is empty.");
-      return "--";
-    }
-    //
-    long days = 0, hours = 0, minutes = 0, seconds = 0;
-    ///
-    long delta = end.getTime() - start.getTime();
-    if (delta <= 0) {
-      log.warn("delta is zero");
-    } else {
-      //天数计算
-      days = (delta / 1000) / (24 * 3600);
-      //小时计算
-      hours = (delta / 1000) % (24 * 3600) / 3600;
-      //分钟计算
-      minutes = (delta / 1000) % 3600 / 60;
-      // 秒
-      seconds = (delta / 1000) / 1000;
-    }
-    Map<String, String> param = new HashMap<>();
-    param.put("day", "" + days);
-    param.put("hour", "" + hours);
-    param.put("minute", "" + minutes);
-    param.put("second", "" + seconds);
-    //
-    String durationTimeStr = "";
-    //
-    if (durationTimeEnum == DurationTimeEnum.DD_HH_MM_SS_IF_NECESSARY) {
-      //(${day}天)(${hour}小时)(${minute}分钟)${second}秒
-      durationTimeStr = MessageUtil.replace(DurationTimeEnum.DD_HH_MM_SS.getFormat(), param);
-      durationTimeStr = replaceStart(durationTimeStr, "0天");
-      durationTimeStr = replaceStart(durationTimeStr, "0小时");
-      durationTimeStr = replaceStart(durationTimeStr, "0分钟");
-    } else if (durationTimeEnum == DurationTimeEnum.DD_HH_MM_IF_NECESSARY) {
-      durationTimeStr = MessageUtil.replace(DurationTimeEnum.DD_HH_MM.getFormat(), param);
-      durationTimeStr = replaceStart(durationTimeStr, "0天");
-      durationTimeStr = replaceStart(durationTimeStr, "0小时");
-    } else if (durationTimeEnum == DurationTimeEnum.DD_HH_IF_NECESSARY) {
-      durationTimeStr = MessageUtil.replace(DurationTimeEnum.DD_HH.getFormat(), param);
-      durationTimeStr = replaceStart(durationTimeStr, "0天");
-      durationTimeStr = replaceStart(durationTimeStr, "0小时");
-    } else {
-      durationTimeStr = MessageUtil.replace(durationTimeEnum.getFormat(), param);
-    }
-
-    //
-    return StringUtil.defaultIfBlank(durationTimeStr, "--");
-  }
-
   // --------------------------------private method
-
-  private static String replaceStart(String content, String start) {
-    if (content.startsWith(start)) {
-      return content.replace(start, "");
-    }
-    return content;
-  }
 
   private static String format(Date date, String format) {
     SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -1820,7 +1750,7 @@ public final class DateUtil {
    * @param millisecond
    */
   private static void set(final Calendar calendar, final int hour, final int minute, final int second,
-    final int millisecond) {
+                          final int millisecond) {
     calendar.set(Calendar.HOUR_OF_DAY, hour);
     calendar.set(Calendar.MINUTE, minute);
     calendar.set(Calendar.SECOND, second);

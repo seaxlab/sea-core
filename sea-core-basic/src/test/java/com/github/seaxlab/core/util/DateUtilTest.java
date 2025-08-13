@@ -346,17 +346,4 @@ public class DateUtilTest extends BaseCoreTest {
   }
 
 
-  @Test
-  public void testGetDurationTimeStr() throws Exception {
-    Date start = DateUtil.of(2021, 1, 31, 1, 8, 30);
-    Date end = DateUtil.of(2021, 1, 31, 12, 8, 12);
-
-    log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH_MM_SS));
-    log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH_MM));
-    log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH));
-    log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH_MM_SS_IF_NECESSARY));
-    log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH_MM_IF_NECESSARY));
-    log.info("{}", DateUtil.getDurationTimeStr(start, end, DurationTimeEnum.DD_HH_IF_NECESSARY));
-  }
-
 }
