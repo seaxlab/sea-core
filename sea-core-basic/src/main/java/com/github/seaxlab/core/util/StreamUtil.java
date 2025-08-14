@@ -54,7 +54,7 @@ public final class StreamUtil {
    * @return map
    */
   public static <K, R, E> Map<K, E> toMap(Collection<R> data, Function<? super R, ? extends K> keyMapper,
-    Function<? super R, ? extends E> valueMapper) {
+                                          Function<? super R, ? extends E> valueMapper) {
     if (data == null || data.isEmpty()) {
       log.warn("data is empty");
       return new HashMap<>();
@@ -110,7 +110,7 @@ public final class StreamUtil {
    * @return map
    */
   public static <E, A, B> Map<A, List<B>> toMapList(Collection<E> data, Function<? super E, ? extends A> keyMapper,
-    Function<? super E, ? extends B> valueMapper) {
+                                                    Function<? super E, ? extends B> valueMapper) {
     if (data == null || data.isEmpty()) {
       log.warn("data is empty");
       return new HashMap<>();
@@ -125,11 +125,11 @@ public final class StreamUtil {
    * 求和,返回optional,过滤null元数和null属性元数
    *
    * @param data
-   * @param applyFunction
+   * @param mapFunction
    * @param <T>
    * @return 注意这里返回optional
    */
-  public static <T> Optional<BigDecimal> sumBigDecimal(Collection<T> data, Function<T, BigDecimal> applyFunction) {
+  public static <T> Optional<BigDecimal> sumBigDecimal(Collection<T> data, Function<T, BigDecimal> mapFunction) {
     if (data == null || data.isEmpty()) {
       log.warn("data is empty");
       return Optional.empty();
@@ -137,10 +137,52 @@ public final class StreamUtil {
     //
     return data.stream()
                .filter(Objects::nonNull)
-               .map(applyFunction)
+               .map(mapFunction)
                .filter(Objects::nonNull)
                //返回optional
                .reduce(BigDecimal::add);
   }
 
+
+  /**
+   * 求和,返回optional,过滤null元数和null属性元数
+   *
+   * @param data
+   * @param mapFunction
+   * @param <T>
+   * @return 注意这里返回optional
+   */
+  public static <T> Optional<Integer> sumInteger(Collection<T> data, Function<T, Integer> mapFunction) {
+    if (data == null || data.isEmpty()) {
+      log.warn("data is empty");
+      return Optional.empty();
+    }
+    //
+    return data.stream()
+               .filter(Objects::nonNull)
+               .map(mapFunction)
+               .filter(Objects::nonNull)
+               .reduce(Integer::sum);
+  }
+
+  /**
+   * 求和,返回optional,过滤null元数和null属性元数
+   *
+   * @param data
+   * @param mapFunction
+   * @param <T>
+   * @return 注意这里返回optional
+   */
+  public static <T> Optional<Long> sumLong(Collection<T> data, Function<T, Long> mapFunction) {
+    if (data == null || data.isEmpty()) {
+      log.warn("data is empty");
+      return Optional.empty();
+    }
+    //
+    return data.stream()
+               .filter(Objects::nonNull)
+               .map(mapFunction)
+               .filter(Objects::nonNull)
+               .reduce(Long::sum);
+  }
 }
