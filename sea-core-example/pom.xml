@@ -156,6 +156,8 @@
         </configuration>
       </plugin>
 
+      <!--not working for this module-->
+<!--
       <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
@@ -163,7 +165,7 @@
           <skipPublishing>true</skipPublishing>
         </configuration>
       </plugin>
-
+-->
 
       <plugin>
         <groupId>org.springframework.boot</groupId>
