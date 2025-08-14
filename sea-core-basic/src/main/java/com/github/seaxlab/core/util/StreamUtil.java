@@ -2,10 +2,13 @@ package com.github.seaxlab.core.util;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -117,5 +120,27 @@ public final class StreamUtil {
                .collect(Collectors.groupingBy(keyMapper, Collectors.mapping(valueMapper, Collectors.toList())));
   }
 
+
+  /**
+   * 求和,返回optional,过滤null元数和null属性元数
+   *
+   * @param data
+   * @param applyFunction
+   * @param <T>
+   * @return 注意这里返回optional
+   */
+  public static <T> Optional<BigDecimal> sumBigDecimal(Collection<T> data, Function<T, BigDecimal> applyFunction) {
+    if (data == null || data.isEmpty()) {
+      log.warn("data is empty");
+      return Optional.empty();
+    }
+    //
+    return data.stream()
+               .filter(Objects::nonNull)
+               .map(applyFunction)
+               .filter(Objects::nonNull)
+               //返回optional
+               .reduce(BigDecimal::add);
+  }
 
 }
