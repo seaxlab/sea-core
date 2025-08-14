@@ -1,8 +1,0 @@
-# yml
-sea:
-  spring.cloud:
-    feign:
-      enabled: true
-      mock:
-        enabled: true
-        config-path: ${user.home}/sea/mock

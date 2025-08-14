@@ -1,4 +1,0 @@
-#
-# auto configuration.
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.github.seaxlab.core.springcloud.feign.SeaFeignAutoConfiguration
