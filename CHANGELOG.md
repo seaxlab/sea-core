@@ -8,6 +8,7 @@
 ## 3.0.0-SNAPSHOT
 
 // 待处理
+
 - add sea-core-spi 模块
 - remove sea-core-security 模块
 - remove bouncycastle
@@ -19,6 +20,13 @@
 - remove spring
   - condition/encrypt/json/responseFile
 
+## 3.0.3（25-08-14）
+
+- 移除cloud模块
+
+## 3.0.2（25-08-13）
+
+- 增加`DurationUtil`
 
 ## 2.7.3
 
