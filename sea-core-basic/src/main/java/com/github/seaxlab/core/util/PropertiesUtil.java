@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * module name
+ * properties util
  *
  * @author spy
  * @version 1.0 2020/3/24
@@ -28,17 +28,17 @@ public final class PropertiesUtil {
   /**
    * load from file
    *
-   * @param path
-   * @return
+   * @param classPath class path file
+   * @return properties
    */
-  public static Properties load(String path) {
-    try {
-      InputStream in = PropertiesUtil.class.getClassLoader().getResourceAsStream(path);
+  public static Properties load(String classPath) {
+    Properties pros = new Properties();
+    //
+    try (InputStream in = PropertiesUtil.class.getClassLoader().getResourceAsStream(classPath)) {
       if (in == null) {
-        log.info("load properties [{}] not exist", path);
-        return new Properties();
+        log.info("load properties [{}] not exist", classPath);
+        return pros;
       }
-      Properties pros = new Properties();
       pros.load(in);
       return pros;
     } catch (Exception e) {
@@ -56,11 +56,12 @@ public final class PropertiesUtil {
    * @throws IOException
    */
   public static Properties load(InputStream inputStream) throws IOException {
+    Properties props = new Properties();
+    //
     if (inputStream == null) {
-      return new Properties();
+      return props;
     }
 
-    Properties props = new Properties();
     props.load(inputStream);
     return props;
   }
