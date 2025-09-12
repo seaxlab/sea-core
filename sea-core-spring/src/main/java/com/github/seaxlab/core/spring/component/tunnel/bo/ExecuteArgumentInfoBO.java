@@ -2,6 +2,8 @@ package com.github.seaxlab.core.spring.component.tunnel.bo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * module name
  *
@@ -10,7 +12,7 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
-public class ExecuteArgumentInfoBO {
+public class ExecuteArgumentInfoBO implements Serializable {
 
   /**
    * 类名，全路径

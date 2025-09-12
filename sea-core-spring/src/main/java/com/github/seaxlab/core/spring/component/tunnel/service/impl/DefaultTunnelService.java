@@ -1,21 +1,18 @@
 package com.github.seaxlab.core.spring.component.tunnel.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.github.seaxlab.core.exception.BaseAppException;
-import com.github.seaxlab.core.model.Result;
+import com.github.seaxlab.core.spring.component.tunnel.bo.BeanEventReqBO;
 import com.github.seaxlab.core.spring.component.tunnel.bo.ExecuteReqBO;
 import com.github.seaxlab.core.spring.component.tunnel.service.TunnelService;
 import com.github.seaxlab.core.spring.component.tunnel.util.TunnelUtil;
-import com.github.seaxlab.core.util.ExceptionUtil;
-import com.github.seaxlab.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.support.TransactionTemplate;
 
 /**
- * module name
+ * default tunnel service
  *
  * @author spy
  * @version 1.0 2024/8/31
@@ -29,41 +26,34 @@ public class DefaultTunnelService implements TunnelService {
   private final TransactionTemplate transactionTemplate;
 
   @Override
-  public Result<?> execute(ExecuteReqBO bo) {
-    log.info("try to execute, params={}", JSON.toJSONString(bo));
+  public Object executeSimple(ExecuteReqBO bo) {
     Object value = null;
-    try {
-      if (StringUtil.isNotBlank(bo.getField())) {
-        value = TunnelUtil.invokeField(applicationContext, bo);
+    if (StringUtils.isNotBlank(bo.getField())) {
+      value = TunnelUtil.invokeField(applicationContext, bo);
+    } else {
+      boolean txFlag = ObjectUtils.defaultIfNull(bo.getTxFlag(), false);
+      if (txFlag) {
+        log.info("execute in transaction mode");
+        value = transactionTemplate.execute(status -> TunnelUtil.invokeMethod(applicationContext, bo));
       } else {
-        //
-        boolean txFlag = ObjectUtils.defaultIfNull(bo.getTxFlag(), false);
-        if (txFlag) {
-          //
-          log.warn("execute in transaction mode");
-          value = transactionTemplate.execute(status -> TunnelUtil.invokeMethod(applicationContext, bo));
-        } else {
-          //
-          value = TunnelUtil.invokeMethod(applicationContext, bo);
-        }
-        if (value instanceof Result) {
-          return (Result<?>) value;
-        }
+        value = TunnelUtil.invokeMethod(applicationContext, bo);
       }
-
-    } catch (Exception e) {
-      log.warn("fail to invoke ", e);
-      //
-      Throwable realException = ExceptionUtil.removeInvocation(e);
-      //
-      if (realException instanceof BaseAppException) {
-        BaseAppException be = (BaseAppException) realException;
-        //
-        return Result.failMsg(StringUtil.defaultIfBlank(be.getDesc(), be.getMessage()));
-      }
-
-      return Result.failMsg(realException.getMessage());
     }
-    return Result.success(value);
+    return value;
+  }
+
+  @Override
+  public Object executeEvent(BeanEventReqBO bo) {
+    Object value = null;
+    //
+    boolean txFlag = ObjectUtils.defaultIfNull(bo.getTxFlag(), false);
+    if (txFlag) {
+      log.info("execute in transaction mode");
+      value = transactionTemplate.execute(status -> TunnelUtil.invokeBeanEvent(applicationContext, bo));
+    } else {
+      value = TunnelUtil.invokeBeanEvent(applicationContext, bo);
+    }
+
+    return value;
   }
 }
