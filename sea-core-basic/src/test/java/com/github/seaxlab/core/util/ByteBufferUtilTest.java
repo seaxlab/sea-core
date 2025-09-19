@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.io.util;
+package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +19,10 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0
  */
 @Slf4j
-public class MmapUtilTest extends BaseCoreTest {
+public class ByteBufferUtilTest extends BaseCoreTest {
 
   @Test
-  public void run17() throws Exception {
+  public void releaseMappedByteBufferTest() throws Exception {
     File data = new File("/tmp/data_mmap_test.txt");
     if (data.exists()) {
       data.delete();
@@ -37,7 +37,7 @@ public class MmapUtilTest extends BaseCoreTest {
 
     log.info("after 10s...");
 
-    MmapUtil.clean(map);
+    ByteBufferUtil.clean(map);
     new CountDownLatch(1).await();
   }
 }
