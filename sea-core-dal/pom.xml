@@ -44,12 +44,6 @@
     </dependency>
 
     <dependency>
-      <groupId>com.github.pagehelper</groupId>
-      <artifactId>pagehelper</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis</artifactId>
       <scope>provided</scope>
@@ -115,13 +109,6 @@
       <artifactId>flux-dsl</artifactId>
       <scope>provided</scope>
     </dependency>
-
-    <dependency>
-      <groupId>ru.yandex.clickhouse</groupId>
-      <artifactId>clickhouse-jdbc</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
 
     <!-- screw begin, db table doc generator-->
     <dependency>

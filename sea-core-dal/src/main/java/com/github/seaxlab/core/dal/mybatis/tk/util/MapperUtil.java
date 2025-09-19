@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.dal.mybatis.tk.util;
 
-import com.github.pagehelper.PageHelper;
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.model.PageInfo;
@@ -8,14 +7,15 @@ import com.github.seaxlab.core.model.common.ModelConst;
 import com.github.seaxlab.core.model.util.PageUtil;
 import com.github.seaxlab.core.util.ListUtil;
 import com.github.seaxlab.core.util.ReflectUtil;
-import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.binding.MapperProxy;
 import org.apache.ibatis.session.RowBounds;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
+
+import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * module name
@@ -417,9 +417,7 @@ public final class MapperUtil {
     while (hasNext) {
       loopCount++;
       log.info("{} loop count={}", clazz.getSimpleName(), loopCount);
-
-      PageHelper.startPage(1, pageSize, false);
-      List<T> records = mapper.selectByExample(example);
+      List<T> records = mapper.selectByExampleAndRowBounds(example, new RowBounds(0, pageSize));
       if (ListUtil.isEmpty(records)) {
         log.info("{} records is empty, so end.", clazz.getSimpleName());
         break;
