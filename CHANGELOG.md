@@ -20,6 +20,10 @@
 - remove spring
   - condition/encrypt/json/responseFile
 
+## 3.0.4 (25-09-12)
+
+- 优化Tunnel功能
+
 ## 3.0.3（25-08-14）
 
 - 移除cloud模块

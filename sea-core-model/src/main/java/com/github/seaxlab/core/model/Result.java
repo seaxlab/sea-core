@@ -27,7 +27,7 @@ public class Result<T> implements Serializable {
   private String traceId;
 
   /**
-   * 错误编码
+   * 返回编码
    */
   private String code;
 

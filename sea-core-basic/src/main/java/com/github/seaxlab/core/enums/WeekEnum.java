@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.enums;
 
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -16,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
  * @version 1.0 2019-08-20
  * @since 1.0
  */
+@Getter
 public enum WeekEnum {
 
   UNKNOWN(-1, "未知"),
@@ -56,14 +58,6 @@ public enum WeekEnum {
 
   static {
     VALUES = values();
-  }
-
-  public int getType() {
-    return type;
-  }
-
-  public String getDesc() {
-    return desc;
   }
 
   WeekEnum(int type, String desc) {

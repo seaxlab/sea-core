@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.component.condition.dto;
 
-import com.github.seaxlab.core.enums.OperatorEnum;
 import lombok.Data;
 
 /**
@@ -17,7 +16,8 @@ public class ConditionData {
     private String paramType;
 
     /**
-     * {@linkplain OperatorEnum}.
+     * 操作符
+     * @see com.github.seaxlab.core.component.condition.enums.OperatorEnum
      */
     private String operator;
 
