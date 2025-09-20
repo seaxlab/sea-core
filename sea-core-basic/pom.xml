@@ -115,6 +115,7 @@
       <scope>provided</scope>
     </dependency>
 
+    <!-- trace begin -->
     <dependency>
       <groupId>com.alipay.sofa</groupId>
       <artifactId>tracer-core</artifactId>
@@ -126,6 +127,7 @@
       <artifactId>apm-toolkit-trace</artifactId>
       <scope>provided</scope>
     </dependency>
+    <!-- trace end -->
 
     <dependency>
       <groupId>org.freemarker</groupId>
