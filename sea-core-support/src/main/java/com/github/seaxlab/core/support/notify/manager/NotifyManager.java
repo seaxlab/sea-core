@@ -18,5 +18,5 @@ public interface NotifyManager<T extends BaseNotifyDTO> {
    * @param dto
    * @return
    */
-  Result send(T dto);
+  Result<?> send(T dto);
 }

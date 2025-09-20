@@ -24,8 +24,8 @@ import java.util.Date;
 public class MailNotifyManager implements NotifyManager<MailNotifyDTO> {
 
   @Override
-  public Result send(MailNotifyDTO dto) {
-    Result result = Result.fail();
+  public Result<?> send(MailNotifyDTO dto) {
+    Result<?> result = Result.fail();
 
     MailServerConfigDTO mailConfig = dto.getMailServerConfigDTO();
 

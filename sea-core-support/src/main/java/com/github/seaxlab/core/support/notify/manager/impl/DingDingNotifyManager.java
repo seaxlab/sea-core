@@ -26,7 +26,7 @@ public class DingDingNotifyManager implements NotifyManager<DingDingNotifyDTO> {
   private String endpoint;
 
   @Override
-  public Result send(DingDingNotifyDTO dto) {
+  public Result<?> send(DingDingNotifyDTO dto) {
     Result result = Result.fail();
     try {
       send0(dto);

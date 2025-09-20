@@ -26,10 +26,10 @@ public class FeiShuNotifyManager implements NotifyManager<FeiShuNotifyDTO> {
   private String endpoint;
 
   @Override
-  public Result send(FeiShuNotifyDTO dto) {
+  public Result<?> send(FeiShuNotifyDTO dto) {
     Precondition.checkNotBlank(endpoint, "endpoint cannot be empty.");
 
-    Result result = Result.fail();
+    Result<?> result = Result.fail();
     try {
       send0(dto);
       result.setSuccess(true);
