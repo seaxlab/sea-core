@@ -8,11 +8,6 @@ import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.web.model.FootPrintDTO;
 import com.github.seaxlab.core.web.util.RequestUtil;
 import com.google.common.base.Strings;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.Locale;
-import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.ConversionNotSupportedException;
@@ -35,6 +30,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Locale;
+
 
 /**
  * Global异常
@@ -53,23 +54,23 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(value = BaseAppException.class)
   @ResponseBody
-  public ResponseEntity<Result> handleBaseAppException(BaseAppException e) {
+  public ResponseEntity<?> handleBaseAppException(BaseAppException e) {
     log.error("Biz service Exception", e);
 
-    return new ResponseEntity<Result>(buildResult(e.getCode(), e.getDesc(), null), HttpStatus.OK);
+    return new ResponseEntity<>(buildResult(e.getCode(), e.getDesc(), null), HttpStatus.OK);
   }
 
 
   @ExceptionHandler(value = IllegalArgumentException.class)
   @ResponseBody
-  public ResponseEntity<Result> handleIllegalArgumentException(IllegalArgumentException e) {
+  public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {
     log.error("Biz service Exception", e);
 
     return new ResponseEntity<>(buildResult(String.valueOf(-1), e.getMessage(), null), HttpStatus.OK);
   }
 
-  private Result buildResult(String code, String defaultErrorMsg, Object data) {
-    Result result = Result.fail();
+  private Result<?> buildResult(String code, String defaultErrorMsg, Object data) {
+    Result<?> result = Result.fail();
 
     result.setCode(code);
     result.setMsg(getErrorMessage(code, defaultErrorMsg));
@@ -84,7 +85,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(value = HttpMediaTypeNotAcceptableException.class)
   @ResponseBody
   public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpServletRequest request,
-    HttpMediaTypeNotAcceptableException be) {
+                                                                     HttpMediaTypeNotAcceptableException be) {
     log.error("handle HttpMediaTypeNotAcceptableException", be);
 
     return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)),
@@ -94,7 +95,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
   @ResponseBody
   public ResponseEntity<?> handleHttpRequestMethodNotSupportedException(HttpServletRequest request,
-    HttpRequestMethodNotSupportedException be) {
+                                                                        HttpRequestMethodNotSupportedException be) {
     log.error("handle HttpRequestMethodNotSupportedException", be);
 
     return new ResponseEntity<>(buildResult(request, ErrorMessageEnum.SYS_EXCEPTION, getMessage(be)),
