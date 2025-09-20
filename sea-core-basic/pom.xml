@@ -177,6 +177,9 @@
       <scope>provided</scope>
     </dependency>
 
+    <!--
+    HV000183: Unable to initialize 'javax.el.ExpressionFactory'. Check that you have the EL dependencies on the classpath, or use ParameterMessageInterpolator instea
+    -->
     <dependency>
       <groupId>org.glassfish</groupId>
       <artifactId>javax.el</artifactId>

@@ -39,7 +39,7 @@ public class ValidationUtilTest extends BaseCoreTest {
 
   private void checkDTO(BookDTO dto) {
     Set<ConstraintViolation<BookDTO>> violations = ValidationUtil.validate(dto);
-    if (violations.size() > 0) {
+    if (!violations.isEmpty()) {
       log.error("has error,{}", violations);
     }
   }
