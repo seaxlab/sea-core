@@ -20,6 +20,9 @@
 - remove spring
   - condition/encrypt/json/responseFile
 
+## 3.0.5 (25-09-20)
+- remove okhttp/clickhouse/influxdb
+
 ## 3.0.4 (25-09-12)
 
 - 优化Tunnel功能
