@@ -22,10 +22,10 @@ public class SshUtilTest extends BaseCoreTest {
   public void testConnect() throws Exception {
 
     SshConfig cfg = new SshConfig();
-    cfg.setSshHost("10.64.208.130");
-    cfg.setSshPort(2222);
-    cfg.setSshUserName("root");
-    cfg.setSshPassword(getConfig("qd_jmzy_ssh_pwd"));
+    cfg.setHost("10.64.208.130");
+    cfg.setPort(2222);
+    cfg.setUserName("root");
+    cfg.setPassword(getConfig("qd_jmzy_ssh_pwd"));
 
     cfg.setLocalPort(7777);
 
@@ -39,10 +39,10 @@ public class SshUtilTest extends BaseCoreTest {
   @Test
   public void testExecuteCmd() throws Exception {
     SshConfig cfg = new SshConfig();
-    cfg.setSshHost("10.64.208.130");
-    cfg.setSshPort(2222);
-    cfg.setSshUserName("root");
-    cfg.setSshPassword(getConfig("qd_jmzy_ssh_pwd"));
+    cfg.setHost("10.64.208.130");
+    cfg.setPort(2222);
+    cfg.setUserName("root");
+    cfg.setPassword(getConfig("qd_jmzy_ssh_pwd"));
     String data = SshUtil.executeCmd(cfg, "pwd; ls -l");
     log.info("result={}", data);
   }
@@ -50,10 +50,10 @@ public class SshUtilTest extends BaseCoreTest {
   @Test
   public void testUpload() throws Exception {
     SshConfig cfg = new SshConfig();
-    cfg.setSshHost("10.64.208.130");
-    cfg.setSshPort(2222);
-    cfg.setSshUserName("root");
-    cfg.setSshPassword(getConfig("qd_jmzy_ssh_pwd"));
+    cfg.setHost("10.64.208.130");
+    cfg.setPort(2222);
+    cfg.setUserName("root");
+    cfg.setPassword(getConfig("qd_jmzy_ssh_pwd"));
     boolean flag = SshUtil.upload(cfg,PathUtil.getUserHome() + "/test/gc/gc1.log", "/root");
     log.info("flag={}", flag);
   }
@@ -61,10 +61,10 @@ public class SshUtilTest extends BaseCoreTest {
   @Test
   public void testDownload() throws Exception {
     SshConfig cfg = new SshConfig();
-    cfg.setSshHost("10.64.208.130");
-    cfg.setSshPort(2222);
-    cfg.setSshUserName("root");
-    cfg.setSshPassword(getConfig("qd_jmzy_ssh_pwd"));
+    cfg.setHost("10.64.208.130");
+    cfg.setPort(2222);
+    cfg.setUserName("root");
+    cfg.setPassword(getConfig("qd_jmzy_ssh_pwd"));
     boolean flag = SshUtil.download(cfg, "/root/gc1.log",PathUtil.getUserHome() + "/test/");
     log.info("flag={}", flag);
   }

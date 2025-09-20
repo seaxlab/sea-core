@@ -211,16 +211,16 @@ public final class SshUtil {
     if (StringUtil.isNotBlank(config.getPrivateKey())) {
       jsch.addIdentity(config.getPrivateKey());
     }
-    Session session = jsch.getSession(config.getSshUserName(), config.getSshHost(), config.getSshPort());
+    Session session = jsch.getSession(config.getUserName(), config.getHost(), config.getPort());
 
-    if (StringUtil.isNotBlank(config.getSshPassword())) {
-      session.setPassword(config.getSshPassword());
+    if (StringUtil.isNotBlank(config.getPassword())) {
+      session.setPassword(config.getPassword());
     }
     session.setConfig("StrictHostKeyChecking", "no");
     session.setTimeout(DEFAULT_CONNECT_TIME_OUT);
     log.info("Establishing Connection...");
     session.connect();
-    log.info("connection -> {}:{} established.", config.getSshHost(), config.getSshPort());
+    log.info("connection -> {}:{} established.", config.getHost(), config.getPort());
     return session;
   }
 
