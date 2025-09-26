@@ -9,7 +9,6 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -34,22 +33,18 @@ public class SignUtil {
    */
   public static String getByMd5(Map<String, String> map) {
 
-    Map treeMap = new TreeMap();
+    Map<String, String> treeMap = new TreeMap<>();
     for (Map.Entry<String, String> entry : map.entrySet()) {
-      if ("sign_type".equals(entry.getKey())
-              || "signType".equals(entry.getKey())
-              || "sign".equals(entry.getKey())
-              || StringUtils.isEmpty(entry.getValue())) {
+      if ("sign_type".equals(entry.getKey()) || "signType".equals(entry.getKey())
+        || "sign".equals(entry.getKey()) || StringUtils.isEmpty(entry.getValue())) {
         continue;
       }
       treeMap.put(entry.getKey(), entry.getValue());
     }
 
     StringBuilder strBuilder = new StringBuilder();
-    Iterator it = treeMap.keySet().iterator();
-    while (it.hasNext()) {
-      Object key = it.next();
-      strBuilder.append(key + "=" + treeMap.get(key) + "&");
+    for (Object key : treeMap.keySet()) {
+      strBuilder.append(key).append("=").append(treeMap.get(key)).append("&");
     }
     String message = strBuilder.substring(0, strBuilder.length() - 1);
     return Md5Util.getDigest(message).toUpperCase();

@@ -61,6 +61,9 @@ public enum RegExpEnum implements IBaseRegExpEnum<String> {
   LATITUDE("^[\\-\\+]?([0-8]?\\d{1}\\.\\d{1,8}|90\\.0{1,8})$", "纬度：-90.0～+90.0"),
 
   //
+  HTML_MARK ( "(<[^<]*?>)|(<[\\s]*?/[^<]*?>)|(<[^<]*?/[\\s]*?>)","HTML标签"),
+
+  //
   NONE("", "none");
 
   private final String expression;

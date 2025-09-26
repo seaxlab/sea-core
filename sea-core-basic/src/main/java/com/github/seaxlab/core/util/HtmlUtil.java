@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.util;
 
+import com.github.seaxlab.core.enums.RegExpEnum;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -53,7 +54,7 @@ public final class HtmlUtil {
    * @return 清除标签后的文本
    */
   public static String cleanHtmlTag(String content) {
-    return cn.hutool.http.HtmlUtil.cleanHtmlTag(content);
+    return content.replaceAll(RegExpEnum.HTML_MARK.getExpression(), "");
   }
 
   /**

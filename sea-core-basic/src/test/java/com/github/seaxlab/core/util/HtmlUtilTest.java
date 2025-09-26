@@ -2,6 +2,7 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.junit.Test;
 
 /**
@@ -17,8 +18,8 @@ public class HtmlUtilTest extends BaseCoreTest {
   @Test
   public void run17() throws Exception {
 
-    log.info("{}", HtmlUtil.cleanHtmlTag("<a>a</a>"));
-    log.info("{}", HtmlUtil.escape("<a>a</a>"));
-    log.info("{}", HtmlUtil.unescape("&lt;a&gt;a&lt;/a&gt;"));
+    log.info("{}", StringEscapeUtils.unescapeHtml4("<a>a</a>"));
+    log.info("{}", StringEscapeUtils.escapeHtml4("<a>a</a>"));
+    log.info("{}", StringEscapeUtils.unescapeHtml4("&lt;a&gt;a&lt;/a&gt;"));
   }
 }
