@@ -80,7 +80,7 @@ public final class IntegerUtil {
     if (value == null) {
       return false;
     }
-    return value.intValue() != 0L;
+    return value != 0L;
   }
 
   /**

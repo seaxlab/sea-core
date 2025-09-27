@@ -4,7 +4,11 @@ import com.github.seaxlab.core.lang.annotation.MergedAnnotation;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.*;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -112,7 +116,7 @@ public final class AnnotationUtil {
         Map<Class<? extends Annotation>, Annotation> map = (Map<Class<? extends Annotation>, Annotation>) annotations.get(clazzToLookFor);
         map.put(annotationToAlter, annotationValue);
       } catch (Exception e) {
-        e.printStackTrace();
+        log.error("annotation change fail for lower.", e);
       }
     } else {
       try {
@@ -129,7 +133,7 @@ public final class AnnotationUtil {
         Map<Class<? extends Annotation>, Annotation> map = (Map<Class<? extends Annotation>, Annotation>) annotations.get(annotationData);
         map.put(annotationToAlter, annotationValue);
       } catch (Exception e) {
-        e.printStackTrace();
+        log.error("annotation change fail.", e);
       }
     }
   }
@@ -232,9 +236,9 @@ public final class AnnotationUtil {
   public static <T, U extends Annotation> U[] findMethodAnnotationByIsInstance(Class<T> type, Class<U> annotationClass) {
     Method[] method = type.getMethods();
     List<U> lists = new ArrayList<>();
-    for (int i = 0; i < method.length; i++) {
+    for (Method value : method) {
       //获取方法上的所有的注解遍历
-      Annotation[] annotations = method[i].getAnnotations();
+      Annotation[] annotations = value.getAnnotations();
       for (Annotation ann : annotations) {
         //判断annotationClass注解是否ann的实例,此外还有instanceof和isAssignableFrom
         if (annotationClass.isInstance(ann)) {

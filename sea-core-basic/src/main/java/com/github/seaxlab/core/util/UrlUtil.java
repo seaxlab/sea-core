@@ -1,14 +1,14 @@
 package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.common.SymbolConst;
-import com.github.seaxlab.core.exception.ExceptionHandler;
-import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
+
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * module name
@@ -31,13 +31,7 @@ public final class UrlUtil {
    * @return
    */
   public static String decode(String str) {
-    try {
-      return URLDecoder.decode(str, "UTF-8");
-    } catch (IOException e) {
-      log.error("io exception.", e);
-      ExceptionHandler.publishMsg("url decode error.");
-    }
-    return "";
+    return URLDecoder.decode(str, StandardCharsets.UTF_8);
   }
 
   /**
@@ -47,13 +41,7 @@ public final class UrlUtil {
    * @return
    */
   public static String encode(String str) {
-    try {
-      return URLEncoder.encode(str, "UTF-8");
-    } catch (IOException e) {
-      log.error("io exception.", e);
-      ExceptionHandler.publishMsg("url encode error.");
-    }
-    return "";
+    return URLEncoder.encode(str, StandardCharsets.UTF_8);
   }
 
   /**
@@ -105,9 +93,9 @@ public final class UrlUtil {
     }
     builder.append(first);
 
-    if (paths != null && paths.length > 0) {
-      for (int i = 0; i < paths.length; i++) {
-        String item = paths[i];
+    if (paths != null) {
+      for (String path : paths) {
+        String item = path;
         if (StringUtil.isEmpty(item)) {
           continue;
         }
@@ -127,8 +115,7 @@ public final class UrlUtil {
 
   /**
    * parse url
-   * <p>
-   * http://ip:port?abc=1&a=2
+   * <preview> http://ip:port?abc=1&a=2 </preview>
    *
    * @param url
    * @return
@@ -167,8 +154,7 @@ public final class UrlUtil {
     // params
     String params = strArray[1];
     String[] paramArray = params.split("&");
-    for (int i = 0; i < paramArray.length; i++) {
-      String item = paramArray[i];
+    for (String item : paramArray) {
       String[] itemArray = item.split("=");
       switch (itemArray.length) {
         case 0:

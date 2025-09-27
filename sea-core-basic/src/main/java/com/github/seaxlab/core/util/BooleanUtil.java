@@ -115,9 +115,6 @@ public final class BooleanUtil {
    * @return boolean
    */
   public static boolean hasTrue(Boolean... flags) {
-    if (flags.length == 0) {
-      return false;
-    }
     for (Boolean flag : flags) {
       if (isTrue(flag)) {
         return true;
@@ -153,9 +150,6 @@ public final class BooleanUtil {
    * @return boolean
    */
   public static boolean hasFalse(Boolean... flags) {
-    if (flags.length == 0) {
-      return false;
-    }
     for (Boolean flag : flags) {
       if (isFalse(flag)) {
         return true;

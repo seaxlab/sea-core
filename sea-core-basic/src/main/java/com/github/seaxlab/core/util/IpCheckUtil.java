@@ -38,7 +38,7 @@ public final class IpCheckUtil {
    * @return
    */
   public static boolean isPermitted(String ip, String limitedIpStr) {
-    if (null == ip || "".equals(ip)) {
+    if (null == ip || ip.isEmpty()) {
       return false;
     }
     //ip格式不对
@@ -74,7 +74,7 @@ public final class IpCheckUtil {
         String[] end = new String[]{"255", "255", "255", "255"};
         List<String> tem = new ArrayList<>();
         for (int i = 0; i < ips.length; i++) {
-          if (ips[i].indexOf("*") > -1) {
+          if (ips[i].contains("*")) {
             tem = complete(ips[i]);
             from[i] = null;
             end[i] = null;
@@ -156,10 +156,10 @@ public final class IpCheckUtil {
       from = arg.replace("*", "00");
       end = arg.replace("*", "99");
     }
-    if (Integer.valueOf(from) > 255) {
+    if (Integer.parseInt(from) > 255) {
       return null;
     }
-    if (Integer.valueOf(end) > 255) {
+    if (Integer.parseInt(end) > 255) {
       end = "255";
     }
     return from + ";" + end;
@@ -194,7 +194,7 @@ public final class IpCheckUtil {
       return true;
     }
     for (String allow : ipList) {
-      if (allow.indexOf("-") > -1) {// 处理 类似 192.168.0.0-192.168.2.1
+      if (allow.contains("-")) {// 处理 类似 192.168.0.0-192.168.2.1
         String[] tempAllow = allow.split("-");
         String[] from = tempAllow[0].split("\\.");
         String[] end = tempAllow[1].split("\\.");
@@ -252,14 +252,14 @@ public final class IpCheckUtil {
   private static String longToIP(long longIP) {
     StringBuilder sb = new StringBuilder("");
     // 直接右移24位
-    sb.append(String.valueOf(longIP >>> 24));
+    sb.append(longIP >>> 24);
     sb.append(".");
     // 将高8位置0，然后右移16位
-    sb.append(String.valueOf((longIP & 0x00FFFFFF) >>> 16));
+    sb.append((longIP & 0x00FFFFFF) >>> 16);
     sb.append(".");
-    sb.append(String.valueOf((longIP & 0x0000FFFF) >>> 8));
+    sb.append((longIP & 0x0000FFFF) >>> 8);
     sb.append(".");
-    sb.append(String.valueOf(longIP & 0x000000FF));
+    sb.append(longIP & 0x000000FF);
     return sb.toString();
   }
 

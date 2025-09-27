@@ -101,7 +101,7 @@ public final class BirthdayUtil {
    * @param day
    * @return
    */
-  public final static String getChinaDate(int day) {
+  public static String getChinaDate(int day) {
     String a = "";
     if (day == 10) {
       return "初十";
@@ -236,13 +236,7 @@ public final class BirthdayUtil {
   }
 
   private static String formatDate(int[] date) {
-    StringBuffer sb = new StringBuffer();
-    sb.append(date[0]);
-    sb.append("-");
-    sb.append(date[1]);
-    sb.append("-");
-    sb.append(date[2]);
-    return sb.toString();
+    return date[0] + "-" + date[1] + "-" + date[2];
   }
 
 }

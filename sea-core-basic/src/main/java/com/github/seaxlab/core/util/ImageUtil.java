@@ -125,7 +125,7 @@ public class ImageUtil {
    * @param scale        缩放比例
    * @param flag         缩放选择:true 放大; false 缩小;
    */
-  public final static void scale(String srcImageFile, String result, int scale, boolean flag) {
+  public static void scale(String srcImageFile, String result, int scale, boolean flag) {
     try {
       BufferedImage src = ImageIO.read(new File(srcImageFile)); // 读入文件
       int width = src.getWidth(); // 得到源图宽
@@ -156,7 +156,7 @@ public class ImageUtil {
    * @param width        缩放后的宽度
    * @param bb           比例不对时是否需要补白：true为补白; false为不补白;
    */
-  public final static byte[] scale2(InputStream srcImageFile, int height, int width, boolean bb) {
+  public static byte[] scale2(InputStream srcImageFile, int height, int width, boolean bb) {
     try {
       double ratio = 0.0; // 缩放比例
       BufferedImage bi = ImageIO.read(srcImageFile);
@@ -203,7 +203,7 @@ public class ImageUtil {
    * @param width        缩放后的宽度
    * @param bb           比例不对时是否需要补白：true为补白; false为不补白;
    */
-  public final static void scale2(String srcImageFile, String result, int height, int width, boolean bb) {
+  public static void scale2(String srcImageFile, String result, int height, int width, boolean bb) {
     try {
       double ratio = 0.0; // 缩放比例
       File f = new File(srcImageFile);
@@ -248,7 +248,7 @@ public class ImageUtil {
    * @param width        目标切片宽度
    * @param height       目标切片高度
    */
-  public final static void cut(String srcImageFile, String result, int x, int y, int width, int height) {
+  public static void cut(String srcImageFile, String result, int x, int y, int width, int height) {
     try {
       // 读取源图像
       BufferedImage bi = ImageIO.read(new File(srcImageFile));
@@ -280,7 +280,7 @@ public class ImageUtil {
    * @param rows         目标切片行数。默认2，必须是范围 [1, 20] 之内
    * @param cols         目标切片列数。默认2，必须是范围 [1, 20] 之内
    */
-  public final static void cut2(String srcImageFile, String descDir, int rows, int cols) {
+  public static void cut2(String srcImageFile, String descDir, int rows, int cols) {
     try {
       if (rows <= 0 || rows > 20) {
         rows = 2; // 切片行数
@@ -339,7 +339,7 @@ public class ImageUtil {
    * @param destWidth    目标切片宽度。默认200
    * @param destHeight   目标切片高度。默认150
    */
-  public final static void cut3(String srcImageFile, String descDir, int destWidth, int destHeight) {
+  public static void cut3(String srcImageFile, String descDir, int destWidth, int destHeight) {
     try {
       if (destWidth <= 0) {
         destWidth = 200; // 切片宽度
@@ -397,7 +397,7 @@ public class ImageUtil {
    * @param formatName    包含格式非正式名称的 String：如JPG、JPEG、GIF等
    * @param destImageFile 目标图像地址
    */
-  public final static void convert(String srcImageFile, String formatName, String destImageFile) {
+  public static void convert(String srcImageFile, String formatName, String destImageFile) {
     try {
       File f = new File(srcImageFile);
       f.canRead();
@@ -415,7 +415,7 @@ public class ImageUtil {
    * @param srcImageFile  源图像地址
    * @param destImageFile 目标图像地址
    */
-  public final static void gray(String srcImageFile, String destImageFile) {
+  public static void gray(String srcImageFile, String destImageFile) {
     try {
       BufferedImage src = ImageIO.read(new File(srcImageFile));
       ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
@@ -441,7 +441,7 @@ public class ImageUtil {
    * @param y             修正值
    * @param alpha         透明度：alpha 必须是范围 [0.0, 1.0] 之内（包含边界值）的一个浮点数字
    */
-  public final static void pressText(String pressText, String srcImageFile, String destImageFile, String fontName, int fontStyle, Color color, int fontSize, int x, int y, float alpha) {
+  public static void pressText(String pressText, String srcImageFile, String destImageFile, String fontName, int fontStyle, Color color, int fontSize, int x, int y, float alpha) {
     try {
       File img = new File(srcImageFile);
       Image src = ImageIO.read(img);
@@ -476,7 +476,7 @@ public class ImageUtil {
    * @param y             修正值
    * @param alpha         透明度：alpha 必须是范围 [0.0, 1.0] 之内（包含边界值）的一个浮点数字
    */
-  public final static void pressText2(String pressText, String srcImageFile, String destImageFile, String fontName, int fontStyle, Color color, int fontSize, int x, int y, float alpha) {
+  public static void pressText2(String pressText, String srcImageFile, String destImageFile, String fontName, int fontStyle, Color color, int fontSize, int x, int y, float alpha) {
     try {
       File img = new File(srcImageFile);
       Image src = ImageIO.read(img);
@@ -507,7 +507,7 @@ public class ImageUtil {
    * @param y             修正值。 默认在中间
    * @param alpha         透明度：alpha 必须是范围 [0.0, 1.0] 之内（包含边界值）的一个浮点数字
    */
-  public final static void pressImage(String pressImg, String srcImageFile, String destImageFile, int x, int y, float alpha) {
+  public static void pressImage(String pressImg, String srcImageFile, String destImageFile, int x, int y, float alpha) {
     try {
       File img = new File(srcImageFile);
       Image src = ImageIO.read(img);
@@ -536,7 +536,7 @@ public class ImageUtil {
    * @param text
    * @return
    */
-  public final static int getLength(String text) {
+  public static int getLength(String text) {
     int length = 0;
     for (int i = 0; i < text.length(); i++) {
       if ((text.charAt(i) + "").getBytes().length > 1) {

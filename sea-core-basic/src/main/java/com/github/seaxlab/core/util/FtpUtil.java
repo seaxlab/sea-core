@@ -1,9 +1,18 @@
 package com.github.seaxlab.core.util;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.net.ftp.*;
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPClientConfig;
+import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPReply;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.net.SocketException;
 
 import static org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE;
@@ -17,7 +26,8 @@ import static org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE;
  */
 @Slf4j
 public final class FtpUtil {
-  private FTPClient ftpClient;
+  //
+  private final FTPClient ftpClient;
 
   public FtpUtil() {
     ftpClient = new FTPClient();
@@ -86,75 +96,6 @@ public final class FtpUtil {
   }
 
   /**
-   * 下载文件到本地地址
-   *
-   * @param remotePath 远程地址
-   * @param localDir   本地地址
-   * @throws IOException
-   */
-  public boolean downLoad(String remotePath, String localDir) throws IOException {
-    // 进入被动模式
-    ftpClient.enterLocalPassiveMode();
-    // 以二进制进行传输数据
-    ftpClient.setFileType(BINARY_FILE_TYPE);
-    FTPFile[] ftpFiles = ftpClient.listFiles(remotePath);
-    if (ftpFiles == null || ftpFiles.length == 0) {
-      log.info("远程文件不存在");
-      return false;
-    } else if (ftpFiles.length > 1) {
-      log.info("远程文件是文件夹");
-      return false;
-    }
-    long lRemoteSize = ftpFiles[0].getSize();
-    // 本地文件的地址
-    File localFileDir = new File(localDir);
-    if (!localFileDir.exists()) {
-      localFileDir.mkdirs();
-    }
-    File localFile = new File(localFileDir, ftpFiles[0].getName());
-    long localSize = 0;
-    FileOutputStream fos = null;
-    if (localFile.exists()) {
-      if (localFile.length() == lRemoteSize) {
-        log.info("已经下载完毕");
-        return true;
-      } else if (localFile.length() < lRemoteSize) {
-        // 要下载的文件存在，进行断点续传
-        localSize = localFile.length();
-        ftpClient.setRestartOffset(localSize);
-        fos = new FileOutputStream(localFile, true);
-      }
-    }
-    if (fos == null) {
-      fos = new FileOutputStream(localFile);
-    }
-    InputStream is = ftpClient.retrieveFileStream(remotePath);
-    byte[] buffers = new byte[1024];
-    long step = lRemoteSize / 10;
-    long process = localSize / step;
-    int len = -1;
-    while ((len = is.read(buffers)) != -1) {
-      fos.write(buffers, 0, len);
-      localSize += len;
-      long newProcess = localSize / step;
-      if (newProcess > process) {
-        process = newProcess;
-        log.info("下载进度:" + process);
-      }
-    }
-    is.close();
-    fos.close();
-    boolean isDo = ftpClient.completePendingCommand();
-    if (isDo) {
-      log.info("下载成功");
-    } else {
-      log.info("下载失败");
-    }
-    return isDo;
-
-  }
-
-  /**
    * 创建远程目录
    *
    * @param remote 远程目录
@@ -171,10 +112,10 @@ public final class FtpUtil {
       }
       end = directory.indexOf("/", start);
       while (true) {
-        String subDirctory = remote.substring(start, end);
-        if (!ftpClient.changeWorkingDirectory(subDirctory)) {
-          if (ftpClient.makeDirectory(subDirctory)) {
-            ftpClient.changeWorkingDirectory(subDirctory);
+        String subDirectory = remote.substring(start, end);
+        if (!ftpClient.changeWorkingDirectory(subDirectory)) {
+          if (ftpClient.makeDirectory(subDirectory)) {
+            ftpClient.changeWorkingDirectory(subDirectory);
           } else {
             log.error("创建目录失败");
             return false;
@@ -263,7 +204,7 @@ public final class FtpUtil {
 
     // 列出ftp服务器上的文件
     FTPFile[] ftpFiles = ftpClient.listFiles(remotePath);
-    long remoteSize = 0l;
+    long remoteSize = 0L;
     String remoteFilePath = remotePath + "/" + fileName;
     if (ftpFiles.length > 0) {
       FTPFile mFtpFile = null;
@@ -281,10 +222,10 @@ public final class FtpUtil {
         }
         if (remoteSize > localFile.length()) {
           if (!ftpClient.deleteFile(remoteFilePath)) {
-            log.error("服务端文件操作失败");
+            log.warn("服务端文件操作失败");
           } else {
             boolean isUpload = uploadFile(remoteFilePath, localFile, 0);
-            log.info("是否上传成功：" + isUpload);
+            log.info("是否上传成功：{}", isUpload);
           }
           return true;
         }
@@ -345,8 +286,77 @@ public final class FtpUtil {
     os.flush();
     randomAccessFile.close();
     os.close();
-    boolean result = ftpClient.completePendingCommand();
-    return result;
+    return ftpClient.completePendingCommand();
+  }
+
+
+  /**
+   * 下载文件到本地地址
+   *
+   * @param remotePath 远程地址
+   * @param localDir   本地地址
+   * @throws IOException
+   */
+  public boolean downLoad(String remotePath, String localDir) throws IOException {
+    // 进入被动模式
+    ftpClient.enterLocalPassiveMode();
+    // 以二进制进行传输数据
+    ftpClient.setFileType(BINARY_FILE_TYPE);
+    FTPFile[] ftpFiles = ftpClient.listFiles(remotePath);
+    if (ftpFiles == null || ftpFiles.length == 0) {
+      log.info("远程文件不存在");
+      return false;
+    } else if (ftpFiles.length > 1) {
+      log.info("远程文件是文件夹");
+      return false;
+    }
+    long lRemoteSize = ftpFiles[0].getSize();
+    // 本地文件的地址
+    File localFileDir = new File(localDir);
+    if (!localFileDir.exists()) {
+      localFileDir.mkdirs();
+    }
+    File localFile = new File(localFileDir, ftpFiles[0].getName());
+    long localSize = 0;
+    FileOutputStream fos = null;
+    if (localFile.exists()) {
+      if (localFile.length() == lRemoteSize) {
+        log.info("已经下载完毕");
+        return true;
+      } else if (localFile.length() < lRemoteSize) {
+        // 要下载的文件存在，进行断点续传
+        localSize = localFile.length();
+        ftpClient.setRestartOffset(localSize);
+        fos = new FileOutputStream(localFile, true);
+      }
+    }
+    if (fos == null) {
+      fos = new FileOutputStream(localFile);
+    }
+    InputStream is = ftpClient.retrieveFileStream(remotePath);
+    byte[] buffers = new byte[1024];
+    long step = lRemoteSize / 10;
+    long process = localSize / step;
+    int len = -1;
+    while ((len = is.read(buffers)) != -1) {
+      fos.write(buffers, 0, len);
+      localSize += len;
+      long newProcess = localSize / step;
+      if (newProcess > process) {
+        process = newProcess;
+        log.info("下载进度:{}", process);
+      }
+    }
+    is.close();
+    fos.close();
+    boolean doneFlag = ftpClient.completePendingCommand();
+    if (doneFlag) {
+      log.info("下载成功");
+    } else {
+      log.info("下载失败");
+    }
+    return doneFlag;
+
   }
 
 //    /**

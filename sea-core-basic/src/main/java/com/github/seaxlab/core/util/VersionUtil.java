@@ -52,7 +52,7 @@ public final class VersionUtil {
       // guess version from jar file name if nothing's found from MANIFEST.MF
       CodeSource codeSource = cls.getProtectionDomain().getCodeSource();
       if (codeSource == null) {
-        log.info("No codeSource for class " + cls.getName() + " when getVersion, use default version " + defaultVersion);
+        log.info("No codeSource for class {} when getVersion, use default version {}" ,cls.getName(), defaultVersion);
         return defaultVersion;
       }
 
@@ -65,7 +65,7 @@ public final class VersionUtil {
       return StringUtils.isEmpty(version) ? defaultVersion : version;
     } catch (Throwable e) {
       // return default version when any exception is thrown
-      log.error("return default version, ignore exception " + e.getMessage(), e);
+      log.error("return default version, ignore exception ", e);
       return defaultVersion;
     }
   }
@@ -90,7 +90,7 @@ public final class VersionUtil {
     }
 
     // remove module: "x.y.z"
-    while (file.length() > 0 && !Character.isDigit(file.charAt(0))) {
+    while (!file.isEmpty() && !Character.isDigit(file.charAt(0))) {
       i = file.indexOf("-");
       if (i >= 0) {
         file = file.substring(i + 1);
@@ -148,7 +148,7 @@ public final class VersionUtil {
         URL url = urls.nextElement();
         if (url != null) {
           String file = url.getFile();
-          if (file != null && file.length() > 0) {
+          if (file != null && !file.isEmpty()) {
             String version = getVersionByPath(file);
             if (checkVersionNecessary(version)) {
               Long ver = convertVersion(version);
@@ -172,29 +172,29 @@ public final class VersionUtil {
   /**
    * 根据jar包的路径，找到对应的版本号
    *
-   * @param file file path
+   * @param filePath file path
    */
-  public static String getVersionByPath(String file) {
-    if (file != null && file.length() > 0 && StringUtils.contains(file, ".jar")) {
-      int index = StringUtils.indexOf(file, ".jar");
-      file = file.substring(0, index);
-      int i = file.lastIndexOf('/');
+  public static String getVersionByPath(String filePath) {
+    if (filePath != null && !filePath.isEmpty() && StringUtils.contains(filePath, ".jar")) {
+      int index = StringUtils.indexOf(filePath, ".jar");
+      filePath = filePath.substring(0, index);
+      int i = filePath.lastIndexOf('/');
       if (i >= 0) {
-        file = file.substring(i + 1);
+        filePath = filePath.substring(i + 1);
       }
-      i = file.indexOf("-");
+      i = filePath.indexOf("-");
       if (i >= 0) {
-        file = file.substring(i + 1);
+        filePath = filePath.substring(i + 1);
       }
-      while (file.length() > 0 && !Character.isDigit(file.charAt(0))) {
-        i = file.indexOf("-");
+      while (!filePath.isEmpty() && !Character.isDigit(filePath.charAt(0))) {
+        i = filePath.indexOf("-");
         if (i >= 0) {
-          file = file.substring(i + 1);
+          filePath = filePath.substring(i + 1);
         } else {
           break;
         }
       }
-      return file;
+      return filePath;
     } else {
       return null;
     }
@@ -202,7 +202,7 @@ public final class VersionUtil {
 
   public static Long convertVersion(String version) {
     String[] parts = StringUtils.split(version, '.');
-    Long result = 0L;
+    long result = 0L;
     int i = 1;
     int size = Math.max(parts.length, 4);
     for (String part : parts) {

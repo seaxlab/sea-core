@@ -39,7 +39,7 @@ public final class MessageUtil {
     if (StringUtil.isEmpty(str)) {
       return str2;
     }
-    return new StringBuilder(str).append(splitChar).append(str2).toString();
+    return str + splitChar + str2;
   }
 
   /**
