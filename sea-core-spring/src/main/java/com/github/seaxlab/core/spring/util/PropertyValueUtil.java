@@ -26,9 +26,7 @@ public abstract class PropertyValueUtil {
 
     Map<String, Object> subProperties = PropertySourceUtil.getSubProperties(environment.getPropertySources(), environment, prefix);
 
-    PropertyValues subPropertyValues = new MutablePropertyValues(subProperties);
-
-    return subPropertyValues;
+    return new MutablePropertyValues(subProperties);
 
   }
 }

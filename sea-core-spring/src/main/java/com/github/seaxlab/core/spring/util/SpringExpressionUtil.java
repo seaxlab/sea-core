@@ -29,12 +29,12 @@ public final class SpringExpressionUtil {
   /**
    * 表达式解析器
    */
-  private static ExpressionParser expressionParser = new SpelExpressionParser();
+  private static final ExpressionParser expressionParser = new SpelExpressionParser();
 
   /**
    * 参数名解析器，用于获取参数名
    */
-  private static DefaultParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
+  private static final DefaultParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
 
   private SpringExpressionUtil() {
   }
@@ -51,6 +51,10 @@ public final class SpringExpressionUtil {
    */
   public static <T> T parse(Method method, Object[] args, String expression, Class<T> clz, T defaultResult) {
     String[] params = parameterNameDiscoverer.getParameterNames(method);
+    if (params == null) {
+      log.warn("params is empty, so end.");
+      return null;
+    }
     EvaluationContext context = new StandardEvaluationContext();
     //设置上下文变量
     for (int i = 0; i < params.length; i++) {
@@ -74,6 +78,11 @@ public final class SpringExpressionUtil {
    */
   public static <T> T parse(Method method, Object[] args, String expression, Class<T> clz) {
     String[] params = parameterNameDiscoverer.getParameterNames(method);
+    if (params == null) {
+      log.warn("params is empty, so end.");
+      return null;
+    }
+    //
     EvaluationContext context = new StandardEvaluationContext();
     //设置上下文变量
     for (int i = 0; i < params.length; i++) {
@@ -137,7 +146,7 @@ public final class SpringExpressionUtil {
       //获取表达式的值
       return expressionObj.getValue(context, clz);
     } catch (Exception e) {
-      log.error(e.getMessage(), e);
+      log.error("fail to parse expression and get value", e);
     }
     return null;
   }
@@ -147,7 +156,7 @@ public final class SpringExpressionUtil {
    * 解析表达式
    *
    * @param expression spel表达式
-   * @return
+   * @return Expression
    */
   private static Expression parseExpression(String expression) {
     // 如果表达式是一个#{}表达式，需要为解析传入模板解析器上下文
