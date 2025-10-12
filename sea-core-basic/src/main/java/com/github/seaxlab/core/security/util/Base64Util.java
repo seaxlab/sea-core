@@ -31,7 +31,7 @@ public class Base64Util {
     try {
       return Base64.encodeBase64String(value.getBytes(DEFAULT_CHARSET));
     } catch (UnsupportedEncodingException e) {
-      log.error("base64 encode", e);
+      log.error("base64 encode error", e);
       ExceptionHandler.publishMsg("base64 encode 失败.");
     }
     return null;
@@ -47,7 +47,7 @@ public class Base64Util {
     try {
       return new String(Base64.decodeBase64(base64Str), DEFAULT_CHARSET);
     } catch (UnsupportedEncodingException e) {
-      log.error("base64 decode", e);
+      log.error("base64 decode error", e);
       ExceptionHandler.publishMsg("base64 decode 失败.");
     }
     return null;

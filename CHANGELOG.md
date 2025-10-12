@@ -5,7 +5,7 @@
 - 禁用的三方包
 - gson
 
-## 3.0.0-SNAPSHOT
+## 3.0.x-SNAPSHOT
 
 // 待处理
 
@@ -20,7 +20,12 @@
 - remove spring
   - condition/encrypt/json/responseFile
 
+## 3.0.6 (25-10-12)
+
+- remove jedis
+
 ## 3.0.5 (25-09-20)
+
 - remove okhttp/clickhouse/influxdb
 
 ## 3.0.4 (25-09-12)

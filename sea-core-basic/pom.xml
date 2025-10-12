@@ -318,12 +318,6 @@
 
     <!-- redis begin -->
     <dependency>
-      <groupId>redis.clients</groupId>
-      <artifactId>jedis</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.redisson</groupId>
       <artifactId>redisson</artifactId>
       <scope>provided</scope>
@@ -398,12 +392,6 @@
         <groupId>org.springframework</groupId>
         <artifactId>spring-expression</artifactId>
         <version>${spring.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>redis.clients</groupId>
-        <artifactId>jedis</artifactId>
-        <version>${jedis.version}</version>
       </dependency>
 
       <dependency>

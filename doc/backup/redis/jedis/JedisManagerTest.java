@@ -30,30 +30,30 @@ import static com.github.seaxlab.core.test.util.TestUtil.runInMultiThread;
  * @since 1.0
  */
 @Slf4j
-public class RedisManagerTest extends BaseCoreTest {
+public class JedisManagerTest extends BaseCoreTest {
 
-  JedisManager redisManager;
+  JedisManager jedisManager;
 
   @Before
   public void before() throws Exception {
-    redisManager = new JedisManager();
-    redisManager.setHost("mylab-redis");
-    redisManager.setPort(6379);
-    redisManager.setDatabase(1);
-    redisManager.init();
+    jedisManager = new JedisManager();
+    jedisManager.setHost("mylab-redis");
+    jedisManager.setPort(6379);
+    jedisManager.setDatabase(1);
+    jedisManager.init();
   }
 
   @Test
   public void testInfo() throws Exception {
-    Map<String, String> map = redisManager.info("stats");
+    Map<String, String> map = jedisManager.info("stats");
     log.info("info={}", map);
   }
 
 
   @Test
   public void simpleTest() throws Exception {
-    redisManager.set("11", "abc");
-    String value = (String) redisManager.get("11");
+    jedisManager.set("11", "abc");
+    String value = (String) jedisManager.get("11");
     log.info("value={}", value);
   }
 
@@ -62,8 +62,8 @@ public class RedisManagerTest extends BaseCoreTest {
     String key = "my-json";
     User user = User.builder().id(1L).name("abc").build();
 
-    redisManager.setJSON(key, user);
-    Optional<User> optionalUser = redisManager.getJSON(key, User.class);
+    jedisManager.setJSON(key, user);
+    Optional<User> optionalUser = jedisManager.getJSON(key, User.class);
 
     log.info("my user={}", optionalUser);
   }
@@ -94,17 +94,17 @@ public class RedisManagerTest extends BaseCoreTest {
       }
     };
     new Thread(() -> {
-      redisManager.subscribe(pubSub, "my-channel");
+      jedisManager.subscribe(pubSub, "my-channel");
     }).start();
 
     new Thread(() -> {
-      redisManager.subscribe(pubSub2, "my-channel");
+      jedisManager.subscribe(pubSub2, "my-channel");
     }).start();
 
     TimeUnit.SECONDS.sleep(2);
     for (int i = 0; i < 10; i++) {
       log.info("publish message");
-      redisManager.publish("my-channel", "" + i);
+      jedisManager.publish("my-channel", "" + i);
     }
 
     TimeUnit.SECONDS.sleep(10);
@@ -117,7 +117,7 @@ public class RedisManagerTest extends BaseCoreTest {
     String key = "order:f:paysucc";
     for (int i = 0; i < 10; i++) {
       long userId = i;
-      boolean ret = redisManager.setBit(key, userId, true);
+      boolean ret = jedisManager.setBit(key, userId, true);
       log.info("ret={}", ret);
     }
   }
@@ -127,7 +127,7 @@ public class RedisManagerTest extends BaseCoreTest {
     String key = "order:f:paysucc";
 
     for (int i = 0; i < 15; i++) {
-      log.info("{}={}", i, redisManager.getBit(key, i));
+      log.info("{}={}", i, jedisManager.getBit(key, i));
     }
   }
 
@@ -135,7 +135,7 @@ public class RedisManagerTest extends BaseCoreTest {
   public void maxSetBitTest() throws Exception {
     String key = "order:f:paysucc";
     long userId = 4294967295L - 1;
-    boolean ret = redisManager.setBit(key, userId, true);
+    boolean ret = jedisManager.setBit(key, userId, true);
     log.info("ret={}", ret);
   }
 
@@ -144,7 +144,7 @@ public class RedisManagerTest extends BaseCoreTest {
     String key = "order:f:paysucc";
     long userId = 4294967295L - 1;
 //        userId = 4294967293L;
-    boolean ret = redisManager.getBit(key, userId);
+    boolean ret = jedisManager.getBit(key, userId);
     log.info("ret={}", ret);
   }
 
@@ -166,7 +166,7 @@ public class RedisManagerTest extends BaseCoreTest {
   public void deleteTest() throws Exception {
     String key = "order:f:paysucc";
 
-    redisManager.del(key);
+    jedisManager.del(key);
   }
 
   @Test
@@ -178,7 +178,7 @@ public class RedisManagerTest extends BaseCoreTest {
     scanParams.count(10);
     while (true) {
       //使用scan命令获取数据，使用cursor游标记录位置，下次循环使用
-      ScanResult<String> scanResult = redisManager.scan(cursor, scanParams);
+      ScanResult<String> scanResult = jedisManager.scan(cursor, scanParams);
       cursor = scanResult.getCursor();// 返回0 说明遍历完成
       List<String> list = scanResult.getResult();
 
@@ -200,7 +200,7 @@ public class RedisManagerTest extends BaseCoreTest {
 
   @Test
   public void testSscan() {
-    Jedis jedis = redisManager.getJedis();
+    Jedis jedis = jedisManager.getJedis();
     // 游标初始值为0
     String cursor = ScanParams.SCAN_POINTER_START;
     ScanParams scanParams = new ScanParams();
@@ -238,13 +238,13 @@ public class RedisManagerTest extends BaseCoreTest {
 
 
     Runnable runnable = () -> {
-      boolean flag = redisManager.tryLock(keys, 2, TimeUnit.MINUTES);
+      boolean flag = jedisManager.tryLock(keys, 2, TimeUnit.MINUTES);
       log.info("flag={}", flag);
       if (flag) {
         try {
           log.info("do some biz....");
         } finally {
-          redisManager.unLock(keys);
+          jedisManager.unLock(keys);
         }
       }
 
@@ -259,7 +259,7 @@ public class RedisManagerTest extends BaseCoreTest {
     List<String> keys = ListUtil.newArrayList("test-batch-incr1", "test-batch-incr2");
 
     for (int i = 0; i < 10; i++) {
-      boolean ret = redisManager.batchIncr(keys);
+      boolean ret = jedisManager.batchIncr(keys);
       log.info("batch no={},result={}", i, ret);
     }
 
@@ -270,7 +270,7 @@ public class RedisManagerTest extends BaseCoreTest {
     List<String> keys = ListUtil.newArrayList("test-batch-incr1", "test-batch-incr2");
     List<Integer> limits = ListUtil.newArrayList(10, 30);
     for (int i = 0; i < 14; i++) {
-      boolean ret = redisManager.batchIncrLimit(keys, limits);
+      boolean ret = jedisManager.batchIncrLimit(keys, limits);
       log.info("batch no={},result={}", i, ret);
     }
   }
@@ -279,7 +279,7 @@ public class RedisManagerTest extends BaseCoreTest {
   public void testBatchDecr() throws Exception {
     List<String> keys = ListUtil.newArrayList("test-batch-incr1", "test-batch-incr2");
     for (int i = 0; i < 5; i++) {
-      boolean ret = redisManager.batchDecr(keys);
+      boolean ret = jedisManager.batchDecr(keys);
       log.info("batch no={},result={}", i, ret);
     }
   }
@@ -289,7 +289,7 @@ public class RedisManagerTest extends BaseCoreTest {
     List<String> keys = ListUtil.newArrayList("test-batch-incr1", "test-batch-incr2");
     List<Integer> limits = ListUtil.newArrayList(10, 20);
     for (int i = 0; i < 5; i++) {
-      boolean ret = redisManager.batchDecrLimit(keys, limits);
+      boolean ret = jedisManager.batchDecrLimit(keys, limits);
       log.info("batch no={},result={}", i, ret);
     }
   }
@@ -298,14 +298,14 @@ public class RedisManagerTest extends BaseCoreTest {
   @Test
   public void testNextId() throws Exception {
     for (int i = 0; i < 10; i++) {
-      log.info("id={}", redisManager.nextId("abc"));
+      log.info("id={}", jedisManager.nextId("abc"));
     }
   }
 
   @Test
   public void testNextIds() throws Exception {
     for (int i = 0; i < 10; i++) {
-      log.info("id={}", redisManager.nextIds("a2", 5));
+      log.info("id={}", jedisManager.nextIds("a2", 5));
     }
   }
 
@@ -313,8 +313,8 @@ public class RedisManagerTest extends BaseCoreTest {
   public void after() throws Exception {
 
     TimeUnit.SECONDS.sleep(2);
-    if (redisManager != null) {
-      redisManager.destroy();
+    if (jedisManager != null) {
+      jedisManager.destroy();
     }
 
   }

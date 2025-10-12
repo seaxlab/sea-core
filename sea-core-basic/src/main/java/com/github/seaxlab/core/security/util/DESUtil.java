@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.security.util;
 
+import com.github.seaxlab.core.exception.Precondition;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.Cipher;
@@ -51,6 +52,9 @@ public class DESUtil {
    * @return
    */
   public static String encrypt(String content, String secretKey) {
+    //
+    Precondition.checkFalse(secretKey.length() == 8, "secret key length must be 8");
+    //
     try {
       byte[] keyBytes = secretKey.getBytes();
       byte[] text = content.getBytes();
@@ -65,7 +69,7 @@ public class DESUtil {
     } catch (Exception e) {
       log.error("fail to encrypt by DES", e);
     }
-    return null;
+    return "";
   }
 
   /**
@@ -76,6 +80,9 @@ public class DESUtil {
    * @return
    */
   public static String decrypt(String content, String secretKey) {
+    //
+    Precondition.checkFalse(secretKey.length() == 8, "secret key length must be 8");
+    //
     try {
       byte[] keyBytes = secretKey.getBytes();
       byte[] text = hexToByteArray(content);
@@ -90,7 +97,7 @@ public class DESUtil {
     } catch (Exception e) {
       log.error("fail to decrypt by DES", e);
     }
-    return null;
+    return "";
   }
 
   private static String byteToHexString(byte[] bytes) {

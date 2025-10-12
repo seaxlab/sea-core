@@ -3,13 +3,33 @@ package com.github.seaxlab.core.cache.redis.jedis;
 import com.alibaba.fastjson.JSON;
 import com.github.seaxlab.core.cache.redis.RedisConst;
 import com.github.seaxlab.core.exception.ExceptionHandler;
-import com.github.seaxlab.core.util.*;
+import com.github.seaxlab.core.util.ArrayUtil;
+import com.github.seaxlab.core.util.EqualUtil;
+import com.github.seaxlab.core.util.FileUtil;
+import com.github.seaxlab.core.util.ListUtil;
+import com.github.seaxlab.core.util.MapUtil;
+import com.github.seaxlab.core.util.SerializeUtil;
+import com.github.seaxlab.core.util.SetUtil;
+import com.github.seaxlab.core.util.StringUtil;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import redis.clients.jedis.*;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
@@ -22,25 +42,34 @@ import java.util.stream.Collectors;
  * @version 1.0 2019-07-18
  * @since 1.0
  */
+@Slf4j
 public class JedisManager {
 
-  private static Logger log = LoggerFactory.getLogger(JedisManager.class);
-
   // Redis服务器IP
+  @Setter
+  @Getter
   private String host;
   // Redis的端口号
+  @Setter
+  @Getter
   private int port;
   // 访问密码
+  @Setter
+  @Getter
   private String password;
-  // 控制一个pool最多有多少个状态为idle(空闲的)的jedis实例，默认值也是8。
-  private int MAX_IDLE = 100;
-  // 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException；
-  private int TIME_OUT = 5000;
 
-  private int MAX_TOTAL = 300;
   //redis数据库
+  @Setter
+  @Getter
   private int database;
 
+
+  // 控制一个pool最多有多少个状态为idle(空闲的)的jedis实例，默认值也是8。
+  private static final int MAX_IDLE = 100;
+  // 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException；
+  private static final int TIME_OUT = 5000;
+
+  private static final int MAX_TOTAL = 300;
 
   private JedisPool pool;
 
@@ -1048,38 +1077,4 @@ public class JedisManager {
       jedis.close();
     }
   }
-
-
-  public String getHost() {
-    return host;
-  }
-
-  public void setHost(String host) {
-    this.host = host;
-  }
-
-  public int getPort() {
-    return port;
-  }
-
-  public void setPort(int port) {
-    this.port = port;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public int getDatabase() {
-    return database;
-  }
-
-  public void setDatabase(int database) {
-    this.database = database;
-  }
-
 }

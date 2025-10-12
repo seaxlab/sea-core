@@ -84,6 +84,6 @@ public class SignUtil {
       log.error("make sign error", e);
     }
 
-    return null;
+    return "";
   }
 }

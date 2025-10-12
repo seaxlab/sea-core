@@ -26,9 +26,7 @@ public class CacheConst {
   /**
    * guava common remove listener
    */
-  public static final RemovalListener COMMON_REMOVE_LISTENER = (RemovalListener<String, Object>) notification -> {
-    if (notification != null) {
-      log.info("remove cache key={}", notification.getKey());
-    }
+  public static final RemovalListener<?, ?> COMMON_REMOVE_LISTENER = (RemovalListener<String, Object>) notification -> {
+    log.info("remove cache key={}", notification.getKey());
   };
 }
