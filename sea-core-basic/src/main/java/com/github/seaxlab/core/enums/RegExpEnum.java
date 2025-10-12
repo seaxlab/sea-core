@@ -10,7 +10,7 @@ import lombok.Getter;
  * @since 1.0
  */
 @Getter
-public enum RegExpEnum implements IBaseRegExpEnum<String> {
+public enum RegExpEnum {
   //
   ID("^[A-Za-z0-9\\-\\_\\.]+$", "字母+数字+中划线+下划线+点号"),
   CODE("^[A-Za-z0-9\\-\\_]+", "字母+数字+中划线+下划线"),
@@ -61,7 +61,7 @@ public enum RegExpEnum implements IBaseRegExpEnum<String> {
   LATITUDE("^[\\-\\+]?([0-8]?\\d{1}\\.\\d{1,8}|90\\.0{1,8})$", "纬度：-90.0～+90.0"),
 
   //
-  HTML_MARK ( "(<[^<]*?>)|(<[\\s]*?/[^<]*?>)|(<[^<]*?/[\\s]*?>)","HTML标签"),
+  HTML_MARK("(<[^<]*?>)|(<[\\s]*?/[^<]*?>)|(<[^<]*?/[\\s]*?>)", "HTML标签"),
 
   //
   NONE("", "none");
