@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.example.web.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.seaxlab.core.example.util.HttpUtils;
+import com.github.seaxlab.core.example.util.HttpUtil;
 import com.github.seaxlab.core.example.util.SignUtil;
 import com.github.seaxlab.core.web.servlet.BodyReaderHttpServletRequestWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +47,7 @@ public class SignAuthFilter implements Filter {
       chain.doFilter(request, response);
     } else {
       //获取全部参数(包括URL和body上的)
-      SortedMap<String, String> allParams = HttpUtils.getAllParams(wrapperRequest);
+      SortedMap<String, String> allParams = HttpUtil.getAllParams(wrapperRequest);
       //对参数进行签名验证
       boolean isSigned = SignUtil.verifySign(allParams);
       if (isSigned) {

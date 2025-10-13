@@ -23,14 +23,12 @@ import java.util.TreeMap;
  * @since 1.0
  */
 @Slf4j
-public class HttpUtils {
+public class HttpUtil {
 
   /**
    * 将URL的参数和body参数合并
    *
    * @param request
-   * @author show
-   * @date 14:24 2019/5/29
    */
   public static SortedMap<String, String> getAllParams(HttpServletRequest request) throws IOException {
 
@@ -58,8 +56,6 @@ public class HttpUtils {
    * 获取 Body 参数
    *
    * @param request
-   * @author show
-   * @date 15:04 2019/5/30
    */
   public static Map<String, String> getRequestBodyParam(final HttpServletRequest request) throws IOException {
 
@@ -78,7 +74,6 @@ public class HttpUtils {
    * 将URL请求参数转换成Map
    *
    * @param request
-   * @author show
    */
   public static Map<String, String> getUrlParams(HttpServletRequest request) {
 
