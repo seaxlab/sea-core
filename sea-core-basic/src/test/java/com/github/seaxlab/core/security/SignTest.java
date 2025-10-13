@@ -1,8 +1,6 @@
 package com.github.seaxlab.core.security;
 
 import com.github.seaxlab.core.BaseCoreTest;
-import com.github.seaxlab.core.component.layer.encrypt.EncryptRequestDTO;
-import com.github.seaxlab.core.component.layer.encrypt.EncryptResult;
 import com.github.seaxlab.core.security.util.AESUtil;
 import com.github.seaxlab.core.security.util.SignUtil;
 import com.github.seaxlab.core.util.JSONUtil;
@@ -62,15 +60,15 @@ public class SignTest extends BaseCoreTest {
     //加密方式 AES (AES/ECB/PKCS5Padding)
     String encryptedBizContent = AESUtil.encrypt(bizContent, appSecret);
 
-    EncryptRequestDTO requestDTO = new EncryptRequestDTO();
-
-    requestDTO.setAppId(appId);
-    requestDTO.setVersion(version);
-    requestDTO.setTimestamp(timestamp);
-    requestDTO.setSign(sign);
-    requestDTO.setBizContent(encryptedBizContent);
-
-    log.info("encryptRequestDTO={}", JSONUtil.toStr(requestDTO));
+    //EncryptRequestDTO requestDTO = new EncryptRequestDTO();
+    //
+    //requestDTO.setAppId(appId);
+    //requestDTO.setVersion(version);
+    //requestDTO.setTimestamp(timestamp);
+    //requestDTO.setSign(sign);
+    //requestDTO.setBizContent(encryptedBizContent);
+    //
+    //log.info("encryptRequestDTO={}", JSONUtil.toStr(requestDTO));
 
     // 解密
     String decryptedBizContent = AESUtil.decrypt(encryptedBizContent, appSecret);
@@ -117,16 +115,16 @@ public class SignTest extends BaseCoreTest {
 
     String encryptBizContent = AESUtil.encrypt(bizContent, appSecret);
 
-    EncryptResult result = new EncryptResult();
-
-    result.setSuccess(true);
-    result.setAppId(appId);
-    result.setBizContent(encryptBizContent);
-    result.setMessage(msg);
-    result.setSign(sign);
-    result.setVersion(version);
-
-    log.info("result={}", JSONUtil.toStr(result));
+    //EncryptResult result = new EncryptResult();
+    //
+    //result.setSuccess(true);
+    //result.setAppId(appId);
+    //result.setBizContent(encryptBizContent);
+    //result.setMessage(msg);
+    //result.setSign(sign);
+    //result.setVersion(version);
+    //
+    //log.info("result={}", JSONUtil.toStr(result));
 
   }
 

@@ -27,11 +27,11 @@ public class LocalCacheUtil {
    * @param bizType biz type
    * @return cache
    */
-  public static Cache<?,?> getInstance(String bizType) {
+  public static Cache getInstance(String bizType) {
     return getInstance(bizType, 2000, 2, TimeUnit.MINUTES);
   }
 
-  public static Cache<?,?> getInstance(String bizType, int maxSize, long duration, TimeUnit unit) {
+  public static Cache getInstance(String bizType, int maxSize, long duration, TimeUnit unit) {
     Precondition.checkNotBlank(bizType, "bizType不能为空");
     Preconditions.checkState(maxSize > 0, "maxSize不能小于等于0");
     Preconditions.checkState(duration > 0, "duration不能小于等于0");
@@ -40,8 +40,7 @@ public class LocalCacheUtil {
       log.info("create guava cache.");
       //
       //
-      return CacheBuilder.newBuilder()
-                         .expireAfterWrite(duration, unit) //
+      return CacheBuilder.newBuilder().expireAfterWrite(duration, unit) //
                          .maximumSize(maxSize) //
                          .build();
     });

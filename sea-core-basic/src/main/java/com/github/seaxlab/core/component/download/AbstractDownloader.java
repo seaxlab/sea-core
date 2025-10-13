@@ -9,6 +9,7 @@ import com.github.seaxlab.core.http.simple.HttpClientUtil;
 import com.github.seaxlab.core.util.BooleanUtil;
 import com.github.seaxlab.core.util.FileUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import com.github.seaxlab.core.util.UrlUtil;
 import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
@@ -16,8 +17,6 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpHead;
 
 import java.io.File;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,7 +34,7 @@ public abstract class AbstractDownloader<A extends DownloaderReqDTO> implements 
     log.info("download dto={}", dto);
     Stopwatch stopwatch = Stopwatch.createStarted();
 
-    String fileUrl = parseUrl(dto.getRemoteFileUrl());
+    String fileUrl = UrlUtil.decode(dto.getRemoteFileUrl());
     dto.setRemoteFileUrl(fileUrl);
 
     FileUtil.ensureDir(dto.getNewDir());
@@ -105,13 +104,6 @@ public abstract class AbstractDownloader<A extends DownloaderReqDTO> implements 
       log.info("download file size={}", contentLength);
       return contentLength;
     }
-  }
-
-
-  private String parseUrl(String fileUrl) {
-    String url = "";
-    url = URLDecoder.decode(fileUrl, StandardCharsets.UTF_8);
-    return url;
   }
 
 

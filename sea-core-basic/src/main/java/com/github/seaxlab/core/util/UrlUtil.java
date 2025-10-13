@@ -31,7 +31,12 @@ public final class UrlUtil {
    * @return
    */
   public static String decode(String str) {
-    return URLDecoder.decode(str, StandardCharsets.UTF_8);
+    try {
+      return URLDecoder.decode(str, StandardCharsets.UTF_8.name());
+    } catch (Exception e) {
+      log.error("fail to decode url,", e);
+    }
+    return "";
   }
 
   /**
@@ -41,7 +46,12 @@ public final class UrlUtil {
    * @return
    */
   public static String encode(String str) {
-    return URLEncoder.encode(str, StandardCharsets.UTF_8);
+    try {
+      return URLEncoder.encode(str, StandardCharsets.UTF_8.name());
+    } catch (Exception e) {
+      log.error("fail to encode url", e);
+    }
+    return "";
   }
 
   /**
