@@ -22,7 +22,8 @@
 
 ## 3.0.6 (25-10-12)
 
-- remove jedis
+- remove jedis/layer/pdf
+- remove spring json/responseFile
 
 ## 3.0.5 (25-09-20)
 

@@ -105,7 +105,6 @@
     <reflections.version>0.9.12</reflections.version>
 
     <jsch.version>0.1.55</jsch.version>
-    <cxf.version>3.5.0</cxf.version>
 
     <mysql.version>5.1.47</mysql.version>
     <druid.version>1.2.8</druid.version>
@@ -493,41 +492,6 @@
         <groupId>com.jcraft</groupId>
         <artifactId>jsch</artifactId>
         <version>${jsch.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-frontend-jaxws</artifactId>
-        <version>${cxf.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-transports-http</artifactId>
-        <version>${cxf.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-transports-http-jetty</artifactId>
-        <version>${cxf.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-features-logging</artifactId>
-        <version>${cxf.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-        <version>${cxf.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-rs-client</artifactId>
-        <version>${cxf.version}</version>
       </dependency>
 
       <dependency>
