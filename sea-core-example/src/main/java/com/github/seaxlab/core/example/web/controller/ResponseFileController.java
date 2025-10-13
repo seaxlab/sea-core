@@ -1,13 +1,13 @@
 package com.github.seaxlab.core.example.web.controller;
 
-import com.github.seaxlab.core.spring.component.responseFile.ResponseFile;
-import com.github.seaxlab.core.util.PathUtil;
+//import com.github.seaxlab.core.spring.component.responseFile.ResponseFile;
+//import com.github.seaxlab.core.util.PathUtil;
+
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
+//import java.io.File;
 
 /**
  * module name
@@ -21,12 +21,12 @@ import java.io.File;
 @RequestMapping("/api/param/responseFile")
 public class ResponseFileController {
 
-  @PostMapping("/download")
-  public ResponseFile download() throws Exception {
-    ResponseFile responseFile = new ResponseFile();
-
-    responseFile.setAttachmentName("文件名");
-    responseFile.setFile(new File(PathUtil.getSeaHome() + "/test/file.txt"));
-    return responseFile;
-  }
+  //@PostMapping("/download")
+  //public ResponseFile download() throws Exception {
+  //  ResponseFile responseFile = new ResponseFile();
+  //
+  //  responseFile.setAttachmentName("文件名");
+  //  responseFile.setFile(new File(PathUtil.getSeaHome() + "/test/file.txt"));
+  //  return responseFile;
+  //}
 }

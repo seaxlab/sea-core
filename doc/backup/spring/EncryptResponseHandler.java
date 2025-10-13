@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.spring.handler;
+package com.github.seaxlab.core.spring.filter;
 
 import com.github.seaxlab.core.component.layer.encrypt.EncryptResponse;
 import lombok.extern.slf4j.Slf4j;

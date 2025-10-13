@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.example.web.config;
 
-import com.github.seaxlab.core.spring.component.json.JsonParamArgumentResolver;
-import com.github.seaxlab.core.spring.component.responseFile.ResponseFileHandler;
+//import com.github.seaxlab.core.spring.component.json.JsonParamArgumentResolver;
+//import com.github.seaxlab.core.spring.component.responseFile.ResponseFileHandler;
 import com.github.seaxlab.core.spring.interceptor.RequestLogInterceptor;
 import com.github.seaxlab.core.util.ListUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -40,9 +40,9 @@ public class MvcConfig implements WebMvcConfigurer, BeanFactoryAware, Initializi
 
   // custom
 
-  private final JsonParamArgumentResolver jsonParamArgumentResolver = new JsonParamArgumentResolver();
-
-  private final ResponseFileHandler responseFileHandler = new ResponseFileHandler();
+  //private final JsonParamArgumentResolver jsonParamArgumentResolver = new JsonParamArgumentResolver();
+  //
+  //private final ResponseFileHandler responseFileHandler = new ResponseFileHandler();
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
@@ -56,7 +56,7 @@ public class MvcConfig implements WebMvcConfigurer, BeanFactoryAware, Initializi
 
   @Override
   public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-    resolvers.add(jsonParamArgumentResolver);
+    //resolvers.add(jsonParamArgumentResolver);
   }
 
   @Override
@@ -68,24 +68,24 @@ public class MvcConfig implements WebMvcConfigurer, BeanFactoryAware, Initializi
 
   @Override
   public void afterPropertiesSet() throws Exception {
-    try {
-      // get request response body advice by reflect
-      Field adviceField = RequestMappingHandlerAdapter.class.getDeclaredField("requestResponseBodyAdvice");
-      adviceField.setAccessible(true);
-      jsonParamArgumentResolver.setRequestBodyAdvice((List<Object>) adviceField.get(requestMappingHandlerAdapter));
-
-      // deal with response file at first
-      List<HandlerMethodReturnValueHandler> handlers = new ArrayList<>();
-      handlers.add(responseFileHandler);
-
-      List<HandlerMethodReturnValueHandler> oldHandlers = requestMappingHandlerAdapter.getReturnValueHandlers();
-      if (ListUtil.isNotEmpty(oldHandlers)) {
-        handlers.addAll(oldHandlers);
-      }
-      requestMappingHandlerAdapter.setReturnValueHandlers(handlers);
-
-    } catch (Exception e) {
-    }
-    jsonParamArgumentResolver.setConfigurableBeanFactory(beanFactory);
+    //try {
+    //  // get request response body advice by reflect
+    //  Field adviceField = RequestMappingHandlerAdapter.class.getDeclaredField("requestResponseBodyAdvice");
+    //  adviceField.setAccessible(true);
+    //  jsonParamArgumentResolver.setRequestBodyAdvice((List<Object>) adviceField.get(requestMappingHandlerAdapter));
+    //
+    //  // deal with response file at first
+    //  List<HandlerMethodReturnValueHandler> handlers = new ArrayList<>();
+    //  handlers.add(responseFileHandler);
+    //
+    //  List<HandlerMethodReturnValueHandler> oldHandlers = requestMappingHandlerAdapter.getReturnValueHandlers();
+    //  if (ListUtil.isNotEmpty(oldHandlers)) {
+    //    handlers.addAll(oldHandlers);
+    //  }
+    //  requestMappingHandlerAdapter.setReturnValueHandlers(handlers);
+    //
+    //} catch (Exception e) {
+    //}
+    //jsonParamArgumentResolver.setConfigurableBeanFactory(beanFactory);
   }
 }

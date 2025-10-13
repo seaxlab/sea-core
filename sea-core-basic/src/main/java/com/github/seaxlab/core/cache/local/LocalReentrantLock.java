@@ -18,10 +18,10 @@ import java.util.concurrent.locks.ReentrantLock;
 @Slf4j
 public class LocalReentrantLock implements Lock {
 
-  private Map<String, Lock> pool;
-  private String lockKey;
+  private final Map<String, Lock> pool;
+  private final String lockKey;
 
-  private Lock lock = new ReentrantLock();
+  private final Lock lock = new ReentrantLock();
 
   public LocalReentrantLock(Map<String, Lock> pool, String lockKey) {
     this.pool = pool;
