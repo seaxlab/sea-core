@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -103,11 +104,19 @@ public class TunnelController {
   //----------------------------------------------------------------
 
   private Map<String, Object> createSuccess(Object data) {
-    return Map.of("code", 200, "data", data);
+    Map<String, Object> result = new HashMap<>();
+    result.put("code", 200);
+    result.put("data", data);
+    //
+    return result;
   }
 
   public Map<String, Object> createError(String code, String message) {
-    return Map.of("code", code, "message", message);
+    Map<String, Object> result = new HashMap<>();
+    result.put("code", code);
+    result.put("data", message);
+    //
+    return result;
   }
 
 
