@@ -4,7 +4,7 @@
   <parent>
     <artifactId>sea-core</artifactId>
     <groupId>io.github.seaxlab</groupId>
-    <version>3.0.6</version>
+    <version>3.0.7</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
