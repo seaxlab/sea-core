@@ -1,5 +1,6 @@
 package com.github.seaxlab.core.enums;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
  * @since 1.0
  */
 @Slf4j
+@Getter
 public enum WeekChineseEnum {
   UNKNOWN(-1, "未知"),
   /**
@@ -55,14 +57,6 @@ public enum WeekChineseEnum {
 
   static {
     VALUES = values();
-  }
-
-  public int getType() {
-    return type;
-  }
-
-  public String getDesc() {
-    return desc;
   }
 
   WeekChineseEnum(int type, String desc) {
