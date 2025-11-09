@@ -26,7 +26,9 @@ public class SpringExpressionUtilTest extends BaseSpringTest {
     User user = new User();
     user.setName("abc");
 
-    String content = SpringExpressionUtil.parse("user", user, "#user.name", String.class);
+    String content = SpringExpressionUtil.parse("user", user, "#user.name+'-'+#user.code", String.class);
+    log.info("content={}", content);
+    content = SpringExpressionUtil.parse("user", user, "'a:b:c'+#user.name+'-'", String.class);
     log.info("content={}", content);
   }
 }

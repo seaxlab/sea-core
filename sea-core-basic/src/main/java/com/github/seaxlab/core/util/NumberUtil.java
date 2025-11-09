@@ -2,14 +2,15 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.common.SymbolConst;
 import com.google.common.base.Preconditions;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.TreeSet;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * number util
@@ -52,11 +53,7 @@ public final class NumberUtil {
    * @return
    */
   public static boolean isZero(BigDecimal amount) {
-    if (null == amount || BigDecimal.ZERO.compareTo(amount) == 0) {
-      return true;
-    }
-
-    return false;
+    return null == amount || BigDecimal.ZERO.compareTo(amount) == 0;
   }
 
   /**
@@ -79,10 +76,7 @@ public final class NumberUtil {
    * @return
    */
   public static boolean isZero(Long value) {
-    if (value == null || value.longValue() == 0) {
-      return true;
-    }
-    return false;
+    return value == null || value == 0;
   }
 
   /**
@@ -92,10 +86,7 @@ public final class NumberUtil {
    * @return
    */
   public static boolean isZero(Integer value) {
-    if (value == null || value.intValue() == 0) {
-      return true;
-    }
-    return false;
+    return value == null || value == 0;
   }
 
   /**
@@ -105,17 +96,11 @@ public final class NumberUtil {
    * @return
    */
   public static boolean isPositive(Long value) {
-    if (value == null || value.longValue() <= 0) {
-      return false;
-    }
-    return true;
+    return value != null && value > 0;
   }
 
   public static boolean isPositive(Integer value) {
-    if (value == null || value.intValue() <= 0) {
-      return false;
-    }
-    return true;
+    return value != null && value > 0;
   }
 
   /**
@@ -134,17 +119,17 @@ public final class NumberUtil {
 
 
   public static boolean isNotPositive(Long value) {
-    if (value == null || value.longValue() <= 0) {
-      return true;
-    }
-    return false;
+    return value == null || value <= 0;
   }
 
+  /**
+   * 判断是否非正数
+   *
+   * @param value
+   * @return
+   */
   public static boolean isNotPositive(Integer value) {
-    if (value == null || value.intValue() <= 0) {
-      return true;
-    }
-    return false;
+    return value == null || value <= 0;
   }
 
   /**
@@ -168,10 +153,7 @@ public final class NumberUtil {
    * @return
    */
   public static boolean isNegative(Long value) {
-    if (value == null || value.longValue() >= 0) {
-      return false;
-    }
-    return true;
+    return value != null && value < 0;
   }
 
   /**
@@ -181,10 +163,7 @@ public final class NumberUtil {
    * @return
    */
   public static boolean isNegative(Integer value) {
-    if (value == null || value.intValue() >= 0) {
-      return false;
-    }
-    return true;
+    return value != null && value < 0;
   }
 
   /**
@@ -208,10 +187,7 @@ public final class NumberUtil {
    * @return
    */
   public static boolean isNotNegative(Long value) {
-    if (value == null || value.longValue() >= 0) {
-      return true;
-    }
-    return false;
+    return value == null || value >= 0;
   }
 
   /**
@@ -221,10 +197,7 @@ public final class NumberUtil {
    * @return
    */
   public static boolean isNotNegative(Integer value) {
-    if (value == null || value.intValue() >= 0) {
-      return true;
-    }
-    return false;
+    return value == null || value >= 0;
   }
 
   /**
@@ -874,17 +847,17 @@ public final class NumberUtil {
    * 初始化 62 进制数据，索引位置代表转换字符的数值 0-61，比如 A代表10，z代表61
    */
 //    private static String CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  private static String CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  private static final String CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   /**
    * 匹配字符串只包含数字和大小写字母
    */
-  private static String REGEX_NORMAL_62 = "^[0-9a-zA-Z]+$";
+  private static final String REGEX_NORMAL_62 = "^[0-9a-zA-Z]+$";
 
   /**
    * 进制转换比率62
    */
-  private static int SCALE_62 = 62;
+  private static final int SCALE_62 = 62;
 
   /**
    * 十进制数字转为62进制字符串
