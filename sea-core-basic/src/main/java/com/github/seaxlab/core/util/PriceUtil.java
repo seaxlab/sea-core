@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * 价格工具类
+ * 价格显示工具类
  *
  * @author spy
  * @version 1.0 2025/11/9
