@@ -2,6 +2,9 @@ package com.github.seaxlab.core.spring;
 
 import com.github.seaxlab.core.test.AbstractCoreTest;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * module name
@@ -12,4 +15,14 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class BaseTest extends AbstractCoreTest {
+
+
+  @Test
+  public void test18() {
+    String referer = "https://www.baidu.com/admin";
+    MultiValueMap<String, String> queryParamMap =
+      UriComponentsBuilder.fromHttpUrl(referer).build().getQueryParams();
+
+    log.info("{}",queryParamMap);
+  }
 }

@@ -1,7 +1,5 @@
 package com.github.seaxlab.core.component.sensitive.jackson;
 
-import com.github.seaxlab.core.component.sensitive.jackson.annotation.*;
-import com.github.seaxlab.core.component.sensitive.strategy.*;
 import lombok.Builder;
 import lombok.Data;
 

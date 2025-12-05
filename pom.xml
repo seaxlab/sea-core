@@ -28,6 +28,7 @@
     <module>sea-core-spring</module>
     <module>sea-core-spring-boot-starter</module>
     <module>sea-core-example</module>
+      <module>sea-core-component</module>
   </modules>
 
 

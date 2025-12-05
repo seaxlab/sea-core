@@ -1,7 +1,5 @@
 package com.github.seaxlab.core.component.sensitive.fastjson;
 
-import com.github.seaxlab.core.component.sensitive.fastjson.annotation.*;
-import com.github.seaxlab.core.component.sensitive.strategy.*;
 import lombok.Builder;
 import lombok.Data;
 
