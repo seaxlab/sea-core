@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.component.queue.persist;
 
-import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.component.BaseCoreTest;
 import com.github.seaxlab.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;

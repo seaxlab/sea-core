@@ -1,10 +1,12 @@
-package com.github.seaxlab.core.util;
+package com.github.seaxlab.core.component.ssh;
 
 import static com.github.seaxlab.core.test.util.TestUtil.getConfig;
 
-import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.component.BaseCoreTest;
 import com.github.seaxlab.core.component.ssh.dto.SshConfig;
 import com.github.seaxlab.core.component.ssh.dto.response.SshRespDTO;
+import com.github.seaxlab.core.component.ssh.util.SshUtil;
+import com.github.seaxlab.core.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -54,7 +56,7 @@ public class SshUtilTest extends BaseCoreTest {
     cfg.setPort(2222);
     cfg.setUserName("root");
     cfg.setPassword(getConfig("qd_jmzy_ssh_pwd"));
-    boolean flag = SshUtil.upload(cfg,PathUtil.getUserHome() + "/test/gc/gc1.log", "/root");
+    boolean flag = SshUtil.upload(cfg, PathUtil.getUserHome() + "/test/gc/gc1.log", "/root");
     log.info("flag={}", flag);
   }
 

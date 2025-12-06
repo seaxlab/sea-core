@@ -2,7 +2,7 @@ package com.github.seaxlab.core.dal.screw.dto;
 
 import cn.smallbun.screw.core.engine.EngineFileType;
 import cn.smallbun.screw.core.process.ProcessConfig;
-import com.github.seaxlab.core.component.ssh.dto.SshConfig;
+//import com.github.seaxlab.core.component.ssh.dto.SshConfig;
 import lombok.Data;
 
 /**
@@ -40,7 +40,7 @@ public class DBModelCreateDTO {
   private Boolean cleanFlag;
   private Integer keepRecentCount = 3;
 
-  private SshConfig sshConfig;
+  //private SshConfig sshConfig;
 
 
   private final Extend extend = new Extend();

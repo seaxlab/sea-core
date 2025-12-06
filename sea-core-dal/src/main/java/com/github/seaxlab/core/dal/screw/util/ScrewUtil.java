@@ -14,21 +14,18 @@ import com.github.seaxlab.core.util.IntegerUtil;
 import com.github.seaxlab.core.util.ListUtil;
 import com.github.seaxlab.core.util.ObjectUtil;
 import com.github.seaxlab.core.util.PathUtil;
-import com.github.seaxlab.core.util.SshUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 
+import javax.sql.DataSource;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.sql.DataSource;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * screw util
@@ -109,12 +106,15 @@ public final class ScrewUtil {
    */
   private static DataSource buildDataSource(DBModelCreateDTO dto) {
     String url = dto.getUrl();
-    if (dto.getSshConfig() != null) {
-      SshUtil.setUpPortForwarding(dto.getSshConfig());
-      //
-      String endStr = dto.getUrl().substring(dto.getUrl().lastIndexOf("/"));
-      url = "jdbc:mysql://localhost:" + dto.getSshConfig().getLocalPort() + endStr;
-    }
+
+    //TODO
+    //if (dto.getSshConfig() != null) {
+    //  log.warn("ssh proxy is not available now");
+    //SshUtil.setUpPortForwarding(dto.getSshConfig());
+    //
+    //String endStr = dto.getUrl().substring(dto.getUrl().lastIndexOf("/"));
+    //url = "jdbc:mysql://localhost:" + dto.getSshConfig().getLocalPort() + endStr;
+    //}
 
     // Hikari config
     HikariConfig hikariConfig = new HikariConfig();
@@ -156,7 +156,7 @@ public final class ScrewUtil {
   }
 
   private static void clean(DBModelCreateDTO dto) {
-    if (Objects.isNull(dto.getCleanFlag()) || Boolean.FALSE.equals(dto.getCleanFlag())) {
+    if (!Boolean.TRUE.equals(dto.getCleanFlag())) {
       return;
     }
     try {

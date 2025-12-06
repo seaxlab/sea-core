@@ -1,11 +1,9 @@
-package com.github.seaxlab.core.component;
+package com.github.seaxlab.core.component.limit;
 
-import static com.github.seaxlab.core.test.util.TestUtil.sleepMs;
-
-import com.github.seaxlab.core.BaseCoreTest;
-import com.github.seaxlab.core.component.limit.RateLimit;
+import com.github.seaxlab.core.component.BaseCoreTest;
 import com.github.seaxlab.core.component.limit.impl.FixedWindowRateLimit;
 import com.github.seaxlab.core.component.limit.impl.SlidingWindowRateLimit;
+import com.github.seaxlab.core.test.util.TestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -36,7 +34,7 @@ public class RateLimitTest extends BaseCoreTest {
     RateLimit rateLimit = new SlidingWindowRateLimit(10, 100, 100, TimeUnit.SECONDS);
     for (int i = 0; i < 1000; i++) {
       log.info("index={},try require={}", i, rateLimit.tryRequire());
-      sleepMs(300);
+      TestUtil.sleepMs(300);
     }
   }
 }

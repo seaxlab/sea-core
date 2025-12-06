@@ -1,6 +1,7 @@
-package com.github.seaxlab.core;
+package com.github.seaxlab.core.component;
 
 import com.github.seaxlab.core.test.AbstractCoreTest;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,6 +12,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0 2019-06-16
  * @since 1.0
  */
+@Slf4j
 public class BaseCoreTest extends AbstractCoreTest {
 
 
@@ -18,6 +20,7 @@ public class BaseCoreTest extends AbstractCoreTest {
     try {
       TimeUnit.SECONDS.sleep(second);
     } catch (Exception e) {
+      log.warn("occur exception", e);
     }
   }
 

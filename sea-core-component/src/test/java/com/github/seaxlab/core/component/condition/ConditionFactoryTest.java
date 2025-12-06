@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.component.condition;
 
-import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.component.BaseCoreTest;
 import com.github.seaxlab.core.component.condition.dto.ConditionContext;
 import com.github.seaxlab.core.component.condition.dto.ConditionData;
 import com.github.seaxlab.core.component.condition.enums.MatchModeEnum;

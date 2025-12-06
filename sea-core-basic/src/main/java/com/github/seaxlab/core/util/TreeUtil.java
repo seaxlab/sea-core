@@ -23,11 +23,12 @@ public final class TreeUtil {
 
   /**
    * List转换成树
+   *
    * @param parentId 父级ID
    * @param treeList
    * @return
    */
-  public static <T extends TreeService> List<T> build(String parentId, List<T> treeList) {
+  public static <T extends TreeService<T>> List<T> build(String parentId, List<T> treeList) {
     Map<String, List<T>> map = treeList.stream().collect(Collectors.groupingBy(TreeService::getParentId));
     //
     return build(map.get(parentId), map, Comparator.comparingLong(TreeService::getSort), null, null);
@@ -36,12 +37,13 @@ public final class TreeUtil {
 
   /**
    * List转换成树
+   *
    * @param parentId 父级ID
    * @param treeList
    * @return
    */
-  public static <T extends TreeService> List<T> build(String parentId, List<T> treeList, //
-                                                      Comparator<? super T> sortedComparator) {
+  public static <T extends TreeService<T>> List<T> build(String parentId, List<T> treeList, //
+                                                         Comparator<? super T> sortedComparator) {
     Map<String, List<T>> map = treeList.stream().collect(Collectors.groupingBy(TreeService::getParentId));
     //
     return build(map.get(parentId), map, sortedComparator, null, null);
@@ -50,19 +52,20 @@ public final class TreeUtil {
 
   /**
    * List转换成树
+   *
    * @param parentId 父级ID
    * @param treeList
    * @return
    */
-  public static <T extends TreeService> List<T> build(String parentId, List<T> treeList, Comparator<? super T> sortedComparator, //
-                                                      Consumer<? super T> doBefore, Function<? super T, T> doAfter) {
+  public static <T extends TreeService<T>> List<T> build(String parentId, List<T> treeList, Comparator<? super T> sortedComparator, //
+                                                         Consumer<? super T> doBefore, Function<? super T, T> doAfter) {
     Map<String, List<T>> map = treeList.stream().collect(Collectors.groupingBy(TreeService::getParentId));
     return build(map.get(parentId), map, sortedComparator, doBefore, doAfter);
   }
 
-  public static <T extends TreeService> List<T> build(List<T> treeList, Map<String, List<T>> parentIdMap, //
-                                                      Comparator<? super T> sortedComparator, //
-                                                      Consumer<? super T> doBefore, Function<? super T, T> doAfter) {
+  public static <T extends TreeService<T>> List<T> build(List<T> treeList, Map<String, List<T>> parentIdMap, //
+                                                         Comparator<? super T> sortedComparator, //
+                                                         Consumer<? super T> doBefore, Function<? super T, T> doAfter) {
 
     List<T> list = new ArrayList<>();
     Optional.ofNullable(treeList).orElse(new ArrayList<>())
@@ -92,8 +95,9 @@ public final class TreeUtil {
 
   /**
    * 将树状结构转换为平铺数据结构(将含有children的树状结构转换为仅有节点和父节点的对象列表)
+   *
    * @param source 树状结构数据列表
-   * @param <T> 任意类型参数
+   * @param <T>    任意类型参数
    * @return 平铺数据结构列表
    */
   public static <T extends TreeService> List<T> convertToObjList(List<T> source) {
@@ -105,11 +109,12 @@ public final class TreeUtil {
 
   /**
    * 将树状结构转换为平铺数据结构(将含有children的树状结构转换为仅有节点和父节点的对象列表)
-   * @param source 树状结构数据列表
+   *
+   * @param source  树状结构数据列表
    * @param outList 平铺数据结构列表
-   * @param <T> 任意类型参数
+   * @param <T>     任意类型参数
    */
-  public static <T extends TreeService> void convertToObjList(List<T> source, List<T> outList) {
+  public static <T extends TreeService<T>> void convertToObjList(List<T> source, List<T> outList) {
     if (outList == null) {
       outList = new ArrayList<>();
     }

@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.component.loadbalance;
 
-import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.component.BaseCoreTest;
 import com.github.seaxlab.core.component.loadbalance.impl.ConsistentHashLoadBalance;
 import com.github.seaxlab.core.component.loadbalance.impl.RandomLoadBalance;
 import com.github.seaxlab.core.component.loadbalance.impl.RoundRobinLoadBalance;

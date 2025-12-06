@@ -3,7 +3,7 @@ package com.github.seaxlab.core.component.socket;
 import static com.github.seaxlab.core.test.util.TestUtil.runInMultiThread;
 import static com.github.seaxlab.core.test.util.TestUtil.sleepMinute;
 
-import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.component.BaseCoreTest;
 import com.github.seaxlab.core.component.socket.model.SocketClientSendData;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;

@@ -1,8 +1,9 @@
-package com.github.seaxlab.core.util;
+package com.github.seaxlab.core.component.ssh.util;
 
 import com.github.seaxlab.core.component.ssh.dto.SshConfig;
 import com.github.seaxlab.core.component.ssh.dto.response.SshRespDTO;
 import com.github.seaxlab.core.exception.ExceptionHandler;
+import com.github.seaxlab.core.util.StringUtil;
 import com.google.common.base.Charsets;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;

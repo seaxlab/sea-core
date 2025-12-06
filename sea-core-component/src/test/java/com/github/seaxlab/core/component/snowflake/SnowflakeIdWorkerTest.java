@@ -1,7 +1,6 @@
-package com.github.seaxlab.core.component;
+package com.github.seaxlab.core.component.snowflake;
 
-import com.github.seaxlab.core.BaseCoreTest;
-import com.github.seaxlab.core.component.snowflake.DefaultSnowflakeIdWorker;
+import com.github.seaxlab.core.component.BaseCoreTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 

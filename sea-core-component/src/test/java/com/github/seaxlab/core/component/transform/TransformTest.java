@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.component.transform;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.component.BaseCoreTest;
 import com.github.seaxlab.core.component.transform.enums.Mode;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;

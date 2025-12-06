@@ -1,6 +1,6 @@
 package com.github.seaxlab.core.component.download;
 
-import com.github.seaxlab.core.BaseCoreTest;
+import com.github.seaxlab.core.component.BaseCoreTest;
 import com.github.seaxlab.core.component.download.dto.DownloaderReqDTO;
 import com.github.seaxlab.core.component.download.impl.MultiThreadDownloader;
 import com.github.seaxlab.core.component.download.impl.SimpleDownloader;
