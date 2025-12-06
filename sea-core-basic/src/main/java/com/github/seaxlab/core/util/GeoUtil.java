@@ -67,20 +67,20 @@ public final class GeoUtil {
   }
 
   /**
-   * 获取距离文案
+   * 获取距离文案，默认保留2位小数
    *
    * @param distance
    * @return
    */
   public static String getDistanceDesc(int distance) {
-    return getDistanceDesc(distance, 1);
+    return getDistanceDesc(distance, 2);
   }
 
   /**
    * 获取距离文案
    *
-   * @param distance
-   * @param scale
+   * @param distance 距离
+   * @param scale    精度
    * @return
    */
   public static String getDistanceDesc(int distance, int scale) {
@@ -91,7 +91,7 @@ public final class GeoUtil {
     if (distance < 1000) {
       return distance + "米";
     }
-    return NumberUtil.divide(distance, 1000, scale, RoundingMode.DOWN) + "公里";
+    return NumberUtil.divide(distance, 1000, scale, RoundingMode.DOWN).stripTrailingZeros().toPlainString() + "公里";
   }
 
 
