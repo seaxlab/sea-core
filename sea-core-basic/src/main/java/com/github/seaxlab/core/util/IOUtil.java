@@ -22,6 +22,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,12 +99,9 @@ public final class IOUtil {
    * @throws IOException
    */
   public static String read(Reader reader) throws IOException {
-    StringWriter writer = new StringWriter();
-    try {
+    try (StringWriter writer = new StringWriter()) {
       write(reader, writer);
       return writer.getBuffer().toString();
-    } finally {
-      writer.close();
     }
   }
 
@@ -115,11 +113,8 @@ public final class IOUtil {
    * @throws IOException
    */
   public static long write(Writer writer, String string) throws IOException {
-    Reader reader = new StringReader(string);
-    try {
+    try (Reader reader = new StringReader(string)) {
       return write(reader, writer);
-    } finally {
-      reader.close();
     }
   }
 
@@ -167,7 +162,7 @@ public final class IOUtil {
       return new String[0];
     }
 
-    return readLines(new FileInputStream(file));
+    return readLines(Files.newInputStream(file.toPath()));
   }
 
   /**
@@ -178,16 +173,13 @@ public final class IOUtil {
    * @throws IOException
    */
   public static String[] readLines(InputStream is) throws IOException {
-    List<String> lines = new ArrayList<String>();
-    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-    try {
+    List<String> lines = new ArrayList<>();
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
       String line;
       while ((line = reader.readLine()) != null) {
         lines.add(line);
       }
       return lines.toArray(new String[0]);
-    } finally {
-      reader.close();
     }
   }
 
@@ -198,15 +190,12 @@ public final class IOUtil {
    * @param lines lines.
    * @throws IOException
    */
-  public static void writeLines(OutputStream os, String[] lines) throws IOException {
-    PrintWriter writer = new PrintWriter(new OutputStreamWriter(os));
-    try {
+  public static void writeLines(OutputStream os, String[] lines) {
+    try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(os))) {
       for (String line : lines) {
         writer.println(line);
       }
       writer.flush();
-    } finally {
-      writer.close();
     }
   }
 
@@ -221,7 +210,7 @@ public final class IOUtil {
     if (file == null) {
       throw new IOException("File is null.");
     }
-    writeLines(new FileOutputStream(file), lines);
+    writeLines(Files.newOutputStream(file.toPath()), lines);
   }
 
   /**
@@ -267,7 +256,7 @@ public final class IOUtil {
   public static long copy(Reader input, Writer output) throws IOException {
     char[] buffer = new char[1 << 12];
     long count = 0;
-    for (int n = 0; (n = input.read(buffer)) >= 0; ) {
+    for (int n; (n = input.read(buffer)) >= 0; ) {
       output.write(buffer, 0, n);
       count += n;
     }

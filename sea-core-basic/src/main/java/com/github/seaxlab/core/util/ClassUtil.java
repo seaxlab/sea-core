@@ -2,6 +2,9 @@ package com.github.seaxlab.core.util;
 
 import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.google.common.base.Preconditions;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ClassUtils;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
@@ -12,8 +15,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ClassUtils;
 
 /**
  * class util
@@ -141,9 +142,7 @@ public final class ClassUtil {
       return false;
     }
 
-    for (int i = 0; i < classes.length; i++) {
-      Class<?> clazz = classes[i];
-
+    for (Class<?> clazz : classes) {
       if (clazz.isInstance(obj)) {
 
       } else {
@@ -233,8 +232,8 @@ public final class ClassUtil {
       return Class.forName(className, initialize, clToUse);
     } catch (ClassNotFoundException ex) {
       log.warn("class not found,{}", className);
-      throw null;
     }
+    return null;
   }
 
   /**
@@ -338,12 +337,12 @@ public final class ClassUtil {
     try {
       // 在ClassPath搜文件
       Enumeration<URL> urls = VersionUtil.class.getClassLoader().getResources(path);
-      Set<String> files = new HashSet<String>();
+      Set<String> files = new HashSet<>();
       while (urls.hasMoreElements()) {
         URL url = urls.nextElement();
         if (url != null) {
           String file = url.getFile();
-          if (file != null && file.length() > 0) {
+          if (file != null && !file.isEmpty()) {
             files.add(file);
           }
         }
@@ -417,8 +416,9 @@ public final class ClassUtil {
       return true;
     } else if (clazz == double.class || clazz == Double.class) {
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
 

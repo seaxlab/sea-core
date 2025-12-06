@@ -64,7 +64,7 @@ public final class ByteUnitUtil {
 
     DecimalFormat df = new DecimalFormat(pattern);
 
-    String result = "";
+    String result;
 
     if (size / GB >= 1) {
       //如果当前Byte的值大于等于1GB

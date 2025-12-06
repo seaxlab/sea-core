@@ -29,7 +29,7 @@ public final class ChineseNumberUtil {
    */
   public static String convert(String str) {
     // 判断输入的金额字符串是否符合要求
-    if (StringUtils.isBlank(str) || !str.matches("(-)?[\\d]*(.)?[\\d]*")) {
+    if (StringUtils.isBlank(str) || !str.matches("(-)?\\d*(.)?\\d*")) {
       return "抱歉，请输入数字！";
     }
 
@@ -62,7 +62,7 @@ public final class ChineseNumberUtil {
       decimalStr = "";
     }
 
-    // beyond超出计算能力，直接返回
+    // 超出计算能力，直接返回
     if (integerStr.length() > I_UNIT.length) {
       return "超出计算能力！";
     }
@@ -109,7 +109,7 @@ public final class ChineseNumberUtil {
    * @return
    */
   private static String getChineseInteger(int[] integers, boolean isWan) {
-    StringBuffer chineseInteger = new StringBuffer("");
+    StringBuilder chineseInteger = new StringBuilder();
     int length = integers.length;
     if (length == 1 && integers[0] == 0) {
       return "";
@@ -143,14 +143,14 @@ public final class ChineseNumberUtil {
    * @return
    */
   private static String getChineseDecimal(int[] decimals) {
-    StringBuffer chineseDecimal = new StringBuffer("");
+    StringBuilder value = new StringBuilder();
     for (int i = 0; i < decimals.length; i++) {
       if (i == 3) {
         break;
       }
-      chineseDecimal.append(decimals[i] == 0 ? "" : (NUMBERS[decimals[i]] + D_UNIT[i]));
+      value.append(decimals[i] == 0 ? "" : (NUMBERS[decimals[i]] + D_UNIT[i]));
     }
-    return chineseDecimal.toString();
+    return value.toString();
   }
 
   /**
@@ -162,7 +162,7 @@ public final class ChineseNumberUtil {
   private static boolean isWan5(String integerStr) {
     int length = integerStr.length();
     if (length > 4) {
-      String subInteger = "";
+      String subInteger;
       if (length > 8) {
         subInteger = integerStr.substring(length - 8, length - 4);
       } else {

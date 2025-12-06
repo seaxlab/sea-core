@@ -29,8 +29,8 @@ public final class ByteBufferUtil {
     if (src == null || src.length == 0) {
       return null;
     }
-    for (int i = 0; i < src.length; i++) {
-      int v = src[i] & 0xFF;
+    for (byte b : src) {
+      int v = b & 0xFF;
       String hv = Integer.toHexString(v);
       if (hv.length() < 2) {
         sb.append(0);
@@ -45,7 +45,7 @@ public final class ByteBufferUtil {
    * 16进制字符串转化成字节数组
    */
   public static byte[] string2bytes(String hexString) {
-    if (hexString == null || hexString.equals("")) {
+    if (hexString == null || hexString.isEmpty()) {
       return new byte[0];
     }
     hexString = hexString.toUpperCase();
@@ -72,11 +72,10 @@ public final class ByteBufferUtil {
    * @param mappedByteBuffer
    */
   public static void clean(MappedByteBuffer mappedByteBuffer) {
-    ByteBuffer buffer = mappedByteBuffer;
-    if (buffer == null || !buffer.isDirect() || buffer.capacity() == 0) {
+    if (mappedByteBuffer == null || !mappedByteBuffer.isDirect() || mappedByteBuffer.capacity() == 0) {
       return;
     }
-    invoke(invoke(viewed(buffer), "cleaner"), "clean");
+    invoke(invoke(viewed(mappedByteBuffer), "cleaner"), "clean");
   }
 
 
@@ -106,8 +105,8 @@ public final class ByteBufferUtil {
   private static ByteBuffer viewed(ByteBuffer buffer) {
     String methodName = "viewedBuffer";
     Method[] methods = buffer.getClass().getMethods();
-    for (int i = 0; i < methods.length; i++) {
-      if (methods[i].getName().equals("attachment")) {
+    for (Method method : methods) {
+      if (method.getName().equals("attachment")) {
         methodName = "attachment";
         break;
       }

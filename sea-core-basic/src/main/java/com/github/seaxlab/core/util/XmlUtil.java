@@ -243,7 +243,7 @@ public final class XmlUtil {
   public static void removeElements(Element element, String nodeName) {
     List<Element> els = element.elements(nodeName);
     if (els != null && !els.isEmpty()) {
-      els.forEach(item -> element.remove(item));
+      els.forEach(element::remove);
     }
   }
 
@@ -269,10 +269,7 @@ public final class XmlUtil {
    */
   public static String getElementValue(Element element, String nodeName) {
     Element node = element.element(nodeName);
-    if (node == null) {
-      return "";
-    }
-    return node.getText();
+    return getElementValue(node);
   }
 
   /**
@@ -487,8 +484,8 @@ public final class XmlUtil {
     List<T> list = new ArrayList<>();
     try {
       List<Element> elements = root.elements();
-      for (int i = 0; i < elements.size(); i++) {
-        T t = getBean(elements.get(i), clazz);
+      for (Element element : elements) {
+        T t = getBean(element, clazz);
         list.add(t);
       }
     } catch (Exception e) {
@@ -534,18 +531,17 @@ public final class XmlUtil {
       String fieldType;
       String fieldGenericType;
       String className;
-      for (int i = 0; i < fields.length; i++) {
-        Field field = fields[i];
+      for (Field field : fields) {
         fieldType = (field.getType() + "");
         setMethod = obj.getClass().getMethod(
-          "set" + fields[i].getName().substring(0, 1).toUpperCase() + fields[i].getName().substring(1),
-          fields[i].getType());
+          "set" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1),
+          field.getType());
         if ("interface java.util.List".equals(fieldType)) {
-          fieldGenericType = fields[i].getGenericType() + "";
+          fieldGenericType = field.getGenericType() + "";
           String[] sp1 = fieldGenericType.split("<");
           String[] sp2 = sp1[1].split(">");
           className = sp2[0];
-          Element el = root.element(fields[i].getName());
+          Element el = root.element(field.getName());
           if (el != null) {
             Object listNode = getList(el, Class.forName(className));
             setMethod.invoke(obj, listNode);
@@ -609,7 +605,7 @@ public final class XmlUtil {
       List<Element> elements = root.elements();
       String elementName;
       String elementNameFlag;
-      if (elements != null && elements.size() > 0) {
+      if (elements != null && !elements.isEmpty()) {
         elementNameFlag = elements.get(0).getName();
         for (int i = 1; i < elements.size(); i++) {
           elementName = elements.get(i).getName();
@@ -626,10 +622,6 @@ public final class XmlUtil {
         }
       }
     }
-    if (type == 1) {
-      return true;
-    } else {
-      return false;
-    }
+    return type == 1;
   }
 }

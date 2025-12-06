@@ -36,9 +36,9 @@ public final class TelnetUtil {
   InputStream inputStream = null; // 输入流,接收服务端的返回信息
   OutputStream outputStream = null; // 输出流,向服务端写命令
 
-  private static List<String> defaultPromt = new ArrayList<>();
-  private static List<String> user = new ArrayList<>();
-  private static List<String> pass = new ArrayList<>();
+  private static final List<String> defaultPromt = new ArrayList<>();
+  private static final List<String> user = new ArrayList<>();
+  private static final List<String> pass = new ArrayList<>();
   //默认端口
   public static int defaultPort = 23;
 

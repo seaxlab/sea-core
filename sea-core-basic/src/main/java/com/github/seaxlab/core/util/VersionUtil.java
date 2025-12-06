@@ -52,7 +52,7 @@ public final class VersionUtil {
       // guess version from jar file name if nothing's found from MANIFEST.MF
       CodeSource codeSource = cls.getProtectionDomain().getCodeSource();
       if (codeSource == null) {
-        log.info("No codeSource for class {} when getVersion, use default version {}" ,cls.getName(), defaultVersion);
+        log.info("No codeSource for class {} when getVersion, use default version {}", cls.getName(), defaultVersion);
         return defaultVersion;
       }
 
@@ -222,8 +222,8 @@ public final class VersionUtil {
   }
 
   private static boolean checkVersionNecessary(String versionStr) {
-    return !(versionStr == null || StringUtils.contains(versionStr, "with-dependencies") || StringUtils.contains(versionStr,
-      "storm"));
+    return !(versionStr == null || StringUtils.contains(versionStr, "with-dependencies")
+      || StringUtils.contains(versionStr, "storm"));
   }
 
 
