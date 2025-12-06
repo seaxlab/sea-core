@@ -1,4 +1,4 @@
-package com.github.seaxlab.core.spring.component.condition.data;
+package com.github.seaxlab.core.component.condition.data.spring;
 
 import com.github.seaxlab.core.component.condition.data.ParameterData;
 import com.github.seaxlab.core.component.condition.dto.ConditionContext;
@@ -6,15 +6,17 @@ import com.github.seaxlab.core.loader.LoadLevel;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * The type URI parameter data.
+ * The type Ip parameter data.
  */
-@LoadLevel(name = "uri")
-public class URIParameterData implements ParameterData {
+@LoadLevel(name = "ip")
+public class IpParameterData implements ParameterData {
 
   @Override
   public String builder(final ConditionContext context, final String paramName) {
     ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
+    //return RequestUtil.getClientIpAddress(exchange.getRequest());
+    //    return HostAddressUtils.acquireIp(exchange);
 
-    return exchange.getRequest().getURI().getPath();
+    return "";
   }
 }

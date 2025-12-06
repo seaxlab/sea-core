@@ -1,20 +1,26 @@
-package com.github.seaxlab.core.spring.component.condition.data;
+package com.github.seaxlab.core.component.condition.data.spring;
 
 import com.github.seaxlab.core.component.condition.data.ParameterData;
 import com.github.seaxlab.core.component.condition.dto.ConditionContext;
 import com.github.seaxlab.core.loader.LoadLevel;
+import java.util.List;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * The type domain parameter data.
+ * The type Header parameter data.
  */
-@LoadLevel(name = "domain")
-public class DomainParameterData implements ParameterData {
+@LoadLevel(name = "header")
+public class HeaderParameterData implements ParameterData {
 
   @Override
   public String builder(final ConditionContext context, final String paramName) {
     ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
 
-    return exchange.getRequest().getURI().getHost();
+    List<String> headers = exchange.getRequest().getHeaders().get(paramName);
+    if (CollectionUtils.isEmpty(headers)) {
+      return "";
+    }
+    return headers.get(0);
   }
 }

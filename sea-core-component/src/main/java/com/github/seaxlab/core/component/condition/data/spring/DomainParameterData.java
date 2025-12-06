@@ -1,5 +1,4 @@
-package com.github.seaxlab.core.spring.component.condition.data;
-
+package com.github.seaxlab.core.component.condition.data.spring;
 
 import com.github.seaxlab.core.component.condition.data.ParameterData;
 import com.github.seaxlab.core.component.condition.dto.ConditionContext;
@@ -7,14 +6,15 @@ import com.github.seaxlab.core.loader.LoadLevel;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * The type Query parameter data.
+ * The type domain parameter data.
  */
-@LoadLevel(name = "requestMethod")
-public class RequestMethodParameterData implements ParameterData {
+@LoadLevel(name = "domain")
+public class DomainParameterData implements ParameterData {
 
   @Override
   public String builder(final ConditionContext context, final String paramName) {
     ServerWebExchange exchange = (ServerWebExchange) context.get("exchange");
-    return exchange.getRequest().getMethodValue();
+
+    return exchange.getRequest().getURI().getHost();
   }
 }
