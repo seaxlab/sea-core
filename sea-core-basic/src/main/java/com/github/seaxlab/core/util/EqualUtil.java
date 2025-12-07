@@ -153,6 +153,7 @@ public final class EqualUtil {
     }
   }
 
+  @SuppressWarnings("unchecked")
   private <T> boolean isIn(T a, List<T> b, Class<T> clazz) {
     if (clazz == String.class) {
       List<String> bb = (List<String>) b;

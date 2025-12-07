@@ -69,4 +69,12 @@ public enum ActionEnum implements Serializable {
     return UNKNOWN;
   }
 
+  public boolean equals(String code) {
+    if (code == null) {
+      log.warn("code is null");
+      return false;
+    }
+    return this.key.equalsIgnoreCase(code);
+  }
+
 }

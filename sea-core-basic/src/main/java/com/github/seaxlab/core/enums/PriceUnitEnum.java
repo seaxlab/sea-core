@@ -20,7 +20,7 @@ public enum PriceUnitEnum {
     YUAN_AND_UNIT("20", "N元"),
     WAN("30", "万元(数字)"),
     WAN_AND_UNIT("31", "N万元"),
-    YUAN_OR_WAN_UNIT("40", "N元(万)元"),     //不足万元显示元
+    YUAN_OR_WAN_UNIT("40", "N元/万元"),     //不足万元显示元
     ;
 
     //
