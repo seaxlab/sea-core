@@ -10,6 +10,7 @@
   </parent>
 
   <artifactId>sea-core-component</artifactId>
+  <name>sea-core-component</name>
 
   <properties>
     <maven.compiler.source>8</maven.compiler.source>
