@@ -28,7 +28,7 @@
     <module>sea-core-spring</module>
     <module>sea-core-spring-boot-starter</module>
     <module>sea-core-example</module>
-      <module>sea-core-component</module>
+    <module>sea-core-component</module>
   </modules>
 
 
@@ -593,9 +593,9 @@
             <goals>
               <goal>jar</goal>
             </goals>
-<!--            <configuration>-->
-<!--              <doclint>none</doclint>-->
-<!--            </configuration>-->
+            <!--            <configuration>-->
+            <!--              <doclint>none</doclint>-->
+            <!--            </configuration>-->
           </execution>
         </executions>
       </plugin>
