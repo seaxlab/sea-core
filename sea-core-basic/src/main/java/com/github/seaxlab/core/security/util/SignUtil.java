@@ -65,8 +65,10 @@ public class SignUtil {
 
 
   /**
-   * https://api.xx.com/send?access_token={}&timestamp={}&sign={}
    * 生成签名
+   * <pre>
+   *   https://api.xx.com/send?access_token={}&timestamp={}&sign={}
+   * </pre>
    *
    * @param timestamp
    * @param secret

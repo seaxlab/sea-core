@@ -1,12 +1,28 @@
 package com.github.seaxlab.core.lang.annotation;
 
-import cn.hutool.core.util.ReflectUtil;
 import com.github.seaxlab.core.lang.cache.SoftCache;
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.springframework.core.annotation.AliasFor;
 
-import java.lang.annotation.*;
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Native;
+import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -204,15 +220,14 @@ public class AnnotationUtil {
     for (Entry<String, Object> entry : memberValues.entrySet()) {
       final String attributeName = entry.getKey();
       Object attributeValue = entry.getValue();
-      final Method method = ReflectUtil.getMethod(annotationType, attributeName);
+      //final Method method = ReflectUtil.getMethod(annotationType, attributeName);
+      final Method method = MethodUtils.getMatchingMethod(annotationType, attributeName);
       final AliasFor aliasFor = method.getAnnotation(AliasFor.class);
       if (overwrite != null && overwrite.containsKey(attributeName)) {
         // 如果从子元素设置了重写的值，那么就设置该值
         attributeValue = overwrite.get(attributeName);
       } else if (
-        aliasFor != null &&
-          !aliasFor.value().isEmpty() &&
-          isDefaultValue(method, memberValues)
+        aliasFor != null && !aliasFor.value().isEmpty() && isDefaultValue(method, memberValues)
       ) {
         // 如果为默认值，同时设置了 AliasFor.value 那么就使用别名的值（即使是默认值也一样）
         final String alias = aliasFor.value();
@@ -227,16 +242,8 @@ public class AnnotationUtil {
       // 如果设置了 AliasFor.annotation 那么就设置父注解的重写值
       if (aliasFor != null && aliasFor.annotation() != Annotation.class) {
         final Class<? extends Annotation> parentType = aliasFor.annotation();
-        final Map<String, Object> parentOverwrite = overwriteMap.getOrDefault(
-          parentType,
-          new HashMap<>()
-        );
-        parentOverwrite.put(
-          aliasFor.attribute().isEmpty()
-            ? attributeName
-            : aliasFor.attribute(),
-          attributeValue
-        );
+        final Map<String, Object> parentOverwrite = overwriteMap.getOrDefault(parentType, new HashMap<>());
+        parentOverwrite.put(aliasFor.attribute().isEmpty() ? attributeName : aliasFor.attribute(), attributeValue);
         overwriteMap.put(parentType, parentOverwrite);
       }
     }

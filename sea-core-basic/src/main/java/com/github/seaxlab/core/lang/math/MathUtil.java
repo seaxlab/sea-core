@@ -1,15 +1,16 @@
 package com.github.seaxlab.core.lang.math;
 
-import cn.hutool.core.math.Combination;
 import com.github.seaxlab.core.util.ArrayUtil;
 import com.github.seaxlab.core.util.SetUtil;
+import lombok.extern.slf4j.Slf4j;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * complex operation of math
@@ -122,73 +123,6 @@ public final class MathUtil {
     return value <= 0 ? 1 : value >= 0x40000000 ? 0x40000000 : findNextPositivePowerOfTwo(value);
   }
 
-  //--------------------------------------------------------------------------------------------- Arrangement
-
-  /**
-   * 计算排列数，即A(n, m) = n!/(n-m)!
-   *
-   * @param n 总数
-   * @param m 选择的个数
-   * @return 排列数
-   */
-  public static long arrangementCount(int n, int m) {
-    return cn.hutool.core.math.MathUtil.arrangementCount(n, m);
-  }
-
-  /**
-   * 计算排列数，即A(n, n) = n!
-   *
-   * @param n 总数
-   * @return 排列数
-   */
-  public static long arrangementCount(int n) {
-    return cn.hutool.core.math.MathUtil.arrangementCount(n);
-  }
-
-  /**
-   * 排列选择（从列表中选择n个排列）
-   *
-   * @param data 待选列表
-   * @param m    选择个数
-   * @return 所有排列列表
-   */
-  public static List<String[]> arrangementSelect(String[] data, int m) {
-    return cn.hutool.core.math.MathUtil.arrangementSelect(data, m);
-  }
-
-  /**
-   * 全排列选择（列表全部参与排列）
-   *
-   * @param data 待选列表
-   * @return 所有排列列表
-   */
-  public static List<String[]> arrangementSelect(String[] data) {
-    return cn.hutool.core.math.MathUtil.arrangementSelect(data);
-  }
-
-  //--------------------------------------------------------------------------------------------- Combination
-
-  /**
-   * 计算组合数，即C(n, m) = n!/((n-m)! * m!)
-   *
-   * @param n 总数
-   * @param m 选择的个数
-   * @return 组合数
-   */
-  public static long combinationCount(int n, int m) {
-    return cn.hutool.core.math.MathUtil.combinationCount(n, m);
-  }
-
-  /**
-   * 组合选择（从列表中选择n个组合）
-   *
-   * @param data 待选列表
-   * @param m    选择个数
-   * @return 所有组合列表
-   */
-  public static List<String[]> combinationSelect(String[] data, int m) {
-    return cn.hutool.core.math.MathUtil.combinationSelect(data, m);
-  }
 
   /**
    * 组合选择- 全组合
@@ -197,7 +131,22 @@ public final class MathUtil {
    * @return
    */
   public static List<String[]> combinationSelectAll(String[] data) {
-    return new Combination(data).selectAll();
+    List<String[]> result = new ArrayList<>();
+    backtrack(data, 0, new ArrayList<>(), result);
+    return result;
+  }
+
+  private static void backtrack(String[] data, int start, List<String> current, List<String[]> result) {
+    if (!current.isEmpty()) {
+      // 将当前组合加入结果（转为 String[]）
+      result.add(current.toArray(new String[0]));
+    }
+
+    for (int i = start; i < data.length; i++) {
+      current.add(data[i]);           // 选择
+      backtrack(data, i + 1, current, result); // 递归
+      current.remove(current.size() - 1); // 撤销选择
+    }
   }
 
   /**
@@ -233,7 +182,7 @@ public final class MathUtil {
       }
     }
 
-    return list.stream().filter(item -> item != null).collect(Collectors.toList());
+    return list.stream().filter(Objects::nonNull).collect(Collectors.toList());
   }
 
   /**

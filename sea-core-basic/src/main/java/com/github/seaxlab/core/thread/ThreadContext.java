@@ -20,7 +20,7 @@ public class ThreadContext {
   /**
    * 线程上下文变量的持有者
    */
-  private static final ThreadLocal<Map<String, Object>> CTX_HOLDER = ThreadLocal.withInitial(() -> new HashMap<>());
+  private static final ThreadLocal<Map<String, Object>> CTX_HOLDER = ThreadLocal.withInitial(HashMap::new);
 
   /**
    * 添加内容到线程上下文中

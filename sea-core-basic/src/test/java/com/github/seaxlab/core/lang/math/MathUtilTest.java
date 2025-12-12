@@ -75,19 +75,19 @@ public class MathUtilTest extends BaseCoreTest {
   }
 
   @Test
-  public void run74() throws Exception {
+  public void testCombinationSelectAll() throws Exception {
     // 全组合
     List<String[]> list = MathUtil.combinationSelectAll(data);
-    list.stream().forEach(item -> {
+    list.forEach(item -> {
       String str = StringUtil.join(",", item);
       log.info("{}", str);
     });
   }
 
   @Test
-  public void run58() throws Exception {
+  public void runCombinationSelectAllNoOrder() throws Exception {
     List<String[]> list = MathUtil.combinationSelectAllNoOrder(data);
-    list.stream().forEach(item -> {
+    list.forEach(item -> {
       String str = StringUtil.join(",", item);
       log.info("{}", str);
     });
@@ -102,7 +102,7 @@ public class MathUtilTest extends BaseCoreTest {
 
   private static void sort(String[] data) {
     List<String[]> list = MathUtil.combinationSelectAllNoOrder(data);
-    list.stream().forEach(item -> {
+    list.forEach(item -> {
       String str = StringUtil.join(",", item);
       log.info("{}", str);
     });

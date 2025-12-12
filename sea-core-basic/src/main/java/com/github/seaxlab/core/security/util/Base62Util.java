@@ -1,12 +1,14 @@
 package com.github.seaxlab.core.security.util;
 
-import cn.hutool.core.codec.Base62;
+import com.github.seaxlab.core.security.base62.Base62;
 import lombok.extern.slf4j.Slf4j;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * 与base64相比去掉了+/-=符号，0-9,A-Z,a-z
  * <p>
- * 注意这里有几种组合方式（0-9,A-Z,a-z 或 0-9,a-z,A-Z）
+ * 常用于生成短链接、唯一 ID 等场景
  * </p>
  *
  * @author spy
@@ -16,12 +18,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Base62Util {
 
+  private static final Base62 CODEC = Base62.createInstanceWithGmpCharacterSet();
+
+  /**
+   * 编码
+   *
+   * @param val
+   * @return
+   */
   public static String encode(String val) {
-    return Base62.encode(val);
+    return new String(CODEC.encode(val.getBytes(StandardCharsets.UTF_8)));
   }
 
+  /**
+   * 解码
+   *
+   * @param val
+   * @return
+   */
   public static String decode(String val) {
-    return Base62.decodeStr(val);
+    return new String(CODEC.decode(val.getBytes(StandardCharsets.UTF_8)));
   }
 
 }

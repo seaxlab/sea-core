@@ -5,7 +5,6 @@ import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.enums.GenderEnum;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.model.person.IdCard;
-import com.github.seaxlab.core.util.model.person.NativePlace;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.SimpleDateFormat;
@@ -20,6 +19,22 @@ import java.util.Date;
  */
 @Slf4j
 public class IdCardUtil {
+
+  //18位身份证号
+  private final static int NEW_CARD_NUMBER_LENGTH = 18;
+  //15位身份证号
+  private final static int OLD_CARD_NUMBER_LENGTH = 15;
+  // 身份证的最小出生日期,1900年1月1日
+  private final static Date MINIMAL_BIRTH_DATE = new Date(-2209017600000L);
+
+  /**
+   * 18位身份证中最后一位校验码
+   */
+  private final static char[] VERIFY_CODE = {'1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'};
+  /**
+   * 18位身份证中，各个数字的生成校验码时的权值
+   */
+  private final static int[] VERIFY_CODE_WEIGHT = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
 
   public static boolean isValid(String idNo) {
     return IdcardUtil.isValidCard(idNo);
@@ -73,20 +88,6 @@ public class IdCardUtil {
     return result;
   }
 
-
-  private final static int NEW_CARD_NUMBER_LENGTH = 18;
-  private final static int OLD_CARD_NUMBER_LENGTH = 15;
-  // 身份证的最小出生日期,1900年1月1日
-  private final static Date MINIMAL_BIRTH_DATE = new Date(-2209017600000L);
-
-  /**
-   * 18位身份证中最后一位校验码
-   */
-  private final static char[] VERIFY_CODE = {'1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'};
-  /**
-   * 18位身份证中，各个数字的生成校验码时的权值
-   */
-  private final static int[] VERIFY_CODE_WEIGHT = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
 
   /**
    * 如果是15位身份证号码，则自动转换为18位
@@ -149,14 +150,13 @@ public class IdCardUtil {
    * @return
    */
   private static boolean validate(String cardNumber) {
+    // 身份证号不能为空
     if (cardNumber == null || cardNumber.isEmpty()) {
       return false;
     }
-    boolean result = true;
-    // 身份证号不能为空
-    result = result && (null != cardNumber);
+    boolean result;
     // 身份证号长度是18(新证)
-    result = result && NEW_CARD_NUMBER_LENGTH == cardNumber.length();
+    result = NEW_CARD_NUMBER_LENGTH == cardNumber.length();
     // 身份证号的前17位必须是阿拉伯数字
     for (int i = 0; result && i < NEW_CARD_NUMBER_LENGTH - 1; i++) {
       char ch = cardNumber.charAt(i);
@@ -214,8 +214,7 @@ public class IdCardUtil {
       return null;
     }
 
-    if (idNo.length() == OLD_CARD_NUMBER_LENGTH || idNo.length() == NEW_CARD_NUMBER_LENGTH) {
-    } else {
+    if (idNo.length() != OLD_CARD_NUMBER_LENGTH && idNo.length() != NEW_CARD_NUMBER_LENGTH) {
       log.warn("card number length is not {} or {}, so return null", OLD_CARD_NUMBER_LENGTH, NEW_CARD_NUMBER_LENGTH);
       return null;
     }
@@ -225,7 +224,7 @@ public class IdCardUtil {
       String month = idNo.substring(10, 12);
       String day = idNo.substring(12, 14);
 
-      return DateUtil.toDate(year + month + day, DateFormatEnum.yyyyMMdd.getValue());
+      return DateUtil.toDate(year + month + day, DateFormatEnum.yyyyMMdd);
     } catch (Exception e) {
       log.error("fail to parse idNo={}", idNo, e);
     }
@@ -241,7 +240,7 @@ public class IdCardUtil {
    */
   private static GenderEnum getGender(String cardNumber) {
     char genderCode = cardNumber.charAt(NEW_CARD_NUMBER_LENGTH - 2);
-    int code = Integer.valueOf(genderCode) % 2;
+    int code = (int) genderCode % 2;
     return code == 0 ? GenderEnum.WOMAN : GenderEnum.MAN;
   }
 

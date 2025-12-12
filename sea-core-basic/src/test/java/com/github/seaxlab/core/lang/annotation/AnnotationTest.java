@@ -20,7 +20,7 @@ public class AnnotationTest extends BaseCoreTest {
 
   @Test
   public void testClass() {
-    final MergedAnnotation annotation = MergedAnnotation.from(AnnotationTest.class);
+    final MergedAnnotation annotation = MergedAnnotation.from(Children2.class);
     final Parent parent = annotation.getAnnotation(Parent.class);
 
     log.info("parent.name()={}", parent.name());

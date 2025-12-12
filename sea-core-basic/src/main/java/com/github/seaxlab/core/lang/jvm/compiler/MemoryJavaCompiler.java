@@ -1,10 +1,16 @@
 package com.github.seaxlab.core.lang.jvm.compiler;
 
-import cn.hutool.core.io.FastByteArrayOutputStream;
 import com.github.seaxlab.core.common.SymbolConst;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.tools.*;
+import javax.tools.FileObject;
+import javax.tools.ForwardingJavaFileManager;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.SimpleJavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.ToolProvider;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
@@ -50,13 +56,13 @@ public class MemoryJavaCompiler {
   private static class MemoryJavaFileObject extends SimpleJavaFileObject {
     private final String className;
     private final CharSequence sourceCode;
-    private final FastByteArrayOutputStream byteCode;
+    private final ByteArrayOutputStream byteCode;
 
     public MemoryJavaFileObject(String className, CharSequence sourceCode) {
       super(URI.create("string:///" + className.replace(SymbolConst.DOT, SymbolConst.SLASH) + Kind.SOURCE.extension), Kind.SOURCE);
       this.className = className;
       this.sourceCode = sourceCode;
-      this.byteCode = new FastByteArrayOutputStream();
+      this.byteCode = new ByteArrayOutputStream();
     }
 
     @Override

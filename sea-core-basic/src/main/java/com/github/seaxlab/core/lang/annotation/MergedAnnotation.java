@@ -1,7 +1,6 @@
 package com.github.seaxlab.core.lang.annotation;
 
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.util.ReflectUtil;
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -188,11 +187,18 @@ public interface MergedAnnotation {
    */
   default <T> T get(Class<? extends Annotation> annotationType, String name, Class<T> returnType, int index) {
     final Annotation annotation = this.getAnnotation(annotationType, index);
-    final Method method = ReflectUtil.getMethodByName(annotationType, name);
+    //final Method method = ReflectUtil.getMethodByName(annotationType, name);
+    final Method method = MethodUtils.getMatchingMethod(annotationType, name);
     if (annotation == null || method == null) {
       return null;
     }
-    return Convert.convert(returnType, ReflectUtil.invoke(annotation, method));
+    //return Convert.convert(returnType, ReflectUtil.invoke(annotation, method));
+    try {
+      return ConvertUtil.convert(MethodUtils.invokeMethod(annotation, method.getName()), returnType);
+    } catch (Exception e) {
+      log.warn("fail to get value", e);
+    }
+    return null;
   }
 
   static MergedAnnotation from(AnnotatedElement element) {
