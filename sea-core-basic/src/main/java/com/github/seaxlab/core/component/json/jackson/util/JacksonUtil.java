@@ -7,17 +7,20 @@ import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.github.seaxlab.core.util.CollectionUtil;
+import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * jackson util
@@ -83,28 +86,41 @@ public final class JacksonUtil {
       return false;
     }
     return true;
+  }
 
+  /**
+   * 判断json字符串是否是合法的json object
+   *
+   * @param json
+   * @return
+   */
+  public static boolean isValidObject(String json) {
+    try {
+      JsonNode node = objectMapper.readTree(json);
+      return node.isObject();
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
+   * 判断json字符串是否是合法的json array
+   *
+   * @param json
+   * @return
+   */
+  public static boolean isValidArray(String json) {
+    try {
+      JsonNode node = objectMapper.readTree(json);
+      return node.isArray();
+    } catch (IOException e) {
+      return false;
+    }
   }
 
 
   /**
    * 将对象转成字符串
-   *
-   * @param obj
-   * @return
-   * @throws Exception
-   */
-  public static String objectToString(Object obj) {
-    try {
-      return objectMapper.writeValueAsString(obj);
-    } catch (JsonProcessingException e) {
-      log.error("fail to convert object to string", e);
-    }
-    return "";
-  }
-
-  /**
-   * to json string
    *
    * @param obj
    * @return
@@ -179,9 +195,9 @@ public final class JacksonUtil {
    * @return
    * @throws Exception
    */
-  public static <T> T mapToBean(Map map, Class<T> clazz) {
+  public static <T> T mapToBean(Map<?, ?> map, Class<T> clazz) {
     try {
-      return objectMapper.readValue(objectToString(map), clazz);
+      return objectMapper.readValue(toString(map), clazz);
     } catch (Exception e) {
       log.error("fail to convert map to bean", e);
     }
@@ -197,7 +213,7 @@ public final class JacksonUtil {
    */
   public static Map<String, Object> beanToMap(Object obj) {
     try {
-      return objectMapper.readValue(objectToString(obj), Map.class);
+      return objectMapper.readValue(toString(obj), Map.class);
     } catch (Exception e) {
       log.error("fail to convert bean to map", e);
     }

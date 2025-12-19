@@ -1,14 +1,15 @@
 package com.github.seaxlab.core.component.json.fastjson.util;
 
-import static java.util.stream.Collectors.toList;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.github.seaxlab.core.util.CollectionUtil;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import lombok.extern.slf4j.Slf4j;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * fastjson util
@@ -24,18 +25,23 @@ public class FastjsonUtil {
   }
 
   /**
-   * 将对象转成字符串
+   * 判断JSON结构是否合法
    *
-   * @param obj
+   * @param json
    * @return
-   * @throws Exception
    */
-  public static String objectToString(Object obj) {
-    return JSON.toJSONString(obj);
+  public static boolean isValid(String json) {
+    try {
+      JSON.parse(json);
+    } catch (Exception e) {
+      log.warn("fail to validate json str");
+      return false;
+    }
+    return true;
   }
 
   /**
-   * to json string
+   * 将对象转成字符串
    *
    * @param obj
    * @return
@@ -52,7 +58,7 @@ public class FastjsonUtil {
    * @return
    * @throws Exception
    */
-  public static <T> T mapToBean(Map map, Class<T> clazz) {
+  public static <T> T mapToBean(Map<?, ?> map, Class<T> clazz) {
     return JSON.parseObject(JSON.toJSONString(map), clazz);
   }
 
