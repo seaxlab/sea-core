@@ -1,12 +1,12 @@
 package com.github.seaxlab.core.lang.math;
 
-import cn.hutool.core.math.Combination;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.util.StringUtil;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
 
 /**
  * module name
@@ -50,29 +50,30 @@ public class MathUtilTest extends BaseCoreTest {
 
   String[] data = new String[]{"1", "2", "3", "4", "5"};
 
-  @Test
-  public void run44() throws Exception {
-    List<String[]> list = new Combination(data).select(2);
+  //@Test
+  //public void run44() throws Exception {
+  //  // 所有数据中选择两个
+  //  List<String[]> list = new Combination(data).select(2);
+  //
+  //  list.forEach(item -> {
+  //    String str = StringUtil.join(",", item);
+  //    log.info("{}", str);
+  //  });
+  //}
 
-    list.stream().forEach(item -> {
-      String str = StringUtil.join(",", item);
-      log.info("{}", str);
-    });
-  }
-
-  @Test
-  public void allSelectTest() throws Exception {
-    //
-    for (int i = 0; i < data.length; i++) {
-      log.info("选择{}个", i + 1);
-      List<String[]> list = new Combination(data).select(i + 1);
-      list.stream().forEach(item -> {
-        String str = StringUtil.join(",", item);
-        log.info("{}", str);
-      });
-      log.info("-------------------");
-    }
-  }
+  //@Test
+  //public void allSelectTest() throws Exception {
+  //  //
+  //  for (int i = 0; i < data.length; i++) {
+  //    log.info("选择{}个", i + 1);
+  //    List<String[]> list = new Combination(data).select(i + 1);
+  //    list.stream().forEach(item -> {
+  //      String str = StringUtil.join(",", item);
+  //      log.info("{}", str);
+  //    });
+  //    log.info("-------------------");
+  //  }
+  //}
 
   @Test
   public void testCombinationSelectAll() throws Exception {

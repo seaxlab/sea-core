@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.util;
 
-import cn.hutool.core.util.IdcardUtil;
 import com.github.seaxlab.core.enums.DateFormatEnum;
 import com.github.seaxlab.core.enums.GenderEnum;
 import com.github.seaxlab.core.model.Result;
@@ -36,9 +35,15 @@ public class IdCardUtil {
    */
   private final static int[] VERIFY_CODE_WEIGHT = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
 
-  public static boolean isValid(String idNo) {
-    return IdcardUtil.isValidCard(idNo);
-  }
+  /**
+   * 验证身份证号是否合法
+   *
+   * @param idNo 身份证号
+   * @return
+   */
+  //public static boolean isValid(String idNo) {
+  //  return IdcardUtil.isValidCard(idNo);
+  //}
 
   /**
    * 身份证号解析
@@ -50,11 +55,11 @@ public class IdCardUtil {
     Result<IdCard> result = Result.fail();
 
     try {
-      boolean isValid = isValid(idNo);
-      if (!isValid) {
-        result.setMsg("身份证不合法。");
-        return result;
-      }
+      //boolean isValid = isValid(idNo);
+      //if (!isValid) {
+      //  result.setMsg("身份证不合法。");
+      //  return result;
+      //}
 
       IdCard idCard = new IdCard();
 
@@ -75,10 +80,9 @@ public class IdCardUtil {
         GenderEnum genderEnum = getGender(idNo);
         idCard.setSex(genderEnum.getCode());
         idCard.setSexLabel(genderEnum.getDesc());
+      } else {
+        log.warn("非大陆身份证号，请检查");
       }
-
-      idCard.setHkFlag(IdcardUtil.isValidHKCard(idNo));
-      idCard.setTwFlag(IdcardUtil.isValidTWCard(idNo));
 
       result.value(idCard);
     } catch (Exception e) {

@@ -1,6 +1,5 @@
 package com.github.seaxlab.core.security;
 
-import cn.hutool.core.codec.Base62;
 import com.github.seaxlab.core.BaseCoreTest;
 import com.github.seaxlab.core.security.util.Base62Util;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +16,10 @@ import org.junit.Test;
 @Slf4j
 public class Base62UtilTest extends BaseCoreTest {
 
-  @Test
-  public void test17() throws Exception {
-    log.info("{}", Base62.encode("1234576890"));
-  }
+  //@Test
+  //public void test17() throws Exception {
+  //  log.info("{}", Base62.encode("1234576890"));
+  //}
 
   @Test
   public void testAll() {

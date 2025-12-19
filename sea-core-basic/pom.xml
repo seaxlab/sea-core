@@ -143,18 +143,6 @@
     </dependency>
 
     <dependency>
-      <groupId>cn.hutool</groupId>
-      <artifactId>hutool-core</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>cn.hutool</groupId>
-      <artifactId>hutool-http</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.quartz-scheduler</groupId>
       <artifactId>quartz</artifactId>
       <exclusions>
@@ -231,7 +219,6 @@
       <artifactId>spring-context</artifactId>
       <scope>provided</scope>
     </dependency>
-
 
 
     <!-- xml begin -->

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * module name
+ * 身份证
  *
  * @author spy
  * @version 1.0 2020/11/13
@@ -17,10 +17,11 @@ public class IdCard implements Serializable {
 
   // 大陆身份证
   private boolean mainlandFlag;
+  // use hutool to parse
   // 台湾身份证
-  private boolean twFlag;
+  //private boolean twFlag;
   // 香港身份证
-  private boolean hkFlag;
+  //private boolean hkFlag;
 
   //籍贯
   private NativePlace nativePlace;

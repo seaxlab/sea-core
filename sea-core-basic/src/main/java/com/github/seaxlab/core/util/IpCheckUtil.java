@@ -250,7 +250,7 @@ public final class IpCheckUtil {
 
   // 将10进制整数形式转换成127.0.0.1形式的IP地址
   private static String longToIP(long longIP) {
-    StringBuilder sb = new StringBuilder("");
+    StringBuilder sb = new StringBuilder();
     // 直接右移24位
     sb.append(longIP >>> 24);
     sb.append(".");
