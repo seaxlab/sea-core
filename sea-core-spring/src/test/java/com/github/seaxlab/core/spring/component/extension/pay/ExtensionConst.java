@@ -10,9 +10,9 @@ import lombok.extern.slf4j.Slf4j;
  * @since 1.0
  */
 @Slf4j
-public class Constants {
+public class ExtensionConst {
 
-  public static final String BIZ_1 = "pay";
+  public static final String PAY = "pay";
 
   public static final String USE_CASE_1 = "user_case_1";
 

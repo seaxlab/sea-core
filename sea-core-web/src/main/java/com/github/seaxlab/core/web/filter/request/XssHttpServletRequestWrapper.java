@@ -1,7 +1,6 @@
 package com.github.seaxlab.core.web.filter.request;
 
 import com.alibaba.fastjson.JSON;
-import com.github.seaxlab.core.util.HtmlUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,7 +8,11 @@ import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -33,7 +36,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     String value = super.getParameter(name);
     if (StringUtils.isNotEmpty(value)) {
       // remove html tag in data
-      value = HtmlUtil.filter(value);
+//      value = HtmlUtil.filter(value);
     }
     return value;
   }
@@ -41,35 +44,35 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
   @Override
   public String[] getParameterValues(String name) {
     String[] values = super.getParameterValues(name);
-    if (values != null) {
-      for (int i = 0; i < values.length; i++) {
-        String value = values[i];
-        if (StringUtils.isNotEmpty(value)) {
-          value = HtmlUtil.filter(value);
-        }
-        values[i] = value;
-      }
-    }
+//    if (values != null) {
+//      for (int i = 0; i < values.length; i++) {
+//        String value = values[i];
+//        if (StringUtils.isNotEmpty(value)) {
+//          value = HtmlUtil.filter(value);
+//        }
+//        values[i] = value;
+//      }
+//    }
     return values;
   }
 
   @Override
   public Map<String, String[]> getParameterMap() {
-    Map<String, String[]> parameters = super.getParameterMap();
+//    Map<String, String[]> parameters = super.getParameterMap();
     LinkedHashMap<String, String[]> map = new LinkedHashMap<>();
-    if (parameters != null) {
-      for (String key : parameters.keySet()) {
-        String[] values = parameters.get(key);
-        for (int i = 0; i < values.length; i++) {
-          String value = values[i];
-          if (StringUtils.isNotEmpty(value)) {
-            value = HtmlUtil.filter(value);
-          }
-          values[i] = value;
-        }
-        map.put(key, values);
-      }
-    }
+//    if (parameters != null) {
+//      for (String key : parameters.keySet()) {
+//        String[] values = parameters.get(key);
+//        for (int i = 0; i < values.length; i++) {
+//          String value = values[i];
+//          if (StringUtils.isNotEmpty(value)) {
+//            value = HtmlUtil.filter(value);
+//          }
+//          values[i] = value;
+//        }
+//        map.put(key, values);
+//      }
+//    }
     return map;
   }
 
@@ -78,7 +81,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     String value = super.getHeader(name);
     if (StringUtils.isNotEmpty(value)) {
       // remove html tag from data
-      value = HtmlUtil.filter(value);
+//      value = HtmlUtil.filter(value);
     }
     return value;
   }
@@ -112,7 +115,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
       Object obj = map.get(key);
       if (obj instanceof String) {
         if (StringUtils.isNotEmpty(obj.toString())) {
-          obj = HtmlUtil.filter(obj.toString());
+//          obj = HtmlUtil.filter(obj.toString());
         }
       }
       temp.put(key, obj);

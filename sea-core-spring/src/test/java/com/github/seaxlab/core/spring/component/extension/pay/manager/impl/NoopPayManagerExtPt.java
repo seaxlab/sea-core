@@ -7,18 +7,17 @@ import com.github.seaxlab.core.spring.component.extension.pay.manager.PayManager
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * module name
+ * 默认行为
  *
  * @author spy
- * @version 1.0 2020/9/11
+ * @version 1.0 2026/1/8
  * @since 1.0
  */
 @Slf4j
-@Extension(bizId = ExtensionConst.PAY, useCase = ExtensionConst.USE_CASE_1, scenario = "WeiXin")
-public class WeixinPayManagerExtPt implements PayManagerExtPt {
+@Extension(bizId = ExtensionConst.PAY)
+public class NoopPayManagerExtPt implements PayManagerExtPt {
   @Override
   public void pay(PayDTO dto) {
-    log.info("orderNo={}", dto.getOrderNo());
-    log.info("wei xin pay...");
+    log.info("noop");
   }
 }

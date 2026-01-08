@@ -3,49 +3,61 @@ package com.github.seaxlab.core.spring.component.extension;
 import com.github.seaxlab.core.spring.TestSpringConfig;
 import com.github.seaxlab.core.spring.component.extension.executor.ExtensionExecutor;
 import com.github.seaxlab.core.spring.component.extension.model.BizScenario;
-import com.github.seaxlab.core.spring.component.extension.pay.Constants;
-import com.github.seaxlab.core.spring.component.extension.pay.PayService;
+import com.github.seaxlab.core.spring.component.extension.pay.ExtensionConst;
 import com.github.seaxlab.core.spring.component.extension.pay.dto.PayDTO;
 import com.github.seaxlab.core.spring.component.extension.pay.manager.PayManagerExtPt;
-import java.util.concurrent.ThreadLocalRandom;
-import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.annotation.Resource;
 
 @Slf4j
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestSpringConfig.class})
 public class ExtensionTest {
 
-  @Autowired
-  private PayService payService;
-
-  @Test
-  public void payExtensionTest() {
-    //1. Prepare
-    PayDTO dto = new PayDTO();
-    dto.setOrderNo("" + ThreadLocalRandom.current().nextInt(10000, 99999));
-    BizScenario scenario = BizScenario.of(Constants.BIZ_1, Constants.USE_CASE_1, Constants.SCENARIO_1);
-    dto.setBizScenario(scenario);
-
-    //2. Execute
-    payService.pay(dto);
-  }
-
-
   @Resource
   private ExtensionExecutor extensionExecutor;
 
+  /**
+   * 获取扩展点
+   */
   @Test
   public void testGetExtension() throws Exception {
-    BizScenario scenario = BizScenario.of(Constants.BIZ_1, Constants.USE_CASE_1, Constants.SCENARIO_1);
+    //实践中更多是两层结构
+    BizScenario scenario = BizScenario.of(ExtensionConst.PAY, ExtensionConst.USE_CASE_1, "WeiXin");
 
     PayManagerExtPt extPt = extensionExecutor.locateComponent(PayManagerExtPt.class, scenario);
     log.info("ext pointer={}", extPt);
+    PayDTO dto = new PayDTO();
+    extPt.pay(dto);
+  }
+
+  /**
+   * 获取扩展点,执行默认逻辑
+   */
+  @Test
+  public void testGetExtension2() throws Exception {
+    BizScenario scenario = BizScenario.of(ExtensionConst.PAY, ExtensionConst.USE_CASE_1, "12");
+
+    PayManagerExtPt extPt = extensionExecutor.locateComponent(PayManagerExtPt.class, scenario);
+    log.info("ext pointer={}", extPt);
+    PayDTO dto = new PayDTO();
+    extPt.pay(dto);
+  }
+
+  /**
+   * 获取扩展点,并执行
+   */
+  @Test
+  public void testGetAndExecution() {
+    BizScenario scenario = BizScenario.of(ExtensionConst.PAY, ExtensionConst.USE_CASE_1, "12");
+    PayDTO dto = new PayDTO();
+    //
+    extensionExecutor.executeVoid(PayManagerExtPt.class, scenario, extension -> extension.pay(dto));
   }
 
 

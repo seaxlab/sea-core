@@ -19,7 +19,10 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 @ComponentScan(value = {"com.github.seaxlab.core.spring"},
-  excludeFilters = {@ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.github.seaxlab.core.spring.context.*")})
+  excludeFilters = {
+  @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.github.seaxlab.core.spring.context.*"),
+  @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.github.seaxlab.core.spring.component.tunnel.*"),
+})
 @PropertySource(value = {"classpath:sample.properties"})
 public class TestSpringConfig {
 
