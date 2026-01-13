@@ -25,6 +25,7 @@ public class ValidationUtilTest extends BaseCoreTest {
   public void run17() throws Exception {
     BookDTO bookDTO = new BookDTO();
     bookDTO.setId(1L);
+    bookDTO.setOrderNo("12345678912345");
 
     checkDTO(bookDTO);
   }
@@ -40,7 +41,7 @@ public class ValidationUtilTest extends BaseCoreTest {
   private void checkDTO(BookDTO dto) {
     Set<ConstraintViolation<BookDTO>> violations = ValidationUtil.validate(dto);
     if (!violations.isEmpty()) {
-      log.error("has error,{}", violations);
+      violations.forEach(v -> log.error("{},{}", v.getPropertyPath(), v.getMessage()));
     }
   }
 
@@ -53,7 +54,7 @@ public class ValidationUtilTest extends BaseCoreTest {
     @NotNull(message = "书名不能为空!")
     private String name;
 
-    @Length(max = 10, message = "最大长度10")
+    @Length(max = 10, message = "最大长度{max}") // 使用占位符
     private String orderNo;
   }
 }
