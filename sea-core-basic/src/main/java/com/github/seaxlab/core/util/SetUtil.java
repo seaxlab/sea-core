@@ -206,12 +206,12 @@ public final class SetUtil {
    */
   public static <T> Optional<T> first(Set<T> set) {
     if (isEmpty(set)) {
-      return Optional.ofNullable(null);
+      return Optional.empty();
     }
     if (set.size() > 1) {
       log.warn("when get one, while set size > 1");
     }
-    return Optional.ofNullable(set.stream().findFirst().get());
+    return set.stream().findFirst();
   }
 
   /**
@@ -323,10 +323,10 @@ public final class SetUtil {
     // 交集
     diff.setIntersections(intersection(a, b));
 
-    // only left has
+    // 左边有
     diff.setLefts(difference(a, b));
 
-    // only right has
+    // 右边有
     diff.setRights(difference(b, a));
 
     return diff;
