@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 /**
  * 值元组，一般用于返回多个对象
+ * 类似Pair等
  *
  * @author spy
  * @version 1.0 11/19/20

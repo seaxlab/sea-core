@@ -17,11 +17,12 @@ public class SeaGlobalConfig {
   }
 
   //----------------------- project config begin ---------------------------
-  // lock fail exception
+  // 锁失败异常
   public static RuntimeException EXCEPTION_LOCK_FAIL = null;
+  // 数据库更新失败异常
   public static RuntimeException EXCEPTION_DB_UPDATE_FAIL = null;
 
-  // business thread pool executor.
+  // 业务线程池
   public static ThreadPoolTaskExecutor BIZ_THREAD_POOL_EXECUTOR = null;
 
   //----------------------- project config end ---------------------------
