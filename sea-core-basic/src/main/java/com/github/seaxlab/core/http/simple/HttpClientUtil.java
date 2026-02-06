@@ -5,6 +5,7 @@ import com.github.seaxlab.core.exception.ExceptionHandler;
 import com.github.seaxlab.core.http.common.HttpHeaderConst;
 import com.github.seaxlab.core.http.dto.HttpUploadDTO;
 import com.github.seaxlab.core.http.dto.response.HttpUploadRespDTO;
+import com.github.seaxlab.core.http.simple.request.HttpRequest;
 import com.github.seaxlab.core.model.Result;
 import com.github.seaxlab.core.util.JSONUtil;
 import com.github.seaxlab.core.util.StringUtil;
@@ -230,30 +231,45 @@ public class HttpClientUtil {
   }
 
   /**
-   * 发送POST, application/json请求
+   * send post request.
    *
    * @param url     remote url
-   * @param payload payload
+   * @param payload payload.
    * @param headers http headers
    * @return string
    */
   public static String postJSON(String url, Object payload, Map<String, String> headers) {
-    HttpPost httpPost = new HttpPost(url);
+    HttpRequest request = HttpRequest.builder()
+                                     .url(url)
+                                     .payload(payload)
+                                     .headers(headers)
+                                     .build();
+    return postJSON(request);
+  }
+
+  /**
+   * 发送POST, application/json请求
+   *
+   * @param request http request
+   * @return string
+   */
+  public static String postJSON(HttpRequest request) {
+    HttpPost httpPost = new HttpPost(request.getUrl());
 
     httpPost.addHeader("Content-Type", "application/json;charset=utf8");
 
-    if (headers != null && !headers.isEmpty()) {
-      headers.forEach(httpPost::addHeader);
+    if (request.getHeaders() != null && !request.getHeaders().isEmpty()) {
+      request.getHeaders().forEach(httpPost::addHeader);
     }
 
-    log.info("request url={}", url);
+    log.info("request url={}", request.getUrl());
 
-    if (payload != null) {
+    if (request.getPayload() != null) {
       String jsonStr;
-      if (payload instanceof String) {
-        jsonStr = (String) payload;
+      if (request.getPayload() instanceof String) {
+        jsonStr = (String) request.getPayload();
       } else {
-        jsonStr = JSONUtil.toStr(payload);
+        jsonStr = JSONUtil.toStr(request.getPayload());
       }
       StringEntity entity = new StringEntity(jsonStr, ContentType.APPLICATION_JSON);
       httpPost.setEntity(entity);
@@ -262,6 +278,10 @@ public class HttpClientUtil {
     String responseEntityData = null;
     try (CloseableHttpResponse response = getHttpClient().execute(httpPost)) {
       responseEntityData = getRespEntityStr(response);
+      // response回调处理其他
+      if (request.getResponseConsumer() != null) {
+        request.getResponseConsumer().accept(response);
+      }
     } catch (Exception e) {
       log.error("http exception", e);
       ExceptionHandler.publish(ErrorMessageEnum.HTTP_ERROR);
@@ -356,7 +376,7 @@ public class HttpClientUtil {
   public static String get(final String url) {
     log.info("http get method, url=[{}]", url);
     HttpGet request = new HttpGet(url);
-    request.setHeader("User-Agent", "Chrome/Sea");
+    request.setHeader("User-Agent", "Chrome");
 
     long startTime = System.currentTimeMillis();
     //响应数据
