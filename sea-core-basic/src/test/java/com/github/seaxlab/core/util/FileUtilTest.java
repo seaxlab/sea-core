@@ -63,7 +63,7 @@ public class FileUtilTest extends BaseCoreTest {
 
   @Test
   public void listFileFailTest2() throws Exception {
-    String jarFile = "file:" +PathUtil.getUserHome() + "/sea/pandora-lite/sample-1.0.0-SNAPSHOT.jar";
+    String jarFile = "file:" + PathUtil.getUserHome() + "/sea/pandora-lite/sample-1.0.0-SNAPSHOT.jar";
     File file = new File(jarFile + "!/lib/slf4j-api-1.7.30.jar");
 
     log.info("file={}", file.exists());
@@ -74,29 +74,27 @@ public class FileUtilTest extends BaseCoreTest {
     File file = new File(path);
     JarFile jarFile = new JarFile(file);
 
-    Set<URL> urls = jarFile.stream()
-                           .filter(jarEntry -> jarEntry.getName().endsWith(".jar"))
-                           .map(jarEntry -> {
-                             String libPath = MessageUtil.format("{}!/{}", path, jarEntry.getName());
-                             log.info("jar={}, size={}", jarEntry.getName(), ByteUnitUtil.format(jarEntry.getSize()));
+    Set<URL> urls = jarFile.stream().filter(jarEntry -> jarEntry.getName().endsWith(".jar")).map(jarEntry -> {
+      String libPath = TemplateUtil.format("{}!/{}", path, jarEntry.getName());
+      log.info("jar={}, size={}", jarEntry.getName(), ByteUnitUtil.format(jarEntry.getSize()));
 
-                             URL url = null;
-                             try {
-                               // 获取jar中的jar
-                               url = new URL("jar", null, "file:" + libPath);
-                               JarURLConnection conn = (JarURLConnection) url.openConnection();
-                               JarFile libJarFile = conn.getJarFile();
-                               log.info("lib jar file={}", libJarFile.getName());
+      URL url = null;
+      try {
+        // 获取jar中的jar
+        url = new URL("jar", null, "file:" + libPath);
+        JarURLConnection conn = (JarURLConnection) url.openConnection();
+        JarFile libJarFile = conn.getJarFile();
+        log.info("lib jar file={}", libJarFile.getName());
 //
 //
 //                                       File f1 = new File(url.getFile());
 //                                       JarFile jf = new JarFile(f1);
 //                                       log.info("{} size={}", jf.getName(), jf.size());
-                             } catch (Exception e) {
-                               log.error("io exception.", e);
-                             }
-                             return url;
-                           }).collect(Collectors.toSet());
+      } catch (Exception e) {
+        log.error("io exception.", e);
+      }
+      return url;
+    }).collect(Collectors.toSet());
 
 
     log.info("urls={}", urls);
@@ -116,7 +114,7 @@ public class FileUtilTest extends BaseCoreTest {
   @Test
   public void sizeOfTest() throws Exception {
 
-    String logDir =PathUtil.getUserHome() + "/logs";
+    String logDir = PathUtil.getUserHome() + "/logs";
     long size = FileUtil.sizeOfDir(logDir);
     log.info("size={},human size={}", size, ByteUnitUtil.format(size));
   }
@@ -124,8 +122,8 @@ public class FileUtilTest extends BaseCoreTest {
 
   @Test
   public void testSplitByLine() throws Exception {
-    String filePath =PathUtil.getUserHome() + "/sea/split-file-line.txt";
-    String targetDir =PathUtil.getUserHome() + "/sea/";
+    String filePath = PathUtil.getUserHome() + "/sea/split-file-line.txt";
+    String targetDir = PathUtil.getUserHome() + "/sea/";
     FileUtil.deleteFiles(filePath);
     File file = FileUtil.createNewFile(filePath);
     List<String> lineList = new ArrayList<>();
@@ -167,7 +165,7 @@ public class FileUtilTest extends BaseCoreTest {
 
   @Test
   public void testGetLineNumber() throws Exception {
-    String filePath =PathUtil.getUserHome() + "/sea/split-file-line.txt";
+    String filePath = PathUtil.getUserHome() + "/sea/split-file-line.txt";
     log.info("file line number={}", FileUtil.getLineNumber(filePath));
   }
 }

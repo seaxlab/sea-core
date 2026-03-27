@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.http;
 
 import com.github.seaxlab.core.http.simple.HttpClientUtil;
-import com.github.seaxlab.core.util.MessageUtil;
+import com.github.seaxlab.core.util.TemplateUtil;
 import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class ShortUrlTest {
       String target = "http://www.baidu.com/s?wd=" + new Random().nextInt(10000);
       stopwatch.reset();
       stopwatch.start();
-      String url = MessageUtil.format("http://tinyurl.com/api-create.php?url={}", target);
+      String url = TemplateUtil.format("http://tinyurl.com/api-create.php?url={}", target);
       String ret = HttpClientUtil.get(url);
       log.info("cost={}ms,ret={}", stopwatch.elapsed(TimeUnit.MILLISECONDS), ret);
     }

@@ -157,7 +157,7 @@ public final class LogUtil {
   }
 
   public static void warnR(String message, Throwable t) {
-    String msg = MessageUtil.format("{},{}", ThreadContextUtil.getRequestNo(), message);
+    String msg = TemplateUtil.format("{},{}", ThreadContextUtil.getRequestNo(), message);
     log.warn(msg, t);
   }
 
@@ -167,7 +167,7 @@ public final class LogUtil {
   }
 
   public static void errorR(String message, Throwable t) {
-    String msg = MessageUtil.format("{},{}", ThreadContextUtil.getRequestNo(), message);
+    String msg = TemplateUtil.format("{},{}", ThreadContextUtil.getRequestNo(), message);
     log.error(msg, t);
   }
   //---------------------------------use origin logger-------------------------------------
@@ -353,7 +353,7 @@ public final class LogUtil {
     FileUtil.ensureDir(logPath);
     String nowStr = DateUtil.toString(new Date(), DateFormatEnum.yyyyMMdd_HHmmss);
     // basePath + "/" + datetime + "_" + pid + "_jstack.log"
-    return MessageUtil.format("{}/{}_{}_{}.log", logPath, nowStr, JvmUtil.getPID(), module);
+    return TemplateUtil.format("{}/{}_{}_{}.log", logPath, nowStr, JvmUtil.getPID(), module);
   }
 
 

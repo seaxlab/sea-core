@@ -5,8 +5,8 @@ import com.github.seaxlab.core.spring.aop.advisor.DynamicPointcutAdvisor;
 import com.github.seaxlab.core.spring.aop.enums.AopExpressionEnum;
 import com.github.seaxlab.core.spring.aop.interceptor.ThreadContextMethodInterceptor;
 import com.github.seaxlab.core.spring.aop.util.AopUtil;
-import com.github.seaxlab.core.util.MessageUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import com.github.seaxlab.core.util.TemplateUtil;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,7 @@ public class SeaXxlJobConfig {
     if (StringUtil.isNotBlank(basePackage)) {
       String condition = AopUtil.getByOr(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, basePackage);
       if (StringUtil.isNotBlank(condition)) {
-        expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION);
+        expression = TemplateUtil.format("{} and {}", condition, DEFAULT_EXPRESSION);
       }
     }
 

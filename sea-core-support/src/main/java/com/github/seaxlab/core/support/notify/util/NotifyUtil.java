@@ -3,8 +3,8 @@ package com.github.seaxlab.core.support.notify.util;
 import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.support.notify.dto.BaseNotifyDTO;
 import com.github.seaxlab.core.util.ObjectUtil;
-import com.github.seaxlab.core.util.PlaceholderUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import com.github.seaxlab.core.util.TemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -28,7 +28,7 @@ public final class NotifyUtil {
     }
 
     if (ObjectUtil.isNotEmpty(dto.getTemplate(), dto.getParam())) {
-      return PlaceholderUtil.INSTANCE.replace(dto.getTemplate(), dto.getParam());
+      return TemplateUtil.format(dto.getTemplate(), dto.getParam());
     }
 
     log.warn("can not determine message content.");

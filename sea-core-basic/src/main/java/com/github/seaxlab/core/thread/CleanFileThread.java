@@ -4,8 +4,8 @@ import com.github.seaxlab.core.component.lock.impl.FileLock;
 import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.thread.config.CleanFileConfig;
 import com.github.seaxlab.core.util.ListUtil;
-import com.github.seaxlab.core.util.MessageUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import com.github.seaxlab.core.util.TemplateUtil;
 import com.github.seaxlab.core.util.TimeUnitUtil;
 import com.google.common.base.Preconditions;
 import java.io.File;
@@ -75,7 +75,7 @@ public class CleanFileThread {
     // create file lock
     fileLock = new FileLock(StringUtil.defaultIfBlank(config.getLockNamePrefix(), config.getThreadNamePrefix(), "sea"));
 
-    String threadName = MessageUtil.format("{}-clean-file-thread-{}",
+    String threadName = TemplateUtil.format("{}-clean-file-thread-{}",
       StringUtil.defaultIfEmpty(config.getThreadNamePrefix(), "sea"), count.incrementAndGet());
     cleanRunnable = new CleanRunnable();
     Thread thread = new Thread(cleanRunnable);

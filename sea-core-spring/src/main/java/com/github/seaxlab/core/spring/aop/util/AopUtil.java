@@ -3,8 +3,8 @@ package com.github.seaxlab.core.spring.aop.util;
 import com.github.seaxlab.core.common.SymbolConst;
 import com.github.seaxlab.core.exception.Precondition;
 import com.github.seaxlab.core.spring.aop.enums.AopExpressionEnum;
-import com.github.seaxlab.core.util.MessageUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import com.github.seaxlab.core.util.TemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -25,7 +25,7 @@ public class AopUtil {
    */
   public static String getOne(AopExpressionEnum expressionEnum, String packagePath) {
     Precondition.checkNotEmpty("packagePath", "packagePath cannot be empty.");
-    return "(" + MessageUtil.format(expressionEnum.getCode(), packagePath.trim()) + ")";
+    return "(" + TemplateUtil.format(expressionEnum.getCode(), packagePath.trim()) + ")";
   }
 
   /**
@@ -70,18 +70,18 @@ public class AopUtil {
       packages = new String[]{packagePaths};
     }
     if (packages.length == 1) {
-      return "(" + MessageUtil.format(expressionEnum.getCode(), packages[0]) + ")";
+      return "(" + TemplateUtil.format(expressionEnum.getCode(), packages[0]) + ")";
     }
 
     String expression = "";
     if (packages.length > 1) {
-      expression = MessageUtil.format(expressionEnum.getCode(), packages[0]);
+      expression = TemplateUtil.format(expressionEnum.getCode(), packages[0]);
       for (int i = 1; i < packages.length; i++) {
         String item = packages[i];
         if (StringUtil.isBlank(item)) {
           continue;
         }
-        expression += " " + condition + " " + MessageUtil.format(expressionEnum.getCode(), item.trim());
+        expression += " " + condition + " " + TemplateUtil.format(expressionEnum.getCode(), item.trim());
       }
     }
     return "(" + expression + ")";

@@ -6,14 +6,15 @@ import com.github.seaxlab.core.component.lock.LockService;
 import com.github.seaxlab.core.component.template.service.bo.HistoryMigrateReqBO;
 import com.github.seaxlab.core.model.PageInfo;
 import com.github.seaxlab.core.util.CollectionUtil;
-import com.github.seaxlab.core.util.MessageUtil;
 import com.github.seaxlab.core.util.SetUtil;
 import com.github.seaxlab.core.util.StringUtil;
-import java.util.Collection;
+import com.github.seaxlab.core.util.TemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.support.TransactionTemplate;
+
+import java.util.Collection;
 
 /**
  * base history migrate service
@@ -128,10 +129,10 @@ public abstract class BaseHistoryMigrateService implements HistoryMigrateService
       transactionTemplate.execute(txStatus -> {
         log.info("try to delete {} ids={}", getBizType(), ids);
         int rowCount = moveToHistoryByIds(ids);
-        GlobalUtil.checkDB(rowCount, MessageUtil.format("move to {} history", getBizType()));
+        GlobalUtil.checkDB(rowCount, TemplateUtil.format("move to {} history", getBizType()));
 
         rowCount = deleteByIds(ids);
-        GlobalUtil.checkDB(rowCount, MessageUtil.format("delete {}", getBizType()));
+        GlobalUtil.checkDB(rowCount, TemplateUtil.format("delete {}", getBizType()));
 
         return null;
       });

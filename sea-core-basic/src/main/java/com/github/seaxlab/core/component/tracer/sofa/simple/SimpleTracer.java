@@ -8,7 +8,7 @@ import com.alipay.common.tracer.core.reporter.stat.AbstractSofaTracerStatisticRe
 import com.alipay.common.tracer.core.span.CommonSpanTags;
 import com.alipay.common.tracer.core.span.SofaTracerSpan;
 import com.alipay.common.tracer.core.tracer.AbstractClientTracer;
-import com.github.seaxlab.core.util.MessageUtil;
+import com.github.seaxlab.core.util.TemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -131,7 +131,7 @@ public class SimpleTracer extends AbstractClientTracer {
    * @return
    */
   public SofaTracerSpan beginF(String messagePattern, Object... args) {
-    return begin(MessageUtil.format(messagePattern, args));
+    return begin(TemplateUtil.format(messagePattern, args));
   }
 
   /**
@@ -158,7 +158,7 @@ public class SimpleTracer extends AbstractClientTracer {
    * @param args
    */
   public void tagF(String key, String messagePattern, Object... args) {
-    tag(key, MessageUtil.format(messagePattern, args));
+    tag(key, TemplateUtil.format(messagePattern, args));
   }
 
 
@@ -184,7 +184,7 @@ public class SimpleTracer extends AbstractClientTracer {
    * @param args
    */
   public void setErrorMsgF(String messagePattern, Object... args) {
-    setErrorMsg(MessageUtil.format(messagePattern, args));
+    setErrorMsg(TemplateUtil.format(messagePattern, args));
   }
 
 

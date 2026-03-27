@@ -6,10 +6,11 @@ import com.github.seaxlab.core.component.lock.LockService;
 import com.github.seaxlab.core.component.template.service.bo.HistoryCleanReqBO;
 import com.github.seaxlab.core.model.PageInfo;
 import com.github.seaxlab.core.util.CollectionUtil;
-import com.github.seaxlab.core.util.MessageUtil;
 import com.github.seaxlab.core.util.SetUtil;
 import com.github.seaxlab.core.util.StringUtil;
 import java.util.Collection;
+
+import com.github.seaxlab.core.util.TemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -121,7 +122,7 @@ public abstract class BaseHistoryCleanService implements HistoryCleanService {
     try {
       log.info("try to delete {} ids={}", getBizType(), ids);
       int rowCount = deleteByIds(ids);
-      GlobalUtil.checkDB(rowCount, MessageUtil.format("delete {}", getBizType()));
+      GlobalUtil.checkDB(rowCount, TemplateUtil.format("delete {}", getBizType()));
       flag = true;
     } catch (Exception e) {
       flag = false;

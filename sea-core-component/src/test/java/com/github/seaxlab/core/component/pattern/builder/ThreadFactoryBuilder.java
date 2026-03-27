@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.component.pattern.builder;
 
 
-import com.github.seaxlab.core.util.MessageUtil;
+import com.github.seaxlab.core.util.TemplateUtil;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.Executors;
@@ -93,11 +93,11 @@ public class ThreadFactoryBuilder implements Builder<ThreadFactory> {
   public ThreadFactoryBuilder setPriority(int priority) {
     if (priority < Thread.MIN_PRIORITY) {
       throw new IllegalArgumentException(
-        MessageUtil.format("Thread priority ({}) must be >= {}", priority, Thread.MIN_PRIORITY));
+        TemplateUtil.format("Thread priority ({}) must be >= {}", priority, Thread.MIN_PRIORITY));
     }
     if (priority > Thread.MAX_PRIORITY) {
       throw new IllegalArgumentException(
-        MessageUtil.format("Thread priority ({}) must be <= {}", priority, Thread.MAX_PRIORITY));
+        TemplateUtil.format("Thread priority ({}) must be <= {}", priority, Thread.MAX_PRIORITY));
     }
     this.priority = priority;
     return this;

@@ -1,7 +1,5 @@
 package com.github.seaxlab.core.support.notify;
 
-import static com.github.seaxlab.core.test.util.TestUtil.getConfig;
-
 import com.github.seaxlab.core.support.BaseSupportTest;
 import com.github.seaxlab.core.support.notify.dto.FeiShuNotifyDTO;
 import com.github.seaxlab.core.support.notify.enums.MsgTypeEnum;
@@ -9,13 +7,15 @@ import com.github.seaxlab.core.support.notify.manager.impl.FeiShuNotifyManager;
 import com.github.seaxlab.core.support.notify.util.FeiShuUtil;
 import com.github.seaxlab.core.util.FileUtil;
 import com.github.seaxlab.core.util.FreemarkerUtil;
-import com.github.seaxlab.core.util.MessageUtil;
+import com.github.seaxlab.core.util.TemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.github.seaxlab.core.test.util.TestUtil.getConfig;
 
 /**
  * module name
@@ -32,7 +32,7 @@ public class FeiShuNotifyManagerTest extends BaseSupportTest {
   @Before
   public void before() {
     String accessToken = getConfig("feishu_access_token");
-    url = MessageUtil.format(FeiShuUtil.URL_SIMPLE, accessToken);
+    url = TemplateUtil.format(FeiShuUtil.URL_SIMPLE, accessToken);
   }
 
   @Test
@@ -76,7 +76,7 @@ public class FeiShuNotifyManagerTest extends BaseSupportTest {
 
     Map<String, String> params = new HashMap<>();
     params.put("content", message);
-    String text = MessageUtil.replace(content, params);
+    String text = TemplateUtil.format(content, params);
 
     dto.setContent(text);
     notifyManager.send(dto);

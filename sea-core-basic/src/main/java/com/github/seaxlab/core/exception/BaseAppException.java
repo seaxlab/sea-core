@@ -1,7 +1,7 @@
 package com.github.seaxlab.core.exception;
 
 import com.github.seaxlab.core.enums.IErrorEnum;
-import com.github.seaxlab.core.util.MessageUtil;
+import com.github.seaxlab.core.util.TemplateUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -47,7 +47,7 @@ public class BaseAppException extends RuntimeException {
 
   public BaseAppException(IErrorEnum errorEnum, Object... args) {
     this.code = errorEnum.getCode();
-    this.desc = MessageUtil.format(errorEnum.getMessage(), args);
+    this.desc = TemplateUtil.format(errorEnum.getMessage(), args);
   }
 
 }

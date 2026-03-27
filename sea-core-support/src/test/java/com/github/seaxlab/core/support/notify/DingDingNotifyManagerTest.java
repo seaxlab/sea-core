@@ -6,7 +6,7 @@ import com.github.seaxlab.core.support.notify.enums.MsgTypeEnum;
 import com.github.seaxlab.core.support.notify.manager.impl.DingDingNotifyManager;
 import com.github.seaxlab.core.support.notify.util.DingDingUtil;
 import com.github.seaxlab.core.test.AbstractCore5Test;
-import com.github.seaxlab.core.util.MessageUtil;
+import com.github.seaxlab.core.util.TemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +33,7 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
     Long timestamp = System.currentTimeMillis();
     String secret = getConfig("sea.dingding.sign.secret");
 
-    String url = MessageUtil.format(DingDingUtil.URL_SIGN, accessToken, timestamp.toString(),
+    String url = TemplateUtil.format(DingDingUtil.URL_SIGN, accessToken, timestamp.toString(),
       DingDingUtil.getSign(timestamp, secret));
 
     DingDingNotifyManager notifyManager = new DingDingNotifyManager();
@@ -69,7 +69,7 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
   public void testDingDingText() throws Exception {
     String phone = getConfig("sea.phone");
     String accessToken = getConfig("sea.dingding.access_token");
-    String url = MessageUtil.format(DingDingUtil.URL_SIMPLE, accessToken);
+    String url = TemplateUtil.format(DingDingUtil.URL_SIMPLE, accessToken);
 
     DingDingNotifyManager notifyManager = new DingDingNotifyManager();
     notifyManager.setEndpoint(url);
@@ -109,7 +109,7 @@ public class DingDingNotifyManagerTest extends AbstractCore5Test {
       + "Power By Sea Monitor Framework\n" + "\n" + "@" + phone);
 
     String accessToken = getConfig("sea.dingding.access_token");
-    String url = MessageUtil.format(DingDingUtil.URL_SIMPLE, accessToken);
+    String url = TemplateUtil.format(DingDingUtil.URL_SIMPLE, accessToken);
 
     DingDingNotifyManager notifyManager = new DingDingNotifyManager();
     notifyManager.setEndpoint(url);

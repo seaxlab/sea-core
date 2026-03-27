@@ -6,8 +6,8 @@ import com.github.seaxlab.core.spring.aop.enums.AopExpressionEnum;
 import com.github.seaxlab.core.spring.aop.util.AopUtil;
 import com.github.seaxlab.core.spring.component.mock.interceptor.MockMethodInterceptor;
 import com.github.seaxlab.core.spring.enums.OrderedEnum;
-import com.github.seaxlab.core.util.MessageUtil;
 import com.github.seaxlab.core.util.StringUtil;
+import com.github.seaxlab.core.util.TemplateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.PointcutAdvisor;
@@ -46,7 +46,7 @@ public class MockMethodConfig {
     if (StringUtil.isNotBlank(seaProperties.getBasePackage())) {
       String condition = AopUtil.getByOr(AopExpressionEnum.EXECUTION_PACKAGE_AND_SUB, seaProperties.getBasePackage());
       if (StringUtil.isNotBlank(condition)) {
-        expression = MessageUtil.format("{} and {}", condition, DEFAULT_EXPRESSION);
+        expression = TemplateUtil.format("{} and {}", condition, DEFAULT_EXPRESSION);
       }
     }
     DynamicPointcutAdvisor advisor = new DynamicPointcutAdvisor(expression);
