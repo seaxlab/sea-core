@@ -1,7 +1,8 @@
 package com.github.seaxlab.core.util;
 
-import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.helpers.MessageFormatter;
 
 import java.text.MessageFormat;
@@ -20,10 +21,10 @@ import java.util.regex.Pattern;
 public final class TemplateUtil {
 
   // {key}
-  private static final Pattern PATTERN_PLACEHOLDER = Pattern.compile("\\{(.*?)\\}");
+  private static final Pattern PATTERN_PLACEHOLDER = Pattern.compile("\\{(.*?)}");
 
   // ${key}
-  private static final Pattern PATTERN_DOLLAR_PLACEHOLDER = Pattern.compile("\\$\\{(.*?)\\}");
+  private static final Pattern PATTERN_DOLLAR_PLACEHOLDER = Pattern.compile("\\$\\{(.*?)}");
 
   private TemplateUtil() {
   }
@@ -48,7 +49,7 @@ public final class TemplateUtil {
    * @return string
    */
   public static String format(String template, Map<String, String> param) {
-    if (Strings.isNullOrEmpty(template) || MapUtil.isEmpty(param)) {
+    if (StringUtils.isBlank(template) || MapUtils.isEmpty(param)) {
       return template;
     }
 
@@ -77,7 +78,7 @@ public final class TemplateUtil {
    * @return string
    */
   public static String formatV2(String template, Map<String, String> param) {
-    if (Strings.isNullOrEmpty(template) || MapUtil.isEmpty(param)) {
+    if (StringUtils.isBlank(template) || MapUtils.isEmpty(param)) {
       return template;
     }
 
